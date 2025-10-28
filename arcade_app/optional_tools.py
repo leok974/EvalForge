@@ -11,17 +11,16 @@ from typing import Any, Dict, List, Optional
 from google.adk.agents import Agent
 from google.adk.tools import FunctionTool
 
-# Shared configuration logic (same as in agent.py to avoid circular import)
-GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
-VERTEX_LOCATION = os.getenv("VERTEX_LOCATION", "us-central1")
+# Shared configuration logic - matches agent.py
+VERTEX_PROJECT_NUMBER = os.getenv("VERTEX_PROJECT_NUMBER", "291179078777")
+VERTEX_PROJECT_ID = os.getenv("VERTEX_PROJECT_ID", "evalforge")
+VERTEX_REGION = os.getenv("VERTEX_REGION", "us-central1")
+VERTEX_MODEL_ID = os.getenv("VERTEX_MODEL_ID", "gemini-2.5-flash")
 
-# accept multiple env names, default to the versioned model
-GENAI_MODEL = (
-    os.getenv("GENAI_MODEL")
-    or os.getenv("VERTEX_MODEL")
-    or os.getenv("MODEL_ID")
-    or "gemini-1.5-flash-002"
-)
+# Use the same configuration as agent.py
+GOOGLE_CLOUD_PROJECT = VERTEX_PROJECT_NUMBER
+VERTEX_LOCATION = VERTEX_REGION
+GENAI_MODEL = VERTEX_MODEL_ID
 
 # Ensure Vertex AI environment variables are set
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"

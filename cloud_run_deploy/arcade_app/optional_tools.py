@@ -11,17 +11,16 @@ from typing import Any, Dict, List, Optional
 from google.adk.agents import Agent
 from google.adk.tools import FunctionTool
 
-# Shared configuration logic (same as in agent.py to avoid circular import)
-GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
-VERTEX_LOCATION = os.getenv("VERTEX_LOCATION", "us-central1")
+# Shared configuration logic - matches agent.py
+VERTEX_PROJECT_NUMBER = os.getenv("VERTEX_PROJECT_NUMBER", "291179078777")
+VERTEX_PROJECT_ID = os.getenv("VERTEX_PROJECT_ID", "evalforge")
+VERTEX_REGION = os.getenv("VERTEX_REGION", "us-central1")
+VERTEX_MODEL_ID = os.getenv("VERTEX_MODEL_ID", "gemini-2.5-flash")
 
-# accept multiple env names, default to the versioned model
-GENAI_MODEL = (
-    os.getenv("GENAI_MODEL")
-    or os.getenv("VERTEX_MODEL")
-    or os.getenv("MODEL_ID")
-    or "gemini-1.5-flash-002"
-)
+# Use the same configuration as agent.py
+GOOGLE_CLOUD_PROJECT = VERTEX_PROJECT_NUMBER
+VERTEX_LOCATION = VERTEX_REGION
+GENAI_MODEL = VERTEX_MODEL_ID
 
 # Ensure Vertex AI environment variables are set
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
@@ -29,6 +28,24 @@ os.environ["GOOGLE_CLOUD_PROJECT"] = GOOGLE_CLOUD_PROJECT or "evalforge-10635293
 os.environ["GOOGLE_CLOUD_LOCATION"] = VERTEX_LOCATION
 
 ARTIFACTS_DIR = Path(".")
+
+# Track if banner has been shown
+_model_banner_shown = False
+
+
+def _show_model_banner() -> str:
+    """
+    Show model configuration banner on first tool run.
+    This helps trace logs record the resolved model.
+    """
+    global _model_banner_shown
+    if not _model_banner_shown:
+        _model_banner_shown = True
+        provider = os.getenv("GENAI_PROVIDER", "unknown")
+        banner = f"🤖 [EvalForge] Using {provider} with model: {GENAI_MODEL} in {VERTEX_LOCATION}"
+        print(banner, flush=True)
+        return banner
+    return ""
 
 
 def _read_json_safe(p: Path) -> Optional[dict]:
@@ -52,6 +69,9 @@ def run_tests(command: str, artifacts: Optional[List[str]] = None) -> Dict[str, 
     Returns:
         Dictionary with exit_code, stdout, stderr, and artifacts
     """
+    # Show model banner on first run (for trace logs)
+    _show_model_banner()
+    
     result = {
         "exit_code": -1,
         "stdout": "",

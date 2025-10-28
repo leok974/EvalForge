@@ -1,67 +1,28 @@
-# scripts/smoke.ps1 - Cloud Run smoke tests (Windows/PowerShell)
+# scripts/smoke.ps1 - Smoke tests for local and production
+param(
+    [ValidateSet("local", "prod")]
+    [string]$Env = "local",
+    [string]$Base = "https://evalforge-agents-291179078777.us-central1.run.app"
+)
+
 $ErrorActionPreference = "Stop"
 
-New-Item -ItemType Directory -Force -Path logs | Out-Null
+$base = if ($Env -eq "local") { "http://127.0.0.1:19000" } else { $Base }
 
-Write-Host "Fetching Cloud Run service URL..." -ForegroundColor Cyan
-$BASE = (gcloud run services describe evalforge-agents --region us-central1 --format='value(status.url)')
+Write-Host "`n🧪 Running smoke tests - $Env" -ForegroundColor Cyan
+Write-Host "Base URL: $base`n" -ForegroundColor Gray
 
-function Log-And-Tee {
-    param($Message, $Color = "White")
-    Write-Host $Message -ForegroundColor $Color
-    Add-Content -Path logs/smoke.cloud.log -Value $Message
-}
+# Test discovery
+Write-Host "→ discovery" -ForegroundColor Cyan
+$discoveryUrl = "$base/list-apps?relative_path=arcade_app"
+Invoke-WebRequest -UseBasicParsing -Uri $discoveryUrl | Out-Null
+Write-Host "✓ discovery passed" -ForegroundColor Green
 
-# Clear log
-"" | Set-Content -Path logs/smoke.cloud.log
+# Test session creation
+Write-Host "→ session" -ForegroundColor Cyan
+$sessionUrl = "$base/apps/arcade_app/users/user/sessions"
+Invoke-WebRequest -UseBasicParsing -Method POST -Uri $sessionUrl -Headers @{"Content-Length" = "0"} | Out-Null
+Write-Host "✓ session passed" -ForegroundColor Green
 
-Log-And-Tee "BASE=$BASE" "Cyan"
-Log-And-Tee ""
+Write-Host "`n✅ All smoke tests passed!`n" -ForegroundColor Green
 
-# Test 1: Discovery
-Log-And-Tee "→ discovery" "Cyan"
-try {
-    $null = curl.exe -sf "$BASE/list-apps?relative_path=arcade_app"
-    if ($LASTEXITCODE -eq 0) {
-        Log-And-Tee "✓ discovery passed" "Green"
-    } else {
-        throw "Discovery endpoint failed with exit code $LASTEXITCODE"
-    }
-} catch {
-    Log-And-Tee "✗ discovery failed: $_" "Red"
-    exit 1
-}
-
-# Test 2: Session creation
-Log-And-Tee "→ session" "Cyan"
-try {
-    $null = curl.exe -sf -X POST -H "Content-Length: 0" "$BASE/apps/arcade_app/users/user/sessions"
-    if ($LASTEXITCODE -eq 0) {
-        Log-And-Tee "✓ session passed" "Green"
-    } else {
-        throw "Session endpoint failed with exit code $LASTEXITCODE"
-    }
-} catch {
-    Log-And-Tee "✗ session failed: $_" "Red"
-    exit 1
-}
-
-# Test 3: Model env verification
-Log-And-Tee "→ grep model env in service spec" "Cyan"
-try {
-    $envVars = gcloud run services describe evalforge-agents --region us-central1 --format='value(spec.template.spec.containers[0].env)'
-    if ($envVars -match 'gemini-1\.5-flash-002') {
-        Log-And-Tee "✓ model env verified" "Green"
-    } else {
-        throw "Model environment variable not found or incorrect"
-    }
-} catch {
-    Log-And-Tee "✗ model env check failed: $_" "Red"
-    exit 1
-}
-
-Log-And-Tee ""
-Log-And-Tee "✓ cloud smoke passed" "Green"
-
-Write-Host ""
-Write-Host "Full log saved to: logs/smoke.cloud.log" -ForegroundColor Cyan

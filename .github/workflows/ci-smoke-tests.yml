@@ -32,9 +32,9 @@ jobs:
       
       - name: Verify model version in code
         run: |
-          # Ensure code defaults to versioned model
-          grep -q "gemini-1.5-flash-002" arcade_app/agent.py || \
-            (echo "ERROR: Model default not set to gemini-1.5-flash-002" && exit 1)
+          # Ensure code defaults to gemini-2.5-flash
+          grep -q "gemini-2\.5-flash" arcade_app/agent.py || \
+            (echo "ERROR: Model default not set to gemini-2.5-flash" && exit 1)
           echo "✓ Model default verified in code"
 
   cloud-run-smoke-tests:
@@ -65,12 +65,12 @@ jobs:
       
       - name: Verify environment variables in Cloud Run
         run: |
-          # Check that gemini-1.5-flash-002 is configured
+          # Check that gemini-2.5-flash is configured
           gcloud run services describe evalforge-agents \
             --region us-central1 \
             --format="value(spec.template.spec.containers[0].env)" | \
-            grep -q "gemini-1.5-flash-002" || \
-            (echo "ERROR: Model version not set to gemini-1.5-flash-002 in Cloud Run" && exit 1)
+            grep -q "gemini-2\.5-flash" || \
+            (echo "ERROR: Model version not set to gemini-2.5-flash in Cloud Run" && exit 1)
           echo "✓ Cloud Run environment variable verified"
       
       - name: Test list-apps endpoint
@@ -95,7 +95,7 @@ jobs:
           gcloud run services describe evalforge-agents \
             --region us-central1 \
             --format="value(spec.template.spec.containers[0].env)" | \
-            grep "gemini-1.5-flash-002" || \
+            grep "gemini-2\.5-flash" || \
             (echo "ERROR: Model version verification failed" && exit 1)
           echo "✓ Model version verification passed"
       
