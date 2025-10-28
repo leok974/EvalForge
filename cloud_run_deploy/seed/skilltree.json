@@ -1,0 +1,15 @@
+{
+  "areas": [
+    { "id": "js",   "title": "JS/TS & Frontend" },
+    { "id": "ops",  "title": "Ops & Security"   },
+    { "id": "ci",   "title": "CI & Testing"     }
+  ],
+  "concepts": [
+    { "id": "js.debounce", "area": "js",  "title": "Debounce & event loop",       "tier": "B" },
+    { "id": "js.retry",    "area": "js",  "title": "Retry + AbortController",     "tier": "I" },
+    { "id": "ops.csp",     "area": "ops", "title": "CSP nonce + E2E proof",       "tier": "I" }
+  ],
+  "edges": [
+    { "src": "js.debounce", "dst": "js.retry", "kind": "prereq" }
+  ]
+}

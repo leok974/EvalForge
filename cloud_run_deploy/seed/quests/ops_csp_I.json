@@ -1,0 +1,18 @@
+{
+  "id": "quest-ops-csp-i",
+  "concept": "ops.csp",
+  "tier": "I",
+  "time_limit_sec": 1200,
+  "recipe": "ops_fix",
+  "rubric": {
+    "header_correct": 4,
+    "e2e_proof": 4,
+    "docs": 2
+  },
+  "visuals": ["header_inspector"],
+  "tests": {
+    "runner": "playwright",
+    "command": "scripts/run_vitest.sh csp",
+    "artifacts": ["playwright-report/index.html"]
+  }
+}

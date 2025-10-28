@@ -1,0 +1,19 @@
+{
+  "id": "quest-js-debounce-b",
+  "concept": "js.debounce",
+  "tier": "B",
+  "time_limit_sec": 900,
+  "recipe": "utility_impl",
+  "rubric": {
+    "correctness": 6,
+    "timing": 2,
+    "ergonomics": 1,
+    "clarity": 1
+  },
+  "visuals": ["event_loop"],
+  "tests": {
+    "runner": "vitest",
+    "command": "scripts/run_vitest.sh debounce",
+    "artifacts": ["exercises/js/coverage/coverage-final.json"]
+  }
+}

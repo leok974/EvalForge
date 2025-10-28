@@ -1,0 +1,36 @@
+{
+  "displayName": "Cloud Run High Latency (P95 >3s)",
+  "documentation": {
+    "content": "## High Latency Detected\n\nThe EvalForge service P95 latency has exceeded 3 seconds.\n\n### Metrics:\n- Threshold: P95 > 3000ms over 5 minutes\n- Severity: Warning\n\n### Common Causes:\n1. Cold starts (first request after idle)\n2. Vertex AI model loading delays\n3. Heavy tool execution (tests, coverage)\n4. Network issues\n\n### Mitigation:\n```bash\n# Set minimum instances to reduce cold starts\ngcloud run services update evalforge-agents \\\n  --region=us-central1 \\\n  --min-instances=1\n\n# Check for slow requests in logs\ngcloud logging read 'resource.type=\"cloud_run_revision\" \\\n  AND resource.labels.service_name=\"evalforge-agents\" \\\n  AND httpRequest.latency>\"3s\"' --limit=10\n```",
+    "mimeType": "text/markdown"
+  },
+  "conditions": [
+    {
+      "displayName": "P95 latency above 3 seconds",
+      "conditionThreshold": {
+        "filter": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"evalforge-agents\" AND metric.type=\"run.googleapis.com/request_latencies\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 3000,
+        "duration": "300s",
+        "aggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_DELTA",
+            "crossSeriesReducer": "REDUCE_PERCENTILE_95",
+            "groupByFields": [
+              "resource.service_name"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "combiner": "OR",
+  "enabled": true,
+  "alertStrategy": {
+    "autoClose": "1800s",
+    "notificationRateLimit": {
+      "period": "900s"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "displayName": "Vertex AI 4xx Errors (404/403)",
+  "documentation": {
+    "content": "## Vertex AI 4xx Error Detected\n\nThe EvalForge service is experiencing Vertex AI authentication or model availability errors.\n\n### Immediate Actions:\n1. Check Cloud Run environment variables for correct model version\n2. Verify latest revision has 100% traffic\n3. Confirm model availability in region\n4. Check IAM roles for service account\n\n### Troubleshooting:\nSee: https://github.com/your-org/evalforge/blob/main/docs/TROUBLESHOOTING.md\n\n### Quick Fixes:\n```bash\n# Verify environment\ngcloud run services describe evalforge-agents --region us-central1 \\\n  --format=\"yaml(spec.template.spec.containers[0].env)\"\n\n# Pin traffic to latest\ngcloud run services update-traffic evalforge-agents \\\n  --region=us-central1 --to-latest\n\n# Emergency rollback\ngcloud run services update-traffic evalforge-agents \\\n  --region=us-central1 --to-revisions=PREVIOUS_REV=100\n```",
+    "mimeType": "text/markdown"
+  },
+  "conditions": [
+    {
+      "displayName": "Vertex AI 404 or 403 errors detected",
+      "conditionThreshold": {
+        "filter": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"evalforge-agents\" AND (metric.type=\"logging.googleapis.com/user/vertex_404_errors\" OR metric.type=\"logging.googleapis.com/user/vertex_403_errors\")",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 0,
+        "duration": "60s",
+        "aggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_RATE"
+          }
+        ]
+      }
+    }
+  ],
+  "combiner": "OR",
+  "enabled": true,
+  "alertStrategy": {
+    "autoClose": "1800s",
+    "notificationRateLimit": {
+      "period": "300s"
+    }
+  }
+}

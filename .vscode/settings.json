@@ -1,0 +1,10 @@
+{
+  // Never register TasteOS MCP here
+  "mcp.servers": {},
+  // Prevent accidental multi-root merges from other projects
+  "files.simpleDialog.enable": true,
+  // EvalForge-specific Python settings
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/arcade_app"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "displayName": "Cloud Run Error Rate (>5%)",
+  "documentation": {
+    "content": "## High Error Rate Detected\n\nThe EvalForge Cloud Run service is experiencing an elevated error rate.\n\n### Metrics:\n- Threshold: >5% errors over 5 minutes\n- Severity: Warning\n\n### Investigation Steps:\n1. Check Cloud Run logs for error patterns\n2. Verify Vertex AI connectivity\n3. Check for deployment issues\n4. Review recent code changes\n\n### Commands:\n```bash\n# View recent errors\ngcloud logging read 'resource.type=\"cloud_run_revision\" \\\n  AND resource.labels.service_name=\"evalforge-agents\" \\\n  AND severity>=ERROR' --limit=20\n\n# Check service health\nBASE=$(gcloud run services describe evalforge-agents \\\n  --region us-central1 --format='value(status.url)')\ncurl -sf \"$BASE/list-apps?relative_path=arcade_app\"\n```",
+    "mimeType": "text/markdown"
+  },
+  "conditions": [
+    {
+      "displayName": "Error rate above 5%",
+      "conditionThreshold": {
+        "filter": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"evalforge-agents\" AND metric.type=\"run.googleapis.com/request_count\" AND metric.labels.response_code_class=\"5xx\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 0.05,
+        "duration": "300s",
+        "aggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_RATE",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "groupByFields": [
+              "resource.service_name"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "combiner": "OR",
+  "enabled": true,
+  "alertStrategy": {
+    "autoClose": "1800s",
+    "notificationRateLimit": {
+      "period": "600s"
+    }
+  }
+}

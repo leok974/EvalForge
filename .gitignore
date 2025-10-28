@@ -1,0 +1,15 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+dist/
+node_modules/
+coverage/
+reports/
+playwright-report/
+exercises/js/coverage/
+exercises/js/node_modules/
+logs/error-journal.ndjson
+
+# Guard: Prevent TasteOS scaffolding in EvalForge repo
+tasteos/

@@ -1,0 +1,112 @@
+import json
+import subprocess
+from pathlib import Path
+from typing import Optional, Dict, Any
+
+from google.adk.agents import Agent, SequentialAgent
+from google.adk.tools import FunctionTool
+
+ARTIFACTS_DIR = Path(".")
+
+def _read_json_safe(p: Path) -> Optional[dict]:
+    try:
+        if p.exists():
+            return json.loads(p.read_text())
+    except Exception:
+        return None
+    return None
+
+def run_tests(command: str, artifacts: Optional[list] = None) -> Dict[str, Any]:
+    """
+    Execute a test command (e.g., scripts/run_vitest.sh debounce) and surface basic telemetry.
+    Returns: { ok: bool, code: int, stdout: str, stderr: str, artifacts: {path: json?} }
+    """
+    try:
+        proc = subprocess.run(command, shell=True, capture_output=True, text=True, check=False)
+        out = {
+            "ok": proc.returncode == 0,
+            "code": proc.returncode,
+            "stdout": proc.stdout[-4000:],  # trim
+            "stderr": proc.stderr[-4000:],
+            "artifacts": {}
+        }
+        for a in artifacts or []:
+            j = _read_json_safe(ARTIFACTS_DIR / a)
+            out["artifacts"][a] = j if j is not None else "N/A"
+        return out
+    except Exception as e:
+        return {"ok": False, "code": -1, "error": str(e), "artifacts": {}}
+
+def grade_submission(test_result: Dict[str, Any], rubric: Dict[str, int]) -> str:
+    """
+    Toy rubric: looks at test pass/fail and (optionally) coverage JSON to return a verdict.
+    Replace with your real evaluator later (coverage, mutation, e2e proofs).
+    """
+    ok = bool(test_result.get("ok"))
+    
+    # Try to find coverage in artifacts (could be at different paths)
+    artifacts = test_result.get("artifacts", {})
+    cov = None
+    for key in artifacts:
+        if "coverage-final.json" in key:
+            cov = artifacts[key]
+            break
+
+    coverage_pct = 0.0
+    if isinstance(cov, dict):
+        # Handle Istanbul/c8 format (used by Vitest v8)
+        # Each file has 's' (statements), 'b' (branches), 'f' (functions), 'l' (lines)
+        total_lines = 0
+        covered_lines = 0
+        
+        for file_path, file_cov in cov.items():
+            if isinstance(file_cov, dict):
+                # Get line coverage from 's' (statement map counts)
+                statements = file_cov.get("s", {})
+                if statements:
+                    total_lines += len(statements)
+                    covered_lines += sum(1 for count in statements.values() if count > 0)
+        
+        if total_lines:
+            coverage_pct = covered_lines / total_lines
+
+    if ok and coverage_pct >= 0.8:
+        return f"PASS: solid fundamentals ({coverage_pct*100:.0f}% coverage); unlock next quest."
+    if ok and coverage_pct >= 0.6:
+        return f"PARTIAL: {coverage_pct*100:.0f}% coverage - raise coverage with edge-case tests."
+    if ok:
+        return f"PARTIAL: tests pass but coverage is {coverage_pct*100:.0f}%. Add more test cases."
+    return "FAIL: fix correctness first."
+
+def suggest_next_quests(concept: str, tier: str) -> str:
+    """
+    Minimal coach: suggests follow-ups based on current concept/tier.
+    """
+    if concept.startswith("js."):
+        return "- JS/TS: Retry with Abort\n- CI: Table tests + fake timers\n- Ops: CSP Nonce proof"
+    if concept.startswith("ops."):
+        return "- Ops: Cloudflare Access gate\n- JS: Debounce\n- CI: Playwright route mocking"
+    return "- JS: Debounce\n- Ops: CSP Nonce\n- CI: Mutation testing"
+
+# Specialist "Judge"
+judge = Agent(
+    name="Judge",
+    instruction=("You are a strict evaluator. Call `run_tests` with the quest command, "
+                 "inspect artifacts (coverage, reports), then call `grade_submission`. "
+                 "Return a crisp 1–2 sentence verdict."),
+    tools=[FunctionTool(run_tests), FunctionTool(grade_submission)],
+)
+
+# Specialist "Coach"
+coach = Agent(
+    name="Coach",
+    instruction=("You suggest the next 3 quests based on concept/tier and verdict. "
+                 "Use bullets only."),
+    tools=[FunctionTool(suggest_next_quests)],
+)
+
+# Orchestrator: Judge -> Coach
+root_agent = SequentialAgent(
+    name="ArcadeOrchestrator",
+    sub_agents=[judge, coach]
+)

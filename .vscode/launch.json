@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "App (attach) – web",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://127.0.0.1:19000/dev-ui/",
+      "preLaunchTask": "serve:local",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Python: Debug Agent",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "google.adk.cli",
+      "args": ["web", ".", "--port", "19000", "--host", "0.0.0.0"],
+      "console": "integratedTerminal",
+      "env": {
+        "GENAI_PROVIDER": "vertex",
+        "GOOGLE_CLOUD_PROJECT": "evalforge-1063529378",
+        "VERTEX_LOCATION": "us-central1",
+        "GENAI_MODEL": "gemini-1.5-flash-002"
+      },
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

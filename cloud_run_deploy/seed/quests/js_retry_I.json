@@ -1,0 +1,18 @@
+{
+  "id": "quest-js-retry-i",
+  "concept": "js.retry",
+  "tier": "I",
+  "time_limit_sec": 1200,
+  "recipe": "utility_impl",
+  "rubric": {
+    "correctness": 6,
+    "abort_timing": 2,
+    "docs_types": 2
+  },
+  "visuals": ["backoff_ladder"],
+  "tests": {
+    "runner": "vitest",
+    "command": "scripts/run_vitest.sh retry",
+    "artifacts": ["coverage/coverage-final.json", "reports/vitest.json"]
+  }
+}

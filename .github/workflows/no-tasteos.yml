@@ -1,0 +1,116 @@
+name: Guard - No TasteOS Paths
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  # Fast fail: Check working tree without git history
+  lint-working-tree:
+    runs-on: ubuntu-latest
+    name: Fast lint - working tree scan
+    timeout-minutes: 2
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Fast scan for TasteOS paths
+        run: |
+          set -e
+          
+          echo "🔍 Fast lint: Scanning working tree for TasteOS paths..."
+          
+          # Find any path containing 'tasteos' (case-insensitive)
+          violations=$(find . -path ./\.git -prune -o -iregex '.*[/\\]tasteos[/\\]?.*' -print -quit 2>/dev/null || true)
+          
+          if [ -n "$violations" ]; then
+            echo ""
+            echo "════════════════════════════════════════════════════════"
+            echo "❌ LINT FAILED: TasteOS path detected in working tree"
+            echo "════════════════════════════════════════════════════════"
+            echo ""
+            echo "Found forbidden path:"
+            find . -path ./\.git -prune -o -iregex '.*[/\\]tasteos[/\\]?.*' -print | sed 's/^/  • /'
+            echo ""
+            echo "EvalForge must not contain TasteOS paths."
+            echo "Use a separate repository for TasteOS work."
+            echo ""
+            exit 1
+          fi
+          
+          echo "✅ No forbidden paths in working tree"
+  
+  # Full check: Git history and tracked files
+  block-tasteos:
+    runs-on: ubuntu-latest
+    name: Full check - git history scan
+    needs: lint-working-tree
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check for TasteOS violations in git
+        run: |
+          set -e
+          
+          echo "🔍 Scanning git-tracked files for TasteOS paths..."
+          
+          # Check all tracked files
+          violations=$(git ls-files | grep -Ei '(^|/)tasteos(/|$)' || true)
+          
+          if [ -n "$violations" ]; then
+            echo ""
+            echo "════════════════════════════════════════════════════════"
+            echo "❌ BLOCKED: TasteOS paths detected in git history"
+            echo "════════════════════════════════════════════════════════"
+            echo ""
+            echo "Violations found:"
+            echo "$violations" | sed 's/^/  • /'
+            echo ""
+            echo "EvalForge is for EvalForge code only."
+            echo "Use a separate repo for TasteOS: D:\TasteOS"
+            echo ""
+            echo "See .vscode/README_EVALFORGE_CONTRACT.md"
+            echo ""
+            exit 1
+          fi
+          
+          echo "✅ No TasteOS paths in git history"
+      
+      - name: Verify contract docs exist
+        run: |
+          if [ ! -f ".vscode/README_EVALFORGE_CONTRACT.md" ]; then
+            echo "⚠️  Repo contract document missing"
+            exit 1
+          fi
+          echo "✅ Repo contract document present"
+      
+      - name: Verify gitignore guard
+        run: |
+          if ! grep -q "tasteos/" .gitignore; then
+            echo "⚠️  .gitignore missing tasteos/ guard"
+            exit 1
+          fi
+          echo "✅ .gitignore guard present"
+      
+      - name: Verify pre-commit script exists
+        run: |
+          if [ ! -f "scripts/pre-commit.ps1" ]; then
+            echo "⚠️  Pre-commit script missing"
+            exit 1
+          fi
+          echo "✅ Pre-commit script present"
+      
+      - name: Verify pre-push script exists
+        run: |
+          if [ ! -f "scripts/pre-push.sh" ] && [ ! -f "scripts/pre-push.ps1" ]; then
+            echo "⚠️  Pre-push script missing"
+            exit 1
+          fi
+          echo "✅ Pre-push script present"

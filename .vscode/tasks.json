@@ -1,0 +1,220 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // ── Background server (LOCAL) ─────────────────────────────────────────────
+      "label": "serve:local",
+      "type": "shell",
+      "command": "$env:GENAI_PROVIDER='vertex'; $env:GOOGLE_CLOUD_PROJECT='evalforge-1063529378'; $env:VERTEX_LOCATION='us-central1'; $env:GENAI_MODEL='gemini-1.5-flash-002'; New-Item -ItemType Directory -Force -Path logs | Out-Null; D:/EvalForge/.venv/Scripts/python.exe -m google.adk.cli web . --port 19000 --host 0.0.0.0 2>&1 | Tee-Object -FilePath logs/server.local.log",
+      "options": { 
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "pwsh.exe",
+          "args": ["-Command"]
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "custom",
+        "fileLocation": "absolute",
+        "pattern": [
+          {
+            "regexp": ".*\\[startup\\].*model=.*",
+            "file": 1,
+            "message": 0
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*(starting|Running on|\\[startup\\]).*",
+          "endsPattern": ".*(Uvicorn running on|Application startup complete|\\[startup\\] vertexai\\.init\\(\\) called).*"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "SERVER"
+      },
+      "runOptions": { 
+        "reevaluateOnRerun": true 
+      }
+    },
+
+    {
+      // ── Cloud smoke (PROD) ───────────────────────────────────────────────────
+      "label": "smoke:cloud",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/smoke.ps1",
+      "options": { 
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "pwsh.exe",
+          "args": ["-File"]
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "CHECKS",
+        "clear": true
+      }
+    },
+
+    {
+      // ── Local smoke (DEV) ────────────────────────────────────────────────────
+      "label": "smoke:local",
+      "type": "shell",
+      "command": "New-Item -ItemType Directory -Force -Path logs | Out-Null; Write-Host '→ discovery' -ForegroundColor Cyan; curl.exe -sf 'http://127.0.0.1:19000/list-apps?relative_path=arcade_app' | Out-Null; if ($?) { Write-Host '✓ discovery passed' -ForegroundColor Green } else { Write-Host '✗ discovery failed' -ForegroundColor Red; exit 1 }; Write-Host '→ session' -ForegroundColor Cyan; curl.exe -sf -X POST -H 'Content-Length: 0' 'http://127.0.0.1:19000/apps/arcade_app/users/user/sessions' | Out-Null; if ($?) { Write-Host '✓ session passed' -ForegroundColor Green } else { Write-Host '✗ session failed' -ForegroundColor Red; exit 1 }; Write-Host '✓ local smoke passed' -ForegroundColor Green | Tee-Object -FilePath logs/smoke.local.log",
+      "options": { 
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "pwsh.exe",
+          "args": ["-Command"]
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "CHECKS",
+        "clear": true
+      }
+    },
+
+    {
+      // ── Guardrail test ───────────────────────────────────────────────────────
+      "label": "test:guardrail",
+      "type": "shell",
+      "command": "D:/EvalForge/.venv/Scripts/python.exe tests/test_env_model.py 2>&1 | Tee-Object -FilePath logs/test.guardrail.log",
+      "options": { 
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "pwsh.exe",
+          "args": ["-Command"]
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "CHECKS",
+        "clear": true
+      }
+    },
+
+    {
+      // ── Deploy to Cloud Run ──────────────────────────────────────────────────
+      "label": "deploy:cloud",
+      "type": "shell",
+      "command": "${workspaceFolder}/manual_deploy.ps1",
+      "options": { 
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "pwsh.exe",
+          "args": ["-File"]
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "DEPLOY",
+        "clear": false
+      }
+    },
+
+    {
+      // ── Fast rollback ────────────────────────────────────────────────────────
+      "label": "rollback:fast",
+      "type": "shell",
+      "command": "${workspaceFolder}/fast_rollback.ps1",
+      "options": { 
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "pwsh.exe",
+          "args": ["-File"]
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "DEPLOY",
+        "clear": false
+      }
+    },
+
+    {
+      // ── One-shot: run both smokes after server is ready ─────────────────────
+      "label": "smoke:all",
+      "dependsOrder": "sequence",
+      "dependsOn": ["serve:local", "smoke:local", "smoke:cloud"],
+      "problemMatcher": []
+    },
+
+    // ── Legacy tasks (preserved) ─────────────────────────────────────────────
+    {
+      "label": "Run: Vitest (logged)",
+      "type": "shell",
+      "command": "pwsh -File scripts/log_wrap.ps1",
+      "windows": { "command": "pwsh -File scripts/log_wrap.ps1" },
+      "linux":   { "command": "bash scripts/log_wrap.sh" },
+      "osx":     { "command": "bash scripts/log_wrap.sh" },
+      "args": [
+        "--tag", "vitest",
+        "--cmd", "scripts/run_vitest.sh debounce",
+        "--art", "exercises/js/coverage/coverage-final.json"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Run: ADK web (logged)",
+      "type": "shell",
+      "command": "pwsh -File scripts/log_wrap.ps1",
+      "windows": { "command": "pwsh -File scripts/log_wrap.ps1" },
+      "linux":   { "command": "bash scripts/log_wrap.sh" },
+      "osx":     { "command": "bash scripts/log_wrap.sh" },
+      "args": ["--tag","adk","--cmd","adk web arcade_app --port 19000"],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Run: Pytest (logged)",
+      "type": "shell",
+      "command": "pwsh -File scripts/log_wrap.ps1",
+      "windows": { "command": "pwsh -File scripts/log_wrap.ps1" },
+      "linux":   { "command": "bash scripts/log_wrap.sh" },
+      "osx":     { "command": "bash scripts/log_wrap.sh" },
+      "args": ["--tag","pytest","--cmd","scripts/run_pytest.sh"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Run: Judge Agent Test (logged)",
+      "type": "shell",
+      "command": "pwsh -File scripts/log_wrap.ps1",
+      "windows": { "command": "pwsh -File scripts/log_wrap.ps1" },
+      "linux":   { "command": "bash scripts/log_wrap.sh" },
+      "osx":     { "command": "bash scripts/log_wrap.sh" },
+      "args": [
+        "--tag", "judge-test",
+        "--cmd", "python -c \"from arcade_app.agent import run_tests, grade_submission; result = run_tests('pwsh -File scripts/run_vitest.ps1 debounce', ['exercises/js/coverage/coverage-final.json']); print('Verdict:', grade_submission(result, {}))\"",
+        "--art", "exercises/js/coverage/coverage-final.json"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Analyze Error Patterns",
+      "type": "shell",
+      "command": "python",
+      "args": ["tools/aggregate_errors.py"],
+      "problemMatcher": []
+    }
+  ]
+}
