@@ -1,6 +1,6 @@
 import { test, expect, APIRequestContext } from '@playwright/test';
 
-const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:19000';
+const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:19010';
 
 async function createSession(request: APIRequestContext, base: string = BASE_URL) {
   const resp = await request.post(`${base}/apps/arcade_app/users/test/sessions`);

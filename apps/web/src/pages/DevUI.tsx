@@ -4,13 +4,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Scoreboard, GradeData } from "../components/Scoreboard";
 import { getSessionStateFields } from "../lib/api";
-import { BASE_URL } from "../lib/config";
 
 export default function DevUI() {
   const [sessionId, setSessionId] = useState<string>("");
   const [log, setLog] = useState<string[]>([]);
   const [grade, setGrade] = useState<GradeData | undefined>(undefined);
-  const [baseUrl] = useState<string>(BASE_URL);
+  const [baseUrl] = useState<string>(() =>
+    (typeof window !== "undefined" ? window.location.origin : "http://127.0.0.1:19010")
+  );
   const [loadingGrade, setLoadingGrade] = useState(false);
   const pollTimer = useRef<number | null>(null);
 

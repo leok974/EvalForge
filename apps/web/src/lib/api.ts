@@ -19,9 +19,10 @@ export async function send(request: APIRequestContext, base: string, sid: string
 }
 
 // Lightweight browser/runtime helper (non-Playwright)
-export async function getSessionStateFields(baseUrl: string, sid: string, fields: string[]): Promise<any> {
+export async function getSessionStateFields(baseUrl: string | undefined, sid: string, fields: string[]): Promise<any> {
+  const origin = baseUrl || (typeof window !== "undefined" ? window.location.origin : "http://127.0.0.1:19010");
   const qs = encodeURIComponent(fields.join(","));
-  const res = await fetch(`${baseUrl}/api/dev/session-state/${sid}?fields=${qs}`, {
+  const res = await fetch(`${origin}/api/dev/session-state/${sid}?fields=${qs}`, {
     method: "GET",
     headers: { "Accept": "application/json" },
   });
