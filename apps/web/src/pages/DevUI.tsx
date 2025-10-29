@@ -3,8 +3,10 @@
  */
 import React, { useEffect, useRef, useState } from "react";
 import { Scoreboard, GradeData } from "../components/Scoreboard";
+import { ScoreboardSkeleton } from "../components/Skeleton";
 import { getSessionStateFields } from "../lib/api";
 import { ThemeToggle } from "../components/ThemeToggle";
+import { useToast } from "../lib/toast";
 
 export default function DevUI() {
   const [sessionId, setSessionId] = useState<string>("");
@@ -17,6 +19,7 @@ export default function DevUI() {
   const pollTimer = useRef<number | null>(null);
 
   const append = (s: string) => setLog((L) => [...L, s]);
+  const { push } = useToast();
   
   const stopPoll = () => {
     if (pollTimer.current) {
@@ -34,12 +37,19 @@ export default function DevUI() {
       const data = await getSessionStateFields(baseUrl, sessionId, ["last_grade", "track"]);
       if (data?.last_grade) {
         setGrade(data.last_grade);
-        if (manual) append("🔁 Scoreboard refreshed.");
+        if (manual) {
+          append("🔁 Scoreboard refreshed.");
+          push({ kind: "success", title: "Scoreboard updated", text: "Latest rubric scores loaded." });
+        }
       } else if (manual) {
-        append("ℹ️ No grade yet. Trigger Judge by submitting code.");
+        const msg = "No grade yet. Trigger Judge by submitting code.";
+        append("ℹ️ " + msg);
+        push({ kind: "info", text: msg });
       }
     } catch (e: any) {
-      append(`⚠️ Scoreboard fetch failed: ${e.message || e}`);
+      const msg = `Scoreboard fetch failed: ${e.message || e}`;
+      append("⚠️ " + msg);
+      push({ kind: "error", title: "Fetch failed", text: msg });
     } finally {
       setLoadingGrade(false);
     }
@@ -53,6 +63,7 @@ export default function DevUI() {
     const data = await res.json();
     setSessionId(data.id);
     append(`🧪 Session created: ${data.id}`);
+    push({ kind: "success", title: "Session created", text: data.id });
     // Brief scoreboard refresh on create (no grade expected yet)
     setTimeout(() => refreshScoreboard(false), 200);
   }
@@ -120,8 +131,13 @@ export default function DevUI() {
             <span className="muted">No grade yet</span>
           )}
         </div>
-        <Scoreboard grade={grade} />
-        {!grade && <p className="muted">Submit code to Judge to see your rubric scores here.</p>}
+        {loadingGrade ? (
+          <ScoreboardSkeleton />
+        ) : grade ? (
+          <Scoreboard grade={grade} />
+        ) : (
+          <p className="muted">Submit code to Judge to see your rubric scores here.</p>
+        )}
       </div>
 
       {/* Log */}
