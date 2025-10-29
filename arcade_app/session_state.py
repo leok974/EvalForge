@@ -2,7 +2,7 @@
 In-memory session state management for EvalForge.
 Tracks onboarding progress and user preferences per session.
 """
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 from dataclasses import dataclass, field
 
 
@@ -13,6 +13,16 @@ class SessionState:
     judge_intro_done: bool = False
     track: Optional[str] = None  # "debugging", "cloud", or "llm"
     blurb: str = field(default="EvalForge: an AI Trainer Arcade that evaluates your answers, coaches you like a mentor, and builds you a personalized training path around real engineering skills.")
+    # Cloud track troubleshooting memory
+    issue_summary: Optional[str] = None  # Current issue being debugged (for cloud track)
+    next_step: Optional[str] = None  # Recommended next action (for cloud track)
+    # Debugging track code review memory
+    debug_problem: Optional[str] = None  # Short label of what's wrong in their code
+    debug_next_step: Optional[str] = None  # What they should try next / how to fix it
+    language_hint: Optional[str] = None  # "python", "javascript", etc. if we can infer
+    # Grading / scoreboard memory (Phase 3)
+    last_grade: Optional[Dict[str, Any]] = None  # Most recent rubric evaluation (coverage, correctness, clarity, comment)
+    last_graded_input_hash: Optional[str] = None  # Hash of last graded submission (prevents re-grading)
 
 
 class SessionStore:
@@ -27,7 +37,7 @@ class SessionStore:
             self._store[session_id] = SessionState()
         return self._store[session_id]
     
-    def update(self, session_id: str, **kwargs) -> SessionState:
+    def update(self, session_id: str, **kwargs: Any) -> SessionState:
         """Update specific fields in session state."""
         state = self.get(session_id)
         for key, value in kwargs.items():
@@ -40,14 +50,23 @@ class SessionStore:
         if session_id in self._store:
             del self._store[session_id]
     
-    def get_state_dict(self, session_id: str) -> dict:
+    def get_state_dict(self, session_id: str) -> Optional[Dict[str, Any]]:
         """Get session state as a dictionary for debugging/introspection."""
+        if session_id not in self._store:
+            return None
         state = self.get(session_id)
         return {
             "greeted": state.greeted,
             "judge_intro_done": state.judge_intro_done,
             "track": state.track,
             "blurb": state.blurb,
+            "issue_summary": state.issue_summary,
+            "next_step": state.next_step,
+            "debug_problem": state.debug_problem,
+            "debug_next_step": state.debug_next_step,
+            "language_hint": state.language_hint,
+            "last_grade": state.last_grade,
+            "last_graded_input_hash": state.last_graded_input_hash,
         }
 
 

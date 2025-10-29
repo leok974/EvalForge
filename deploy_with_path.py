@@ -26,7 +26,7 @@ except Exception as e:
 
 # Import ADK
 try:
-    from google.adk.cli import main as adk_main
+    from google.adk.cli.cli_tools_click import main as adk_main
 except ImportError as e:
     print(f"❌ google-adk import failed: {e}")
     sys.exit(1)

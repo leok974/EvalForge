@@ -2,10 +2,52 @@
   "version": "2.0.0",
   "tasks": [
     {
-      // ── Background server (LOCAL) ─────────────────────────────────────────────
+      "label": "EvalForge: Dev Server (Judge/Coach/Greeter + MCP)",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "-m",
+        "uvicorn",
+        "arcade_app.agent:app",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "19000",
+        "--reload"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "EVALFORGE_ENV": "dev",
+          "EVALFORGE_PROJECT_ID": "291179078777",
+          "EVALFORGE_MODEL": "gemini-2.5-flash",
+          "EVALFORGE_REGION": "us-central1",
+          "EVALFORGE_ENABLE_GREETER": "1",
+          "EVALFORGE_ENABLE_JUDGE": "1",
+          "EVALFORGE_ENABLE_COACH": "1",
+          "EVALFORGE_DEV_INTROSPECTION": "1",
+          "EVALFORGE_ENABLE_MCP": "1",
+          "GOOGLE_GENAI_USE_VERTEXAI": "TRUE",
+          "GOOGLE_CLOUD_PROJECT": "291179078777",
+          "GOOGLE_CLOUD_LOCATION": "us-central1",
+          "GOOGLE_CLOUD_AGENT_ENGINE_ID": "7681298182805913600"
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": false,
+        "clear": false,
+        "group": "SERVER"
+      }
+    },
+    {
+      // ── Background server (LOCAL) - Legacy ────────────────────────────────────
       "label": "serve:local",
       "type": "shell",
-      "command": "$env:VERTEX_PROJECT_NUMBER='291179078777'; $env:VERTEX_REGION='us-central1'; $env:VERTEX_MODEL_ID='gemini-2.5-flash'; New-Item -ItemType Directory -Force -Path logs | Out-Null; D:/EvalForge/.venv/Scripts/python.exe -m google.adk.cli web . --port 19000 --host 0.0.0.0 2>&1 | Tee-Object -FilePath logs/server.local.log",
+      "command": "$env:VERTEX_PROJECT_NUMBER='291179078777'; $env:VERTEX_REGION='us-central1'; $env:VERTEX_MODEL_ID='gemini-2.5-flash'; New-Item -ItemType Directory -Force -Path logs | Out-Null; D:/EvalForge/.venv/Scripts/python.exe -m google.adk.cli web arcade_app --port 19000 --host 0.0.0.0 2>&1 | Tee-Object -FilePath logs/server.local.log",
       "options": { 
         "cwd": "${workspaceFolder}",
         "shell": {

@@ -5,11 +5,18 @@ These tools load dynamically to avoid breaking agent discovery if they fail.
 import json
 import os
 import subprocess
+import hashlib
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from google.adk.agents import Agent
 from google.adk.tools import FunctionTool
+
+# Import helpers for mentorship tracks
+from .cloud_helper import analyze_cloud_issue as _analyze_cloud_issue_internal
+from .debugging_helper import analyze_code_issue as _analyze_code_issue_internal
+from .grading_helper import grade_submission as _grade_submission_internal
+from .session_state import session_store
 
 # Shared configuration logic - matches agent.py
 VERTEX_PROJECT_NUMBER = os.getenv("VERTEX_PROJECT_NUMBER", "291179078777")
@@ -48,7 +55,7 @@ def _show_model_banner() -> str:
     return ""
 
 
-def _read_json_safe(p: Path) -> Optional[dict]:
+def _read_json_safe(p: Path) -> Optional[Dict[str, Any]]:
     """Safely read JSON file."""
     try:
         if p.exists():
@@ -208,23 +215,185 @@ def suggest_next_quests(concept: str, tier: str = "beginner") -> Dict[str, Any]:
     }
 
 
+def analyze_cloud_logs(session_id: str, logs_or_error: str) -> Dict[str, Any]:
+    """
+    Analyze cloud deployment logs and errors like an SRE mentor.
+    
+    This tool acts as an experienced SRE who can:
+    - Identify root causes from error messages and logs
+    - Suggest actionable next steps for debugging
+    - Remember the context of what you're fixing across the conversation
+    
+    Args:
+        session_id: Current session ID (for maintaining context)
+        logs_or_error: The error message, stack trace, or log snippet to analyze
+    
+    Returns:
+        Dictionary with diagnosis, next steps, and follow-up questions
+    """
+    # Show model banner on first use
+    _show_model_banner()
+    
+    # Call the cloud helper to perform SRE-style analysis
+    result = _analyze_cloud_issue_internal(session_id, logs_or_error)
+    
+    # Update session state with the analysis results
+    session_store.update(
+        session_id,
+        issue_summary=result["issue_summary"],
+        next_step=result["next_step"]
+    )
+    
+    return {
+        "diagnosis": result["issue_summary"],
+        "next_step": result["next_step"],
+        "full_response": result["reply_text"],
+        "status": "Session context updated - I'll remember this issue as we debug together"
+    }
+
+
+def analyze_code_snippet(session_id: str, code_snippet: str) -> Dict[str, Any]:
+    """
+    Analyze code snippets like a senior code reviewer.
+    
+    This tool acts as an experienced developer who can:
+    - Identify bugs, logic flaws, and code smells
+    - Explain what's wrong in plain language
+    - Show exactly how to fix it
+    - Suggest what concept to learn next
+    - Remember debugging patterns across the conversation
+    
+    Args:
+        session_id: Current session ID (for maintaining context)
+        code_snippet: The code to analyze (can be broken/partial)
+    
+    Returns:
+        Dictionary with problem description, fix suggestions, and learning recommendations
+    """
+    # Show model banner on first use
+    _show_model_banner()
+    
+    # Call the debugging helper to perform code review
+    result = _analyze_code_issue_internal(session_id, code_snippet)
+    
+    # Update session state with the analysis results
+    update_fields = {
+        "debug_problem": result["debug_problem"],
+        "debug_next_step": result["debug_next_step"]
+    }
+    
+    # Also update language hint if we detected one
+    if result.get("language_hint"):
+        update_fields["language_hint"] = result["language_hint"]
+    
+    session_store.update(session_id, **update_fields)
+    
+    return {
+        "status": "ok",
+        "reply_text": result["reply_text"],
+        "debug_problem": result["debug_problem"],
+        "debug_next_step": result["debug_next_step"],
+        "language_hint": result.get("language_hint")
+    }
+
+
+def evaluate_submission(session_id: str, code_snippet: str, explanation_text: str | None = None) -> Dict[str, Any]:
+    """
+    Evaluate a user's debugging submission using a structured rubric.
+    
+    This tool grades the submission based on:
+    - Coverage (0-5): Did they address the real bug?
+    - Correctness (0-5): Would their fix work?
+    - Clarity (0-5): Did they explain clearly?
+    
+    IMPORTANT: This tool prevents spam by checking if this exact submission
+    was already graded. If so, it returns the previous grade without calling
+    the model again.
+    
+    Args:
+        session_id: Current session ID (for maintaining context)
+        code_snippet: The user's submitted code
+        explanation_text: The user's explanation of their fix (optional)
+    
+    Returns:
+        Dictionary with status (graded/skipped), grade, and reason
+    """
+    # Show model banner on first use
+    _show_model_banner()
+    
+    # Get current session state
+    state = session_store.get(session_id)
+    
+    # Compute hash of this submission for deduplication
+    input_hash = hashlib.sha1(
+        (code_snippet + (explanation_text or "")).encode("utf-8")
+    ).hexdigest()
+    
+    # Check if we already graded this exact submission
+    if state.last_graded_input_hash == input_hash:
+        return {
+            "status": "skipped",
+            "reason": "Already graded this exact submission.",
+            "last_grade": state.last_grade
+        }
+    
+    # New submission - grade it
+    result = _grade_submission_internal(session_id, code_snippet, explanation_text, vertex_client=None)
+    
+    grade = result["grade"]
+    new_hash = result["input_hash"]
+    
+    # Update session state with the new grade
+    session_store.update(
+        session_id,
+        last_grade=grade,
+        last_graded_input_hash=new_hash
+    )
+    
+    return {
+        "status": "graded",
+        "grade": grade
+    }
+
+
+
 # Create Judge agent with tools
 judge = Agent(
     name="Judge",
-    instruction="""You are a Judge agent that evaluates code submissions.
-    
+    instruction="""You are a Judge agent that evaluates debugging submissions using a structured rubric.
+
 Your role:
-1. Run tests using the run_tests tool
-2. Grade submissions using the grade_submission tool based on test results and coverage
-3. Provide clear, actionable feedback
+1. Grade user debugging attempts using the evaluate_submission tool
+2. Provide scores based on the rubric: Coverage (0-5), Correctness (0-5), Clarity (0-5)
+3. Share coaching feedback to help them improve
 
-When grading:
-- PASS: ≥80% coverage + all tests passing
-- PARTIAL: 60-79% coverage + all tests passing  
-- FAIL: <60% coverage or tests failing
+CRITICAL ANTI-SPAM RULES:
+- Call evaluate_submission ONLY ONCE per user submission
+- If evaluate_submission returns status "skipped", DO NOT call it again
+- When status is "skipped", summarize the previous grade for the user
+- NEVER repeatedly call evaluate_submission with the same code
 
-Always be constructive and specific in your feedback.""",
-    tools=[FunctionTool(run_tests), FunctionTool(grade_submission)],
+When grading a NEW submission:
+1. Call evaluate_submission with:
+   - session_id: The user's session ID
+   - code_snippet: Their submitted code
+   - explanation_text: Their explanation (if provided)
+
+2. Present the grade in this format:
+   📊 **Your Scores:**
+   - Coverage: X/5 (Did you address the real bug?)
+   - Correctness: X/5 (Would your fix work?)
+   - Clarity: X/5 (Did you explain it well?)
+   
+   💡 **Feedback:** [comment from grade]
+
+When status is "skipped" (already graded):
+- Tell them you already graded this submission
+- Show their previous scores
+- Suggest they try a different fix or explain their reasoning differently
+
+Keep responses concise and actionable. Your job is: grade once, give feedback, move on.""",
+    tools=[FunctionTool(evaluate_submission)],
     model=GENAI_MODEL,
 )
 
@@ -238,6 +407,19 @@ Your role:
 1. Suggest next quests based on what the developer just completed
 2. Provide encouraging feedback
 3. Help developers build on their skills progressively
+4. For debugging track: Use analyze_code_snippet tool to review code like a senior engineer
+5. For cloud/deployment track: Use analyze_cloud_logs tool to diagnose issues like an SRE
+
+When the user is on the DEBUGGING track and shares code:
+- ALWAYS use the analyze_code_snippet tool with their session_id and the code
+- The tool will identify bugs, explain what's wrong, and show how to fix it
+- The tool remembers recurring issues across the debugging session
+- Build on previous code reviews to help them improve
+
+When the user is on the CLOUD track and shares logs or errors:
+- ALWAYS use the analyze_cloud_logs tool with their session_id and the logs/error text
+- The tool will remember the issue context across messages
+- Build on previous diagnoses to guide them through debugging
 
 When suggesting quests:
 - Consider the current skill level
@@ -245,6 +427,6 @@ When suggesting quests:
 - Explain why each suggestion would be valuable
 
 Always be encouraging and positive!""",
-    tools=[FunctionTool(suggest_next_quests)],
+    tools=[FunctionTool(suggest_next_quests), FunctionTool(analyze_cloud_logs), FunctionTool(analyze_code_snippet)],
     model=GENAI_MODEL,
 )

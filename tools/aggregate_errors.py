@@ -8,9 +8,10 @@ import sys
 import collections
 import hashlib
 from pathlib import Path
+from typing import Dict, List, Any
 
 
-def main():
+def main() -> None:
     journal_path = Path("logs/error-journal.ndjson")
     
     if not journal_path.exists():
@@ -18,8 +19,8 @@ def main():
         print("Run some tasks first to generate error data.")
         sys.exit(1)
     
-    counts = collections.Counter()
-    buckets = {}
+    counts: collections.Counter[str] = collections.Counter()
+    buckets: Dict[str, List[Dict[str, Any]]] = {}
     total_runs = 0
     failed_runs = 0
     
@@ -28,7 +29,7 @@ def main():
             continue
             
         try:
-            obj = json.loads(line)
+            obj: Dict[str, Any] = json.loads(line)
         except json.JSONDecodeError:
             continue
             
@@ -41,9 +42,9 @@ def main():
         failed_runs += 1
         
         # Use fingerprint or create one from stderr
-        key = obj.get("fingerprint")
+        key: str = obj.get("fingerprint", "")
         if not key:
-            stderr = obj.get("stderr_tail", "")
+            stderr: str = obj.get("stderr_tail", "")
             key = hashlib.sha1(stderr.encode()).hexdigest()
         
         counts[key] += 1
@@ -65,12 +66,12 @@ def main():
     print("Top 10 recurring failures:\n")
     
     for i, (key, n) in enumerate(counts.most_common(10), 1):
-        first = buckets[key][0]
-        tag = first.get('tag', 'unknown')
-        stderr = first.get('stderr_tail', '')
+        first: Dict[str, Any] = buckets[key][0]
+        tag: str = first.get('tag', 'unknown')
+        stderr: str = first.get('stderr_tail', '')
         
         # Get last non-empty line from stderr
-        last_line = ""
+        last_line: str = ""
         for line in stderr.strip().splitlines():
             if line.strip():
                 last_line = line.strip()
@@ -85,7 +86,7 @@ def main():
         print(f"   Command: {first.get('command', 'N/A')}")
         
         # Show quest_id if available
-        quest_id = first.get('quest_id')
+        quest_id: Any = first.get('quest_id')
         if quest_id:
             print(f"   Quest: {quest_id}")
         
@@ -97,9 +98,9 @@ def main():
     print(f"{'='*80}\n")
     
     for i, (key, n) in enumerate(counts.most_common(3), 1):
-        first = buckets[key][0]
-        tag = first.get('tag', 'unknown')
-        stderr = first.get('stderr_tail', '').strip()
+        first: Dict[str, Any] = buckets[key][0]
+        tag: str = first.get('tag', 'unknown')
+        stderr: str = first.get('stderr_tail', '').strip()
         
         print(f"Quest Candidate #{i} ({n} occurrences):")
         print(f"  Tag: {tag}")

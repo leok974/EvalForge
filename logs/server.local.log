@@ -1,0 +1,249 @@
+D:\EvalForge\.venv\Lib\site-packages\google\adk\cli\fast_api.py:130: UserWarning: [EXPERIMENTAL] InMemoryCredentialService: This feature is experimental and may change or be removed in future versions without notice. It may introduce breaking changes at any time.
+  credential_service = InMemoryCredentialService()
+D:\EvalForge\.venv\Lib\site-packages\google\adk\auth\credential_service\in_memory_credential_service.py:33: UserWarning: [EXPERIMENTAL] BaseCredentialService: This feature is experimental and may change or be removed in future versions without notice. It may introduce breaking changes at any time.
+  super().__init__()
+INFO:     Started server process [24220]
+INFO:     Waiting for application startup.
+
++-----------------------------------------------------------------------------+
+| ADK Web Server started                                                      |
+|                                                                             |
+| For local testing, access at http://0.0.0.0:19000.                        |
++-----------------------------------------------------------------------------+
+
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:19000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:63721 - "GET /list-apps HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64806 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64806 - "GET /dev-ui/assets/config/runtime-config.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64806 - "GET /list-apps?relative_path=./ HTTP/1.1" 200 OK
+2025-10-28 23:17:48,238 - INFO - adk_web_server.py:602 - New session created: c82e287d-a7b5-4694-89d9-98863e098e6e
+INFO:     127.0.0.1:56466 - "POST /apps/arcade_app/users/testuser/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55936 - "GET /openapi.json HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\type_adapter.py", line 287, in _init_core_attrs
+    self.core_schema = _getattr_no_parents(self._type, '__pydantic_core_schema__')
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\type_adapter.py", line 56, in _getattr_no_parents
+    raise AttributeError(attribute)
+AttributeError: __pydantic_core_schema__
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\EvalForge\.venv\Lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\EvalForge\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\applications.py", line 1133, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\EvalForge\.venv\Lib\site-packages\starlette\routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\applications.py", line 1088, in openapi
+    return JSONResponse(self.openapi())
+                        ~~~~~~~~~~~~^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\applications.py", line 1059, in openapi
+    self.openapi_schema = get_openapi(
+                          ~~~~~~~~~~~^
+        title=self.title,
+        ^^^^^^^^^^^^^^^^^
+    ...<12 lines>...
+        external_docs=self.openapi_external_docs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\openapi\utils.py", line 503, in get_openapi
+    model_name_map = get_compat_model_name_map(all_fields)
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\main.py", line 218, in get_compat_model_name_map
+    v2_flat_models = v2.get_flat_models_from_fields(
+        v2_model_fields, known_models=set()
+    )
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 454, in get_flat_models_from_fields
+    get_flat_models_from_field(field, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 442, in get_flat_models_from_field
+    get_flat_models_from_model(field_type, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 415, in get_flat_models_from_model
+    get_flat_models_from_fields(fields, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 454, in get_flat_models_from_fields
+    get_flat_models_from_field(field, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 442, in get_flat_models_from_field
+    get_flat_models_from_model(field_type, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 415, in get_flat_models_from_model
+    get_flat_models_from_fields(fields, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 454, in get_flat_models_from_fields
+    get_flat_models_from_field(field, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 446, in get_flat_models_from_field
+    get_flat_models_from_annotation(field_type, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 428, in get_flat_models_from_annotation
+    get_flat_models_from_model(arg, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 415, in get_flat_models_from_model
+    get_flat_models_from_fields(fields, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 454, in get_flat_models_from_fields
+    get_flat_models_from_field(field, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 446, in get_flat_models_from_field
+    get_flat_models_from_annotation(field_type, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 430, in get_flat_models_from_annotation
+    get_flat_models_from_annotation(arg, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 428, in get_flat_models_from_annotation
+    get_flat_models_from_model(arg, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 415, in get_flat_models_from_model
+    get_flat_models_from_fields(fields, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 454, in get_flat_models_from_fields
+    get_flat_models_from_field(field, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 446, in get_flat_models_from_field
+    get_flat_models_from_annotation(field_type, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 428, in get_flat_models_from_annotation
+    get_flat_models_from_model(arg, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 415, in get_flat_models_from_model
+    get_flat_models_from_fields(fields, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 454, in get_flat_models_from_fields
+    get_flat_models_from_field(field, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 446, in get_flat_models_from_field
+    get_flat_models_from_annotation(field_type, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 428, in get_flat_models_from_annotation
+    get_flat_models_from_model(arg, known_models=known_models)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 414, in get_flat_models_from_model
+    fields = get_model_fields(model)
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 376, in get_model_fields
+    ModelField(field_info=field_info, name=name)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 6, in __init__
+  File "D:\EvalForge\.venv\Lib\site-packages\fastapi\_compat\v2.py", line 97, in __post_init__
+    self._type_adapter: TypeAdapter[Any] = TypeAdapter(
+                                           ~~~~~~~~~~~^
+        Annotated[self.field_info.annotation, self.field_info]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\type_adapter.py", line 244, in __init__
+    self._init_core_attrs(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        ns_resolver=_namespace_utils.NsResolver(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        force=False,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\type_adapter.py", line 306, in _init_core_attrs
+    core_schema = schema_generator.generate_schema(self._type)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 729, in generate_schema
+    schema = self._generate_schema_inner(obj)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1007, in _generate_schema_inner
+    return self._annotated_schema(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 2177, in _annotated_schema
+    schema = self._apply_annotations(source_type, annotations)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 2227, in _apply_annotations
+    schema = get_inner_schema(source_type)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_schema_generation_shared.py", line 83, in __call__
+    schema = self._handler(source_type)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 2358, in new_handler
+    schema = get_inner_schema(source)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_schema_generation_shared.py", line 83, in __call__
+    schema = self._handler(source_type)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 2206, in inner_handler
+    schema = self._generate_schema_inner(obj)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1028, in _generate_schema_inner
+    return self.match_type(obj)
+           ~~~~~~~~~~~~~~~^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1144, in match_type
+    return self._match_generic_type(obj, origin)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1171, in _match_generic_type
+    return self._list_schema(self._get_first_arg_or_any(obj))
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 384, in _list_schema
+    return core_schema.list_schema(self.generate_schema(items_type))
+                                   ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 729, in generate_schema
+    schema = self._generate_schema_inner(obj)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1028, in _generate_schema_inner
+    return self.match_type(obj)
+           ~~~~~~~~~~~~~~~^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1144, in match_type
+    return self._match_generic_type(obj, origin)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1167, in _match_generic_type
+    return self._union_schema(obj)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1327, in _union_schema
+    choices.append(self.generate_schema(arg))
+                   ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 729, in generate_schema
+    schema = self._generate_schema_inner(obj)
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1028, in _generate_schema_inner
+    return self.match_type(obj)
+           ~~~~~~~~~~~~~~~^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 1148, in match_type
+    return self._unknown_type_schema(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\EvalForge\.venv\Lib\site-packages\pydantic\_internal\_generate_schema.py", line 659, in _unknown_type_schema
+    raise PydanticSchemaGenerationError(
+    ...<7 lines>...
+    )
+pydantic.errors.PydanticSchemaGenerationError: Unable to generate pydantic-core schema for <class 'mcp.client.session.ClientSession'>. Set `arbitrary_types_allowed=True` in the model_config to ignore this error or implement `__get_pydantic_core_schema__` on your type to fully support it.
+
+If you got this error by calling handler(<some type>) within `__get_pydantic_core_schema__` then you likely need to call `handler.generate_schema(<some type>)` since we do not call `__get_pydantic_core_schema__` on `<some type>` otherwise to avoid infinite recursion.
+
+For further information visit https://errors.pydantic.dev/2.12/u/schema-for-unknown-type
+INFO:     127.0.0.1:60952 - "POST /apps/arcade_app/users/testuser/sessions/c82e287d-a7b5-4694-89d9-98863e098e6e/messages HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56363 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /dev-ui/assets/config/runtime-config.json HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:49709 - "GET /list-apps?relative_path=./ HTTP/1.1" 200 OK
