@@ -6,9 +6,8 @@ import os
 import sys
 import logging
 import hashlib
-import asyncio
 import json
-from typing import Final, Tuple, Dict, Any, List
+from typing import Final, Dict, Any, List
 
 from google.adk.agents import Agent, SequentialAgent
 
@@ -170,7 +169,7 @@ Be conversational but focused. No generic advice. Use your tools when relevant -
     # Create the orchestrator
     agent = SequentialAgent(
         name="ArcadeOrchestrator",
-        sub_agents=sub_agents,
+        sub_agents=sub_agents,  # type: ignore[arg-type]
     )
     
     log.info("Root agent ready: %s | sub_agents=%s", 
@@ -206,7 +205,7 @@ def _ensure_session(session_id: str, user_id: str):
         session_id=session_id,
         user_id=user_id
     )
-    if not sess:
+    if not sess:  # type: ignore[truthy-function]
         sess = SESSION_SERVICE.create_session(
             app_name="arcade_app",
             user_id=user_id,
@@ -216,7 +215,7 @@ def _ensure_session(session_id: str, user_id: str):
     return sess
 
 
-def _classify_event_kind(event) -> str:
+def _classify_event_kind(event: Any) -> str:
     """Best-effort classification: tool vs partial vs final text."""
     try:
         if hasattr(event, "is_final_response") and callable(event.is_final_response):
@@ -237,14 +236,14 @@ def _classify_event_kind(event) -> str:
     return "event"
 
 
-def _log_event(event):
+def _log_event(event: Any) -> None:
     """Log ADK event details when EVALFORGE_EVENT_LOG=1."""
     if LOG.isEnabledFor(logging.INFO):
-        payload = {}
+        payload: Dict[str, Any] = {}
         content = getattr(event, "content", None)
         if content:
             payload["role"] = getattr(content, "role", None)
-            parts = getattr(content, "parts", None) or []
+            parts: List[Any] = getattr(content, "parts", None) or []
             payload["parts"] = [type(p).__name__ for p in parts]
         # mark final if helper exists
         try:
@@ -254,7 +253,7 @@ def _log_event(event):
         LOG.info("ADK %s: %s", _classify_event_kind(event), json.dumps(payload))
 
 
-def _extract_assistant_text_if_final(event) -> str | None:
+def _extract_assistant_text_if_final(event: Any) -> str | None:
     """
     Return assistant text only when ADK marks this event as the 'final' response.
     This is robust to tools and partials:
@@ -276,23 +275,23 @@ def _extract_assistant_text_if_final(event) -> str | None:
     if not content:
         return None
 
-    parts = getattr(content, "parts", None) or []
+    parts: List[Any] = getattr(content, "parts", None) or []
     for p in parts:
         # GenAI 'Part' can hold many types; we only care about text here.
         # (See Vertex AI Content/Part definitions.)
         if getattr(p, "text", None):
-            return p.text
+            return str(p.text)  # type: ignore[return-value]
 
     return None
 
 
 async def invoke_root_agent(
-    session_state,
+    session_state: Any,
     user_message: str,
     *,
     session_id: str,
     user_id: str,
-) -> tuple[str, object]:
+) -> tuple[str, Any]:
     """
     Calls ADK runner first. If anything fails, fall back to Phase-3 stub.
     """
@@ -357,7 +356,7 @@ async def invoke_root_agent(
             )
             return (reused_msg, session_state)
 
-    fake_grade = {
+    fake_grade: Dict[str, Any] = {
         "coverage": 2,
         "correctness": 2,
         "clarity": 3,
@@ -376,14 +375,14 @@ async def invoke_root_agent(
 
 
 # Health check endpoint for monitoring
-def healthz() -> dict:
+def healthz() -> Dict[str, Any]:
     """
     Health check that verifies ADC and agent configuration.
     Returns agent status and configuration.
     """
     import json
     
-    health_status = {
+    health_status: Dict[str, Any] = {
         "status": "healthy",
         "agent": root_agent.name,
         "sub_agents": [agent.name for agent in root_agent.sub_agents],
@@ -395,8 +394,8 @@ def healthz() -> dict:
     
     # Check ADC
     try:
-        import google.auth
-        credentials, project = google.auth.default()
+        import google.auth  # type: ignore[import-untyped]
+        credentials, project = google.auth.default()  # type: ignore[attr-defined]
         health_status["adc_present"] = True
         health_status["adc_project"] = project
     except Exception as e:
@@ -407,7 +406,7 @@ def healthz() -> dict:
     return health_status
 
 
-def get_session_state(session_id: str) -> dict:
+def get_session_state(session_id: str) -> Dict[str, Any]:
     """Get session state for debugging/introspection."""
     state_dict = session_store.get_state_dict(session_id)
     if state_dict is None:
@@ -417,8 +416,8 @@ def get_session_state(session_id: str) -> dict:
 
 # Add a tiny "/env" debug route (so you can verify at runtime)
 try:
-    from google.adk import expose  # hypothetical helper; if not available, skip this
-    @expose("/_diag/env")
+    from google.adk import expose  # type: ignore[import-untyped, import-not-found]
+    @expose("/_diag/env")  # type: ignore[misc]
     async def diag_env():
         import json, os
         keys = ["GENAI_PROVIDER","GOOGLE_CLOUD_PROJECT","VERTEX_LOCATION","GENAI_MODEL"]
