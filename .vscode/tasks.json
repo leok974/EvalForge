@@ -47,6 +47,10 @@
         "focus": false,
         "clear": false,
         "group": "SERVER"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
       }
     },
     {

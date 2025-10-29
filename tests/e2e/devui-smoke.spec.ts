@@ -26,7 +26,7 @@ test.describe('Dev UI + API smoke', () => {
     const docs = await request.get(`${BASE_URL}/docs`);
     expect(docs.ok()).toBeTruthy();
     const docsHtml = await docs.text();
-    expect(docsHtml).toContain('FastAPI'); // generic marker in docs page
+    expect(docsHtml).toContain('swagger-ui'); // generic marker in docs page
   });
 
   test('Phase 3 minimal flow (greet -> track -> grade -> dedupe)', async ({ request }) => {
