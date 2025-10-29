@@ -3,33 +3,40 @@ Multi-agent system for AI Trainer Arcade.
 Safe dynamic loading ensures discovery works even if optional tools fail.
 """
 import os
+import sys
 import logging
+from typing import Final
 
 from google.adk.agents import Agent, SequentialAgent
 
-# hard source of truth for model/region
-GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
-VERTEX_LOCATION = os.getenv("VERTEX_LOCATION", "us-central1")
+# ---- Vertex AI Configuration ----
+# Single model, single region, no fallbacks
+VERTEX_PROJECT_NUMBER = os.getenv("VERTEX_PROJECT_NUMBER", "291179078777")
+VERTEX_PROJECT_ID = os.getenv("VERTEX_PROJECT_ID", "evalforge")  # For logging only
+VERTEX_REGION = os.getenv("VERTEX_REGION", "us-central1")
+VERTEX_MODEL_ID = os.getenv("VERTEX_MODEL_ID", "gemini-2.5-flash")
 
-# accept multiple env names, default to the versioned model
-GENAI_MODEL = (
-    os.getenv("GENAI_MODEL")
-    or os.getenv("VERTEX_MODEL")
-    or os.getenv("MODEL_ID")
-    or "gemini-1.5-flash-002"
-)
+# Use project number for API calls
+PROJECT: Final[str] = VERTEX_PROJECT_NUMBER
+REGION: Final[str] = VERTEX_REGION
+MODEL: Final[str] = VERTEX_MODEL_ID
 
-print(f"[startup] provider={os.getenv('GENAI_PROVIDER')} "
-      f"project={GOOGLE_CLOUD_PROJECT} region={VERTEX_LOCATION} model={GENAI_MODEL}", flush=True)
+def _log_vertex_config():
+    """Log Vertex AI configuration on startup."""
+    print(
+        f"[VertexConfig] project={PROJECT} ({VERTEX_PROJECT_ID}) region={REGION} model={MODEL}",
+        file=sys.stderr,
+        flush=True
+    )
 
-# If you use the Vertex SDK directly, initialize it here to the right region/project
+# Initialize Vertex AI
 try:
-    import vertexai  # type: ignore
-    if GOOGLE_CLOUD_PROJECT and VERTEX_LOCATION:
-        vertexai.init(project=GOOGLE_CLOUD_PROJECT, location=VERTEX_LOCATION)
-        print("[startup] vertexai.init() called", flush=True)
-except Exception as _e:
-    pass
+    import vertexai
+    vertexai.init(project=PROJECT, location=REGION)
+    _log_vertex_config()
+except Exception as e:
+    print(f"[VertexConfig] FATAL: Failed to initialize: {e}", file=sys.stderr, flush=True)
+    raise
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -41,22 +48,35 @@ vertex_diag()
 
 # Set the environment variables that ADK recognizes for Vertex AI
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
-os.environ["GOOGLE_CLOUD_PROJECT"] = GOOGLE_CLOUD_PROJECT or "evalforge-1063529378"
-os.environ["GOOGLE_CLOUD_LOCATION"] = VERTEX_LOCATION
+os.environ["GOOGLE_CLOUD_PROJECT"] = PROJECT
+os.environ["GOOGLE_CLOUD_LOCATION"] = REGION
+
+# Import session state management
+from arcade_app.session_state import session_store
 
 
 def build_root_agent() -> SequentialAgent:
     """
-    Build the root agent with dynamic tool loading.
+    Build the root agent with session-aware onboarding flow.
     
-    This ensures the agent always loads successfully, even if optional
-    tools fail to import or initialize.
+    Agents check session state to provide contextual, non-repetitive responses:
+    - Greeter: Only greets on first interaction
+    - Judge: Introduces evaluation capabilities once
+    - Coach: Asks for track selection, then provides focused mentorship
     """
-    # Always include the Greeter as a baseline
+    # Greeter - only active on first message
     greeter = Agent(
         name="Greeter",
-        instruction="Say a short friendly greeting and confirm service health.",
-        model=GENAI_MODEL,
+        instruction="""You are the Greeter for EvalForge AI Trainer Arcade.
+        
+Your role: Welcome new users ONCE per session, then stay quiet.
+
+IMPORTANT: You will receive session state context. Check if greeted=true.
+- If greeted=false: Say a brief welcome (1-2 sentences): "Welcome to EvalForge! You're in an AI Trainer Arcade where you get evaluated, coached, and guided."
+- If greeted=true: Stay silent. Do NOT respond. Other agents will handle this.
+
+Be concise. No lists, no questions. Just a quick welcome.""",
+        model=MODEL,
     )
     
     sub_agents = [greeter]
@@ -64,9 +84,49 @@ def build_root_agent() -> SequentialAgent:
     # Try to load optional tools (Judge and Coach)
     try:
         from arcade_app.optional_tools import judge, coach
+        
+        # Override Judge instructions for session awareness
+        judge.instruction = """You are the Judge for EvalForge.
+
+Your role: Introduce evaluation capabilities ONCE, then evaluate submissions.
+
+IMPORTANT: You will receive session state context. Check if judge_intro_done=true.
+- If judge_intro_done=false: Introduce yourself briefly (1-2 sentences): "I'm Judge. I run tests, grade submissions, and give feedback on coverage and quality."
+- If judge_intro_done=true AND user has a submission/code: Evaluate it using your tools.
+- Otherwise: Stay silent.
+
+Be direct. No generic pleasantries."""
+        
+        # Override Coach instructions for track-based mentorship
+        coach.instruction = """You are the Coach for EvalForge.
+
+Your role: Guide users through personalized learning tracks.
+
+IMPORTANT: You will receive session state context. Check the 'track' field.
+
+- If track=null: Ask user to pick a track:
+  "You're now in EvalForge, your AI Trainer Arcade. Pick where you want coaching:
+   1. Debugging code (Python/JS)
+   2. Cloud & deployment (Docker, Cloud Run)
+   3. LLM agents / reasoning
+   
+   Reply with 1, 2, or 3."
+
+- If user just replied "1", "2", or "3" and track is still null, confirm their choice:
+  - "1" → "Great. I'll act like a code reviewer and help you spot mistakes fast. Paste code or describe a bug."
+  - "2" → "Great. I'll act like an SRE. Paste logs or errors and I'll walk you through root cause + fix steps."
+  - "3" → "Great. I'll act like an AI systems mentor. Tell me what your agent is doing, and I'll suggest improvements."
+
+- If track is already set (debugging/cloud/llm): Act as a focused mentor for that track:
+  - debugging: Help spot code issues, explain bugs, suggest fixes
+  - cloud: Analyze logs, diagnose deployment issues, explain infrastructure
+  - llm: Review agent behavior, suggest prompt improvements, explain reasoning patterns
+  
+Be conversational but focused. No generic advice. Use your tools when relevant."""
+        
         sub_agents.append(judge)
         sub_agents.append(coach)
-        log.info("✓ Loaded Judge and Coach agents with full tools")
+        log.info("✓ Loaded Judge and Coach agents with session-aware instructions")
     except Exception as e:
         log.warning("⚠️ Optional tools not loaded: %r", e)
         log.info("ℹ️ Running with Greeter only (minimal mode)")
@@ -99,10 +159,10 @@ def healthz() -> dict:
         "status": "healthy",
         "agent": root_agent.name,
         "sub_agents": [agent.name for agent in root_agent.sub_agents],
-        "model": GENAI_MODEL,
+        "model": MODEL,
         "provider": os.getenv("GENAI_PROVIDER", "unknown"),
-        "vertex_location": VERTEX_LOCATION,
-        "project": GOOGLE_CLOUD_PROJECT,
+        "vertex_location": REGION,
+        "project": PROJECT,
     }
     
     # Check ADC
@@ -117,6 +177,11 @@ def healthz() -> dict:
         health_status["status"] = "degraded"
     
     return health_status
+
+
+def get_session_state(session_id: str) -> dict:
+    """Get session state for debugging/introspection."""
+    return session_store.get_state_dict(session_id)
 
 
 # Add a tiny "/env" debug route (so you can verify at runtime)

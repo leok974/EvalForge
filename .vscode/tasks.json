@@ -5,7 +5,7 @@
       // ── Background server (LOCAL) ─────────────────────────────────────────────
       "label": "serve:local",
       "type": "shell",
-      "command": "$env:GENAI_PROVIDER='vertex'; $env:GOOGLE_CLOUD_PROJECT='evalforge-1063529378'; $env:VERTEX_LOCATION='us-central1'; $env:GENAI_MODEL='gemini-1.5-flash-002'; New-Item -ItemType Directory -Force -Path logs | Out-Null; D:/EvalForge/.venv/Scripts/python.exe -m google.adk.cli web . --port 19000 --host 0.0.0.0 2>&1 | Tee-Object -FilePath logs/server.local.log",
+      "command": "$env:VERTEX_PROJECT_NUMBER='291179078777'; $env:VERTEX_REGION='us-central1'; $env:VERTEX_MODEL_ID='gemini-2.5-flash'; New-Item -ItemType Directory -Force -Path logs | Out-Null; D:/EvalForge/.venv/Scripts/python.exe -m google.adk.cli web . --port 19000 --host 0.0.0.0 2>&1 | Tee-Object -FilePath logs/server.local.log",
       "options": { 
         "cwd": "${workspaceFolder}",
         "shell": {
@@ -15,15 +15,9 @@
       },
       "isBackground": true,
       "problemMatcher": {
-        "owner": "custom",
-        "fileLocation": "absolute",
-        "pattern": [
-          {
-            "regexp": ".*\\[startup\\].*model=.*",
-            "file": 1,
-            "message": 0
-          }
-        ],
+        "pattern": {
+          "regexp": "^$"
+        },
         "background": {
           "activeOnStart": true,
           "beginsPattern": ".*(starting|Running on|\\[startup\\]).*",
@@ -214,6 +208,60 @@
       "type": "shell",
       "command": "python",
       "args": ["tools/aggregate_errors.py"],
+      "problemMatcher": []
+    },
+
+    // ── New: Drop-in server and health check tasks ───────────────────────────
+    {
+      "label": "adk:dev",
+      "type": "shell",
+      "command": "$env:VERTEX_PROJECT_NUMBER='291179078777'; $env:VERTEX_REGION='us-central1'; $env:VERTEX_MODEL_ID='gemini-2.5-flash'; D:/EvalForge/.venv/Scripts/python.exe -m google.adk.cli web . --host 0.0.0.0 --port 19000",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "pwsh.exe",
+          "args": ["-NoExit", "-Command"]
+        }
+      },
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "server" },
+      "problemMatcher": []
+    },
+    {
+      "label": "health:local",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "curl -sf \"http://127.0.0.1:19000/list-apps?relative_path=arcade_app\" | Out-Null; Write-Host '✓ discovery (local)' -ForegroundColor Green; $r=Invoke-WebRequest -Uri 'http://127.0.0.1:19000/apps/arcade_app/users/user/sessions' -Method POST -UseBasicParsing; Write-Host ('✓ session (local) - Status: {0}' -f $r.StatusCode) -ForegroundColor Green"
+      ],
+      "presentation": { "reveal": "always", "panel": "new", "group": "checks" },
+      "dependsOn": [],
+      "problemMatcher": []
+    },
+    {
+      "label": "health:prod",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "curl -sf \"https://evalforge-agents-uc7hnhrrkq-uc.a.run.app/list-apps?relative_path=arcade_app\" | Out-Null; Write-Host '✓ discovery (prod)' -ForegroundColor Green; $r=Invoke-WebRequest -Uri 'https://evalforge-agents-uc7hnhrrkq-uc.a.run.app/apps/arcade_app/users/user/sessions' -Method POST -UseBasicParsing; Write-Host ('✓ session (prod) - Status: {0}' -f $r.StatusCode) -ForegroundColor Green"
+      ],
+      "presentation": { "reveal": "always", "panel": "new", "group": "checks" },
+      "problemMatcher": []
+    },
+    {
+      "label": "logs:cloudrun",
+      "type": "shell",
+      "command": "gcloud",
+      "args": [
+        "logging", "read",
+        "resource.type=cloud_run_revision AND resource.labels.service_name=evalforge-agents",
+        "--limit=20",
+        "--format=table(timestamp,textPayload)",
+        "--freshness=10m",
+        "--order=desc"
+      ],
+      "presentation": { "reveal": "always", "panel": "new", "group": "checks" },
       "problemMatcher": []
     }
   ]

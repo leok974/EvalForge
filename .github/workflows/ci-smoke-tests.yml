@@ -32,10 +32,74 @@ jobs:
       
       - name: Verify model version in code
         run: |
-          # Ensure code defaults to versioned model
-          grep -q "gemini-1.5-flash-002" arcade_app/agent.py || \
-            (echo "ERROR: Model default not set to gemini-1.5-flash-002" && exit 1)
+          # Ensure code defaults to gemini-2.5-flash
+          grep -q "gemini-2\.5-flash" arcade_app/agent.py || \
+            (echo "ERROR: Model default not set to gemini-2.5-flash" && exit 1)
           echo "✓ Model default verified in code"
+
+  smoke-evalforge:
+    name: EvalForge Inference Smoke Tests
+    runs-on: windows-latest
+    needs: guardrail-tests
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Set environment variables
+        run: |
+          echo "VERTEX_PROJECT_NUMBER=291179078777" >> $env:GITHUB_ENV
+          echo "VERTEX_REGION=us-central1" >> $env:GITHUB_ENV
+          echo "VERTEX_MODEL_ID=gemini-2.5-flash" >> $env:GITHUB_ENV
+      
+      - name: Start local server
+        run: |
+          cd arcade_app
+          Start-Process -NoNewWindow -FilePath "python" -ArgumentList "-m","google.adk.cli","web",".","--port","19000","--host","0.0.0.0"
+          Start-Sleep -Seconds 10
+      
+      - name: Wait for server to be ready
+        run: |
+          $retries = 0
+          $maxRetries = 30
+          while ($retries -lt $maxRetries) {
+            try {
+              $response = Invoke-WebRequest -Uri "http://127.0.0.1:19000/list-apps?relative_path=arcade_app" -TimeoutSec 2 -UseBasicParsing
+              if ($response.StatusCode -eq 200) {
+                Write-Host "✓ Server is ready"
+                exit 0
+              }
+            } catch {
+              Write-Host "Waiting for server... ($retries/$maxRetries)"
+              Start-Sleep -Seconds 2
+              $retries++
+            }
+          }
+          Write-Host "❌ Server failed to start"
+          exit 1
+      
+      - name: Run endpoint smoke tests
+        run: |
+          pwsh scripts/smoke.ps1 -Env local
+      
+      - name: Run model inference smoke tests
+        run: |
+          pwsh scripts/smoke_model.ps1 -Base http://127.0.0.1:19000
+      
+      - name: Stop server
+        if: always()
+        run: |
+          Get-Process | Where-Object {$_.ProcessName -eq "python"} | Stop-Process -Force
 
   cloud-run-smoke-tests:
     name: Cloud Run Smoke Tests
@@ -65,12 +129,12 @@ jobs:
       
       - name: Verify environment variables in Cloud Run
         run: |
-          # Check that gemini-1.5-flash-002 is configured
+          # Check that gemini-2.5-flash is configured
           gcloud run services describe evalforge-agents \
             --region us-central1 \
             --format="value(spec.template.spec.containers[0].env)" | \
-            grep -q "gemini-1.5-flash-002" || \
-            (echo "ERROR: Model version not set to gemini-1.5-flash-002 in Cloud Run" && exit 1)
+            grep -q "gemini-2\.5-flash" || \
+            (echo "ERROR: Model version not set to gemini-2.5-flash in Cloud Run" && exit 1)
           echo "✓ Cloud Run environment variable verified"
       
       - name: Test list-apps endpoint
@@ -95,7 +159,7 @@ jobs:
           gcloud run services describe evalforge-agents \
             --region us-central1 \
             --format="value(spec.template.spec.containers[0].env)" | \
-            grep "gemini-1.5-flash-002" || \
+            grep "gemini-2\.5-flash" || \
             (echo "ERROR: Model version verification failed" && exit 1)
           echo "✓ Model version verification passed"
       

@@ -2,7 +2,8 @@
 # Workaround for ADK Windows gcloud PATH issue
 
 param(
-    [string]$ProjectId = "evalforge-1063529378",
+    [string]$ProjectId = "evalforge",  # gcloud requires project ID
+    [string]$ProjectNumber = "291179078777",  # Application needs project number (PROD)
     [string]$Region = "us-central1",
     [string]$ServiceName = "evalforge-agents"
 )
@@ -10,6 +11,19 @@ param(
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "Manual Cloud Run Deployment" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
+Write-Host ""
+
+# Vertex AI configuration (gemini-2.5-flash in us-central1)
+$env:VERTEX_PROJECT_NUMBER = $ProjectNumber
+$env:VERTEX_REGION = "us-central1"
+$env:VERTEX_MODEL_ID = "gemini-2.5-flash"
+
+Write-Host "Vertex AI Configuration:" -ForegroundColor Cyan
+Write-Host "  Project Number: $ProjectNumber" -ForegroundColor Gray
+Write-Host "  Project ID (gcloud): $ProjectId" -ForegroundColor Gray
+Write-Host "  Region: $env:VERTEX_REGION" -ForegroundColor Gray
+Write-Host "  Model: $env:VERTEX_MODEL_ID" -ForegroundColor Gray
+Write-Host "  Cloud Run Region: $Region" -ForegroundColor Gray
 Write-Host ""
 
 # Step 1: Create deployment directory
@@ -104,25 +118,26 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "Deploying to Cloud Run" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Project:      $ProjectId" -ForegroundColor Yellow
-Write-Host "Region:       $Region" -ForegroundColor Yellow
-Write-Host "Service:      $ServiceName" -ForegroundColor Yellow
-Write-Host "Source:       $deployFolder" -ForegroundColor Yellow
+Write-Host "Project ID (gcloud):    $ProjectId" -ForegroundColor Yellow
+Write-Host "Project Number (app):   $ProjectNumber" -ForegroundColor Yellow
+Write-Host "Region:                 $Region" -ForegroundColor Yellow
+Write-Host "Service:                $ServiceName" -ForegroundColor Yellow
+Write-Host "Source:                 $deployFolder" -ForegroundColor Yellow
 Write-Host ""
 
-# Guard: Verify model version ends with -002 (prevent env drift)
+# Guard: Verify model is gemini-2.5-flash
 Write-Host "Verifying model configuration..." -ForegroundColor Yellow
 $agentFile = Join-Path $deployFolder "arcade_app\agent.py"
 $agentContent = Get-Content $agentFile -Raw
-if ($agentContent -notmatch 'gemini-1\.5-flash-002') {
-    Write-Host "❌ ERROR: Model default must be gemini-1.5-flash-002" -ForegroundColor Red
-    Write-Host "Found configuration that doesn't include versioned model." -ForegroundColor Red
+if ($agentContent -notmatch 'gemini-2\.5-flash') {
+    Write-Host "❌ ERROR: Model must be gemini-2.5-flash" -ForegroundColor Red
+    Write-Host "Found configuration that doesn't include gemini-2.5-flash." -ForegroundColor Red
     Write-Host "This deployment would cause model regression." -ForegroundColor Red
     Write-Host ""
-    Write-Host "Fix: Ensure arcade_app/agent.py defaults to 'gemini-1.5-flash-002'" -ForegroundColor Yellow
+    Write-Host "Fix: Ensure arcade_app/agent.py defaults to 'gemini-2.5-flash'" -ForegroundColor Yellow
     exit 1
 }
-Write-Host "✓ Model version guard passed (gemini-1.5-flash-002)" -ForegroundColor Green
+Write-Host "✓ Model configuration verified (gemini-2.5-flash)" -ForegroundColor Green
 Write-Host ""
 
 $confirm = Read-Host "Continue with deployment? (y/N)"
@@ -138,21 +153,17 @@ Write-Host ""
 # Run gcloud deploy with locked environment variables
 cd $deployFolder
 
-# HARDENED: Lock all Vertex AI configuration to prevent regression
+# Vertex AI environment variables for gemini-2.5-flash
 $envVars = @(
-    "GENAI_PROVIDER=vertex",
-    "GOOGLE_CLOUD_PROJECT=$ProjectId",
-    "VERTEX_LOCATION=$Region",
-    "GENAI_MODEL=gemini-1.5-flash-002",
-    "GOOGLE_GENAI_USE_VERTEXAI=true",
-    "GOOGLE_CLOUD_LOCATION=$Region"
+    "VERTEX_PROJECT_NUMBER=$ProjectNumber",
+    "VERTEX_REGION=us-central1",
+    "VERTEX_MODEL_ID=gemini-2.5-flash"
 ) -join ","
 
 Write-Host "Locked Environment Variables:" -ForegroundColor Cyan
-Write-Host "  GENAI_PROVIDER=vertex" -ForegroundColor Gray
-Write-Host "  GOOGLE_CLOUD_PROJECT=$ProjectId" -ForegroundColor Gray
-Write-Host "  VERTEX_LOCATION=$Region" -ForegroundColor Gray
-Write-Host "  GENAI_MODEL=gemini-1.5-flash-002" -ForegroundColor Gray
+Write-Host "  VERTEX_PROJECT_NUMBER=$ProjectNumber" -ForegroundColor Gray
+Write-Host "  VERTEX_REGION=us-central1" -ForegroundColor Gray
+Write-Host "  VERTEX_MODEL_ID=gemini-2.5-flash" -ForegroundColor Gray
 Write-Host ""
 
 gcloud run deploy $ServiceName `
@@ -171,6 +182,44 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "========================================" -ForegroundColor Green
     Write-Host "✓ Deployment Successful!" -ForegroundColor Green
     Write-Host "========================================" -ForegroundColor Green
+    Write-Host ""
+    
+    # Configure IAM permissions for Vertex AI
+    Write-Host "Configuring Vertex AI permissions..." -ForegroundColor Yellow
+    Write-Host ""
+    
+    # Enable Vertex AI API
+    Write-Host "Enabling Vertex AI API..." -ForegroundColor Cyan
+    gcloud services enable aiplatform.googleapis.com --project=$ProjectId
+    
+    # Get the service account
+    $serviceAccount = gcloud run services describe $ServiceName `
+        --project=$ProjectId `
+        --region=$Region `
+        --format='value(spec.template.spec.serviceAccountName)'
+    
+    if (-not $serviceAccount) {
+        $serviceAccount = "$ProjectNumber-compute@developer.gserviceaccount.com"
+        Write-Host "Using default compute service account: $serviceAccount" -ForegroundColor Gray
+    } else {
+        Write-Host "Using service account: $serviceAccount" -ForegroundColor Gray
+    }
+    
+    # Grant Vertex AI User role
+    Write-Host "Granting roles/aiplatform.user..." -ForegroundColor Cyan
+    gcloud projects add-iam-policy-binding $ProjectId `
+        --member="serviceAccount:$serviceAccount" `
+        --role="roles/aiplatform.user" `
+        --condition=None 2>&1 | Out-Null
+    
+    # Grant Service Usage Consumer role
+    Write-Host "Granting roles/serviceusage.serviceUsageConsumer..." -ForegroundColor Cyan
+    gcloud projects add-iam-policy-binding $ProjectId `
+        --member="serviceAccount:$serviceAccount" `
+        --role="roles/serviceusage.serviceUsageConsumer" `
+        --condition=None 2>&1 | Out-Null
+    
+    Write-Host "✓ IAM permissions configured" -ForegroundColor Green
     Write-Host ""
     
     # Pin traffic to latest revision (avoid stale envs)
