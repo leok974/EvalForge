@@ -4,6 +4,32 @@ Tracks onboarding progress and user preferences per session.
 """
 from typing import Dict, Optional, Any
 from dataclasses import dataclass, field
+from pydantic import BaseModel, Field
+import hashlib
+
+
+class Grade(BaseModel):
+    """Pydantic model for Judge grading rubric."""
+    coverage: int = Field(ge=0, le=5)
+    correctness: int = Field(ge=0, le=5)
+    clarity: int = Field(ge=0, le=5)
+    comment: str = Field(max_length=280, default="Good start—see notes.")
+    rubric: tuple[str, str, str] = ("coverage", "correctness", "clarity")
+    version: int = Field(ge=1, default=1)
+
+
+def normalize_for_hash(s: str) -> str:
+    """
+    Trim, collapse trailing spaces per-line, preserve newlines.
+    This makes hashes stable across trivial edits.
+    """
+    s = s.strip()
+    return "\n".join(line.rstrip() for line in s.splitlines())
+
+
+def sha1_of_text(s: str) -> str:
+    """Compute SHA1 hash of text for deduplication."""
+    return hashlib.sha1(s.encode("utf-8")).hexdigest()
 
 
 @dataclass
@@ -21,7 +47,7 @@ class SessionState:
     debug_next_step: Optional[str] = None  # What they should try next / how to fix it
     language_hint: Optional[str] = None  # "python", "javascript", etc. if we can infer
     # Grading / scoreboard memory (Phase 3)
-    last_grade: Optional[Dict[str, Any]] = None  # Most recent rubric evaluation (coverage, correctness, clarity, comment)
+    last_grade: Optional[Grade] = None  # Most recent rubric evaluation (coverage, correctness, clarity, comment)
     last_graded_input_hash: Optional[str] = None  # Hash of last graded submission (prevents re-grading)
 
 
