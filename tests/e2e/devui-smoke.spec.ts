@@ -49,9 +49,41 @@ test.describe('Dev UI + API smoke', () => {
     expect(lg.coverage).toBeDefined();
     expect(lg.correctness).toBeDefined();
     expect(lg.clarity).toBeDefined();
+    const firstSha1 = r3.sha1;
+    expect(firstSha1).toBeTruthy();
 
-    // 4) dedupe on same code
+    // 4) dedupe on same code - should return same sha1 and indicate dedupe
     const r4 = await postMsg(request, sid, code);
-    expect(String(r4.response)).toContain('already graded');
+    expect(String(r4.response).toLowerCase()).toContain('already graded');
+    expect(r4.sha1).toBe(firstSha1);
+    const lg4 = r4.last_grade || r4.state?.last_grade;
+    expect(lg4).toEqual(lg);
+  });
+
+  test('Hash normalization: near-duplicate (spaces/newlines) dedupes', async ({ request }) => {
+    const sid = await createSession(request);
+
+    // Setup: greet and select track
+    await postMsg(request, sid, 'hi');
+    await postMsg(request, sid, '1');
+
+    // First submission with trailing newline
+    const codeA = 'function add(a,b){return a+b}\n';
+    const r1 = await postMsg(request, sid, codeA);
+    const firstSha1 = r1.sha1;
+    expect(firstSha1).toBeTruthy();
+
+    // Second submission with extra spaces and newlines (should normalize to same hash)
+    const codeB = 'function add(a,b){return a+b}   \n\n';
+    const r2 = await postMsg(request, sid, codeB);
+    
+    // Should dedupe - same SHA1
+    expect(r2.sha1).toBe(firstSha1);
+    expect(String(r2.response).toLowerCase()).toContain('already graded');
+    
+    // Should reuse same grade
+    const lg1 = r1.last_grade || r1.state?.last_grade;
+    const lg2 = r2.last_grade || r2.state?.last_grade;
+    expect(lg2).toEqual(lg1);
   });
 });

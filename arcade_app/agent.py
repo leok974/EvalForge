@@ -448,13 +448,39 @@ except Exception:
 # ============================================================================
 # FastAPI App Export (for uvicorn)
 # ============================================================================
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Query
+from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
 from typing import Dict, Any, List
 import uuid
 import time
+from collections import defaultdict
 
 app = FastAPI(title="EvalForge Agents API")
+
+# Mount Prometheus metrics endpoint
+try:
+    from .metrics import metrics_app
+    app.mount("/metrics", metrics_app)
+except ImportError:
+    pass  # metrics module not available
+
+# Simple token bucket rate limiter
+_rl_tokens: Dict[str, tuple[float, float]] = defaultdict(lambda: (5.0, time.time()))  # (tokens, last_ts)
+_RL_RATE = 1.0   # tokens/sec
+_RL_BURST = 5.0  # max tokens
+
+def _rl_ok(key: str) -> bool:
+    """Token bucket rate limiter. Returns True if request is allowed."""
+    tokens, ts = _rl_tokens[key]
+    now = time.time()
+    refill = (now - ts) * _RL_RATE
+    tokens = min(_RL_BURST, tokens + refill)
+    if tokens < 1.0:
+        _rl_tokens[key] = (tokens, now)
+        return False
+    _rl_tokens[key] = (tokens - 1.0, now)
+    return True
 
 class QueryRequest(BaseModel):
     message: str
@@ -472,20 +498,31 @@ async def root():
     """Root endpoint."""
     return {"status": "EvalForge is running", "version": "Phase 3"}
 
-@app.get("/healthz")
-async def health() -> Dict[str, Any]:
+@app.get("/healthz", response_class=PlainTextResponse)
+async def health() -> str:
     """Health check endpoint."""
     try:
-        return healthz()
+        healthz()  # Validates config
+        return "ok"
     except Exception as e:
         import traceback
         traceback.print_exc()
-        return {"error": str(e), "status": "unhealthy"}
+        return f"error: {str(e)}"
 
 @app.get("/api/dev/session-state/{session_id}")
-async def get_session_state_api(session_id: str) -> Dict[str, Any]:
-    """Dev introspection endpoint to view session state."""
-    return get_session_state(session_id)
+async def get_session_state_api(
+    session_id: str,
+    fields: str | None = Query(default=None, description="Comma-separated field list")
+) -> Dict[str, Any]:
+    """Dev introspection endpoint to view session state with optional field filtering."""
+    payload = get_session_state(session_id)
+    
+    # Apply field filter if requested
+    if fields:
+        want = {f.strip() for f in fields.split(",") if f.strip()}
+        payload = {k: v for k, v in payload.items() if k in want}
+    
+    return payload
 
 @app.post("/apps/arcade_app/users/{user_id}/sessions", response_model=SessionResponse)
 async def create_session(user_id: str):
@@ -547,6 +584,11 @@ async def create_session(user_id: str):
 async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> Dict[str, Any]:
     """Send a message to the agent and get response."""
     try:
+        # Rate limiting check
+        rl_key = f"{user_id}:{session_id}"
+        if not _rl_ok(rl_key):
+            raise HTTPException(status_code=429, detail="Rate limit exceeded; try again shortly.")
+        
         # 1. Extract user message
         user_message = request.message
         if not isinstance(user_message, str):  # type: ignore[unreachable]
@@ -566,14 +608,23 @@ async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> D
         # 4. Session state is already updated in-place by invoke_root_agent
         # (session_store uses the same reference, so no explicit save needed)
         
-        # 5. Return response
-        return {
+        # 5. Build response with dedupe info if grading happened
+        response: Dict[str, Any] = {
             "session_id": session_id,
             "response": reply_text,
             "track": getattr(updated_state, "track", None),
-            "last_grade": getattr(updated_state, "last_grade", None),
             "state": session_store.get_state_dict(session_id)
         }
+        
+        # Include grade info if available
+        if updated_state.last_grade:
+            response["last_grade"] = updated_state.last_grade.model_dump()
+            if updated_state.last_graded_input_hash:
+                response["sha1"] = updated_state.last_graded_input_hash
+                # Mark as dedupe if the hash was already there before this call
+                # (This is a simplification - proper dedupe detection happens in grade_once_with_dedupe)
+        
+        return response
     
     except HTTPException:
         raise
