@@ -4,6 +4,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Scoreboard, GradeData } from "../components/Scoreboard";
 import { getSessionStateFields } from "../lib/api";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 export default function DevUI() {
   const [sessionId, setSessionId] = useState<string>("");
@@ -81,64 +82,53 @@ export default function DevUI() {
   }
 
   return (
-    <div className="p-4 max-w-3xl mx-auto space-y-4">
-      <h1 className="text-2xl font-semibold">EvalForge Dev UI</h1>
-      
-      <div className="flex gap-2">
-        <button 
-          className="rounded-md bg-zinc-800 px-3 py-2 text-sm" 
-          onClick={createSession}
-        >
-          Create Session
-        </button>
-        <button 
-          className="rounded-md bg-zinc-800 px-3 py-2 text-sm" 
-          onClick={() => sendMessage("hi")}
-        >
-          Send "hi"
-        </button>
-        <button 
-          className="rounded-md bg-zinc-800 px-3 py-2 text-sm" 
-          onClick={() => sendMessage("1")}
-        >
-          Select Track "1"
-        </button>
-        <button 
-          className="rounded-md bg-zinc-800 px-3 py-2 text-sm" 
-          onClick={() => sendMessage("function add(a,b){return a+b}")}
-        >
-          Submit Code
-        </button>
-        <button
-          className="rounded-md bg-zinc-800 px-3 py-2 text-sm"
-          onClick={() => refreshScoreboard(true)}
-          disabled={!sessionId || loadingGrade}
-          data-testid="refresh-scoreboard"
-        >
-          {loadingGrade ? "Refreshing…" : "Refresh Scoreboard"}
-        </button>
+    <div className="container-page space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">EvalForge Dev UI</h1>
+          <p className="muted">Quick controls for sessions, grading, and diagnostics.</p>
+        </div>
+        <ThemeToggle />
       </div>
 
-      {/* Scoreboard panel */}
-      <div className="rounded-xl border p-4 space-y-3">
+      {/* Controls */}
+      <div className="card p-4">
+        <div className="flex flex-wrap gap-2">
+          <button className="btn btn-primary" onClick={createSession}>Create Session</button>
+          <button className="btn" onClick={() => sendMessage("hi")}>Send "hi"</button>
+          <button className="btn" onClick={() => sendMessage("1")}>Select Track "1"</button>
+          <button className="btn" onClick={() => sendMessage("function add(a,b){return a+b}")}>Submit Code</button>
+          <button
+            className="btn"
+            onClick={() => refreshScoreboard(true)}
+            disabled={!sessionId || loadingGrade}
+            data-testid="refresh-scoreboard"
+          >
+            {loadingGrade ? "Refreshing…" : "Refresh Scoreboard"}
+          </button>
+        </div>
+      </div>
+
+      {/* Scoreboard */}
+      <div className="card p-4 space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-medium">Judge Scoreboard</h2>
+          <h2 className="section-title">Judge Scoreboard</h2>
           {grade ? (
-            <span className="text-xs text-muted-foreground">
-              Rubric: coverage · correctness · clarity
-            </span>
+            <span className="muted">Rubric: coverage · correctness · clarity</span>
           ) : (
-            <span className="text-xs text-muted-foreground">No grade yet</span>
+            <span className="muted">No grade yet</span>
           )}
         </div>
         <Scoreboard grade={grade} />
+        {!grade && <p className="muted">Submit code to Judge to see your rubric scores here.</p>}
       </div>
 
-      {/* Log panel */}
-      <div className="rounded-xl border p-4">
-        <h2 className="text-lg font-medium mb-2">Log</h2>
-        <div className="space-y-1 font-mono text-sm">
-          {log.map((l, i) => <div key={i}>{l}</div>)}
+      {/* Log */}
+      <div className="card p-4">
+        <h2 className="section-title mb-2">Log</h2>
+        <div className="space-y-1 font-mono text-sm text-muted">
+          {log.length === 0 ? <div>No events yet.</div> : log.map((l, i) => <div key={i}>{l}</div>)}
         </div>
       </div>
     </div>
