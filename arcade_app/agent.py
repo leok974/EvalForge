@@ -646,6 +646,23 @@ async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> D
 
 # ============================================================================
 # Mount Static Files (Dev UI) - Must be LAST to avoid overriding API routes
+# Only serve Dev UI in non-production environments
 # ============================================================================
-if os.path.isdir(WEB_DIST):
+if os.getenv("EVALFORGE_ENV") != "prod" and os.path.isdir(WEB_DIST):
     app.mount("/", StaticFiles(directory=WEB_DIST, html=True), name="web")
+    logging.getLogger("uvicorn").info("[EvalForge] Dev UI mounted at /")
+    
+    # SPA catch-all for client-side routing (preserves API routes)
+    from fastapi.responses import FileResponse
+    
+    @app.get("/{full_path:path}")
+    def spa_catch_all(full_path: str):
+        """Catch-all route for SPA client-side routing."""
+        # Preserve API routes
+        if full_path.startswith(("api/", "apps/", "metrics", "healthz", "docs")):
+            raise HTTPException(status_code=404)
+        # Serve index.html for client-side routes
+        index = os.path.join(WEB_DIST, "index.html")
+        if os.path.isfile(index):
+            return FileResponse(index)
+        raise HTTPException(status_code=404)

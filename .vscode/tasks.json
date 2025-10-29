@@ -13,12 +13,13 @@
         "--host",
         "127.0.0.1",
         "--port",
-        "19010",
+        "${env:EVALFORGE_PORT}",
         "--reload"
       ],
       "options": {
         "cwd": "${workspaceFolder}",
         "env": {
+          "EVALFORGE_PORT": "19010",
           "EVALFORGE_ENV": "dev",
           "EVALFORGE_PROJECT_ID": "291179078777",
           "EVALFORGE_MODEL": "gemini-2.5-flash",
