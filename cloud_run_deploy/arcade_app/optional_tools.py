@@ -5,7 +5,6 @@ These tools load dynamically to avoid breaking agent discovery if they fail.
 import json
 import os
 import subprocess
-import hashlib
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -15,7 +14,7 @@ from google.adk.tools import FunctionTool
 # Import helpers for mentorship tracks
 from .cloud_helper import analyze_cloud_issue as _analyze_cloud_issue_internal
 from .debugging_helper import analyze_code_issue as _analyze_code_issue_internal
-from .grading_helper import grade_submission as _grade_submission_internal  # type: ignore[attr-defined]
+from .grading_helper import grade_once_with_dedupe  # type: ignore[attr-defined]
 from .session_state import session_store
 
 # Shared configuration logic - matches agent.py
@@ -324,36 +323,26 @@ def evaluate_submission(session_id: str, code_snippet: str, explanation_text: st
     # Get current session state
     state = session_store.get(session_id)
     
-    # Compute hash of this submission for deduplication
-    input_hash = hashlib.sha1(
-        (code_snippet + (explanation_text or "")).encode("utf-8")
-    ).hexdigest()
+    # Use the new dedupe function
+    submission = code_snippet + ("\n" + explanation_text if explanation_text else "")
+    grade, sha1, is_new = grade_once_with_dedupe(state, submission)
     
-    # Check if we already graded this exact submission
-    if state.last_graded_input_hash == input_hash:
+    if not is_new:
+        # Deduplicated - return cached grade
         return {
             "status": "skipped",
-            "reason": "Already graded this exact submission.",
-            "last_grade": state.last_grade
+            "reason": f"Already graded this exact submission (sha1={sha1}).",
+            "last_grade": grade.model_dump(),
+            "sha1": sha1
         }
     
-    # New submission - grade it
-    result = _grade_submission_internal(session_id, code_snippet, explanation_text, vertex_client=None)
-    
-    grade = result["grade"]
-    new_hash = result["input_hash"]
-    
-    # Update session state with the new grade
-    session_store.update(
-        session_id,
-        last_grade=grade,
-        last_graded_input_hash=new_hash
-    )
-    
+    # New grade - return it
     return {
         "status": "graded",
-        "grade": grade
+        "grade": grade.model_dump(),
+        "sha1": sha1
     }
+
 
 
 # Create Judge agent with tools

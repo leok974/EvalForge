@@ -2,14 +2,16 @@
 Grading helper for evaluating user debugging submissions.
 Uses Vertex AI to act as a structured evaluator.
 """
+from __future__ import annotations
 import os
 import json
-import hashlib
-from typing import Dict, Any
+from time import perf_counter
+from typing import Dict, Any, Tuple
 import vertexai
 from vertexai.generative_models import GenerativeModel
 
-from .session_state import session_store
+from .session_state import SessionState, Grade, normalize_for_hash, sha1_of_text
+from .metrics import JUDGE_GRADE_TOTAL, JUDGE_GRADE_SEC, JUDGE_INPUT_BYTES
 
 # Shared configuration - matches agent.py
 VERTEX_PROJECT_NUMBER = os.getenv("VERTEX_PROJECT_NUMBER", "291179078777")
@@ -17,35 +19,63 @@ VERTEX_REGION = os.getenv("VERTEX_REGION", "us-central1")
 VERTEX_MODEL_ID = os.getenv("VERTEX_MODEL_ID", "gemini-2.5-flash")
 
 
-def grade_submission(
-    session_id: str,
-    code_snippet: str,
-    explanation_text: str | None,
-    vertex_client: Any = None  # type: ignore[name-defined]
-) -> Dict[str, Any]:
+def grade_once_with_dedupe(state: SessionState, submission: str) -> Tuple[Grade, str, bool]:
+    """
+    Grade submission with deduplication.
+    
+    Returns:
+        Tuple of (grade, sha1, is_new)
+        - grade: Grade object with rubric scores
+        - sha1: Hash of normalized submission
+        - is_new: True if this is a new submission, False if deduplicated
+    """
+    # Normalize and hash submission for deduplication
+    norm = normalize_for_hash(submission)
+    sha1 = sha1_of_text(norm)
+    
+    # Check for duplicate
+    if state.last_graded_input_hash == sha1 and state.last_grade:
+        JUDGE_GRADE_TOTAL.labels(result="dedupe").inc()  # type: ignore[attr-defined]
+        return state.last_grade, sha1, False
+    
+    # New submission - grade it
+    JUDGE_INPUT_BYTES.observe(len(submission.encode("utf-8")))  # type: ignore[attr-defined]
+    t0 = perf_counter()
+    
+    # Call the actual grading logic
+    grade_dict = _grade_submission_internal(submission, state)
+    
+    # Convert dict to Grade model
+    grade = Grade(
+        coverage=grade_dict["coverage"],
+        correctness=grade_dict["correctness"],
+        clarity=grade_dict["clarity"],
+        comment=grade_dict["comment"]
+    )
+    
+    # Update state
+    state.last_grade = grade
+    state.last_graded_input_hash = sha1
+    
+    JUDGE_GRADE_TOTAL.labels(result="new").inc()  # type: ignore[attr-defined]
+    JUDGE_GRADE_SEC.observe(perf_counter() - t0)  # type: ignore[attr-defined]
+    
+    return grade, sha1, True
+
+
+def _grade_submission_internal(submission: str, state: SessionState) -> Dict[str, Any]:
     """
     Grade a user's debugging submission using a structured rubric.
     
-    Rubric:
-    - coverage (0-5): Did they identify and address the real bug?
-    - correctness (0-5): Would their fix actually work?
-    - clarity (0-5): Did they explain clearly what they did?
-    - comment (str): Short coaching feedback
+    Uses Vertex AI to evaluate the submission against the rubric.
     
     Args:
-        session_id: Current session identifier
-        code_snippet: User's submitted code
-        explanation_text: User's explanation (can be None)
-        vertex_client: Optional Vertex AI client (unused, for API compatibility)
+        submission: User's code/text submission
+        state: Current session state for context
     
     Returns:
-        Dictionary with:
-            - grade: Dict with coverage, correctness, clarity, comment
-            - input_hash: SHA1 hash of submission for deduplication
+        Dictionary with coverage, correctness, clarity, comment
     """
-    # Get current session state for context
-    state = session_store.get(session_id)
-    
     # Build grading prompt with rubric
     prompt = f"""You are "Judge", an evaluator for a coding bootcamp.
 
@@ -62,13 +92,10 @@ Grade the user's latest debugging attempt using this rubric:
 - Suggested next step: {state.debug_next_step or "none"}
 - Language: {state.language_hint or "unknown"}
 
-**User's code submission:**
+**User's submission:**
 ```
-{code_snippet}
+{submission}
 ```
-
-**User's explanation:**
-{explanation_text or "(no explanation provided)"}
 
 **Your task:**
 Grade this submission. Return ONLY a JSON object with this exact structure:
@@ -135,28 +162,13 @@ Return ONLY valid JSON. Do not include any other text, markdown formatting, or c
                 "comment": "Submission received. Try to explain your reasoning more clearly."
             }
         
-        # Compute input hash for deduplication
-        input_hash = hashlib.sha1(
-            (code_snippet + (explanation_text or "")).encode("utf-8")
-        ).hexdigest()
-        
-        return {
-            "grade": grade,
-            "input_hash": input_hash
-        }
+        return grade
         
     except Exception as e:
         # Graceful fallback if model call fails
-        input_hash = hashlib.sha1(
-            (code_snippet + (explanation_text or "")).encode("utf-8")
-        ).hexdigest()
-        
         return {
-            "grade": {
-                "coverage": 0,
-                "correctness": 0,
-                "clarity": 0,
-                "comment": f"Grading error: {str(e)[:100]}"
-            },
-            "input_hash": input_hash
+            "coverage": 0,
+            "correctness": 0,
+            "clarity": 0,
+            "comment": f"Grading error: {str(e)[:100]}"
         }
