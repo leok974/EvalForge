@@ -28,6 +28,7 @@ VERTEX_MODEL_ID = os.getenv("VERTEX_MODEL_ID", "gemini-2.5-flash")
 PROJECT: Final[str] = VERTEX_PROJECT_NUMBER
 REGION: Final[str] = VERTEX_REGION
 MODEL: Final[str] = VERTEX_MODEL_ID
+GENAI_MODEL: Final[str] = MODEL  # Alias for backward compatibility with tests
 
 def _log_vertex_config():
     """Log Vertex AI configuration on startup."""

@@ -20,13 +20,13 @@ def test_env_region_allowed():
         f"VERTEX_LOCATION must be one of {allowed_regions}"
 
 
-def _http_get(url, timeout=8):
+def _http_get(url: str, timeout: int = 8) -> str:
     """HTTP GET request helper."""
     with urllib.request.urlopen(url, timeout=timeout) as r:
         return r.read().decode("utf-8")
 
 
-def _http_post(url, timeout=8):
+def _http_post(url: str, timeout: int = 8) -> str:
     """HTTP POST request helper."""
     req = urllib.request.Request(url, method="POST")
     with urllib.request.urlopen(req, timeout=timeout) as r:

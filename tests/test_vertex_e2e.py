@@ -9,15 +9,17 @@ import json
 import urllib.request
 
 
+from typing import Optional, Tuple
+
 BASE_ENV = {
     "GENAI_PROVIDER": "vertex",
-    "GOOGLE_CLOUD_PROJECT": os.getenv("E2E_PROJECT", "evalforge"),
+    "GOOGLE_CLOUD_PROJECT": "evalforge-1063529378",
     "VERTEX_LOCATION": "us-east5",
     "GENAI_MODEL": "gemini-1.5-flash-002",
 }
 
 
-def _curl(path: str, method="GET", data: bytes = None):
+def _curl(path: str, method: str = "GET", data: Optional[bytes] = None) -> Tuple[int, bytes]:
     """Helper to make HTTP requests."""
     req = urllib.request.Request(path, method=method, data=data)
     with urllib.request.urlopen(req, timeout=20) as r:

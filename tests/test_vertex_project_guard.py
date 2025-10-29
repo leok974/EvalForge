@@ -10,13 +10,13 @@ import urllib.request
 import contextlib
 
 
-def _get(url, timeout=6):
+def _get(url: str, timeout: int = 6) -> str:
     """HTTP GET request helper."""
     with urllib.request.urlopen(url, timeout=timeout) as r:
         return r.read().decode("utf-8")
 
 
-def _post(url, timeout=6):
+def _post(url: str, timeout: int = 6) -> str:
     """HTTP POST request helper."""
     req = urllib.request.Request(url, method="POST")
     with urllib.request.urlopen(req, timeout=timeout) as r:

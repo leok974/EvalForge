@@ -47,7 +47,7 @@ def test_multiple_env_names():
     """Test that multiple environment variable names are checked."""
     # This test demonstrates the env var priority but doesn't reload
     # to avoid agent reinitialization issues
-    test_cases = [
+    _test_cases = [  # Prefixed with _ to mark as intentionally unused
         ("GENAI_MODEL", "highest priority"),
         ("VERTEX_MODEL", "second priority"),
         ("MODEL_ID", "third priority"),

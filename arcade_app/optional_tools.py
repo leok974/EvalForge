@@ -15,7 +15,7 @@ from google.adk.tools import FunctionTool
 # Import helpers for mentorship tracks
 from .cloud_helper import analyze_cloud_issue as _analyze_cloud_issue_internal
 from .debugging_helper import analyze_code_issue as _analyze_code_issue_internal
-from .grading_helper import grade_submission as _grade_submission_internal
+from .grading_helper import grade_submission as _grade_submission_internal  # type: ignore[attr-defined]
 from .session_state import session_store
 
 # Shared configuration logic - matches agent.py
@@ -79,7 +79,7 @@ def run_tests(command: str, artifacts: Optional[List[str]] = None) -> Dict[str, 
     # Show model banner on first run (for trace logs)
     _show_model_banner()
     
-    result = {
+    result: Dict[str, Any] = {
         "exit_code": -1,
         "stdout": "",
         "stderr": "",
@@ -127,7 +127,7 @@ def grade_submission(test_result: Dict[str, Any], rubric: str = "") -> Dict[str,
     """
     verdict = "FAIL"
     score = 0
-    feedback = []
+    feedback: List[str] = []
     
     # Check if tests passed
     if test_result.get("exit_code") == 0:
@@ -145,22 +145,22 @@ def grade_submission(test_result: Dict[str, Any], rubric: str = "") -> Dict[str,
     for art_path, art_data in test_result.get("artifacts", {}).items():
         if "coverage" in art_path.lower():
             # Look for Istanbul/c8 coverage format
-            total_coverage = None
+            total_coverage: Optional[float] = None
             
             # Try to find coverage summary
             if isinstance(art_data, dict):
                 # Check for 'total' key (Istanbul format)
                 if "total" in art_data:
-                    lines = art_data["total"].get("lines", {})
+                    lines: Any = art_data["total"].get("lines", {})  # type: ignore[attr-defined]
                     if "pct" in lines:
-                        total_coverage = lines["pct"]
+                        total_coverage = float(lines["pct"])  # type: ignore[arg-type]
                 
                 # Check for direct percentage keys
                 for key in art_data:
                     if isinstance(art_data[key], dict):
-                        lines = art_data[key].get("lines", {})
+                        lines = art_data[key].get("lines", {})  # type: ignore[attr-defined]
                         if "pct" in lines:
-                            total_coverage = lines["pct"]
+                            total_coverage = float(lines["pct"])  # type: ignore[arg-type]
                             break
             
             if total_coverage is not None:
