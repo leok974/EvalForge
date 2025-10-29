@@ -448,7 +448,7 @@ except Exception:
 # ============================================================================
 # FastAPI App Export (for uvicorn)
 # ============================================================================
-from fastapi import FastAPI, HTTPException, Request, Query
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
 from typing import Dict, Any, List

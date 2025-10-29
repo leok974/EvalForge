@@ -2,16 +2,16 @@ import { test, expect, APIRequestContext } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:19000';
 
-async function createSession(request: APIRequestContext) {
-  const resp = await request.post(`${BASE_URL}/apps/arcade_app/users/test/sessions`);
+async function createSession(request: APIRequestContext, base: string = BASE_URL) {
+  const resp = await request.post(`${base}/apps/arcade_app/users/test/sessions`);
   expect(resp.ok()).toBeTruthy();
   const json = await resp.json();
   expect(json.id).toBeTruthy();
   return json.id as string;
 }
 
-async function postMsg(request: APIRequestContext, sid: string, message: string) {
-  const resp = await request.post(`${BASE_URL}/apps/arcade_app/users/test/sessions/${sid}/query`, {
+async function postMsg(request: APIRequestContext, base: string, sid: string, message: string) {
+  const resp = await request.post(`${base}/apps/arcade_app/users/test/sessions/${sid}/query`, {
     data: { message }
   });
   expect(resp.ok()).toBeTruthy();
@@ -33,16 +33,16 @@ test.describe('Dev UI + API smoke', () => {
     const sid = await createSession(request);
 
     // 1) greet
-    const r1 = await postMsg(request, sid, 'hi');
+    const r1 = await postMsg(request, BASE_URL, sid, 'hi');
     expect(r1.response).toBeTruthy();
 
     // 2) track select
-    const r2 = await postMsg(request, sid, '1');
+    const r2 = await postMsg(request, BASE_URL, sid, '1');
     expect(r2.track ?? r2.state?.track).toBe('debugging');
 
     // 3) first grade
     const code = 'def add(a, b): return a + b';
-    const r3 = await postMsg(request, sid, code);
+    const r3 = await postMsg(request, BASE_URL, sid, code);
     // Should include last_grade; allow either top-level or nested under state
     const lg = r3.last_grade || r3.state?.last_grade;
     expect(lg).toBeTruthy();
@@ -53,7 +53,7 @@ test.describe('Dev UI + API smoke', () => {
     expect(firstSha1).toBeTruthy();
 
     // 4) dedupe on same code - should return same sha1 and indicate dedupe
-    const r4 = await postMsg(request, sid, code);
+    const r4 = await postMsg(request, BASE_URL, sid, code);
     expect(String(r4.response).toLowerCase()).toContain('already graded');
     expect(r4.sha1).toBe(firstSha1);
     const lg4 = r4.last_grade || r4.state?.last_grade;
@@ -64,18 +64,18 @@ test.describe('Dev UI + API smoke', () => {
     const sid = await createSession(request);
 
     // Setup: greet and select track
-    await postMsg(request, sid, 'hi');
-    await postMsg(request, sid, '1');
+    await postMsg(request, BASE_URL, sid, 'hi');
+    await postMsg(request, BASE_URL, sid, '1');
 
     // First submission with trailing newline
     const codeA = 'function add(a,b){return a+b}\n';
-    const r1 = await postMsg(request, sid, codeA);
+    const r1 = await postMsg(request, BASE_URL, sid, codeA);
     const firstSha1 = r1.sha1;
     expect(firstSha1).toBeTruthy();
 
     // Second submission with extra spaces and newlines (should normalize to same hash)
     const codeB = 'function add(a,b){return a+b}   \n\n';
-    const r2 = await postMsg(request, sid, codeB);
+    const r2 = await postMsg(request, BASE_URL, sid, codeB);
     
     // Should dedupe - same SHA1
     expect(r2.sha1).toBe(firstSha1);
