@@ -5,17 +5,7 @@
     {
       "label": "EvalForge: Dev Server (Judge/Coach/Greeter + MCP)",
       "type": "shell",
-      "command": "python",
-      "args": [
-        "-m",
-        "uvicorn",
-        "arcade_app.agent:app",
-        "--host",
-        "127.0.0.1",
-        "--port",
-        "${env:EVALFORGE_PORT}",
-        "--reload"
-      ],
+      "command": "python -m uvicorn arcade_app.agent:app --host 127.0.0.1 --port ${env:EVALFORGE_PORT} --reload",
       "options": {
         "cwd": "${workspaceFolder}",
         "env": {
