@@ -468,6 +468,7 @@ except ImportError:
 
 # Serve the built web app if it exists (must be mounted LAST to not override API routes)
 WEB_DIST = os.path.join(os.path.dirname(os.path.dirname(__file__)), "apps", "web", "dist")
+logging.getLogger("uvicorn").info(f"[EvalForge] WEB_DIST={WEB_DIST} exists={os.path.isdir(WEB_DIST)}")
 if os.path.isdir(WEB_DIST):
     # Mount at "/" for serving static files and HTML
     # This should be the last mount to avoid overriding API routes
@@ -501,9 +502,9 @@ class SessionResponse(BaseModel):
     events: List[Any]
     lastUpdateTime: float
 
-@app.get("/")
-async def root():
-    """Root endpoint."""
+@app.get("/api/status")
+async def api_status():
+    """Status endpoint."""
     return {"status": "EvalForge is running", "version": "Phase 3"}
 
 @app.get("/healthz", response_class=PlainTextResponse)

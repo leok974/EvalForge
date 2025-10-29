@@ -455,9 +455,9 @@ class SessionResponse(BaseModel):
     events: List[Any]
     lastUpdateTime: float
 
-@app.get("/")
-async def root() -> Dict[str, Any]:
-    """Root endpoint to verify server is running."""
+@app.get("/api/status")
+async def api_status() -> Dict[str, Any]:
+    """Status endpoint to verify server is running."""
     return {
         "status": "EvalForge is running",
         "version": "Phase 3 - Judge Grading + Coach Mentorship",

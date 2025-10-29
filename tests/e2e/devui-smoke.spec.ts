@@ -19,14 +19,24 @@ async function postMsg(request: APIRequestContext, base: string, sid: string, me
 }
 
 test.describe('Dev UI + API smoke', () => {
-  test('page loads and docs are reachable', async ({ page, request }) => {
-    const root = await page.goto(`${BASE_URL}/`);
-    expect(root?.ok()).toBeTruthy();
+  test('Dev UI at root and docs reachable', async ({ page, request }) => {
+    // Root should serve the Dev UI
+    await page.goto(`${BASE_URL}/`);
+    await expect(page.locator('text=/EvalForge Dev UI/i')).toBeVisible({ timeout: 10000 });
 
+    // Docs still reachable
     const docs = await request.get(`${BASE_URL}/docs`);
     expect(docs.ok()).toBeTruthy();
     const docsHtml = await docs.text();
-    expect(docsHtml).toContain('swagger-ui'); // generic marker in docs page
+    expect(docsHtml).toContain('swagger-ui');
+  });
+
+  test('API status moved to /api/status', async ({ request }) => {
+    const res = await request.get(`${BASE_URL}/api/status`);
+    expect(res.ok()).toBeTruthy();
+    const json = await res.json();
+    expect(json.status).toMatch(/running/i);
+    expect(json.version).toMatch(/Phase 3/i);
   });
 
   test('Phase 3 minimal flow (greet -> track -> grade -> dedupe)', async ({ request }) => {
