@@ -1,5 +1,6 @@
 {
   "version": "2.0.0",
+  "$schema": "vscode://schemas/tasks",
   "tasks": [
     {
       "label": "EvalForge: Dev Server (Judge/Coach/Greeter + MCP)",
@@ -27,6 +28,7 @@
           "EVALFORGE_ENABLE_COACH": "1",
           "EVALFORGE_DEV_INTROSPECTION": "1",
           "EVALFORGE_ENABLE_MCP": "1",
+          "EVALFORGE_EVENT_LOG": "1",
           "GOOGLE_GENAI_USE_VERTEXAI": "TRUE",
           "GOOGLE_CLOUD_PROJECT": "291179078777",
           "GOOGLE_CLOUD_LOCATION": "us-central1",

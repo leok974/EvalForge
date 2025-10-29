@@ -7,6 +7,7 @@ import sys
 import logging
 import hashlib
 import asyncio
+import json
 from typing import Final, Tuple, Dict, Any, List
 
 from google.adk.agents import Agent, SequentialAgent
@@ -53,6 +54,15 @@ except Exception as e:
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
+
+# ADK Event logging setup
+LOG = logging.getLogger("evalforge.adk")
+if os.getenv("EVALFORGE_EVENT_LOG", "0") == "1":
+    # Minimal console config; let infra/handlers override in prod if needed
+    logging.basicConfig(level=logging.INFO)
+    LOG.setLevel(logging.INFO)
+else:
+    LOG.setLevel(logging.WARNING)
 
 # Add diagnostic for Vertex AI configuration
 from .vertex_diag import vertex_diag
@@ -206,6 +216,44 @@ def _ensure_session(session_id: str, user_id: str):
     return sess
 
 
+def _classify_event_kind(event) -> str:
+    """Best-effort classification: tool vs partial vs final text."""
+    try:
+        if hasattr(event, "is_final_response") and callable(event.is_final_response):
+            if event.is_final_response():
+                return "final"
+    except Exception:
+        pass
+
+    # Heuristics (robust to ADK internals):
+    # - tool-related metadata present?
+    if any(hasattr(event, name) for name in ("tool_call", "tool_name", "tool_input", "tool_result")):
+        return "tool"
+    # - assistant/user content but not final: treat as partial/stream
+    content = getattr(event, "content", None)
+    role = getattr(content, "role", None) if content else None
+    if role in ("assistant", "user"):
+        return "partial"
+    return "event"
+
+
+def _log_event(event):
+    """Log ADK event details when EVALFORGE_EVENT_LOG=1."""
+    if LOG.isEnabledFor(logging.INFO):
+        payload = {}
+        content = getattr(event, "content", None)
+        if content:
+            payload["role"] = getattr(content, "role", None)
+            parts = getattr(content, "parts", None) or []
+            payload["parts"] = [type(p).__name__ for p in parts]
+        # mark final if helper exists
+        try:
+            payload["final"] = bool(event.is_final_response()) if hasattr(event, "is_final_response") else None
+        except Exception:
+            payload["final"] = None
+        LOG.info("ADK %s: %s", _classify_event_kind(event), json.dumps(payload))
+
+
 def _extract_assistant_text_if_final(event) -> str | None:
     """
     Return assistant text only when ADK marks this event as the 'final' response.
@@ -267,6 +315,7 @@ async def invoke_root_agent(
             new_message=user_content,
             run_config=run_cfg,
         ):
+            _log_event(event)  # <— new
             maybe = _extract_assistant_text_if_final(event)
             if maybe is not None:
                 final_text = maybe
