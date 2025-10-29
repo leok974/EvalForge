@@ -450,6 +450,7 @@ except Exception:
 # ============================================================================
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Dict, Any, List
 import uuid
@@ -464,6 +465,13 @@ try:
     app.mount("/metrics", metrics_app)
 except ImportError:
     pass  # metrics module not available
+
+# Serve the built web app if it exists (must be mounted LAST to not override API routes)
+WEB_DIST = os.path.join(os.path.dirname(os.path.dirname(__file__)), "apps", "web", "dist")
+if os.path.isdir(WEB_DIST):
+    # Mount at "/" for serving static files and HTML
+    # This should be the last mount to avoid overriding API routes
+    pass  # We'll mount this at the end after all routes are defined
 
 # Simple token bucket rate limiter
 _rl_tokens: Dict[str, tuple[float, float]] = defaultdict(lambda: (5.0, time.time()))  # (tokens, last_ts)
@@ -634,3 +642,9 @@ async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> D
         print(f"ERROR in query_agent: {error_details}", flush=True)
         raise HTTPException(status_code=500, detail={"error": "agent_failed", "message": str(e)})
 
+
+# ============================================================================
+# Mount Static Files (Dev UI) - Must be LAST to avoid overriding API routes
+# ============================================================================
+if os.path.isdir(WEB_DIST):
+    app.mount("/", StaticFiles(directory=WEB_DIST, html=True), name="web")

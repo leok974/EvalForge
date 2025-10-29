@@ -1,7 +1,7 @@
 /**
  * EvalForge Dev UI - Interactive testing interface
  */
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Scoreboard, GradeData } from "../components/Scoreboard";
 import { getSessionStateFields } from "../lib/api";
 import { BASE_URL } from "../lib/config";
