@@ -298,7 +298,7 @@ async def invoke_root_agent(
 
     # Try real ADK first
     try:
-        session = _ensure_session(session_id, user_id)
+        _ensure_session(session_id, user_id)
         user_content = Content(role="user", parts=[Part.from_text(text=cleaned)])
 
         # Force text output (avoids audio/modalities surprises)
@@ -549,7 +549,7 @@ async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> D
     try:
         # 1. Extract user message
         user_message = request.message
-        if not isinstance(user_message, str):
+        if not isinstance(user_message, str):  # type: ignore[unreachable]
             raise HTTPException(status_code=400, detail="message must be a string")
         
         # 2. Fetch session state for this session_id

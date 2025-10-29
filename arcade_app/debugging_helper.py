@@ -3,7 +3,7 @@ Debugging mentor helper for analyzing code issues.
 Uses Vertex AI to act as a senior code reviewer.
 """
 import os
-from typing import Dict, Any
+from typing import Dict, Any, List
 import vertexai
 from vertexai.generative_models import GenerativeModel
 
@@ -81,14 +81,14 @@ Be concise and actionable. 3-5 sentences total max.
         result_text = response.text.strip()
         
         # Parse the response to extract structured fields
-        debug_problem = None
-        debug_next_step = None
+        debug_problem: str = ""
+        debug_next_step: str = ""
         
         # Try to extract from structured sections
         lines = result_text.split('\n')
         current_section = None
-        problem_lines = []
-        fix_lines = []
+        problem_lines: List[str] = []
+        fix_lines: List[str] = []
         
         for line in lines:
             line_lower = line.lower().strip()
@@ -116,7 +116,7 @@ Be concise and actionable. 3-5 sentences total max.
         # Fallback: if parsing failed, do heuristic extraction
         if not debug_problem or not debug_next_step:
             # Split by sentences
-            sentences = []
+            sentences: List[str] = []
             current = ""
             for char in result_text:
                 current += char
@@ -142,7 +142,6 @@ Be concise and actionable. 3-5 sentences total max.
         
         # Try to infer language from code snippet
         language_hint = None
-        code_lower = code_snippet.lower()
         if 'def ' in code_snippet or 'import ' in code_snippet or 'print(' in code_snippet:
             language_hint = "python"
         elif 'function ' in code_snippet or 'const ' in code_snippet or 'let ' in code_snippet or '=>' in code_snippet:

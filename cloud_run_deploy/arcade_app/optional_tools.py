@@ -156,7 +156,7 @@ def grade_submission(test_result: Dict[str, Any], rubric: str = "") -> Dict[str,
                         total_coverage = float(lines["pct"])  # type: ignore[arg-type]
                 
                 # Check for direct percentage keys
-                for key in art_data:
+                for key in art_data:  # type: ignore[var-annotated]
                     if isinstance(art_data[key], dict):
                         lines = art_data[key].get("lines", {})  # type: ignore[attr-defined]
                         if "pct" in lines:

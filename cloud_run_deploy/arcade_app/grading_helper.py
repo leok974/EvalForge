@@ -17,7 +17,12 @@ VERTEX_REGION = os.getenv("VERTEX_REGION", "us-central1")
 VERTEX_MODEL_ID = os.getenv("VERTEX_MODEL_ID", "gemini-2.5-flash")
 
 
-def grade_submission(session_id: str, code_snippet: str, explanation_text: str | None, vertex_client=None) -> Dict[str, Any]:
+def grade_submission(
+    session_id: str,
+    code_snippet: str,
+    explanation_text: str | None,
+    vertex_client: Any = None  # type: ignore[name-defined]
+) -> Dict[str, Any]:
     """
     Grade a user's debugging submission using a structured rubric.
     
@@ -114,7 +119,7 @@ Return ONLY valid JSON. Do not include any other text, markdown formatting, or c
             correctness = max(0, min(5, correctness))
             clarity = max(0, min(5, clarity))
             
-            grade = {
+            grade: Dict[str, Any] = {
                 "coverage": coverage,
                 "correctness": correctness,
                 "clarity": clarity,
@@ -123,7 +128,7 @@ Return ONLY valid JSON. Do not include any other text, markdown formatting, or c
             
         except (json.JSONDecodeError, ValueError, KeyError) as e:
             # Fallback: parse failed, return safe defaults
-            grade = {
+            grade: Dict[str, Any] = {  # type: ignore[no-redef]
                 "coverage": 2,
                 "correctness": 2,
                 "clarity": 2,

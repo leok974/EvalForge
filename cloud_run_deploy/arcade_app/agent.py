@@ -16,9 +16,6 @@ from google.adk.runners import Runner
 from google.adk.sessions import VertexAiSessionService
 from google.adk.agents.run_config import RunConfig
 from google.genai.types import Content, Part
-from google.adk.runners import Runner
-from google.adk.sessions.in_memory_session_service import InMemorySessionService
-from google.adk.agents.run_config import RunConfig
 from google.genai.types import Content, Part
 
 # ---- Vertex AI Configuration ----
@@ -302,7 +299,7 @@ async def invoke_root_agent(
 
     # Try real ADK first
     try:
-        session = _ensure_session(session_id, user_id)
+        _ensure_session(session_id, user_id)
         user_content = Content(role="user", parts=[Part.from_text(text=cleaned)])
 
         # Force text output (avoids audio/modalities surprises)
@@ -381,8 +378,6 @@ def healthz() -> Dict[str, Any]:
     Health check that verifies ADC and agent configuration.
     Returns agent status and configuration.
     """
-    import json
-    
     health_status: Dict[str, Any] = {
         "status": "healthy",
         "agent": root_agent.name,
@@ -424,12 +419,12 @@ try:
         keys = ["GENAI_PROVIDER","GOOGLE_CLOUD_PROJECT","VERTEX_LOCATION","GENAI_MODEL"]
         return json.dumps({k: os.getenv(k) for k in keys})
     
-    @expose("/healthz")
+    @expose("/healthz")  # type: ignore[misc]
     async def health_check():
         import json
         return json.dumps(healthz())
     
-    @expose("/api/dev/session-state/{session_id}")
+    @expose("/api/dev/session-state/{session_id}")  # type: ignore[misc]
     async def session_state_endpoint(session_id: str):
         """Dev introspection endpoint to view session state."""
         import json
@@ -443,7 +438,7 @@ except Exception:
 # ============================================================================
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Optional, Dict, Any, List
+from typing import Dict, Any, List
 import uuid
 import time
 
@@ -461,7 +456,7 @@ class SessionResponse(BaseModel):
     lastUpdateTime: float
 
 @app.get("/")
-async def root():
+async def root() -> Dict[str, Any]:
     """Root endpoint to verify server is running."""
     return {
         "status": "EvalForge is running",
@@ -511,7 +506,7 @@ async def create_session(user_id: str):
             id=session_id,
             appName="arcade_app",
             userId=user_id,
-            state=state_dict,
+            state=state_dict or {},
             events=[],
             lastUpdateTime=time.time()
         )
@@ -559,12 +554,12 @@ async def create_session(user_id: str):
 # but we are NOT allowed to break the contract or regress server stability.
 
 @app.post("/apps/arcade_app/users/{user_id}/sessions/{session_id}/query")
-async def query_agent(user_id: str, session_id: str, request: QueryRequest):
+async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> Dict[str, Any]:
     """Send a message to the agent and get response."""
     try:
         # 1. Extract user message
         user_message = request.message
-        if not isinstance(user_message, str):
+        if not isinstance(user_message, str):  # type: ignore[unreachable]
             raise HTTPException(status_code=400, detail="message must be a string")
         
         # 2. Fetch session state for this session_id

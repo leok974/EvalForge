@@ -3,7 +3,7 @@ Cloud/SRE mentor helper for analyzing deployment issues.
 Uses Vertex AI to act as an SRE debugging assistant.
 """
 import os
-from typing import Dict, Any
+from typing import Dict, Any, List
 import vertexai
 from vertexai.generative_models import GenerativeModel
 
@@ -83,7 +83,7 @@ NEXT STEP: [one sentence with the action to take]
         # Fallback: if parsing failed, do heuristic extraction
         if not issue_summary or not next_step:
             # Split by sentences
-            sentences = []
+            sentences: List[str] = []
             current = ""
             for char in result_text:
                 current += char
