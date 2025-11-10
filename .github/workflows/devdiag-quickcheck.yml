@@ -1,0 +1,57 @@
+name: DevDiag Quickcheck
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  quickcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run DevDiag Quickcheck
+        run: |
+          echo "Running DevDiag on PR preview: $TARGET_URL"
+          curl -sS -X POST "$DEVDIAG_BASE/mcp/diag/quickcheck" \
+            -H "Authorization: Bearer $DEVDIAG_READER_JWT" \
+            -H "Content-Type: application/json" \
+            -d "{\"url\":\"$TARGET_URL\",\"preset\":\"app\",\"tenant\":\"evalforge\"}" \
+            | jq '.'
+          
+          # Check if diagnostic passed
+          RESULT=$(curl -sS -X POST "$DEVDIAG_BASE/mcp/diag/quickcheck" \
+            -H "Authorization: Bearer $DEVDIAG_READER_JWT" \
+            -H "Content-Type: application/json" \
+            -d "{\"url\":\"$TARGET_URL\",\"preset\":\"app\",\"tenant\":\"evalforge\"}" \
+            | jq -r '.status')
+          
+          if [ "$RESULT" != "ok" ] && [ "$RESULT" != "pass" ]; then
+            echo "❌ DevDiag check failed"
+            exit 1
+          fi
+          
+          echo "✅ DevDiag check passed"
+        env:
+          DEVDIAG_BASE: ${{ secrets.DEVDIAG_BASE }}
+          DEVDIAG_READER_JWT: ${{ secrets.DEVDIAG_READER_JWT }}
+          TARGET_URL: ${{ secrets.EVALFORGE_PREVIEW_URL || 'http://127.0.0.1:19010' }}
+      
+      - name: Comment PR with results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## 🔍 DevDiag Quickcheck Results
+            
+            **Status**: ${{ job.status }}
+            **Target**: ${{ secrets.EVALFORGE_PREVIEW_URL || 'http://127.0.0.1:19010' }}
+            **Preset**: app
+            
+            See workflow logs for detailed diagnostic output.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

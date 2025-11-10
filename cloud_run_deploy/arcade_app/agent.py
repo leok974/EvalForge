@@ -70,6 +70,32 @@ os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
 os.environ["GOOGLE_CLOUD_PROJECT"] = PROJECT
 os.environ["GOOGLE_CLOUD_LOCATION"] = REGION
 
+# ============================================================================
+# Session ID Validation & Resource Path Builder
+# ============================================================================
+import re
+
+SAFE_ID = re.compile(r"^[a-zA-Z0-9._-]{1,128}$")
+
+def _safe_sid(sid: str) -> str:
+    """
+    Sanitize session ID to ensure it's valid for Vertex AI.
+    Removes illegal chars; UUIDs pass through untouched.
+    """
+    s = sid.strip().replace("/", "-").replace("\\", "-")
+    return s if SAFE_ID.match(s) else f"sess-{hash(s) & 0xffffffff:x}"
+
+def _session_resource_name(sid: str, user_id: str) -> str:
+    """
+    Build the full resource name for ADK session.
+    Format: projects/{project}/locations/{location}/reasoningEngines/{engine_id}/sessions/{session_id}
+    
+    Note: If your ADK expects just a plain session_id instead of a full resource path,
+    return just _safe_sid(sid) here.
+    """
+    # For now, return just the safe session ID since ADK create_session expects session_id parameter
+    return _safe_sid(sid)
+
 # Import session state management
 from .session_state import session_store
 
@@ -197,20 +223,44 @@ RUNNER = Runner(
 
 
 def _ensure_session(session_id: str, user_id: str):
-    """Get or create a session in the ADK SessionService."""
-    sess = SESSION_SERVICE.get_session(
-        app_name="arcade_app",
-        session_id=session_id,
-        user_id=user_id
-    )
-    if not sess:  # type: ignore[truthy-function]
+    """
+    Idempotent session creation: create once, treat AlreadyExists as success.
+    Always passes a sanitized session ID format.
+    """
+    safe_sid = _safe_sid(session_id)
+    
+    # Log session details if event logging is enabled
+    if os.getenv("EVALFORGE_EVENT_LOG") == "1":
+        LOG.info("[Session] project=%s location=%s user=%s sid=%s safe_sid=%s",
+                 PROJECT, REGION, user_id, session_id, safe_sid)
+    
+    try:
+        # Try to create the session (will fail if it already exists)
         sess = SESSION_SERVICE.create_session(
             app_name="arcade_app",
             user_id=user_id,
-            session_id=session_id,
+            session_id=safe_sid,
             state={}
         )
-    return sess
+        LOG.info("ADK session created: %s (user=%s)", safe_sid, user_id)
+        return sess
+    except Exception as e:
+        msg = str(e)
+        
+        # AlreadyExists is success - session was created previously
+        if "AlreadyExists" in msg or "already exists" in msg.lower() or "ALREADY_EXISTS" in msg:
+            LOG.info("ADK session already exists: %s (user=%s)", safe_sid, user_id)
+            return None
+        
+        # InvalidArgument suggests a formatting issue
+        if "InvalidArgument" in msg or "INVALID_ARGUMENT" in msg:
+            LOG.error("ADK invalid session ID: %s (safe: %s) — check _safe_sid formatting. Error: %s",
+                     session_id, safe_sid, msg)
+            raise
+        
+        # Some other error - re-raise with context
+        LOG.error("ADK session creation failed for %s (safe: %s): %s", session_id, safe_sid, msg)
+        raise
 
 
 def _classify_event_kind(event: Any) -> str:
@@ -300,6 +350,7 @@ async def invoke_root_agent(
     # Try real ADK first
     try:
         _ensure_session(session_id, user_id)
+        safe_sid = _safe_sid(session_id)
         user_content = Content(role="user", parts=[Part.from_text(text=cleaned)])
 
         # Force text output (avoids audio/modalities surprises)
@@ -308,7 +359,7 @@ async def invoke_root_agent(
         final_text = None
         async for event in RUNNER.run_async(
             user_id=user_id,
-            session_id=session_id,
+            session_id=safe_sid,  # Use sanitized session ID
             new_message=user_content,
             run_config=run_cfg,
         ):
@@ -437,10 +488,13 @@ except Exception:
 # FastAPI App Export (for uvicorn)
 # ============================================================================
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import Dict, Any, List
 import uuid
 import time
+import asyncio
+import json as json_module
 
 app = FastAPI(title="EvalForge Agents API")
 
@@ -496,11 +550,14 @@ async def create_session(user_id: str):
     """Create a new session for a user."""
     try:
         session_id = str(uuid.uuid4())
-        # Initialize session state
+        
+        # Initialize session in local session_store (for our state management)
         session_store.get(session_id)  # This creates if not exists
         
         # Get the state as a dict for the response
         state_dict = session_store.get_state_dict(session_id)
+        
+        # Note: ADK session will be created lazily on first query via _ensure_session
         
         return SessionResponse(
             id=session_id,
@@ -592,4 +649,95 @@ async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> D
         error_details = traceback.format_exc()
         print(f"ERROR in query_agent: {error_details}", flush=True)
         raise HTTPException(status_code=500, detail={"error": "agent_failed", "message": str(e)})
+
+
+# ============================================================================
+# ADK-Powered SSE Streaming Route
+# ============================================================================
+def _sse(data: Dict[str, Any]) -> bytes:
+    """Server-Sent Events frame (single 'data:' line per event)."""
+    return f"data: {json_module.dumps(data, ensure_ascii=False)}\n\n".encode("utf-8")
+
+
+@app.post("/apps/arcade_app/users/{user_id}/sessions/{session_id}/query/stream")
+async def query_stream(user_id: str, session_id: str, request: QueryRequest):
+    """
+    ADK streaming via SSE.
+    Emits ordered frames:
+      {"type":"start"}
+      {"type":"delta","text": "<token>"}  (many)
+      {"type":"final","text": "<full assistant text>"}  (once)
+      {"type":"done"}  (always)
+      {"type":"error","message":"..."}  (on errors)
+    """
+    message = request.message
+    if not message:
+        async def bad():
+            yield _sse({"type": "error", "message": "Missing 'message'."})
+            yield _sse({"type": "done"})
+        return StreamingResponse(bad(), media_type="text/event-stream")
+
+    # Build ADK inputs
+    content = Content(role="user", parts=[Part.from_text(text=message)])
+    run_cfg = RunConfig(response_modalities=["TEXT"])
+
+    async def gen():
+        yield _sse({"type": "start"})
+        final_buf: list[str] = []
+        try:
+            # Ensure session exists in ADK SessionService
+            _ensure_session(session_id, user_id)
+            # Ensure session exists in ADK SessionService
+            _ensure_session(session_id, user_id)
+            safe_sid = _safe_sid(session_id)
+            
+            # Stream ADK events using existing RUNNER
+            async for ev in RUNNER.run_async(
+                user_id=user_id,
+                session_id=safe_sid,  # Use sanitized session ID
+                new_message=content,
+                run_config=run_cfg,
+            ):
+                # Optional debug log when EVALFORGE_EVENT_LOG=1
+                if os.getenv("EVALFORGE_EVENT_LOG") == "1":
+                    try:
+                        _classify_event_kind(ev)
+                        _log_event(ev)
+                    except Exception:
+                        pass
+
+                # 1) Partial assistant tokens
+                # Check for partial text content in the event
+                tok = getattr(ev, "text", None) or getattr(ev, "delta", None)
+                if tok and not (hasattr(ev, "is_final_response") and ev.is_final_response()):
+                    final_buf.append(tok)
+                    yield _sse({"type": "delta", "text": tok})
+                    # Small cooperative yield to keep loop responsive
+                    await asyncio.sleep(0)
+
+                # 2) Final assistant response
+                if hasattr(ev, "is_final_response") and ev.is_final_response():
+                    text = _extract_assistant_text_if_final(ev) or "".join(final_buf)
+                    if not text and final_buf:
+                        text = "".join(final_buf)
+                    yield _sse({"type": "final", "text": text})
+                    
+                    # Session state is automatically updated by RUNNER/SESSION_SERVICE
+                    break
+
+            # Always close the stream
+            yield _sse({"type": "done"})
+
+        except asyncio.CancelledError:
+            # Client aborted — just stop quietly
+            LOG.info(f"Stream cancelled by client for session {session_id}")
+            return
+        except Exception as e:
+            LOG.exception(f"Streaming error for session {session_id}")
+            # Try to flush a graceful error, then done
+            yield _sse({"type": "error", "message": str(e)})
+            yield _sse({"type": "done"})
+
+    return StreamingResponse(gen(), media_type="text/event-stream")
+
 

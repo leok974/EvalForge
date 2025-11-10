@@ -7,6 +7,7 @@ import { ScoreboardSkeleton } from "../components/Skeleton";
 import { getSessionStateFields } from "../lib/api";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { useToast } from "../lib/toast";
+import { ChatPanel } from "../components/chat/ChatPanel";
 
 export default function DevUI() {
   const [sessionId, setSessionId] = useState<string>("");
@@ -92,6 +93,37 @@ export default function DevUI() {
     }
   }
 
+  async function runDevDiag() {
+    try {
+      const target = window.location.origin;
+      append(`🔍 Running DevDiag on ${target}...`);
+      push({ kind: "info", title: "DevDiag started", text: "Running diagnostics..." });
+      
+      const res = await fetch("/ops/diag", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target_url: target, preset: "app" })
+      });
+      
+      const json = await res.json();
+      
+      if (!res.ok || !json.ok) {
+        throw new Error(json?.detail || "DevDiag failed");
+      }
+      
+      append(`✅ DevDiag completed. Check server logs for artifacts.`);
+      push({ 
+        kind: "success", 
+        title: "DevDiag completed", 
+        text: "Diagnostic results available in server logs." 
+      });
+    } catch (e: any) {
+      const msg = `DevDiag error: ${e.message || String(e)}`;
+      append(`❌ ${msg}`);
+      push({ kind: "error", title: "DevDiag failed", text: e.message || String(e) });
+    }
+  }
+
   return (
     <div className="container-page space-y-6">
       {/* Header */}
@@ -100,7 +132,10 @@ export default function DevUI() {
           <h1 className="text-2xl font-semibold tracking-tight">EvalForge Dev UI</h1>
           <p className="muted">Quick controls for sessions, grading, and diagnostics.</p>
         </div>
-        <ThemeToggle />
+        <div className="flex gap-2">
+          <button className="btn" onClick={runDevDiag}>Run DevDiag</button>
+          <ThemeToggle />
+        </div>
       </div>
 
       {/* Controls */}
@@ -139,6 +174,9 @@ export default function DevUI() {
           <p className="muted">Submit code to Judge to see your rubric scores here.</p>
         )}
       </div>
+
+      {/* Chat Panel */}
+      {sessionId && <ChatPanel sessionId={sessionId} baseUrl={baseUrl} />}
 
       {/* Log */}
       <div className="card p-4">

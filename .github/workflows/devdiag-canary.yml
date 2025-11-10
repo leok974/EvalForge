@@ -1,0 +1,109 @@
+name: DevDiag Canary
+on:
+  schedule:
+    # Run every hour at 7 minutes past the hour (spread load)
+    - cron: "7 * * * *"
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Production Canary
+        run: |
+          echo "Running DevDiag canary on: $EVALFORGE_CANARY_URL"
+          
+          RESULT=$(curl -sS -X POST "$DEVDIAG_BASE/mcp/diag/quickcheck" \
+            -H "Authorization: Bearer $DEVDIAG_READER_JWT" \
+            -H "Content-Type: application/json" \
+            -d "{\"url\":\"$EVALFORGE_CANARY_URL\",\"preset\":\"app\",\"tenant\":\"evalforge\"}" \
+            | tee /tmp/devdiag-result.json \
+            | jq '.')
+          
+          # Pretty print results
+          cat /tmp/devdiag-result.json | jq '.'
+          
+          # Check status
+          STATUS=$(cat /tmp/devdiag-result.json | jq -r '.status')
+          
+          if [ "$STATUS" != "ok" ] && [ "$STATUS" != "pass" ]; then
+            echo "❌ Canary failed - production may have issues"
+            exit 1
+          fi
+          
+          echo "✅ Canary passed - production is healthy"
+        env:
+          DEVDIAG_BASE: ${{ secrets.DEVDIAG_BASE }}
+          DEVDIAG_READER_JWT: ${{ secrets.DEVDIAG_READER_JWT }}
+          EVALFORGE_CANARY_URL: ${{ secrets.EVALFORGE_CANARY_URL || 'https://evalforge.app/healthz' }}
+      
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Create an issue if canary fails
+            const title = '🚨 DevDiag Canary Failed';
+            const body = `## Production Health Alert
+            
+            The hourly DevDiag canary check failed.
+            
+            **Target**: ${{ secrets.EVALFORGE_CANARY_URL || 'https://evalforge.app/healthz' }}
+            **Time**: ${new Date().toISOString()}
+            **Workflow**: [${context.workflow}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+            
+            Please investigate potential issues with:
+            - CSP policies
+            - Embed compatibility
+            - API endpoints
+            - Performance degradation
+            
+            This issue will auto-close when the next canary passes.`;
+            
+            // Check if there's already an open canary issue
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'canary-alert'
+            });
+            
+            if (issues.data.length === 0) {
+              // Create new issue
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['canary-alert', 'ops']
+              });
+            }
+      
+      - name: Close canary issue on success
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Close any open canary alert issues
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'canary-alert'
+            });
+            
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed'
+              });
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: '✅ Canary is now passing. Closing this alert.'
+              });
+            }
