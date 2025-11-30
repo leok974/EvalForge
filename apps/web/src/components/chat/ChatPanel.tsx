@@ -77,12 +77,21 @@ export const ChatPanel: React.FC<{
         abortControllerRef.current.signal
       );
     } catch (err: any) {
+      const msg = err?.message || String(err);
+      
       // Only show error if not aborted
       if (err.name !== "AbortError") {
+        // Show the error in the assistant bubble too (not just toast)
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantId ? { ...m, text: `[stream error] ${msg}` } : m
+          )
+        );
+        
         toast?.push({
           kind: "error",
-          title: "Failed to send message",
-          text: err.message || String(err),
+          title: "Stream error",
+          text: msg,
         });
       }
     } finally {

@@ -1,16 +1,11 @@
-# MCP DevDiag Configuration for EvalForge
+# MCP DevDiag Configuration for EvalForge (Simplified for Local Dev)
 # https://github.com/modelcontextprotocol/devdiag
 
-rbac:
-  # JWKS endpoint for JWT validation (optional for local dev)
-  # jwks_url: "https://YOUR-IDP/.well-known/jwks.json"
-  # required_aud: "mcp-devdiag"
-  
-  # When jwks_url is commented out, DevDiag accepts requests without Authorization header
-  # (for trusted local development). Uncomment above when deploying to production.
+# RBAC disabled for local development
+# rbac:
+#   jwks_url: "https://YOUR-IDP/.well-known/jwks.json"
 
 allowlist:
-  # Origins allowed to be diagnosed
   origins:
     - "https://evalforge.app"
     - "https://evalforge.int"
@@ -20,35 +15,13 @@ allowlist:
     - "http://localhost:5173"
 
 diag:
-  # Diagnostic presets: app (basic), embed (iframe), chat (streaming), full (all)
-  presets: ["app", "embed", "chat", "full"]
-  
-  # Portal roots for detecting React portals (toasts, modals, etc.)
-  portal_roots:
-    - "#__PORTAL_ROOT__"
-    - "#toast-root"
-    - "#modal-root"
-  
-  # Suppress known non-issues
-  suppress:
-    - code: "PORTAL_ROOT_MISSING"
-      reason: "EvalForge uses native toast system, not portal-based"
+  presets: ["app", "embed", "chat"]
 
 learn:
-  # Enable learning from successful remediations
-  enabled: true
-  
-  # PostgreSQL connection string for storing learned fixes
-  # Format: postgresql+psycopg://user:pass@host:port/dbname
-  store: "postgresql+psycopg://devdiag:DevDiag2025SecurePass!@localhost:5432/devdiag"
-  
-  # Tenant identifier for multi-tenant setups
+  enabled: false  # Disable learning for local dev (requires PostgreSQL)
   tenant: "evalforge"
 
 export:
-  # S3 bucket for storing diagnostic artifacts (screenshots, HAR files, etc.)
-  s3_bucket: "mcp-devdiag-artifacts"
+  s3_bucket: ""   # Empty for local dev
   region: "us-east-1"
-  
-  # Optional: prefix for artifact keys
-  # prefix: "evalforge/"
+

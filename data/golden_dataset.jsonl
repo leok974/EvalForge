@@ -1,0 +1,3 @@
+{"id": "dbg_01", "track": "debugging", "input": "function add(a,b) { return a-b; }", "expected_score": 20}
+{"id": "dbg_02", "track": "debugging", "input": "const x = 1; // Correct code", "expected_score": 100}
+{"id": "gen_01", "track": "default", "input": "Write a binary search in Python", "expected_score": 80}

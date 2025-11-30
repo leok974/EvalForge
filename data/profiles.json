@@ -1,0 +1,19 @@
+{
+  "test": {
+    "total_xp": 100,
+    "level": 1,
+    "world_progress": {
+      "world-python": {
+        "xp": 100,
+        "level": 2
+      }
+    },
+    "recent_badges": []
+  },
+  "leo": {
+    "total_xp": 0,
+    "level": 1,
+    "world_progress": {},
+    "recent_badges": []
+  }
+}

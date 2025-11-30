@@ -16,7 +16,6 @@ from google.adk.runners import Runner
 from google.adk.sessions import VertexAiSessionService
 from google.adk.agents.run_config import RunConfig
 from google.genai.types import Content, Part
-from google.genai.types import Content, Part
 
 # ---- Vertex AI Configuration ----
 # Single model, single region, no fallbacks
@@ -205,20 +204,32 @@ Be conversational but focused. No generic advice. Use your tools when relevant -
 # Build and expose root_agent
 root_agent = build_root_agent()
 
-# Reuse singletons across requests - Vertex AI Session Service for persistence
+# Reuse singletons across requests
+# Use VertexAiSessionService when GOOGLE_CLOUD_AGENT_ENGINE_ID is set (full resource path)
+# Otherwise use InMemorySessionService for local development
 GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT", "291179078777")
 GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-GOOGLE_CLOUD_AGENT_ENGINE_ID = os.getenv("GOOGLE_CLOUD_AGENT_ENGINE_ID")
+GOOGLE_CLOUD_AGENT_ENGINE_ID = os.getenv("GOOGLE_CLOUD_AGENT_ENGINE_ID")  # Full resource path: projects/*/locations/*/reasoningEngines/*
 
-SESSION_SERVICE = VertexAiSessionService(
-    GOOGLE_CLOUD_PROJECT,
-    GOOGLE_CLOUD_LOCATION,
-    GOOGLE_CLOUD_AGENT_ENGINE_ID,
-)
+if GOOGLE_CLOUD_AGENT_ENGINE_ID:
+    # Vertex AI sessions with Agent Engine (production)
+    log.info("Using VertexAiSessionService with engine: %s", GOOGLE_CLOUD_AGENT_ENGINE_ID)
+    SESSION_SERVICE = VertexAiSessionService(
+        GOOGLE_CLOUD_PROJECT,
+        GOOGLE_CLOUD_LOCATION,
+        GOOGLE_CLOUD_AGENT_ENGINE_ID,
+    )
+else:
+    # Local memory sessions (development - no engine)
+    log.info("Using InMemorySessionService (no Agent Engine configured)")
+    from google.adk.sessions import InMemorySessionService
+    SESSION_SERVICE = InMemorySessionService()
+
+# Runner: app_name here is just a label for the runner, NOT the engine ID
 RUNNER = Runner(
     agent=root_agent,
     session_service=SESSION_SERVICE,
-    app_name="arcade_app"
+    app_name="arcade_app"  # This is a label, not the engine resource path
 )
 
 
@@ -226,22 +237,36 @@ def _ensure_session(session_id: str, user_id: str):
     """
     Idempotent session creation: create once, treat AlreadyExists as success.
     Always passes a sanitized session ID format.
+    Only passes app_name when GOOGLE_CLOUD_AGENT_ENGINE_ID is set (full resource path).
     """
     safe_sid = _safe_sid(session_id)
     
     # Log session details if event logging is enabled
     if os.getenv("EVALFORGE_EVENT_LOG") == "1":
-        LOG.info("[Session] project=%s location=%s user=%s sid=%s safe_sid=%s",
-                 PROJECT, REGION, user_id, session_id, safe_sid)
+        engine_info = GOOGLE_CLOUD_AGENT_ENGINE_ID or "none (using InMemorySessionService)"
+        LOG.info("[Session] project=%s location=%s engine=%s user=%s sid=%s safe_sid=%s",
+                 PROJECT, REGION, engine_info, user_id, session_id, safe_sid)
     
     try:
+        # Build create_session parameters
+        params = {
+            "user_id": user_id,
+            "session_id": safe_sid,
+            "state": {}
+        }
+        
+        # Only pass app_name when using Vertex AI with Agent Engine
+        if GOOGLE_CLOUD_AGENT_ENGINE_ID:
+            params["app_name"] = GOOGLE_CLOUD_AGENT_ENGINE_ID  # Full resource path
+            LOG.info("Attempting to create ADK session with engine: app_name=%s user_id=%s session_id=%s", 
+                     GOOGLE_CLOUD_AGENT_ENGINE_ID, user_id, safe_sid)
+        else:
+            # InMemorySessionService still needs app_name but it's just a label
+            params["app_name"] = "arcade_app"
+            LOG.info("Attempting to create ADK session (no engine): user_id=%s session_id=%s", user_id, safe_sid)
+        
         # Try to create the session (will fail if it already exists)
-        sess = SESSION_SERVICE.create_session(
-            app_name="arcade_app",
-            user_id=user_id,
-            session_id=safe_sid,
-            state={}
-        )
+        sess = SESSION_SERVICE.create_session(**params)
         LOG.info("ADK session created: %s (user=%s)", safe_sid, user_id)
         return sess
     except Exception as e:
@@ -254,12 +279,14 @@ def _ensure_session(session_id: str, user_id: str):
         
         # InvalidArgument suggests a formatting issue
         if "InvalidArgument" in msg or "INVALID_ARGUMENT" in msg:
-            LOG.error("ADK invalid session ID: %s (safe: %s) — check _safe_sid formatting. Error: %s",
+            LOG.error("ADK invalid session ID: %s (safe: %s) — check _safe_sid formatting or engine path. Error: %s",
                      session_id, safe_sid, msg)
+            LOG.error("Full exception details:", exc_info=True)
             raise
         
         # Some other error - re-raise with context
         LOG.error("ADK session creation failed for %s (safe: %s): %s", session_id, safe_sid, msg)
+        LOG.error("Full exception details:", exc_info=True)
         raise
 
 
@@ -384,15 +411,23 @@ async def invoke_root_agent(
             session_state,
         )
 
+    # ---- Track selection logic
     if cleaned.strip() == "1":
+        # Mark we're in debugging / code track
         session_state.track = "debugging"
+        # We also prep for Phase 3 grading later
+        # (We're not grading yet, just telling the user what to do next)
         return (
             "Great, we're in debugging mode. Paste your broken code and tell me what you THINK is wrong. I'll grade you once.",
             session_state,
         )
 
+    # ---- Phase 3 grading logic (stub)
+    # If user pasted code and described a bug, produce rubric-style grade
+    # and store last_grade / last_graded_input_hash. This simulates Judge.
     code_hash = hashlib.sha1(cleaned.encode("utf-8")).hexdigest()
 
+    # If we've already graded this exact input, reuse
     if getattr(session_state, "last_graded_input_hash", None) == code_hash:
         lg = getattr(session_state, "last_grade", None)
         if lg:
@@ -405,22 +440,27 @@ async def invoke_root_agent(
             )
             return (reused_msg, session_state)
 
+    # Otherwise, "grade" it once
     fake_grade: Dict[str, Any] = {
         "coverage": 2,
         "correctness": 2,
         "clarity": 3,
-        "comment": "Return the value, cover edge cases, and improve naming.",
+        "comment": "You're close. Return the computed value, handle edge cases, and name things clearly.",
     }
     session_state.last_grade = fake_grade
     session_state.last_graded_input_hash = code_hash
 
     graded_msg = (
         "Here's your rubric:\n"
-        f"- coverage: 2/5\n- correctness: 2/5\n- clarity: 3/5\n"
-        "Next step: Return the computed value, cover edge cases, and improve naming.\n\n"
+        f"- coverage: {fake_grade['coverage']}/5\n"
+        f"- correctness: {fake_grade['correctness']}/5\n"
+        f"- clarity: {fake_grade['clarity']}/5\n"
+        f"Next step: {fake_grade['comment']}\n\n"
         "Update your code and send it again. I'll rescore if it's meaningfully different."
     )
+
     return (graded_msg, session_state)
+
 
 
 # Health check endpoint for monitoring
@@ -442,7 +482,7 @@ def healthz() -> Dict[str, Any]:
     # Check ADC
     try:
         import google.auth  # type: ignore[import-untyped]
-        credentials, project = google.auth.default()  # type: ignore[attr-defined]
+        _, project = google.auth.default()  # type: ignore[attr-defined]
         health_status["adc_present"] = True
         health_status["adc_project"] = project
     except Exception as e:
@@ -487,16 +527,65 @@ except Exception:
 # ============================================================================
 # FastAPI App Export (for uvicorn)
 # ============================================================================
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import StreamingResponse
+from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import PlainTextResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Dict, Any, List
 import uuid
 import time
+from collections import defaultdict
 import asyncio
-import json as json_module
 
 app = FastAPI(title="EvalForge Agents API")
+
+# Mount Prometheus metrics endpoint
+try:
+    from .metrics import metrics_app
+    app.mount("/metrics", metrics_app)
+except ImportError:
+    pass  # metrics module not available
+
+# Mount operations/diagnostics router (legacy MCP approach)
+try:
+    from arcade_app.routers import ops_diag
+    app.include_router(ops_diag.router)
+    logging.getLogger("uvicorn").info("[EvalForge] Mounted ops router at /ops")
+except ImportError as e:
+    logging.getLogger("uvicorn").warning(f"[EvalForge] Failed to mount ops router: {e}")
+
+# Mount DevDiag HTTP proxy router at /api
+try:
+    from apps.api.routes.devdiag_proxy import router as devdiag_router
+    app.include_router(devdiag_router, prefix="/api")
+    logging.getLogger("uvicorn").info("[EvalForge] Mounted DevDiag proxy router at /api/ops")
+except ImportError as e:
+    logging.getLogger("uvicorn").warning(f"[EvalForge] Failed to mount DevDiag proxy router: {e}")
+
+# Serve the built web app if it exists (must be mounted LAST to not override API routes)
+WEB_DIST = os.path.join(os.path.dirname(os.path.dirname(__file__)), "apps", "web", "dist")
+logging.getLogger("uvicorn").info(f"[EvalForge] WEB_DIST={WEB_DIST} exists={os.path.isdir(WEB_DIST)}")
+if os.path.isdir(WEB_DIST):
+    # Mount at "/" for serving static files and HTML
+    # This should be the last mount to avoid overriding API routes
+    pass  # We'll mount this at the end after all routes are defined
+
+# Simple token bucket rate limiter
+_rl_tokens: Dict[str, tuple[float, float]] = defaultdict(lambda: (5.0, time.time()))  # (tokens, last_ts)
+_RL_RATE = 1.0   # tokens/sec
+_RL_BURST = 5.0  # max tokens
+
+def _rl_ok(key: str) -> bool:
+    """Token bucket rate limiter. Returns True if request is allowed."""
+    tokens, ts = _rl_tokens[key]
+    now = time.time()
+    refill = (now - ts) * _RL_RATE
+    tokens = min(_RL_BURST, tokens + refill)
+    if tokens < 1.0:
+        _rl_tokens[key] = (tokens, now)
+        return False
+    _rl_tokens[key] = (tokens - 1.0, now)
+    return True
 
 class QueryRequest(BaseModel):
     message: str
@@ -510,68 +599,57 @@ class SessionResponse(BaseModel):
     lastUpdateTime: float
 
 @app.get("/api/status")
-async def api_status() -> Dict[str, Any]:
-    """Status endpoint to verify server is running."""
-    return {
-        "status": "EvalForge is running",
-        "version": "Phase 3 - Judge Grading + Coach Mentorship",
-        "agents": [agent.name for agent in root_agent.sub_agents]
-    }
+async def api_status():
+    """Status endpoint."""
+    return {"status": "EvalForge is running", "version": "Phase 3"}
 
-@app.get("/healthz")
-async def healthz_endpoint():
-    """Health check endpoint that returns agent status."""
+@app.get("/healthz", response_class=PlainTextResponse)
+async def health() -> str:
+    """Health check endpoint."""
     try:
-        return healthz()
+        healthz()  # Validates config
+        return "ok"
     except Exception as e:
         import traceback
-        error_details = traceback.format_exc()
-        print(f"ERROR in healthz: {error_details}", flush=True)
-        raise HTTPException(status_code=500, detail={"error": str(e)})
+        traceback.print_exc()
+        return f"error: {str(e)}"
 
 @app.get("/api/dev/session-state/{session_id}")
-async def get_session_state_endpoint(session_id: str):
-    """Dev introspection endpoint to view session state."""
-    try:
-        state = get_session_state(session_id)
-        if "error" in state:
-            raise HTTPException(status_code=404, detail=state)
-        return state
-    except HTTPException:
-        raise
-    except Exception as e:
-        import traceback
-        error_details = traceback.format_exc()
-        print(f"ERROR in get_session_state: {error_details}", flush=True)
-        raise HTTPException(status_code=500, detail={"error": str(e)})
+async def get_session_state_api(
+    session_id: str,
+    fields: str | None = Query(default=None, description="Comma-separated field list")
+) -> Dict[str, Any]:
+    """Dev introspection endpoint to view session state with optional field filtering."""
+    payload = get_session_state(session_id)
+    
+    # Apply field filter if requested
+    if fields:
+        want = {f.strip() for f in fields.split(",") if f.strip()}
+        payload = {k: v for k, v in payload.items() if k in want}
+    
+    return payload
 
-@app.post("/apps/arcade_app/users/{user_id}/sessions")
+@app.post("/apps/arcade_app/users/{user_id}/sessions", response_model=SessionResponse)
 async def create_session(user_id: str):
-    """Create a new session for a user."""
-    try:
-        session_id = str(uuid.uuid4())
-        
-        # Initialize session in local session_store (for our state management)
-        session_store.get(session_id)  # This creates if not exists
-        
-        # Get the state as a dict for the response
-        state_dict = session_store.get_state_dict(session_id)
-        
-        # Note: ADK session will be created lazily on first query via _ensure_session
-        
-        return SessionResponse(
-            id=session_id,
-            appName="arcade_app",
-            userId=user_id,
-            state=state_dict or {},
-            events=[],
-            lastUpdateTime=time.time()
-        )
-    except Exception as e:
-        import traceback
-        error_details = traceback.format_exc()
-        print(f"ERROR in create_session: {error_details}", flush=True)
-        raise HTTPException(status_code=500, detail={"error": str(e)})
+    """Create a new session."""
+    session_id = str(uuid.uuid4())
+    
+    # Initialize session in local session_store (for our state management)
+    _ = session_store.get(session_id)
+    state_dict = session_store.get_state_dict(session_id)
+    if state_dict is None:
+        state_dict = {}
+    
+    # Note: ADK session will be created lazily on first query via _ensure_session
+    
+    return SessionResponse(
+        id=session_id,
+        appName="arcade_app",
+        userId=user_id,
+        state=state_dict,
+        events=[],
+        lastUpdateTime=time.time()
+    )
 
 # COPILOT: DO NOT CHANGE ROUTES OR TASK CONFIG.
 #
@@ -614,6 +692,11 @@ async def create_session(user_id: str):
 async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> Dict[str, Any]:
     """Send a message to the agent and get response."""
     try:
+        # Rate limiting check
+        rl_key = f"{user_id}:{session_id}"
+        if not _rl_ok(rl_key):
+            raise HTTPException(status_code=429, detail="Rate limit exceeded; try again shortly.")
+        
         # 1. Extract user message
         user_message = request.message
         if not isinstance(user_message, str):  # type: ignore[unreachable]
@@ -633,14 +716,27 @@ async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> D
         # 4. Session state is already updated in-place by invoke_root_agent
         # (session_store uses the same reference, so no explicit save needed)
         
-        # 5. Return response
-        return {
+        # 5. Build response with dedupe info if grading happened
+        response: Dict[str, Any] = {
             "session_id": session_id,
             "response": reply_text,
             "track": getattr(updated_state, "track", None),
-            "last_grade": getattr(updated_state, "last_grade", None),
             "state": session_store.get_state_dict(session_id)
         }
+        
+        # Include grade info if available
+        if updated_state.last_grade:
+            # last_grade might be a Pydantic model or already a dict
+            if hasattr(updated_state.last_grade, "model_dump"):
+                response["last_grade"] = updated_state.last_grade.model_dump()
+            else:
+                response["last_grade"] = updated_state.last_grade
+            if updated_state.last_graded_input_hash:
+                response["sha1"] = updated_state.last_graded_input_hash
+                # Mark as dedupe if the hash was already there before this call
+                # (This is a simplification - proper dedupe detection happens in grade_once_with_dedupe)
+        
+        return response
     
     except HTTPException:
         raise
@@ -656,7 +752,7 @@ async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> D
 # ============================================================================
 def _sse(data: Dict[str, Any]) -> bytes:
     """Server-Sent Events frame (single 'data:' line per event)."""
-    return f"data: {json_module.dumps(data, ensure_ascii=False)}\n\n".encode("utf-8")
+    return f"data: {json.dumps(data, ensure_ascii=False)}\n\n".encode("utf-8")
 
 
 @app.post("/apps/arcade_app/users/{user_id}/sessions/{session_id}/query/stream")
@@ -677,6 +773,14 @@ async def query_stream(user_id: str, session_id: str, request: QueryRequest):
             yield _sse({"type": "done"})
         return StreamingResponse(bad(), media_type="text/event-stream")
 
+    # Rate limiting check
+    rl_key = f"{user_id}:{session_id}"
+    if not _rl_ok(rl_key):
+        async def rate_limited():
+            yield _sse({"type": "error", "message": "Rate limit exceeded; try again shortly."})
+            yield _sse({"type": "done"})
+        return StreamingResponse(rate_limited(), media_type="text/event-stream")
+
     # Build ADK inputs
     content = Content(role="user", parts=[Part.from_text(text=message)])
     run_cfg = RunConfig(response_modalities=["TEXT"])
@@ -685,8 +789,6 @@ async def query_stream(user_id: str, session_id: str, request: QueryRequest):
         yield _sse({"type": "start"})
         final_buf: list[str] = []
         try:
-            # Ensure session exists in ADK SessionService
-            _ensure_session(session_id, user_id)
             # Ensure session exists in ADK SessionService
             _ensure_session(session_id, user_id)
             safe_sid = _safe_sid(session_id)
@@ -741,3 +843,25 @@ async def query_stream(user_id: str, session_id: str, request: QueryRequest):
     return StreamingResponse(gen(), media_type="text/event-stream")
 
 
+# ============================================================================
+# Mount Static Files (Dev UI) - Must be LAST to avoid overriding API routes
+# Only serve Dev UI in non-production environments
+# ============================================================================
+if os.getenv("EVALFORGE_ENV") != "prod" and os.path.isdir(WEB_DIST):
+    app.mount("/", StaticFiles(directory=WEB_DIST, html=True), name="web")
+    logging.getLogger("uvicorn").info("[EvalForge] Dev UI mounted at /")
+    
+    # SPA catch-all for client-side routing (preserves API routes)
+    from fastapi.responses import FileResponse
+    
+    @app.get("/{full_path:path}")
+    def spa_catch_all(full_path: str):
+        """Catch-all route for SPA client-side routing."""
+        # Preserve API routes
+        if full_path.startswith(("api/", "apps/", "metrics", "healthz", "docs")):
+            raise HTTPException(status_code=404)
+        # Serve index.html for client-side routes
+        index = os.path.join(WEB_DIST, "index.html")
+        if os.path.isfile(index):
+            return FileResponse(index)
+        raise HTTPException(status_code=404)

@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # 1. The Brain (Your FastAPI Backend)
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: evalforge-backend
+    command: uvicorn arcade_app.agent:app --host 0.0.0.0 --port 8092 --reload
+    ports:
+      - "${EVALFORGE_PORT:-8092}:8092"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://evalforge:evalforge@db:5432/evalforge
+      - REDIS_URL=redis://redis:6379/0
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT}
+      - GOOGLE_CLOUD_LOCATION=${GOOGLE_CLOUD_LOCATION}
+      - EVALFORGE_MOCK_GRADING=${EVALFORGE_MOCK_GRADING}
+      - PORT=8092
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+    volumes:
+      - ./arcade_app:/app/arcade_app # Hot reload code
+      - ./data:/app/data             # Persist JSON for migration
+      - C:/Users/pierr/AppData/Roaming/gcloud/application_default_credentials.json:/app/credentials.json
+    depends_on:
+      - db
+      - redis
+    networks:
+      - evalforge
+
+  # 2. The Face (Frontend - React + Vite)
+  frontend:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    container_name: evalforge-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # CRITICAL: Tells Vite to proxy requests to the 'backend' service container
+      - VITE_PROXY_TARGET=http://backend:8092
+    volumes:
+      - ./apps/web:/app
+      # Hack: Prevent host node_modules from overwriting container's
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - evalforge
+
+  # 3. The Memory (Postgres + pgvector)
+  db:
+    image: pgvector/pgvector:pg16  # Ready for Vector Embeddings (Phase 14)
+    container_name: evalforge-db
+    environment:
+      POSTGRES_USER: evalforge
+      POSTGRES_PASSWORD: evalforge
+      POSTGRES_DB: evalforge
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - evalforge
+
+  # 4. The Nervous System (Redis)
+  redis:
+    image: redis:alpine
+    container_name: evalforge-redis
+    ports:
+      - "6380:6379"  # Changed to 6380 to avoid conflict with existing Redis
+    volumes:
+      - redis_data:/data
+    networks:
+      - evalforge
+
+volumes:
+  db_data:
+  redis_data:
+
+networks:
+  evalforge:
+    driver: bridge

@@ -192,6 +192,11 @@ jobs:
           BASE_URL: http://127.0.0.1:19000
         run: npm run test:smoke
       
+      - name: Run DevDiag proxy smoke tests
+        env:
+          BASE_URL: http://127.0.0.1:19000
+        run: npx playwright test apps/web/tests/e2e/devdiag-proxy.spec.ts --reporter=list
+      
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4

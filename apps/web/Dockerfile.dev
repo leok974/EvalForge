@@ -1,0 +1,18 @@
+# Use Node alpine for lightness
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install dependencies first (better caching)
+COPY package*.json ./
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose Vite port
+EXPOSE 5173
+
+# Run dev server
+# --host 0.0.0.0 is CRITICAL for Docker networking
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

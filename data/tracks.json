@@ -1,0 +1,131 @@
+[
+    {
+        "id": "python-fundamentals",
+        "world_id": "world-python",
+        "name": "Python Fundamentals",
+        "source": "fundamentals",
+        "description": "Core syntax, data structures, algorithms, and standard library patterns.",
+        "tags": [
+            "python",
+            "basics",
+            "dsa"
+        ],
+        "repo_config": null
+    },
+    {
+        "id": "applylens-backend",
+        "world_id": "world-python",
+        "name": "ApplyLens – Backend",
+        "source": "personal",
+        "description": "FastAPI APIs, Gmail ingestion, Elasticsearch, Postgres.",
+        "tags": [
+            "python",
+            "fastapi",
+            "backend",
+            "infra"
+        ],
+        "repo_config": {
+            "provider": "github",
+            "url": "https://github.com/leo/applylens-backend",
+            "stack": [
+                "fastapi",
+                "postgres",
+                "elasticsearch",
+                "docker"
+            ],
+            "focus_areas": [
+                "api-design",
+                "async-processing"
+            ]
+        }
+    },
+    {
+        "id": "js-fundamentals",
+        "world_id": "world-js",
+        "name": "JS/TS Fundamentals",
+        "source": "fundamentals",
+        "description": "ES6+, async/await, closures, prototypes, and TypeScript basics.",
+        "tags": [
+            "javascript",
+            "typescript",
+            "basics"
+        ],
+        "repo_config": null
+    },
+    {
+        "id": "applylens-frontend",
+        "world_id": "world-js",
+        "name": "ApplyLens – Frontend",
+        "source": "personal",
+        "description": "React/Tailwind UI, job tracker dashboard.",
+        "tags": [
+            "react",
+            "frontend",
+            "javascript"
+        ],
+        "repo_config": {
+            "provider": "github",
+            "url": "https://github.com/leo/applylens-web",
+            "stack": [
+                "react",
+                "vite",
+                "tailwind",
+                "lucide"
+            ],
+            "focus_areas": [
+                "component-architecture",
+                "state-management"
+            ]
+        }
+    },
+    {
+        "id": "sql-fundamentals",
+        "world_id": "world-sql",
+        "name": "SQL Tactics Fundamentals",
+        "source": "fundamentals",
+        "description": "Joins, window functions, CTEs, and query optimization patterns.",
+        "tags": [
+            "sql",
+            "analytics",
+            "postgres"
+        ],
+        "repo_config": null
+    },
+    {
+        "id": "applylens-sql",
+        "world_id": "world-sql",
+        "name": "ApplyLens – Analytics",
+        "source": "personal",
+        "description": "Warehouse reporting and metrics aggregation.",
+        "tags": [
+            "sql",
+            "analytics",
+            "postgres"
+        ],
+        "repo_config": {
+            "provider": "github",
+            "url": "https://github.com/leo/applylens-backend",
+            "stack": [
+                "postgres",
+                "bigquery",
+                "dbt"
+            ],
+            "focus_areas": [
+                "reporting",
+                "performance"
+            ]
+        }
+    },
+    {
+        "id": "git-fundamentals",
+        "world_id": "world-git",
+        "name": "Git Workflow Fundamentals",
+        "source": "fundamentals",
+        "description": "Branching strategies, rebase vs merge, and recovering from errors.",
+        "tags": [
+            "git",
+            "workflow"
+        ],
+        "repo_config": null
+    }
+]

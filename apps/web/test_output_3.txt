@@ -1,0 +1,137 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.14 [39m[90mD:/EvalForge/apps/web[39m
+
+ [31mΓ¥»[39m src/components/__tests__/ContextSelector.test.tsx [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 160[2mms[22m[39m
+[31m     [31m├ù[31m renders worlds and groups tracks[39m[32m 36[2mms[22m[39m
+     [32mΓ£ô[39m updates context on selection[32m 122[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/CodexDrawer.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 66[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 1 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/components/__tests__/ContextSelector.test.tsx > ContextSelector > renders worlds and groups tracks
+TestingLibraryElementError: Unable to find an element with the text: My Projects (BYOR). This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="bg-zinc-900 border-b border-zinc-800 p-4 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg z-20"
+    >
+      <div
+        class="flex gap-2 w-full md:w-auto"
+      >
+        <div
+          class="relative"
+        >
+          <select
+            class="appearance-none bg-black border border-zinc-700 text-zinc-300 text-sm rounded px-3 py-1.5 font-mono hover:border-cyan-500 focus:outline-none pr-8 cursor-pointer"
+          >
+            <option
+              value="w1"
+            >
+              ≡ƒîì
+               
+              World 1
+            </option>
+          </select>
+          <div
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-500"
+          >
+            <svg
+              class="fill-current h-4 w-4"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="relative"
+        >
+          <select
+            class="appearance-none bg-black border border-zinc-700 text-zinc-300 text-sm rounded px-3 py-1.5 font-mono hover:border-cyan-500 focus:outline-none pr-8 cursor-pointer min-w-[200px]"
+          >
+            <optgroup
+              label="My Projects (BYOR)"
+            >
+              <option
+                value="t1"
+              >
+                Track 1
+              </option>
+            </optgroup>
+            <optgroup
+              label="Fundamentals"
+            >
+              <option
+                value="t2"
+              >
+                Track 2
+              </option>
+            </optgroup>
+          </select>
+          <div
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-500"
+          >
+            <svg
+              class="fill-current h-4 w-4"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex bg-black rounded p-1 border border-zinc-800"
+      >
+        <button
+          class="px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]"
+        >
+          judge
+        </button>
+        <button
+          class="px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all text-zinc-500 hover:text-zinc-300"
+        >
+          quest
+        </button>
+        <button
+          class="px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all text-zinc-500 hover:text-zinc-300"
+        >
+          explain
+        </button>
+        <button
+          class="px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all text-zinc-500 hover:text-zinc-300"
+        >
+          debug
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+ Γ¥» Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ Γ¥» src/components/__tests__/ContextSelector.test.tsx:34:23
+     32| 
+     33|         // Check Groups
+     34|         expect(screen.getByText('My Projects (BYOR)')).toBeDefined();
+       |                       ^
+     35|         expect(screen.getByText('Fundamentals')).toBeDefined();
+     36|     });
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 18:18:30
+[2m   Duration [22m 1.13s[2m (transform 99ms, setup 0ms, import 528ms, tests 226ms, environment 1.18s)[22m
+

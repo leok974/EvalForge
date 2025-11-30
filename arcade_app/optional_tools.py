@@ -296,7 +296,7 @@ def analyze_code_snippet(session_id: str, code_snippet: str) -> Dict[str, Any]:
     }
 
 
-def evaluate_submission(session_id: str, code_snippet: str, explanation_text: str | None = None) -> Dict[str, Any]:
+async def evaluate_submission(session_id: str, code_snippet: str, explanation_text: str | None = None) -> Dict[str, Any]:
     """
     Evaluate a user's debugging submission using a structured rubric.
     
@@ -325,7 +325,7 @@ def evaluate_submission(session_id: str, code_snippet: str, explanation_text: st
     
     # Use the new dedupe function
     submission = code_snippet + ("\n" + explanation_text if explanation_text else "")
-    grade, sha1, is_new = grade_once_with_dedupe(state, submission)
+    grade, sha1, is_new = await grade_once_with_dedupe(state, submission)
     
     if not is_new:
         # Deduplicated - return cached grade

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "proj-d9f9ca1a",
+    "owner_user_id": "leo",
+    "source": "user",
+    "provider": "github",
+    "repo_url": "https://github.com/leo/applylens-backend",
+    "name": "applylens-backend",
+    "default_world_id": "world-python",
+    "summary": {},
+    "sync_status": "pending",
+    "last_sync_at": null
+  },
+  {
+    "id": "proj-fc92b29d",
+    "owner_user_id": "leo",
+    "source": "user",
+    "provider": "github",
+    "repo_url": "https://github.com/leo/applylens-backend",
+    "name": "applylens-backend",
+    "default_world_id": "world-python",
+    "summary": {
+      "primary_language": "python",
+      "stack": [
+        "fastapi",
+        "postgres"
+      ]
+    },
+    "sync_status": "ok",
+    "last_sync_at": "2025-11-28T18:45:01.311227"
+  },
+  {
+    "id": "proj-dfd04417",
+    "owner_user_id": "leo",
+    "source": "user",
+    "provider": "github",
+    "repo_url": "https://github.com/leo/my-awesome-api",
+    "name": "my-awesome-api",
+    "default_world_id": "world-python",
+    "summary": {
+      "primary_language": "python",
+      "stack": [
+        "fastapi",
+        "postgres"
+      ]
+    },
+    "sync_status": "ok",
+    "last_sync_at": "2025-11-28T18:51:45.538071"
+  }
+]

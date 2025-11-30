@@ -1,0 +1,70 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.14 [39m[90mD:/EvalForge/apps/web[39m
+
+ [31mΓ¥»[39m src/components/__tests__/ContextSelector.test.tsx [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 4[2mms[22m[39m
+[31m     [31m├ù[31m renders worlds and groups tracks[39m[32m 3[2mms[22m[39m
+[31m     [31m├ù[31m updates context on selection[39m[32m 1[2mms[22m[39m
+ [31mΓ¥»[39m src/components/__tests__/CodexDrawer.test.tsx [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 5[2mms[22m[39m
+[31m     [31m├ù[31m fetches index when opened[39m[32m 3[2mms[22m[39m
+[31m     [31m├ù[31m fetches detail on click[39m[32m 1[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 4 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/components/__tests__/CodexDrawer.test.tsx > CodexDrawer > fetches index when opened
+ReferenceError: document is not defined
+ Γ¥» render node_modules/@testing-library/react/dist/pure.js:257:5
+ Γ¥» src/components/__tests__/CodexDrawer.test.tsx:14:9
+     12|         });
+     13| 
+     14|         render(<CodexDrawer isOpen={true} onClose={() => { }} currentWΓÇª
+       |         ^
+     15| 
+     16|         expect(global.fetch).toHaveBeenCalledWith('/api/codex?world=w1ΓÇª
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/4]ΓÄ»
+
+ FAIL  src/components/__tests__/CodexDrawer.test.tsx > CodexDrawer > fetches detail on click
+ReferenceError: document is not defined
+ Γ¥» render node_modules/@testing-library/react/dist/pure.js:257:5
+ Γ¥» src/components/__tests__/CodexDrawer.test.tsx:30:9
+     28|         });
+     29| 
+     30|         render(<CodexDrawer isOpen={true} onClose={() => { }} currentWΓÇª
+       |         ^
+     31| 
+     32|         await waitFor(() => screen.getByText('Doc 1'));
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/4]ΓÄ»
+
+ FAIL  src/components/__tests__/ContextSelector.test.tsx > ContextSelector > renders worlds and groups tracks
+ReferenceError: document is not defined
+ Γ¥» render node_modules/@testing-library/react/dist/pure.js:257:5
+ Γ¥» src/components/__tests__/ContextSelector.test.tsx:28:9
+     26|     it('renders worlds and groups tracks', async () => {
+     27|         const setContext = vi.fn();
+     28|         render(<ContextSelector context={{ mode: 'judge', world_id: 'wΓÇª
+       |         ^
+     29| 
+     30|         // Wait for fetch
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/4]ΓÄ»
+
+ FAIL  src/components/__tests__/ContextSelector.test.tsx > ContextSelector > updates context on selection
+ReferenceError: document is not defined
+ Γ¥» render node_modules/@testing-library/react/dist/pure.js:257:5
+ Γ¥» src/components/__tests__/ContextSelector.test.tsx:40:9
+     38|     it('updates context on selection', async () => {
+     39|         const setContext = vi.fn();
+     40|         render(<ContextSelector context={{ mode: 'judge', world_id: 'wΓÇª
+       |         ^
+     41| 
+     42|         await waitFor(() => screen.getByText('World 1'));
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/4]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[90m (4)[39m
+[2m   Start at [22m 18:14:43
+[2m   Duration [22m 817ms[2m (transform 123ms, setup 0ms, import 627ms, tests 9ms, environment 0ms)[22m
+

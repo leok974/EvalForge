@@ -1,1 +1,3 @@
 google-adk
+prometheus_client
+starlette

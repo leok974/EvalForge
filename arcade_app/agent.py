@@ -1,561 +1,42 @@
-"""
-Multi-agent system for AI Trainer Arcade.
-Safe dynamic loading ensures discovery works even if optional tools fail.
-"""
 import os
 import sys
-import logging
-import hashlib
 import json
-from typing import Final, Dict, Any, List
-
-from google.adk.agents import Agent, SequentialAgent
-
-# ADK + GenAI
-from google.adk.runners import Runner
-from google.adk.sessions import VertexAiSessionService
-from google.adk.agents.run_config import RunConfig
-from google.genai.types import Content, Part
-
-# ---- Vertex AI Configuration ----
-# Single model, single region, no fallbacks
-VERTEX_PROJECT_NUMBER = os.getenv("VERTEX_PROJECT_NUMBER", "291179078777")
-VERTEX_PROJECT_ID = os.getenv("VERTEX_PROJECT_ID", "evalforge")  # For logging only
-VERTEX_REGION = os.getenv("VERTEX_REGION", "us-central1")
-VERTEX_MODEL_ID = os.getenv("VERTEX_MODEL_ID", "gemini-2.5-flash")
-
-# Use project number for API calls
-PROJECT: Final[str] = VERTEX_PROJECT_NUMBER
-REGION: Final[str] = VERTEX_REGION
-MODEL: Final[str] = VERTEX_MODEL_ID
-GENAI_MODEL: Final[str] = MODEL  # Alias for backward compatibility with tests
-
-def _log_vertex_config():
-    """Log Vertex AI configuration on startup."""
-    print(
-        f"[VertexConfig] project={PROJECT} ({VERTEX_PROJECT_ID}) region={REGION} model={MODEL}",
-        file=sys.stderr,
-        flush=True
-    )
-
-# Initialize Vertex AI
-try:
-    import vertexai
-    vertexai.init(project=PROJECT, location=REGION)
-    _log_vertex_config()
-except Exception as e:
-    print(f"[VertexConfig] FATAL: Failed to initialize: {e}", file=sys.stderr, flush=True)
-    raise
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
-
-# ADK Event logging setup
-LOG = logging.getLogger("evalforge.adk")
-if os.getenv("EVALFORGE_EVENT_LOG", "0") == "1":
-    # Minimal console config; let infra/handlers override in prod if needed
-    logging.basicConfig(level=logging.INFO)
-    LOG.setLevel(logging.INFO)
-else:
-    LOG.setLevel(logging.WARNING)
-
-# Add diagnostic for Vertex AI configuration
-from .vertex_diag import vertex_diag
-vertex_diag()
-
-# Set the environment variables that ADK recognizes for Vertex AI
-os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
-os.environ["GOOGLE_CLOUD_PROJECT"] = PROJECT
-os.environ["GOOGLE_CLOUD_LOCATION"] = REGION
-
-# ============================================================================
-# Session ID Validation & Resource Path Builder
-# ============================================================================
-import re
-
-SAFE_ID = re.compile(r"^[a-zA-Z0-9._-]{1,128}$")
-
-def _safe_sid(sid: str) -> str:
-    """
-    Sanitize session ID to ensure it's valid for Vertex AI.
-    Removes illegal chars; UUIDs pass through untouched.
-    """
-    s = sid.strip().replace("/", "-").replace("\\", "-")
-    return s if SAFE_ID.match(s) else f"sess-{hash(s) & 0xffffffff:x}"
-
-def _session_resource_name(sid: str, user_id: str) -> str:
-    """
-    Build the full resource name for ADK session.
-    Format: projects/{project}/locations/{location}/reasoningEngines/{engine_id}/sessions/{session_id}
-    
-    Note: If your ADK expects just a plain session_id instead of a full resource path,
-    return just _safe_sid(sid) here.
-    """
-    # For now, return just the safe session ID since ADK create_session expects session_id parameter
-    return _safe_sid(sid)
-
-# Import session state management
-from .session_state import session_store
-
-
-def build_root_agent() -> SequentialAgent:
-    """
-    Build the root agent with session-aware onboarding flow.
-    
-    Agents check session state to provide contextual, non-repetitive responses:
-    - Greeter: Only greets on first interaction
-    - Judge: Introduces evaluation capabilities once
-    - Coach: Asks for track selection, then provides focused mentorship
-    """
-    # Greeter - only active on first message
-    greeter = Agent(
-        name="Greeter",
-        instruction="""You are the Greeter for EvalForge AI Trainer Arcade.
-        
-Your role: Welcome new users ONCE per session, then stay quiet.
-
-IMPORTANT: You will receive session state context. Check if greeted=true.
-- If greeted=false: Say a brief welcome (1-2 sentences): "Welcome to EvalForge! You're in an AI Trainer Arcade where you get evaluated, coached, and guided."
-- If greeted=true: Stay silent. Do NOT respond. Other agents will handle this.
-
-Be concise. No lists, no questions. Just a quick welcome.""",
-        model=MODEL,
-    )
-    
-    sub_agents = [greeter]
-    
-    # Try to load optional tools (Judge and Coach)
-    try:
-        from .optional_tools import judge, coach
-        
-        # Override Judge instructions for session awareness
-        judge.instruction = """You are the Judge for EvalForge.
-
-Your role: Evaluate debugging submissions using a structured rubric.
-
-IMPORTANT: You will receive session state context. Check if judge_intro_done=true.
-- If judge_intro_done=false: Introduce yourself briefly (1-2 sentences): "I'm Judge. I evaluate your debugging attempts using a rubric: Coverage, Correctness, and Clarity. I'll grade your fixes and give feedback."
-- If judge_intro_done=true AND user has submitted code with an explanation: Evaluate it using evaluate_submission tool.
-- Otherwise: Stay silent.
-
-CRITICAL ANTI-SPAM RULES:
-- Call evaluate_submission ONLY ONCE per user submission
-- If evaluate_submission returns status "skipped", DO NOT call it again
-- When status is "skipped", tell them you already graded this and show the previous scores
-- NEVER repeatedly call the same tool
-
-When grading a NEW submission:
-1. Call evaluate_submission(session_id, code_snippet, explanation_text)
-2. Present scores: Coverage (0-5), Correctness (0-5), Clarity (0-5)
-3. Share the feedback comment
-4. Keep it brief
-
-When status is "skipped": Tell them this was already graded and show their previous scores.
-
-Be direct and concise. No generic pleasantries."""
-        
-        # Override Coach instructions for track-based mentorship
-        coach.instruction = """You are the Coach for EvalForge.
-
-Your role: Guide users through personalized learning tracks.
-
-IMPORTANT: You will receive session state context. Check the 'track' field.
-
-- If track=null: Ask user to pick a track:
-  "You're now in EvalForge, your AI Trainer Arcade. Pick where you want coaching:
-   1. Debugging code (Python/JS)
-   2. Cloud & deployment (Docker, Cloud Run)
-   3. LLM agents / reasoning
-   
-   Reply with 1, 2, or 3."
-
-- If user just replied "1", "2", or "3" and track is still null, confirm their choice:
-  - "1" → "Great. I'll act like a code reviewer and help you spot mistakes fast. Paste code or describe a bug."
-  - "2" → "Great. I'll act like an SRE. Paste logs or errors and I'll walk you through root cause + fix steps."
-  - "3" → "Great. I'll act like an AI systems mentor. Tell me what your agent is doing, and I'll suggest improvements."
-
-- If track is already set (debugging/cloud/llm): Act as a focused mentor for that track:
-  - debugging: **IMPORTANT: When user shares code, ALWAYS call analyze_code_snippet(session_id, code_snippet) tool.** This reviews their code like a senior engineer, explains what's wrong, shows how to fix it, and suggests what to learn next. The tool remembers recurring issues across the session. Use the tool's reply_text to guide them.
-  - cloud: **IMPORTANT: When user shares logs/errors, ALWAYS call analyze_cloud_logs(session_id, logs_or_error) tool.** This analyzes their deployment issues like an SRE and remembers the debugging context. Build on previous diagnoses to guide them step by step.
-  - llm: Review agent behavior, suggest prompt improvements, explain reasoning patterns
-  
-Be conversational but focused. No generic advice. Use your tools when relevant - especially analyze_code_snippet for debugging track and analyze_cloud_logs for cloud track!"""
-        
-        sub_agents.append(judge)
-        sub_agents.append(coach)
-        log.info("✓ Loaded Judge and Coach agents with session-aware instructions")
-    except Exception as e:
-        log.warning("⚠️ Optional tools not loaded: %r", e)
-        log.info("ℹ️ Running with Greeter only (minimal mode)")
-    
-    # Create the orchestrator
-    agent = SequentialAgent(
-        name="ArcadeOrchestrator",
-        sub_agents=sub_agents,  # type: ignore[arg-type]
-    )
-    
-    log.info("Root agent ready: %s | sub_agents=%s", 
-             agent.name, [a.name for a in sub_agents])
-    
-    return agent
-
-
-# Build and expose root_agent
-root_agent = build_root_agent()
-
-# Reuse singletons across requests - Vertex AI Session Service for persistence
-GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT", "291179078777")
-GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-GOOGLE_CLOUD_AGENT_ENGINE_ID = os.getenv("GOOGLE_CLOUD_AGENT_ENGINE_ID")
-
-SESSION_SERVICE = VertexAiSessionService(
-    GOOGLE_CLOUD_PROJECT,
-    GOOGLE_CLOUD_LOCATION,
-    GOOGLE_CLOUD_AGENT_ENGINE_ID,
-)
-RUNNER = Runner(
-    agent=root_agent,
-    session_service=SESSION_SERVICE,
-    app_name="arcade_app"
-)
-
-
-def _ensure_session(session_id: str, user_id: str):
-    """
-    Idempotent session creation: create once, treat AlreadyExists as success.
-    Always passes a sanitized session ID format.
-    """
-    safe_sid = _safe_sid(session_id)
-    
-    # Log session details if event logging is enabled
-    if os.getenv("EVALFORGE_EVENT_LOG") == "1":
-        LOG.info("[Session] project=%s location=%s user=%s sid=%s safe_sid=%s",
-                 PROJECT, REGION, user_id, session_id, safe_sid)
-    
-    try:
-        # Try to create the session (will fail if it already exists)
-        LOG.info("Attempting to create ADK session: app_name=arcade_app user_id=%s session_id=%s", user_id, safe_sid)
-        sess = SESSION_SERVICE.create_session(
-            app_name="arcade_app",
-            user_id=user_id,
-            session_id=safe_sid,
-            state={}
-        )
-        LOG.info("ADK session created: %s (user=%s)", safe_sid, user_id)
-        return sess
-    except Exception as e:
-        msg = str(e)
-        
-        # AlreadyExists is success - session was created previously
-        if "AlreadyExists" in msg or "already exists" in msg.lower() or "ALREADY_EXISTS" in msg:
-            LOG.info("ADK session already exists: %s (user=%s)", safe_sid, user_id)
-            return None
-        
-        # InvalidArgument suggests a formatting issue
-        if "InvalidArgument" in msg or "INVALID_ARGUMENT" in msg:
-            LOG.error("ADK invalid session ID: %s (safe: %s) — check _safe_sid formatting. Error: %s",
-                     session_id, safe_sid, msg)
-            LOG.error("Full exception details:", exc_info=True)
-            raise
-        
-        # Some other error - re-raise with context
-        LOG.error("ADK session creation failed for %s (safe: %s): %s", session_id, safe_sid, msg)
-        LOG.error("Full exception details:", exc_info=True)
-        raise
-
-
-def _classify_event_kind(event: Any) -> str:
-    """Best-effort classification: tool vs partial vs final text."""
-    try:
-        if hasattr(event, "is_final_response") and callable(event.is_final_response):
-            if event.is_final_response():
-                return "final"
-    except Exception:
-        pass
-
-    # Heuristics (robust to ADK internals):
-    # - tool-related metadata present?
-    if any(hasattr(event, name) for name in ("tool_call", "tool_name", "tool_input", "tool_result")):
-        return "tool"
-    # - assistant/user content but not final: treat as partial/stream
-    content = getattr(event, "content", None)
-    role = getattr(content, "role", None) if content else None
-    if role in ("assistant", "user"):
-        return "partial"
-    return "event"
-
-
-def _log_event(event: Any) -> None:
-    """Log ADK event details when EVALFORGE_EVENT_LOG=1."""
-    if LOG.isEnabledFor(logging.INFO):
-        payload: Dict[str, Any] = {}
-        content = getattr(event, "content", None)
-        if content:
-            payload["role"] = getattr(content, "role", None)
-            parts: List[Any] = getattr(content, "parts", None) or []
-            payload["parts"] = [type(p).__name__ for p in parts]
-        # mark final if helper exists
-        try:
-            payload["final"] = bool(event.is_final_response()) if hasattr(event, "is_final_response") else None
-        except Exception:
-            payload["final"] = None
-        LOG.info("ADK %s: %s", _classify_event_kind(event), json.dumps(payload))
-
-
-def _extract_assistant_text_if_final(event: Any) -> str | None:
-    """
-    Return assistant text only when ADK marks this event as the 'final' response.
-    This is robust to tools and partials:
-      - Ignores tool call/response events
-      - Ignores streaming partial chunks
-      - Returns the assistant message text when event.is_final_response() is True
-    """
-    # Prefer the ADK helper (recommended by docs)
-    try:
-        if hasattr(event, "is_final_response") and callable(event.is_final_response):
-            if not event.is_final_response():
-                return None
-    except Exception:
-        # If helper not available or fails, be conservative: don't treat as final
-        return None
-
-    # At this point, ADK says it's the final, user-facing response for the turn.
-    content = getattr(event, "content", None)
-    if not content:
-        return None
-
-    parts: List[Any] = getattr(content, "parts", None) or []
-    for p in parts:
-        # GenAI 'Part' can hold many types; we only care about text here.
-        # (See Vertex AI Content/Part definitions.)
-        if getattr(p, "text", None):
-            return str(p.text)  # type: ignore[return-value]
-
-    return None
-
-
-async def invoke_root_agent(
-    session_state: Any,
-    user_message: str,
-    *,
-    session_id: str,
-    user_id: str,
-) -> tuple[str, Any]:
-    """
-    Calls ADK runner first. If anything fails, fall back to Phase-3 stub.
-    """
-    cleaned = (user_message or "").strip()
-    if not cleaned:
-        return "(no input provided)", session_state
-
-    # Try real ADK first
-    try:
-        _ensure_session(session_id, user_id)
-        safe_sid = _safe_sid(session_id)
-        user_content = Content(role="user", parts=[Part.from_text(text=cleaned)])
-
-        # Force text output (avoids audio/modalities surprises)
-        run_cfg = RunConfig(response_modalities=["TEXT"])
-
-        final_text = None
-        async for event in RUNNER.run_async(
-            user_id=user_id,
-            session_id=safe_sid,  # Use sanitized session ID
-            new_message=user_content,
-            run_config=run_cfg,
-        ):
-            _log_event(event)  # <— new
-            maybe = _extract_assistant_text_if_final(event)
-            if maybe is not None:
-                final_text = maybe
-                # We could break here, but letting the stream drain is fine; ADK marks a single final.
-
-        if final_text:
-            return final_text, session_state
-
-        # If ADK ran but we didn't see text, fall through to fallback.
-    except Exception:
-        pass
-
-    # === Phase-3 fallback (stable demo path): greet → select track → rubric + dedupe ===
-    if not getattr(session_state, "greeted", False):
-        session_state.greeted = True
-        return (
-            "Hey! I'm your EvalForge tutor. Reply `1` to start debugging training.",
-            session_state,
-        )
-
-    # ---- Track selection logic
-    if cleaned.strip() == "1":
-        # Mark we're in debugging / code track
-        session_state.track = "debugging"
-        # We also prep for Phase 3 grading later
-        # (We're not grading yet, just telling the user what to do next)
-        return (
-            "Great, we're in debugging mode. Paste your broken code and tell me what you THINK is wrong. I'll grade you once.",
-            session_state,
-        )
-
-    # ---- Phase 3 grading logic (stub)
-    # If user pasted code and described a bug, produce rubric-style grade
-    # and store last_grade / last_graded_input_hash. This simulates Judge.
-    code_hash = hashlib.sha1(cleaned.encode("utf-8")).hexdigest()
-
-    # If we've already graded this exact input, reuse
-    if getattr(session_state, "last_graded_input_hash", None) == code_hash:
-        lg = getattr(session_state, "last_grade", None)
-        if lg:
-            reused_msg = (
-                "I've already graded this exact submission:\n"
-                f"- coverage: {lg.get('coverage')}/5\n"
-                f"- correctness: {lg.get('correctness')}/5\n"
-                f"- clarity: {lg.get('clarity')}/5\n"
-                f"Next step: {lg.get('comment')}"
-            )
-            return (reused_msg, session_state)
-
-    # Otherwise, "grade" it once
-    fake_grade: Dict[str, Any] = {
-        "coverage": 2,
-        "correctness": 2,
-        "clarity": 3,
-        "comment": "You're close. Return the computed value, handle edge cases, and name things clearly.",
-    }
-    session_state.last_grade = fake_grade
-    session_state.last_graded_input_hash = code_hash
-
-    graded_msg = (
-        "Here's your rubric:\n"
-        f"- coverage: {fake_grade['coverage']}/5\n"
-        f"- correctness: {fake_grade['correctness']}/5\n"
-        f"- clarity: {fake_grade['clarity']}/5\n"
-        f"Next step: {fake_grade['comment']}\n\n"
-        "Update your code and send it again. I'll rescore if it's meaningfully different."
-    )
-
-    return (graded_msg, session_state)
-
-
-
-# Health check endpoint for monitoring
-def healthz() -> Dict[str, Any]:
-    """
-    Health check that verifies ADC and agent configuration.
-    Returns agent status and configuration.
-    """
-    health_status: Dict[str, Any] = {
-        "status": "healthy",
-        "agent": root_agent.name,
-        "sub_agents": [agent.name for agent in root_agent.sub_agents],
-        "model": MODEL,
-        "provider": os.getenv("GENAI_PROVIDER", "unknown"),
-        "vertex_location": REGION,
-        "project": PROJECT,
-    }
-    
-    # Check ADC
-    try:
-        import google.auth  # type: ignore[import-untyped]
-        _, project = google.auth.default()  # type: ignore[attr-defined]
-        health_status["adc_present"] = True
-        health_status["adc_project"] = project
-    except Exception as e:
-        health_status["adc_present"] = False
-        health_status["adc_error"] = str(e)
-        health_status["status"] = "degraded"
-    
-    return health_status
-
-
-def get_session_state(session_id: str) -> Dict[str, Any]:
-    """Get session state for debugging/introspection."""
-    state_dict = session_store.get_state_dict(session_id)
-    if state_dict is None:
-        return {"error": "session not found", "session_id": session_id}
-    return state_dict
-
-
-# Add a tiny "/env" debug route (so you can verify at runtime)
-try:
-    from google.adk import expose  # type: ignore[import-untyped, import-not-found]
-    @expose("/_diag/env")  # type: ignore[misc]
-    async def diag_env():
-        import json, os
-        keys = ["GENAI_PROVIDER","GOOGLE_CLOUD_PROJECT","VERTEX_LOCATION","GENAI_MODEL"]
-        return json.dumps({k: os.getenv(k) for k in keys})
-    
-    @expose("/healthz")  # type: ignore[misc]
-    async def health_check():
-        import json
-        return json.dumps(healthz())
-    
-    @expose("/api/dev/session-state/{session_id}")  # type: ignore[misc]
-    async def session_state_endpoint(session_id: str):
-        """Dev introspection endpoint to view session state."""
-        import json
-        return json.dumps(get_session_state(session_id))
-except Exception:
-    pass
-
-
-# ============================================================================
-# FastAPI App Export (for uvicorn)
-# ============================================================================
-from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import PlainTextResponse, StreamingResponse
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
-from typing import Dict, Any, List
+import asyncio
+import logging
 import uuid
 import time
+from typing import AsyncGenerator, Optional, Dict, List, Literal, Any
 from collections import defaultdict
-import asyncio
 
-app = FastAPI(title="EvalForge Agents API")
+from fastapi import FastAPI, HTTPException, Query, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse, StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+from sse_starlette.sse import EventSourceResponse
 
-# Mount Prometheus metrics endpoint
-try:
-    from .metrics import metrics_app
-    app.mount("/metrics", metrics_app)
-except ImportError:
-    pass  # metrics module not available
+# --- Helper Imports ---
+from arcade_app.grading_helper import grade_submission
+from arcade_app.coach_helper import stream_coach_feedback
+from arcade_app.quest_helper import stream_quest_generator
+from arcade_app.explain_helper import stream_explanation
+from arcade_app.codex_helper import index_codex, get_codex_entry
+from arcade_app.session_state import session_store
+from arcade_app.profile_helper import get_profile, add_xp
+from arcade_app.auth_helper import get_current_user
+from arcade_app.project_helper import list_projects, create_project, sync_project
+from arcade_app.socket_manager import websocket_endpoint
 
-# Mount operations/diagnostics router
-try:
-    from arcade_app.routers import ops_diag
-    app.include_router(ops_diag.router)
-    logging.getLogger("uvicorn").info("[EvalForge] Mounted ops router at /ops")
-except ImportError as e:
-    logging.getLogger("uvicorn").warning(f"[EvalForge] Failed to mount ops router: {e}")
-
-# Serve the built web app if it exists (must be mounted LAST to not override API routes)
-WEB_DIST = os.path.join(os.path.dirname(os.path.dirname(__file__)), "apps", "web", "dist")
-logging.getLogger("uvicorn").info(f"[EvalForge] WEB_DIST={WEB_DIST} exists={os.path.isdir(WEB_DIST)}")
-if os.path.isdir(WEB_DIST):
-    # Mount at "/" for serving static files and HTML
-    # This should be the last mount to avoid overriding API routes
-    pass  # We'll mount this at the end after all routes are defined
-
-# Simple token bucket rate limiter
-_rl_tokens: Dict[str, tuple[float, float]] = defaultdict(lambda: (5.0, time.time()))  # (tokens, last_ts)
-_RL_RATE = 1.0   # tokens/sec
-_RL_BURST = 5.0  # max tokens
-
-def _rl_ok(key: str) -> bool:
-    """Token bucket rate limiter. Returns True if request is allowed."""
-    tokens, ts = _rl_tokens[key]
-    now = time.time()
-    refill = (now - ts) * _RL_RATE
-    tokens = min(_RL_BURST, tokens + refill)
-    if tokens < 1.0:
-        _rl_tokens[key] = (tokens, now)
-        return False
-    _rl_tokens[key] = (tokens - 1.0, now)
-    return True
+# --- 1. Data Models ---
 
 class QueryRequest(BaseModel):
     message: str
+    mode: Literal["judge", "quest", "explain", "debug"] = "judge"
+    world_id: Optional[str] = None
+    track_id: Optional[str] = None
+
+class CreateProjectRequest(BaseModel):
+    repo_url: str
 
 class SessionResponse(BaseModel):
     id: str
@@ -565,49 +46,325 @@ class SessionResponse(BaseModel):
     events: List[Any]
     lastUpdateTime: float
 
+# --- 2. Universe Data Loading ---
+
+WORLDS: Dict[str, Dict] = {}
+TRACKS: Dict[str, Dict] = {}
+
+def load_universe_data():
+    """Loads static world and track data into memory."""
+    global WORLDS, TRACKS
+    try:
+        if os.path.exists("data/worlds.json"):
+            with open("data/worlds.json", "r", encoding="utf-8") as f:
+                for w in json.load(f):
+                    WORLDS[w["id"]] = w
+        if os.path.exists("data/tracks.json"):
+            with open("data/tracks.json", "r", encoding="utf-8") as f:
+                for t in json.load(f):
+                    TRACKS[t["id"]] = t
+        print(f"🌌 Universe Loaded: {len(WORLDS)} Worlds, {len(TRACKS)} Tracks", file=sys.stderr)
+    except Exception as e:
+        print(f"⚠️ Warning: Failed to load universe data: {e}", file=sys.stderr)
+
+def _log_vertex_config():
+    """Log Vertex AI configuration on startup."""
+    project = os.getenv("GOOGLE_CLOUD_PROJECT", "unknown")
+    location = os.getenv("GOOGLE_CLOUD_LOCATION", "unknown")
+    model = os.getenv("EVALFORGE_MODEL_VERSION", "unknown")
+    mock = os.getenv("EVALFORGE_MOCK_GRADING", "unknown")
+    
+    print(
+        f"[EvalForge Config] project={project} location={location} model={model} mock_grading={mock}",
+        file=sys.stderr,
+        flush=True
+    )
+
+# --- 3. Agent Definitions ---
+
+class BaseAgent:
+    """Base interface for all agents."""
+    async def run(self, user_input: str, context: Dict) -> AsyncGenerator[Dict, None]:
+        yield {"event": "error", "data": "Not implemented"}
+
+class JudgeAgent(BaseAgent):
+    """
+    The original Grading + Coaching logic.
+    Context Requirement: 'track_id' (to select rubric).
+    """
+    async def run(self, user_input: str, context: Dict) -> AsyncGenerator[Dict, None]:
+        track_id = context.get("track_id", "default")
+        
+        # 1. Grade
+        grade_result = await grade_submission(user_input, track=track_id)
+        yield {"event": "grade", "data": json.dumps(grade_result)}
+        
+        # 2. Award XP (Gamification Hook)
+        user_id = context.get("user_id", "test")
+        world_id = context.get("world_id", "unknown-world")
+        score = grade_result.get("weighted_score", 0)
+        
+        if score > 0:
+            # XP Formula: Score * Difficulty Multiplier (1.0 for now)
+            xp_amount = int(score) 
+            progress = await add_xp(user_id, world_id, xp_amount)
+            
+            # Stream a 'progress' event so the UI can show a notification
+            yield {"event": "progress", "data": json.dumps(progress)}
+        
+        # 3. Coach (Stream)
+        async for token in stream_coach_feedback(user_input, grade_result, track=track_id):
+            yield {"event": "text_delta", "data": token}
+            
+        yield {"event": "done", "data": "[DONE]"}
+
+class QuestAgent(BaseAgent):
+    """
+    Generates challenges based on World/Track context.
+    """
+    async def run(self, user_input: str, context: Dict) -> AsyncGenerator[Dict, None]:
+        track = TRACKS.get(context.get("track_id"), {})
+        
+        yield {"event": "status", "data": f"Generating quest for {track.get('name', 'Unknown Track')}..."}
+        
+        # Stream the real Quest
+        async for token in stream_quest_generator(user_input, track):
+            yield {"event": "text_delta", "data": token}
+            
+        yield {"event": "done", "data": "[DONE]"}
+
+class ExplainAgent(BaseAgent):
+    """
+    Intelligent Teacher. Uses LangGraph + RAG to look up docs before answering.
+    """
+    async def run(self, user_input: str, context: Dict) -> AsyncGenerator[Dict, None]:
+        from langchain_core.messages import HumanMessage, SystemMessage
+        from arcade_app.graph_agent import explain_graph
+        
+        track = TRACKS.get(context.get("track_id"), {})
+        
+        # 1. Define System Context
+        system_prompt = f"""
+ROLE: Senior Staff Engineer / Mentor.
+CONTEXT: User is working on '{track.get('name')}' ({track.get('description')}).
+STACK: {', '.join(track.get('tags', []))}.
+
+INSTRUCTIONS:
+- You have access to a 'retrieve_docs' tool. USE IT if the user asks a technical question about the stack.
+- Do not guess syntax. Look it up in the Codex.
+- If the user asks something simple, answer directly.
+- Answer concisely and code-first.
+"""
+        
+        inputs = {
+            "messages": [
+                SystemMessage(content=system_prompt),
+                HumanMessage(content=user_input)
+            ]
+        }
+        
+        yield {"event": "status", "data": "Initializing Reasoning Graph..."}
+
+        # 2. Stream the Graph Execution
+        try:
+            # astream_events gives us visibility into the inner workings (tool calls)
+            async for event in explain_graph.astream_events(inputs, version="v2"):
+                kind = event["event"]
+                
+                # Visual Feedback: "I am reading the docs..."
+                if kind == "on_tool_start":
+                    tool_name = event.get("name", "tool")
+                    yield {"event": "status", "data": f"Consulting Codex: {tool_name}..."}
+                
+                # Streaming the Final Answer
+                elif kind == "on_chat_model_stream":
+                    # We only want chunks from the final answer, not the tool call generation
+                    chunk = event.get("data", {}).get("chunk")
+                    if chunk and hasattr(chunk, 'content') and chunk.content:
+                        yield {"event": "text_delta", "data": chunk.content}
+                        
+            yield {"event": "done", "data": "[DONE]"}
+
+        except Exception as e:
+            yield {"event": "text_delta", "data": f"\n\n[Graph Error: {str(e)}]"}
+            yield {"event": "done", "data": "[DONE]"}
+
+class DebugAgent(BaseAgent):
+    """
+    Senior Engineer persona. Helps troubleshoot.
+    """
+    async def run(self, user_input: str, context: Dict) -> AsyncGenerator[Dict, None]:
+        yield {"event": "text_delta", "data": "🔍 **Debug Mode**\n\n"}
+        track = TRACKS.get(context.get("track_id"), {})
+        
+        # Reuse explanation logic for now, tailored for debugging
+        debug_prompt = f"Help me debug this issue: {user_input}"
+        async for token in stream_explanation(debug_prompt, track):
+            yield {"event": "text_delta", "data": token}
+            
+        yield {"event": "done", "data": "[DONE]"}
+
+# --- 4. FastAPI Setup ---
+
+app = FastAPI(title="EvalForge Agent Router")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Initialize Universe
+@app.on_event("startup")
+async def startup_event():
+    _log_vertex_config()
+    load_universe_data()
+
+# Agent Registry
+AGENTS = {
+    "judge": JudgeAgent(),
+    "quest": QuestAgent(),
+    "explain": ExplainAgent(),
+    "debug": DebugAgent(),
+}
+
+@app.post("/apps/arcade_app/users/{user}/sessions/{sid}/query/stream")
+async def stream_session(user: str, sid: str, payload: QueryRequest):
+    """
+    Multi-Agent Router Endpoint.
+    """
+    print(f"Incoming Request: Mode={payload.mode} | World={payload.world_id} | Track={payload.track_id}")
+    
+    # 1. Select Agent
+    agent = AGENTS.get(payload.mode, AGENTS["judge"])
+    
+    # 2. Build Context
+    context = {
+        "world_id": payload.world_id,
+        "track_id": payload.track_id,
+        "user_id": user,
+        "session_id": sid
+    }
+    
+    # 3. Execute & Stream
+    return EventSourceResponse(agent.run(payload.message, context))
+
+@app.get("/api/universe")
+async def get_universe():
+    """
+    Returns the loaded Worlds and Tracks.
+    Now merges STATIC tracks (from JSON) with DYNAMIC tracks (User Projects).
+    """
+    # 1. Start with Static Data (Deep copy to avoid mutating global state)
+    static_worlds = list(WORLDS.values())
+    all_tracks = list(TRACKS.values())
+    
+    # 2. Load Dynamic Projects
+    # In Mock mode, we grab projects for the current mock user ('leo')
+    user = get_current_user()
+    if user:
+        # AWAIT the DB call
+        user_projects = await list_projects(user["id"])
+        
+        # 3. Convert Projects -> Tracks
+        for proj in user_projects:
+            # Skip if sync is failed or pending (optional, maybe we want to show them as disabled?)
+            # For now, we include them so you can try to run quests on them.
+            
+            stack = proj.get("summary_data", {}).get("stack", [])
+            
+            dynamic_track = {
+                "id": proj["id"],           # e.g. "proj-1234"
+                "world_id": proj["default_world_id"], 
+                "name": f"{proj['name']} (GitHub)",
+                "source": "user-repo",      # Matches our QuestMaster logic
+                "description": f"Linked Repo: {proj['repo_url']}",
+                "tags": stack,
+                "repo_config": {
+                    "provider": proj["provider"],
+                    "url": proj["repo_url"],
+                    "stack": stack,
+                    "focus_areas": ["general-maintenance", "refactoring"]
+                }
+            }
+            all_tracks.append(dynamic_track)
+
+    return {
+        "worlds": static_worlds,
+        "tracks": all_tracks
+    }
+
+@app.get("/api/codex")
+def list_codex(world: Optional[str] = None):
+    """
+    Returns the Codex Index.
+    Optional: ?world=world-python to filter results.
+    """
+    all_entries = index_codex()
+    
+    if world:
+        # Return entries matching the world OR generic entries
+        return [e for e in all_entries if e["world"] == world or e["world"] == "general"]
+    
+    return all_entries
+
+@app.get("/api/codex/{entry_id}")
+def read_codex(entry_id: str):
+    """
+    Returns the full Markdown content for an entry.
+    """
+    entry = get_codex_entry(entry_id)
+    if not entry:
+        raise HTTPException(status_code=404, detail="Codex Entry not found")
+    return entry
+
+@app.get("/api/profile/{user_id}")
+async def read_profile(user_id: str):
+    return await get_profile(user_id)
+
+@app.get("/api/auth/me")
+def auth_me():
+    user = get_current_user()
+    if not user:
+        return {} # Return empty object if not logged in
+    return user
+
+@app.get("/api/auth/github/start")
+def auth_start():
+    # Mock redirect
+    return {"url": "/?login_success=true"}
+
+# --- Project Routes ---
+@app.get("/api/projects")
+async def get_projects():
+    user = get_current_user() # Assume 'leo' for now
+    if not user: return []
+    return await list_projects(user["id"])
+
+@app.post("/api/projects")
+async def add_project(payload: CreateProjectRequest):
+    user = get_current_user()
+    if not user: raise HTTPException(status_code=401)
+    try:
+        return await create_project(user["id"], payload.repo_url)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api/projects/{pid}/sync")
+async def trigger_sync(pid: str):
+    return await sync_project(pid)
+
 @app.get("/api/status")
 async def api_status():
-    """Status endpoint."""
-    return {"status": "EvalForge is running", "version": "Phase 3"}
-
-@app.get("/healthz", response_class=PlainTextResponse)
-async def health() -> str:
-    """Health check endpoint."""
-    try:
-        healthz()  # Validates config
-        return "ok"
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return f"error: {str(e)}"
-
-@app.get("/api/dev/session-state/{session_id}")
-async def get_session_state_api(
-    session_id: str,
-    fields: str | None = Query(default=None, description="Comma-separated field list")
-) -> Dict[str, Any]:
-    """Dev introspection endpoint to view session state with optional field filtering."""
-    payload = get_session_state(session_id)
-    
-    # Apply field filter if requested
-    if fields:
-        want = {f.strip() for f in fields.split(",") if f.strip()}
-        payload = {k: v for k, v in payload.items() if k in want}
-    
-    return payload
+    return {"status": "EvalForge is running", "version": "Phase 10"}
 
 @app.post("/apps/arcade_app/users/{user_id}/sessions", response_model=SessionResponse)
 async def create_session(user_id: str):
     """Create a new session."""
     session_id = str(uuid.uuid4())
-    
-    # Initialize session in local session_store (for our state management)
     _ = session_store.get(session_id)
-    state_dict = session_store.get_state_dict(session_id)
-    if state_dict is None:
-        state_dict = {}
-    
-    # Note: ADK session will be created lazily on first query via _ensure_session
+    state_dict = session_store.get_state_dict(session_id) or {}
     
     return SessionResponse(
         id=session_id,
@@ -618,216 +375,54 @@ async def create_session(user_id: str):
         lastUpdateTime=time.time()
     )
 
-# COPILOT: DO NOT CHANGE ROUTES OR TASK CONFIG.
-#
-# This /query endpoint is STABLE and PRODUCTION-CRITICAL for local EvalForge demos.
-#
-# Current behavior:
-# - Accepts { "message": "..." } from the client.
-# - Loads session_state for the given session_id.
-# - Applies simple conversation logic:
-#     * first "hi" -> greet, mark greeted=true in session_state
-#     * "1"       -> set track="debugging" in session_state
-#     * later steps will call Judge grading, update last_grade, etc.
-# - Persists session_state.
-# - Returns { "response": "...", "session_id": "...", ... }.
-#
-# This is a TEMPORARY STUB that imitates Greeter/Coach/Judge.
-# The real plan is to call the Google ADK root_agent (SequentialAgent)
-# and let it update session_state and produce the reply.
-#
-# IMPORTANT RULES FOR COPILOT:
-# 1. DO NOT delete or rename this /query endpoint.
-# 2. DO NOT rename /sessions or /api/dev/session-state.
-# 3. DO NOT switch the dev server launch away from the VS Code task
-#    "EvalForge: Dev Server (Judge/Coach/Greeter + MCP)".
-# 4. DO NOT suggest using `adk web`. Ignore the "No agents found" banner.
-# 5. You MAY add a helper like `invoke_root_agent(message, session_state)`
-#    that tries to call root_agent.run_async(...) with a proper InvocationContext,
-#    BUT:
-#      - Wrap that call in try/except.
-#      - On error, fall back to the current stub behavior instead of crashing uvicorn.
-#      - Always update session_state and return JSON.
-#
-# 6. When we eventually get InvocationContext right and can call root_agent,
-#    slot that into invoke_root_agent() and keep the rest of this endpoint stable.
-#
-# TL;DR: We are allowed to IMPROVE agent invocation,
-# but we are NOT allowed to break the contract or regress server stability.
+@app.get("/api/dev/session-state/{session_id}")
+async def get_session_state_api(
+    session_id: str,
+    fields: str | None = Query(default=None, description="Comma-separated field list")
+) -> Dict[str, Any]:
+    state_dict = session_store.get_state_dict(session_id) or {}
+    if fields:
+        want = {f.strip() for f in fields.split(",") if f.strip()}
+        state_dict = {k: v for k, v in state_dict.items() if k in want}
+    return state_dict
 
-@app.post("/apps/arcade_app/users/{user_id}/sessions/{session_id}/query")
-async def query_agent(user_id: str, session_id: str, request: QueryRequest) -> Dict[str, Any]:
-    """Send a message to the agent and get response."""
+# --- WebSocket for Game Events ---
+@app.websocket("/ws/game_events")
+async def game_events_websocket(websocket: WebSocket):
+    """Stream game events from Redis to frontend via WebSocket."""
+    await websocket.accept()
+    
+    redis_client = None
+    pubsub = None
+    
     try:
-        # Rate limiting check
-        rl_key = f"{user_id}:{session_id}"
-        if not _rl_ok(rl_key):
-            raise HTTPException(status_code=429, detail="Rate limit exceeded; try again shortly.")
+        from redis import asyncio as aioredis
+        redis_url = os.getenv("REDIS_URL", "redis://localhost:6380/0")
+        redis_client = aioredis.from_url(redis_url)
+        pubsub = redis_client.pubsub()
+        await pubsub.subscribe("game_events")
         
-        # 1. Extract user message
-        user_message = request.message
-        if not isinstance(user_message, str):  # type: ignore[unreachable]
-            raise HTTPException(status_code=400, detail="message must be a string")
-        
-        # 2. Fetch session state for this session_id
-        session_state = session_store.get(session_id)
-        
-        # 3. Invoke agent (real ADK Runner or fallback) - now passing user_id and session_id
-        reply_text, updated_state = await invoke_root_agent(
-            session_state, 
-            user_message,
-            session_id=session_id,
-            user_id=user_id
-        )
-        
-        # 4. Session state is already updated in-place by invoke_root_agent
-        # (session_store uses the same reference, so no explicit save needed)
-        
-        # 5. Build response with dedupe info if grading happened
-        response: Dict[str, Any] = {
-            "session_id": session_id,
-            "response": reply_text,
-            "track": getattr(updated_state, "track", None),
-            "state": session_store.get_state_dict(session_id)
-        }
-        
-        # Include grade info if available
-        if updated_state.last_grade:
-            # last_grade might be a Pydantic model or already a dict
-            if hasattr(updated_state.last_grade, "model_dump"):
-                response["last_grade"] = updated_state.last_grade.model_dump()
-            else:
-                response["last_grade"] = updated_state.last_grade
-            if updated_state.last_graded_input_hash:
-                response["sha1"] = updated_state.last_graded_input_hash
-                # Mark as dedupe if the hash was already there before this call
-                # (This is a simplification - proper dedupe detection happens in grade_once_with_dedupe)
-        
-        return response
-    
-    except HTTPException:
-        raise
+        async for message in pubsub.listen():
+            if message["type"] == "message":
+                await websocket.send_text(message["data"].decode())
     except Exception as e:
-        import traceback
-        error_details = traceback.format_exc()
-        print(f"ERROR in query_agent: {error_details}", flush=True)
-        raise HTTPException(status_code=500, detail={"error": "agent_failed", "message": str(e)})
+        print(f"WebSocket Error: {e}")
+    finally:
+        if pubsub:
+            await pubsub.unsubscribe("game_events")
+        if redis_client:
+            await redis_client.close()
+        await websocket.close()
 
-
-# ============================================================================
-# ADK-Powered SSE Streaming Route
-# ============================================================================
-def _sse(data: Dict[str, Any]) -> bytes:
-    """Server-Sent Events frame (single 'data:' line per event)."""
-    return f"data: {json.dumps(data, ensure_ascii=False)}\n\n".encode("utf-8")
-
-
-@app.post("/apps/arcade_app/users/{user_id}/sessions/{session_id}/query/stream")
-async def query_stream(user_id: str, session_id: str, request: QueryRequest):
-    """
-    ADK streaming via SSE.
-    Emits ordered frames:
-      {"type":"start"}
-      {"type":"delta","text": "<token>"}  (many)
-      {"type":"final","text": "<full assistant text>"}  (once)
-      {"type":"done"}  (always)
-      {"type":"error","message":"..."}  (on errors)
-    """
-    message = request.message
-    if not message:
-        async def bad():
-            yield _sse({"type": "error", "message": "Missing 'message'."})
-            yield _sse({"type": "done"})
-        return StreamingResponse(bad(), media_type="text/event-stream")
-
-    # Rate limiting check
-    rl_key = f"{user_id}:{session_id}"
-    if not _rl_ok(rl_key):
-        async def rate_limited():
-            yield _sse({"type": "error", "message": "Rate limit exceeded; try again shortly."})
-            yield _sse({"type": "done"})
-        return StreamingResponse(rate_limited(), media_type="text/event-stream")
-
-    # Build ADK inputs
-    content = Content(role="user", parts=[Part.from_text(text=message)])
-    run_cfg = RunConfig(response_modalities=["TEXT"])
-
-    async def gen():
-        yield _sse({"type": "start"})
-        final_buf: list[str] = []
-        try:
-            # Ensure session exists in ADK SessionService
-            _ensure_session(session_id, user_id)
-            safe_sid = _safe_sid(session_id)
-            
-            # Stream ADK events using existing RUNNER
-            async for ev in RUNNER.run_async(
-                user_id=user_id,
-                session_id=safe_sid,  # Use sanitized session ID
-                new_message=content,
-                run_config=run_cfg,
-            ):
-                # Optional debug log when EVALFORGE_EVENT_LOG=1
-                if os.getenv("EVALFORGE_EVENT_LOG") == "1":
-                    try:
-                        _classify_event_kind(ev)
-                        _log_event(ev)
-                    except Exception:
-                        pass
-
-                # 1) Partial assistant tokens
-                # Check for partial text content in the event
-                tok = getattr(ev, "text", None) or getattr(ev, "delta", None)
-                if tok and not (hasattr(ev, "is_final_response") and ev.is_final_response()):
-                    final_buf.append(tok)
-                    yield _sse({"type": "delta", "text": tok})
-                    # Small cooperative yield to keep loop responsive
-                    await asyncio.sleep(0)
-
-                # 2) Final assistant response
-                if hasattr(ev, "is_final_response") and ev.is_final_response():
-                    text = _extract_assistant_text_if_final(ev) or "".join(final_buf)
-                    if not text and final_buf:
-                        text = "".join(final_buf)
-                    yield _sse({"type": "final", "text": text})
-                    
-                    # Session state is automatically updated by RUNNER/SESSION_SERVICE
-                    break
-
-            # Always close the stream
-            yield _sse({"type": "done"})
-
-        except asyncio.CancelledError:
-            # Client aborted — just stop quietly
-            LOG.info(f"Stream cancelled by client for session {session_id}")
-            return
-        except Exception as e:
-            LOG.exception(f"Streaming error for session {session_id}")
-            # Try to flush a graceful error, then done
-            yield _sse({"type": "error", "message": str(e)})
-            yield _sse({"type": "done"})
-
-    return StreamingResponse(gen(), media_type="text/event-stream")
-
-
-# ============================================================================
-# Mount Static Files (Dev UI) - Must be LAST to avoid overriding API routes
-# Only serve Dev UI in non-production environments
-# ============================================================================
-if os.getenv("EVALFORGE_ENV") != "prod" and os.path.isdir(WEB_DIST):
+# --- Static Files (Must be last) ---
+WEB_DIST = os.path.join(os.path.dirname(os.path.dirname(__file__)), "apps", "web", "dist")
+if os.path.isdir(WEB_DIST):
     app.mount("/", StaticFiles(directory=WEB_DIST, html=True), name="web")
-    logging.getLogger("uvicorn").info("[EvalForge] Dev UI mounted at /")
-    
-    # SPA catch-all for client-side routing (preserves API routes)
-    from fastapi.responses import FileResponse
     
     @app.get("/{full_path:path}")
     def spa_catch_all(full_path: str):
-        """Catch-all route for SPA client-side routing."""
-        # Preserve API routes
         if full_path.startswith(("api/", "apps/", "metrics", "healthz", "docs")):
             raise HTTPException(status_code=404)
-        # Serve index.html for client-side routes
         index = os.path.join(WEB_DIST, "index.html")
         if os.path.isfile(index):
             return FileResponse(index)

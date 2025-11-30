@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "run_id": "run_20251128_130622",
+    "timestamp": "2025-11-28T13:06:22.015645",
+    "duration_sec": 0.0,
+    "mock_mode": true
+  },
+  "summary": {
+    "total_cases": 3,
+    "avg_score": 66.7,
+    "pass_rate_pct": 100.0
+  },
+  "results": [
+    {
+      "id": "dbg_01",
+      "score": 20.0,
+      "latency": 1.7,
+      "passed": true
+    },
+    {
+      "id": "dbg_02",
+      "score": 100.0,
+      "latency": 0.0,
+      "passed": true
+    },
+    {
+      "id": "gen_01",
+      "score": 80.0,
+      "latency": 0.0,
+      "passed": true
+    }
+  ]
+}

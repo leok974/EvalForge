@@ -1,3 +1,31 @@
-google-adk
-prometheus_client
-starlette
+# --- Core Framework ---
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv
+sse-starlette
+httpx  # For internal API calls & testing
+
+# --- Database (Phase 13) ---
+sqlmodel
+asyncpg           # Async Postgres driver
+psycopg2-binary   # Sync Postgres driver (often needed for tools/migrations)
+redis             # Redis client
+
+# --- AI & RAG (Phase 14) ---
+google-cloud-aiplatform>=1.38.0  # Vertex AI SDK
+pgvector                         # Vector search support
+python-frontmatter               # Parsing Codex markdown headers
+tenacity                         # Retry logic for API calls
+
+# --- Reasoning Engine (Phase 15) ---
+langgraph                        # State Machine for Agents
+langchain-google-vertexai        # Vertex AI integration for LangChain
+langchain-core                   # Base types for Tools/Messages
+
+# --- Ingestion (Phase 16) ---
+GitPython                        # For cloning repos
+
+# --- Real-Time & Workers (Phase 17) ---
+arq                              # Async Task Queue (Background Workers)
+async-timeout                    # For WebSocket/Redis testing

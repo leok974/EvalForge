@@ -1,190 +1,234 @@
-/**
- * EvalForge Dev UI - Interactive testing interface
- */
-import React, { useEffect, useRef, useState } from "react";
-import { Scoreboard, GradeData } from "../components/Scoreboard";
-import { ScoreboardSkeleton } from "../components/Skeleton";
-import { getSessionStateFields } from "../lib/api";
-import { ThemeToggle } from "../components/ThemeToggle";
-import { useToast } from "../lib/toast";
-import { ChatPanel } from "../components/chat/ChatPanel";
+import React, { useState, useEffect, useRef } from 'react';
+import { useArcadeStream } from '../hooks/useArcadeStream';
+import { Scoreboard } from '../components/Scoreboard';
+import { ContextSelector } from '../components/ContextSelector';
+import { CodexDrawer } from '../components/CodexDrawer';
+import { XPBar } from '../components/XPBar';
+import { useAuth } from '../hooks/useAuth';
+import { ProjectsPanel } from '../components/ProjectsPanel';
+import { GameToast } from '../components/GameToast';
+
+type World = {
+  id: string;
+  name: string;
+  icon: string;
+};
+
+type Track = {
+  id: string;
+  world_id: string;
+  name: string;
+  source?: 'personal' | 'lab';
+};
+
+type Universe = {
+  worlds: World[];
+  tracks: Track[];
+};
 
 export default function DevUI() {
-  const [sessionId, setSessionId] = useState<string>("");
-  const [log, setLog] = useState<string[]>([]);
-  const [grade, setGrade] = useState<GradeData | undefined>(undefined);
-  const [baseUrl] = useState<string>(() =>
-    (typeof window !== "undefined" ? window.location.origin : "http://127.0.0.1:19010")
-  );
-  const [loadingGrade, setLoadingGrade] = useState(false);
-  const pollTimer = useRef<number | null>(null);
+  const [input, setInput] = useState('');
 
-  const append = (s: string) => setLog((L) => [...L, s]);
-  const { push } = useToast();
-  
-  const stopPoll = () => {
-    if (pollTimer.current) {
-      window.clearInterval(pollTimer.current);
-      pollTimer.current = null;
-    }
-  };
-  
-  useEffect(() => stopPoll, []);
+  // Context State
+  const [context, setContext] = useState({
+    mode: 'judge',
+    world_id: 'world-python',
+    track_id: 'applylens-backend'
+  });
 
-  async function refreshScoreboard(manual = false) {
-    if (!sessionId) return;
-    try {
-      setLoadingGrade(true);
-      const data = await getSessionStateFields(baseUrl, sessionId, ["last_grade", "track"]);
-      if (data?.last_grade) {
-        setGrade(data.last_grade);
-        if (manual) {
-          append("🔁 Scoreboard refreshed.");
-          push({ kind: "success", title: "Scoreboard updated", text: "Latest rubric scores loaded." });
+  // Universe Data
+  const [universe, setUniverse] = useState<Universe>({ worlds: [], tracks: [] });
+
+  // Codex State
+  const [isCodexOpen, setIsCodexOpen] = useState(false);
+
+  // Projects State
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
+
+  // Generate a random session ID for demo purposes
+  const [sid] = useState(() => `sess_${Math.random().toString(36).substr(2, 9)}`);
+
+  // Auth
+  const { user, login } = useAuth();
+
+  const { messages, latestGrade, lastProgress, isStreaming, sendMessage, stopStream } = useArcadeStream(sid, user?.id || 'test');
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Fetch Universe Data
+  useEffect(() => {
+    fetch('/api/universe')
+      .then(res => res.json())
+      .then(data => {
+        setUniverse(data);
+        // Optional: Set default context if empty
+        if (data.worlds.length > 0) {
+          // Keep defaults or update
         }
-      } else if (manual) {
-        const msg = "No grade yet. Trigger Judge by submitting code.";
-        append("ℹ️ " + msg);
-        push({ kind: "info", text: msg });
-      }
-    } catch (e: any) {
-      const msg = `Scoreboard fetch failed: ${e.message || e}`;
-      append("⚠️ " + msg);
-      push({ kind: "error", title: "Fetch failed", text: msg });
-    } finally {
-      setLoadingGrade(false);
-    }
-  }
+      })
+      .catch(err => console.error("Failed to load universe:", err));
+  }, []);
 
-  async function createSession() {
-    const res = await fetch(`${baseUrl}/apps/arcade_app/users/test/sessions`, { 
-      method: "POST", 
-      headers: { "Content-Length": "0" }
-    });
-    const data = await res.json();
-    setSessionId(data.id);
-    append(`🧪 Session created: ${data.id}`);
-    push({ kind: "success", title: "Session created", text: data.id });
-    // Brief scoreboard refresh on create (no grade expected yet)
-    setTimeout(() => refreshScoreboard(false), 200);
-  }
+  // Auto-scroll on new tokens
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-  async function sendMessage(message: string) {
-    if (!sessionId) return append("⚠️ Create a session first.");
-    const res = await fetch(`${baseUrl}/apps/arcade_app/users/test/sessions/${sessionId}/query`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message })
-    });
-    const data = await res.json();
-    append(`🤖 ${data.response}`);
-    
-    // If a grade is produced, update scoreboard immediately and start a short poll
-    if (data?.last_grade) {
-      setGrade(data.last_grade);
-      // Short-lived poll (e.g., 5 times every 1s) to catch async state persistence
-      stopPoll();
-      let remaining = 5;
-      pollTimer.current = window.setInterval(async () => {
-        remaining -= 1;
-        await refreshScoreboard(false);
-        if (remaining <= 0) stopPoll();
-      }, 1000);
-    }
-  }
-
-  async function runDevDiag() {
-    try {
-      const target = window.location.origin;
-      append(`🔍 Running DevDiag on ${target}...`);
-      push({ kind: "info", title: "DevDiag started", text: "Running diagnostics..." });
-      
-      const res = await fetch("/ops/diag", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ target_url: target, preset: "app" })
-      });
-      
-      const json = await res.json();
-      
-      if (!res.ok || !json.ok) {
-        throw new Error(json?.detail || "DevDiag failed");
-      }
-      
-      append(`✅ DevDiag completed. Check server logs for artifacts.`);
-      push({ 
-        kind: "success", 
-        title: "DevDiag completed", 
-        text: "Diagnostic results available in server logs." 
-      });
-    } catch (e: any) {
-      const msg = `DevDiag error: ${e.message || String(e)}`;
-      append(`❌ ${msg}`);
-      push({ kind: "error", title: "DevDiag failed", text: e.message || String(e) });
-    }
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isStreaming) return;
+    sendMessage(input, context.mode, context.world_id, context.track_id);
+    setInput('');
+  };
 
   return (
-    <div className="container-page space-y-6">
+    <div className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-cyan-900 flex flex-col">
+
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">EvalForge Dev UI</h1>
-          <p className="muted">Quick controls for sessions, grading, and diagnostics.</p>
-        </div>
-        <div className="flex gap-2">
-          <button className="btn" onClick={runDevDiag}>Run DevDiag</button>
-          <ThemeToggle />
-        </div>
-      </div>
+      <header className="border-b border-zinc-800 bg-zinc-950 px-4 py-2 flex justify-between items-center sticky top-0 z-30">
 
-      {/* Controls */}
-      <div className="card p-4">
-        <div className="flex flex-wrap gap-2">
-          <button className="btn btn-primary" onClick={createSession}>Create Session</button>
-          <button className="btn" onClick={() => sendMessage("hi")}>Send "hi"</button>
-          <button className="btn" onClick={() => sendMessage("1")}>Select Track "1"</button>
-          <button className="btn" onClick={() => sendMessage("function add(a,b){return a+b}")}>Submit Code</button>
-          <button
-            className="btn"
-            onClick={() => refreshScoreboard(true)}
-            disabled={!sessionId || loadingGrade}
-            data-testid="refresh-scoreboard"
-          >
-            {loadingGrade ? "Refreshing…" : "Refresh Scoreboard"}
-          </button>
-        </div>
-      </div>
+        {/* Left Side: Logo & Projects */}
+        <div className="flex items-center gap-4">
+          <div className="font-bold tracking-tight text-lg text-cyan-500">EVALFORGE <span className="text-zinc-600 text-xs">ARCADE</span></div>
 
-      {/* Scoreboard */}
-      <div className="card p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="section-title">Judge Scoreboard</h2>
-          {grade ? (
-            <span className="muted">Rubric: coverage · correctness · clarity</span>
-          ) : (
-            <span className="muted">No grade yet</span>
+          {/* Project Button (Visible when logged in) */}
+          {user && (
+            <button
+              onClick={() => setIsProjectsOpen(true)}
+              className="text-xs font-mono text-zinc-500 hover:text-cyan-400 flex items-center gap-1 transition-colors border-l border-zinc-800 pl-4"
+            >
+              <span className="text-lg leading-none">📁</span> PROJECTS
+            </button>
           )}
         </div>
-        {loadingGrade ? (
-          <ScoreboardSkeleton />
-        ) : grade ? (
-          <Scoreboard grade={grade} />
-        ) : (
-          <p className="muted">Submit code to Judge to see your rubric scores here.</p>
-        )}
-      </div>
 
-      {/* Chat Panel */}
-      {sessionId && <ChatPanel sessionId={sessionId} baseUrl={baseUrl} />}
+        {/* Right Side: XP, User, Codex */}
+        <div className="flex items-center gap-6">
+          {/* Only show XP if we have a user context (or just use 'test' default) */}
+          <XPBar user={user?.id || 'test'} lastProgress={lastProgress} />
 
-      {/* Log */}
-      <div className="card p-4">
-        <h2 className="section-title mb-2">Log</h2>
-        <div className="space-y-1 font-mono text-sm text-muted">
-          {log.length === 0 ? <div>No events yet.</div> : log.map((l, i) => <div key={i}>{l}</div>)}
+          {/* Login / User Badge */}
+          {!user ? (
+            <button
+              onClick={login}
+              className="text-xs bg-zinc-800 text-zinc-300 px-3 py-1.5 rounded hover:bg-zinc-700 font-bold transition-colors"
+            >
+              LOGIN (GITHUB)
+            </button>
+          ) : (
+            <div className="flex items-center gap-2 group cursor-default">
+              <img src={user.avatar_url} className="w-6 h-6 rounded-full border border-zinc-700 group-hover:border-cyan-500 transition-colors" alt="avatar" />
+              <span className="text-xs font-mono text-zinc-500 group-hover:text-zinc-300">{user.name}</span>
+            </div>
+          )}
+
+          <button
+            onClick={() => setIsCodexOpen(true)}
+            className="text-xs font-bold bg-zinc-900 border border-zinc-700 hover:border-cyan-500 text-zinc-300 px-3 py-1.5 rounded transition-all flex items-center gap-2"
+          >
+            📖 CODEX
+          </button>
         </div>
-      </div>
+      </header>
+
+      <main className="flex-1 max-w-7xl mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6 w-full overflow-hidden">
+
+        {/* Left Col: Scoreboard (Sticky) */}
+        <div className="md:col-span-1 flex flex-col">
+          <Scoreboard grade={latestGrade} />
+        </div>
+
+        {/* Right Col: Chat Interface */}
+        <div className="md:col-span-2 flex flex-col bg-zinc-900/30 rounded-xl border border-zinc-800 overflow-hidden min-h-0">
+
+          {/* Context Selector */}
+          <ContextSelector
+            context={context}
+            setContext={setContext}
+          />
+
+          {/* Message List */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.length === 0 && (
+              <div className="text-center text-zinc-600 mt-20 font-mono text-sm">
+                SYSTEM READY.<br />AWAITING INPUT...
+              </div>
+            )}
+
+            {messages.map((msg, idx) => (
+              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div
+                  className={`max-w-[85%] rounded-lg p-3 text-sm leading-relaxed whitespace-pre-wrap ${msg.role === 'user'
+                    ? 'bg-zinc-800 text-zinc-100 border border-zinc-700'
+                    : 'bg-cyan-950/30 text-cyan-100 border border-cyan-900/50 font-mono'
+                    }`}
+                >
+                  {msg.content}
+                  {msg.role === 'assistant' && isStreaming && idx === messages.length - 1 && (
+                    <span className="inline-block w-2 h-4 bg-cyan-500 ml-1 animate-blink align-middle" />
+                  )}
+                </div>
+              </div>
+            ))}
+            <div ref={bottomRef} />
+          </div>
+
+          {/* Input Area */}
+          <div className="p-4 border-t border-zinc-800 bg-zinc-950">
+            <form onSubmit={handleSubmit} className="relative">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }
+                }}
+                disabled={isStreaming}
+                placeholder="Paste code or ask a question..."
+                className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 pr-12 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500 resize-none h-24 font-mono transition-colors"
+              />
+
+              <div className="absolute bottom-3 right-3">
+                {isStreaming ? (
+                  <button
+                    type="button"
+                    onClick={stopStream}
+                    className="px-3 py-1 bg-rose-900/50 text-rose-400 text-xs rounded hover:bg-rose-900 border border-rose-800 transition-colors"
+                  >
+                    STOP
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={!input.trim()}
+                    className="px-3 py-1 bg-cyan-900/50 text-cyan-400 text-xs rounded hover:bg-cyan-900 border border-cyan-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    RUN
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </main>
+
+      {/* Drawers & Modals */}
+      <CodexDrawer
+        isOpen={isCodexOpen}
+        onClose={() => setIsCodexOpen(false)}
+        currentWorldId={context.world_id}
+      />
+
+      <ProjectsPanel
+        user={user}
+        isOpen={isProjectsOpen}
+        onClose={() => setIsProjectsOpen(false)}
+      />
+
+      {/* Global Toast Notifications */}
+      <GameToast />
     </div>
   );
 }

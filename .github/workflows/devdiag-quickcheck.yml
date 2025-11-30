@@ -12,20 +12,22 @@ jobs:
       - name: Run DevDiag Quickcheck
         run: |
           echo "Running DevDiag on PR preview: $TARGET_URL"
-          curl -sS -X POST "$DEVDIAG_BASE/mcp/diag/quickcheck" \
+          
+          # Call DevDiag HTTP endpoint (updated for HTTP proxy approach)
+          curl -sS -X POST "$DEVDIAG_BASE/diag/run" \
             -H "Authorization: Bearer $DEVDIAG_READER_JWT" \
             -H "Content-Type: application/json" \
             -d "{\"url\":\"$TARGET_URL\",\"preset\":\"app\",\"tenant\":\"evalforge\"}" \
             | jq '.'
           
-          # Check if diagnostic passed
-          RESULT=$(curl -sS -X POST "$DEVDIAG_BASE/mcp/diag/quickcheck" \
+          # Check if diagnostic passed (look for ok: true)
+          RESULT=$(curl -sS -X POST "$DEVDIAG_BASE/diag/run" \
             -H "Authorization: Bearer $DEVDIAG_READER_JWT" \
             -H "Content-Type: application/json" \
             -d "{\"url\":\"$TARGET_URL\",\"preset\":\"app\",\"tenant\":\"evalforge\"}" \
-            | jq -r '.status')
+            | jq -r '.ok')
           
-          if [ "$RESULT" != "ok" ] && [ "$RESULT" != "pass" ]; then
+          if [ "$RESULT" != "true" ]; then
             echo "❌ DevDiag check failed"
             exit 1
           fi

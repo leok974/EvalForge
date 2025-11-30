@@ -1,0 +1,139 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests/backend/test_graph_agent.py::test_explain_agent_stream_parsing FAILED [100%]
+
+================================== FAILURES ===================================
+______________________ test_explain_agent_stream_parsing ______________________
+
+    async def test_explain_agent_stream_parsing():
+        """
+        Verifies that ExplainAgent correctly converts internal LangGraph events
+        into the SSE events expected by the Frontend.
+        """
+        agent = ExplainAgent()
+        context = {"track_id": "test-track"}
+    
+        # 1. Define the sequence of events the Graph would emit
+        mock_events = [
+            # Tool Start Event
+            {
+                "event": "on_tool_start",
+                "name": "retrieve_docs",
+                "data": {"input": "FastAPI"}
+            },
+            # LLM Token 1
+            {
+                "event": "on_chat_model_stream",
+                "data": {"chunk": AIMessageChunk(content="According")}
+            },
+            # LLM Token 2
+            {
+                "event": "on_chat_model_stream",
+                "data": {"chunk": AIMessageChunk(content=" to the docs...")}
+            }
+        ]
+    
+        # 2. Create an async generator that yields these events
+        async def mock_graph_stream(*args, **kwargs):
+            for event in mock_events:
+                yield event
+    
+        # 3. Patch the 'explain_graph' object inside 'arcade_app.agent'
+        # We set side_effect on the method to use our generator
+>       with patch("arcade_app.agent.explain_graph") as mock_graph_instance:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\backend\test_graph_agent.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x0000013DCD30D6A0>
+
+    def __enter__(self):
+        """Perform the patch."""
+        if self.is_started:
+            raise RuntimeError("Patch is already started")
+    
+        new, spec, spec_set = self.new, self.spec, self.spec_set
+        autospec, kwargs = self.autospec, self.kwargs
+        new_callable = self.new_callable
+        self.target = self.getter()
+    
+        # normalise False to None
+        if spec is False:
+            spec = None
+        if spec_set is False:
+            spec_set = None
+        if autospec is False:
+            autospec = None
+    
+        if spec is not None and autospec is not None:
+            raise TypeError("Can't specify spec and autospec")
+        if ((spec is not None or autospec is not None) and
+            spec_set not in (True, None)):
+            raise TypeError("Can't provide explicit spec_set *and* spec or autospec")
+    
+>       original, local = self.get_original()
+                          ^^^^^^^^^^^^^^^^^^^
+
+C:\Python313\Lib\unittest\mock.py:1497: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x0000013DCD30D6A0>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'arcade_app.agent' from 'D:\\EvalForge\\arcade_app\\agent.py'> does not have the attribute 'explain_graph'
+
+C:\Python313\Lib\unittest\mock.py:1467: AttributeError
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\vertexai\_model_garden\_model_garden_models.py:278
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\vertexai\_model_garden\_model_garden_models.py:278: UserWarning: This feature is deprecated as of June 24, 2025 and will be removed on June 24, 2026. For details, see https://cloud.google.com/vertex-ai/generative-ai/docs/deprecations/genai-vertexai-sdk.
+    warning_logs.show_deprecation_warning()
+
+arcade_app\agent.py:218
+  D:\EvalForge\arcade_app\agent.py:218: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_graph_agent.py::test_explain_agent_stream_parsing
+======================== 1 failed, 3 warnings in 5.45s ========================

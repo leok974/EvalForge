@@ -13,7 +13,8 @@ jobs:
         run: |
           echo "Running DevDiag canary on: $EVALFORGE_CANARY_URL"
           
-          RESULT=$(curl -sS -X POST "$DEVDIAG_BASE/mcp/diag/quickcheck" \
+          # Call DevDiag HTTP endpoint (updated for HTTP proxy approach)
+          RESULT=$(curl -sS -X POST "$DEVDIAG_BASE/diag/run" \
             -H "Authorization: Bearer $DEVDIAG_READER_JWT" \
             -H "Content-Type: application/json" \
             -d "{\"url\":\"$EVALFORGE_CANARY_URL\",\"preset\":\"app\",\"tenant\":\"evalforge\"}" \
@@ -23,10 +24,10 @@ jobs:
           # Pretty print results
           cat /tmp/devdiag-result.json | jq '.'
           
-          # Check status
-          STATUS=$(cat /tmp/devdiag-result.json | jq -r '.status')
+          # Check status (look for ok: true)
+          OK=$(cat /tmp/devdiag-result.json | jq -r '.ok')
           
-          if [ "$STATUS" != "ok" ] && [ "$STATUS" != "pass" ]; then
+          if [ "$OK" != "true" ]; then
             echo "❌ Canary failed - production may have issues"
             exit 1
           fi

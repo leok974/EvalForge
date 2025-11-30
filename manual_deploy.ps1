@@ -40,6 +40,7 @@ Write-Host ""
 Write-Host "Copying application files..." -ForegroundColor Yellow
 $filesToCopy = @(
     "arcade_app",
+    "apps",
     "exercises",
     "scripts",
     "seed",
@@ -77,8 +78,8 @@ ENV PYTHONUNBUFFERED=1
 # Expose port (Cloud Run will set PORT env var)
 EXPOSE 8080
 
-# Start ADK server in scan mode from WORKDIR (/app) which contains arcade_app/
-CMD ["sh", "-c", "python -m google.adk.cli web . --host 0.0.0.0 --port ${PORT:-8080}"]
+# Start FastAPI with uvicorn (includes all routes: ADK + DevDiag proxy)
+CMD ["sh", "-c", "python -m uvicorn arcade_app.agent:app --host 0.0.0.0 --port ${PORT:-8080}"]
 '@
 
 $dockerfilePath = Join-Path $deployFolder "Dockerfile"
@@ -151,9 +152,9 @@ Write-Host "Deploying... (this may take 5-10 minutes)" -ForegroundColor Cyan
 Write-Host ""
 
 # Run gcloud deploy with locked environment variables
-cd $deployFolder
+Set-Location $deployFolder
 
-# Vertex AI environment variables for gemini-2.5-flash
+# Vertex AI + DevDiag environment variables
 $envVars = @(
     "VERTEX_PROJECT_NUMBER=$ProjectNumber",
     "VERTEX_REGION=us-central1",
@@ -164,6 +165,8 @@ Write-Host "Locked Environment Variables:" -ForegroundColor Cyan
 Write-Host "  VERTEX_PROJECT_NUMBER=$ProjectNumber" -ForegroundColor Gray
 Write-Host "  VERTEX_REGION=us-central1" -ForegroundColor Gray
 Write-Host "  VERTEX_MODEL_ID=gemini-2.5-flash" -ForegroundColor Gray
+Write-Host ""
+Write-Host "Note: DEVDIAG_BASE and DEVDIAG_JWT from GitHub secrets (if configured)" -ForegroundColor Yellow
 Write-Host ""
 
 gcloud run deploy $ServiceName `

@@ -1,0 +1,126 @@
+[
+    {
+        "id": "world-python",
+        "name": "Python World",
+        "icon": "🐍",
+        "description": "Backend, scripting, data, and ML in Python.",
+        "default_tracks": [
+            "applylens-backend",
+            "ledgermind-ml"
+        ],
+        "tags": [
+            "python",
+            "backend",
+            "fastapi",
+            "ml"
+        ]
+    },
+    {
+        "id": "world-js",
+        "name": "JavaScript World",
+        "icon": "🟨",
+        "description": "Frontend fundamentals, browser JS, and Node tooling.",
+        "default_tracks": [
+            "applylens-frontend"
+        ],
+        "tags": [
+            "javascript",
+            "frontend",
+            "react"
+        ]
+    },
+    {
+        "id": "world-ts",
+        "name": "TypeScript World",
+        "icon": "🔷",
+        "description": "Typed frontends and tooling with TypeScript.",
+        "default_tracks": [
+            "siteagent-frontend"
+        ],
+        "tags": [
+            "typescript",
+            "frontend",
+            "react"
+        ]
+    },
+    {
+        "id": "world-sql",
+        "name": "SQL World",
+        "icon": "🗄️",
+        "description": "Postgres, analytics queries, and dbt-style transformations.",
+        "default_tracks": [
+            "applylens-sql",
+            "ledgermind-sql"
+        ],
+        "tags": [
+            "sql",
+            "analytics",
+            "postgres",
+            "dbt"
+        ]
+    },
+    {
+        "id": "world-ml",
+        "name": "PyTorch & ML World",
+        "icon": "🧠",
+        "description": "PyTorch, model training, evaluation, and serving.",
+        "default_tracks": [
+            "evalforge-ml",
+            "ledgermind-ml-training"
+        ],
+        "tags": [
+            "ml",
+            "pytorch",
+            "training",
+            "evaluation"
+        ]
+    },
+    {
+        "id": "world-infra",
+        "name": "Infra & Observability World",
+        "icon": "⚙️",
+        "description": "Docker, FastAPI, GCP, Prometheus, Grafana, Datadog.",
+        "default_tracks": [
+            "applylens-infra",
+            "siteagent-infra"
+        ],
+        "tags": [
+            "infra",
+            "docker",
+            "fastapi",
+            "gcp",
+            "prometheus",
+            "grafana",
+            "datadog"
+        ]
+    },
+    {
+        "id": "world-agents",
+        "name": "Agents & Prompting World",
+        "icon": "🤖",
+        "description": "Agent design, prompting strategies, evaluation patterns.",
+        "default_tracks": [
+            "evalforge-agents",
+            "applylens-agents"
+        ],
+        "tags": [
+            "agents",
+            "prompting",
+            "evaluation"
+        ]
+    },
+    {
+        "id": "world-git",
+        "name": "Git & Workflows World",
+        "icon": "🌲",
+        "description": "Git commands, branching strategies, and workflows.",
+        "default_tracks": [
+            "git-workflows"
+        ],
+        "tags": [
+            "git",
+            "workflow",
+            "version-control"
+        ]
+    }
+]
