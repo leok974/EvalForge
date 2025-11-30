@@ -19,6 +19,15 @@ export default {
         brandFg: "rgb(var(--brand-fg) / <alpha-value>)",
         success: "rgb(var(--success) / <alpha-value>)",
         warn: "rgb(var(--warn) / <alpha-value>)",
+        nano: {
+          800: '#27272a',
+          900: '#18181b',
+          950: '#09090b',
+        },
+        banana: {
+          400: '#facc15',
+          500: '#eab308',
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

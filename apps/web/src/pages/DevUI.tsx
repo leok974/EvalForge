@@ -26,7 +26,7 @@ type Universe = {
   tracks: Track[];
 };
 
-export default function DevUI() {
+export default function DevUI({ isEmbedded = false }: { isEmbedded?: boolean }) {
   const [input, setInput] = useState('');
 
   // Context State
@@ -84,51 +84,79 @@ export default function DevUI() {
     <div className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-cyan-900 flex flex-col">
 
       {/* Header */}
-      <header className="border-b border-zinc-800 bg-zinc-950 px-4 py-2 flex justify-between items-center sticky top-0 z-30">
+      {!isEmbedded ? (
+        <header className="border-b border-zinc-800 bg-zinc-950 px-4 py-2 flex justify-between items-center sticky top-0 z-30">
 
-        {/* Left Side: Logo & Projects */}
-        <div className="flex items-center gap-4">
-          <div className="font-bold tracking-tight text-lg text-cyan-500">EVALFORGE <span className="text-zinc-600 text-xs">ARCADE</span></div>
+          {/* Left Side: Logo & Projects */}
+          <div className="flex items-center gap-4">
+            <div className="font-bold tracking-tight text-lg text-cyan-500">EVALFORGE <span className="text-zinc-600 text-xs">ARCADE</span></div>
 
-          {/* Project Button (Visible when logged in) */}
+            {/* Project Button (Visible when logged in) */}
+            {user && (
+              <button
+                onClick={() => setIsProjectsOpen(true)}
+                className="text-xs font-mono text-zinc-500 hover:text-cyan-400 flex items-center gap-1 transition-colors border-l border-zinc-800 pl-4"
+              >
+                <span className="text-lg leading-none">📁</span> PROJECTS
+              </button>
+            )}
+          </div>
+
+          {/* Right Side: XP, User, Codex */}
+          <div className="flex items-center gap-6">
+            {/* Only show XP if we have a user context (or just use 'test' default) */}
+            <XPBar user={user?.id || 'test'} lastProgress={lastProgress} />
+
+            {/* Login / User Badge */}
+            {!user ? (
+              <button
+                onClick={login}
+                className="text-xs bg-zinc-800 text-zinc-300 px-3 py-1.5 rounded hover:bg-zinc-700 font-bold transition-colors"
+              >
+                LOGIN (GITHUB)
+              </button>
+            ) : (
+              <div className="flex items-center gap-2 group cursor-default">
+                <img src={user.avatar_url} className="w-6 h-6 rounded-full border border-zinc-700 group-hover:border-cyan-500 transition-colors" alt="avatar" />
+                <span className="text-xs font-mono text-zinc-500 group-hover:text-zinc-300">{user.name}</span>
+              </div>
+            )}
+
+            <button
+              onClick={() => setIsCodexOpen(true)}
+              className="text-xs font-bold bg-zinc-900 border border-zinc-700 hover:border-cyan-500 text-zinc-300 px-3 py-1.5 rounded transition-all flex items-center gap-2"
+            >
+              📖 CODEX
+            </button>
+          </div>
+        </header>
+      ) : (
+        /* Embedded Toolbar */
+        <div className="absolute top-4 right-4 z-40 flex gap-2">
           {user && (
             <button
               onClick={() => setIsProjectsOpen(true)}
-              className="text-xs font-mono text-zinc-500 hover:text-cyan-400 flex items-center gap-1 transition-colors border-l border-zinc-800 pl-4"
+              className="bg-black/50 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 px-3 py-1.5 rounded text-xs font-mono transition-colors backdrop-blur"
             >
-              <span className="text-lg leading-none">📁</span> PROJECTS
+              📁 PROJECTS
             </button>
           )}
-        </div>
-
-        {/* Right Side: XP, User, Codex */}
-        <div className="flex items-center gap-6">
-          {/* Only show XP if we have a user context (or just use 'test' default) */}
-          <XPBar user={user?.id || 'test'} lastProgress={lastProgress} />
-
-          {/* Login / User Badge */}
-          {!user ? (
-            <button
-              onClick={login}
-              className="text-xs bg-zinc-800 text-zinc-300 px-3 py-1.5 rounded hover:bg-zinc-700 font-bold transition-colors"
-            >
-              LOGIN (GITHUB)
-            </button>
-          ) : (
-            <div className="flex items-center gap-2 group cursor-default">
-              <img src={user.avatar_url} className="w-6 h-6 rounded-full border border-zinc-700 group-hover:border-cyan-500 transition-colors" alt="avatar" />
-              <span className="text-xs font-mono text-zinc-500 group-hover:text-zinc-300">{user.name}</span>
-            </div>
-          )}
-
           <button
             onClick={() => setIsCodexOpen(true)}
-            className="text-xs font-bold bg-zinc-900 border border-zinc-700 hover:border-cyan-500 text-zinc-300 px-3 py-1.5 rounded transition-all flex items-center gap-2"
+            className="bg-black/50 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 px-3 py-1.5 rounded text-xs font-mono transition-colors backdrop-blur"
           >
             📖 CODEX
           </button>
+          {!user && (
+            <button
+              onClick={login}
+              className="bg-cyan-900/20 hover:bg-cyan-900/40 text-cyan-400 border border-cyan-900/50 px-3 py-1.5 rounded text-xs font-mono transition-colors backdrop-blur"
+            >
+              LOGIN
+            </button>
+          )}
         </div>
-      </header>
+      )}
 
       <main className="flex-1 max-w-7xl mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6 w-full overflow-hidden">
 
@@ -228,7 +256,7 @@ export default function DevUI() {
       />
 
       {/* Global Toast Notifications */}
-      <GameToast />
+      {!isEmbedded && <GameToast />}
     </div>
   );
 }
