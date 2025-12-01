@@ -49,19 +49,22 @@ describe('useAuth Hook', () => {
         await waitFor(() => expect(result.current.loading).toBe(false));
         expect(result.current.user).toBeNull();
 
-        // 2. Trigger Login
-        // Login endpoint returns success
-        (global.fetch as any).mockResolvedValueOnce({ ok: true });
-        // Subsequent checkAuth returns User
+        // 2. Mock window.location.href to prevent actual navigation
+        delete (window as any).location;
+        (window as any).location = { href: '' };
+
+        // 3. Mock login endpoint to return redirect URL
         (global.fetch as any).mockResolvedValueOnce({
             ok: true,
-            json: async () => mockUser,
+            json: async () => ({ url: 'https://github.com/login/oauth/authorize' })
         });
 
+        // 4. Trigger Login
         result.current.login();
 
+        // 5. Wait for redirect URL to be set
         await waitFor(() => {
-            expect(result.current.user).toEqual(mockUser);
+            expect((window as any).location.href).toBe('https://github.com/login/oauth/authorize');
         });
 
         expect(global.fetch).toHaveBeenCalledWith('/api/auth/github/start');

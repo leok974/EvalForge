@@ -1,0 +1,83 @@
+
+> evalforge-web@0.1.0 test
+> vitest src/ src/components/__tests__/AvatarSelector.test.tsx
+
+
+[1m[44m DEV [49m[22m [34mv4.0.14 [39m[90mD:/EvalForge/apps/web[39m
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [32mΓ£ô[39m src/components/__tests__/GameToast.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32mΓ£ô[39m src/components/hud/__tests__/NetworkPanel.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 64[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [32mΓ£ô[39m src/components/hud/__tests__/EventLog.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 93[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/LayoutSwitcher.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 253[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/AvatarSelector.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 96[2mms[22m[39m
+ [32mΓ£ô[39m src/layouts/__tests__/GameShell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/ContextSelector.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 320[2mms[22m[39m
+ [32mΓ£ô[39m src/hooks/__tests__/useAuth.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 400[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/CodexDrawer.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 104[2mms[22m[39m
+ [32mΓ£ô[39m src/store/__tests__/gameStore.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1122[2mms[22m[39m
+     [32mΓ£ô[39m does not render when closed[32m 47[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1054[2mms[22m[39m
+[31m     [31m├ù[31m handles adding a new project[39m[32m 20[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (11)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m26 passed[39m[22m[90m (28)[39m
+[2m   Start at [22m 22:53:50
+[2m   Duration [22m 2.32s[2m (transform 731ms, setup 0ms, import 2.88s, tests 2.53s, environment 8.74s)[22m
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/components/__tests__/ProjectsPanel.test.tsx [22m[34mx1 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/AvatarSelector.test.tsx[39m
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mhandles adding a new project
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1184[2mms[22m[39m
+     [32mΓ£ô[39m does not render when closed[32m 125[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1037[2mms[22m[39m
+     [32mΓ£ô[39m handles adding a new project[32m 20[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 23:11:58
+[2m   Duration [22m 1.57s
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/components/__tests__/ProjectsPanel.test.tsx [22m[34mx2 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/AvatarSelector.test.tsx[39m
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mhandles adding a new project
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [32mΓ£ô[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 216[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 23:15:03
+[2m   Duration [22m 474ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m

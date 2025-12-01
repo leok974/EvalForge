@@ -1,0 +1,169 @@
+
+> evalforge-web@0.1.0 test
+> vitest src/ src/components/__tests__/CodexDrawer.test.tsx
+
+
+[1m[44m DEV [49m[22m [34mv4.0.14 [39m[90mD:/EvalForge/apps/web[39m
+
+ [32mΓ£ô[39m src/components/hud/__tests__/NetworkPanel.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32mΓ£ô[39m src/store/__tests__/gameStore.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/GameToast.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [32mΓ£ô[39m src/layouts/__tests__/GameShell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+ [32mΓ£ô[39m src/components/hud/__tests__/EventLog.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 85[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/LayoutSwitcher.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 185[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/ContextSelector.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 295[2mms[22m[39m
+ [32mΓ£ô[39m src/hooks/__tests__/useAuth.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 407[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/CodexDrawer.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 110[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1086[2mms[22m[39m
+     [32mΓ£ô[39m does not render when closed[32m 41[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1021[2mms[22m[39m
+[31m     [31m├ù[31m handles adding a new project[39m[32m 22[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m9 passed[39m[22m[90m (10)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m23 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 22:36:39
+[2m   Duration [22m 2.36s[2m (transform 1.00s, setup 0ms, import 3.11s, tests 2.29s, environment 8.29s)[22m
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/layouts/CyberdeckLayout.tsx [22m[34mx1 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/CodexDrawer.test.tsx[39m
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1086[2mms[22m[39m
+     [32mΓ£ô[39m does not render when closed[32m 41[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1021[2mms[22m[39m
+[31m     [31m├ù[31m handles adding a new project[39m[32m 22[2mms[22m[39m
+ [32mΓ£ô[39m src/layouts/__tests__/GameShell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 22:49:01
+[2m   Duration [22m 291ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2mpackage.json [22m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/CodexDrawer.test.tsx[39m
+
+ [32mΓ£ô[39m src/components/hud/__tests__/EventLog.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 74[2mms[22m[39m
+ [32mΓ£ô[39m src/store/__tests__/gameStore.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [32mΓ£ô[39m src/components/__tests__/CodexDrawer.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 526[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [32mΓ£ô[39m src/components/__tests__/GameToast.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 319[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1817[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m does not render when closed [33m 559[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1217[2mms[22m[39m
+[31m     [31m├ù[31m handles adding a new project[39m[32m 39[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/ContextSelector.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 1362[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m renders worlds and groups tracks [33m 1014[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m updates context on selection [33m 347[2mms[22m[39m
+ [32mΓ£ô[39m src/hooks/__tests__/useAuth.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 1213[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m handles login flow (Mock) [33m 672[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m handles logout [33m 461[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/LayoutSwitcher.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 611[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m renders current layout value [33m 575[2mms[22m[39m
+ [32mΓ£ô[39m src/layouts/__tests__/GameShell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32mΓ£ô[39m src/components/hud/__tests__/NetworkPanel.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 104[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m9 passed[39m[22m[90m (10)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m23 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 22:49:27
+[2m   Duration [22m 16.00s
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/hooks/useAuth.ts [22m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/CodexDrawer.test.tsx[39m
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1817[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m does not render when closed [33m 559[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1217[2mms[22m[39m
+[31m     [31m├ù[31m handles adding a new project[39m[32m 39[2mms[22m[39m
+ [32mΓ£ô[39m src/layouts/__tests__/GameShell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32mΓ£ô[39m src/hooks/__tests__/useAuth.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 437[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m7 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 22:49:45
+[2m   Duration [22m 1.18s
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/components/__tests__/AvatarSelector.test.tsx [22m[34mx1 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/CodexDrawer.test.tsx[39m
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1817[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m does not render when closed [33m 559[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1217[2mms[22m[39m
+[31m     [31m├ù[31m handles adding a new project[39m[32m 39[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/AvatarSelector.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 268[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 22:51:56
+[2m   Duration [22m 615ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/components/__tests__/ProjectsPanel.test.tsx [22m[34mx2 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/CodexDrawer.test.tsx[39m
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mhandles adding a new project
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1142[2mms[22m[39m
+     [32mΓ£ô[39m does not render when closed[32m 95[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1022[2mms[22m[39m
+     [32mΓ£ô[39m handles adding a new project[32m 24[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 23:11:58
+[2m   Duration [22m 1.43s
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/components/__tests__/ProjectsPanel.test.tsx [22m[34mx3 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/CodexDrawer.test.tsx[39m
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mhandles adding a new project
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+ [32mΓ£ô[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 271[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 23:15:03
+[2m   Duration [22m 628ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m

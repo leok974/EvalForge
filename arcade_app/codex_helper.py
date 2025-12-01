@@ -1,6 +1,8 @@
 import os
 import frontmatter
 from typing import List, Dict, Optional
+from sqlalchemy import select
+from arcade_app.models import KnowledgeChunk
 
 CODEX_DIR = "data/codex"
 
@@ -56,3 +58,34 @@ def get_codex_entry(entry_id: str) -> Optional[Dict]:
                 except:
                     continue
     return None
+
+
+async def load_codex_entry_by_id(session, codex_id: str) -> Optional[dict]:
+    """
+    Load a codex entry by ID from the knowledge base.
+    
+    Args:
+        session: Database session
+        codex_id: Codex entry identifier (e.g. "boss-reactor-core")
+    
+    Returns:
+        Dict with title, summary, and body_markdown, or None if not found
+    """
+    # Query for knowledge chunks matching this codex_id
+    stmt = select(KnowledgeChunk).where(
+        KnowledgeChunk.source_id == codex_id # Changed doc_id to source_id based on models.py
+    ).limit(1)
+    
+    result = await session.execute(stmt)
+    chunk = result.scalar_one_or_none()
+    
+    if not chunk:
+        return None
+    
+    return {
+        "id": chunk.source_id,
+        "title": "Codex Entry", # Metadata might be lost in chunking, fallback
+        "summary": "",
+        "body_markdown": chunk.content,
+        "tags": "",
+    }

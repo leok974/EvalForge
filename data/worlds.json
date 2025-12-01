@@ -1,126 +1,208 @@
 [
     {
+        "id": "world-evalforge",
+        "name": "EvalForge System",
+        "icon": "aperture",
+        "description": "The Architect's Manual. Documentation for the simulation itself.",
+        "default_tracks": [],
+        "tags": [
+            "meta",
+            "documentation"
+        ],
+        "narrative_config": {
+            "alias": "THE CONSTRUCT",
+            "theme": "Source Code of Reality",
+            "role": "Architect",
+            "vocabulary": [
+                "kernel",
+                "protocol",
+                "layer"
+            ],
+            "analogy_prompt": "Explain as the creator of the system."
+        }
+    },
+    {
         "id": "world-python",
         "name": "Python World",
-        "icon": "🐍",
-        "description": "Backend, scripting, data, and ML in Python.",
+        "icon": "factory",
+        "description": "Backend & ML. Theme: The Foundry.",
         "default_tracks": [
-            "applylens-backend",
-            "ledgermind-ml"
+            "python-fundamentals"
         ],
         "tags": [
             "python",
-            "backend",
-            "fastapi",
-            "ml"
-        ]
+            "backend"
+        ],
+        "narrative_config": {
+            "alias": "THE FOUNDRY",
+            "theme": "Industrial Clockwork",
+            "role": "Automation Engineer",
+            "vocabulary": [
+                "gear",
+                "cycle",
+                "forge"
+            ],
+            "analogy_prompt": "Use factory and mechanics metaphors."
+        }
     },
     {
         "id": "world-js",
         "name": "JavaScript World",
-        "icon": "🟨",
-        "description": "Frontend fundamentals, browser JS, and Node tooling.",
+        "icon": "sun",
+        "description": "Frontend. Theme: The Prism.",
         "default_tracks": [
-            "applylens-frontend"
+            "js-fundamentals"
         ],
         "tags": [
             "javascript",
-            "frontend",
-            "react"
-        ]
+            "frontend"
+        ],
+        "narrative_config": {
+            "alias": "THE PRISM",
+            "theme": "Holographic Light",
+            "role": "Light Weaver",
+            "vocabulary": [
+                "refraction",
+                "beam",
+                "spectrum"
+            ],
+            "analogy_prompt": "Use light and optical metaphors."
+        }
     },
     {
         "id": "world-ts",
         "name": "TypeScript World",
-        "icon": "🔷",
-        "description": "Typed frontends and tooling with TypeScript.",
-        "default_tracks": [
-            "siteagent-frontend"
-        ],
+        "icon": "gem",
+        "description": "Typed Frontend. Theme: The Crystal Spire.",
+        "default_tracks": [],
         "tags": [
-            "typescript",
-            "frontend",
-            "react"
-        ]
+            "typescript"
+        ],
+        "narrative_config": {
+            "alias": "THE CRYSTAL SPIRE",
+            "theme": "Crystalline Structure",
+            "role": "Structure Architect",
+            "vocabulary": [
+                "facet",
+                "lattice",
+                "bond"
+            ],
+            "analogy_prompt": "Use geology and structure metaphors."
+        }
     },
     {
         "id": "world-sql",
         "name": "SQL World",
-        "icon": "🗄️",
-        "description": "Postgres, analytics queries, and dbt-style transformations.",
+        "icon": "database",
+        "description": "Data. Theme: The Archives.",
         "default_tracks": [
-            "applylens-sql",
-            "ledgermind-sql"
+            "sql-fundamentals"
         ],
         "tags": [
-            "sql",
-            "analytics",
-            "postgres",
-            "dbt"
-        ]
-    },
-    {
-        "id": "world-ml",
-        "name": "PyTorch & ML World",
-        "icon": "🧠",
-        "description": "PyTorch, model training, evaluation, and serving.",
-        "default_tracks": [
-            "evalforge-ml",
-            "ledgermind-ml-training"
+            "sql"
         ],
-        "tags": [
-            "ml",
-            "pytorch",
-            "training",
-            "evaluation"
-        ]
+        "narrative_config": {
+            "alias": "THE ARCHIVES",
+            "theme": "Infinite Library",
+            "role": "Keeper",
+            "vocabulary": [
+                "tome",
+                "index",
+                "scroll"
+            ],
+            "analogy_prompt": "Use library and vault metaphors."
+        }
     },
     {
         "id": "world-infra",
-        "name": "Infra & Observability World",
-        "icon": "⚙️",
-        "description": "Docker, FastAPI, GCP, Prometheus, Grafana, Datadog.",
+        "name": "Infra World",
+        "icon": "server",
+        "description": "DevOps. Theme: The Grid.",
         "default_tracks": [
-            "applylens-infra",
-            "siteagent-infra"
+            "infra-fundamentals"
         ],
         "tags": [
-            "infra",
-            "docker",
-            "fastapi",
-            "gcp",
-            "prometheus",
-            "grafana",
-            "datadog"
-        ]
+            "infra"
+        ],
+        "narrative_config": {
+            "alias": "THE GRID",
+            "theme": "High Voltage Power",
+            "role": "Operator",
+            "vocabulary": [
+                "surge",
+                "circuit",
+                "voltage"
+            ],
+            "analogy_prompt": "Use electricity and grid metaphors."
+        }
     },
     {
         "id": "world-agents",
-        "name": "Agents & Prompting World",
-        "icon": "🤖",
-        "description": "Agent design, prompting strategies, evaluation patterns.",
+        "name": "Agents World",
+        "icon": "bot",
+        "description": "LLMs. Theme: The Oracle.",
         "default_tracks": [
-            "evalforge-agents",
-            "applylens-agents"
+            "agent-fundamentals"
         ],
         "tags": [
-            "agents",
-            "prompting",
-            "evaluation"
-        ]
+            "ai"
+        ],
+        "narrative_config": {
+            "alias": "THE ORACLE",
+            "theme": "Mystic Divination",
+            "role": "Whisperer",
+            "vocabulary": [
+                "vision",
+                "echo",
+                "intent"
+            ],
+            "analogy_prompt": "Use mystic and conversation metaphors."
+        }
     },
     {
         "id": "world-git",
-        "name": "Git & Workflows World",
-        "icon": "🌲",
-        "description": "Git commands, branching strategies, and workflows.",
+        "name": "Git World",
+        "icon": "git-branch",
+        "description": "Version Control. Theme: The Timeline.",
         "default_tracks": [
-            "git-workflows"
+            "git-fundamentals"
         ],
         "tags": [
-            "git",
-            "workflow",
-            "version-control"
-        ]
+            "git"
+        ],
+        "narrative_config": {
+            "alias": "THE TIMELINE",
+            "theme": "Time Travel",
+            "role": "Chronomancer",
+            "vocabulary": [
+                "branch",
+                "divergence",
+                "anchor"
+            ],
+            "analogy_prompt": "Use time travel metaphors."
+        }
+    },
+    {
+        "id": "world-ml",
+        "name": "ML World",
+        "icon": "brain",
+        "description": "Tensors. Theme: The Synapse.",
+        "default_tracks": [
+            "ml-fundamentals"
+        ],
+        "tags": [
+            "ml"
+        ],
+        "narrative_config": {
+            "alias": "THE SYNAPSE",
+            "theme": "Bio-Digital Network",
+            "role": "Neuro-Linker",
+            "vocabulary": [
+                "pulse",
+                "thought",
+                "evolution"
+            ],
+            "analogy_prompt": "Use biological brain metaphors."
+        }
     }
 ]

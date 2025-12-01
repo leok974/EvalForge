@@ -57,13 +57,17 @@ export async function sendSessionMessageStream(
     onDone?: () => void;
     onError?: (error: string) => void;
   },
-  abortSignal?: AbortSignal
+  abortSignal?: AbortSignal,
+  context?: { codex_id?: string; track_id?: string; world_id?: string }
 ) {
   const origin = baseUrl || (typeof window !== "undefined" ? window.location.origin : "http://127.0.0.1:19010");
   const res = await fetch(`${origin}/apps/arcade_app/users/test/sessions/${sid}/query/stream`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "Accept": "text/event-stream" },
-    body: JSON.stringify({ message: text }),
+    body: JSON.stringify({
+      message: text,
+      ...context
+    }),
     signal: abortSignal,
   });
 

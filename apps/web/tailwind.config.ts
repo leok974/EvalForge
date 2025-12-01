@@ -20,13 +20,15 @@ export default {
         success: "rgb(var(--success) / <alpha-value>)",
         warn: "rgb(var(--warn) / <alpha-value>)",
         nano: {
-          800: '#27272a',
-          900: '#18181b',
-          950: '#09090b',
+          800: '#27272a', // zinc-800
+          900: '#18181b', // zinc-900
+          950: '#09090b', // zinc-950
         },
         banana: {
-          400: '#facc15',
-          500: '#eab308',
+          300: '#67E8F9', // Cyan 300
+          400: '#22D3EE', // Cyan 400 (Main)
+          500: '#06B6D4', // Cyan 500
+          900: '#164E63', // Cyan 900
         },
       },
       animation: {
@@ -38,6 +40,14 @@ export default {
         blink: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0' },
+        },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
       },
       boxShadow: {

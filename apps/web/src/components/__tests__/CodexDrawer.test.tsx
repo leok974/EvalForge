@@ -1,38 +1,76 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { CodexDrawer } from '../CodexDrawer';
-import React from 'react';
 
+// Mock Fetch
 global.fetch = vi.fn();
 
-describe('CodexDrawer', () => {
-    it('fetches index when opened', async () => {
-        (global.fetch as any).mockResolvedValueOnce({
-            json: async () => [{ id: 'doc1', title: 'Doc 1', tags: [] }]
-        });
+// Mock Syntax Highlighter (It's heavy and breaks in JSDOM sometimes)
+vi.mock('react-syntax-highlighter', () => ({
+    Prism: ({ children }: any) => <pre data-testid="code-block">{children}</pre>
+}));
 
-        render(<CodexDrawer isOpen={true} onClose={() => { }} currentWorldId="w1" />);
+// Mock Game Store
+vi.mock('../../store/gameStore', () => ({
+    useGameStore: () => (() => { }) // Mock addXp function
+}));
 
-        expect(global.fetch).toHaveBeenCalledWith('/api/codex?world=w1');
-        await waitFor(() => expect(screen.getByText('Doc 1')).toBeDefined());
+describe('CodexDrawer (Holocron Update)', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
     });
 
-    it('fetches detail on click', async () => {
-        // 1. Index Mock
+    const mockEntry = {
+        metadata: { id: 'doc1', title: 'Advanced Patterns', tags: ['architecture'], world: 'python' },
+        content: "# Intro\n\n```python\nprint('Hello')\n```"
+    };
+
+    it('renders "Ask Mentor" button when entry is loaded', async () => {
+        // 1. Mock Index Response
         (global.fetch as any).mockResolvedValueOnce({
-            json: async () => [{ id: 'doc1', title: 'Doc 1', tags: [] }]
+            json: async () => [mockEntry.metadata]
         });
-        // 2. Detail Mock
+
+        // 2. Mock Detail Response
         (global.fetch as any).mockResolvedValueOnce({
-            json: async () => ({ metadata: { title: 'Doc 1', tags: [] }, content: '# Hello World' })
+            json: async () => mockEntry
         });
 
-        render(<CodexDrawer isOpen={true} onClose={() => { }} currentWorldId="w1" />);
+        render(<CodexDrawer isOpen={true} onClose={() => { }} currentWorldId="python" />);
 
-        await waitFor(() => screen.getByText('Doc 1'));
-        fireEvent.click(screen.getByText('Doc 1'));
+        // Click item in list
+        await waitFor(() => screen.getByText('Advanced Patterns'));
+        fireEvent.click(screen.getByText('Advanced Patterns'));
 
-        expect(global.fetch).toHaveBeenCalledWith('/api/codex/doc1');
-        await waitFor(() => expect(screen.getByText('Hello World')).toBeDefined()); // Markdown rendered
+        // 3. Verify Detail View Elements
+        await waitFor(() => {
+            // Check for the new Action Button
+            expect(screen.getByText(/ASK MENTOR/i)).toBeDefined();
+
+            // Check for Syntax Highlighting Mock
+            expect(screen.getByTestId('code-block')).toBeDefined();
+            expect(screen.getByText("print('Hello')")).toBeDefined();
+        });
+    });
+
+    it('handles "Ask Mentor" click', async () => {
+        // Setup same as above...
+        (global.fetch as any).mockResolvedValueOnce({ json: async () => [mockEntry.metadata] });
+        (global.fetch as any).mockResolvedValueOnce({ json: async () => mockEntry });
+
+        const handleClose = vi.fn();
+        render(<CodexDrawer isOpen={true} onClose={handleClose} currentWorldId="python" />);
+
+        await waitFor(() => screen.getByText('Advanced Patterns'));
+        fireEvent.click(screen.getByText('Advanced Patterns'));
+
+        await waitFor(() => screen.getByText(/ASK MENTOR/i));
+
+        // Test Click
+        fireEvent.click(screen.getByText(/ASK MENTOR/i));
+
+        // Should close the drawer (to reveal chat)
+        // In a real integration test, we'd check if it updated the chat input too
+        expect(handleClose).toHaveBeenCalled();
     });
 });

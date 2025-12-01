@@ -18,6 +18,10 @@ services:
       - EVALFORGE_MOCK_GRADING=${EVALFORGE_MOCK_GRADING}
       - PORT=8092
       - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+      - EVALFORGE_AUTH_MODE=${EVALFORGE_AUTH_MODE}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - SECRET_KEY=${SECRET_KEY}
     volumes:
       - ./arcade_app:/app/arcade_app # Hot reload code
       - ./data:/app/data             # Persist JSON for migration

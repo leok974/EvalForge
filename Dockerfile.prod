@@ -1,0 +1,37 @@
+# --- Stage 1: Build Frontend ---
+FROM node:18-alpine as frontend-builder
+WORKDIR /app/web
+COPY apps/web/package*.json ./
+RUN npm ci
+COPY apps/web/ ./
+# Build the production assets to /app/web/dist
+RUN npm run build
+
+# --- Stage 2: Build Backend & Serve ---
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies (git is needed for ingestion)
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+# Install Python deps
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy Backend Code
+COPY arcade_app /app/arcade_app
+COPY scripts /app/scripts
+# Create data dir
+RUN mkdir -p /app/data/codex
+
+# Copy Built Frontend from Stage 1 -> Backend Static Folder
+# We'll serve this from FastAPI
+COPY --from=frontend-builder /app/web/dist /app/static
+
+# Environment defaults
+ENV PORT=8080
+ENV DATABASE_URL="sqlite+aiosqlite:///data/prod.db" 
+
+# Run Command
+CMD ["uvicorn", "arcade_app.agent:app", "--host", "0.0.0.0", "--port", "8080"]

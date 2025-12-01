@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StreamContext } from '../hooks/useArcadeStream';
+import { WorldIcon } from './WorldIcon';
 
 type Track = {
     id: string;
@@ -16,9 +17,10 @@ type UniverseData = {
 interface Props {
     context: StreamContext;
     setContext: (ctx: StreamContext) => void;
+    hasSkill: (key: string) => boolean;
 }
 
-export function ContextSelector({ context, setContext }: Props) {
+export function ContextSelector({ context, setContext, hasSkill }: Props) {
     const [universe, setUniverse] = useState<UniverseData | null>(null);
 
     useEffect(() => {
@@ -32,6 +34,7 @@ export function ContextSelector({ context, setContext }: Props) {
 
     // Filter tracks for current world
     const activeTracks = universe.tracks.filter(t => t.world_id === context.world_id);
+    const activeWorld = universe.worlds.find(w => w.id === context.world_id);
 
     // Group by Source Pillar
     const myProjects = activeTracks.filter(t => t.source === 'personal' || t.source === 'user-repo');
@@ -41,7 +44,13 @@ export function ContextSelector({ context, setContext }: Props) {
         <div className="bg-zinc-900 border-b border-zinc-800 p-4 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg z-20">
 
             {/* Selector Controls */}
-            <div className="flex gap-2 w-full md:w-auto">
+            <div className="flex gap-2 w-full md:w-auto items-center">
+
+                {/* ACTIVE ICON INDICATOR */}
+                <div className="w-8 h-8 flex items-center justify-center bg-zinc-900 border border-zinc-700 rounded text-cyan-400 shrink-0">
+                    <WorldIcon iconName={activeWorld?.icon || 'box'} className="w-4 h-4" />
+                </div>
+
                 {/* World Selector */}
                 <div className="relative">
                     <select
@@ -50,7 +59,7 @@ export function ContextSelector({ context, setContext }: Props) {
                         className="appearance-none bg-black border border-zinc-700 text-zinc-300 text-sm rounded px-3 py-1.5 font-mono hover:border-cyan-500 focus:outline-none pr-8 cursor-pointer"
                     >
                         {universe.worlds.map(w => (
-                            <option key={w.id} value={w.id}>{w.icon} {w.name}</option>
+                            <option key={w.id} value={w.id}>{w.name}</option>
                         ))}
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-500">
@@ -87,18 +96,48 @@ export function ContextSelector({ context, setContext }: Props) {
 
             {/* Mode Switcher */}
             <div className="flex bg-black rounded p-1 border border-zinc-800">
-                {(['judge', 'quest', 'explain', 'debug'] as const).map((m) => (
-                    <button
-                        key={m}
-                        onClick={() => setContext({ ...context, mode: m })}
-                        className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === m
-                                ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
-                                : 'text-zinc-500 hover:text-zinc-300'
-                            }`}
-                    >
-                        {m}
-                    </button>
-                ))}
+                <button
+                    onClick={() => setContext({ ...context, mode: 'judge' })}
+                    className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === 'judge'
+                        ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
+                        : 'text-zinc-500 hover:text-zinc-300'
+                        }`}
+                >
+                    JUDGE
+                </button>
+                <button
+                    onClick={() => setContext({ ...context, mode: 'quest' })}
+                    className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === 'quest'
+                        ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
+                        : 'text-zinc-500 hover:text-zinc-300'
+                        }`}
+                >
+                    QUEST
+                </button>
+
+                {/* GATED: EXPLAIN AGENT */}
+                <button
+                    onClick={() => hasSkill('agent_explain') && setContext({ ...context, mode: 'explain' })}
+                    className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === 'explain'
+                        ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
+                        : 'text-zinc-500 hover:text-zinc-300'
+                        } ${!hasSkill('agent_explain') ? 'opacity-30 cursor-not-allowed' : ''}`}
+                    title={!hasSkill('agent_explain') ? "Requires Mentor Protocol (Tier 2)" : ""}
+                >
+                    EXPLAIN {!hasSkill('agent_explain') && '🔒'}
+                </button>
+
+                {/* GATED: DEBUG AGENT */}
+                <button
+                    onClick={() => hasSkill('agent_debug') && setContext({ ...context, mode: 'debug' })}
+                    className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === 'debug'
+                        ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
+                        : 'text-zinc-500 hover:text-zinc-300'
+                        } ${!hasSkill('agent_debug') ? 'opacity-30 cursor-not-allowed' : ''}`}
+                    title={!hasSkill('agent_debug') ? "Requires Debug Routine (Tier 3)" : ""}
+                >
+                    DEBUG {!hasSkill('agent_debug') && '🔒'}
+                </button>
             </div>
         </div>
     );

@@ -1,0 +1,241 @@
+
+> evalforge-web@0.1.0 test
+> vitest src/ src/pages/__tests__/DevUI_NPC.test.tsx
+
+
+[1m[44m DEV [49m[22m [34mv4.0.14 [39m[90mD:/EvalForge/apps/web[39m
+
+ [32mΓ£ô[39m src/components/hud/__tests__/NetworkPanel.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32mΓ£ô[39m src/components/hud/__tests__/EventLog.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+Game Socket Error: Event { isTrusted: [Getter] }
+
+TypeError: bottomRef.current?.scrollIntoView is not a function
+    at D:/EvalForge/apps/web/src/pages/DevUI.tsx:39:24
+    at commitHookEffectListMount (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:27078:3)
+    at flushPassiveEffects (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:27023:14)
+    at D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:26808:9
+    at flushActQueue (D:\EvalForge\apps\web\node_modules\react\cjs\react.development.js:2667:24)
+stderr | src/pages/__tests__/DevUI_NPC.test.tsx > DevUI NPC Rendering > renders standard assistant message (No NPC)
+The above error occurred in the <DevUI> component:
+
+    at DevUI (D:/EvalForge/apps/web/src/pages/DevUI.tsx:31:63)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mhandles adding a new project
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > handles adding a new project
+Game Socket Error: Event { isTrusted: [Getter] }
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+stderr | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+Game Socket Error: Event { isTrusted: [Getter] }
+
+
+ [32mΓ£ô[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 130[2mms[22m[39m
+TypeError: bottomRef.current?.scrollIntoView is not a function
+    at D:/EvalForge/apps/web/src/pages/DevUI.tsx:39:24
+    at commitHookEffectListMount (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:27078:3)
+    at flushPassiveEffects (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:27023:14)
+    at D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:26808:9
+    at flushActQueue (D:\EvalForge\apps\web\node_modules\react\cjs\react.development.js:2667:24)
+stderr | src/pages/__tests__/DevUI_NPC.test.tsx > DevUI NPC Rendering > renders KAI (Quest) Comm Link
+The above error occurred in the <DevUI> component:
+
+    at DevUI (D:/EvalForge/apps/web/src/pages/DevUI.tsx:31:63)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+TypeError: bottomRef.current?.scrollIntoView is not a function
+    at D:/EvalForge/apps/web/src/pages/DevUI.tsx:39:24
+    at commitHookEffectListMount (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:27078:3)
+    at flushPassiveEffects (D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:27023:14)
+    at D:\EvalForge\apps\web\node_modules\react-dom\cjs\react-dom.development.js:26808:9
+    at flushActQueue (D:\EvalForge\apps\web\node_modules\react\cjs\react.development.js:2667:24)
+stderr | src/pages/__tests__/DevUI_NPC.test.tsx > DevUI NPC Rendering > renders ZERO (Judge) Comm Link
+The above error occurred in the <DevUI> component:
+
+    at DevUI (D:/EvalForge/apps/web/src/pages/DevUI.tsx:31:63)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+ [31mΓ¥»[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 49[2mms[22m[39m
+[31m     [31m├ù[31m renders standard assistant message (No NPC)[39m[32m 24[2mms[22m[39m
+[31m     [31m├ù[31m renders KAI (Quest) Comm Link[39m[32m 17[2mms[22m[39m
+[31m     [31m├ù[31m renders ZERO (Judge) Comm Link[39m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m src/layouts/__tests__/GameShell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/LayoutSwitcher.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 197[2mms[22m[39m
+stderr | src/components/__tests__/AvatarSelector.test.tsx > AvatarSelector > handles equipping an unlocked avatar
+Warning: An update to AvatarSelector inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at AvatarSelector (D:/EvalForge/apps/web/src/components/AvatarSelector.tsx:10:27)
+
+ [32mΓ£ô[39m src/components/__tests__/AvatarSelector.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 98[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/ContextSelector.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 244[2mms[22m[39m
+stderr | src/hooks/__tests__/useAuth.test.ts > useAuth Hook > handles logout
+Warning: An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at TestComponent (D:\EvalForge\apps\web\node_modules\@testing-library\react\dist\pure.js:329:5)
+
+ [32mΓ£ô[39m src/hooks/__tests__/useAuth.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 407[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/CodexDrawer.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 93[2mms[22m[39m
+ [32mΓ£ô[39m src/store/__tests__/gameStore.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/GameToast.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 3 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/pages/__tests__/DevUI_NPC.test.tsx > DevUI NPC Rendering > renders standard assistant message (No NPC)
+ FAIL  src/pages/__tests__/DevUI_NPC.test.tsx > DevUI NPC Rendering > renders KAI (Quest) Comm Link
+ FAIL  src/pages/__tests__/DevUI_NPC.test.tsx > DevUI NPC Rendering > renders ZERO (Judge) Comm Link
+TypeError: bottomRef.current?.scrollIntoView is not a function
+ Γ¥» src/pages/DevUI.tsx:39:24
+     37| 
+     38|   useEffect(() => {
+     39|     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+       |                        ^
+     40|   }, [messages]);
+     41| 
+ Γ¥» commitHookEffectListMount node_modules/react-dom/cjs/react-dom.development.js:23189:26
+ Γ¥» commitPassiveMountOnFiber node_modules/react-dom/cjs/react-dom.development.js:24970:11
+ Γ¥» commitPassiveMountEffects_complete node_modules/react-dom/cjs/react-dom.development.js:24930:9
+ Γ¥» commitPassiveMountEffects_begin node_modules/react-dom/cjs/react-dom.development.js:24917:7
+ Γ¥» commitPassiveMountEffects node_modules/react-dom/cjs/react-dom.development.js:24905:3
+ Γ¥» flushPassiveEffectsImpl node_modules/react-dom/cjs/react-dom.development.js:27078:3
+ Γ¥» flushPassiveEffects node_modules/react-dom/cjs/react-dom.development.js:27023:14
+ Γ¥» node_modules/react-dom/cjs/react-dom.development.js:26808:9
+ Γ¥» flushActQueue node_modules/react/cjs/react.development.js:2667:24
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/3]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m28 passed[39m[22m[90m (31)[39m
+[2m   Start at [22m 00:09:29
+[2m   Duration [22m 2.03s[2m (transform 757ms, setup 0ms, import 3.13s, tests 1.38s, environment 7.88s)[22m
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx1 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Suites 1 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/pages/__tests__/DevUI_NPC.test.tsx [ src/pages/__tests__/DevUI_NPC.test.tsx ]
+Error: Transform failed with 1 error:
+D:/EvalForge/apps/web/src/pages/__tests__/DevUI_NPC.test.tsx:14:8: ERROR: Unexpected "}"
+  Plugin: vite:esbuild
+  File: D:/EvalForge/apps/web/src/pages/__tests__/DevUI_NPC.test.tsx:14:8
+  
+  Unexpected "}"
+  12 |      useAuth: vi.fn()
+  13 |  }));
+  14 |          });
+     |          ^
+  15 |  
+  16 |  render(<DevUI />);
+  
+ Γ¥» failureErrorWithLog node_modules/vitest/node_modules/esbuild/lib/main.js:1467:15
+ Γ¥» node_modules/vitest/node_modules/esbuild/lib/main.js:736:50
+ Γ¥» responseCallbacks.<computed> node_modules/vitest/node_modules/esbuild/lib/main.js:603:9
+ Γ¥» handleIncomingPacket node_modules/vitest/node_modules/esbuild/lib/main.js:658:12
+ Γ¥» Socket.readFromStdout node_modules/vitest/node_modules/esbuild/lib/main.js:581:7
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [2mno tests[22m
+[2m   Start at [22m 00:10:02
+[2m   Duration [22m 0ms
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx2 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 00:14:21
+[2m   Duration [22m 253ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx3 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 00:17:18
+[2m   Duration [22m 239ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx4 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 00:20:31
+[2m   Duration [22m 244ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx5 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 00:34:15
+[2m   Duration [22m 249ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m

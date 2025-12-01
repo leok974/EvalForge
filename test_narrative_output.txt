@@ -1,0 +1,91 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 3 items
+
+tests/backend/test_narrative.py::test_worlds_data_integrity FAILED       [ 33%]
+tests/backend/test_narrative.py::test_narrative_prompt_injection FAILED  [ 66%]
+tests/backend/test_narrative.py::test_narrative_fallback PASSED          [100%]
+
+================================== FAILURES ===================================
+_________________________ test_worlds_data_integrity __________________________
+
+    def test_worlds_data_integrity():
+        """Verify worlds.json has the required narrative config."""
+        # This test reads the ACTUAL file on disk to ensure no typos in the JSON
+        worlds_path = "data/worlds.json"
+        assert os.path.exists(worlds_path), "worlds.json missing!"
+    
+        with open(worlds_path, "r") as f:
+>           worlds = json.load(f)
+                     ^^^^^^^^^^^^
+
+tests\backend\test_narrative.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\json\__init__.py:293: in load
+    return loads(fp.read(),
+                 ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x00000149FD931940>
+input = b'[\r\n    {\r\n        "id": "world-python",\r\n        "name": "Python World",\r\n        "icon": "\xf0\x9f\x90\x8d"...alogy_prompt": "Explain concepts using time travel, alternate dimensions, and save points."\r\n        }\r\n    }\r\n]'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x90 in position 93: character maps to <undefined>
+
+C:\Python313\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+_______________________ test_narrative_prompt_injection _______________________
+
+    async def test_narrative_prompt_injection():
+        """Verify that the quest generator injects the narrative persona into the LLM prompt."""
+    
+        # 1. Setup Mock Track & World Context
+        track_context = {
+            "name": "Test Track",
+            "world_id": "world-python", # Should trigger 'THE FOUNDRY'
+            "description": "Testing things",
+            "tags": ["test"],
+            "source": "fundamentals"
+        }
+    
+        # 2. Mock Vertex AI
+        mock_model = MagicMock()
+        mock_response = AsyncMock()
+        mock_response.__aiter__.return_value = [MagicMock(text="Quest Content")]
+        mock_model.generate_content_async = AsyncMock(return_value=mock_response)
+    
+        # Patch vertexai.init and GenerativeModel since they are imported inside the function
+        with patch("vertexai.init"), \
+             patch("vertexai.generative_models.GenerativeModel", return_value=mock_model):
+    
+            # 3. Run the Helper
+            # We need to consume the generator to trigger execution
+            async for _ in stream_quest_generator("start", track_context):
+                pass
+    
+            # 4. Verify the Prompt
+            # Extract the prompt string passed to generate_content_async
+            call_args = mock_model.generate_content_async.call_args
+            prompt_sent = call_args[0][0]
+    
+            # Assertions: Did the narrative get injected?
+>           assert "ROLE: You are a Automation Engineer" in prompt_sent
+E           assert 'ROLE: You are a Automation Engineer' in '\\n        ROLE: You are a Engineer inside THE SYSTEM.\\n        THEME: Standard Tech\\n        VOCABULARY TO USE: \\n        \\n        TASK: Generate a Quest Card based on the user\\'s request: "start"\\n        \\n            TYPE: SYNTHETIC PUZZLE\\n            - Generate a self-contained coding challenge.\\n            - Do not reference external files.\\n            - Focus on: test.\\n            \\n        \\n        INSTRUCTIONS:\\n        1. NARRATIVE HOOK: Describe the technical problem as a crisis within the theme (Standard Tech). \\n           (e.g. Instead of "Fix SQL Index", say "The Archives are disorganized, causing retrieval delays.")\\n        2. TACTICAL ANALYSIS: Explain the concept using this analogy: Use standard analogies.\\n        3. MISSION: List the *exact* technical steps required clearly.\\n        \\n        FORMAT:\\n        ## \U0001f4e1 INCOMING TRANSMISSION: THE SYSTEM\\n        **Crisis Level:** CRITICAL | **Role:** Engineer\\n        \\n        **Briefing:**\\n        [The Narrative Story Paragraph using vocabulary words]\\n        \\n        **Tactical Analysis:**\\n        [The Metaphor/Analogy explaining the concept]\\n        \\n        **Mission Objectives:**\\n        - [ ] [Technical Task 1]\\n        - [ ] [Technical Task 2]\\n        \\n        **Technical Summary (Log):**\\n        - Stack: test\\n        - Task: [One sentence plain English summary]\\n        \\n        **Loot:** +XP in Test Track\\n        '
+
+tests\backend\test_narrative.py:61: AssertionError
+============================== warnings summary ===============================
+tests/backend/test_narrative.py::test_worlds_data_integrity
+  tests\backend\test_narrative.py:10: PytestWarning: The test <Function test_worlds_data_integrity> is marked with '@pytest.mark.asyncio' but it is not an async function. Please remove the asyncio mark. If the test is not marked explicitly, check for global marks applied via 'pytestmark'.
+    def test_worlds_data_integrity():
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_narrative.py::test_worlds_data_integrity - UnicodeD...
+FAILED tests/backend/test_narrative.py::test_narrative_prompt_injection - ass...
+=================== 2 failed, 1 passed, 1 warning in 2.11s ====================

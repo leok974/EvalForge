@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useBossStore } from '../store/bossStore';
 
 type Grade = {
     weighted_score: number;
@@ -6,13 +7,26 @@ type Grade = {
     correctness: number;
     clarity: number;
     comment: string;
-    rubric?: string[]; // Added optional rubric field
-    rubric_used?: string; // Added optional rubric_used field
+    rubric?: string[];
+    rubric_used?: string;
+};
+
+export type StreamContext = {
+    mode: string;
+    world_id?: string;
+    track_id?: string;
+    codex_id?: string;
 };
 
 type Message = {
     role: 'user' | 'assistant';
     content: string;
+    npc?: {
+        name: string;
+        title: string;
+        avatar_icon: string;
+        color: string;
+    };
 };
 
 export type ProgressUpdate = {
@@ -31,7 +45,7 @@ export function useArcadeStream(sessionId: string, user: string = 'test') {
     const [isStreaming, setIsStreaming] = useState(false);
     const abortControllerRef = useRef<AbortController | null>(null);
 
-    const sendMessage = async (text: string, mode: string = 'judge', worldId?: string, trackId?: string) => {
+    const sendMessage = async (text: string, mode: string = 'judge', worldId?: string, trackId?: string, codexId?: string) => {
         // 1. Setup UI State
         setIsStreaming(true);
         setMessages(prev => [...prev, { role: 'user', content: text }]);
@@ -53,7 +67,8 @@ export function useArcadeStream(sessionId: string, user: string = 'test') {
                         message: text,
                         mode,
                         world_id: worldId,
-                        track_id: trackId
+                        track_id: trackId,
+                        codex_id: codexId
                     }),
                     signal: abortControllerRef.current.signal,
                 }
@@ -148,6 +163,25 @@ export function useArcadeStream(sessionId: string, user: string = 'test') {
                 return newHistory;
             });
         }
+        else if (eventType === 'npc_identity') {
+            try {
+                const npcData = JSON.parse(data);
+                setMessages(prev => {
+                    const newHistory = [...prev];
+                    const lastMsg = newHistory[newHistory.length - 1];
+                    if (lastMsg.role === 'assistant') {
+                        lastMsg.npc = npcData;
+                    }
+                    return newHistory;
+                });
+            } catch (e) { console.error('Failed to parse npc_identity', e); }
+        }
+        else if (eventType === 'boss_result') {
+            try {
+                const resultData = JSON.parse(data);
+                useBossStore.getState().applyBossResult(resultData);
+            } catch (e) { console.error('Failed to parse boss_result', e); }
+        }
     };
 
     const stopStream = () => {
@@ -157,5 +191,5 @@ export function useArcadeStream(sessionId: string, user: string = 'test') {
         }
     };
 
-    return { messages, latestGrade, lastProgress, isStreaming, sendMessage, stopStream };
+    return { messages, setMessages, latestGrade, lastProgress, isStreaming, sendMessage, stopStream };
 }

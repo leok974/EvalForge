@@ -17,7 +17,7 @@ const mockProject = {
     repo_url: 'http://github.com/u/my-repo',
     sync_status: 'ok',
     last_sync_at: '2025-01-01',
-    summary: { stack: ['react'] }
+    summary_data: { stack: ['react'] }
 };
 
 describe('ProjectsPanel', () => {
@@ -40,7 +40,10 @@ describe('ProjectsPanel', () => {
         expect(global.fetch).toHaveBeenCalledWith('/api/projects');
         await waitFor(() => {
             expect(screen.getByText('my-repo')).toBeDefined();
-            expect(screen.getByText('react')).toBeDefined();
+            // Use a more flexible matcher for the stack tag
+            expect(screen.getByText((content, element) => {
+                return element?.tagName.toLowerCase() === 'span' && content.includes('react');
+            })).toBeDefined();
         });
     });
 
@@ -52,11 +55,12 @@ describe('ProjectsPanel', () => {
 
         // 2. Setup Mocks for Add Flow
         // POST /api/projects -> returns new ID
-        (global.fetch as any).mockResolvedValueOnce({ json: async () => ({ id: 'new-p2' }) });
+        (global.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'new-p2' }) });
         // POST /sync -> returns success
         (global.fetch as any).mockResolvedValueOnce({ ok: true });
         // GET /api/projects (Refresh) -> returns new list
         (global.fetch as any).mockResolvedValueOnce({
+            ok: true,
             json: async () => [mockProject, { ...mockProject, id: 'new-p2', name: 'new-repo' }]
         });
 
@@ -72,9 +76,18 @@ describe('ProjectsPanel', () => {
             expect(screen.getByText('ADD PROJECT')).toBeDefined(); // Button resets
         });
 
-        // Check API Chain
-        expect(global.fetch).toHaveBeenCalledWith('/api/projects', expect.objectContaining({ method: 'POST' }));
-        expect(global.fetch).toHaveBeenCalledWith('/api/projects/new-p2/sync', expect.objectContaining({ method: 'POST' }));
+        // Check API Chain - Order matters!
+        // 1. Initial load
+        expect(global.fetch).toHaveBeenNthCalledWith(1, '/api/projects');
+        // 2. Add Project
+        expect(global.fetch).toHaveBeenNthCalledWith(2, '/api/projects', expect.objectContaining({
+            method: 'POST',
+            body: JSON.stringify({ repo_url: 'https://github.com/u/new-repo' })
+        }));
+        // 3. Sync
+        expect(global.fetch).toHaveBeenNthCalledWith(3, '/api/projects/new-p2/sync', expect.objectContaining({ method: 'POST' }));
+        // 4. Refresh list
+        expect(global.fetch).toHaveBeenNthCalledWith(4, '/api/projects');
 
         // Check UI Update
         await waitFor(() => expect(screen.getByText('new-repo')).toBeDefined());

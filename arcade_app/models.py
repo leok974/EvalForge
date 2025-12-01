@@ -16,6 +16,19 @@ class User(SQLModel, table=True):
     profile: Optional["Profile"] = Relationship(back_populates="user")
     projects: List["Project"] = Relationship(back_populates="owner")
 
+class ChatSession(SQLModel, table=True):
+    id: str = Field(primary_key=True)
+    user_id: str = Field(foreign_key="user.id", index=True)
+    mode: str = "judge"
+    world_id: Optional[str] = None
+    track_id: Optional[str] = None
+    
+    history: List[Dict] = Field(default=[], sa_type=JSON)
+    state: Dict = Field(default={}, sa_type=JSON)
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
 class Profile(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: str = Field(foreign_key="user.id", unique=True)
@@ -25,6 +38,26 @@ class Profile(SQLModel, table=True):
     world_progress: Dict = Field(default={}, sa_type=JSON) 
     
     user: User = Relationship(back_populates="profile")
+
+class UserMetric(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: str = Field(foreign_key="user.id", index=True)
+    metric_key: str  # e.g. "projects_synced", "bosses_defeated"
+    value: int = 0
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+class BadgeDefinition(SQLModel, table=True):
+    id: str = Field(primary_key=True)  # e.g. "badge-first-sync"
+    name: str
+    description: str
+    icon_url: Optional[str] = None
+    xp_bonus: int = 0
+
+class UserBadge(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: str = Field(foreign_key="user.id", index=True)
+    badge_id: str = Field(foreign_key="badgedefinition.id")
+    awarded_at: datetime = Field(default_factory=datetime.utcnow)
 
 # --- PROJECTS & CONTENT ---
 
@@ -59,3 +92,73 @@ class KnowledgeChunk(SQLModel, table=True):
     
     # The Vector (768 dimensions is standard for Vertex/Gecko)
     embedding: List[float] = Field(sa_column=Column(Vector(768)))
+
+
+# --- BOSS MODELS ---
+
+class BossDefinition(SQLModel, table=True):
+    """
+    Static config for a Boss encounter.
+
+    This is the 'what is this boss' record: name, world/track, timers, rewards.
+    One row per boss type (e.g. boss-reactor-core).
+    """
+    id: str = Field(primary_key=True)  # e.g. "boss-reactor-core"
+    name: str
+    description: str = Field(default="")
+
+    # Optional: link back into your worlds/tracks system
+    world_id: Optional[str] = Field(default=None, index=True)   # e.g. "world-infra"
+    track_id: Optional[str] = Field(default=None, index=True)   # e.g. "infra-fundamentals"
+
+    # Gameplay / scoring knobs
+    time_limit_seconds: int = Field(default=1800)  # 30 min default
+    max_hp: int = Field(default=100)               # integrity pool
+    base_xp_reward: int = Field(default=300)
+    difficulty: str = Field(default="normal")      # "normal" | "hard"
+
+    enabled: bool = Field(default=True)
+
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class BossRun(SQLModel, table=True):
+    """
+    One concrete attempt at a boss fight by a user.
+
+    Used for history / analytics and to drive 'boss_result' events.
+    """
+    id: Optional[int] = Field(default=None, primary_key=True)
+
+    user_id: str = Field(index=True, foreign_key="user.id")
+    boss_id: str = Field(index=True, foreign_key="bossdefinition.id")
+
+    started_at: datetime = Field(default_factory=datetime.utcnow)
+    completed_at: Optional[datetime] = Field(default=None)
+
+    result: Optional[str] = Field(default=None)  # "win" | "loss" | "timeout"
+    score: int = Field(default=0)                # judge score 0–100
+    hp_remaining: int = Field(default=0)
+
+    # Optional metadata for debugging / analytics
+    judge_trace_id: Optional[str] = Field(default=None)
+    notes: Optional[str] = Field(default=None)
+
+
+class BossProgress(SQLModel, table=True):
+    """
+    Long-term per-user, per-boss progress.
+
+    Drives the Strategy Guide system (fail streaks, hint levels, etc.).
+    """
+    id: Optional[int] = Field(default=None, primary_key=True)
+
+    user_id: str = Field(index=True, foreign_key="user.id")
+    boss_id: str = Field(index=True, foreign_key="bossdefinition.id")
+
+    fail_streak: int = Field(default=0)           # consecutive failures
+    highest_hint_level: int = Field(default=0)    # 0 = none, 1..N = deeper hints
+
+    last_attempt_at: datetime = Field(default_factory=datetime.utcnow)
+    last_result: Optional[str] = Field(default=None)  # "win" | "loss" | "timeout"

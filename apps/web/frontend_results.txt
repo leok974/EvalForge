@@ -1,0 +1,724 @@
+
+> evalforge-web@0.1.0 test
+> vitest src/ src/components/__tests__/AvatarSelector.test.tsx
+
+
+[1m[44m DEV [49m[22m [34mv4.0.14 [39m[90mD:/EvalForge/apps/web[39m
+
+ [32mΓ£ô[39m src/components/hud/__tests__/NetworkPanel.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/GameToast.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32mΓ£ô[39m src/components/hud/__tests__/EventLog.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+Game Socket Error: Event { isTrusted: [Getter] }
+
+ [32mΓ£ô[39m src/layouts/__tests__/GameShell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+Game Socket Error: Event { isTrusted: [Getter] }
+
+
+ [32mΓ£ô[39m src/components/__tests__/LayoutSwitcher.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 153[2mms[22m[39m
+stderr | src/components/__tests__/AvatarSelector.test.tsx > AvatarSelector > handles equipping an unlocked avatar
+Warning: An update to AvatarSelector inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at AvatarSelector (D:/EvalForge/apps/web/src/components/AvatarSelector.tsx:10:27)
+
+ [32mΓ£ô[39m src/components/__tests__/AvatarSelector.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 111[2mms[22m[39m
+stderr | src/hooks/__tests__/useAuth.test.ts > useAuth Hook > handles logout
+Warning: An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at TestComponent (D:\EvalForge\apps\web\node_modules\@testing-library\react\dist\pure.js:329:5)
+
+ [32mΓ£ô[39m src/components/__tests__/ContextSelector.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 258[2mms[22m[39m
+ [32mΓ£ô[39m src/hooks/__tests__/useAuth.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 402[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/CodexDrawer.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 102[2mms[22m[39m
+ [32mΓ£ô[39m src/store/__tests__/gameStore.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+Not implemented: Window's alert() method
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+stderr | src/components/__tests__/ProjectsPanel.test.tsx
+Game Socket Error: Event { isTrusted: [Getter] }
+
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1111[2mms[22m[39m
+     [32mΓ£ô[39m does not render when closed[32m 46[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1044[2mms[22m[39m
+[31m     [31m├ù[31m handles adding a new project[39m[32m 20[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 2 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+TestingLibraryElementError: Unable to find an element with the text: react. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-zinc-950 border border-zinc-800 rounded-xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+      >
+        <div
+          class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50"
+        >
+          <h2
+            class="text-cyan-500 font-bold tracking-wider font-mono flex items-center gap-2"
+          >
+            <span
+              class="text-xl"
+            >
+              ≡ƒÜÇ
+            </span>
+             PROJECT DASHBOARD
+          </h2>
+          <button
+            class="text-zinc-500 hover:text-white transition-colors"
+          >
+            Γ£ò ESC
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto flex-1"
+        >
+          <div
+            class="space-y-3 mb-8"
+          >
+            <div
+              class="bg-zinc-900 border border-zinc-800 p-4 rounded-lg flex flex-col gap-3 group hover:border-zinc-700 transition-all"
+            >
+              <div
+                class="flex justify-between items-center"
+              >
+                <div>
+                  <div
+                    class="font-bold text-zinc-200 text-lg"
+                  >
+                    my-repo
+                  </div>
+                  <div
+                    class="text-xs text-zinc-500 font-mono mb-2"
+                  >
+                    http://github.com/u/my-repo
+                  </div>
+                  <div
+                    class="flex gap-2"
+                  />
+                </div>
+                <div
+                  class="flex items-center gap-4"
+                >
+                  <div
+                    class="text-right"
+                  >
+                    <div
+                      class="text-xs font-bold uppercase tracking-wider text-emerald-500"
+                    >
+                      SYNCED
+                    </div>
+                    <div
+                      class="text-[10px] text-zinc-600 font-mono mt-1"
+                    >
+                      7:00:00 PM
+                    </div>
+                  </div>
+                  <button
+                    class="bg-zinc-800 hover:bg-zinc-700 text-zinc-400 p-2 rounded border border-zinc-700 transition-colors disabled:opacity-50"
+                    title="Re-sync Repository"
+                  >
+                    <svg
+                      class="w-4 h-4 "
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form
+            class="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800"
+          >
+            <label
+              class="block text-xs font-mono text-zinc-500 mb-2 uppercase tracking-widest"
+            >
+              Link GitHub Repository
+            </label>
+            <div
+              class="flex gap-2"
+            >
+              <input
+                class="flex-1 bg-black border border-zinc-700 rounded px-3 py-2 text-sm text-zinc-200 focus:border-cyan-500 focus:outline-none font-mono"
+                placeholder="https://github.com/username/repo"
+                required=""
+                type="url"
+                value=""
+              />
+              <button
+                class="bg-cyan-900 hover:bg-cyan-800 text-cyan-100 px-6 py-2 rounded text-xs font-bold transition-colors disabled:opacity-50 border border-cyan-700"
+                type="submit"
+              >
+                ADD PROJECT
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<html>
+  <head />
+  <body>
+    <div>
+      <div
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      >
+        <div
+          class="bg-zinc-950 border border-zinc-800 rounded-xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+        >
+          <div
+            class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50"
+          >
+            <h2
+              class="text-cyan-500 font-bold tracking-wider font-mono flex items-center gap-2"
+            >
+              <span
+                class="text-xl"
+              >
+                ≡ƒÜÇ
+              </span>
+               PROJECT DASHBOARD
+            </h2>
+            <button
+              class="text-zinc-500 hover:text-white transition-colors"
+            >
+              Γ£ò ESC
+            </button>
+          </div>
+          <div
+            class="p-6 overflow-y-auto flex-1"
+          >
+            <div
+              class="space-y-3 mb-8"
+            >
+              <div
+                class="bg-zinc-900 border border-zinc-800 p-4 rounded-lg flex flex-col gap-3 group hover:border-zinc-700 transition-all"
+              >
+                <div
+                  class="flex justify-between items-center"
+                >
+                  <div>
+                    <div
+                      class="font-bold text-zinc-200 text-lg"
+                    >
+                      my-repo
+                    </div>
+                    <div
+                      class="text-xs text-zinc-500 font-mono mb-2"
+                    >
+                      http://github.com/u/my-repo
+                    </div>
+                    <div
+                      class="flex gap-2"
+                    />
+                  </div>
+                  <div
+                    class="flex items-center gap-4"
+                  >
+                    <div
+                      class="text-right"
+                    >
+                      <div
+                        class="text-xs font-bold uppercase tracking-wider text-emerald-500"
+                      >
+                        SYNCED
+                      </div>
+                      <div
+                        class="text-[10px] text-zinc-600 font-mono mt-1"
+                      >
+                        7:00:00 PM
+                      </div>
+                    </div>
+                    <button
+                      class="bg-zinc-800 hover:bg-zinc-700 text-zinc-400 p-2 rounded border border-zinc-700 transition-colors disabled:opacity-50"
+                      title="Re-sync Repository"
+                    >
+                      <svg
+                        class="w-4 h-4 "
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form
+              class="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800"
+            >
+              <label
+                class="block text-xs font-mono text-zinc-500 mb-2 uppercase tracking-widest"
+              >
+                Link GitHub Repository
+              </label>
+              <div
+                class="flex gap-2"
+              >
+                <input
+                  class="flex-1 bg-black border border-zinc-700 rounded px-3 py-2 text-sm text-zinc-200 focus:border-cyan-500 focus:outline-none font-mono"
+                  placeholder="https://github.com/username/repo"
+                  required=""
+                  type="url"
+                  value=""
+                />
+                <button
+                  class="bg-cyan-900 hover:bg-cyan-800 text-cyan-100 px-6 py-2 rounded text-xs font-bold transition-colors disabled:opacity-50 border border-cyan-700"
+                  type="submit"
+                >
+                  ADD PROJECT
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+ Γ¥» waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ Γ¥» src/components/__tests__/ProjectsPanel.test.tsx:41:15
+     39| 
+     40|         expect(global.fetch).toHaveBeenCalledWith('/api/projects');
+     41|         await waitFor(() => {
+       |               ^
+     42|             expect(screen.getByText('my-repo')).toBeDefined();
+     43|             expect(screen.getByText('react')).toBeDefined();
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/2]ΓÄ»
+
+ FAIL  src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > handles adding a new project
+AssertionError: expected "vi.fn()" to be called with arguments: [ '/api/projects/new-p2/sync', ΓÇª(1) ]
+
+Received: 
+
+  1st vi.fn() call:
+
+  [
+-   "/api/projects/new-p2/sync",
+-   ObjectContaining {
+-     "method": "POST",
+-   },
++   "/api/projects",
+  ]
+
+  2nd vi.fn() call:
+
+  [
+-   "/api/projects/new-p2/sync",
+-   ObjectContaining {
++   "/api/projects",
++   {
++     "body": "{\"repo_url\":\"https://github.com/u/new-repo\"}",
++     "headers": {
++       "Content-Type": "application/json",
++     },
+      "method": "POST",
+    },
+  ]
+
+
+Number of calls: 2
+
+ Γ¥» src/components/__tests__/ProjectsPanel.test.tsx:77:30
+     75|         // Check API Chain
+     76|         expect(global.fetch).toHaveBeenCalledWith('/api/projects', expΓÇª
+     77|         expect(global.fetch).toHaveBeenCalledWith('/api/projects/new-pΓÇª
+       |                              ^
+     78| 
+     79|         // Check UI Update
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/2]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (11)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m26 passed[39m[22m[90m (28)[39m
+[2m   Start at [22m 23:10:43
+[2m   Duration [22m 2.36s[2m (transform 1.37s, setup 0ms, import 3.60s, tests 2.30s, environment 8.13s)[22m
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/components/__tests__/ProjectsPanel.test.tsx [22m[34mx1 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/AvatarSelector.test.tsx[39m
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+Game Socket Error: Event { isTrusted: [Getter] }
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+Game Socket Error: Event { isTrusted: [Getter] }
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mhandles adding a new project
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > handles adding a new project
+Game Socket Error: Event { isTrusted: [Getter] }
+
+ [31mΓ¥»[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1178[2mms[22m[39m
+     [32mΓ£ô[39m does not render when closed[32m 117[2mms[22m[39m
+[31m     [31m├ù[31m renders list of projects when open[39m[33m 1036[2mms[22m[39m
+     [32mΓ£ô[39m handles adding a new project[32m 23[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 1 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+TestingLibraryElementError: Unable to find an element with the text: (content, element) => { return element?.tagName.toLowerCase() === "span" && content.includes("react"); } (normalized from '(content, element) => {
+        return element?.tagName.toLowerCase() === "span" && content.includes("react");
+      }'). This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-zinc-950 border border-zinc-800 rounded-xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+      >
+        <div
+          class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50"
+        >
+          <h2
+            class="text-cyan-500 font-bold tracking-wider font-mono flex items-center gap-2"
+          >
+            <span
+              class="text-xl"
+            >
+              ≡ƒÜÇ
+            </span>
+             PROJECT DASHBOARD
+          </h2>
+          <button
+            class="text-zinc-500 hover:text-white transition-colors"
+          >
+            Γ£ò ESC
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto flex-1"
+        >
+          <div
+            class="space-y-3 mb-8"
+          >
+            <div
+              class="bg-zinc-900 border border-zinc-800 p-4 rounded-lg flex flex-col gap-3 group hover:border-zinc-700 transition-all"
+            >
+              <div
+                class="flex justify-between items-center"
+              >
+                <div>
+                  <div
+                    class="font-bold text-zinc-200 text-lg"
+                  >
+                    my-repo
+                  </div>
+                  <div
+                    class="text-xs text-zinc-500 font-mono mb-2"
+                  >
+                    http://github.com/u/my-repo
+                  </div>
+                  <div
+                    class="flex gap-2"
+                  />
+                </div>
+                <div
+                  class="flex items-center gap-4"
+                >
+                  <div
+                    class="text-right"
+                  >
+                    <div
+                      class="text-xs font-bold uppercase tracking-wider text-emerald-500"
+                    >
+                      SYNCED
+                    </div>
+                    <div
+                      class="text-[10px] text-zinc-600 font-mono mt-1"
+                    >
+                      7:00:00 PM
+                    </div>
+                  </div>
+                  <button
+                    class="bg-zinc-800 hover:bg-zinc-700 text-zinc-400 p-2 rounded border border-zinc-700 transition-colors disabled:opacity-50"
+                    title="Re-sync Repository"
+                  >
+                    <svg
+                      class="w-4 h-4 "
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form
+            class="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800"
+          >
+            <label
+              class="block text-xs font-mono text-zinc-500 mb-2 uppercase tracking-widest"
+            >
+              Link GitHub Repository
+            </label>
+            <div
+              class="flex gap-2"
+            >
+              <input
+                class="flex-1 bg-black border border-zinc-700 rounded px-3 py-2 text-sm text-zinc-200 focus:border-cyan-500 focus:outline-none font-mono"
+                placeholder="https://github.com/username/repo"
+                required=""
+                type="url"
+                value=""
+              />
+              <button
+                class="bg-cyan-900 hover:bg-cyan-800 text-cyan-100 px-6 py-2 rounded text-xs font-bold transition-colors disabled:opacity-50 border border-cyan-700"
+                type="submit"
+              >
+                ADD PROJECT
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<html>
+  <head />
+  <body>
+    <div>
+      <div
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      >
+        <div
+          class="bg-zinc-950 border border-zinc-800 rounded-xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+        >
+          <div
+            class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50"
+          >
+            <h2
+              class="text-cyan-500 font-bold tracking-wider font-mono flex items-center gap-2"
+            >
+              <span
+                class="text-xl"
+              >
+                ≡ƒÜÇ
+              </span>
+               PROJECT DASHBOARD
+            </h2>
+            <button
+              class="text-zinc-500 hover:text-white transition-colors"
+            >
+              Γ£ò ESC
+            </button>
+          </div>
+          <div
+            class="p-6 overflow-y-auto flex-1"
+          >
+            <div
+              class="space-y-3 mb-8"
+            >
+              <div
+                class="bg-zinc-900 border border-zinc-800 p-4 rounded-lg flex flex-col gap-3 group hover:border-zinc-700 transition-all"
+              >
+                <div
+                  class="flex justify-between items-center"
+                >
+                  <div>
+                    <div
+                      class="font-bold text-zinc-200 text-lg"
+                    >
+                      my-repo
+                    </div>
+                    <div
+                      class="text-xs text-zinc-500 font-mono mb-2"
+                    >
+                      http://github.com/u/my-repo
+                    </div>
+                    <div
+                      class="flex gap-2"
+                    />
+                  </div>
+                  <div
+                    class="flex items-center gap-4"
+                  >
+                    <div
+                      class="text-right"
+                    >
+                      <div
+                        class="text-xs font-bold uppercase tracking-wider text-emerald-500"
+                      >
+                        SYNCED
+                      </div>
+                      <div
+                        class="text-[10px] text-zinc-600 font-mono mt-1"
+                      >
+                        7:00:00 PM
+                      </div>
+                    </div>
+                    <button
+                      class="bg-zinc-800 hover:bg-zinc-700 text-zinc-400 p-2 rounded border border-zinc-700 transition-colors disabled:opacity-50"
+                      title="Re-sync Repository"
+                    >
+                      <svg
+                        class="w-4 h-4 "
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form
+              class="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800"
+            >
+              <label
+                class="block text-xs font-mono text-zinc-500 mb-2 uppercase tracking-widest"
+              >
+                Link GitHub Repository
+              </label>
+              <div
+                class="flex gap-2"
+              >
+                <input
+                  class="flex-1 bg-black border border-zinc-700 rounded px-3 py-2 text-sm text-zinc-200 focus:border-cyan-500 focus:outline-none font-mono"
+                  placeholder="https://github.com/username/repo"
+                  required=""
+                  type="url"
+                  value=""
+                />
+                <button
+                  class="bg-cyan-900 hover:bg-cyan-800 text-cyan-100 px-6 py-2 rounded text-xs font-bold transition-colors disabled:opacity-50 border border-cyan-700"
+                  type="submit"
+                >
+                  ADD PROJECT
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+ Γ¥» waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ Γ¥» src/components/__tests__/ProjectsPanel.test.tsx:41:15
+     39| 
+     40|         expect(global.fetch).toHaveBeenCalledWith('/api/projects');
+     41|         await waitFor(() => {
+       |               ^
+     42|             expect(screen.getByText('my-repo')).toBeDefined();
+     43|             // Use a more flexible matcher for the stack tag
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 23:11:58
+[2m   Duration [22m 1.54s
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/components/__tests__/ProjectsPanel.test.tsx [22m[34mx2 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/components/__tests__/AvatarSelector.test.tsx[39m
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+Game Socket Error: Event { isTrusted: [Getter] }
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mhandles adding a new project
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > handles adding a new project
+Game Socket Error: Event { isTrusted: [Getter] }
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx
+Game Socket Error: Event { isTrusted: [Getter] }
+
+ [32mΓ£ô[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 258[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 23:15:03
+[2m   Duration [22m 561ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m

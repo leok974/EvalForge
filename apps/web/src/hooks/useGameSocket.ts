@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export type GameEvent = {
-  type: 'boss_spawn' | 'sync_progress' | 'sync_complete';
+  type: 'boss_spawn' | 'sync_progress' | 'sync_complete' | 'achievement' | 'quest_complete';
   title?: string;
   message?: string;
   // Sync specific fields
@@ -9,6 +9,21 @@ export type GameEvent = {
   percent?: number;
   eta_seconds?: number;
   xp_bounty?: number;
+  // Boss spawn fields
+  boss_id?: string;
+  name?: string;
+  difficulty?: string;
+  duration_seconds?: number;
+  hp_penalty_on_fail?: number;
+  base_xp_reward?: number;
+  // Achievement specific fields
+  badge?: {
+    name: string;
+    description: string;
+    icon: string;
+    rarity: string;
+    xp_bonus: number;
+  };
 };
 
 export function useGameSocket() {

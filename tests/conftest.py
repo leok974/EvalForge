@@ -1,18 +1,27 @@
 import pytest
 import pytest_asyncio
 from sqlmodel import SQLModel
-from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy import text
 from arcade_app import database
+# Ensure models are registered with SQLModel.metadata
+from arcade_app import models
+
+from sqlalchemy.pool import StaticPool
 
 # 1. Use In-Memory SQLite for fast testing
 # (CheckSameThread=False is needed for sqlite + async)
-TEST_DB_URL = "sqlite+aiosqlite:///:memory:"
+# TEST_DB_URL = "sqlite+aiosqlite:///:memory:"
+TEST_DB_URL = "sqlite+aiosqlite:///./test.db"
 
 @pytest_asyncio.fixture(name="test_engine", scope="function")
 async def engine_fixture():
-    engine = create_async_engine(TEST_DB_URL, connect_args={"check_same_thread": False})
+    engine = create_async_engine(
+        TEST_DB_URL, 
+        connect_args={"check_same_thread": False}, 
+        echo=True
+    )
     
     # Create Tables
     async with engine.begin() as conn:
@@ -21,6 +30,11 @@ async def engine_fixture():
     yield engine
     
     # Teardown
+    async with engine.begin() as conn:
+        await conn.execute(text("PRAGMA foreign_keys = OFF"))
+        await conn.run_sync(SQLModel.metadata.drop_all)
+        await conn.execute(text("PRAGMA foreign_keys = ON"))
+    
     await engine.dispose()
 
 @pytest_asyncio.fixture(name="db_session")

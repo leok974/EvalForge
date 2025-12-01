@@ -1,51 +1,61 @@
-import os
-import asyncio
-from typing import AsyncGenerator, Dict, Any
+"""
+Prompt building helpers for ExplainAgent with codex integration.
+"""
+from typing import Optional
 
-async def stream_explanation(
-    user_input: str, 
-    track: Dict[str, Any]
-) -> AsyncGenerator[str, None]:
+
+def build_explain_system_prompt(
+    user_input: str,
+    track_id: Optional[str],
+    codex_entry: Optional[dict],
+) -> str:
     """
-    Streams a tailored explanation grounded in the Track's specific technology stack.
+    Build the system prompt for ELARA (Explain Agent).
+
+    If codex_entry is provided, we treat it as an authoritative reference
+    (e.g. boss strategy guide) and explicitly tell the LLM to use it.
+    
+    Args:
+        user_input: The user's question
+        track_id: Current track context
+        codex_entry: Optional dict with id, title, summary, body_markdown
+        
+    Returns:
+        System prompt string for ELARA
     """
-    if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
-        yield f"👨‍🏫 **Mock Explanation** for {track.get('name')}: {user_input} is interesting."
-        return
+    if codex_entry is None:
+        # Fallback: general explain mode
+        return f"""You are ELARA, the Library Archivist of EvalForge.
 
-    try:
-        import vertexai
-        from vertexai.generative_models import GenerativeModel
-        
-        project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-        model_name = os.getenv("EVALFORGE_MODEL_VERSION", "gemini-2.5-flash")
-        
-        vertexai.init(project=project_id, location=location)
-        model = GenerativeModel(model_name)
+Your role is to teach concepts clearly and step-by-step, focusing on the WHY behind the answer.
 
-        track_name = track.get('name', 'General')
-        tags = ', '.join(track.get('tags', []))
+Track: {track_id or "general"}
+Task: Explain the user's question with practical examples and clear reasoning.
 
-        prompt = f"""
-        ROLE: Senior Staff Engineer acting as a Mentor.
-        CONTEXT: The user is working on '{track_name}' ({track.get('description')}).
-        TECHNOLOGIES: {tags}
-        
-        USER QUESTION: "{user_input}"
-        
-        INSTRUCTION:
-        Explain the concept clearly. 
-        CRITICAL: Use examples specific to the technologies in this track. 
-        (e.g., If tags include 'React', explain state using Hooks, not generic classes. If 'FastAPI', use Pydantic examples).
-        Do not give generic advice. Relate it to the specific stack defined in the track.
-        Use Markdown for code blocks.
-        """
+User question:
+{user_input}
+"""
 
-        stream = await model.generate_content_async(prompt, stream=True)
-        async for chunk in stream:
-            if chunk.text:
-                yield chunk.text
+    # With Codex context (e.g. Boss Strategy Guide)
+    return f"""You are ELARA, the Archivist, explaining a concept using a specific Codex entry as your primary reference.
 
-    except Exception as e:
-        yield f"\n\n[SYSTEM ERROR: Explanation Failed - {str(e)}]"
+You MUST treat the following document as authoritative context and base your explanation on it.
+
+=== CODEX CONTEXT =======================================
+ID: {codex_entry.get('id')}
+TITLE: {codex_entry.get('title')}
+SUMMARY: {codex_entry.get('summary', 'N/A')}
+
+BODY (markdown):
+\"\"\"{codex_entry.get('body_markdown')}\"\"\"
+=========================================================
+
+GUIDELINES:
+1. Start by summarizing the key ideas from the Codex that are relevant.
+2. Then connect those ideas directly to the user's question.
+3. Provide concrete, practical advice: what to change, how to debug, or how to approach the problem.
+4. If something is not explicitly covered by the Codex, reason cautiously and say so instead of inventing details.
+
+User question:
+{user_input}
+"""

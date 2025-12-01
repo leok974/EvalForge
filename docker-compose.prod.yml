@@ -1,0 +1,92 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: evalforge-app
+    restart: always
+    ports:
+      - "80:8080"          # Public HTTP → internal app port
+    env_file:
+      - .env.prod          # Keep secrets out of the compose file
+    environment:
+      # Core runtime config
+      PORT: "8080"
+      EVALFORGE_ENV: "production"
+      EVALFORGE_MOCK_GRADING: "0"
+
+      # Database / cache (hostnames are service names below)
+      DATABASE_URL: "postgresql+asyncpg://evalforge:${POSTGRES_PASSWORD}@db:5432/evalforge"
+      REDIS_URL: "redis://redis:6379/0"
+
+      # Google Cloud / Vertex AI
+      GOOGLE_CLOUD_PROJECT: "${GOOGLE_CLOUD_PROJECT}"
+      GOOGLE_CLOUD_LOCATION: "${GOOGLE_CLOUD_LOCATION}"
+
+      # Auth
+      EVALFORGE_AUTH_MODE: "github"
+      GITHUB_CLIENT_ID: "${GITHUB_CLIENT_ID}"
+      GITHUB_CLIENT_SECRET: "${GITHUB_CLIENT_SECRET}"
+      SECRET_KEY: "${SECRET_KEY}"
+
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: evalforge-worker
+    restart: always
+    command: ["arq", "arcade_app.worker.WorkerSettings"]
+    env_file:
+      - .env.prod
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://evalforge:${POSTGRES_PASSWORD}@db:5432/evalforge"
+      REDIS_URL: "redis://redis:6379/0"
+      GOOGLE_CLOUD_PROJECT: "${GOOGLE_CLOUD_PROJECT}"
+      GOOGLE_CLOUD_LOCATION: "${GOOGLE_CLOUD_LOCATION}"
+      EVALFORGE_ENV: "production"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: evalforge-db
+    restart: always
+    environment:
+      POSTGRES_USER: "evalforge"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "evalforge"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U evalforge -d evalforge"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: evalforge-redis
+    restart: always
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    volumes:
+      - redis_data_prod:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data_prod:
+  redis_data_prod:

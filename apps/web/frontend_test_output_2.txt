@@ -1,0 +1,143 @@
+
+> evalforge-web@0.1.0 test
+> vitest src/ src/pages/__tests__/DevUI_NPC.test.tsx
+
+
+[1m[44m DEV [49m[22m [34mv4.0.14 [39m[90mD:/EvalForge/apps/web[39m
+
+ [32mΓ£ô[39m src/components/hud/__tests__/NetworkPanel.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+ [32mΓ£ô[39m src/components/hud/__tests__/EventLog.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mrenders list of projects when open
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > renders list of projects when open
+Game Socket Error: Event { isTrusted: [Getter] }
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx[2m > [22m[2mProjectsPanel[2m > [22m[2mhandles adding a new project
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+
+stderr | src/components/__tests__/ProjectsPanel.test.tsx > ProjectsPanel > handles adding a new project
+Game Socket Error: Event { isTrusted: [Getter] }
+
+[90mstdout[2m | src/components/__tests__/ProjectsPanel.test.tsx
+[22m[39m≡ƒÄ« Game Event Socket Disconnected
+stderr | src/components/__tests__/ProjectsPanel.test.tsx
+Game Socket Error: Event { isTrusted: [Getter] }
+
+
+ [32mΓ£ô[39m src/components/__tests__/ProjectsPanel.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 142[2mms[22m[39m
+stderr | src/components/__tests__/AvatarSelector.test.tsx > AvatarSelector > handles equipping an unlocked avatar
+Warning: An update to AvatarSelector inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at AvatarSelector (D:/EvalForge/apps/web/src/components/AvatarSelector.tsx:10:27)
+
+ [32mΓ£ô[39m src/components/__tests__/LayoutSwitcher.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 204[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/AvatarSelector.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 134[2mms[22m[39m
+ [32mΓ£ô[39m src/layouts/__tests__/GameShell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 68[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/ContextSelector.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 305[2mms[22m[39m
+stderr | src/hooks/__tests__/useAuth.test.ts > useAuth Hook > handles logout
+Warning: An update to TestComponent inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at TestComponent (D:\EvalForge\apps\web\node_modules\@testing-library\react\dist\pure.js:329:5)
+
+ [32mΓ£ô[39m src/hooks/__tests__/useAuth.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 397[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/CodexDrawer.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 100[2mms[22m[39m
+ [32mΓ£ô[39m src/components/__tests__/GameToast.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 31[2mms[22m[39m
+ [32mΓ£ô[39m src/store/__tests__/gameStore.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Suites 1 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/pages/__tests__/DevUI_NPC.test.tsx [ src/pages/__tests__/DevUI_NPC.test.tsx ]
+Error: Transform failed with 1 error:
+D:/EvalForge/apps/web/src/pages/__tests__/DevUI_NPC.test.tsx:14:8: ERROR: Unexpected "}"
+  Plugin: vite:esbuild
+  File: D:/EvalForge/apps/web/src/pages/__tests__/DevUI_NPC.test.tsx:14:8
+  
+  Unexpected "}"
+  12 |      useAuth: vi.fn()
+  13 |  }));
+  14 |          });
+     |          ^
+  15 |  
+  16 |  render(<DevUI />);
+  
+ Γ¥» failureErrorWithLog node_modules/vitest/node_modules/esbuild/lib/main.js:1467:15
+ Γ¥» node_modules/vitest/node_modules/esbuild/lib/main.js:736:50
+ Γ¥» responseCallbacks.<computed> node_modules/vitest/node_modules/esbuild/lib/main.js:603:9
+ Γ¥» handleIncomingPacket node_modules/vitest/node_modules/esbuild/lib/main.js:658:12
+ Γ¥» Socket.readFromStdout node_modules/vitest/node_modules/esbuild/lib/main.js:581:7
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m [1m[32m28 passed[39m[22m[90m (28)[39m
+[2m   Start at [22m 00:10:22
+[2m   Duration [22m 2.07s[2m (transform 1.20s, setup 0ms, import 3.76s, tests 1.51s, environment 8.30s)[22m
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx1 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 00:14:21
+[2m   Duration [22m 254ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx2 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 00:17:18
+[2m   Duration [22m 235ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx3 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 00:20:31
+[2m   Duration [22m 235ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+c[3J[1m[44m RERUN [49m[22m [34m[2msrc/pages/__tests__/DevUI_NPC.test.tsx [22m[34mx4 [34m[39m
+       [2m Filename pattern: [22m[34msrc/, src/pages/__tests__/DevUI_NPC.test.tsx[39m
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_NPC.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 00:34:15
+[2m   Duration [22m 248ms
+
+[1m[42m PASS [49m[22m [32mWaiting for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m

@@ -5,6 +5,8 @@ export type User = {
     name: string;
     avatar_url: string;
     auth_mode: string;
+    current_avatar_id?: string;
+    avatar?: any; // In a real app, import AvatarDef
 };
 
 export function useAuth() {
@@ -31,10 +33,12 @@ export function useAuth() {
     };
 
     const login = () => {
-        // In mock mode, we trigger the 'start' endpoint which sets up the state, 
-        // then immediately re-check /me to get the user object.
         fetch('/api/auth/github/start')
-            .then(() => checkAuth());
+            .then(r => r.json())
+            .then(data => {
+                // Force browser to navigate to GitHub (or the mock callback)
+                window.location.href = data.url;
+            });
     };
 
     const logout = () => {

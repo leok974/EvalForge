@@ -4,7 +4,8 @@ uvicorn[standard]
 pydantic
 python-dotenv
 sse-starlette
-httpx  # For internal API calls & testing
+httpx
+python-jose[cryptography]
 
 # --- Database (Phase 13) ---
 sqlmodel

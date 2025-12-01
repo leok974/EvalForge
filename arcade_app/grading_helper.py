@@ -79,3 +79,73 @@ def _calculate_final_grade(raw_grade: Dict, track: str) -> Dict:
     ) / 5.0 * 100
     
     return {**raw_grade, "weighted_score": round(score, 1), "rubric_used": track}
+
+async def judge_boss_submission(user_id: str, encounter_id: int, code: str) -> int:
+    """
+    Evaluates a Boss Fight submission using the specific boss rubric.
+    Returns a score (0-100).
+    """
+    from arcade_app.database import get_session
+    from arcade_app.models import BossEncounter, BossDefinition
+    from sqlmodel import select
+
+    # Fetch Boss Definition to get Rubric
+    async for session in get_session():
+        enc = await session.get(BossEncounter, encounter_id)
+        if not enc:
+            return 0
+        boss = await session.get(BossDefinition, enc.boss_id)
+        if not boss:
+            return 0
+            
+        # Construct Custom Prompt
+        prompt = f"""
+        ROLE: Senior Code Reviewer (Boss Fight Judge).
+        TASK: Evaluate the following code against the specific RUBRIC below.
+        
+        TECHNICAL OBJECTIVE: {boss.technical_objective}
+        
+        RUBRIC:
+        {boss.rubric}
+        
+        INPUT CODE:
+        {code}
+        
+        OUTPUT FORMAT (JSON ONLY):
+        {{
+            "coverage": <int 0-5>,
+            "correctness": <int 0-5>,
+            "clarity": <int 0-5>,
+            "comment": "<string>",
+            "weighted_score": <int 0-100>
+        }}
+        
+        NOTE: 'weighted_score' should be calculated based on the rubric points. 
+        If the rubric defines specific points (e.g. 40 pts for Async), sum them up to get the final score out of 100.
+        Ignore the standard 0-5 coverage/correctness/clarity if they don't fit, but fill them with reasonable values.
+        The 'weighted_score' is the most important field here.
+        """
+        
+        try:
+            import vertexai
+            from vertexai.generative_models import GenerativeModel
+            import os
+            
+            project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+            location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+            model_name = os.getenv("EVALFORGE_MODEL_VERSION", "gemini-2.5-flash-001")
+            
+            vertexai.init(project=project_id, location=location)
+            model = GenerativeModel(model_name)
+            
+            response = await model.generate_content_async(prompt, generation_config={"response_mime_type": "application/json"})
+            data = json.loads(response.text)
+            
+            return int(data.get("weighted_score", 0))
+            
+        except Exception as e:
+            logger.error(f"Boss Grading Failed: {e}")
+            # Fallback or re-raise
+            return 0
+            
+    return 0

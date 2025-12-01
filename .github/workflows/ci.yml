@@ -1,0 +1,68 @@
+name: EvalForge CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # 1. TEST BACKEND (Python)
+  backend-test:
+    runs-on: ubuntu-latest
+    services:
+      # Spin up ephemeral DB/Redis for integration tests
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+        cache: 'pip'
+    
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install httpx pytest-asyncio aiosqlite async-timeout
+    
+    - name: Run Pytest
+      env:
+        # Use mocked env vars for CI
+        GOOGLE_CLOUD_PROJECT: "mock-project"
+        GOOGLE_CLOUD_LOCATION: "us-central1"
+        EVALFORGE_MODEL_VERSION: "gemini-2.5-flash-001"
+        EVALFORGE_AUTH_MODE: "mock"
+        EVALFORGE_MOCK_GRADING: "1" # Force Mock mode to skip Vertex calls
+        DATABASE_URL: "sqlite+aiosqlite:///:memory:" # Memory DB for speed
+        REDIS_URL: "redis://localhost:6379/0"
+      run: |
+        pytest tests/backend/
+
+  # 2. TEST FRONTEND (React)
+  frontend-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/web
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependency-path: apps/web/package-lock.json
+    
+    - name: Install Dependencies
+      run: npm ci
+    
+    - name: Run Vitest
+      run: npm run test -- run

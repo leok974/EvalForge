@@ -25,7 +25,8 @@ describe('ContextSelector', () => {
 
     it('renders worlds and groups tracks', async () => {
         const setContext = vi.fn();
-        render(<ContextSelector context={{ mode: 'judge', world_id: 'w1', track_id: '' }} setContext={setContext} />);
+        const hasSkill = vi.fn().mockReturnValue(true);
+        render(<ContextSelector context={{ mode: 'judge', world_id: 'w1', track_id: '' }} setContext={setContext} hasSkill={hasSkill} />);
 
         // Wait for fetch
         await waitFor(() => screen.getByText(/World 1/i));
@@ -37,7 +38,8 @@ describe('ContextSelector', () => {
 
     it('updates context on selection', async () => {
         const setContext = vi.fn();
-        render(<ContextSelector context={{ mode: 'judge', world_id: 'w1', track_id: '' }} setContext={setContext} />);
+        const hasSkill = vi.fn().mockReturnValue(true);
+        render(<ContextSelector context={{ mode: 'judge', world_id: 'w1', track_id: '' }} setContext={setContext} hasSkill={hasSkill} />);
 
         await waitFor(() => screen.getByText(/World 1/i));
 

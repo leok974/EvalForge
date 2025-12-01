@@ -8,6 +8,7 @@ interface GameState {
     xp: number;
     level: number;
     activeQuestId: string | null;
+    integrity: number;
 
     // --- Interface ---
     layout: LayoutId;
@@ -15,6 +16,8 @@ interface GameState {
 
     // --- Actions ---
     addXp: (amount: number) => void;
+    damageIntegrity: (amount: number) => void;
+    restoreIntegrity: () => void;
     // We can add triggerBoss() or completeQuest() here later
 }
 
@@ -26,6 +29,7 @@ export const useGameStore = create<GameState>()(
             level: 1,
             activeQuestId: null,
             layout: 'cyberdeck',
+            integrity: 100,
 
             // Actions
             setLayout: (layout) => set({ layout }),
@@ -36,6 +40,12 @@ export const useGameStore = create<GameState>()(
                 const newLevel = Math.floor(newXp / 1000) + 1;
                 return { xp: newXp, level: newLevel };
             }),
+
+            damageIntegrity: (amount) => set((state) => ({
+                integrity: Math.max(0, state.integrity - amount)
+            })),
+
+            restoreIntegrity: () => set({ integrity: 100 }),
         }),
         { name: 'evalforge-save-data' } // LocalStorage key
     )

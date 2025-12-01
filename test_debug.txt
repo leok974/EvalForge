@@ -1,0 +1,1111 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 3 items
+
+tests\backend\test_avatars.py 2025-11-29 23:08:57,979 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:57,979 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-11-29 23:08:57,979 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,981 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("avatardefinition")
+2025-11-29 23:08:57,981 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,981 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("useravatar")
+2025-11-29 23:08:57,982 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,982 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("useravatar")
+2025-11-29 23:08:57,982 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,983 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-11-29 23:08:57,983 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,983 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("user")
+2025-11-29 23:08:57,984 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,984 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-11-29 23:08:57,984 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,985 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("usermetric")
+2025-11-29 23:08:57,985 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,985 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-11-29 23:08:57,986 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,986 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("badgedefinition")
+2025-11-29 23:08:57,986 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,993 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-11-29 23:08:57,993 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,993 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("userbadge")
+2025-11-29 23:08:57,993 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,994 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-11-29 23:08:57,994 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,995 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("profile")
+2025-11-29 23:08:57,995 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,995 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-11-29 23:08:57,995 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,996 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("project")
+2025-11-29 23:08:57,996 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,996 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-11-29 23:08:57,997 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,997 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("knowledgechunk")
+2025-11-29 23:08:57,997 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:57,999 INFO sqlalchemy.engine.Engine 
+CREATE TABLE avatardefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	required_level INTEGER NOT NULL, 
+	rarity VARCHAR(9) NOT NULL, 
+	visual_type VARCHAR(5) NOT NULL, 
+	visual_data VARCHAR NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:57,999 INFO sqlalchemy.engine.Engine [no key 0.00014s] ()
+2025-11-29 23:08:58,019 INFO sqlalchemy.engine.Engine 
+CREATE TABLE badgedefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	icon VARCHAR NOT NULL, 
+	rarity VARCHAR NOT NULL, 
+	xp_bonus INTEGER NOT NULL, 
+	category VARCHAR NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:58,019 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-11-29 23:08:58,027 INFO sqlalchemy.engine.Engine 
+CREATE TABLE knowledgechunk (
+	id INTEGER NOT NULL, 
+	source_type VARCHAR NOT NULL, 
+	source_id VARCHAR NOT NULL, 
+	chunk_index INTEGER NOT NULL, 
+	content VARCHAR NOT NULL, 
+	embedding VECTOR(768), 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:58,027 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,035 INFO sqlalchemy.engine.Engine 
+CREATE TABLE user (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	avatar_url VARCHAR, 
+	created_at DATETIME NOT NULL, 
+	current_avatar_id VARCHAR NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(current_avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+2025-11-29 23:08:58,035 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,043 INFO sqlalchemy.engine.Engine 
+CREATE TABLE useravatar (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	avatar_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+2025-11-29 23:08:58,043 INFO sqlalchemy.engine.Engine [no key 0.00021s] ()
+2025-11-29 23:08:58,051 INFO sqlalchemy.engine.Engine 
+CREATE TABLE usermetric (
+	user_id VARCHAR NOT NULL, 
+	quests_completed INTEGER NOT NULL, 
+	bosses_killed INTEGER NOT NULL, 
+	perfect_scores INTEGER NOT NULL, 
+	repos_synced INTEGER NOT NULL, 
+	progress_stats JSON NOT NULL, 
+	PRIMARY KEY (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,051 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-11-29 23:08:58,062 INFO sqlalchemy.engine.Engine 
+CREATE TABLE userbadge (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	badge_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(badge_id) REFERENCES badgedefinition (id)
+)
+
+
+2025-11-29 23:08:58,062 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-11-29 23:08:58,070 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userbadge_user_id ON userbadge (user_id)
+2025-11-29 23:08:58,070 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,077 INFO sqlalchemy.engine.Engine 
+CREATE TABLE profile (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	total_xp INTEGER NOT NULL, 
+	global_level INTEGER NOT NULL, 
+	world_progress JSON NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,078 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,085 INFO sqlalchemy.engine.Engine 
+CREATE TABLE project (
+	id VARCHAR NOT NULL, 
+	owner_user_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	repo_url VARCHAR NOT NULL, 
+	provider VARCHAR NOT NULL, 
+	source VARCHAR NOT NULL, 
+	default_world_id VARCHAR NOT NULL, 
+	summary_data JSON NOT NULL, 
+	sync_status VARCHAR NOT NULL, 
+	last_sync_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(owner_user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,085 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,092 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-29 23:08:58,094 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,094 INFO sqlalchemy.engine.Engine DELETE FROM userbadge
+2025-11-29 23:08:58,094 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ()
+2025-11-29 23:08:58,096 INFO sqlalchemy.engine.Engine DELETE FROM usermetric
+2025-11-29 23:08:58,096 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ()
+2025-11-29 23:08:58,096 INFO sqlalchemy.engine.Engine DELETE FROM useravatar
+2025-11-29 23:08:58,096 INFO sqlalchemy.engine.Engine [generated in 0.00008s] ()
+2025-11-29 23:08:58,097 INFO sqlalchemy.engine.Engine DELETE FROM profile
+2025-11-29 23:08:58,097 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ()
+2025-11-29 23:08:58,097 INFO sqlalchemy.engine.Engine DELETE FROM user
+2025-11-29 23:08:58,098 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ()
+2025-11-29 23:08:58,098 INFO sqlalchemy.engine.Engine DELETE FROM avatardefinition
+2025-11-29 23:08:58,098 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ()
+2025-11-29 23:08:58,099 INFO sqlalchemy.engine.Engine COMMIT
+DEBUG: Deleted rows: 0, 0, 0, 0, 0, 0
+2025-11-29 23:08:58,112 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,113 INFO sqlalchemy.engine.Engine INSERT INTO avatardefinition (id, name, description, required_level, rarity, visual_type, visual_data, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-29 23:08:58,113 INFO sqlalchemy.engine.Engine [generated in 0.00016s] [('noob', 'Noob', 'Basic avatar', 1, 'common', 'icon', 'user', 1), ('mid', 'Mid', 'Mid avatar', 2, 'common', 'icon', 'code', 1), ('pro', 'Pro', 'Pro avatar', 10, 'common', 'icon', 'star', 1)]
+2025-11-29 23:08:58,115 INFO sqlalchemy.engine.Engine INSERT INTO user (id, name, avatar_url, created_at, current_avatar_id) VALUES (?, ?, ?, ?, ?)
+2025-11-29 23:08:58,115 INFO sqlalchemy.engine.Engine [generated in 0.00016s] ('player1', 'Player One', None, '2025-11-30 04:08:58.111782', 'noob')
+2025-11-29 23:08:58,116 INFO sqlalchemy.engine.Engine INSERT INTO profile (user_id, total_xp, global_level, world_progress) VALUES (?, ?, ?, ?)
+2025-11-29 23:08:58,116 INFO sqlalchemy.engine.Engine [generated in 0.00014s] ('player1', 5000, 5, '{}')
+2025-11-29 23:08:58,117 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-29 23:08:58,124 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,125 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.world_progress 
+FROM profile 
+WHERE profile.user_id = ?
+2025-11-29 23:08:58,125 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ('player1',)
+2025-11-29 23:08:58,127 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,128 INFO sqlalchemy.engine.Engine SELECT user.id AS user_id, user.name AS user_name, user.avatar_url AS user_avatar_url, user.created_at AS user_created_at, user.current_avatar_id AS user_current_avatar_id 
+FROM user 
+WHERE user.id = ?
+2025-11-29 23:08:58,128 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ('player1',)
+2025-11-29 23:08:58,128 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-11-29 23:08:58,130 INFO sqlalchemy.engine.Engine SELECT avatardefinition.id, avatardefinition.name, avatardefinition.description, avatardefinition.required_level, avatardefinition.rarity, avatardefinition.visual_type, avatardefinition.visual_data, avatardefinition.is_active 
+FROM avatardefinition 
+WHERE avatardefinition.is_active = 1
+2025-11-29 23:08:58,130 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ()
+.2025-11-29 23:08:58,131 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-11-29 23:08:58,132 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,132 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = OFF
+2025-11-29 23:08:58,132 INFO sqlalchemy.engine.Engine [generated in 0.00008s] ()
+2025-11-29 23:08:58,133 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-11-29 23:08:58,133 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,133 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("useravatar")
+2025-11-29 23:08:58,133 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,134 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-11-29 23:08:58,134 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,135 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-11-29 23:08:58,135 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,135 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-11-29 23:08:58,135 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,136 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-11-29 23:08:58,136 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,136 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-11-29 23:08:58,136 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-11-29 23:08:58,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-11-29 23:08:58,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,138 INFO sqlalchemy.engine.Engine 
+DROP TABLE project
+2025-11-29 23:08:58,138 INFO sqlalchemy.engine.Engine [no key 0.00007s] ()
+2025-11-29 23:08:58,145 INFO sqlalchemy.engine.Engine 
+DROP TABLE profile
+2025-11-29 23:08:58,145 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-11-29 23:08:58,152 INFO sqlalchemy.engine.Engine 
+DROP TABLE userbadge
+2025-11-29 23:08:58,152 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-11-29 23:08:58,159 INFO sqlalchemy.engine.Engine 
+DROP TABLE usermetric
+2025-11-29 23:08:58,159 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,166 INFO sqlalchemy.engine.Engine 
+DROP TABLE useravatar
+2025-11-29 23:08:58,166 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,173 INFO sqlalchemy.engine.Engine 
+DROP TABLE user
+2025-11-29 23:08:58,173 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,180 INFO sqlalchemy.engine.Engine 
+DROP TABLE knowledgechunk
+2025-11-29 23:08:58,180 INFO sqlalchemy.engine.Engine [no key 0.00011s] ()
+2025-11-29 23:08:58,188 INFO sqlalchemy.engine.Engine 
+DROP TABLE badgedefinition
+2025-11-29 23:08:58,188 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,195 INFO sqlalchemy.engine.Engine 
+DROP TABLE avatardefinition
+2025-11-29 23:08:58,195 INFO sqlalchemy.engine.Engine [no key 0.00014s] ()
+2025-11-29 23:08:58,202 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = ON
+2025-11-29 23:08:58,202 INFO sqlalchemy.engine.Engine [generated in 0.00020s] ()
+2025-11-29 23:08:58,202 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-29 23:08:58,208 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,208 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-11-29 23:08:58,208 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,209 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("avatardefinition")
+2025-11-29 23:08:58,209 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,210 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("useravatar")
+2025-11-29 23:08:58,210 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,210 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("useravatar")
+2025-11-29 23:08:58,210 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,211 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-11-29 23:08:58,211 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,212 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("user")
+2025-11-29 23:08:58,212 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,212 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-11-29 23:08:58,212 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,213 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("usermetric")
+2025-11-29 23:08:58,213 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,213 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-11-29 23:08:58,213 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,214 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("badgedefinition")
+2025-11-29 23:08:58,214 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,214 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-11-29 23:08:58,214 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,215 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("userbadge")
+2025-11-29 23:08:58,215 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,215 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-11-29 23:08:58,215 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,216 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("profile")
+2025-11-29 23:08:58,216 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,216 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-11-29 23:08:58,217 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,217 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("project")
+2025-11-29 23:08:58,217 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,218 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-11-29 23:08:58,218 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,218 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("knowledgechunk")
+2025-11-29 23:08:58,218 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,219 INFO sqlalchemy.engine.Engine 
+CREATE TABLE avatardefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	required_level INTEGER NOT NULL, 
+	rarity VARCHAR(9) NOT NULL, 
+	visual_type VARCHAR(5) NOT NULL, 
+	visual_data VARCHAR NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:58,219 INFO sqlalchemy.engine.Engine [no key 0.00008s] ()
+2025-11-29 23:08:58,226 INFO sqlalchemy.engine.Engine 
+CREATE TABLE badgedefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	icon VARCHAR NOT NULL, 
+	rarity VARCHAR NOT NULL, 
+	xp_bonus INTEGER NOT NULL, 
+	category VARCHAR NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:58,226 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-11-29 23:08:58,234 INFO sqlalchemy.engine.Engine 
+CREATE TABLE knowledgechunk (
+	id INTEGER NOT NULL, 
+	source_type VARCHAR NOT NULL, 
+	source_id VARCHAR NOT NULL, 
+	chunk_index INTEGER NOT NULL, 
+	content VARCHAR NOT NULL, 
+	embedding VECTOR(768), 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:58,234 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-11-29 23:08:58,242 INFO sqlalchemy.engine.Engine 
+CREATE TABLE user (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	avatar_url VARCHAR, 
+	created_at DATETIME NOT NULL, 
+	current_avatar_id VARCHAR NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(current_avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+2025-11-29 23:08:58,242 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,250 INFO sqlalchemy.engine.Engine 
+CREATE TABLE useravatar (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	avatar_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+2025-11-29 23:08:58,250 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-11-29 23:08:58,258 INFO sqlalchemy.engine.Engine 
+CREATE TABLE usermetric (
+	user_id VARCHAR NOT NULL, 
+	quests_completed INTEGER NOT NULL, 
+	bosses_killed INTEGER NOT NULL, 
+	perfect_scores INTEGER NOT NULL, 
+	repos_synced INTEGER NOT NULL, 
+	progress_stats JSON NOT NULL, 
+	PRIMARY KEY (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,258 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,266 INFO sqlalchemy.engine.Engine 
+CREATE TABLE userbadge (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	badge_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(badge_id) REFERENCES badgedefinition (id)
+)
+
+
+2025-11-29 23:08:58,266 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-11-29 23:08:58,276 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userbadge_user_id ON userbadge (user_id)
+2025-11-29 23:08:58,276 INFO sqlalchemy.engine.Engine [no key 0.00021s] ()
+2025-11-29 23:08:58,284 INFO sqlalchemy.engine.Engine 
+CREATE TABLE profile (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	total_xp INTEGER NOT NULL, 
+	global_level INTEGER NOT NULL, 
+	world_progress JSON NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,284 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,293 INFO sqlalchemy.engine.Engine 
+CREATE TABLE project (
+	id VARCHAR NOT NULL, 
+	owner_user_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	repo_url VARCHAR NOT NULL, 
+	provider VARCHAR NOT NULL, 
+	source VARCHAR NOT NULL, 
+	default_world_id VARCHAR NOT NULL, 
+	summary_data JSON NOT NULL, 
+	sync_status VARCHAR NOT NULL, 
+	last_sync_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(owner_user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,293 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-11-29 23:08:58,300 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-29 23:08:58,301 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,301 INFO sqlalchemy.engine.Engine DELETE FROM userbadge
+2025-11-29 23:08:58,301 INFO sqlalchemy.engine.Engine [generated in 0.00023s] ()
+2025-11-29 23:08:58,303 INFO sqlalchemy.engine.Engine DELETE FROM usermetric
+2025-11-29 23:08:58,303 INFO sqlalchemy.engine.Engine [generated in 0.00014s] ()
+2025-11-29 23:08:58,304 INFO sqlalchemy.engine.Engine DELETE FROM useravatar
+2025-11-29 23:08:58,304 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ()
+2025-11-29 23:08:58,304 INFO sqlalchemy.engine.Engine DELETE FROM profile
+2025-11-29 23:08:58,304 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ()
+2025-11-29 23:08:58,305 INFO sqlalchemy.engine.Engine DELETE FROM user
+2025-11-29 23:08:58,305 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ()
+2025-11-29 23:08:58,306 INFO sqlalchemy.engine.Engine DELETE FROM avatardefinition
+2025-11-29 23:08:58,306 INFO sqlalchemy.engine.Engine [generated in 0.00008s] ()
+2025-11-29 23:08:58,306 INFO sqlalchemy.engine.Engine COMMIT
+DEBUG: Deleted rows: 0, 0, 0, 0, 0, 0
+2025-11-29 23:08:58,313 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,314 INFO sqlalchemy.engine.Engine INSERT INTO avatardefinition (id, name, description, required_level, rarity, visual_type, visual_data, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-29 23:08:58,314 INFO sqlalchemy.engine.Engine [generated in 0.00019s] [('noob', 'Noob', 'Basic avatar', 1, 'common', 'icon', 'user', 1), ('mid', 'Mid', 'Mid avatar', 2, 'common', 'icon', 'code', 1), ('pro', 'Pro', 'Pro avatar', 10, 'common', 'icon', 'star', 1)]
+2025-11-29 23:08:58,316 INFO sqlalchemy.engine.Engine INSERT INTO user (id, name, avatar_url, created_at, current_avatar_id) VALUES (?, ?, ?, ?, ?)
+2025-11-29 23:08:58,316 INFO sqlalchemy.engine.Engine [generated in 0.00019s] ('player1', 'Player One', None, '2025-11-30 04:08:58.313250', 'noob')
+2025-11-29 23:08:58,317 INFO sqlalchemy.engine.Engine INSERT INTO profile (user_id, total_xp, global_level, world_progress) VALUES (?, ?, ?, ?)
+2025-11-29 23:08:58,317 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('player1', 5000, 5, '{}')
+2025-11-29 23:08:58,318 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-29 23:08:58,325 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,326 INFO sqlalchemy.engine.Engine SELECT avatardefinition.id AS avatardefinition_id, avatardefinition.name AS avatardefinition_name, avatardefinition.description AS avatardefinition_description, avatardefinition.required_level AS avatardefinition_required_level, avatardefinition.rarity AS avatardefinition_rarity, avatardefinition.visual_type AS avatardefinition_visual_type, avatardefinition.visual_data AS avatardefinition_visual_data, avatardefinition.is_active AS avatardefinition_is_active 
+FROM avatardefinition 
+WHERE avatardefinition.id = ?
+2025-11-29 23:08:58,326 INFO sqlalchemy.engine.Engine [generated in 0.00013s] ('mid',)
+2025-11-29 23:08:58,327 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,328 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.world_progress 
+FROM profile 
+WHERE profile.user_id = ?
+2025-11-29 23:08:58,328 INFO sqlalchemy.engine.Engine [generated in 0.00010s] ('player1',)
+DEBUG: Executing update for user player1 to avatar mid
+2025-11-29 23:08:58,330 INFO sqlalchemy.engine.Engine UPDATE user SET current_avatar_id=? WHERE user.id = ?
+2025-11-29 23:08:58,330 INFO sqlalchemy.engine.Engine [generated in 0.00018s] ('mid', 'player1')
+2025-11-29 23:08:58,330 INFO sqlalchemy.engine.Engine ROLLBACK
+DEBUG: Update rowcount: 1
+2025-11-29 23:08:58,332 INFO sqlalchemy.engine.Engine SELECT user.id, user.name, user.avatar_url, user.created_at, user.current_avatar_id 
+FROM user
+2025-11-29 23:08:58,332 INFO sqlalchemy.engine.Engine [generated in 0.00014s] ()
+DEBUG: All users: [('player1', 'noob')]
+2025-11-29 23:08:58,333 INFO sqlalchemy.engine.Engine COMMIT
+DEBUG: Update executed and committed
+DEBUG: Response: {'status': 'ok', 'equipped': 'mid'}
+2025-11-29 23:08:58,334 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,334 INFO sqlalchemy.engine.Engine SELECT user.id, user.name, user.avatar_url, user.created_at, user.current_avatar_id 
+FROM user 
+WHERE user.id = ?
+2025-11-29 23:08:58,334 INFO sqlalchemy.engine.Engine [generated in 0.00009s] ('player1',)
+F2025-11-29 23:08:58,458 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-11-29 23:08:58,459 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,459 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = OFF
+2025-11-29 23:08:58,459 INFO sqlalchemy.engine.Engine [generated in 0.00009s] ()
+2025-11-29 23:08:58,460 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-11-29 23:08:58,460 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,460 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("useravatar")
+2025-11-29 23:08:58,461 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,461 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-11-29 23:08:58,461 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,462 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-11-29 23:08:58,462 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,463 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-11-29 23:08:58,463 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,463 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-11-29 23:08:58,463 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,464 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-11-29 23:08:58,464 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,465 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-11-29 23:08:58,465 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,466 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-11-29 23:08:58,466 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,466 INFO sqlalchemy.engine.Engine 
+DROP TABLE project
+2025-11-29 23:08:58,466 INFO sqlalchemy.engine.Engine [no key 0.00009s] ()
+2025-11-29 23:08:58,473 INFO sqlalchemy.engine.Engine 
+DROP TABLE profile
+2025-11-29 23:08:58,473 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,480 INFO sqlalchemy.engine.Engine 
+DROP TABLE userbadge
+2025-11-29 23:08:58,480 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,487 INFO sqlalchemy.engine.Engine 
+DROP TABLE usermetric
+2025-11-29 23:08:58,487 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,494 INFO sqlalchemy.engine.Engine 
+DROP TABLE useravatar
+2025-11-29 23:08:58,494 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-11-29 23:08:58,501 INFO sqlalchemy.engine.Engine 
+DROP TABLE user
+2025-11-29 23:08:58,502 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,509 INFO sqlalchemy.engine.Engine 
+DROP TABLE knowledgechunk
+2025-11-29 23:08:58,509 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,516 INFO sqlalchemy.engine.Engine 
+DROP TABLE badgedefinition
+2025-11-29 23:08:58,516 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,523 INFO sqlalchemy.engine.Engine 
+DROP TABLE avatardefinition
+2025-11-29 23:08:58,523 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-11-29 23:08:58,530 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = ON
+2025-11-29 23:08:58,531 INFO sqlalchemy.engine.Engine [generated in 0.00021s] ()
+2025-11-29 23:08:58,531 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-29 23:08:58,537 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,538 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-11-29 23:08:58,538 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,538 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("avatardefinition")
+2025-11-29 23:08:58,538 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,539 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("useravatar")
+2025-11-29 23:08:58,539 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,540 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("useravatar")
+2025-11-29 23:08:58,540 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,540 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-11-29 23:08:58,540 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,541 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("user")
+2025-11-29 23:08:58,541 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,542 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-11-29 23:08:58,542 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,542 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("usermetric")
+2025-11-29 23:08:58,542 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,543 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-11-29 23:08:58,543 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,543 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("badgedefinition")
+2025-11-29 23:08:58,543 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,544 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-11-29 23:08:58,544 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,545 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("userbadge")
+2025-11-29 23:08:58,545 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,545 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-11-29 23:08:58,545 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,546 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("profile")
+2025-11-29 23:08:58,546 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,546 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-11-29 23:08:58,546 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,547 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("project")
+2025-11-29 23:08:58,547 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,548 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-11-29 23:08:58,548 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,548 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("knowledgechunk")
+2025-11-29 23:08:58,548 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,549 INFO sqlalchemy.engine.Engine 
+CREATE TABLE avatardefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	required_level INTEGER NOT NULL, 
+	rarity VARCHAR(9) NOT NULL, 
+	visual_type VARCHAR(5) NOT NULL, 
+	visual_data VARCHAR NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:58,549 INFO sqlalchemy.engine.Engine [no key 0.00007s] ()
+2025-11-29 23:08:58,556 INFO sqlalchemy.engine.Engine 
+CREATE TABLE badgedefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	icon VARCHAR NOT NULL, 
+	rarity VARCHAR NOT NULL, 
+	xp_bonus INTEGER NOT NULL, 
+	category VARCHAR NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:58,556 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-11-29 23:08:58,563 INFO sqlalchemy.engine.Engine 
+CREATE TABLE knowledgechunk (
+	id INTEGER NOT NULL, 
+	source_type VARCHAR NOT NULL, 
+	source_id VARCHAR NOT NULL, 
+	chunk_index INTEGER NOT NULL, 
+	content VARCHAR NOT NULL, 
+	embedding VECTOR(768), 
+	PRIMARY KEY (id)
+)
+
+
+2025-11-29 23:08:58,564 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,571 INFO sqlalchemy.engine.Engine 
+CREATE TABLE user (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	avatar_url VARCHAR, 
+	created_at DATETIME NOT NULL, 
+	current_avatar_id VARCHAR NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(current_avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+2025-11-29 23:08:58,571 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-11-29 23:08:58,579 INFO sqlalchemy.engine.Engine 
+CREATE TABLE useravatar (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	avatar_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+2025-11-29 23:08:58,579 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-11-29 23:08:58,587 INFO sqlalchemy.engine.Engine 
+CREATE TABLE usermetric (
+	user_id VARCHAR NOT NULL, 
+	quests_completed INTEGER NOT NULL, 
+	bosses_killed INTEGER NOT NULL, 
+	perfect_scores INTEGER NOT NULL, 
+	repos_synced INTEGER NOT NULL, 
+	progress_stats JSON NOT NULL, 
+	PRIMARY KEY (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,587 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,595 INFO sqlalchemy.engine.Engine 
+CREATE TABLE userbadge (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	badge_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(badge_id) REFERENCES badgedefinition (id)
+)
+
+
+2025-11-29 23:08:58,595 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,605 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userbadge_user_id ON userbadge (user_id)
+2025-11-29 23:08:58,605 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-11-29 23:08:58,613 INFO sqlalchemy.engine.Engine 
+CREATE TABLE profile (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	total_xp INTEGER NOT NULL, 
+	global_level INTEGER NOT NULL, 
+	world_progress JSON NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,613 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,621 INFO sqlalchemy.engine.Engine 
+CREATE TABLE project (
+	id VARCHAR NOT NULL, 
+	owner_user_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	repo_url VARCHAR NOT NULL, 
+	provider VARCHAR NOT NULL, 
+	source VARCHAR NOT NULL, 
+	default_world_id VARCHAR NOT NULL, 
+	summary_data JSON NOT NULL, 
+	sync_status VARCHAR NOT NULL, 
+	last_sync_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(owner_user_id) REFERENCES user (id)
+)
+
+
+2025-11-29 23:08:58,621 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-11-29 23:08:58,632 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-29 23:08:58,633 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,633 INFO sqlalchemy.engine.Engine DELETE FROM userbadge
+2025-11-29 23:08:58,633 INFO sqlalchemy.engine.Engine [generated in 0.00009s] ()
+2025-11-29 23:08:58,635 INFO sqlalchemy.engine.Engine DELETE FROM usermetric
+2025-11-29 23:08:58,635 INFO sqlalchemy.engine.Engine [generated in 0.00014s] ()
+2025-11-29 23:08:58,635 INFO sqlalchemy.engine.Engine DELETE FROM useravatar
+2025-11-29 23:08:58,635 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ()
+2025-11-29 23:08:58,636 INFO sqlalchemy.engine.Engine DELETE FROM profile
+2025-11-29 23:08:58,636 INFO sqlalchemy.engine.Engine [generated in 0.00010s] ()
+2025-11-29 23:08:58,637 INFO sqlalchemy.engine.Engine DELETE FROM user
+2025-11-29 23:08:58,637 INFO sqlalchemy.engine.Engine [generated in 0.00010s] ()
+2025-11-29 23:08:58,637 INFO sqlalchemy.engine.Engine DELETE FROM avatardefinition
+2025-11-29 23:08:58,638 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ()
+2025-11-29 23:08:58,638 INFO sqlalchemy.engine.Engine COMMIT
+DEBUG: Deleted rows: 0, 0, 0, 0, 0, 0
+2025-11-29 23:08:58,648 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,648 INFO sqlalchemy.engine.Engine INSERT INTO avatardefinition (id, name, description, required_level, rarity, visual_type, visual_data, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-29 23:08:58,648 INFO sqlalchemy.engine.Engine [generated in 0.00017s] [('noob', 'Noob', 'Basic avatar', 1, 'common', 'icon', 'user', 1), ('mid', 'Mid', 'Mid avatar', 2, 'common', 'icon', 'code', 1), ('pro', 'Pro', 'Pro avatar', 10, 'common', 'icon', 'star', 1)]
+2025-11-29 23:08:58,651 INFO sqlalchemy.engine.Engine INSERT INTO user (id, name, avatar_url, created_at, current_avatar_id) VALUES (?, ?, ?, ?, ?)
+2025-11-29 23:08:58,651 INFO sqlalchemy.engine.Engine [generated in 0.00023s] ('player1', 'Player One', None, '2025-11-30 04:08:58.647664', 'noob')
+2025-11-29 23:08:58,652 INFO sqlalchemy.engine.Engine INSERT INTO profile (user_id, total_xp, global_level, world_progress) VALUES (?, ?, ?, ?)
+2025-11-29 23:08:58,652 INFO sqlalchemy.engine.Engine [generated in 0.00017s] ('player1', 5000, 5, '{}')
+2025-11-29 23:08:58,652 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-29 23:08:58,660 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,660 INFO sqlalchemy.engine.Engine SELECT avatardefinition.id AS avatardefinition_id, avatardefinition.name AS avatardefinition_name, avatardefinition.description AS avatardefinition_description, avatardefinition.required_level AS avatardefinition_required_level, avatardefinition.rarity AS avatardefinition_rarity, avatardefinition.visual_type AS avatardefinition_visual_type, avatardefinition.visual_data AS avatardefinition_visual_data, avatardefinition.is_active AS avatardefinition_is_active 
+FROM avatardefinition 
+WHERE avatardefinition.id = ?
+2025-11-29 23:08:58,660 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ('pro',)
+2025-11-29 23:08:58,662 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,662 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.world_progress 
+FROM profile 
+WHERE profile.user_id = ?
+2025-11-29 23:08:58,662 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ('player1',)
+2025-11-29 23:08:58,663 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,664 INFO sqlalchemy.engine.Engine SELECT user.id, user.name, user.avatar_url, user.created_at, user.current_avatar_id 
+FROM user 
+WHERE user.id = ?
+2025-11-29 23:08:58,664 INFO sqlalchemy.engine.Engine [generated in 0.00010s] ('player1',)
+2025-11-29 23:08:58,664 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-11-29 23:08:58,664 INFO sqlalchemy.engine.Engine ROLLBACK
+.2025-11-29 23:08:58,666 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-11-29 23:08:58,666 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-29 23:08:58,666 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = OFF
+2025-11-29 23:08:58,667 INFO sqlalchemy.engine.Engine [generated in 0.00009s] ()
+2025-11-29 23:08:58,667 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-11-29 23:08:58,667 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,668 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("useravatar")
+2025-11-29 23:08:58,668 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-11-29 23:08:58,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-11-29 23:08:58,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,670 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-11-29 23:08:58,670 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,671 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-11-29 23:08:58,671 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,671 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-11-29 23:08:58,671 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,672 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-11-29 23:08:58,672 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,673 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-11-29 23:08:58,673 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-11-29 23:08:58,674 INFO sqlalchemy.engine.Engine 
+DROP TABLE project
+2025-11-29 23:08:58,674 INFO sqlalchemy.engine.Engine [no key 0.00009s] ()
+2025-11-29 23:08:58,681 INFO sqlalchemy.engine.Engine 
+DROP TABLE profile
+2025-11-29 23:08:58,681 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,688 INFO sqlalchemy.engine.Engine 
+DROP TABLE userbadge
+2025-11-29 23:08:58,689 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-11-29 23:08:58,696 INFO sqlalchemy.engine.Engine 
+DROP TABLE usermetric
+2025-11-29 23:08:58,696 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,703 INFO sqlalchemy.engine.Engine 
+DROP TABLE useravatar
+2025-11-29 23:08:58,703 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,710 INFO sqlalchemy.engine.Engine 
+DROP TABLE user
+2025-11-29 23:08:58,710 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-11-29 23:08:58,717 INFO sqlalchemy.engine.Engine 
+DROP TABLE knowledgechunk
+2025-11-29 23:08:58,717 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-11-29 23:08:58,724 INFO sqlalchemy.engine.Engine 
+DROP TABLE badgedefinition
+2025-11-29 23:08:58,724 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-11-29 23:08:58,731 INFO sqlalchemy.engine.Engine 
+DROP TABLE avatardefinition
+2025-11-29 23:08:58,731 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-11-29 23:08:58,742 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = ON
+2025-11-29 23:08:58,742 INFO sqlalchemy.engine.Engine [generated in 0.00018s] ()
+2025-11-29 23:08:58,742 INFO sqlalchemy.engine.Engine COMMIT
+
+
+================================== FAILURES ===================================
+_____________________________ test_equip_success ______________________________
+
+db_session = <sqlalchemy.orm.session.AsyncSession object at 0x000001B1FF536270>
+avatar_setup = None
+
+    async def test_equip_success(db_session, avatar_setup):
+        """Verify equipping an unlocked avatar works."""
+    
+        # 1. Perform Action (This opens its OWN session and commits)
+        # Ensure we await the response properly
+        response = await equip_avatar("player1", "mid")
+        print(f"DEBUG: Response: {response}")
+    
+        if "error" in response:
+            pytest.fail(f"Equip failed: {response['error']}")
+    
+        assert response["status"] == "ok"
+    
+        # 2. THE FIX: Force a fresh read
+        # We clear the test session's local cache to ensure it doesn't return the old 'noob' user object
+        db_session.expire_all()
+    
+        # 3. Query the DB directly
+        # We use execute() to run a real SQL SELECT, ignoring any previous python objects
+        result = await db_session.execute(select(User).where(User.id == "player1"))
+        updated_user = result.scalar_one()
+    
+>       assert updated_user.current_avatar_id == "mid"
+E       AssertionError: assert 'noob' == 'mid'
+E         
+E         - mid
+E         + noob
+
+tests\backend\test_avatars.py:79: AssertionError
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("avatardefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("avatardefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("useravatar")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("useravatar")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("user")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("user")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("usermetric")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("usermetric")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("badgedefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("badgedefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("userbadge")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("userbadge")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("profile")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("profile")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("project")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("project")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("knowledgechunk")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("knowledgechunk")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE avatardefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	required_level INTEGER NOT NULL, 
+	rarity VARCHAR(9) NOT NULL, 
+	visual_type VARCHAR(5) NOT NULL, 
+	visual_data VARCHAR NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00008s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE badgedefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	icon VARCHAR NOT NULL, 
+	rarity VARCHAR NOT NULL, 
+	xp_bonus INTEGER NOT NULL, 
+	category VARCHAR NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE knowledgechunk (
+	id INTEGER NOT NULL, 
+	source_type VARCHAR NOT NULL, 
+	source_id VARCHAR NOT NULL, 
+	chunk_index INTEGER NOT NULL, 
+	content VARCHAR NOT NULL, 
+	embedding VECTOR(768), 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE user (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	avatar_url VARCHAR, 
+	created_at DATETIME NOT NULL, 
+	current_avatar_id VARCHAR NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(current_avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE useravatar (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	avatar_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE usermetric (
+	user_id VARCHAR NOT NULL, 
+	quests_completed INTEGER NOT NULL, 
+	bosses_killed INTEGER NOT NULL, 
+	perfect_scores INTEGER NOT NULL, 
+	repos_synced INTEGER NOT NULL, 
+	progress_stats JSON NOT NULL, 
+	PRIMARY KEY (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE userbadge (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	badge_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(badge_id) REFERENCES badgedefinition (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_userbadge_user_id ON userbadge (user_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE profile (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	total_xp INTEGER NOT NULL, 
+	global_level INTEGER NOT NULL, 
+	world_progress JSON NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE project (
+	id VARCHAR NOT NULL, 
+	owner_user_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	repo_url VARCHAR NOT NULL, 
+	provider VARCHAR NOT NULL, 
+	source VARCHAR NOT NULL, 
+	default_world_id VARCHAR NOT NULL, 
+	summary_data JSON NOT NULL, 
+	sync_status VARCHAR NOT NULL, 
+	last_sync_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(owner_user_id) REFERENCES user (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 DELETE FROM userbadge
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00023s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 DELETE FROM usermetric
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 DELETE FROM useravatar
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 DELETE FROM profile
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 DELETE FROM user
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 DELETE FROM avatardefinition
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00008s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO avatardefinition (id, name, description, required_level, rarity, visual_type, visual_data, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00019s] [('noob', 'Noob', 'Basic avatar', 1, 'common', 'icon', 'user', 1), ('mid', 'Mid', 'Mid avatar', 2, 'common', 'icon', 'code', 1), ('pro', 'Pro', 'Pro avatar', 10, 'common', 'icon', 'star', 1)]
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO user (id, name, avatar_url, created_at, current_avatar_id) VALUES (?, ?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00019s] ('player1', 'Player One', None, '2025-11-30 04:08:58.313250', 'noob')
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO profile (user_id, total_xp, global_level, world_progress) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00015s] ('player1', 5000, 5, '{}')
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT avatardefinition.id AS avatardefinition_id, avatardefinition.name AS avatardefinition_name, avatardefinition.description AS avatardefinition_description, avatardefinition.required_level AS avatardefinition_required_level, avatardefinition.rarity AS avatardefinition_rarity, avatardefinition.visual_type AS avatardefinition_visual_type, avatardefinition.visual_data AS avatardefinition_visual_data, avatardefinition.is_active AS avatardefinition_is_active 
+FROM avatardefinition 
+WHERE avatardefinition.id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00013s] ('mid',)
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.world_progress 
+FROM profile 
+WHERE profile.user_id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00010s] ('player1',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 UPDATE user SET current_avatar_id=? WHERE user.id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00018s] ('mid', 'player1')
+INFO     sqlalchemy.engine.Engine:base.py:2705 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT user.id, user.name, user.avatar_url, user.created_at, user.current_avatar_id 
+FROM user
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT user.id, user.name, user.avatar_url, user.created_at, user.current_avatar_id 
+FROM user 
+WHERE user.id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00009s] ('player1',)
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2705 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA foreign_keys = OFF
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00009s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("avatardefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("useravatar")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("user")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("usermetric")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("badgedefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("userbadge")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("profile")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("project")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("knowledgechunk")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE project
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00009s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE profile
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE userbadge
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE usermetric
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE useravatar
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE user
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE knowledgechunk
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE badgedefinition
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE avatardefinition
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA foreign_keys = ON
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+============================== warnings summary ===============================
+tests/backend/test_avatars.py::test_list_avatars_locking
+tests/backend/test_avatars.py::test_equip_success
+tests/backend/test_avatars.py::test_equip_locked_fails
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\fields.py:656: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+tests/backend/test_avatars.py::test_list_avatars_locking
+tests/backend/test_avatars.py::test_list_avatars_locking
+tests/backend/test_avatars.py::test_list_avatars_locking
+  D:\\EvalForge\\arcade_app\\avatar_helper.py:26: DeprecationWarning: \n          \U0001f6a8 `obj.dict()` was deprecated in SQLModel 0.0.14, you should\n          instead use `obj.model_dump()`.\n          \n    **av.dict(),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_avatars.py::test_equip_success - AssertionError: as...
+=================== 1 failed, 2 passed, 6 warnings in 0.87s ===================

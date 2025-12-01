@@ -36,4 +36,4 @@ ENV WEB_DIST=/app/static
 ENV EVALFORGE_ENV=prod
 
 # Run command
-CMD ["uvicorn", "arcade_app.agent:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["python", "-m", "uvicorn", "arcade_app.agent:app", "--host", "0.0.0.0", "--port", "8080"]
