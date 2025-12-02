@@ -21,7 +21,7 @@ export function ProjectsPanel({ user, isOpen, onClose }: Props) {
     const [projects, setProjects] = useState<Project[]>([]);
     const [newRepoUrl, setNewRepoUrl] = useState('');
     const [isSyncing, setIsSyncing] = useState(false);
-    
+
     // Listen to socket for live updates
     const lastEvent = useGameSocket();
     const [progressMap, setProgressMap] = useState<Record<string, { msg: string; pct: number; eta?: number }>>({});
@@ -29,7 +29,23 @@ export function ProjectsPanel({ user, isOpen, onClose }: Props) {
     // Load Projects when opened
     useEffect(() => {
         if (user && isOpen) {
-            fetch('/api/projects').then(r => r.json()).then(setProjects);
+            fetch('/api/projects')
+                .then(r => {
+                    if (!r.ok) throw new Error(r.statusText);
+                    return r.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        setProjects(data);
+                    } else {
+                        console.error("Projects API returned non-array:", data);
+                        setProjects([]);
+                    }
+                })
+                .catch(err => {
+                    console.error("Failed to load projects:", err);
+                    setProjects([]);
+                });
         }
     }, [user, isOpen]);
 
@@ -38,8 +54,8 @@ export function ProjectsPanel({ user, isOpen, onClose }: Props) {
         if (lastEvent && lastEvent.type === 'sync_progress' && lastEvent.project_id) {
             setProgressMap(prev => ({
                 ...prev,
-                [lastEvent.project_id!]: { 
-                    msg: lastEvent.message || 'Processing...', 
+                [lastEvent.project_id!]: {
+                    msg: lastEvent.message || 'Processing...',
                     pct: lastEvent.percent || 0,
                     eta: lastEvent.eta_seconds
                 }
@@ -69,13 +85,13 @@ export function ProjectsPanel({ user, isOpen, onClose }: Props) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ repo_url: newRepoUrl })
             });
-            
+
             if (!res.ok) {
                 const error = await res.json();
                 alert(error.detail || 'Failed to add project');
                 return;
             }
-            
+
             const newProj = await res.json();
 
             // 2. Trigger the "Analysis" sync immediately
@@ -98,10 +114,10 @@ export function ProjectsPanel({ user, isOpen, onClose }: Props) {
 
     const handleReSync = async (projectId: string) => {
         // Optimistic Update
-        setProjects(prev => prev.map(p => 
+        setProjects(prev => prev.map(p =>
             p.id === projectId ? { ...p, sync_status: 'pending' } : p
         ));
-        
+
         // Trigger Sync
         try {
             await fetch(`/api/projects/${projectId}/sync`, { method: 'POST' });
@@ -175,7 +191,7 @@ export function ProjectsPanel({ user, isOpen, onClose }: Props) {
                                                                     <span className="text-[10px] font-mono animate-pulse">
                                                                         {progress ? progress.msg : 'QUEUED'}
                                                                     </span>
-                                                                    <div className="h-2 w-2 rounded-full bg-amber-500 animate-ping"/>
+                                                                    <div className="h-2 w-2 rounded-full bg-amber-500 animate-ping" />
                                                                 </div>
                                                                 {/* ETA Display */}
                                                                 {progress?.eta !== undefined && progress.eta > 0 && (
@@ -212,7 +228,7 @@ export function ProjectsPanel({ user, isOpen, onClose }: Props) {
                                             {/* Progress Bar (Only visible during sync) */}
                                             {isBusy && progress && (
                                                 <div className="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
-                                                    <div 
+                                                    <div
                                                         className="h-full bg-amber-500 transition-all duration-300"
                                                         style={{ width: `${progress.pct}%` }}
                                                     />

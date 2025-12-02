@@ -285,6 +285,9 @@ app.include_router(avatars.router)
 from arcade_app.routers import codex
 app.include_router(codex.router)
 
+from arcade_app.routers import projects
+app.include_router(projects.router)
+
 # --- 5. Missing Routes (Restored) ---
 
 from arcade_app.socket_manager import websocket_endpoint
