@@ -26,11 +26,14 @@ def index_codex() -> List[Dict]:
                     post = frontmatter.load(path)
                     
                     # Create summary entry
+                    world = post.metadata.get("world", "general")
                     index.append({
                         "id": post.metadata.get("id", file.replace(".md", "")),
                         "title": post.metadata.get("title", "Untitled Entry"),
-                        "world": post.metadata.get("world", "general"),
+                        "world": world,
+                        "world_id": world, # Alias for frontend consistency
                         "tags": post.metadata.get("tags", []),
+                        "source": post.metadata.get("source", "core"),
                         # We don't send content here to keep the list lightweight
                     })
                 except Exception as e:

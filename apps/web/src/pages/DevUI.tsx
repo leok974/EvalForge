@@ -8,6 +8,7 @@ import { useSkills } from '../hooks/useSkills';
 import { useBossStore } from '../store/bossStore';
 import { useAgentStore } from '../store/agentStore';
 import { BossPanel } from '../components/BossPanel';
+import { CodexDrawer } from '../components/CodexDrawer';
 
 // Map backend color names to Tailwind classes
 const COLOR_MAP: Record<string, string> = {
@@ -31,6 +32,7 @@ export default function DevUI() {
   const { status: bossStatus } = useBossStore();
   const [input, setInput] = useState('');
   const [sid, setSid] = useState<string>('');
+  const [isCodexOpen, setIsCodexOpen] = useState(false);
 
   // Local Context State
   const [context, setContext] = useState<StreamContext>({
@@ -49,7 +51,7 @@ export default function DevUI() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Fetch skills for the logged-in user (or null)
-  const { hasSkill } = useSkills(user);
+  const { hasSkill, godMode } = useSkills(user);
 
   useEffect(() => {
     if (user) {
@@ -119,7 +121,12 @@ export default function DevUI() {
 
       {/* 1. Context Navigation (The Sub-Header) */}
       <div className="flex-none z-20 mb-4">
-        <ContextSelector context={context} setContext={setContext} hasSkill={hasSkill} />
+        <ContextSelector
+          context={context}
+          setContext={setContext}
+          hasSkill={hasSkill}
+          onOpenCodex={() => setIsCodexOpen(true)}
+        />
       </div>
 
       {/* 2. Main Workspace */}
@@ -277,6 +284,20 @@ export default function DevUI() {
         </div>
 
       </div>
+
+      {/* Codex Drawer (Overlay) */}
+      <CodexDrawer
+        isOpen={isCodexOpen}
+        onClose={() => setIsCodexOpen(false)}
+        currentWorldId={context.world_id || 'world-python'}
+      />
+
+      {/* GOD MODE BANNER */}
+      {godMode && (
+        <div className="fixed bottom-2 right-2 rounded-lg px-3 py-2 text-xs bg-red-900/80 text-red-50 z-50 font-bold tracking-widest border border-red-500/50 shadow-lg animate-pulse">
+          DEV GOD MODE: UNLOCKED
+        </div>
+      )}
     </div>
   );
 }

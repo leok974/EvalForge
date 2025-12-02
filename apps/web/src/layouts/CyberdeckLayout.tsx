@@ -23,12 +23,16 @@ interface Props {
     children: React.ReactNode;
 }
 
+import { ProjectsPanel } from '../components/ProjectsPanel';
+
 export function CyberdeckLayout({ children }: Props) {
     const { layout, setLayout } = useGameStore();
     const { crtMode } = useSettingsStore();
     const { user } = useAuth();
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isAvatarOpen, setIsAvatarOpen] = useState(false);
+    const [isLayoutOpen, setIsLayoutOpen] = useState(false);
+    const [isProjectsOpen, setIsProjectsOpen] = useState(false);
 
     return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100 font-mono selection:bg-cyan-900 selection:text-cyan-100 flex flex-col">
@@ -38,34 +42,60 @@ export function CyberdeckLayout({ children }: Props) {
 
                 {/* Left: Brand & Mode Switcher */}
                 <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 text-cyan-400">
-                        <img src="/branding/logo.png" alt="EvalForge" className="w-6 h-6" />
-                        <span className={`font-bold tracking-widest ${crtMode ? 'crt-aberration' : ''}`}>EVALFORGE</span>
+                    <div className="flex items-center gap-3 text-cyan-400">
+                        <img src="/branding/logo.png" alt="EvalForge" className="h-9 w-auto rounded-full object-contain" />
+                        <span className={`text-sm font-semibold tracking-[0.25em] ${crtMode ? 'crt-aberration' : ''}`}>EVALFORGE</span>
                     </div>
 
                     <div className="h-6 w-px bg-zinc-800" />
 
-                    <div className="relative group">
-                        <button className="flex items-center gap-2 text-xs font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider">
+                    <div
+                        className="relative h-full flex items-center"
+                        onMouseEnter={() => setIsLayoutOpen(true)}
+                        onMouseLeave={() => setIsLayoutOpen(false)}
+                    >
+                        <button
+                            className={`flex items-center gap-2 text-xs font-bold transition-colors uppercase tracking-wider ${isLayoutOpen ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
+                        >
                             <Layout className="w-4 h-4" />
                             {layout}
                         </button>
 
-                        {/* Dropdown */}
-                        <div className="absolute top-full left-0 mt-2 w-48 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all transform origin-top-left scale-95 group-hover:scale-100">
-                            <div className="p-1">
-                                <button onClick={() => setLayout('cyberdeck')} className="w-full text-left px-3 py-2 text-xs hover:bg-zinc-800 rounded text-zinc-400 hover:text-cyan-400 transition-colors">
+                        {/* Dropdown with safe hover gap (pt-2) */}
+                        <div
+                            className={`absolute top-full left-0 w-48 pt-2 transition-all duration-200 origin-top-left ${isLayoutOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-2 invisible pointer-events-none'}`}
+                        >
+                            <div className="bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl overflow-hidden p-1 flex flex-col gap-1">
+                                <button
+                                    onClick={() => { setLayout('cyberdeck'); setIsLayoutOpen(false); }}
+                                    className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'cyberdeck' ? 'bg-zinc-800 text-cyan-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-cyan-400'}`}
+                                >
                                     CYBERDECK
                                 </button>
-                                <button onClick={() => setLayout('navigator')} className="w-full text-left px-3 py-2 text-xs hover:bg-zinc-800 rounded text-zinc-400 hover:text-purple-400 transition-colors">
+                                <button
+                                    onClick={() => { setLayout('navigator'); setIsLayoutOpen(false); }}
+                                    className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'navigator' ? 'bg-zinc-800 text-purple-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-purple-400'}`}
+                                >
                                     NAVIGATOR
                                 </button>
-                                <button onClick={() => setLayout('workshop')} className="w-full text-left px-3 py-2 text-xs hover:bg-zinc-800 rounded text-zinc-400 hover:text-orange-400 transition-colors">
+                                <button
+                                    onClick={() => { setLayout('workshop'); setIsLayoutOpen(false); }}
+                                    className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'workshop' ? 'bg-zinc-800 text-orange-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-orange-400'}`}
+                                >
                                     WORKSHOP
                                 </button>
                             </div>
                         </div>
                     </div>
+
+                    <div className="h-6 w-px bg-zinc-800" />
+
+                    <button
+                        onClick={() => setIsProjectsOpen(true)}
+                        className="flex items-center gap-2 text-xs font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider"
+                    >
+                        <span>🚀</span> PROJECTS
+                    </button>
                 </div>
 
                 {/* Center: Boss HUD */}
@@ -184,6 +214,9 @@ export function CyberdeckLayout({ children }: Props) {
 
             {/* Avatar Selector Modal */}
             <AvatarSelector isOpen={isAvatarOpen} onClose={() => setIsAvatarOpen(false)} />
+
+            {/* Projects Panel */}
+            <ProjectsPanel user={user} isOpen={isProjectsOpen} onClose={() => setIsProjectsOpen(false)} />
 
         </div>
     );

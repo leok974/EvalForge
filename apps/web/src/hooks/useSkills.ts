@@ -19,6 +19,8 @@ export function useSkills(user: any) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const godMode = user?.dev_unlock_all_features || (import.meta as any).env.VITE_DEV_UNLOCK_ALL === '1';
+
     // Fetch Tree
     const refreshSkills = useCallback(() => {
         if (!user) return;
@@ -30,7 +32,12 @@ export function useSkills(user: any) {
                 return r.json();
             })
             .then(data => {
-                setSkills(data.nodes || []);
+                let nodes = data.nodes || [];
+                // GOD MODE: Visually unlock everything in the tree
+                if (godMode) {
+                    nodes = nodes.map((n: any) => ({ ...n, is_unlocked: true, can_unlock: false }));
+                }
+                setSkills(nodes);
                 setSkillPoints(data.skill_points || 0);
                 setLoading(false);
             })
@@ -39,7 +46,7 @@ export function useSkills(user: any) {
                 setError("Failed to load skill tree");
                 setLoading(false);
             });
-    }, [user]);
+    }, [user, godMode]);
 
     // Initial Load
     useEffect(() => {
@@ -70,10 +77,11 @@ export function useSkills(user: any) {
 
     // Helper for UI Gating
     const hasSkill = (featureKey: string) => {
+        if (godMode) return true;
         // If not loaded yet, assume false (secure by default)
         const skill = skills.find(s => s.feature_key === featureKey);
         return skill ? skill.is_unlocked : false;
     };
 
-    return { skills, skillPoints, unlockSkill, hasSkill, refreshSkills, loading, error };
+    return { skills, skillPoints, unlockSkill, hasSkill, refreshSkills, loading, error, godMode };
 }

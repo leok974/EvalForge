@@ -6,8 +6,10 @@ from typing import Dict, Any, Optional
 from jose import jwt, JWTError
 from fastapi import Request, Response
 from sqlmodel import select
+from sqlalchemy.exc import IntegrityError
 from arcade_app.database import get_session
 from arcade_app.models import User, Profile
+from arcade_app.config import dev_unlock_all_enabled
 
 # Config
 AUTH_MODE = os.getenv("EVALFORGE_AUTH_MODE", "mock")
@@ -29,6 +31,13 @@ def get_login_url() -> str:
 
 async def exchange_github_code(code: str) -> Dict:
     """Exchanges the temporary code for a GitHub Access Token."""
+    if code == "mock_code" or AUTH_MODE == "mock":
+        return {
+            "login": "leo",
+            "name": "Leo",
+            "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4"
+        }
+
     async with httpx.AsyncClient() as client:
         # 1. Exchange Code
         token_res = await client.post(
@@ -56,14 +65,24 @@ async def exchange_github_code(code: str) -> Dict:
 # --- 2. USER MANAGEMENT ---
 
 async def get_or_create_github_user(gh_user: Dict) -> User:
-    """Upserts the GitHub user into our Postgres DB."""
+    """Upserts the GitHub user into Postgres, handling race conditions."""
     user_id = gh_user["login"].lower()
     
     async for session in get_session():
-        # Check if exists
+        # 1. Optimistic Check: Does user exist?
         user = await session.get(User, user_id)
         
-        if not user:
+        if user:
+            # Update metadata if needed
+            if user.avatar_url != gh_user.get("avatar_url"):
+                user.avatar_url = gh_user.get("avatar_url")
+                session.add(user)
+                await session.commit()
+                await session.refresh(user)
+            return user
+
+        # 2. Creation Attempt (Protected)
+        try:
             # Create User
             user = User(
                 id=user_id,
@@ -78,14 +97,21 @@ async def get_or_create_github_user(gh_user: Dict) -> User:
             
             await session.commit()
             await session.refresh(user)
-        else:
-            # Update metadata if changed
-            if user.avatar_url != gh_user.get("avatar_url"):
-                user.avatar_url = gh_user.get("avatar_url")
-                session.add(user)
-                await session.commit()
+            return user
+            
+        except IntegrityError:
+            # 3. Race Condition Handler
+            # Someone else created 'leo' milliseconds ago.
+            await session.rollback()
+            
+            # Fetch the user that blocked us
+            user = await session.get(User, user_id)
+            
+            if not user:
+                # Should be impossible unless DB is actually broken
+                raise ValueError(f"Database Integrity Error: User {user_id} conflicts but cannot be found.")
                 
-        return user
+            return user
 
 # --- 3. SESSION MANAGEMENT (JWT) ---
 
@@ -110,7 +136,8 @@ async def get_current_user(request: Request) -> Dict:
                     "name": user.name,
                     "avatar_url": user.avatar_url or "",
                     "current_avatar_id": user.current_avatar_id or "default_user",
-                    "auth_mode": "mock"
+                    "auth_mode": "mock",
+                    "dev_unlock_all_features": dev_unlock_all_enabled()
                 }
             return {}
 
@@ -136,7 +163,8 @@ async def get_current_user(request: Request) -> Dict:
                         "name": user.name,
                         "avatar_url": user.avatar_url,
                         "current_avatar_id": user.current_avatar_id,
-                        "auth_mode": "github"
+                        "auth_mode": "github",
+                        "dev_unlock_all_features": dev_unlock_all_enabled()
                     }
     except JWTError:
         pass

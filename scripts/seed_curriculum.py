@@ -13,20 +13,26 @@ FULL_CURRICULUM = [
     {
         "id": "py_01", "track_id": "python-fundamentals", "sequence_order": 1, "tier": 1, "xp_reward": 50,
         "title": "Ignition",
-        "technical_objective": "Write a script that defines a variable `status = 'ONLINE'` and prints it.",
+        "technical_objective": "Define a variable `status = 'ONLINE'` and print it.",
         "rubric_hints": "Check for variable assignment and print."
     },
     {
         "id": "py_02", "track_id": "python-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
-        "title": "The Assembly Line",
-        "technical_objective": "Create a list of 5 integers. Iterate through them and print each multiplied by 2.",
-        "rubric_hints": "Check for list syntax and for loop."
+        "title": "The Loop",
+        "technical_objective": "Create a list of 5 integers and print each multiplied by 2.",
+        "rubric_hints": "Check for list and for loop."
     },
     {
-        "id": "py_boss", "track_id": "python-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
+        "id": "py_03", "track_id": "python-fundamentals", "sequence_order": 3, "tier": 1, "xp_reward": 150,
+        "title": "Data Forge",
+        "technical_objective": "Use a dictionary to map 3 status codes to messages and print them.",
+        "rubric_hints": "Check for dict literal and iteration."
+    },
+    {
+        "id": "py_boss", "track_id": "python-fundamentals", "sequence_order": 4, "tier": 2, "xp_reward": 500,
         "title": "BOSS: The Automaton",
-        "technical_objective": "Define a `Robot` class with an `__init__` method taking a name, and a `speak` method. Instantiate it and call `speak()`.",
-        "rubric_hints": "Check for class definition, __init__, self usage, and instance method call."
+        "technical_objective": "Define a Robot class with __init__(name) and speak(); instantiate and call speak().",
+        "rubric_hints": "Check for class definition, __init__, self, and instantiation."
     },
 
     # --- JS WORLD (THE PRISM) ---
@@ -77,10 +83,16 @@ FULL_CURRICULUM = [
         "rubric_hints": "Check for FROM, WORKDIR, COPY, and CMD."
     },
     {
-        "id": "inf_boss", "track_id": "infra-fundamentals", "sequence_order": 2, "tier": 2, "xp_reward": 500,
+        "id": "inf_02", "track_id": "infra-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
+        "title": "Service Link",
+        "technical_objective": "Write a `docker-compose.yml` that defines two services: `web` and `db`.",
+        "rubric_hints": "Check for services, web, and db keys."
+    },
+    {
+        "id": "inf_boss", "track_id": "infra-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
         "title": "BOSS: The Circuit",
-        "technical_objective": "Write a `docker-compose.yml` that defines two services: `web` and `db` and connects them on the same network.",
-        "rubric_hints": "Check for version, services, image, ports, and depends_on."
+        "technical_objective": "Write a `docker-compose.yml` that connects `web` and `db` on a custom network and sets environment variables.",
+        "rubric_hints": "Check for networks, environment, and depends_on."
     },
 
     # --- AGENTS WORLD (THE ORACLE) ---
@@ -91,7 +103,13 @@ FULL_CURRICULUM = [
         "rubric_hints": "Check for persona description, constraints, and forbidden behaviors."
     },
     {
-        "id": "ai_boss", "track_id": "agent-fundamentals", "sequence_order": 2, "tier": 2, "xp_reward": 500,
+        "id": "ai_02", "track_id": "agent-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
+        "title": "Grounding",
+        "technical_objective": "Write a prompt that instructs the LLM to answer only using provided context (RAG style).",
+        "rubric_hints": "Check for context placeholders and 'do not hallucinate' instructions."
+    },
+    {
+        "id": "ai_boss", "track_id": "agent-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
         "title": "BOSS: Chain of Thought",
         "technical_objective": "Write a prompt that uses 2–3 input/output examples to teach an LLM how to convert simple JSON records into SQL INSERT statements.",
         "rubric_hints": "Check for few-shot examples, clear task description, and output format constraints."
@@ -100,39 +118,39 @@ FULL_CURRICULUM = [
     # --- GIT WORLD (THE TIMELINE) ---
     {
         "id": "git_01", "track_id": "git-fundamentals", "sequence_order": 1, "tier": 1, "xp_reward": 50,
-        "title": "First Branch",
-        "technical_objective": "Write the exact Git commands to create a new branch `feature/ui` and switch to it.",
-        "rubric_hints": "Check for `git branch` or `git checkout -b` and `git switch` usage."
+        "title": "Commit Protocol",
+        "technical_objective": "Write the exact Git commands to initialize a repo, stage a file, and commit it.",
+        "rubric_hints": "Check for git init, git add, and git commit."
     },
     {
         "id": "git_02", "track_id": "git-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
-        "title": "Merge the Divergence",
-        "technical_objective": "Write the commands to merge `feature/ui` back into `main` and resolve a simple textual conflict.",
-        "rubric_hints": "Check for `git merge`, conflict markers explanation, and `git add` + `git commit`."
+        "title": "Branch Divergence",
+        "technical_objective": "Write the commands to create a new branch `feature/ui` and switch to it.",
+        "rubric_hints": "Check for git branch/checkout -b/switch."
     },
     {
         "id": "git_boss", "track_id": "git-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
-        "title": "BOSS: Rewrite",
-        "technical_objective": "Explain and show commands to rewrite the last commit message on `main` safely and push it to a shared remote.",
-        "rubric_hints": "Check for `git commit --amend` or `git rebase -i` plus `git push --force-with-lease` and warnings."
+        "title": "BOSS: Rebase Ritual",
+        "technical_objective": "Explain and show commands to rebase a feature branch onto main.",
+        "rubric_hints": "Check for git rebase main and conflict resolution awareness."
     },
 
     # --- ML WORLD (THE SYNAPSE) ---
     {
         "id": "ml_01", "track_id": "ml-fundamentals", "sequence_order": 1, "tier": 1, "xp_reward": 50,
-        "title": "Vector Awakening",
+        "title": "Tensor Warmup",
         "technical_objective": "Using PyTorch, create a 1D tensor of values [1, 2, 3] and compute its mean.",
         "rubric_hints": "Check for `torch.tensor` and `tensor.mean()`."
     },
     {
         "id": "ml_02", "track_id": "ml-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
-        "title": "Single Step",
+        "title": "Gradient Flow",
         "technical_objective": "Write a minimal training step that performs a forward pass, computes MSE loss, calls `backward()`, and steps an optimizer.",
         "rubric_hints": "Check for model(inputs), loss, loss.backward(), optimizer.step(), optimizer.zero_grad()."
     },
     {
         "id": "ml_boss", "track_id": "ml-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
-        "title": "BOSS: Overfit Sentinel",
+        "title": "BOSS: Tiny Network",
         "technical_objective": "Describe and implement code to intentionally overfit a tiny dataset and log train vs validation loss.",
         "rubric_hints": "Check for tiny dataset, multiple epochs, training loop, and printed/logged losses for both splits."
     }

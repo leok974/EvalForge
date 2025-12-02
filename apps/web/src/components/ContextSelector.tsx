@@ -18,9 +18,10 @@ interface Props {
     context: StreamContext;
     setContext: (ctx: StreamContext) => void;
     hasSkill: (key: string) => boolean;
+    onOpenCodex?: () => void;
 }
 
-export function ContextSelector({ context, setContext, hasSkill }: Props) {
+export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: Props) {
     const [universe, setUniverse] = useState<UniverseData | null>(null);
 
     useEffect(() => {
@@ -137,6 +138,15 @@ export function ContextSelector({ context, setContext, hasSkill }: Props) {
                     title={!hasSkill('agent_debug') ? "Requires Debug Routine (Tier 3)" : ""}
                 >
                     DEBUG {!hasSkill('agent_debug') && '🔒'}
+                </button>
+
+                {/* GATED: CODEX */}
+                <button
+                    onClick={() => hasSkill('codex_link') && onOpenCodex && onOpenCodex()}
+                    className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all text-zinc-500 hover:text-zinc-300 ${!hasSkill('codex_link') ? 'opacity-30 cursor-not-allowed' : ''}`}
+                    title={!hasSkill('codex_link') ? "Requires Archive Uplink (Tier 1)" : ""}
+                >
+                    CODEX {!hasSkill('codex_link') && '🔒'}
                 </button>
             </div>
         </div>

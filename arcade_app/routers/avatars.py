@@ -12,11 +12,15 @@ router = APIRouter(prefix="/api/avatars", tags=["avatars"])
 class EquipAvatarRequest(BaseModel):
     avatar_id: str
 
-def _get_user_level(user: User, session) -> int:
+from typing import Dict
+
+async def _get_user_level(user: Dict, session) -> int:
     # If you store level on Profile:
-    profile = session.exec(
-        select(Profile).where(Profile.user_id == user.id)
-    ).first()
+    result = await session.execute(
+        select(Profile).where(Profile.user_id == user["id"])
+    )
+    profile = result.scalars().first()
+    
     if profile and getattr(profile, "global_level", None) is not None:
         return profile.global_level
     # fallback
@@ -25,17 +29,19 @@ def _get_user_level(user: User, session) -> int:
 
 @router.get("", name="list_avatars")
 async def list_avatars(
-    current_user: User = Depends(get_current_user),
+    current_user: Dict = Depends(get_current_user),
     session=Depends(get_session),
 ):
-    async with session as s:
-        avatars: List[AvatarDefinition] = (
-            await s.exec(
-                select(AvatarDefinition).where(AvatarDefinition.is_active == True)
-            )
-        ).all()
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
 
-        user_level = _get_user_level(current_user, s)
+    async with session as s:
+        result = await s.execute(
+            select(AvatarDefinition).where(AvatarDefinition.is_active == True)
+        )
+        avatars: List[AvatarDefinition] = result.scalars().all()
+
+        user_level = await _get_user_level(current_user, s)
 
         items = []
         for av in avatars:
@@ -50,7 +56,7 @@ async def list_avatars(
                     "visual_type": av.visual_type,
                     "visual_data": av.visual_data,
                     "is_locked": is_locked,
-                    "is_equipped": (current_user.current_avatar_id == av.id),
+                    "is_equipped": (current_user.get("current_avatar_id") == av.id),
                 }
             )
 
@@ -59,27 +65,36 @@ async def list_avatars(
 @router.post("/equip", name="equip_avatar")
 async def equip_avatar(
     payload: EquipAvatarRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: Dict = Depends(get_current_user),
     session=Depends(get_session),
 ):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
     async with session as s:
         avatar = await s.get(AvatarDefinition, payload.avatar_id)
         if not avatar or not avatar.is_active:
             raise HTTPException(status_code=404, detail="Avatar not found")
 
-        user_level = _get_user_level(current_user, s)
+        user_level = await _get_user_level(current_user, s)
         if user_level < avatar.required_level:
             raise HTTPException(
                 status_code=403,
                 detail=f"Avatar requires level {avatar.required_level}",
             )
 
-        current_user.current_avatar_id = avatar.id
-        s.add(current_user)
+        # Update User object in DB
+        # We need to fetch the User object first since we only have a Dict
+        user_obj = await s.get(User, current_user["id"])
+        if not user_obj:
+             raise HTTPException(status_code=404, detail="User not found")
+
+        user_obj.current_avatar_id = avatar.id
+        s.add(user_obj)
         await s.commit()
-        await s.refresh(current_user)
+        await s.refresh(user_obj)
 
         return {
             "status": "ok",
-            "current_avatar_id": current_user.current_avatar_id,
+            "current_avatar_id": user_obj.current_avatar_id,
         }

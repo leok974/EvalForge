@@ -27,15 +27,17 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
     const [index, setIndex] = useState<CodexEntry[]>([]);
     const [selectedEntry, setSelectedEntry] = useState<CodexContent | null>(null);
     const [loading, setLoading] = useState(false);
+    const [selectedWorld, setSelectedWorld] = useState<string>('All');
 
     // Hook into Game Store for XP
     const addXp = useGameStore((s) => s.addXp);
 
-    // 1. Fetch Index when Drawer Opens or World Changes
+    // 1. Fetch Index when Drawer Opens or World Filter Changes
     useEffect(() => {
         if (isOpen) {
             setLoading(true);
-            fetch(`/api/codex?world=${currentWorldId}`)
+            const query = selectedWorld === 'All' ? '' : `?world=${selectedWorld}`;
+            fetch(`/api/codex${query}`)
                 .then(res => res.json())
                 .then(data => {
                     setIndex(data);
@@ -46,7 +48,7 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                     setLoading(false);
                 });
         }
-    }, [isOpen, currentWorldId]);
+    }, [isOpen, selectedWorld]);
 
     // Mark as read logic
     useEffect(() => {
@@ -107,6 +109,8 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
         }
     };
 
+    const WORLDS = ['All', 'world-python', 'world-js', 'world-sql', 'world-infra', 'world-agents', 'world-git', 'world-ml', 'world-evalforge'];
+
     return (
         <>
             {/* Backdrop (Click to close) */}
@@ -144,8 +148,23 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                     {!loading && !selectedEntry && (
                         // LIST VIEW
                         <div className="space-y-4">
-                            <div className="text-xs font-mono text-zinc-600 uppercase border-b border-zinc-900 pb-2">
-                                Available Knowledge: {currentWorldId}
+                            <div className="flex flex-wrap gap-2 pb-4 border-b border-zinc-900">
+                                {WORLDS.map(w => (
+                                    <button
+                                        key={w}
+                                        onClick={() => setSelectedWorld(w)}
+                                        className={`px-2 py-1 text-[10px] uppercase tracking-wider rounded border transition-colors ${selectedWorld === w
+                                                ? 'bg-cyan-950 text-cyan-400 border-cyan-800'
+                                                : 'bg-zinc-900 text-zinc-500 border-zinc-800 hover:border-zinc-700 hover:text-zinc-300'
+                                            }`}
+                                    >
+                                        {w.replace('world-', '')}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="text-xs font-mono text-zinc-600 uppercase">
+                                Available Knowledge: {selectedWorld.toUpperCase()}
                             </div>
 
                             {index.length === 0 && (
@@ -161,7 +180,10 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                                     <div className="font-bold text-zinc-300 group-hover:text-cyan-400 font-mono text-sm">
                                         {entry.title}
                                     </div>
-                                    <div className="flex gap-2 mt-3">
+                                    <div className="flex flex-wrap gap-2 mt-3 items-center">
+                                        <span className="px-1.5 py-0.5 bg-zinc-950 text-zinc-400 rounded text-[9px] uppercase border border-zinc-800">
+                                            {entry.world}
+                                        </span>
                                         {entry.tags.map(t => (
                                             <span key={t} className="px-1.5 py-0.5 bg-black rounded text-[10px] text-zinc-500 uppercase tracking-tight border border-zinc-800">
                                                 {t}

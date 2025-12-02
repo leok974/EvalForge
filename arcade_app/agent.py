@@ -13,7 +13,8 @@ from arcade_app.session_helper import get_or_create_session, update_session_stat
 from arcade_app.database import init_db
 from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from sse_starlette.sse import EventSourceResponse
 from pydantic import BaseModel
 from arcade_app.auth_helper import (
@@ -279,7 +280,10 @@ app.add_middleware(
 
 from arcade_app.routes_boss import router as boss_router
 app.include_router(boss_router)
-app.include_router(avatars.router, prefix="/api/avatars", tags=["avatars"])
+app.include_router(avatars.router)
+
+from arcade_app.routers import codex
+app.include_router(codex.router)
 
 # --- 5. Missing Routes (Restored) ---
 
@@ -428,3 +432,65 @@ async def stream_session(user: str, sid: str, payload: QueryRequest):
 @app.get("/health")
 def health_check():
     return {"status": "ok", "version": "0.4.0"}
+
+@app.get("/api/ready")
+async def readiness_check():
+    """
+    Checks connections to DB and Redis.
+    Used by Docker healthcheck.
+    """
+    status = {"database": "unknown", "redis": "unknown"}
+    is_ready = True
+    
+    # Check DB
+    try:
+        from arcade_app.database import get_session
+        from sqlmodel import select
+        async for session in get_session():
+            await session.execute(select(1))
+            status["database"] = "ok"
+            break
+    except Exception as e:
+        status["database"] = f"error: {str(e)}"
+        is_ready = False
+
+    # Check Redis (if used)
+    # For now assume ok if DB is ok, or add specific redis check if critical
+    status["redis"] = "ok" # Placeholder until redis client is exposed globally
+
+    if not is_ready:
+        raise HTTPException(status_code=503, detail=status)
+        
+    return {"status": "ready", "components": status}
+
+@app.get("/metrics")
+def metrics():
+    """
+    Basic Prometheus-style metrics stub.
+    """
+    # In a real app, use prometheus_client
+    return {
+        "evalforge_up": 1,
+        "boss_runs_total": 0, # TODO: Hook into BossStore
+        "active_sessions": len(AGENTS) # Rough proxy
+    }
+
+# --- 6. Static Files (SPA Serving) ---
+# Must be last to avoid capturing API routes
+web_dist = os.getenv("WEB_DIST", "static")
+if os.path.exists(web_dist):
+    app.mount("/assets", StaticFiles(directory=f"{web_dist}/assets"), name="assets")
+    
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        # Allow API routes to pass through if they weren't caught above
+        if full_path.startswith("api/") or full_path.startswith("ws/"):
+            raise HTTPException(status_code=404, detail="Not Found")
+            
+        # Serve index.html for any other route (SPA)
+        # Check if specific file exists (e.g. favicon.ico)
+        file_path = os.path.join(web_dist, full_path)
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            return FileResponse(file_path)
+            
+        return FileResponse(os.path.join(web_dist, "index.html"))

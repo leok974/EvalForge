@@ -30,3 +30,4 @@ GitPython                        # For cloning repos
 # --- Real-Time & Workers (Phase 17) ---
 arq                              # Async Task Queue (Background Workers)
 async-timeout                    # For WebSocket/Redis testing
+pydantic-settings                # For config management

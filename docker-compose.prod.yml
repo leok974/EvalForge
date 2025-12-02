@@ -1,84 +1,82 @@
-version: "3.9"
+version: '3.8'
 
 services:
+  # 1. The Application (API + Frontend)
   app:
-    build:
+    build: 
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
+    image: evalforge-app:latest
     container_name: evalforge-app
     restart: always
-    ports:
-      - "80:8080"          # Public HTTP → internal app port
-    env_file:
-      - .env.prod          # Keep secrets out of the compose file
-    environment:
-      # Core runtime config
-      PORT: "8080"
-      EVALFORGE_ENV: "production"
-      EVALFORGE_MOCK_GRADING: "0"
-
-      # Database / cache (hostnames are service names below)
-      DATABASE_URL: "postgresql+asyncpg://evalforge:${POSTGRES_PASSWORD}@db:5432/evalforge"
-      REDIS_URL: "redis://redis:6379/0"
-
-      # Google Cloud / Vertex AI
-      GOOGLE_CLOUD_PROJECT: "${GOOGLE_CLOUD_PROJECT}"
-      GOOGLE_CLOUD_LOCATION: "${GOOGLE_CLOUD_LOCATION}"
-
-      # Auth
-      EVALFORGE_AUTH_MODE: "github"
-      GITHUB_CLIENT_ID: "${GITHUB_CLIENT_ID}"
-      GITHUB_CLIENT_SECRET: "${GITHUB_CLIENT_SECRET}"
-      SECRET_KEY: "${SECRET_KEY}"
-
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-
-  worker:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
-    container_name: evalforge-worker
-    restart: always
-    command: ["arq", "arcade_app.worker.WorkerSettings"]
+    expose:
+      - "8080" # Internal only, Nginx proxies here
     env_file:
       - .env.prod
     environment:
-      DATABASE_URL: "postgresql+asyncpg://evalforge:${POSTGRES_PASSWORD}@db:5432/evalforge"
-      REDIS_URL: "redis://redis:6379/0"
-      GOOGLE_CLOUD_PROJECT: "${GOOGLE_CLOUD_PROJECT}"
-      GOOGLE_CLOUD_LOCATION: "${GOOGLE_CLOUD_LOCATION}"
-      EVALFORGE_ENV: "production"
+      - PORT=8080
+      - DATABASE_URL=postgresql+asyncpg://evalforge:evalforge@db:5432/evalforge
+      - REDIS_URL=redis://redis:6379/0
+      - WEB_DIST=/app/static
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - evalforge-prod
 
+  # 2. Background Worker (Agent Tasks)
+  worker:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: evalforge-app:latest
+    container_name: evalforge-worker
+    restart: always
+    command: python -m arcade_app.worker
+    env_file:
+      - .env.prod
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://evalforge:evalforge@db:5432/evalforge
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - evalforge-prod
+
+  # 3. Database (Postgres 16 + pgvector)
   db:
     image: pgvector/pgvector:pg16
     container_name: evalforge-db
     restart: always
     environment:
-      POSTGRES_USER: "evalforge"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      POSTGRES_DB: "evalforge"
+      POSTGRES_USER: evalforge
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-evalforge}
+      POSTGRES_DB: evalforge
     volumes:
-      - postgres_data_prod:/var/lib/postgresql/data
+      - db_data_prod:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U evalforge -d evalforge"]
+      test: ["CMD-SHELL", "pg_isready -U evalforge"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - evalforge-prod
 
+  # 4. Redis (Cache & PubSub)
   redis:
     image: redis:alpine
     container_name: evalforge-redis
     restart: always
-    command: ["redis-server", "--save", "", "--appendonly", "no"]
     volumes:
       - redis_data_prod:/data
     healthcheck:
@@ -86,7 +84,40 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - evalforge-prod
+
+  # 5. Nginx (Reverse Proxy & SSL)
+  nginx:
+    image: nginx:stable
+    container_name: evalforge-nginx
+    restart: always
+    depends_on:
+      - app
+    ports:
+      - "8081:80"
+      - "8443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/letsencrypt
+      - ./nginx/www:/var/www/certbot
+    networks:
+      - evalforge-prod
+
+  # 6. Certbot (SSL Certificates)
+  certbot:
+    image: certbot/certbot:latest
+    container_name: evalforge-certbot
+    volumes:
+      - ./nginx/certs:/etc/letsencrypt
+      - ./nginx/www:/var/www/certbot
+    networks:
+      - evalforge-prod
 
 volumes:
-  postgres_data_prod:
+  db_data_prod:
   redis_data_prod:
+
+networks:
+  evalforge-prod:
+    driver: bridge

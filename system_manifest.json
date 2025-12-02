@@ -1,0 +1,800 @@
+{
+    "evalforge_version": "2.0",
+    "snapshot_kind": "system_manifest",
+    "meta": {
+        "name": "EvalForge",
+        "tagline": "Gamified training ground for full-stack AI engineers",
+        "status": "playable",
+        "phases_covered": [
+            22,
+            23,
+            24,
+            25,
+            26,
+            29,
+            29.1,
+            29.2,
+            30,
+            31,
+            32,
+            33,
+            33.1,
+            33.2,
+            34
+        ],
+        "core_loops": [
+            "Practice → Boss → Failure → Hint → Victory",
+            "XP → Skill Points → Tech Tree → Better Tools",
+            "Level → Avatars → Identity",
+            "World → Track → Curriculum or Project Quest"
+        ]
+    },
+    "llm_guidance": {
+        "purpose": "This manifest is the canonical system context for EvalForge 2.0. Use it to stay consistent with worlds, tracks, NPCs, and mechanics when generating quests, hints, explanations, or UI copy.",
+        "primary_roles": [
+            "Quest design and narrative flavor that respect world + track themes.",
+            "Boss evaluation reasoning aligned with boss_system rubrics and hints.",
+            "Explanations that use the correct NPC voice (KAI, ZERO, ELARA, PATCH).",
+            "Project-registry ops (listing, adding, syncing projects) via described tools."
+        ],
+        "must_respect": [
+            "Do NOT rename or change any ids (world_id, track ids, skill ids, boss ids).",
+            "Do NOT invent new worlds or phases unless explicitly asked.",
+            "When a codex_id is provided, treat codex content as authoritative over general knowledge.",
+            "Use narrative_config.analogy_prompt and vocabulary when adding flavor text."
+        ],
+        "mode_hints": {
+            "fundamentals_mode": "Use tracks[track_id].quests in order; treat 'boss' quests as capstones graded by JudgeAgent.",
+            "project_registry_mode": "Use registry_system.tools and agentic_flow to talk about linking/syncing user repos.",
+            "project_dynamic_mode": "For applylens-backend, imagine quests as tickets over the external repo; keep quest ids and tags coherent but they do not need to pre-exist in this manifest."
+        }
+    },
+    "worlds": [
+        {
+            "id": "world-python",
+            "alias": "THE FOUNDRY",
+            "theme": "Industrial Foundry / Clockwork",
+            "role": "Backend Engineer",
+            "tracks": [
+                "python-fundamentals",
+                "applylens-backend"
+            ],
+            "narrative_config": {
+                "vocabulary": [
+                    "assembly line",
+                    "forge",
+                    "sector",
+                    "cycle"
+                ],
+                "analogy_prompt": "Explain Python concepts as industrial machinery and pipelines."
+            }
+        },
+        {
+            "id": "world-js",
+            "alias": "THE PRISM",
+            "theme": "Holographics / Light Projection",
+            "role": "Frontend Engineer",
+            "tracks": [
+                "js-fundamentals"
+            ],
+            "narrative_config": {
+                "vocabulary": [
+                    "beam",
+                    "projection",
+                    "refraction",
+                    "light source"
+                ],
+                "analogy_prompt": "Explain JS/TS and React as light beams and projections."
+            }
+        },
+        {
+            "id": "world-sql",
+            "alias": "THE ARCHIVES",
+            "theme": "Infinite Library / Vault",
+            "role": "Data Engineer",
+            "tracks": [
+                "sql-fundamentals"
+            ],
+            "narrative_config": {
+                "vocabulary": [
+                    "stacks",
+                    "index",
+                    "catalog",
+                    "stacks overflow"
+                ],
+                "analogy_prompt": "Explain SQL as librarians indexing and retrieving books."
+            }
+        },
+        {
+            "id": "world-infra",
+            "alias": "THE GRID",
+            "theme": "Power Plant / City Utilities",
+            "role": "DevOps / Infra",
+            "tracks": [
+                "infra-fundamentals"
+            ],
+            "narrative_config": {
+                "vocabulary": [
+                    "surge",
+                    "voltage",
+                    "circuit",
+                    "blackout"
+                ],
+                "analogy_prompt": "Explain infra as energy routing and grid stability."
+            }
+        },
+        {
+            "id": "world-agents",
+            "alias": "THE ORACLE",
+            "theme": "LLM Temple / Control Room",
+            "role": "Prompt & Agent Engineer",
+            "tracks": [
+                "agent-fundamentals"
+            ],
+            "narrative_config": {
+                "vocabulary": [
+                    "invocation",
+                    "ritual",
+                    "oracle",
+                    "channel"
+                ],
+                "analogy_prompt": "Explain prompts, RAG, and tools as rituals and oracular channels."
+            }
+        },
+        {
+            "id": "world-git",
+            "alias": "THE TIMELINE",
+            "theme": "Temporal Corridor / Branching Timelines",
+            "role": "Source Control",
+            "tracks": [
+                "git-fundamentals"
+            ],
+            "narrative_config": {
+                "vocabulary": [
+                    "timeline",
+                    "branch",
+                    "merge",
+                    "rewrite"
+                ],
+                "analogy_prompt": "Explain Git as timelines, forks, and rewrites."
+            }
+        },
+        {
+            "id": "world-ml",
+            "alias": "THE SYNAPSE",
+            "theme": "Neural Lattice / Lab",
+            "role": "ML Engineer",
+            "tracks": [
+                "ml-fundamentals"
+            ],
+            "narrative_config": {
+                "vocabulary": [
+                    "tensor",
+                    "gradient",
+                    "signal",
+                    "activation"
+                ],
+                "analogy_prompt": "Explain ML as signals flowing through neural pathways."
+            }
+        },
+        {
+            "id": "world-evalforge",
+            "alias": "THE CONSTRUCT",
+            "theme": "Source Code of Reality",
+            "role": "Architect / Meta World",
+            "tracks": [
+                "project-registry"
+            ],
+            "narrative_config": {
+                "vocabulary": [
+                    "manifestation",
+                    "protocol",
+                    "kernel",
+                    "entity",
+                    "layer"
+                ],
+                "analogy_prompt": "Explain the EvalForge system itself as layers of reality."
+            }
+        }
+    ],
+    "tracks": {
+        "python-fundamentals": {
+            "world_id": "world-python",
+            "source": "fundamentals",
+            "description": "Syntax, data structures, control flow, then a class-based boss.",
+            "quests": [
+                {
+                    "id": "py_01",
+                    "title": "Ignition",
+                    "seq": 1,
+                    "role": "variables/print"
+                },
+                {
+                    "id": "py_02",
+                    "title": "The Loop",
+                    "seq": 2,
+                    "role": "loops/lists"
+                },
+                {
+                    "id": "py_03",
+                    "title": "Data Forge",
+                    "seq": 3,
+                    "role": "dicts/iteration"
+                },
+                {
+                    "id": "py_boss",
+                    "title": "BOSS: The Automaton",
+                    "seq": 4,
+                    "role": "class/objects"
+                }
+            ]
+        },
+        "js-fundamentals": {
+            "world_id": "world-js",
+            "source": "fundamentals",
+            "description": "Core JS/TS async patterns and functional transforms.",
+            "quests": [
+                {
+                    "id": "js_01",
+                    "title": "Light Source",
+                    "seq": 1,
+                    "role": "functions + console.log"
+                },
+                {
+                    "id": "js_02",
+                    "title": "Refraction",
+                    "seq": 2,
+                    "role": "async/await + timers"
+                },
+                {
+                    "id": "js_boss",
+                    "title": "BOSS: The Event Loop",
+                    "seq": 3,
+                    "role": "array.map + mental model"
+                }
+            ]
+        },
+        "sql-fundamentals": {
+            "world_id": "world-sql",
+            "source": "fundamentals",
+            "description": "Core querying, filtering, and join boss.",
+            "quests": [
+                {
+                    "id": "sql_01",
+                    "title": "Retrieval",
+                    "seq": 1,
+                    "role": "SELECT basics"
+                },
+                {
+                    "id": "sql_02",
+                    "title": "The Filter",
+                    "seq": 2,
+                    "role": "WHERE + AND"
+                },
+                {
+                    "id": "sql_boss",
+                    "title": "BOSS: The Index",
+                    "seq": 3,
+                    "role": "JOIN users/orders"
+                }
+            ]
+        },
+        "infra-fundamentals": {
+            "world_id": "world-infra",
+            "source": "fundamentals",
+            "description": "Dockerfile basics into docker-compose boss.",
+            "quests": [
+                {
+                    "id": "inf_01",
+                    "title": "Containment Field",
+                    "seq": 1,
+                    "role": "simple Dockerfile"
+                },
+                {
+                    "id": "inf_02",
+                    "title": "Service Link",
+                    "seq": 2,
+                    "role": "compose + two services"
+                },
+                {
+                    "id": "inf_boss",
+                    "title": "BOSS: The Circuit",
+                    "seq": 3,
+                    "role": "compose with env + network"
+                }
+            ]
+        },
+        "agent-fundamentals": {
+            "world_id": "world-agents",
+            "source": "fundamentals",
+            "description": "LLM persona, grounding, chain-of-thought boss.",
+            "quests": [
+                {
+                    "id": "ai_01",
+                    "title": "Invocation",
+                    "seq": 1,
+                    "role": "system persona prompt"
+                },
+                {
+                    "id": "ai_02",
+                    "title": "Grounding",
+                    "seq": 2,
+                    "role": "RAG-style guardrails"
+                },
+                {
+                    "id": "ai_boss",
+                    "title": "BOSS: Chain of Thought",
+                    "seq": 3,
+                    "role": "few-shot JSON→SQL"
+                }
+            ]
+        },
+        "git-fundamentals": {
+            "world_id": "world-git",
+            "source": "fundamentals",
+            "description": "Git workflow basics then rebase-style boss.",
+            "quests": [
+                {
+                    "id": "git_01",
+                    "title": "Commit Protocol",
+                    "seq": 1,
+                    "role": "init + first commit"
+                },
+                {
+                    "id": "git_02",
+                    "title": "Branch Divergence",
+                    "seq": 2,
+                    "role": "branch + merge"
+                },
+                {
+                    "id": "git_boss",
+                    "title": "BOSS: Rebase Ritual",
+                    "seq": 3,
+                    "role": "conceptual rebase"
+                }
+            ]
+        },
+        "ml-fundamentals": {
+            "world_id": "world-ml",
+            "source": "fundamentals",
+            "description": "Tensor/gradient basics into tiny-model boss.",
+            "quests": [
+                {
+                    "id": "ml_01",
+                    "title": "Tensor Warmup",
+                    "seq": 1,
+                    "role": "shape/size"
+                },
+                {
+                    "id": "ml_02",
+                    "title": "Gradient Flow",
+                    "seq": 2,
+                    "role": "backprop concept"
+                },
+                {
+                    "id": "ml_boss",
+                    "title": "BOSS: Tiny Network",
+                    "seq": 3,
+                    "role": "minimal linear model"
+                }
+            ]
+        },
+        "project-registry": {
+            "world_id": "world-evalforge",
+            "source": "fundamentals",
+            "description": "Meta track for managing linked repos via KAI.",
+            "quests": [],
+            "notes": "Uses agentic QuestAgent graph + registry tools instead of QuestDefinition curriculum."
+        },
+        "applylens-backend": {
+            "world_id": "world-python",
+            "source": "personal",
+            "description": "Dynamic ApplyLens backend quests (RAG-based).",
+            "notes": "Quest engine uses repo scan + ticket generation instead of static QuestDefinition."
+        }
+    },
+    "agents": {
+        "quest": {
+            "id": "QuestAgent",
+            "npc": "KAI",
+            "modes": {
+                "fundamentals": "Uses QuestDefinition sequence per track_id",
+                "project_registry": "Uses LangGraph quest_agent_graph with project tools",
+                "project_dynamic": "Uses repo RAG to generate improvement quests"
+            },
+            "event_stream": [
+                "npc_identity",
+                "status",
+                "text_delta",
+                "boss_spawn",
+                "done"
+            ]
+        },
+        "judge": {
+            "id": "JudgeAgent",
+            "npc": "ZERO",
+            "capabilities": [
+                "Compile/Run user submission",
+                "Rubric-based grading for fundamentals quests",
+                "BossRun evaluation and boss_result emission",
+                "BossProgress updates (fail streak & hint unlocks)"
+            ],
+            "event_stream": [
+                "npc_identity",
+                "status",
+                "boss_result",
+                "text_delta",
+                "done"
+            ]
+        },
+        "explain": {
+            "id": "ExplainAgent",
+            "npc": "ELARA",
+            "capabilities": [
+                "Concept explanation grounded in track/world",
+                "Codex-aware mode when codex_id/hint_codex_id provided",
+                "Failure-focused help for boss strategy"
+            ],
+            "prompt_builder": "build_explain_system_prompt(codex_entry | None)",
+            "codex_integration": "load_codex_entry_by_id(doc_id)"
+        },
+        "debug": {
+            "id": "DebugAgent",
+            "npc": "PATCH",
+            "capabilities": [
+                "Error-log oriented help",
+                "Patch-style suggestions for broken code"
+            ]
+        }
+    },
+    "personas": {
+        "npcs": {
+            "quest": {
+                "id": "npc_kai",
+                "name": "KAI",
+                "title": "Mission Control",
+                "color": "text-cyan-400",
+                "avatar_icon": "radar",
+                "voice_prompt": "Tactical, brief, addresses user as 'Operative'."
+            },
+            "judge": {
+                "id": "npc_zero",
+                "name": "ZERO",
+                "title": "System Arbiter",
+                "color": "text-red-500",
+                "avatar_icon": "eye",
+                "voice_prompt": "Cold, binary, addresses user as 'Unit'."
+            },
+            "explain": {
+                "id": "npc_elara",
+                "name": "ELARA",
+                "title": "The Archivist",
+                "color": "text-amber-400",
+                "avatar_icon": "book-open",
+                "voice_prompt": "Patient, wise, uses analogies, calls user 'Architect'."
+            },
+            "debug": {
+                "id": "npc_patch",
+                "name": "PATCH",
+                "title": "Glitch Hunter",
+                "color": "text-emerald-400",
+                "avatar_icon": "wrench",
+                "voice_prompt": "Cynical but helpful, calls user 'Rookie'."
+            }
+        },
+        "implementation": {
+            "helper": "persona_helper.get_npc(role) + wrap_prompt_with_persona(base_prompt, role)",
+            "agents_emit_identity": true,
+            "events": [
+                "npc_identity"
+            ]
+        }
+    },
+    "progression": {
+        "skills": {
+            "models": [
+                "SkillNode",
+                "UserSkill",
+                "Profile.skill_points"
+            ],
+            "nodes": [
+                {
+                    "id": "syntax_highlighter",
+                    "name": "Optical Enhancer",
+                    "tier": 1,
+                    "cost": 1,
+                    "feature_key": "syntax_highlighter",
+                    "unlocks": [
+                        "Rich editor instead of raw textarea"
+                    ]
+                },
+                {
+                    "id": "codex_link",
+                    "name": "Archive Uplink",
+                    "tier": 1,
+                    "cost": 1,
+                    "feature_key": "codex_link",
+                    "unlocks": [
+                        "Codex access UI"
+                    ]
+                },
+                {
+                    "id": "agent_elara",
+                    "name": "Mentor Protocol",
+                    "tier": 2,
+                    "cost": 2,
+                    "parent_id": "codex_link",
+                    "feature_key": "agent_elara",
+                    "unlocks": [
+                        "ELARA (ExplainAgent)"
+                    ]
+                },
+                {
+                    "id": "linter_module",
+                    "name": "Static Analyzer",
+                    "tier": 2,
+                    "cost": 2,
+                    "parent_id": "syntax_highlighter",
+                    "feature_key": "linter_module",
+                    "unlocks": [
+                        "Judge line-level hints"
+                    ]
+                },
+                {
+                    "id": "agent_patch",
+                    "name": "Debug Routine",
+                    "tier": 3,
+                    "cost": 3,
+                    "parent_id": "agent_elara",
+                    "feature_key": "agent_patch",
+                    "unlocks": [
+                        "PATCH (DebugAgent)"
+                    ]
+                },
+                {
+                    "id": "repo_scanner",
+                    "name": "Deep Scan",
+                    "tier": 3,
+                    "cost": 3,
+                    "parent_id": "codex_link",
+                    "feature_key": "repo_scanner",
+                    "unlocks": [
+                        "RAG repo scan features"
+                    ]
+                }
+            ],
+            "backend": {
+                "helper": "skill_helper.unlock_skill(user_id, skill_id)",
+                "endpoints": [
+                    "/api/skills",
+                    "/api/skills/unlock"
+                ]
+            },
+            "frontend": {
+                "hook": "useSkills() with hasSkill(feature_key)",
+                "gating": {
+                    "editor": "syntax_highlighter",
+                    "explain_button": "agent_elara",
+                    "debug_button": "agent_patch"
+                }
+            }
+        },
+        "avatars": {
+            "models": [
+                "AvatarDefinition",
+                "User.avatar_id"
+            ],
+            "definition": "DB-backed avatar catalog with level gating.",
+            "backend": {
+                "endpoints": [
+                    "/api/avatars",
+                    "/api/avatars/equip"
+                ],
+                "logic": "Unlocked based on user level; equip persists to DB."
+            },
+            "frontend": {
+                "selector_component": "AvatarSelector.tsx",
+                "header_display": "CyberdeckLayout.tsx shows avatar + username"
+            }
+        }
+    },
+    "boss_system": {
+        "models": {
+            "BossDefinition": "Static boss metadata (id, name, world, rubric, codex_id)",
+            "BossRun": "Single attempt (user_id, boss_id, score, result, timestamps)",
+            "BossProgress": "Per-boss, per-user streak (fail_count, hint_codex_id, hint_unlocked_at)"
+        },
+        "helpers": {
+            "boss_progress_helper": {
+                "function": "update_boss_progress(user_id, boss_id, success: bool)",
+                "behavior": "On failure, increment fail_count; when fail_count >= 2, set hint_codex_id and hint_unlocked_at."
+            }
+        },
+        "content": {
+            "strategy_guides": [
+                {
+                    "doc_id": "boss-reactor-core",
+                    "world": "world-evalforge",
+                    "role": "Strategy guide for primary boss",
+                    "used_by": [
+                        "ExplainAgent",
+                        "BossHud strategy button"
+                    ]
+                }
+            ]
+        },
+        "event_flow": {
+            "spawn": "Redis broadcasts boss_spawn; FXLayer + bossStore start timer",
+            "evaluation": "JudgeAgent grades submission and writes BossRun",
+            "result_event": "Sends boss_result via SSE with { success, score, hp_delta, hint_codex_id? }",
+            "progression": "boss_progress_helper updates fail streak; after 2 fails hint_codex_id set",
+            "hint_ui": "BossHud reads hint_codex_id → shows 'Strategy Guide' button → opens /codex/boss-reactor-core",
+            "elara_integration": "ExplainAgent can be invoked with codex_id to provide guided help"
+        },
+        "frontend": {
+            "store": "bossStore.ts (timer, HP, status, hintCodexId)",
+            "hud_component": "BossHud.tsx (overlay, countdown, HP bar, score, strategy button)",
+            "history": "BossHistoryPanel.tsx",
+            "fx": "FXLayer responds to boss_spawn with tint + screen shake"
+        },
+        "status": {
+            "implemented": true,
+            "tested": true,
+            "notes": "Boss HUD, progress, hint unlock, and codex-driven ELARA help are all wired end-to-end."
+        }
+    },
+    "registry_system": {
+        "purpose": "Project Ops Command Center (link, list, sync external repos)",
+        "track": "project-registry (world-evalforge)",
+        "tools": {
+            "list_my_projects": "Lists repos for user_id, returns markdown status report.",
+            "add_my_project": "Links new repo_url for user_id and triggers initial sync.",
+            "sync_my_project": "Triggers re-ingest for selected project."
+        },
+        "agentic_flow": {
+            "graph": "quest_agent_graph.py (LangGraph StateGraph)",
+            "tools_node": "ToolNode([list_my_projects, add_my_project, sync_my_project])",
+            "routing": "QuestAgent uses graph when track_id == 'project-registry'",
+            "system_prompt": "KAI role, must pass user_id to tools, interpret free-form commands like 'add [https://github.com/](https://github.com/)...'."
+        },
+        "codex": {
+            "doc_id": "system-registry",
+            "description": "Explains visual dashboard and KAI command protocol."
+        }
+    },
+    "codex_system": {
+        "storage": "KnowledgeChunk + codex markdown files under data/codex/",
+        "worlds_covered": [
+            "world-python",
+            "world-js",
+            "world-infra",
+            "world-agents",
+            "world-sql",
+            "world-evalforge"
+        ],
+        "meta_docs": [
+            "entity-kai",
+            "entity-zero",
+            "entity-elara",
+            "entity-patch",
+            "system-cybernetics",
+            "system-cyberdeck",
+            "system-ingestion",
+            "system-registry",
+            "boss-reactor-core"
+        ],
+        "backend": {
+            "loader": "codex_helper.load_codex_entry_by_id(doc_id)",
+            "ingest_script": "scripts/ingest_codex.py"
+        },
+        "explain_agent_integration": {
+            "builder": "build_explain_system_prompt(codex_entry | None)",
+            "behavior": "If codex provided, treat as authoritative and center the explanation around it.",
+            "tests": [
+                "test_build_explain_system_prompt_without_codex",
+                "test_build_explain_system_prompt_with_codex_includes_content",
+                "test_build_explain_system_prompt_codex_trumps_general_rag",
+                "test_explain_agent_codex_flow"
+            ]
+        }
+    },
+    "sensory_engine": {
+        "audio": {
+            "hook": "useSound()",
+            "library": "howler.js",
+            "theme_assets": {
+                "cyberdeck": [
+                    "click",
+                    "hover",
+                    "type",
+                    "success",
+                    "boss"
+                ],
+                "navigator": [
+                    "click",
+                    "hover",
+                    "success",
+                    "boss"
+                ],
+                "workshop": [
+                    "click",
+                    "success",
+                    "boss"
+                ]
+            },
+            "routing": "Per-layout audio mapping; volumes controlled by Settings store."
+        },
+        "visual_fx": {
+            "component": "FXLayer.tsx",
+            "overlays": {
+                "cyberdeck": "CRT scanlines + chromatic aberration",
+                "navigator": "Starfield background",
+                "workshop": "Blueprint grid"
+            },
+            "boss_fx": "Layout-colored screen tint + optional shake on boss_spawn.",
+            "settings": {
+                "crtMode": "Only active on cyberdeck layout",
+                "screenShake": "Per-boss event vibration",
+                "particles": "Enables confetti emitter"
+            }
+        },
+        "fx_bus": {
+            "singleton": "FX (lib/fx.ts)",
+            "events": [
+                "confetti",
+                "glitch",
+                "shockwave"
+            ],
+            "manager": "ConfettiManager.tsx subscribes and calls canvas-confetti.",
+            "integration": "FXLayer emits FX events on specific socket/game events (e.g., sync_complete → confetti)."
+        }
+    },
+    "ui_shell": {
+        "layouts": [
+            "cyberdeck",
+            "navigator",
+            "workshop"
+        ],
+        "root_component": "GameShell.tsx",
+        "hud": {
+            "boss_hud": "Always mounted but only visible in boss state.",
+            "avatar_display": "In header (top right) with username.",
+            "tech_tree_modal": "Cybernetics Lab; shows skill nodes and handles unlocks.",
+            "settings_modal": "Audio/FX controls with layout-aware options."
+        },
+        "streams": {
+            "hook": "useArcadeStream",
+            "events": [
+                "npc_identity",
+                "status",
+                "text_delta",
+                "boss_spawn",
+                "boss_result",
+                "sync_complete",
+                "done"
+            ]
+        }
+    },
+    "testing": {
+        "implemented_focus_areas": [
+            "Skill tree backend & frontend",
+            "Boss progress & hints",
+            "Avatar equip & unlock",
+            "Narrative injection in prompts",
+            "NPC persona wrapping",
+            "Curriculum sequencing for all fundamentals tracks",
+            "ExplainAgent codex integration"
+        ],
+        "example_tests": [
+            "DevUI_Skills.test.tsx",
+            "AvatarSelector.test.tsx",
+            "test_avatars.py",
+            "test_narrative_engine.py",
+            "test_agents_persona.py",
+            "test_curriculum_python.py",
+            "redis"
+        ],
+        "status": "planned_not_deployed",
+        "notes": "Local architecture is containerized and ready for lift-and-shift to a small GCE VM."
+    }
+}

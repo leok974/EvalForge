@@ -33,8 +33,9 @@ async def grade_submission(user_input: str, track: str = "default") -> Dict[str,
         model = GenerativeModel(model_name)
         
         # Construct Prompt (Standardized Judge Prompt)
-        prompt = f"""
-        ROLE: Automated Code Judge.
+        from arcade_app.persona_helper import wrap_prompt_with_persona
+        
+        base_task = f"""
         TASK: Evaluate the following code based on the '{track}' track.
         INPUT: {user_input}
         
@@ -46,6 +47,8 @@ async def grade_submission(user_input: str, track: str = "default") -> Dict[str,
             "comment": "<string>"
         }}
         """
+        
+        prompt = wrap_prompt_with_persona(base_task, "judge")
         
         # Call with timeout protection
         response = await asyncio.wait_for(
