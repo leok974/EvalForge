@@ -5,7 +5,6 @@ from typing import AsyncGenerator, Dict, Any
 from sqlmodel import select, desc
 from arcade_app.database import get_session
 from arcade_app.models import QuestDefinition, UserQuest, QuestSource
-
 # Cache for worlds data
 _WORLDS_CACHE = None
 
@@ -22,6 +21,38 @@ def _get_narrative_config(world_id: str) -> Dict:
     if world:
         return world.get("narrative_config", {})
     return {}
+
+from arcade_app.worlds_helper import get_world
+
+def build_quest_system_prompt(
+    base_task: str,
+    track_id: str,
+    world_id: str | None = None,
+) -> str:
+    """
+    Wraps the base technical task in the narrative context of the world.
+    """
+    world = get_world(world_id) if world_id else None
+    if not world or "narrative_config" not in world:
+        # Fallback – plain system prompt
+        return base_task
+
+    cfg = world["narrative_config"]
+    alias = cfg.get("alias", world["name"])
+    theme = cfg.get("theme", "")
+    role = cfg.get("role", "Architect")
+    vocab = ", ".join(cfg.get("vocabulary", []))
+
+    return f"""
+You are operating inside **{alias}** — {theme}.
+The user is the **{role}** for this world.
+
+Use the following narrative vocabulary when appropriate:
+{vocab}
+
+TASK:
+{base_task}
+""".strip()
 
 async def stream_quest_generator(
     user_input: str, 

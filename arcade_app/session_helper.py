@@ -1,4 +1,5 @@
 from datetime import datetime
+import uuid
 from sqlmodel import select
 from arcade_app.database import get_session
 from arcade_app.models import ChatSession
@@ -15,7 +16,10 @@ async def get_or_create_session(user_id: str) -> dict:
         
         # 2. Create if missing
         if not chat_session:
-            chat_session = ChatSession(user_id=user_id)
+            chat_session = ChatSession(
+                id=f"sess-{uuid.uuid4().hex[:16]}",
+                user_id=user_id
+            )
             session.add(chat_session)
             await session.commit()
             await session.refresh(chat_session)

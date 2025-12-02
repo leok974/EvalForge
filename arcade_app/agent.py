@@ -26,6 +26,10 @@ from arcade_app.auth_helper import (
 from arcade_app.bosses.registry import is_boss_track, evaluate_boss
 from arcade_app.bosses.progress_helper import apply_boss_outcome
 from arcade_app.explain_agent import ExplainAgent
+from arcade_app.routers import avatars
+from arcade_app.persona_helper import get_npc, wrap_prompt_with_persona
+from arcade_app.quest_helper import build_quest_system_prompt
+from arcade_app.explain_helper import build_explain_system_prompt
 
 # --- 1. Data Models ---
 
@@ -151,6 +155,9 @@ class JudgeAgent(BaseAgent):
             yield {"event": "boss_result", "data": json.dumps(boss_result_payload)}
 
         # 1. Grade
+        from arcade_app.grading_helper import grade_submission, stream_coach_feedback
+        from arcade_app.gamification import add_xp
+        
         grade_result = await grade_submission(user_input, track=track_id)
         yield {"event": "grade", "data": json.dumps(grade_result)}
         
@@ -186,6 +193,7 @@ class QuestAgent(BaseAgent):
     async def run(self, user_input: str, context: Dict) -> AsyncGenerator[Dict, None]:
         from langchain_core.messages import HumanMessage, SystemMessage
         from arcade_app.quest_agent_graph import quest_graph 
+        from arcade_app.quest_helper import stream_quest_generator
         
         track_id = context.get("track_id", "default")
         user_id = context.get("user_id", "leo")
@@ -250,25 +258,74 @@ class DebugAgent(BaseAgent):
         track = TRACKS.get(context.get("track_id"), {})
         
         # Reuse explanation logic for now, tailored for debugging
+        from arcade_app.grading_helper import stream_explanation
         debug_prompt = f"Help me debug this issue: {user_input}"
         async for token in stream_explanation(debug_prompt, track):
             yield {"event": "text_delta", "data": token}
             
         yield {"event": "done", "data": "[DONE]"}
 
-# --- 4. FastAPI Setup ---
+# --- 4. FastAPI App ---
 
-app = FastAPI(title="EvalForge Agent Router")
+app = FastAPI(title="EvalForge Arcade", version="0.4.0")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 from arcade_app.routes_boss import router as boss_router
 app.include_router(boss_router)
+app.include_router(avatars.router, prefix="/api/avatars", tags=["avatars"])
+
+# --- 5. Missing Routes (Restored) ---
+
+from arcade_app.socket_manager import websocket_endpoint
+from fastapi import WebSocket, HTTPException
+
+@app.get("/api/universe")
+def get_universe():
+    return {
+        "worlds": list(WORLDS.values()),
+        "tracks": list(TRACKS.values())
+    }
+
+@app.get("/api/auth/me")
+async def auth_me(request: Request):
+    user = await get_current_user(request)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return user
+
+@app.get("/api/auth/login")
+def login():
+    return {"url": get_login_url()}
+
+@app.get("/api/auth/github/callback")
+async def github_callback(code: str):
+    user_profile = await exchange_github_code(code)
+    user_data = await get_or_create_github_user(user_profile)
+    session_token = create_session_token(user_data.id)
+    # Redirect to Frontend (localhost:5173)
+    response = RedirectResponse(url="http://localhost:5173/")
+    response.set_cookie(
+        key="session_token", 
+        value=session_token, 
+        httponly=True,
+        max_age=60*60*24*7,
+        samesite="lax",
+        secure=False,
+        domain=None,
+        path="/"
+    )
+    return response
+
+@app.websocket("/ws/game_events")
+async def ws_game_events(websocket: WebSocket):
+    await websocket_endpoint(websocket)
 
 # Initialize Universe
 @app.on_event("startup")
@@ -294,6 +351,34 @@ async def get_active_session(request: Request):
     user = await get_current_user(request)
     if not user: return {}
     return await get_or_create_session(user["id"])
+
+@app.get("/api/skills")
+async def get_skills(request: Request):
+    """Return user's skill tree with unlock status."""
+    from arcade_app.skill_helper import get_skill_tree
+    user = await get_current_user(request)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return await get_skill_tree(user["id"])
+
+from pydantic import BaseModel
+
+class UnlockSkillRequest(BaseModel):
+    skill_id: str
+
+@app.post("/api/skills/unlock")
+async def unlock_skill_endpoint(request: Request, payload: UnlockSkillRequest):
+    """Unlock a skill for the current user."""
+    from arcade_app.skill_helper import unlock_skill
+    user = await get_current_user(request)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    result = await unlock_skill(user["id"], payload.skill_id)
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    return result
+
 
 @app.post("/apps/arcade_app/users/{user}/sessions/{sid}/query/stream")
 async def stream_session(user: str, sid: str, payload: QueryRequest):

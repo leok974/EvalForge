@@ -1,9 +1,8 @@
-import json
-import asyncio
+import os
 from fastapi import WebSocket
 from redis.asyncio import Redis
 
-REDIS_URL = "redis://localhost:6379"
+REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
 
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()

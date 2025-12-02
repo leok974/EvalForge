@@ -17,20 +17,26 @@ export function useSkills(user: any) {
     const [skills, setSkills] = useState<SkillNode[]>([]);
     const [skillPoints, setSkillPoints] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     // Fetch Tree
     const refreshSkills = useCallback(() => {
         if (!user) return;
         setLoading(true);
+        setError(null);
         fetch('/api/skills')
-            .then(r => r.json())
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                return r.json();
+            })
             .then(data => {
                 setSkills(data.nodes || []);
                 setSkillPoints(data.skill_points || 0);
                 setLoading(false);
             })
             .catch(e => {
-                console.error(e);
+                console.error("Failed to fetch skills", e);
+                setError("Failed to load skill tree");
                 setLoading(false);
             });
     }, [user]);
@@ -48,13 +54,14 @@ export function useSkills(user: any) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ skill_id: skillId })
             });
+
             const data = await res.json();
 
             if (res.ok) {
                 refreshSkills(); // Reload state to update dependency graph
                 return { success: true };
             } else {
-                return { success: false, error: data.detail };
+                return { success: false, error: data.detail || "Failed to unlock" };
             }
         } catch (e) {
             return { success: false, error: "Network Error" };
@@ -68,5 +75,5 @@ export function useSkills(user: any) {
         return skill ? skill.is_unlocked : false;
     };
 
-    return { skills, skillPoints, unlockSkill, hasSkill, refreshSkills, loading };
+    return { skills, skillPoints, unlockSkill, hasSkill, refreshSkills, loading, error };
 }

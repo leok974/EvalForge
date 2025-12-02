@@ -4,7 +4,7 @@
         "world_id": "world-python",
         "name": "Python Fundamentals",
         "source": "fundamentals",
-        "description": "Master the Foundry: Syntax, Data Structures, and Control Flow.",
+        "description": "Master the Foundry: syntax, data structures, and control flow.",
         "tags": [
             "python",
             "basics",
@@ -16,7 +16,7 @@
         "world_id": "world-js",
         "name": "JS/TS Core",
         "source": "fundamentals",
-        "description": "Master the Prism: Event Loops, Closures, and Async patterns.",
+        "description": "Master the Prism: event loops, closures, and async patterns.",
         "tags": [
             "javascript",
             "typescript",
@@ -28,7 +28,7 @@
         "world_id": "world-sql",
         "name": "SQL Tactics",
         "source": "fundamentals",
-        "description": "Master the Archives: Queries, Joins, and Indexing strategies.",
+        "description": "Master the Archives: queries, joins, and indexing strategies.",
         "tags": [
             "sql",
             "postgres",
@@ -40,7 +40,7 @@
         "world_id": "world-infra",
         "name": "DevOps Bootloader",
         "source": "fundamentals",
-        "description": "Master the Grid: Docker, Compose, and Nginx configurations.",
+        "description": "Master the Grid: Docker, Compose, and service wiring.",
         "tags": [
             "docker",
             "infra",
@@ -52,7 +52,7 @@
         "world_id": "world-agents",
         "name": "Prompt Engineering",
         "source": "fundamentals",
-        "description": "Master the Oracle: Zero-shot, Few-shot, and Chain of Thought.",
+        "description": "Master the Oracle: zero-shot, few-shot, and chain-of-thought patterns.",
         "tags": [
             "llm",
             "prompting",
@@ -64,7 +64,7 @@
         "world_id": "world-git",
         "name": "Version Control",
         "source": "fundamentals",
-        "description": "Master the Timeline: Branching, Merging, and Rebasing.",
+        "description": "Master the Timeline: branching, merging, and safe history edits.",
         "tags": [
             "git",
             "workflow"
@@ -75,7 +75,7 @@
         "world_id": "world-ml",
         "name": "Tensor Basics",
         "source": "fundamentals",
-        "description": "Master the Synapse: Tensors, Gradients, and Basic Models.",
+        "description": "Master the Synapse: tensors, gradients, and simple training loops.",
         "tags": [
             "pytorch",
             "ml",

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../store/gameStore';
 import { useSettingsStore } from '../store/settingsStore';
+import { useAuth } from '../hooks/useAuth';
 import { SettingsModal } from '../components/SettingsModal';
+import { AvatarSelector } from '../components/AvatarSelector';
 import { BossHud } from '../components/BossHud';
 import { BossHistoryPanel } from '../components/BossHistoryPanel';
 import {
@@ -13,7 +15,8 @@ import {
     Wifi,
     Battery,
     Clock,
-    Menu
+    Menu,
+    User
 } from 'lucide-react';
 
 interface Props {
@@ -23,7 +26,9 @@ interface Props {
 export function CyberdeckLayout({ children }: Props) {
     const { layout, setLayout } = useGameStore();
     const { crtMode } = useSettingsStore();
+    const { user } = useAuth();
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isAvatarOpen, setIsAvatarOpen] = useState(false);
 
     return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100 font-mono selection:bg-cyan-900 selection:text-cyan-100 flex flex-col">
@@ -34,7 +39,7 @@ export function CyberdeckLayout({ children }: Props) {
                 {/* Left: Brand & Mode Switcher */}
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 text-cyan-400">
-                        <Terminal className="w-5 h-5" />
+                        <img src="/branding/logo.png" alt="EvalForge" className="w-6 h-6" />
                         <span className={`font-bold tracking-widest ${crtMode ? 'crt-aberration' : ''}`}>EVALFORGE</span>
                     </div>
 
@@ -88,6 +93,30 @@ export function CyberdeckLayout({ children }: Props) {
                     </div>
 
                     <div className="h-6 w-px bg-zinc-800" />
+
+                    {user && (
+                        <>
+                            <button
+                                onClick={() => setIsAvatarOpen(true)}
+                                className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
+                                title="Change Avatar"
+                            >
+                                {user.avatar_url ? (
+                                    <img
+                                        src={user.avatar_url}
+                                        alt={user.name}
+                                        className="w-8 h-8 rounded-full border-2 border-cyan-500/50"
+                                    />
+                                ) : (
+                                    <div className="w-8 h-8 rounded-full border-2 border-cyan-500/50 bg-zinc-800 flex items-center justify-center">
+                                        <User className="w-4 h-4 text-cyan-400" />
+                                    </div>
+                                )}
+                                <span className="text-xs text-zinc-300 hidden lg:inline">{user.name}</span>
+                            </button>
+                            <div className="h-6 w-px bg-zinc-800" />
+                        </>
+                    )}
 
                     <button
                         onClick={() => setIsSettingsOpen(true)}
@@ -149,8 +178,12 @@ export function CyberdeckLayout({ children }: Props) {
 
             </div>
 
+
             {/* Settings Modal */}
             <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+
+            {/* Avatar Selector Modal */}
+            <AvatarSelector isOpen={isAvatarOpen} onClose={() => setIsAvatarOpen(false)} />
 
         </div>
     );

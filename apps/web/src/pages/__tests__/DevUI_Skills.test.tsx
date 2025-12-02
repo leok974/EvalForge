@@ -1,0 +1,98 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import DevUI from '../DevUI';
+import * as SkillsHook from '../../hooks/useSkills';
+import * as AuthHook from '../../hooks/useAuth';
+import * as StreamHook from '../../hooks/useArcadeStream';
+import * as BossStore from '../../store/bossStore';
+
+// Mock Hooks
+vi.mock('../../hooks/useArcadeStream', () => ({
+    useArcadeStream: vi.fn()
+}));
+vi.mock('../../hooks/useAuth', () => ({
+    useAuth: vi.fn()
+}));
+vi.mock('../../hooks/useSkills', () => ({
+    useSkills: vi.fn()
+}));
+vi.mock('../../store/bossStore', () => ({
+    useBossStore: vi.fn()
+}));
+vi.mock('../../store/agentStore', () => ({
+    useAgentStore: () => ({ openAgent: vi.fn() })
+}));
+
+// Mock Child Components
+vi.mock('../../components/Scoreboard', () => ({ Scoreboard: () => <div>Scoreboard</div> }));
+vi.mock('../../components/ContextSelector', () => ({ ContextSelector: () => <div>Selector</div> }));
+vi.mock('../../components/BossPanel', () => ({ BossPanel: () => <div>BossPanel</div> }));
+
+describe('DevUI Skill Gating', () => {
+    beforeEach(() => {
+        vi.resetAllMocks();
+        (AuthHook.useAuth as any).mockReturnValue({ user: { id: 'leo' } });
+        (StreamHook.useArcadeStream as any).mockReturnValue({
+            messages: [],
+            isStreaming: false,
+            sendMessage: vi.fn()
+        });
+        (BossStore.useBossStore as any).mockReturnValue({ status: 'idle' });
+        // Mock scrollIntoView
+        window.HTMLElement.prototype.scrollIntoView = vi.fn();
+    });
+
+    it('renders RAW MODE when syntax_highlighter is locked', () => {
+        (SkillsHook.useSkills as any).mockReturnValue({
+            hasSkill: (key: string) => false // All locked
+        });
+
+        render(<DevUI />);
+
+        // Editor should show raw mode placeholder
+        expect(screen.getByPlaceholderText(/RAW MODE/)).toBeDefined();
+        // Agent buttons should be disabled/locked
+        expect(screen.getByText(/EXPLAIN 🔒/)).toBeDefined();
+        expect(screen.getByText(/DEBUG 🔒/)).toBeDefined();
+    });
+
+    it('renders Standard Editor when syntax_highlighter is unlocked', () => {
+        (SkillsHook.useSkills as any).mockReturnValue({
+            hasSkill: (key: string) => key === 'syntax_highlighter'
+        });
+
+        render(<DevUI />);
+
+        // Editor should show standard placeholder
+        expect(screen.getByPlaceholderText(/Paste code or ask a question/)).toBeDefined();
+        // Agents still locked
+        expect(screen.getByText(/EXPLAIN 🔒/)).toBeDefined();
+    });
+
+    it('enables EXPLAIN button when agent_explain is unlocked', () => {
+        (SkillsHook.useSkills as any).mockReturnValue({
+            hasSkill: (key: string) => key === 'agent_explain'
+        });
+
+        render(<DevUI />);
+
+        const btn = screen.getByText('EXPLAIN'); // No lock icon
+        expect(btn).toBeDefined();
+        expect(btn.closest('button')).not.toBeDisabled();
+
+        // DEBUG still locked
+        expect(screen.getByText(/DEBUG 🔒/)).toBeDefined();
+    });
+
+    it('enables DEBUG button when agent_debug is unlocked', () => {
+        (SkillsHook.useSkills as any).mockReturnValue({
+            hasSkill: (key: string) => key === 'agent_debug'
+        });
+
+        render(<DevUI />);
+
+        const btn = screen.getByText('DEBUG'); // No lock icon
+        expect(btn).toBeDefined();
+        expect(btn.closest('button')).not.toBeDisabled();
+    });
+});

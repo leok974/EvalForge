@@ -35,19 +35,21 @@
         ],
         "narrative_config": {
             "alias": "THE FOUNDRY",
-            "theme": "Industrial Clockwork",
-            "role": "Automation Engineer",
+            "theme": "Industrial automation, clockwork machinery, smelters and assembly lines.",
+            "role": "Line Architect",
             "vocabulary": [
-                "gear",
+                "assembly line",
+                "forge",
                 "cycle",
-                "forge"
+                "jam",
+                "overheat"
             ],
             "analogy_prompt": "Use factory and mechanics metaphors."
         }
     },
     {
         "id": "world-js",
-        "name": "JavaScript World",
+        "name": "JS/TS World",
         "icon": "sun",
         "description": "Frontend. Theme: The Prism.",
         "default_tracks": [
@@ -59,12 +61,14 @@
         ],
         "narrative_config": {
             "alias": "THE PRISM",
-            "theme": "Holographic Light",
-            "role": "Light Weaver",
+            "theme": "Holograms, light beams, projection grids.",
+            "role": "Projection Engineer",
             "vocabulary": [
                 "refraction",
                 "beam",
-                "spectrum"
+                "projection",
+                "flicker",
+                "phase shift"
             ],
             "analogy_prompt": "Use light and optical metaphors."
         }
@@ -103,12 +107,14 @@
         ],
         "narrative_config": {
             "alias": "THE ARCHIVES",
-            "theme": "Infinite Library",
-            "role": "Keeper",
+            "theme": "Endless library, moving shelves, glowing index cards.",
+            "role": "Archivist Engineer",
             "vocabulary": [
-                "tome",
+                "catalog",
                 "index",
-                "scroll"
+                "ledger",
+                "shelf",
+                "lookup"
             ],
             "analogy_prompt": "Use library and vault metaphors."
         }
@@ -126,12 +132,14 @@
         ],
         "narrative_config": {
             "alias": "THE GRID",
-            "theme": "High Voltage Power",
-            "role": "Operator",
+            "theme": "Power plants, transformers, conduit lines, city-scale control room.",
+            "role": "Grid Operator",
             "vocabulary": [
                 "surge",
                 "circuit",
-                "voltage"
+                "load",
+                "blackout",
+                "reroute"
             ],
             "analogy_prompt": "Use electricity and grid metaphors."
         }
@@ -149,12 +157,14 @@
         ],
         "narrative_config": {
             "alias": "THE ORACLE",
-            "theme": "Mystic Divination",
-            "role": "Whisperer",
+            "theme": "Crystal arrays, floating glyphs, branching timelines of decisions.",
+            "role": "Prompt Architect",
             "vocabulary": [
-                "vision",
-                "echo",
-                "intent"
+                "invocation",
+                "channel",
+                "tool call",
+                "context window",
+                "reasoning"
             ],
             "analogy_prompt": "Use mystic and conversation metaphors."
         }
@@ -172,12 +182,14 @@
         ],
         "narrative_config": {
             "alias": "THE TIMELINE",
-            "theme": "Time Travel",
+            "theme": "Time streams, branching timelines, merge points, rewinds.",
             "role": "Chronomancer",
             "vocabulary": [
                 "branch",
-                "divergence",
-                "anchor"
+                "merge",
+                "rebase",
+                "reset",
+                "conflict"
             ],
             "analogy_prompt": "Use time travel metaphors."
         }
@@ -195,12 +207,14 @@
         ],
         "narrative_config": {
             "alias": "THE SYNAPSE",
-            "theme": "Bio-Digital Network",
-            "role": "Neuro-Linker",
+            "theme": "Neural constellations, flowing gradients, tensor grids.",
+            "role": "Model Keeper",
             "vocabulary": [
-                "pulse",
-                "thought",
-                "evolution"
+                "tensor",
+                "gradient",
+                "epoch",
+                "overfit",
+                "loss"
             ],
             "analogy_prompt": "Use biological brain metaphors."
         }

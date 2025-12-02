@@ -1,4 +1,5 @@
 import os
+import sys
 import httpx
 from datetime import datetime, timedelta
 from typing import Dict, Any, Optional
@@ -115,7 +116,9 @@ async def get_current_user(request: Request) -> Dict:
 
     # 2. Real JWT Check
     token = request.cookies.get("session_token")
+    print(f"DEBUG: Cookies received: {request.cookies}", file=sys.stderr)
     if not token:
+        print("DEBUG: No session_token found", file=sys.stderr)
         return {}
 
     try:

@@ -3,16 +3,54 @@ from sqlmodel import SQLModel, Field, Relationship, JSON, Column
 from datetime import datetime
 import uuid
 from pgvector.sqlalchemy import Vector
+from enum import Enum
+
+# --- ENUMS ---
+class QuestSource(str, Enum):
+    fundamentals = "fundamentals"
+    project = "project"
+    boss = "boss"
 
 # --- USER & GAMIFICATION ---
+
+# --- USER & GAMIFICATION ---
+
+class AvatarDefinition(SQLModel, table=True):
+    """
+    Catalog of all available avatars.
+    """
+    id: str = Field(primary_key=True)  # e.g. "default_user", "neon_ghost"
+    name: str
+    description: str = Field(default="")
+
+    # Unlock logic
+    required_level: int = Field(default=1)
+    rarity: str = Field(default="common")  # "common", "rare", "epic", "legendary"
+
+    # Rendering config
+    visual_type: str = Field(default="icon")   # "icon", "image", "css"
+    visual_data: str                           # e.g. "user", "/assets/avatars/1.png", "neon-pulse"
+
+    is_active: bool = Field(default=True)
+
+    # Relationships
+    users: List["User"] = Relationship(back_populates="avatar")
+
 
 class User(SQLModel, table=True):
     id: str = Field(primary_key=True) # "leo"
     name: str
     avatar_url: Optional[str] = None
+    
+    current_avatar_id: str = Field(
+        default="default_user",
+        foreign_key="avatardefinition.id"
+    )
+    
     created_at: datetime = Field(default_factory=datetime.utcnow)
     
     # Relationships
+    avatar: Optional[AvatarDefinition] = Relationship(back_populates="users")
     profile: Optional["Profile"] = Relationship(back_populates="user")
     projects: List["Project"] = Relationship(back_populates="owner")
 
@@ -34,10 +72,34 @@ class Profile(SQLModel, table=True):
     user_id: str = Field(foreign_key="user.id", unique=True)
     total_xp: int = 0
     global_level: int = 1
+    skill_points: int = 0  # Points available for Tech Tree
     # Store world-specific progress as JSON for flexibility
     world_progress: Dict = Field(default={}, sa_type=JSON) 
     
     user: User = Relationship(back_populates="profile")
+
+class SkillNode(SQLModel, table=True):
+    """Static definition of a skill in the Tech Tree."""
+    id: str = Field(primary_key=True)  # e.g. "syntax_highlighter"
+    name: str
+    description: str
+
+    tier: int = 1              # Visual grouping (1–4)
+    cost: int = 1              # Skill points required
+    category: str = "core"     # e.g. ui, agent, analysis
+    feature_key: str           # e.g. "syntax_highlighter", "agent_elara"
+
+    parent_id: Optional[str] = Field(
+        default=None,
+        foreign_key="skillnode.id"
+    )
+
+class UserSkill(SQLModel, table=True):
+    """Skills unlocked by a user."""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: str = Field(foreign_key="user.id", index=True)
+    skill_id: str = Field(foreign_key="skillnode.id", index=True)
+    unlocked_at: datetime = Field(default_factory=datetime.utcnow)
 
 class UserMetric(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -116,6 +178,7 @@ class BossDefinition(SQLModel, table=True):
     max_hp: int = Field(default=100)               # integrity pool
     base_xp_reward: int = Field(default=300)
     difficulty: str = Field(default="normal")      # "normal" | "hard"
+    hint_codex_id: Optional[str] = Field(default=None) # Link to Strategy Guide
 
     enabled: bool = Field(default=True)
 
@@ -162,3 +225,39 @@ class BossProgress(SQLModel, table=True):
 
     last_attempt_at: datetime = Field(default_factory=datetime.utcnow)
     last_result: Optional[str] = Field(default=None)  # "win" | "loss" | "timeout"
+
+# --- QUEST MODELS ---
+
+class QuestDefinition(SQLModel, table=True):
+    """
+    Static content for a quest.
+    """
+    id: str = Field(primary_key=True) # e.g. "py_01"
+    track_id: str = Field(index=True) # e.g. "python-fundamentals"
+    
+    sequence_order: int = Field(default=1)
+    tier: int = Field(default=1)
+    xp_reward: int = Field(default=100)
+    
+    title: str
+    technical_objective: str
+    rubric_hints: str = ""
+    
+    boss: bool = Field(default=False)
+
+class UserQuest(SQLModel, table=True):
+    """
+    Tracks a user's progress on a specific quest instance.
+    """
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: str = Field(foreign_key="user.id", index=True)
+    
+    source: QuestSource = Field(default=QuestSource.fundamentals)
+    quest_def_id: Optional[str] = Field(default=None, foreign_key="questdefinition.id")
+    
+    status: str = "active" # active, completed
+    started_at: datetime = Field(default_factory=datetime.utcnow)
+    completed_at: Optional[datetime] = None
+    
+    # For dynamic quests (not from curriculum)
+    dynamic_objective: Optional[str] = None

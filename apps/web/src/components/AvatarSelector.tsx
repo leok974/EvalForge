@@ -1,120 +1,182 @@
-import React, { useState, useEffect } from 'react';
-import { AvatarDisplay, AvatarDef } from './AvatarDisplay';
-import { useAuth } from '../hooks/useAuth';
+import React, { useEffect, useState } from 'react';
+import { User, Terminal, Code, Cpu, Shield, Zap, Circle } from 'lucide-react';
 
-interface ExtendedAvatar extends AvatarDef {
+type Avatar = {
+    id: string;
+    name: string;
+    description: string;
+    required_level: number;
+    rarity: string;
+    visual_type: string;
+    visual_data: string;
     is_locked: boolean;
     is_equipped: boolean;
-    required_level: number;
-    description: string;
-}
+};
 
 interface Props {
     isOpen: boolean;
     onClose: () => void;
 }
 
+// Map visual_data to Lucide icons for "icon" type
+const ICON_MAP: Record<string, any> = {
+    user: User,
+    terminal: Terminal,
+    code: Code,
+    cpu: Cpu,
+    shield: Shield,
+    zap: Zap,
+    circle: Circle
+};
+
 export function AvatarSelector({ isOpen, onClose }: Props) {
-    const { user, refresh } = useAuth();
-    const [avatars, setAvatars] = useState<ExtendedAvatar[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [avatars, setAvatars] = useState<Avatar[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [submitting, setSubmitting] = useState<string | null>(null);
 
-    // Load Catalog
     useEffect(() => {
-        if (isOpen && user) {
-            setLoading(true);
-            fetch('/api/avatars')
-                .then(r => r.json())
-                .then(data => {
-                    setAvatars(data);
-                    setLoading(false);
-                });
-        }
-    }, [isOpen, user]);
+        if (!isOpen) return;
+        (async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const res = await fetch('/api/avatars');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                setAvatars(data.avatars ?? data);
+            } catch (err: any) {
+                console.error(err);
+                setError('Failed to load avatars');
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [isOpen]);
 
-    const handleEquip = async (avatarId: string) => {
+    const equip = async (id: string) => {
         try {
+            setSubmitting(id);
             const res = await fetch('/api/avatars/equip', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ avatar_id: avatarId })
+                body: JSON.stringify({ avatar_id: id }),
             });
-
-            if (res.ok) {
-                // Optimistic update
-                setAvatars(prev => prev.map(av => ({
-                    ...av,
-                    is_equipped: av.id === avatarId
-                })));
-                // Refresh global user state to update header immediately
-                refresh();
+            if (!res.ok) {
+                const text = await res.text().catch(() => '');
+                throw new Error(text || 'Failed to equip avatar');
             }
-        } catch (e) {
-            console.error("Equip failed", e);
+
+            // Optimistic update
+            setAvatars((prev) =>
+                prev.map((a) => ({ ...a, is_equipped: a.id === id })),
+            );
+
+            // Force a reload of the user session to update the header
+            // In a real app we'd update the global store, but this works for now
+            window.location.reload();
+
+        } catch (err) {
+            console.error(err);
+            // optionally toast
+        } finally {
+            setSubmitting(null);
         }
     };
 
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-zinc-950 border border-zinc-800 rounded-xl w-full max-w-4xl h-[80vh] shadow-2xl flex flex-col overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+            <div className="bg-zinc-950 border border-zinc-800 rounded-xl w-full max-w-4xl p-6 shadow-2xl flex flex-col max-h-[90vh]">
+                <div className="flex justify-between items-center mb-6 border-b border-zinc-800 pb-4">
+                    <h2 className="font-mono text-lg font-bold text-zinc-100 flex items-center gap-2">
+                        <span className="text-2xl">🎭</span> AVATAR CLOSET <span className="text-zinc-600 text-sm font-normal ml-2">// IDENTITY MATRIX</span>
+                    </h2>
+                    <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors p-2 hover:bg-zinc-900 rounded-full">
+                        ✕
+                    </button>
+                </div>
 
-                {/* Header */}
-                <div className="p-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
-                    <div>
-                        <h2 className="text-white font-bold text-xl tracking-wide font-mono">IDENTITY MATRIX</h2>
-                        <div className="text-zinc-500 text-xs mt-1">Customize your digital appearance</div>
+                {loading && (
+                    <div className="flex-1 flex items-center justify-center text-zinc-500 font-mono animate-pulse">
+                        SCANNING IDENTITY DATABASE...
                     </div>
-                    <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">✕ ESC</button>
-                </div>
+                )}
 
-                {/* Grid */}
-                <div className="flex-1 overflow-y-auto p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {loading && <div className="text-zinc-500 col-span-full text-center py-20 animate-pulse">LOADING ASSETS...</div>}
+                {error && (
+                    <div className="p-4 bg-red-950/30 border border-red-900/50 text-red-400 rounded-lg font-mono text-sm">
+                        ERROR: {error}
+                    </div>
+                )}
 
-                    {avatars.map(av => (
-                        <div
-                            key={av.id}
-                            onClick={() => !av.is_locked && handleEquip(av.id)}
-                            className={`
-                relative p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-3 group
-                ${av.is_equipped
-                                    ? 'bg-zinc-900 border-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.1)]'
-                                    : av.is_locked
-                                        ? 'bg-black border-zinc-800 opacity-50 cursor-not-allowed grayscale'
-                                        : 'bg-black border-zinc-800 hover:border-zinc-600 cursor-pointer hover:bg-zinc-900'
-                                }
-              `}
-                        >
-                            <AvatarDisplay avatar={av} size="lg" />
+                {!loading && !error && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto pr-2 custom-scrollbar">
+                        {avatars.map((avatar) => {
+                            const disabled = avatar.is_locked || submitting === avatar.id;
+                            const Icon = ICON_MAP[avatar.visual_data] || User;
 
-                            <div className="text-center">
-                                <div className={`font-bold text-sm ${av.is_equipped ? 'text-cyan-400' : 'text-zinc-300'}`}>
-                                    {av.name}
-                                </div>
-                                <div className="text-[10px] text-zinc-500 mt-1 line-clamp-1">{av.description}</div>
-                            </div>
+                            return (
+                                <button
+                                    key={avatar.id}
+                                    disabled={disabled}
+                                    onClick={() => equip(avatar.id)}
+                                    className={`group relative p-4 rounded-xl border text-left transition-all duration-300 flex flex-col gap-3 ${avatar.is_equipped
+                                            ? 'border-emerald-500/50 bg-emerald-950/20 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
+                                            : avatar.is_locked
+                                                ? 'border-zinc-800 bg-zinc-900/50 opacity-60 cursor-not-allowed grayscale'
+                                                : 'border-zinc-800 bg-zinc-900/30 hover:bg-zinc-800 hover:border-cyan-500/30 hover:shadow-[0_0_15px_rgba(6,182,212,0.1)]'
+                                        }`}
+                                >
+                                    <div className="flex justify-between items-start">
+                                        {/* Avatar Preview */}
+                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-colors ${avatar.is_equipped ? 'border-emerald-500 bg-emerald-950' :
+                                                avatar.is_locked ? 'border-zinc-700 bg-zinc-800' : 'border-cyan-500/30 bg-zinc-900 group-hover:border-cyan-400'
+                                            }`}>
+                                            {avatar.visual_type === 'icon' ? (
+                                                <Icon className={`w-6 h-6 ${avatar.is_equipped ? 'text-emerald-400' :
+                                                        avatar.is_locked ? 'text-zinc-600' : 'text-cyan-400'
+                                                    }`} />
+                                            ) : (
+                                                <div className={`w-full h-full rounded-full ${avatar.visual_data}`} />
+                                            )}
+                                        </div>
 
-                            {/* Status Badge */}
-                            <div className="mt-auto pt-2">
-                                {av.is_equipped ? (
-                                    <span className="text-[10px] font-bold text-cyan-500 bg-cyan-950/50 px-2 py-1 rounded border border-cyan-900">
-                                        EQUIPPED
-                                    </span>
-                                ) : av.is_locked ? (
-                                    <span className="text-[10px] font-bold text-red-500 bg-red-950/30 px-2 py-1 rounded border border-red-900 flex items-center gap-1 justify-center">
-                                        🔒 LVL {av.required_level}
-                                    </span>
-                                ) : (
-                                    <span className="text-[10px] font-bold text-zinc-500 group-hover:text-white transition-colors">
-                                        SELECT
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                                        {/* Status Badge */}
+                                        {avatar.is_equipped && (
+                                            <span className="px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
+                                                Active
+                                            </span>
+                                        )}
+                                        {avatar.is_locked && (
+                                            <span className="px-2 py-1 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-500 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                                🔒 Lvl {avatar.required_level}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className={`font-bold font-mono text-sm ${avatar.is_equipped ? 'text-white' : 'text-zinc-300'}`}>
+                                                {avatar.name}
+                                            </span>
+                                            <span className={`text-[10px] px-1.5 py-0.5 rounded border ${avatar.rarity === 'legendary' ? 'border-amber-500/30 text-amber-400 bg-amber-950/30' :
+                                                    avatar.rarity === 'epic' ? 'border-purple-500/30 text-purple-400 bg-purple-950/30' :
+                                                        avatar.rarity === 'rare' ? 'border-blue-500/30 text-blue-400 bg-blue-950/30' :
+                                                            'border-zinc-700 text-zinc-500 bg-zinc-900'
+                                                } uppercase tracking-wider`}>
+                                                {avatar.rarity}
+                                            </span>
+                                        </div>
+                                        <p className="text-xs text-zinc-500 leading-relaxed">
+                                            {avatar.description}
+                                        </p>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -15,7 +15,9 @@ export function useAuth() {
 
     const checkAuth = async () => {
         try {
-            const res = await fetch('/api/auth/me');
+            console.log("Checking auth...");
+            const res = await fetch('/api/auth/me', { credentials: 'include' });
+            console.log("Auth status:", res.status);
             if (res.ok) {
                 const data = await res.json();
                 // API returns empty object {} if not logged in
@@ -33,7 +35,7 @@ export function useAuth() {
     };
 
     const login = () => {
-        fetch('/api/auth/github/start')
+        fetch('/api/auth/login')
             .then(r => r.json())
             .then(data => {
                 // Force browser to navigate to GitHub (or the mock callback)

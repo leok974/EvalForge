@@ -91,10 +91,10 @@ async def get_boss_history(
     async for session in get_session():
         # Query BossRun with JOIN to BossDefinition
         stmt = (
-            select(BossRun, BossDefinition.title, BossDefinition.difficulty)
+            select(BossRun, BossDefinition.name, BossDefinition.difficulty)
             .join(BossDefinition, BossDefinition.id == BossRun.boss_id)
             .where(BossRun.user_id == user["id"])
-            .order_by(BossRun.created_at.desc())
+            .order_by(BossRun.started_at.desc())
             .limit(limit)
         )
         result = await session.execute(stmt)
@@ -107,10 +107,10 @@ async def get_boss_history(
                 "boss_name": boss_name,
                 "difficulty": difficulty,
                 "score": run.score,
-                "passed": run.passed,
-                "integrity_delta": run.integrity_delta,
-                "xp_awarded": run.xp_awarded,
-                "created_at": run.created_at.isoformat(),
+                "passed": run.result == "win",
+                "integrity_delta": 0, # Not stored in BossRun yet
+                "xp_awarded": 0,      # Not stored in BossRun yet
+                "created_at": run.started_at.isoformat(),
             })
         
         return history

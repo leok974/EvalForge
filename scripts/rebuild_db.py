@@ -11,14 +11,21 @@ from arcade_app.database import engine, init_db
 from arcade_app import models 
 
 async def rebuild():
-    print("⚠️  DESTROYING DATABASE...")
+    print("⚠️  DESTROYING DATABASE (SCHEMA RESET)...")
     async with engine.begin() as conn:
-        await conn.run_sync(SQLModel.metadata.drop_all)
-    print("✅ Database Destroyed.")
-    
-    print("🔄 Initializing Database...")
-    await init_db()
-    print("✅ Database Re-initialized.")
+        from sqlalchemy import text
+        await conn.execute(text("DROP SCHEMA public CASCADE"))
+        await conn.execute(text("CREATE SCHEMA public"))
+        await conn.execute(text("GRANT ALL ON SCHEMA public TO evalforge"))
+        await conn.execute(text("GRANT ALL ON SCHEMA public TO public"))
+        
+        # Re-enable extensions
+        await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        
+        # Re-create tables
+        await conn.run_sync(SQLModel.metadata.create_all)
+        
+    print("✅ Database Reset & Re-initialized.")
 
 if __name__ == "__main__":
     asyncio.run(rebuild())

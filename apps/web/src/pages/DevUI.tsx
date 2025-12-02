@@ -4,7 +4,7 @@ import { Scoreboard } from '../components/Scoreboard';
 import { ContextSelector } from '../components/ContextSelector';
 import { Terminal, ShieldAlert, BookOpen, Radio } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
-import { useSkills } from '../hooks/useSkills'; // <--- Import
+import { useSkills } from '../hooks/useSkills';
 import { useBossStore } from '../store/bossStore';
 import { useAgentStore } from '../store/agentStore';
 import { BossPanel } from '../components/BossPanel';
@@ -27,10 +27,29 @@ const ICON_MAP: Record<string, any> = {
 };
 
 export default function DevUI() {
-  const { user } = useAuth();
+  const { user, login, loading } = useAuth();
   const { status: bossStatus } = useBossStore();
   const [input, setInput] = useState('');
   const [sid, setSid] = useState<string>('');
+
+  // Local Context State
+  const [context, setContext] = useState<StreamContext>({
+    mode: 'judge',
+    world_id: 'world-python',
+    track_id: 'applylens-backend'
+  });
+
+  const {
+    messages,
+    setMessages,
+    latestGrade,
+    isStreaming,
+    sendMessage
+  } = useArcadeStream(sid, user?.id || 'guest');
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Fetch skills for the logged-in user (or null)
+  const { hasSkill } = useSkills(user);
 
   useEffect(() => {
     if (user) {
@@ -59,29 +78,34 @@ export default function DevUI() {
     }
   }, [user]);
 
-  // Local Context State
-  const [context, setContext] = useState<StreamContext>({
-    mode: 'judge',
-    world_id: 'world-python',
-    track_id: 'applylens-backend'
-  });
-
-  const {
-    messages,
-    setMessages,
-    latestGrade,
-    isStreaming,
-    sendMessage
-  } = useArcadeStream(sid);
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-
-  // Fetch skills for the logged-in user (or null)
-  const { hasSkill } = useSkills(user);
-
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center bg-black text-zinc-500 font-mono text-sm animate-pulse">
+        INITIALIZING LINK...
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center bg-black text-zinc-400 font-mono space-y-6">
+        <div className="text-4xl font-bold text-cyan-500 tracking-widest glitch-text">EVALFORGE</div>
+        <div className="text-xs uppercase tracking-[0.2em] text-zinc-600">Secure Uplink Required</div>
+
+        <button
+          onClick={login}
+          className="group relative px-8 py-3 bg-zinc-900 border border-cyan-900/50 hover:border-cyan-500/50 text-cyan-400 text-xs font-bold tracking-widest uppercase transition-all hover:bg-cyan-950/30"
+        >
+          <span className="absolute inset-0 w-full h-full bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          Initialize Session
+        </button>
+      </div>
+    );
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,6 +138,43 @@ export default function DevUI() {
               </div>
             </div>
           )}
+
+          {/* Agent Mode Switcher - GATED */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => setContext(prev => ({ ...prev, mode: 'judge' }))}
+              className={`flex-1 py-2 text-xs font-bold tracking-widest border transition-all ${context.mode === 'judge'
+                ? 'bg-red-950/40 border-red-500 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]'
+                : 'bg-black border-zinc-800 text-zinc-600 hover:border-zinc-700'
+                }`}
+            >
+              JUDGE
+            </button>
+            <button
+              onClick={() => hasSkill('agent_explain') && setContext(prev => ({ ...prev, mode: 'explain' }))}
+              disabled={!hasSkill('agent_explain')}
+              className={`flex-1 py-2 text-xs font-bold tracking-widest border transition-all ${context.mode === 'explain'
+                ? 'bg-amber-950/40 border-amber-500 text-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                : !hasSkill('agent_explain')
+                  ? 'bg-black border-zinc-900 text-zinc-800 cursor-not-allowed opacity-50'
+                  : 'bg-black border-zinc-800 text-zinc-600 hover:border-zinc-700'
+                }`}
+            >
+              EXPLAIN {!hasSkill('agent_explain') && '🔒'}
+            </button>
+            <button
+              onClick={() => hasSkill('agent_debug') && setContext(prev => ({ ...prev, mode: 'debug' }))}
+              disabled={!hasSkill('agent_debug')}
+              className={`flex-1 py-2 text-xs font-bold tracking-widest border transition-all ${context.mode === 'debug'
+                ? 'bg-emerald-950/40 border-emerald-500 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+                : !hasSkill('agent_debug')
+                  ? 'bg-black border-zinc-900 text-zinc-800 cursor-not-allowed opacity-50'
+                  : 'bg-black border-zinc-800 text-zinc-600 hover:border-zinc-700'
+                }`}
+            >
+              DEBUG {!hasSkill('agent_debug') && '🔒'}
+            </button>
+          </div>
         </div>
 
         {/* Center/Right: Chat Terminal OR Boss Panel */}
@@ -179,17 +240,29 @@ export default function DevUI() {
                 <div ref={bottomRef} />
               </div>
 
-              {/* Input Area */}
+              {/* Input Area - GATED */}
               <div className="p-4 border-t border-zinc-800 bg-zinc-950/50">
                 <form onSubmit={handleSubmit} className="relative group">
-                  <textarea
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }}
-                    disabled={isStreaming}
-                    placeholder={hasSkill('syntax_highlighter') ? "Paste code or ask a question..." : "Paste code (Visuals Offline)..."}
-                    className={`w-full bg-zinc-900/80 border border-zinc-700 rounded-lg p-3 pr-16 text-sm focus:outline-none focus:border-banana-400 focus:ring-1 focus:ring-banana-400/20 resize-none h-24 font-mono transition-all placeholder:text-zinc-700 ${hasSkill('syntax_highlighter') ? "text-zinc-100" : "text-zinc-500"}`}
-                  />
+                  {hasSkill('syntax_highlighter') ? (
+                    <textarea
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }}
+                      disabled={isStreaming}
+                      placeholder="Paste code or ask a question..."
+                      className="w-full bg-zinc-900/80 border border-zinc-700 rounded-lg p-3 pr-16 text-sm focus:outline-none focus:border-banana-400 focus:ring-1 focus:ring-banana-400/20 resize-none h-24 font-mono transition-all placeholder:text-zinc-700 text-zinc-100"
+                    />
+                  ) : (
+                    <textarea
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }}
+                      disabled={isStreaming}
+                      placeholder="// RAW MODE: Syntax Highlighting Offline. Unlock 'Optical Enhancer' in Cybernetics Lab."
+                      className="w-full bg-zinc-900/80 border border-zinc-700 rounded-lg p-3 pr-16 text-sm focus:outline-none focus:border-zinc-600 resize-none h-24 font-mono transition-all placeholder:text-zinc-500 text-zinc-500"
+                    />
+                  )}
+
                   <button
                     type="submit"
                     disabled={!input.trim() || isStreaming}

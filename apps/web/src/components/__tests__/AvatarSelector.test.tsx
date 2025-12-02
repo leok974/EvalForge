@@ -1,79 +1,104 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { AvatarSelector } from '../AvatarSelector';
-import * as AuthHook from '../../hooks/useAuth';
 
-// Mock dependencies
-global.fetch = vi.fn();
-vi.mock('../../hooks/useAuth', () => ({
-    useAuth: vi.fn()
-}));
-
-const mockAvatars = [
-    { id: 'av1', name: 'Starter', is_locked: false, is_equipped: true, required_level: 1, visual_type: 'icon' },
-    { id: 'av2', name: 'Advanced', is_locked: true, is_equipped: false, required_level: 50, visual_type: 'icon' }
-];
+// Mock fetch
+window.fetch = vi.fn();
 
 describe('AvatarSelector', () => {
     beforeEach(() => {
         vi.resetAllMocks();
-        (AuthHook.useAuth as any).mockReturnValue({
-            user: { id: 'leo' },
-            refresh: vi.fn()
-        });
     });
 
-    it('renders the grid correctly', async () => {
-        (global.fetch as any).mockResolvedValueOnce({
-            json: async () => mockAvatars
-        });
+    const mockAvatars = [
+        {
+            id: 'default_user',
+            name: 'Initiate',
+            description: 'Basic',
+            required_level: 1,
+            rarity: 'common',
+            visual_type: 'icon',
+            visual_data: 'user',
+            is_locked: false,
+            is_equipped: true
+        },
+        {
+            id: 'neon_ghost',
+            name: 'Netrunner',
+            description: 'Cool',
+            required_level: 10,
+            rarity: 'epic',
+            visual_type: 'css',
+            visual_data: 'neon-pulse',
+            is_locked: true,
+            is_equipped: false
+        }
+    ];
 
-        render(<AvatarSelector isOpen={true} onClose={() => { }} />);
-
-        // Wait for load
-        await waitFor(() => screen.getByText('Starter'));
-
-        // Check states
-        expect(screen.getByText('EQUIPPED')).toBeDefined(); // For av1
-        expect(screen.getByText('🔒 LVL 50')).toBeDefined(); // For av2
+    it('renders nothing when closed', () => {
+        render(<AvatarSelector isOpen={false} onClose={vi.fn()} />);
+        expect(screen.queryByText('AVATAR CLOSET')).toBeNull();
     });
 
-    it('handles equipping an unlocked avatar', async () => {
-        // 1. Initial Load
-        const unlockedAvatar = { ...mockAvatars[0], is_equipped: false };
-        (global.fetch as any).mockResolvedValueOnce({
-            json: async () => [unlockedAvatar]
+    it('fetches and displays avatars when open', async () => {
+        (window.fetch as any).mockResolvedValue({
+            ok: true,
+            json: async () => ({ avatars: mockAvatars })
         });
 
-        // 2. Setup Equip Response
-        (global.fetch as any).mockResolvedValueOnce({ ok: true });
+        render(<AvatarSelector isOpen={true} onClose={vi.fn()} />);
 
-        render(<AvatarSelector isOpen={true} onClose={() => { }} />);
-        await waitFor(() => screen.getByText('Starter'));
+        // Check loading state
+        expect(screen.getByText(/SCANNING/)).toBeDefined();
 
-        // 3. Click
-        fireEvent.click(screen.getByText('Starter'));
+        // Wait for data
+        await waitFor(() => {
+            expect(screen.getByText('Initiate')).toBeDefined();
+            expect(screen.getByText('Netrunner')).toBeDefined();
+        });
 
-        // 4. Verify API Call
-        expect(global.fetch).toHaveBeenCalledWith('/api/avatars/equip', expect.objectContaining({
+        // Check status badges
+        expect(screen.getByText('Active')).toBeDefined(); // default_user
+        expect(screen.getByText(/Lvl 10/)).toBeDefined(); // neon_ghost lock
+    });
+
+    it('handles equip action', async () => {
+        (window.fetch as any).mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({ avatars: mockAvatars })
+        });
+
+        render(<AvatarSelector isOpen={true} onClose={vi.fn()} />);
+
+        await waitFor(() => screen.getByText('Initiate'));
+
+        // Mock equip response
+        (window.fetch as any).mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({ status: 'ok', current_avatar_id: 'default_user' })
+        });
+
+        // Click the equipped one (just to test the click, logic allows re-equipping)
+        fireEvent.click(screen.getByText('Initiate'));
+
+        expect(window.fetch).toHaveBeenCalledTimes(2); // 1 load, 1 equip
+        expect(window.fetch).toHaveBeenLastCalledWith('/api/avatars/equip', expect.objectContaining({
             method: 'POST',
-            body: JSON.stringify({ avatar_id: 'av1' })
+            body: JSON.stringify({ avatar_id: 'default_user' })
         }));
     });
 
-    it('prevents equipping a locked avatar', async () => {
-        (global.fetch as any).mockResolvedValueOnce({
-            json: async () => [mockAvatars[1]] // The locked one
+    it('disables locked avatars', async () => {
+        (window.fetch as any).mockResolvedValue({
+            ok: true,
+            json: async () => ({ avatars: mockAvatars })
         });
 
-        render(<AvatarSelector isOpen={true} onClose={() => { }} />);
-        await waitFor(() => screen.getByText('Advanced'));
+        render(<AvatarSelector isOpen={true} onClose={vi.fn()} />);
 
-        // Click Locked Item
-        const card = screen.getByText('Advanced').closest('div');
-        if (card) fireEvent.click(card);
+        await waitFor(() => screen.getByText('Netrunner'));
 
-        // Verify NO equip call was made (fetch only called once for listing)
-        expect(global.fetch).toHaveBeenCalledTimes(1);
+        const lockedBtn = screen.getByText('Netrunner').closest('button');
+        expect(lockedBtn).toHaveProperty('disabled', true);
     });
 });

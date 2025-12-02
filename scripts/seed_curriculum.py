@@ -25,28 +25,28 @@ FULL_CURRICULUM = [
     {
         "id": "py_boss", "track_id": "python-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
         "title": "BOSS: The Automaton",
-        "technical_objective": "Define a `Robot` class with an `__init__` method taking a name, and a `speak` method. Instantiate it.",
-        "rubric_hints": "Check for class definition, __init__, self, and instantiation."
+        "technical_objective": "Define a `Robot` class with an `__init__` method taking a name, and a `speak` method. Instantiate it and call `speak()`.",
+        "rubric_hints": "Check for class definition, __init__, self usage, and instance method call."
     },
 
     # --- JS WORLD (THE PRISM) ---
     {
         "id": "js_01", "track_id": "js-fundamentals", "sequence_order": 1, "tier": 1, "xp_reward": 50,
         "title": "Light Source",
-        "technical_objective": "Write a JavaScript function `ignite()` that returns the string 'LASER ACTIVE'. Log the result.",
+        "technical_objective": "Write a JavaScript function `ignite()` that returns the string 'LASER ACTIVE' and log the result.",
         "rubric_hints": "Check for function syntax and console.log."
     },
     {
         "id": "js_02", "track_id": "js-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
         "title": "Refraction (Async)",
-        "technical_objective": "Write an `async` function that awaits a 1-second timeout (simulated) and logs 'DONE'.",
-        "rubric_hints": "Check for async/await keywords and setTimeout or Promise."
+        "technical_objective": "Write an `async` function that awaits a 1-second timeout and logs 'DONE'.",
+        "rubric_hints": "Check for async/await and Promise/timeout usage."
     },
     {
         "id": "js_boss", "track_id": "js-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
-        "title": "BOSS: Data Transformation",
-        "technical_objective": "Create a function that uses `.map()` to transform an array of numbers `[1,2,3]` into `[2,4,6]`.",
-        "rubric_hints": "Check for Array.map usage and arrow functions."
+        "title": "BOSS: The Event Loop",
+        "technical_objective": "Create a function that uses `.map()` to transform `[1,2,3]` into `[2,4,6]`, and log the result.",
+        "rubric_hints": "Check for Array.map and arrow function."
     },
 
     # --- SQL WORLD (THE ARCHIVES) ---
@@ -54,18 +54,18 @@ FULL_CURRICULUM = [
         "id": "sql_01", "track_id": "sql-fundamentals", "sequence_order": 1, "tier": 1, "xp_reward": 50,
         "title": "Retrieval",
         "technical_objective": "Write a SQL query to select `name` and `email` from a `users` table.",
-        "rubric_hints": "Check for SELECT, FROM users."
+        "rubric_hints": "Check for SELECT and FROM users."
     },
     {
         "id": "sql_02", "track_id": "sql-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
         "title": "The Filter",
         "technical_objective": "Write a query to find all users where `active = true` AND `role = 'admin'`.",
-        "rubric_hints": "Check for WHERE clause and AND operator."
+        "rubric_hints": "Check for WHERE clause with AND."
     },
     {
         "id": "sql_boss", "track_id": "sql-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
         "title": "BOSS: The Index",
-        "technical_objective": "Write a query that performs an INNER JOIN between `users` and `orders` tables on `user_id`.",
+        "technical_objective": "Write a query that performs an INNER JOIN between `users` and `orders` on `users.id = orders.user_id`.",
         "rubric_hints": "Check for INNER JOIN syntax and ON condition."
     },
 
@@ -77,63 +77,74 @@ FULL_CURRICULUM = [
         "rubric_hints": "Check for FROM, WORKDIR, COPY, and CMD."
     },
     {
-        "id": "inf_02", "track_id": "infra-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
-        "title": "Container Launch",
-        "technical_objective": "Write the `docker run` command to start a container named 'web' from image 'my-app' on port 8080.",
-        "rubric_hints": "Check for docker run, -p 8080:80, --name."
-    },
-    {
-        "id": "inf_boss", "track_id": "infra-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
+        "id": "inf_boss", "track_id": "infra-fundamentals", "sequence_order": 2, "tier": 2, "xp_reward": 500,
         "title": "BOSS: The Circuit",
-        "technical_objective": "Write a `docker-compose.yml` that defines two services: `web` and `db`.",
-        "rubric_hints": "Check for version, services, and image keys."
+        "technical_objective": "Write a `docker-compose.yml` that defines two services: `web` and `db` and connects them on the same network.",
+        "rubric_hints": "Check for version, services, image, ports, and depends_on."
     },
 
     # --- AGENTS WORLD (THE ORACLE) ---
     {
         "id": "ai_01", "track_id": "agent-fundamentals", "sequence_order": 1, "tier": 1, "xp_reward": 50,
         "title": "Invocation",
-        "technical_objective": "Write a System Prompt that instructs an LLM to act as a 'Grumpy Pirate'.",
-        "rubric_hints": "Check for persona definition and constraints."
+        "technical_objective": "Write a system prompt that instructs an LLM to act as a 'Grumpy Pirate' with clear behavioral rules.",
+        "rubric_hints": "Check for persona description, constraints, and forbidden behaviors."
     },
     {
         "id": "ai_boss", "track_id": "agent-fundamentals", "sequence_order": 2, "tier": 2, "xp_reward": 500,
         "title": "BOSS: Chain of Thought",
-        "technical_objective": "Write a prompt that uses Few-Shot examples to teach an LLM how to convert JSON to SQL.",
-        "rubric_hints": "Check for inclusion of examples (Input -> Output)."
+        "technical_objective": "Write a prompt that uses 2–3 input/output examples to teach an LLM how to convert simple JSON records into SQL INSERT statements.",
+        "rubric_hints": "Check for few-shot examples, clear task description, and output format constraints."
     },
 
     # --- GIT WORLD (THE TIMELINE) ---
     {
         "id": "git_01", "track_id": "git-fundamentals", "sequence_order": 1, "tier": 1, "xp_reward": 50,
-        "title": "Timeline Anchor",
-        "technical_objective": "Initialize a new git repository and create the first commit with message 'Initial commit'.",
-        "rubric_hints": "Check for git init, git add, git commit."
+        "title": "First Branch",
+        "technical_objective": "Write the exact Git commands to create a new branch `feature/ui` and switch to it.",
+        "rubric_hints": "Check for `git branch` or `git checkout -b` and `git switch` usage."
     },
     {
-        "id": "git_boss", "track_id": "git-fundamentals", "sequence_order": 2, "tier": 2, "xp_reward": 300,
-        "title": "BOSS: Timeline Divergence",
-        "technical_objective": "Create a new branch named 'feature/login', switch to it, and push it to origin.",
-        "rubric_hints": "Check for git checkout -b or git switch -c, and git push."
+        "id": "git_02", "track_id": "git-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
+        "title": "Merge the Divergence",
+        "technical_objective": "Write the commands to merge `feature/ui` back into `main` and resolve a simple textual conflict.",
+        "rubric_hints": "Check for `git merge`, conflict markers explanation, and `git add` + `git commit`."
+    },
+    {
+        "id": "git_boss", "track_id": "git-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
+        "title": "BOSS: Rewrite",
+        "technical_objective": "Explain and show commands to rewrite the last commit message on `main` safely and push it to a shared remote.",
+        "rubric_hints": "Check for `git commit --amend` or `git rebase -i` plus `git push --force-with-lease` and warnings."
     },
 
     # --- ML WORLD (THE SYNAPSE) ---
     {
         "id": "ml_01", "track_id": "ml-fundamentals", "sequence_order": 1, "tier": 1, "xp_reward": 50,
-        "title": "Neuron Activation",
-        "technical_objective": "Using PyTorch, create a 2x2 Tensor of ones.",
-        "rubric_hints": "Check for torch.ones((2,2))."
+        "title": "Vector Awakening",
+        "technical_objective": "Using PyTorch, create a 1D tensor of values [1, 2, 3] and compute its mean.",
+        "rubric_hints": "Check for `torch.tensor` and `tensor.mean()`."
     },
     {
-        "id": "ml_boss", "track_id": "ml-fundamentals", "sequence_order": 2, "tier": 2, "xp_reward": 500,
-        "title": "BOSS: Matrix Multiplication",
-        "technical_objective": "Perform a matrix multiplication between two 2x2 tensors A and B.",
-        "rubric_hints": "Check for torch.matmul or @ operator."
+        "id": "ml_02", "track_id": "ml-fundamentals", "sequence_order": 2, "tier": 1, "xp_reward": 100,
+        "title": "Single Step",
+        "technical_objective": "Write a minimal training step that performs a forward pass, computes MSE loss, calls `backward()`, and steps an optimizer.",
+        "rubric_hints": "Check for model(inputs), loss, loss.backward(), optimizer.step(), optimizer.zero_grad()."
+    },
+    {
+        "id": "ml_boss", "track_id": "ml-fundamentals", "sequence_order": 3, "tier": 2, "xp_reward": 500,
+        "title": "BOSS: Overfit Sentinel",
+        "technical_objective": "Describe and implement code to intentionally overfit a tiny dataset and log train vs validation loss.",
+        "rubric_hints": "Check for tiny dataset, multiple epochs, training loop, and printed/logged losses for both splits."
     }
 ]
 
 async def seed():
     print("📚 Populating The Archives (Curriculum)...")
+    
+    # Debug: Check registered tables
+    from sqlmodel import SQLModel
+    print(f"Registered Tables: {list(SQLModel.metadata.tables.keys())}")
+    
     await init_db()
     async for session in get_session():
         # Clear existing data to avoid Unique Constraint violations

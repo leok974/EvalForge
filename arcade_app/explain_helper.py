@@ -2,60 +2,63 @@
 Prompt building helpers for ExplainAgent with codex integration.
 """
 from typing import Optional
-
+from arcade_app.worlds_helper import get_world
 
 def build_explain_system_prompt(
-    user_input: str,
-    track_id: Optional[str],
-    codex_entry: Optional[dict],
+    user_question: str,
+    world_id: str | None = None,
+    codex_entry: dict | None = None,
 ) -> str:
     """
-    Build the system prompt for ELARA (Explain Agent).
-
-    If codex_entry is provided, we treat it as an authoritative reference
-    (e.g. boss strategy guide) and explicitly tell the LLM to use it.
-    
-    Args:
-        user_input: The user's question
-        track_id: Current track context
-        codex_entry: Optional dict with id, title, summary, body_markdown
-        
-    Returns:
-        System prompt string for ELARA
+    Constructs the system prompt for the Explain Agent (ELARA).
+    If codex_entry is provided, it treats it as authoritative.
+    If world_id is provided, it layers in narrative_config (role, theme, analogy_prompt).
     """
-    if codex_entry is None:
-        # Fallback: general explain mode
-        return f"""You are ELARA, the Library Archivist of EvalForge.
+    world = get_world(world_id) if world_id else None
+    cfg = world.get("narrative_config", {}) if world else {}
 
-Your role is to teach concepts clearly and step-by-step, focusing on the WHY behind the answer.
+    alias = cfg.get("alias", world["name"] if world else "The System")
+    role = cfg.get("role", "Architect")
+    analogy_prompt = cfg.get(
+        "analogy_prompt",
+        "Use clear, grounded analogies and explain the WHY, not just the HOW.",
+    )
 
-Track: {track_id or "general"}
-Task: Explain the user's question with practical examples and clear reasoning.
+    if codex_entry:
+        # Codex-focused mode
+        return f"""
+You are **ELARA**, the Archivist of {alias}.
+The user is the **{role}**.
 
-User question:
-{user_input}
-"""
+You MUST treat the following Codex entry as the primary reference:
 
-    # With Codex context (e.g. Boss Strategy Guide)
-    return f"""You are ELARA, the Archivist, explaining a concept using a specific Codex entry as your primary reference.
+TITLE: {codex_entry.get("title")}
+SUMMARY: {codex_entry.get("summary")}
 
-You MUST treat the following document as authoritative context and base your explanation on it.
+CONTENT:
+{codex_entry.get("body_markdown")}
 
-=== CODEX CONTEXT =======================================
-ID: {codex_entry.get('id')}
-TITLE: {codex_entry.get('title')}
-SUMMARY: {codex_entry.get('summary', 'N/A')}
+EXPLANATION PROTOCOL:
+- Always ground your answer in the Codex contents.
+- {analogy_prompt}
+- Highlight trade-offs and best practices.
+- Assume the user is exploring this world to master its patterns.
 
-BODY (markdown):
-\"\"\"{codex_entry.get('body_markdown')}\"\"\"
-=========================================================
+USER QUESTION:
+{user_question}
+""".strip()
 
-GUIDELINES:
-1. Start by summarizing the key ideas from the Codex that are relevant.
-2. Then connect those ideas directly to the user's question.
-3. Provide concrete, practical advice: what to change, how to debug, or how to approach the problem.
-4. If something is not explicitly covered by the Codex, reason cautiously and say so instead of inventing details.
+    # General RAG / explanation mode
+    return f"""
+You are **ELARA**, the Archivist of {alias}.
+The user is the **{role}**.
 
-User question:
-{user_input}
-"""
+EXPLANATION PROTOCOL:
+- {analogy_prompt}
+- Emphasize concepts, not just code.
+- Connect the answer back to long-term skill growth.
+- Use the world's metaphors when helpful.
+
+USER QUESTION:
+{user_question}
+""".strip()
