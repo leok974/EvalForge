@@ -89,18 +89,24 @@ async def judge_boss_submission(user_id: str, encounter_id: int, code: str) -> i
     Returns a score (0-100).
     """
     from arcade_app.database import get_session
-    from arcade_app.models import BossEncounter, BossDefinition
+    from arcade_app.models import BossRun, BossDefinition
     from sqlmodel import select
 
     # Fetch Boss Definition to get Rubric
     async for session in get_session():
-        enc = await session.get(BossEncounter, encounter_id)
+        enc = await session.get(BossRun, encounter_id)
         if not enc:
             return 0
         boss = await session.get(BossDefinition, enc.boss_id)
         if not boss:
             return 0
             
+        # Mock Mode Check
+        if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
+            if "MAGIC_BOSS_PASS" in code:
+                return 100
+            return 45 # Fail but not zero
+
         # Construct Custom Prompt
         prompt = f"""
         ROLE: Senior Code Reviewer (Boss Fight Judge).
@@ -132,7 +138,6 @@ async def judge_boss_submission(user_id: str, encounter_id: int, code: str) -> i
         try:
             import vertexai
             from vertexai.generative_models import GenerativeModel
-            import os
             
             project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
             location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")

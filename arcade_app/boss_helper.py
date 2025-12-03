@@ -47,16 +47,28 @@ async def get_active_encounter(user_id: str):
         return result.scalars().first()
 
 async def resolve_boss_attempt(user_id: str, encounter_id: int, score: int):
+    from arcade_app.boss_codex_helper import on_boss_success, on_boss_failure
+    
     async for session in get_session():
         enc = await session.get(BossRun, encounter_id)
         if not enc or enc.user_id != user_id:
             raise ValueError("Unknown encounter")
 
-        # ... logic ...
-        # For now, let's just update the result
+        # Fetch Profile and BossDefinition
+        profile = (await session.exec(select(Profile).where(Profile.user_id == user_id))).first()
+        boss_def = await session.get(BossDefinition, enc.boss_id)
+        
+        # Update result
         enc.score = score
         enc.result = "win" if score >= 70 else "loss" # Simplified
         enc.completed_at = datetime.utcnow()
+        
+        # Codex Hooks
+        if profile and boss_def:
+            if enc.result == "win":
+                await on_boss_success(session, profile, boss_def)
+            else:
+                await on_boss_failure(session, profile, boss_def)
         
         await session.commit()
         await session.refresh(enc)

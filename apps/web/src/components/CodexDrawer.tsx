@@ -5,6 +5,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useGameStore } from '../store/gameStore';
 import { getProjectCodexProjects, getProjectCodexBundle, ProjectCodexSummary, ProjectCodexBundle, ProjectCodexDoc } from '../lib/projectCodexApi';
+import { BossCodexSummary, BossCodexBundle } from '../lib/bossCodexApi';
 import { TagPill } from './ui/TagPill';
 
 // Types for System Codex
@@ -40,15 +41,20 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
     const [selectedWorld, setSelectedWorld] = useState<string>('All');
 
     // Project Codex State
-    const [mode, setMode] = useState<Mode>('project-list');
-    const [selectedProject, setSelectedProject] = useState<ProjectCodexSummary | null>(null);
-    const [activeTab, setActiveTab] = useState<DocType>('overview');
-    const [projectBundle, setProjectBundle] = useState<ProjectCodexBundle | null>(null);
     const [projects, setProjects] = useState<ProjectCodexSummary[]>([]);
+    const [selectedProject, setSelectedProject] = useState<ProjectCodexSummary | null>(null);
+    const [projectBundle, setProjectBundle] = useState<ProjectCodexBundle | null>(null);
+    const [mode, setMode] = useState<Mode>('project-list');
+    const [activeTab, setActiveTab] = useState<DocType>('overview');
+
+    // Boss Codex State
+    const [bosses, setBosses] = useState<BossCodexSummary[]>([]);
+    const [selectedBossId, setSelectedBossId] = useState<string | null>(null);
+    const [bossBundle, setBossBundle] = useState<BossCodexBundle | null>(null);
 
     // Shared State
     const [loading, setLoading] = useState(false);
-    const [activeTopTab, setActiveTopTab] = useState<'system' | 'project'>('system');
+    const [activeTopTab, setActiveTopTab] = useState<'system' | 'project' | 'boss'>('system');
 
     const addXp = useGameStore((s) => s.addXp);
 
@@ -84,6 +90,45 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                 });
         }
     }, [isOpen, activeTopTab, mode]);
+
+    // Fetch Boss List
+    useEffect(() => {
+        if (isOpen && activeTopTab === 'boss') {
+            setLoading(true);
+            import('../lib/bossCodexApi').then(({ fetchBossList }) => {
+                fetchBossList()
+                    .then(data => {
+                        setBosses(data);
+                        if (data.length && !selectedBossId) {
+                            setSelectedBossId(data[0].boss_id);
+                        }
+                        setLoading(false);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        setLoading(false);
+                    });
+            });
+        }
+    }, [isOpen, activeTopTab]);
+
+    // Fetch Boss Bundle
+    useEffect(() => {
+        if (isOpen && activeTopTab === 'boss' && selectedBossId) {
+            setLoading(true);
+            import('../lib/bossCodexApi').then(({ fetchBossBundle }) => {
+                fetchBossBundle(selectedBossId)
+                    .then(data => {
+                        setBossBundle(data);
+                        setLoading(false);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        setLoading(false);
+                    });
+            });
+        }
+    }, [isOpen, activeTopTab, selectedBossId]);
 
     // Load System Codex Entry
     const loadEntry = (id: string) => {
@@ -215,6 +260,15 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                         className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${activeTopTab === 'project' ? 'text-cyan-400 border-b-2 border-cyan-500' : 'text-zinc-500 hover:text-zinc-300'}`}
                     >
                         Project Codex
+                    </button>
+                    <button
+                        onClick={() => {
+                            setActiveTopTab('boss');
+                            setSelectedBossId(null);
+                        }}
+                        className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${activeTopTab === 'boss' ? 'text-cyan-400 border-b-2 border-cyan-500' : 'text-zinc-500 hover:text-zinc-300'}`}
+                    >
+                        Boss Intel
                     </button>
                 </div>
 
@@ -379,6 +433,68 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                                 )
                             )}
                         </>
+                    )}
+
+                    {activeTopTab === 'boss' && (
+                        <div className="flex h-full">
+                            <div className="w-60 border-r border-zinc-800 pr-4 space-y-2">
+                                {bosses.map((boss) => (
+                                    <button
+                                        key={boss.boss_id}
+                                        data-testid={`boss-item-${boss.boss_id}`}
+                                        onClick={() => setSelectedBossId(boss.boss_id)}
+                                        className={`w-full text-left rounded-lg px-3 py-2 text-xs border transition-all ${boss.boss_id === selectedBossId
+                                            ? "bg-cyan-900/30 text-cyan-100 border-cyan-500/50"
+                                            : "bg-zinc-900/50 text-zinc-400 border-zinc-800 hover:border-cyan-500/30"
+                                            }`}
+                                    >
+                                        <div className="font-semibold tracking-wider">{boss.name}</div>
+                                        <div className="flex items-center justify-between mt-1 text-[10px] text-zinc-500">
+                                            <span>{boss.world_id}</span>
+                                            <span className={boss.tier_unlocked > 0 ? "text-cyan-400" : ""}>Tier {boss.tier_unlocked}/3</span>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="flex-1 pl-6 overflow-y-auto">
+                                {bossBundle && (
+                                    <div className="space-y-6">
+                                        <div className="flex items-center justify-between">
+                                            <div className="text-xs font-mono tracking-[0.2em] text-zinc-500">
+                                                BOSS INTEL – {bossBundle.boss.name.toUpperCase()}
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <TagPill variant="default">TIER {bossBundle.boss.tier_unlocked}/3</TagPill>
+                                            </div>
+                                        </div>
+
+                                        {bossBundle.docs.map((doc) => (
+                                            <div key={doc.slug} className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/20">
+                                                <div className="px-4 py-2 bg-zinc-900/50 border-b border-zinc-800 flex justify-between items-center">
+                                                    <span className="text-xs font-bold text-zinc-300">TIER {doc.tier} – {doc.title}</span>
+                                                    {!doc.unlocked && <span className="text-[10px] text-rose-500 font-mono">LOCKED</span>}
+                                                </div>
+                                                <div className="p-4">
+                                                    {doc.unlocked ? (
+                                                        <div className="prose prose-invert max-w-none text-xs leading-relaxed">
+                                                            <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
+                                                                {doc.body_md || ""}
+                                                            </ReactMarkdown>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="text-xs text-zinc-500 flex items-center gap-2">
+                                                            <span className="text-rose-400 font-mono">REDACTED.</span>
+                                                            <span>Defeat this boss or survive multiple encounters to unlock this file.</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>

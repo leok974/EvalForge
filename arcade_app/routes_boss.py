@@ -50,6 +50,15 @@ async def accept_boss(req: BossAcceptRequest, user=Depends(get_current_user)):
         raise HTTPException(status_code=401, detail="Not authenticated")
 
     enc = await create_encounter(user["id"], req.boss_id)
+    
+    # FX: Boss Spawn
+    from arcade_app.socket_manager import emit_fx_event
+    await emit_fx_event(user["id"], {
+        "type": "boss_spawn",
+        "boss_id": enc.boss_id,
+        "severity": "high",
+    })
+    
     return {
         "encounter_id": enc.id,
         "expires_at": enc.expires_at.isoformat(),
@@ -67,9 +76,24 @@ async def submit_boss(req: BossSubmitRequest, user=Depends(get_current_user)):
 
     enc, status = await resolve_boss_attempt(user["id"], req.encounter_id, score)
     
+    # FX: Boss Result
+    from arcade_app.socket_manager import emit_fx_event
+    if status == "win":
+        await emit_fx_event(user["id"], {
+            "type": "boss_result",
+            "outcome": "success",
+            "xp": 300, # TODO: fetch real XP from boss def
+        })
+    else:
+        await emit_fx_event(user["id"], {
+            "type": "boss_result",
+            "outcome": "failure",
+            "integrity_loss": 10, # TODO: fetch real penalty
+        })
+    
     return {
         "status": status,
-        "score": enc.last_score,
+        "score": enc.score,
     }
 
 

@@ -23,3 +23,23 @@ async def websocket_endpoint(websocket: WebSocket):
         print(f"WebSocket disconnected: {e}")
     finally:
         await redis.close()
+
+import json
+
+async def emit_fx_event(user_id: str, event_data: dict):
+    """
+    Publishes an event to the global game_events channel.
+    Frontend must filter by user_id if needed.
+    """
+    redis = Redis.from_url(REDIS_URL)
+    try:
+        payload = {
+            "user_id": user_id,
+            **event_data
+        }
+        try:
+            await redis.publish("game_events", json.dumps(payload))
+        except Exception as e:
+            print(f"Redis publish failed (ignoring): {e}")
+    finally:
+        await redis.close()

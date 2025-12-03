@@ -187,7 +187,7 @@ export default function DevUI() {
         {/* Center/Right: Chat Terminal OR Boss Panel */}
         <div className="lg:col-span-3 flex flex-col bg-black/40 rounded-xl border border-zinc-800 overflow-hidden shadow-inner h-full">
           {bossStatus === 'active' ? (
-            <BossPanel />
+            <BossPanel onOpenCodex={() => setIsCodexOpen(true)} />
           ) : (
             <>
               {/* Chat History */}

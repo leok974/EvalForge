@@ -77,6 +77,7 @@ class Profile(SQLModel, table=True):
     world_progress: Dict = Field(default={}, sa_type=JSON) 
     
     user: User = Relationship(back_populates="profile")
+    boss_codex_progress: List["BossCodexProgress"] = Relationship(back_populates="profile")
 
 class SkillNode(SQLModel, table=True):
     """Static definition of a skill in the Tech Tree."""
@@ -185,6 +186,8 @@ class KnowledgeChunk(SQLModel, table=True):
     source_id: str    # filename or project_id
     chunk_index: int
     
+    metadata_json: Dict = Field(default={}, sa_type=JSON)
+    
     # The Content
     content: str
     
@@ -204,6 +207,8 @@ class BossDefinition(SQLModel, table=True):
     id: str = Field(primary_key=True)  # e.g. "boss-reactor-core"
     name: str
     description: str = Field(default="")
+    technical_objective: str = Field(default="")
+    rubric: str = Field(default="")
 
     # Optional: link back into your worlds/tracks system
     world_id: Optional[str] = Field(default=None, index=True)   # e.g. "world-infra"
@@ -261,6 +266,19 @@ class BossProgress(SQLModel, table=True):
 
     last_attempt_at: datetime = Field(default_factory=datetime.utcnow)
     last_result: Optional[str] = Field(default=None)  # "win" | "loss" | "timeout"
+
+class BossCodexProgress(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    profile_id: int = Field(foreign_key="profile.id", index=True)
+    boss_id: str = Field(index=True)
+    tier_unlocked: int = Field(default=0)  # 0–3
+    deaths: int = Field(default=0)
+    wins: int = Field(default=0)
+    first_seen_at: Optional[datetime] = None
+    first_kill_at: Optional[datetime] = None
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+    profile: "Profile" = Relationship(back_populates="boss_codex_progress")
 
 # --- QUEST MODELS ---
 

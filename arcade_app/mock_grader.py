@@ -44,6 +44,17 @@ class MockGrader:
         2. Else -> Return a generic fallback score.
         """
         key = self._hash_input(user_input)
+        
+        # Magic Pass for QA
+        if "MAGIC_BOSS_PASS" in user_input:
+             return {
+                "coverage": 5,
+                "correctness": 5,
+                "clarity": 5,
+                "comment": "[MOCK] Magic Pass detected! Perfect score.",
+                "mock_lookup_hit": True
+            }
+
         case = self.lookup_table.get(key)
 
         if case:

@@ -1,6 +1,7 @@
 import os
 from sqlmodel import SQLModel, create_engine
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
 
@@ -24,8 +25,9 @@ async def init_db():
     Creates tables if they don't exist.
     """
     async with engine.begin() as conn:
-        # 1. Enable pgvector extension
-        await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        # 1. Enable pgvector extension (Postgres only)
+        if engine.dialect.name == "postgresql":
+            await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
         
         # 2. Create Tables (In production, use Alembic)
         await conn.run_sync(SQLModel.metadata.create_all)

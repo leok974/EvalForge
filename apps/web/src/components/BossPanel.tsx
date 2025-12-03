@@ -3,8 +3,13 @@ import { useBossStore } from '../store/bossStore';
 import { useGameStore } from '../store/gameStore';
 import { FX } from '../lib/fx';
 
-export function BossPanel() {
+interface Props {
+    onOpenCodex?: () => void;
+}
+
+export function BossPanel({ onOpenCodex }: Props) {
     const { status, bossId, encounterId, setBossResolved } = useBossStore();
+    console.log('BossPanel status:', status);
     const { damageIntegrity, addXp } = useGameStore();
     const [code, setCode] = useState('');
     const [submitting, setSubmitting] = useState(false);
@@ -72,6 +77,15 @@ export function BossPanel() {
                 <h3 className="text-xl font-mono">{bossData?.boss_id || 'Unknown Boss'}</h3>
                 <p className="text-sm text-red-300 opacity-80">Time is running out.</p>
             </div>
+
+            {onOpenCodex && (
+                <button
+                    onClick={onOpenCodex}
+                    className="mb-4 w-full py-2 bg-zinc-900/50 border border-zinc-700 hover:border-cyan-500 text-zinc-400 hover:text-cyan-400 text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                >
+                    <span>📖</span> Open Boss Intel
+                </button>
+            )}
 
             <div className="flex-1 flex flex-col gap-4">
                 <div className="bg-zinc-900 p-4 rounded border border-red-900/50">

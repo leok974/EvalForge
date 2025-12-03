@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type LayoutId = 'cyberdeck' | 'navigator' | 'workshop';
+export type LayoutId = 'cyberdeck' | 'navigator' | 'workshop' | 'orion';
 
 interface GameState {
     // --- Progression ---

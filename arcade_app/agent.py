@@ -180,6 +180,73 @@ class JudgeAgent(BaseAgent):
             # If the score is passing (e.g. > 60), count it as a "Completion"
             if score >= 60:
                 await process_quest_completion(user_id, world_id, score)
+
+                # --- BOSS TRIGGER CHECK ---
+                from arcade_app.boss_triggers import BossTriggerContext, maybe_trigger_boss
+                from arcade_app.boss_helper import create_encounter
+                from arcade_app.models import Profile, UserQuest, QuestDefinition
+                from arcade_app.database import get_session
+                from sqlmodel import select, desc
+
+                # We need the profile and quest details
+                # This is a bit heavy for inside the agent loop, but acceptable for MVP
+                async for session in get_session():
+                    # Get Profile
+                    profile = (await session.exec(select(Profile).where(Profile.user_id == user_id))).first()
+                    if not profile: break
+
+                    # Get the just-completed quest to build context
+                    # We assume the last completed quest for this user/track is the one we just finished
+                    # Or we can query by track_id and status='completed' order by desc
+                    uq_stmt = (
+                        select(UserQuest)
+                        .join(QuestDefinition)
+                        .where(UserQuest.user_id == user_id, QuestDefinition.track_id == track_id, UserQuest.status == "completed")
+                        .order_by(desc(UserQuest.completed_at))
+                    )
+                    last_quest = (await session.exec(uq_stmt)).first()
+                    
+                    if last_quest:
+                        # Count total completed on track
+                        completed_count = len((await session.exec(uq_stmt)).all())
+                        
+                        # Check attempts (simplified: just count all UserQuests for this track)
+                        attempts_stmt = (
+                            select(UserQuest)
+                            .join(QuestDefinition)
+                            .where(UserQuest.user_id == user_id, QuestDefinition.track_id == track_id)
+                        )
+                        attempts = len((await session.exec(attempts_stmt)).all())
+
+                        ctx = BossTriggerContext(
+                            profile=profile,
+                            world_id=world_id,
+                            track_id=track_id,
+                            quest_id=str(last_quest.id),
+                            was_boss=False, # We are in normal grading flow
+                            passed=True,    # We just checked score >= 60
+                            grade="A" if score >= 90 else "B" if score >= 80 else "C",
+                            attempts_on_track=attempts,
+                            completed_quests_on_track=completed_count
+                        )
+
+                        boss_def = await maybe_trigger_boss(ctx, session=session)
+                        if boss_def:
+                            encounter = await create_encounter(user_id, boss_def.id)
+                            # Emit Boss Spawn Event
+                            yield {
+                                "event": "boss_spawn", 
+                                "data": json.dumps({
+                                    "boss_id": boss_def.id,
+                                    "name": boss_def.name,
+                                    "difficulty": boss_def.difficulty,
+                                    "duration_seconds": boss_def.time_limit_seconds,
+                                    "hp_penalty_on_fail": 10, # Configurable
+                                    "base_xp_reward": boss_def.base_xp_reward
+                                })
+                            }
+                            yield {"event": "text_delta", "data": f"\n\n🚨 **WARNING: {boss_def.name.upper()} DETECTED** 🚨\nInitiating containment protocols..."}
+                    break
         
         # 3. Coach (Stream)
         async for token in stream_coach_feedback(user_input, grade_result, track=track_id):
@@ -283,6 +350,10 @@ from arcade_app.routes_boss import router as boss_router
 app.include_router(boss_router)
 app.include_router(avatars.router)
 
+# Boss Codex routes
+from arcade_app import routes_boss_codex
+app.include_router(routes_boss_codex.router)
+
 # Codex routes
 from arcade_app.routers import codex
 app.include_router(codex.router)
@@ -294,6 +365,10 @@ app.include_router(project_codex.router)
 # Projects routes
 from arcade_app.routers import projects
 app.include_router(projects.router)
+
+# Dev routes
+from arcade_app import routes_dev
+app.include_router(routes_dev.router)
 
 # --- 5. Missing Routes (Restored) ---
 

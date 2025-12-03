@@ -18,6 +18,9 @@ services:
       - DATABASE_URL=postgresql+asyncpg://evalforge:evalforge@db:5432/evalforge
       - REDIS_URL=redis://redis:6379/0
       - WEB_DIST=/app/static
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+    volumes:
+      - C:/Users/pierr/AppData/Roaming/gcloud/application_default_credentials.json:/app/credentials.json
     depends_on:
       db:
         condition: service_healthy

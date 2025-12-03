@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StreamContext } from '../hooks/useArcadeStream';
 import { WorldIcon } from './WorldIcon';
+import { fxEnabled } from "@/lib/featureFlags";
 
 type Track = {
     id: string;
@@ -100,7 +101,7 @@ export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: 
                 <button
                     onClick={() => setContext({ ...context, mode: 'judge' })}
                     className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === 'judge'
-                        ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
+                        ? `bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)] ${fxEnabled ? 'deck-mode-pulse' : ''}`
                         : 'text-zinc-500 hover:text-zinc-300'
                         }`}
                 >
@@ -109,7 +110,7 @@ export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: 
                 <button
                     onClick={() => setContext({ ...context, mode: 'quest' })}
                     className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === 'quest'
-                        ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
+                        ? `bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)] ${fxEnabled ? 'deck-mode-pulse' : ''}`
                         : 'text-zinc-500 hover:text-zinc-300'
                         }`}
                 >
@@ -120,7 +121,7 @@ export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: 
                 <button
                     onClick={() => hasSkill('agent_explain') && setContext({ ...context, mode: 'explain' })}
                     className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === 'explain'
-                        ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
+                        ? `bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)] ${fxEnabled ? 'deck-mode-pulse' : ''}`
                         : 'text-zinc-500 hover:text-zinc-300'
                         } ${!hasSkill('agent_explain') ? 'opacity-30 cursor-not-allowed' : ''}`}
                     title={!hasSkill('agent_explain') ? "Requires Mentor Protocol (Tier 2)" : ""}
@@ -132,7 +133,7 @@ export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: 
                 <button
                     onClick={() => hasSkill('agent_debug') && setContext({ ...context, mode: 'debug' })}
                     className={`px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded transition-all ${context.mode === 'debug'
-                        ? 'bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)]'
+                        ? `bg-cyan-900 text-cyan-300 shadow-[0_0_10px_rgba(8,145,178,0.5)] ${fxEnabled ? 'deck-mode-pulse' : ''}`
                         : 'text-zinc-500 hover:text-zinc-300'
                         } ${!hasSkill('agent_debug') ? 'opacity-30 cursor-not-allowed' : ''}`}
                     title={!hasSkill('agent_debug') ? "Requires Debug Routine (Tier 3)" : ""}
