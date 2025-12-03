@@ -278,13 +278,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Import and register routers
 from arcade_app.routes_boss import router as boss_router
 app.include_router(boss_router)
 app.include_router(avatars.router)
 
+# Codex routes
 from arcade_app.routers import codex
 app.include_router(codex.router)
 
+# Project Codex routes
+from arcade_app.routers import project_codex
+app.include_router(project_codex.router)
+
+# Projects routes
 from arcade_app.routers import projects
 app.include_router(projects.router)
 

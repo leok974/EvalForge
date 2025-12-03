@@ -137,9 +137,45 @@ class Project(SQLModel, table=True):
     sync_status: str = "pending"
     last_sync_at: Optional[datetime] = None
     
+    # Project Codex Status
+    codex_status: str = Field(default="pending")  # pending, partial, complete, missing_docs
+    codex_warnings: List[str] = Field(default_factory=list, sa_type=JSON)
+    codex_last_sync: Optional[datetime] = None
+    
     owner: User = Relationship(back_populates="projects")
+    codex_docs: List["ProjectCodexDoc"] = Relationship(back_populates="project")
 
 # --- KNOWLEDGE & RAG ---
+
+class ProjectCodexDoc(SQLModel, table=True):
+    """
+    Structured documentation for a project, organized by doc_type.
+    Auto-generated from repo files during sync.
+    """
+    __tablename__ = "projectcodexdoc"
+    
+    id: Optional[int] = Field(default=None, primary_key=True)
+    project_id: str = Field(foreign_key="project.id", index=True)
+    doc_type: str = Field(index=True)  # overview, architecture, data_model, infra, observability, agents, quest_hooks
+    
+    # Content
+    title: str
+    summary: str  # 1-2 line TL;DR
+    body_md: str  # Full markdown with YAML frontmatter
+    
+    # Metadata (parsed from frontmatter)
+    world_ids: List[str] = Field(default_factory=list, sa_type=JSON)
+    level: int = Field(default=2)  # Difficulty tier 1-5
+    tags: List[str] = Field(default_factory=list, sa_type=JSON)
+    metadata_json: Dict = Field(default_factory=dict, sa_type=JSON)
+    
+    # Tracking
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    auto_generated: bool = Field(default=True)  # False if manually edited
+    
+    # Relationships
+    project: "Project" = Relationship(back_populates="codex_docs")
 
 class KnowledgeChunk(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

@@ -4,6 +4,14 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
 
+# Import all models to ensure they're registered in SQLModel.metadata
+# This must happen before init_db() is called
+from arcade_app.models import (
+    User, Profile, Project, ProjectCodexDoc, KnowledgeChunk,
+    BossDefinition, BossRun, BossProgress, QuestDefinition, UserQuest,
+    SkillNode, UserSkill, AvatarDefinition, ChatSession
+)
+
 # Default to localhost if running outside docker, else use docker service name
 # Note: For local dev (outside docker), you might need to change 'db' to 'localhost' in the URL
 # or map 127.0.0.1 to db in hosts file.
