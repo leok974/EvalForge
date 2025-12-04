@@ -17,15 +17,15 @@ try:
     )
     # "text-embedding-004" is the current best-in-class for RAG
     embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-004")
-    print("✅ Vertex AI Embeddings initialized")
+    # print("✅ Vertex AI Embeddings initialized")
 except Exception as e:
-    print(f"⚠️ Vertex AI Embeddings not available: {e}")
+    # print(f"⚠️ Vertex AI Embeddings not available: {e}")
     embedding_model = None
 
 async def generate_embedding(text_chunk: str) -> List[float]:
     """Generates a 768-dim vector for the input text."""
     if not embedding_model: 
-        print("⚠️ Using mock embeddings (Vertex AI not configured)")
+        # print("⚠️ Using mock embeddings (Vertex AI not configured)")
         return [0.0] * 768 # Mock fallback
     
     # Vertex API call
@@ -62,7 +62,7 @@ async def index_content(source_type: str, source_id: str, content: str):
             session.add(entry)
         
         await session.commit()
-        print(f"✅ Indexed {len(chunks)} chunks for {source_id}")
+        # print(f"✅ Indexed {len(chunks)} chunks for {source_id}")
 
 async def search_knowledge(query: str, limit: int = 3) -> List[str]:
     """

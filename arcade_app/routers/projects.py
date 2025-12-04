@@ -47,3 +47,51 @@ async def sync_project_endpoint(
     background_tasks.add_task(sync_project, project_id)
     
     return {"status": "sync_started", "project_id": project_id}
+
+
+@router.post("/{project_slug}/questline/generate")
+async def generate_project_questline_endpoint(
+    project_slug: str,
+    current_user: Dict = Depends(get_current_user)
+):
+    """
+    Generate a project-specific questline using QuestMaster.
+    For ApplyLens, set QUESTMASTER_GOLDEN_APPLYLENS=1 to use the golden spec.
+    """
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    from arcade_app.database import get_session
+    from arcade_app.models import Project
+    from arcade_app.questmaster import generate_project_questline
+    from arcade_app.project_questline_apply import apply_project_questline_spec
+    from sqlmodel import select
+    
+    async for session in get_session():
+        # Find project
+        project = (await session.exec(
+            select(Project).where(
+                Project.slug == project_slug,
+                Project.owner_user_id == current_user["id"]
+            )
+        )).first()
+        
+        if not project:
+            raise HTTPException(status_code=404, detail="Project not found")
+        
+        # Generate questline spec
+        try:
+            spec = generate_project_questline(session, project)
+        except NotImplementedError as e:
+            raise HTTPException(status_code=501, detail=str(e))
+        
+        # Apply to database
+        def apply_sync(conn):
+            from sqlmodel import Session
+            sync_session = Session(bind=conn)
+            apply_project_questline_spec(sync_session, spec)
+        
+        async with session.begin() as conn:
+            await conn.run_sync(apply_sync)
+        
+        return spec.dict()

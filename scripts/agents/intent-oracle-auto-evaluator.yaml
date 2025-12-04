@@ -1,0 +1,52 @@
+name: intent-oracle-auto-evaluator
+description: >
+  Clone a repo, optionally generate a planner implementation, and evaluate it
+  against the EvalForge Intent Oracle boss.
+
+entry:
+  kind: process
+  command:
+    - python
+    - scripts/agents/run_intent_oracle_auto_eval.py
+
+env:
+  EVALFORGE_BASE_URL: "${BASE_URL}"
+  EVALFORGE_API_TOKEN: "${API_TOKEN}"
+  REPO_URL: "${REPO_URL}"
+  REPO_BRANCH: "${BRANCH}"
+  PLANNER_REL_PATH: "${PLANNER_REL_PATH}"
+  PLANNER_GENERATOR: "${PLANNER_GENERATOR}"
+
+inputs:
+  BASE_URL:
+    description: EvalForge backend base URL
+    required: true
+  API_TOKEN:
+    description: EvalForge API token allowed to call boss endpoints
+    required: true
+  REPO_URL:
+    description: Git repository URL containing the planner source or generator
+    required: true
+  BRANCH:
+    description: Optional branch name to checkout
+    required: false
+    default: ""
+  PLANNER_REL_PATH:
+    description: Relative path inside the repo to the candidate planner
+    required: false
+    default: scripts/agents/candidate_planner.py
+  PLANNER_GENERATOR:
+    description: >
+      Optional shell command to generate the planner file. May contain
+      {PLANNER_REL_PATH} placeholder. If empty, repo is assumed to already
+      contain the planner file.
+    required: false
+    default: ""
+
+outputs:
+  output:
+    description: JSON printed by run_intent_oracle_auto_eval.py
+    from: stdout.json
+  logs:
+    description: Raw logs from the process
+    from: stderr.text

@@ -6,6 +6,7 @@ import { SettingsModal } from '../components/SettingsModal';
 import { AvatarSelector } from '../components/AvatarSelector';
 import { BossHud } from '../components/BossHud';
 import { BossHistoryPanel } from '../components/BossHistoryPanel';
+import { PracticeGauntletCard } from '../components/practice/PracticeGauntletCard';
 import {
     Terminal,
     Layout,
@@ -160,9 +161,9 @@ export function CyberdeckLayout({ children }: Props) {
             {/* --- MAIN CONTENT --- */}
             <div className="flex-1 flex overflow-hidden">
 
-                {/* Left Sidebar (Optional, for now just a placeholder or navigation) */}
+                {/* Left Sidebar */}
                 <aside className="w-64 border-r border-zinc-800 bg-zinc-900/30 hidden lg:flex flex-col">
-                    <div className="p-4 space-y-6">
+                    <div className="p-4 space-y-6 flex-1 overflow-y-auto">
 
                         <div>
                             <div className={`text-[9px] uppercase tracking-widest text-zinc-600 mb-2 font-bold ${crtMode ? 'crt-aberration' : ''}`}>
@@ -189,6 +190,11 @@ export function CyberdeckLayout({ children }: Props) {
                         {/* Boss History */}
                         <div>
                             <BossHistoryPanel />
+                        </div>
+
+                        {/* Practice Gauntlet */}
+                        <div>
+                            <PracticeGauntletCard />
                         </div>
 
                     </div>

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Optional
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from .models import Profile, BossDefinition, BossRun, UserQuest, QuestDefinition
+from .models import Profile, BossDefinition, BossRun, QuestProgress, QuestDefinition, QuestState
 
 @dataclass
 class BossTriggerContext:
@@ -107,14 +107,13 @@ async def _cooldown_ok(profile: Profile, track_id: str, cooldown_quests: int, se
 
         # Count normal quests since then
         quest_stmt = (
-            select(UserQuest)
+            select(QuestProgress)
             .join(QuestDefinition)
             .where(
-                UserQuest.user_id == profile.user_id,
+                QuestProgress.user_id == profile.user_id,
                 QuestDefinition.track_id == track_id,
-                UserQuest.status == "completed",
-                UserQuest.completed_at > last_boss.started_at,
-                QuestDefinition.boss == False
+                QuestProgress.state.in_([QuestState.COMPLETED, QuestState.MASTERED]),
+                QuestProgress.completed_at > last_boss.started_at
             )
         )
         normal_since = len((await s.exec(quest_stmt)).all())

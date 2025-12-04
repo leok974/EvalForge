@@ -9,6 +9,7 @@ interface GameState {
     level: number;
     activeQuestId: string | null;
     integrity: number;
+    bossesUnlocked: string[];
 
     // --- Interface ---
     layout: LayoutId;
@@ -18,6 +19,7 @@ interface GameState {
     addXp: (amount: number) => void;
     damageIntegrity: (amount: number) => void;
     restoreIntegrity: () => void;
+    setBossesUnlocked: (bosses: string[]) => void;
     // We can add triggerBoss() or completeQuest() here later
 }
 
@@ -30,6 +32,7 @@ export const useGameStore = create<GameState>()(
             activeQuestId: null,
             layout: 'cyberdeck',
             integrity: 100,
+            bossesUnlocked: [],
 
             // Actions
             setLayout: (layout) => set({ layout }),
@@ -46,6 +49,8 @@ export const useGameStore = create<GameState>()(
             })),
 
             restoreIntegrity: () => set({ integrity: 100 }),
+
+            setBossesUnlocked: (bosses) => set({ bossesUnlocked: bosses }),
         }),
         { name: 'evalforge-save-data' } // LocalStorage key
     )

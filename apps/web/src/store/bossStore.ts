@@ -19,6 +19,7 @@ export interface BossResultPayload {
     breakdown: Record<string, number>;
     xp_awarded: number;
     integrity_delta: number;
+    boss_hp_delta?: number;
     // Adaptive hint system
     fail_streak?: number;
     hint_codex_id?: string;
@@ -34,6 +35,10 @@ interface BossState {
     // Local mirror of HP – server is canonical, but this drives the HUD.
     integrityCurrent: number;
     integrityMax: number;
+
+    // Boss HP
+    bossHpCurrent: number;
+    bossHpMax: number;
 
     // Boss timer deadline (epoch ms)
     deadlineTs: number | null;
@@ -64,6 +69,8 @@ export const useBossStore = create<BossState>((set, get) => ({
     lastResult: null,
     integrityCurrent: 100,
     integrityMax: 100,
+    bossHpCurrent: 100,
+    bossHpMax: 100,
     deadlineTs: null,
     hintCodexId: null,
     hintUnread: false,
@@ -86,21 +93,31 @@ export const useBossStore = create<BossState>((set, get) => ({
             // Reset hint state on new fight
             hintCodexId: null,
             hintUnread: false,
+            // Reset Boss HP (assume 100 for now, or could be in payload)
+            bossHpCurrent: 100,
+            bossHpMax: 100,
         });
     },
 
     applyBossResult: (result) => {
-        const { integrityCurrent, integrityMax } = get();
-        const nextHp = Math.max(
+        const { integrityCurrent, integrityMax, bossHpCurrent, bossHpMax } = get();
+
+        const nextIntegrity = Math.max(
             0,
             Math.min(integrityMax, integrityCurrent + (result.integrity_delta ?? 0)),
+        );
+
+        const nextBossHp = Math.max(
+            0,
+            Math.min(bossHpMax, bossHpCurrent + (result.boss_hp_delta ?? 0)),
         );
 
         const update: Partial<BossState> = {
             lastResult: result,
             status: result.passed ? 'defeated' : 'failed',
             activeBossId: null,
-            integrityCurrent: nextHp,
+            integrityCurrent: nextIntegrity,
+            bossHpCurrent: nextBossHp,
             deadlineTs: null,
         };
 

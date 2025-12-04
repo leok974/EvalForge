@@ -14,6 +14,8 @@ export function BossHud() {
         lastResult,
         integrityCurrent,
         integrityMax,
+        bossHpCurrent,
+        bossHpMax,
         deadlineTs,
         timeoutBoss,
         hintCodexId,
@@ -23,6 +25,56 @@ export function BossHud() {
 
     const layout = useGameStore((s) => s.layout);
     const [now, setNow] = useState(() => Date.now());
+
+    // 🔹 Combat State Tracking
+    const [displayLastIntegrity, setDisplayLastIntegrity] = useState<number | null>(null);
+    const [integrityDelta, setIntegrityDelta] = useState<number | null>(null);
+
+    const [displayLastBossHp, setDisplayLastBossHp] = useState<number | null>(null);
+    const [bossHpDelta, setBossHpDelta] = useState<number | null>(null);
+
+    // Track integrity changes
+    // We use a ref to track the "previous stable" value to calculate deltas against,
+    // but we use state (displayLastIntegrity) to show it in the UI.
+    const [prevIntegrityRef, setPrevIntegrityRef] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (integrityCurrent == null) return;
+
+        // Initialize
+        if (prevIntegrityRef === null) {
+            setPrevIntegrityRef(integrityCurrent);
+            return;
+        }
+
+        if (integrityCurrent !== prevIntegrityRef) {
+            const delta = integrityCurrent - prevIntegrityRef;
+            setIntegrityDelta(delta);
+            setDisplayLastIntegrity(prevIntegrityRef); // Show what it WAS
+            setPrevIntegrityRef(integrityCurrent); // Update reference to NOW
+        }
+    }, [integrityCurrent, prevIntegrityRef]);
+
+    // Track boss HP changes
+    const [prevBossHpRef, setPrevBossHpRef] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (bossHpCurrent == null) return;
+
+        // Initialize
+        if (prevBossHpRef === null) {
+            setPrevBossHpRef(bossHpCurrent);
+            return;
+        }
+
+        if (bossHpCurrent !== prevBossHpRef) {
+            const delta = bossHpCurrent - prevBossHpRef;
+            setBossHpDelta(delta);
+            setDisplayLastBossHp(prevBossHpRef);
+            setPrevBossHpRef(bossHpCurrent);
+        }
+    }, [bossHpCurrent, prevBossHpRef]);
+
 
     // Timer tick
     useEffect(() => {
@@ -71,10 +123,16 @@ export function BossHud() {
         return 'bg-zinc-900/80 border-cyan-500/40';
     }, [status, remainingSeconds]);
 
-    const hpPercent = (integrityCurrent / integrityMax) * 100;
+    const integrityPercent = (integrityCurrent / integrityMax) * 100;
+    const bossHpPercent = (bossHpCurrent / bossHpMax) * 100;
 
-    // Hide completely if nothing boss-related is happening
-    if (status === 'idle' && !activeBossId && !lastResult) {
+    const bossesUnlocked = useGameStore((s) => s.bossesUnlocked);
+
+    // Hide completely if nothing boss-related is happening AND no bosses are unlocked
+    // If a boss is unlocked, we want to show a "Ready" state (unless we are in a specific layout that hides it?)
+    const showReadyState = status === 'idle' && !activeBossId && !lastResult && bossesUnlocked.length > 0;
+
+    if (status === 'idle' && !activeBossId && !lastResult && !showReadyState) {
         return null;
     }
 
@@ -94,6 +152,7 @@ export function BossHud() {
         <div className="pointer-events-none fixed top-4 inset-x-0 z-40 flex justify-center px-4">
             <div
                 className={`pointer-events-auto w-full max-w-3xl rounded-2xl border ${urgencyClass} shadow-xl shadow-black/60 backdrop-blur-md p-4 space-y-3`}
+                data-testid="boss-hud"
             >
                 {/* Header Row */}
                 <div className="flex items-center justify-between gap-3">
@@ -102,13 +161,15 @@ export function BossHud() {
                             <ShieldCheck className="w-5 h-5 text-emerald-400" />
                         ) : status === 'failed' ? (
                             <Skull className="w-5 h-5 text-red-400" />
+                        ) : showReadyState ? (
+                            <AlertTriangle className="w-5 h-5 text-cyan-400 animate-pulse" />
                         ) : (
                             <AlertTriangle className="w-5 h-5 text-amber-300" />
                         )}
                         <div className="flex flex-col">
                             <div className="flex items-center gap-2">
                                 <span className="text-xs uppercase tracking-[0.25em] text-zinc-400 font-mono">
-                                    {activeBossId || lastResult?.boss_id || 'Boss Protocol'}
+                                    {activeBossId || lastResult?.boss_id || (showReadyState ? 'BOSS DETECTED' : 'Boss Protocol')}
                                 </span>
                                 {difficulty && (
                                     <span className={`px-2 py-0.5 rounded-full text-[9px] uppercase tracking-widest ${difficulty === 'hard'
@@ -116,6 +177,11 @@ export function BossHud() {
                                         : 'bg-emerald-900/70 text-emerald-200'
                                         }`}>
                                         {difficulty}
+                                    </span>
+                                )}
+                                {showReadyState && (
+                                    <span className="px-2 py-0.5 rounded-full text-[9px] uppercase tracking-widest bg-cyan-900/70 text-cyan-200">
+                                        READY
                                     </span>
                                 )}
                             </div>
@@ -126,7 +192,9 @@ export function BossHud() {
                                         ? 'Boss defeated. Systems stabilizing.'
                                         : status === 'failed'
                                             ? 'Boss escaped. Integrity compromised.'
-                                            : 'Boss encounter resolved.')}
+                                            : showReadyState
+                                                ? 'Anomaly detected. Engagement authorized.'
+                                                : 'Boss encounter resolved.')}
                             </span>
                         </div>
                     </div>
@@ -164,34 +232,89 @@ export function BossHud() {
                     </div>
                 </div>
 
-                {/* HP Bar + Score */}
-                <div className="flex flex-col md:flex-row gap-3 md:items-center">
-                    {/* HP Bar */}
-                    <div className="flex-1">
-                        <div className="flex justify-between text-[10px] text-zinc-400 font-mono mb-1">
-                            <span>SYSTEM INTEGRITY</span>
-                            <span>
-                                {integrityCurrent}/{integrityMax}
-                            </span>
+                {/* Bars Container - Hide in Ready state */}
+                {!showReadyState && (
+                    <div className="flex flex-col gap-2">
+                        {/* Boss HP Bar */}
+                        <div className="flex flex-col gap-1">
+                            <div className="flex justify-between text-[10px] text-zinc-400 font-mono">
+                                <span>BOSS HP</span>
+                                <span>{bossHpCurrent}/{bossHpMax}</span>
+                            </div>
+                            <div className="w-full h-2 rounded-full bg-zinc-900 overflow-hidden border border-zinc-700/80">
+                                <div
+                                    className="h-full bg-rose-500 transition-all duration-500"
+                                    style={{ width: `${Math.max(0, Math.min(100, bossHpPercent))}%` }}
+                                />
+                            </div>
                         </div>
-                        <div className="w-full h-3 rounded-full bg-zinc-900 overflow-hidden border border-zinc-700/80">
-                            <div
-                                className={`h-full transition-all duration-500 ${hpPercent > 60
-                                    ? 'bg-emerald-400'
-                                    : hpPercent > 30
-                                        ? 'bg-amber-400'
-                                        : 'bg-red-500'
-                                    }`}
-                                style={{ width: `${Math.max(0, Math.min(100, hpPercent))}%` }}
-                            />
+
+                        {/* Integrity Bar */}
+                        <div className="flex flex-col gap-1">
+                            <div className="flex justify-between text-[10px] text-zinc-400 font-mono">
+                                <span>SYSTEM INTEGRITY</span>
+                                <span>{integrityCurrent}/{integrityMax}</span>
+                            </div>
+                            <div className="w-full h-2 rounded-full bg-zinc-900 overflow-hidden border border-zinc-700/80">
+                                <div
+                                    className={`h-full transition-all duration-500 ${integrityPercent > 60
+                                        ? 'bg-emerald-400'
+                                        : integrityPercent > 30
+                                            ? 'bg-amber-400'
+                                            : 'bg-red-500'
+                                        }`}
+                                    style={{ width: `${Math.max(0, Math.min(100, integrityPercent))}%` }}
+                                />
+                            </div>
                         </div>
                     </div>
+                )}
 
-                    {/* Score / Outcome */}
-                    {lastResult && (
-                        <div className="md:w-40 flex flex-col items-end gap-1">
+                {/* 🔹 Combat Summary (Deltas) - Hide in Ready state */}
+                {!showReadyState && (integrityDelta !== null || bossHpDelta !== null) && (
+                    <div className="mt-2 rounded-xl border border-slate-700/70 bg-slate-950/80 px-2.5 py-2 text-[10px] text-slate-200" data-testid="boss-hud-combat-summary">
+                        <div className="flex items-center justify-between gap-3">
+                            {integrityDelta !== null && displayLastIntegrity !== null && (
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] uppercase tracking-[0.16em] text-slate-400">
+                                        Integrity
+                                    </span>
+                                    <span className="text-[11px] font-medium">
+                                        {displayLastIntegrity} <span className="text-slate-500">→</span> {integrityCurrent}
+                                        {integrityDelta !== 0 && (
+                                            <span className={integrityDelta < 0 ? "ml-1 text-rose-300" : "ml-1 text-emerald-300"}>
+                                                ({integrityDelta > 0 ? "+" : ""}{integrityDelta})
+                                            </span>
+                                        )}
+                                    </span>
+                                </div>
+                            )}
+
+                            {bossHpDelta !== null && displayLastBossHp !== null && (
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] uppercase tracking-[0.16em] text-slate-400">
+                                        Boss HP
+                                    </span>
+                                    <span className="text-[11px] font-medium">
+                                        {displayLastBossHp} <span className="text-slate-500">→</span> {bossHpCurrent}
+                                        {bossHpDelta !== 0 && (
+                                            <span className={bossHpDelta < 0 ? "ml-1 text-emerald-300" : "ml-1 text-amber-300"}>
+                                                ({bossHpDelta > 0 ? "+" : ""}{bossHpDelta})
+                                            </span>
+                                        )}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {/* Score / Outcome (if finished) */}
+                {lastResult && (
+                    <div className="flex justify-end border-t border-zinc-800 pt-2 mt-2">
+                        <div className="flex items-center gap-3">
                             <span className="text-[10px] font-mono text-zinc-400">
-                                BOSS SCORE
+                                FINAL SCORE
                             </span>
                             <span
                                 className={`text-lg font-mono ${isWin ? 'text-emerald-300' : 'text-red-300'
@@ -203,18 +326,6 @@ export function BossHud() {
                                 {isWin ? 'DEFEATED' : 'FAILED'}
                             </span>
                         </div>
-                    )}
-                </div>
-
-                {/* Breakdown (optional, compact) */}
-                {lastResult?.breakdown && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 text-[10px] text-zinc-400 font-mono mt-1">
-                        {Object.entries(lastResult.breakdown).map(([k, v]) => (
-                            <div key={k} className="flex justify-between">
-                                <span className="truncate">{k}</span>
-                                <span className="text-zinc-200 ml-2">{v}</span>
-                            </div>
-                        ))}
                     </div>
                 )}
             </div>

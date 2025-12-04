@@ -1,0 +1,925 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1 item
+
+tests\backend\test_boss_combat_regression.py 2025-12-03 20:17:36,388 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,389 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-12-03 20:17:36,389 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,390 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("avatardefinition")
+2025-12-03 20:17:36,390 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,390 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-12-03 20:17:36,390 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,391 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("user")
+2025-12-03 20:17:36,391 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,392 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chatsession")
+2025-12-03 20:17:36,392 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,392 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("chatsession")
+2025-12-03 20:17:36,393 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,393 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-12-03 20:17:36,393 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,394 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("profile")
+2025-12-03 20:17:36,394 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,394 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("skillnode")
+2025-12-03 20:17:36,394 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,395 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("skillnode")
+2025-12-03 20:17:36,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,396 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userskill")
+2025-12-03 20:17:36,396 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,397 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("userskill")
+2025-12-03 20:17:36,397 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,397 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-12-03 20:17:36,398 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,398 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("usermetric")
+2025-12-03 20:17:36,398 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,399 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-12-03 20:17:36,399 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,399 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("badgedefinition")
+2025-12-03 20:17:36,399 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,400 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-12-03 20:17:36,400 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,401 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("userbadge")
+2025-12-03 20:17:36,401 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,402 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-12-03 20:17:36,402 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,402 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("project")
+2025-12-03 20:17:36,402 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,403 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("projectcodexdoc")
+2025-12-03 20:17:36,403 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,403 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("projectcodexdoc")
+2025-12-03 20:17:36,403 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,404 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-12-03 20:17:36,404 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,405 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("knowledgechunk")
+2025-12-03 20:17:36,405 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,406 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossdefinition")
+2025-12-03 20:17:36,406 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,406 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("bossdefinition")
+2025-12-03 20:17:36,406 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,407 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossrun")
+2025-12-03 20:17:36,407 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,408 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("bossrun")
+2025-12-03 20:17:36,408 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,408 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossprogress")
+2025-12-03 20:17:36,408 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,409 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("bossprogress")
+2025-12-03 20:17:36,409 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,409 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bosscodexprogress")
+2025-12-03 20:17:36,409 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,410 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("bosscodexprogress")
+2025-12-03 20:17:36,410 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,410 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("trackdefinition")
+2025-12-03 20:17:36,410 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,411 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("trackdefinition")
+2025-12-03 20:17:36,411 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,411 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("questdefinition")
+2025-12-03 20:17:36,411 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,412 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("questdefinition")
+2025-12-03 20:17:36,412 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,412 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userquest")
+2025-12-03 20:17:36,412 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,413 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("userquest")
+2025-12-03 20:17:36,413 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,414 INFO sqlalchemy.engine.Engine 
+CREATE TABLE avatardefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	required_level INTEGER NOT NULL, 
+	rarity VARCHAR NOT NULL, 
+	visual_type VARCHAR NOT NULL, 
+	visual_data VARCHAR NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-03 20:17:36,414 INFO sqlalchemy.engine.Engine [no key 0.00012s] ()
+2025-12-03 20:17:36,420 INFO sqlalchemy.engine.Engine 
+CREATE TABLE skillnode (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	tier INTEGER NOT NULL, 
+	cost INTEGER NOT NULL, 
+	category VARCHAR NOT NULL, 
+	feature_key VARCHAR NOT NULL, 
+	parent_id VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(parent_id) REFERENCES skillnode (id)
+)
+
+
+2025-12-03 20:17:36,420 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,425 INFO sqlalchemy.engine.Engine 
+CREATE TABLE badgedefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	icon_url VARCHAR, 
+	xp_bonus INTEGER NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-03 20:17:36,425 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,431 INFO sqlalchemy.engine.Engine 
+CREATE TABLE knowledgechunk (
+	id INTEGER NOT NULL, 
+	source_type VARCHAR NOT NULL, 
+	source_id VARCHAR NOT NULL, 
+	chunk_index INTEGER NOT NULL, 
+	metadata_json JSON NOT NULL, 
+	content VARCHAR NOT NULL, 
+	embedding VECTOR(768), 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-03 20:17:36,431 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-12-03 20:17:36,436 INFO sqlalchemy.engine.Engine 
+CREATE TABLE bossdefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	technical_objective VARCHAR NOT NULL, 
+	rubric VARCHAR NOT NULL, 
+	starting_code VARCHAR NOT NULL, 
+	world_id VARCHAR, 
+	track_id VARCHAR, 
+	time_limit_seconds INTEGER NOT NULL, 
+	max_hp INTEGER NOT NULL, 
+	base_xp_reward INTEGER NOT NULL, 
+	difficulty VARCHAR NOT NULL, 
+	hint_codex_id VARCHAR, 
+	enabled BOOLEAN NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-03 20:17:36,437 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,442 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossdefinition_track_id ON bossdefinition (track_id)
+2025-12-03 20:17:36,442 INFO sqlalchemy.engine.Engine [no key 0.00011s] ()
+2025-12-03 20:17:36,447 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossdefinition_world_id ON bossdefinition (world_id)
+2025-12-03 20:17:36,447 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-03 20:17:36,452 INFO sqlalchemy.engine.Engine 
+CREATE TABLE trackdefinition (
+	id VARCHAR NOT NULL, 
+	world_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	order_index INTEGER NOT NULL, 
+	boss_slug VARCHAR, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-03 20:17:36,452 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-03 20:17:36,457 INFO sqlalchemy.engine.Engine CREATE INDEX ix_trackdefinition_world_id ON trackdefinition (world_id)
+2025-12-03 20:17:36,457 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-12-03 20:17:36,463 INFO sqlalchemy.engine.Engine 
+CREATE TABLE questdefinition (
+	id VARCHAR NOT NULL, 
+	track_id VARCHAR NOT NULL, 
+	sequence_order INTEGER NOT NULL, 
+	tier INTEGER NOT NULL, 
+	xp_reward INTEGER NOT NULL, 
+	title VARCHAR NOT NULL, 
+	technical_objective VARCHAR NOT NULL, 
+	rubric_hints VARCHAR NOT NULL, 
+	boss BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-03 20:17:36,464 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,469 INFO sqlalchemy.engine.Engine CREATE INDEX ix_questdefinition_track_id ON questdefinition (track_id)
+2025-12-03 20:17:36,469 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,474 INFO sqlalchemy.engine.Engine 
+CREATE TABLE user (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	avatar_url VARCHAR, 
+	current_avatar_id VARCHAR NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(current_avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+2025-12-03 20:17:36,474 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-03 20:17:36,480 INFO sqlalchemy.engine.Engine 
+CREATE TABLE chatsession (
+	id VARCHAR NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	mode VARCHAR NOT NULL, 
+	world_id VARCHAR, 
+	track_id VARCHAR, 
+	history JSON NOT NULL, 
+	state JSON NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-12-03 20:17:36,480 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,485 INFO sqlalchemy.engine.Engine CREATE INDEX ix_chatsession_user_id ON chatsession (user_id)
+2025-12-03 20:17:36,485 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,491 INFO sqlalchemy.engine.Engine 
+CREATE TABLE profile (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	total_xp INTEGER NOT NULL, 
+	global_level INTEGER NOT NULL, 
+	skill_points INTEGER NOT NULL, 
+	world_progress JSON NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-12-03 20:17:36,491 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,497 INFO sqlalchemy.engine.Engine 
+CREATE TABLE userskill (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	skill_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(skill_id) REFERENCES skillnode (id)
+)
+
+
+2025-12-03 20:17:36,497 INFO sqlalchemy.engine.Engine [no key 0.00024s] ()
+2025-12-03 20:17:36,503 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userskill_user_id ON userskill (user_id)
+2025-12-03 20:17:36,503 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-12-03 20:17:36,509 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userskill_skill_id ON userskill (skill_id)
+2025-12-03 20:17:36,509 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,518 INFO sqlalchemy.engine.Engine 
+CREATE TABLE usermetric (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	metric_key VARCHAR NOT NULL, 
+	value INTEGER NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-12-03 20:17:36,518 INFO sqlalchemy.engine.Engine [no key 0.00021s] ()
+2025-12-03 20:17:36,524 INFO sqlalchemy.engine.Engine CREATE INDEX ix_usermetric_user_id ON usermetric (user_id)
+2025-12-03 20:17:36,524 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,530 INFO sqlalchemy.engine.Engine 
+CREATE TABLE userbadge (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	badge_id VARCHAR NOT NULL, 
+	awarded_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(badge_id) REFERENCES badgedefinition (id)
+)
+
+
+2025-12-03 20:17:36,530 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,535 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userbadge_user_id ON userbadge (user_id)
+2025-12-03 20:17:36,536 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,541 INFO sqlalchemy.engine.Engine 
+CREATE TABLE project (
+	id VARCHAR NOT NULL, 
+	owner_user_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	repo_url VARCHAR NOT NULL, 
+	provider VARCHAR NOT NULL, 
+	source VARCHAR NOT NULL, 
+	default_world_id VARCHAR NOT NULL, 
+	summary_data JSON NOT NULL, 
+	sync_status VARCHAR NOT NULL, 
+	last_sync_at DATETIME, 
+	codex_status VARCHAR NOT NULL, 
+	codex_warnings JSON NOT NULL, 
+	codex_last_sync DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(owner_user_id) REFERENCES user (id)
+)
+
+
+2025-12-03 20:17:36,541 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,548 INFO sqlalchemy.engine.Engine 
+CREATE TABLE bossrun (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	started_at DATETIME NOT NULL, 
+	expires_at DATETIME NOT NULL, 
+	completed_at DATETIME, 
+	result VARCHAR, 
+	score INTEGER NOT NULL, 
+	hp_remaining INTEGER NOT NULL, 
+	judge_trace_id VARCHAR, 
+	notes VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(boss_id) REFERENCES bossdefinition (id)
+)
+
+
+2025-12-03 20:17:36,548 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,554 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossrun_boss_id ON bossrun (boss_id)
+2025-12-03 20:17:36,554 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,560 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossrun_user_id ON bossrun (user_id)
+2025-12-03 20:17:36,560 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,566 INFO sqlalchemy.engine.Engine 
+CREATE TABLE bossprogress (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	fail_streak INTEGER NOT NULL, 
+	highest_hint_level INTEGER NOT NULL, 
+	last_attempt_at DATETIME NOT NULL, 
+	last_result VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(boss_id) REFERENCES bossdefinition (id)
+)
+
+
+2025-12-03 20:17:36,566 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,572 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossprogress_boss_id ON bossprogress (boss_id)
+2025-12-03 20:17:36,572 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,578 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossprogress_user_id ON bossprogress (user_id)
+2025-12-03 20:17:36,578 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,584 INFO sqlalchemy.engine.Engine 
+CREATE TABLE userquest (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	source VARCHAR(12) NOT NULL, 
+	quest_def_id VARCHAR, 
+	status VARCHAR NOT NULL, 
+	started_at DATETIME NOT NULL, 
+	completed_at DATETIME, 
+	dynamic_objective VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(quest_def_id) REFERENCES questdefinition (id)
+)
+
+
+2025-12-03 20:17:36,584 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-12-03 20:17:36,589 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userquest_user_id ON userquest (user_id)
+2025-12-03 20:17:36,590 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-03 20:17:36,596 INFO sqlalchemy.engine.Engine 
+CREATE TABLE projectcodexdoc (
+	id INTEGER NOT NULL, 
+	project_id VARCHAR NOT NULL, 
+	doc_type VARCHAR NOT NULL, 
+	title VARCHAR NOT NULL, 
+	summary VARCHAR NOT NULL, 
+	body_md VARCHAR NOT NULL, 
+	world_ids JSON NOT NULL, 
+	level INTEGER NOT NULL, 
+	tags JSON NOT NULL, 
+	metadata_json JSON NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	auto_generated BOOLEAN NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(project_id) REFERENCES project (id)
+)
+
+
+2025-12-03 20:17:36,596 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,602 INFO sqlalchemy.engine.Engine CREATE INDEX ix_projectcodexdoc_doc_type ON projectcodexdoc (doc_type)
+2025-12-03 20:17:36,603 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-03 20:17:36,608 INFO sqlalchemy.engine.Engine CREATE INDEX ix_projectcodexdoc_project_id ON projectcodexdoc (project_id)
+2025-12-03 20:17:36,608 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,614 INFO sqlalchemy.engine.Engine 
+CREATE TABLE bosscodexprogress (
+	id INTEGER NOT NULL, 
+	profile_id INTEGER NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	tier_unlocked INTEGER NOT NULL, 
+	deaths INTEGER NOT NULL, 
+	wins INTEGER NOT NULL, 
+	first_seen_at DATETIME, 
+	first_kill_at DATETIME, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(profile_id) REFERENCES profile (id)
+)
+
+
+2025-12-03 20:17:36,614 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,626 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bosscodexprogress_boss_id ON bosscodexprogress (boss_id)
+2025-12-03 20:17:36,626 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,634 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bosscodexprogress_profile_id ON bosscodexprogress (profile_id)
+2025-12-03 20:17:36,635 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,640 INFO sqlalchemy.engine.Engine COMMIT
+Seeding Bosses...
+2025-12-03 20:17:36,642 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,656 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.technical_objective, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,656 INFO sqlalchemy.engine.Engine [generated in 0.00035s] ('boss-reactor-core',)
+  - Creating boss-reactor-core
+2025-12-03 20:17:36,659 INFO sqlalchemy.engine.Engine INSERT INTO bossdefinition (id, name, description, technical_objective, rubric, starting_code, world_id, track_id, time_limit_seconds, max_hp, base_xp_reward, difficulty, hint_codex_id, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,659 INFO sqlalchemy.engine.Engine [generated in 0.00024s] ('boss-reactor-core', 'The Reactor Core', 'A high-pressure backend service that demands async correctness and robust error handling.', 'Implement a stable reactor status endpoint that handles high load without blocking.', '\nScoring (0û100):\n\nAsync correctness (0û40 pts)\n- async def on the route (10)\n- At least one await in the function body (10)\n- No time.sleep an ... (428 characters truncated) ... s junk / debug prints / unused imports (5)\n\nStyle & extras (0û10 pts)\n- Good naming, docstring, or small extra (e.g. handling delay as a param).\n', '', 'world-python', 'backend-api', 1800, 100, 300, 'hard', 'boss-reactor-core-strategy', 1, '2025-12-04 01:17:36.658103', '2025-12-04 01:17:36.658323')
+2025-12-03 20:17:36,661 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.technical_objective, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,662 INFO sqlalchemy.engine.Engine [cached since 0.005586s ago] ('signal_prism',)
+  - Creating signal_prism
+2025-12-03 20:17:36,664 INFO sqlalchemy.engine.Engine INSERT INTO bossdefinition (id, name, description, technical_objective, rubric, starting_code, world_id, track_id, time_limit_seconds, max_hp, base_xp_reward, difficulty, hint_codex_id, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,664 INFO sqlalchemy.engine.Engine [cached since 0.004413s ago] ('signal_prism', 'The Signal Prism', 'Fold a chaotic event stream into a stable Signal Panel state. Tests JS/TS reducers, event ordering, and consistent state shapes.', 'Implement a pure, deterministic TypeScript reducer that takes an array of SignalEvent objects and returns the final SignalState[] for a panel.', '\nScoring (0û100):\n\nCorrectness (0-40 pts)\n- Produces expected SignalState[] for variety of streams (10)\n- Handles out-of-order events correctly  ... (505 characters truncated) ... tegy (5)\n- Handles repeated closes/acks gracefully (5)\n\nPerformance (0-10 pts)\n- Reasonable time/space complexity (no O(n^2) in hot paths) (10)\n', '// Prism Boss: The Signal Prism\n// World: JS / TypeScript\n//\n// You are given a stream of events that arrive in (mostly) ascending timestamp order ... (1584 characters truncated) ... s a set: later ts wins, duplicates are safe.\n  // - Must return a stable array of SignalState (order may be defined by id or ts).\n  return [];\n}\n', 'world-prism', 'prism-fundamentals', 2400, 150, 300, 'hard', 'boss-signal-prism-strategy', 1, '2025-12-04 01:17:36.663534', '2025-12-04 01:17:36.663664')
+2025-12-03 20:17:36,664 INFO sqlalchemy.engine.Engine COMMIT
+  - Seeding Codex Docs...
+2025-12-03 20:17:36,670 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,670 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.technical_objective, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,670 INFO sqlalchemy.engine.Engine [cached since 0.01455s ago] ('query_vault',)
+  - Creating query_vault
+2025-12-03 20:17:36,673 INFO sqlalchemy.engine.Engine INSERT INTO bossdefinition (id, name, description, technical_objective, rubric, starting_code, world_id, track_id, time_limit_seconds, max_hp, base_xp_reward, difficulty, hint_codex_id, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,673 INFO sqlalchemy.engine.Engine [cached since 0.01355s ago] ('query_vault', 'The Query Vault', 'A locked analytics vault that only opens to precise, efficient queries.', 'Write precise, robust SQL to answer analytics questions without double-counting or ignoring NULLs.', 'Placeholder Rubric', '# TODO: Implement starting code', 'world-archives', 'sql-analytics', 1800, 100, 300, 'hard', 'boss-query-vault-strategy', 1, '2025-12-04 01:17:36.671931', '2025-12-04 01:17:36.672086')
+2025-12-03 20:17:36,674 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.technical_objective, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,674 INFO sqlalchemy.engine.Engine [cached since 0.01852s ago] ('containment_grid',)
+  - Creating containment_grid
+2025-12-03 20:17:36,677 INFO sqlalchemy.engine.Engine INSERT INTO bossdefinition (id, name, description, technical_objective, rubric, starting_code, world_id, track_id, time_limit_seconds, max_hp, base_xp_reward, difficulty, hint_codex_id, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,677 INFO sqlalchemy.engine.Engine [cached since 0.01736s ago] ('containment_grid', 'The Containment Grid', 'Fix a broken docker-compose stack to make services healthy and connected.', 'Configure docker-compose services, networks, and environment variables to ensure a healthy boot.', 'Placeholder Rubric', '# TODO: Implement starting code', 'world-grid', 'infra-docker', 1800, 100, 300, 'hard', 'boss-containment-grid-strategy', 1, '2025-12-04 01:17:36.675849', '2025-12-04 01:17:36.676024')
+2025-12-03 20:17:36,677 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.technical_objective, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,677 INFO sqlalchemy.engine.Engine [cached since 0.02141s ago] ('intent_oracle',)
+  - Creating intent_oracle
+2025-12-03 20:17:36,679 INFO sqlalchemy.engine.Engine INSERT INTO bossdefinition (id, name, description, technical_objective, rubric, starting_code, world_id, track_id, time_limit_seconds, max_hp, base_xp_reward, difficulty, hint_codex_id, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Python313\Lib\logging\__init__.py", line 1154, in emit
+    stream.write(msg + self.terminator)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 578: character maps to <undefined>
+Call stack:
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 2230, in _execute_internal
+    ) = compile_state_cls.orm_pre_session_exec(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py", line 577, in orm_pre_session_exec
+    session._autoflush()
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 3054, in _autoflush
+    self.flush()
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 4345, in flush
+    self._flush(objects)
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 4441, in _flush
+    flush_context.execute()
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\persistence.py", line 1048, in _emit_insert_statements
+    result = connection.execute(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 1904, in _exec_single_context
+    self._log_info(
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 187, in _log_info
+    self.engine.logger.info(message, *arg, **kw)
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\log.py", line 159, in info
+    self.log(logging.INFO, msg, *args, **kwargs)
+  File "C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\log.py", line 210, in log
+    self.logger._log(level, msg, args, **kwargs)
+Message: '[%s] %r'
+Arguments: ('cached since 0.01976s ago', ('intent_oracle', 'The Intent Oracle', 'Implement a planner that turns natural language goals into safe, structured plans.', 'Create a planner that decomposes goals into valid tool calls while respecting safety constraints.', '\nScoring (0û100):\n\nStructure (0-25 pts)\n- Plan is a list of steps with valid tool, input, and reason fields (25)\n\nTool Selection (0-25 pts)\n-  ... (327 characters truncated) ... sub-piece) (20)\n\nOrdering & Efficiency (0-10 pts)\n- Plan follows a sensible READ \u2192 THINK \u2192 WRITE ordering and avoids unnecessary tool calls (10)\n', '\\"\\"\\"Intent Oracle Boss û Planner Stub\n\nYou are given:\n- a natural language goal (string)\n- a list of tools with their capabilities & safety  ... (2489 characters truncated) ... ol\\": \\"none\\",\n            \\"input\\": {},\n            \\"reason\\": \\"Planner not yet implemented. No actions taken.\\",\n        }\n    ]\n', 'world-oracle', 'agents-planning', 1800, 100, 300, 'hard', 'boss-intent-oracle-strategy', 1, '2025-12-04 01:17:36.678501', '2025-12-04 01:17:36.678640'))
+2025-12-03 20:17:36,685 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.technical_objective, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,686 INFO sqlalchemy.engine.Engine [cached since 0.02966s ago] ('branch_keeper',)
+  - Creating branch_keeper
+2025-12-03 20:17:36,688 INFO sqlalchemy.engine.Engine INSERT INTO bossdefinition (id, name, description, technical_objective, rubric, starting_code, world_id, track_id, time_limit_seconds, max_hp, base_xp_reward, difficulty, hint_codex_id, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,688 INFO sqlalchemy.engine.Engine [cached since 0.02865s ago] ('branch_keeper', 'The Branch Keeper', 'Navigate complex Git scenarios: divergent branches, conflicts, and release tagging.', 'Determine the correct sequence of Git operations to resolve conflicts and sync branches safely.', 'Placeholder Rubric', '# TODO: Implement starting code', 'world-timeline', 'git-workflow', 1800, 100, 300, 'hard', 'boss-branch-keeper-strategy', 1, '2025-12-04 01:17:36.687349', '2025-12-04 01:17:36.687507')
+2025-12-03 20:17:36,689 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.technical_objective, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,689 INFO sqlalchemy.engine.Engine [cached since 0.03277s ago] ('gradient_nexus',)
+  - Creating gradient_nexus
+2025-12-03 20:17:36,690 INFO sqlalchemy.engine.Engine INSERT INTO bossdefinition (id, name, description, technical_objective, rubric, starting_code, world_id, track_id, time_limit_seconds, max_hp, base_xp_reward, difficulty, hint_codex_id, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,690 INFO sqlalchemy.engine.Engine [cached since 0.03108s ago] ('gradient_nexus', 'The Gradient Nexus', 'Train a model honestly: correct splits, valid metrics, and overfitting detection.', 'Implement a training loop with proper train/val splits and metric tracking to detect overfitting.', 'Placeholder Rubric', '# TODO: Implement starting code', 'world-synapse', 'ml-training', 1800, 100, 300, 'hard', 'boss-gradient-nexus-strategy', 1, '2025-12-04 01:17:36.689949', '2025-12-04 01:17:36.690052')
+2025-12-03 20:17:36,691 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,691 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ('reactor-core-tier-1',)
+2025-12-03 20:17:36,693 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,693 INFO sqlalchemy.engine.Engine [generated in 0.00020s] ('codex', 'reactor-core-tier-1', 0, '{"boss_id": "boss-reactor-core", "tier": 1, "title": "Reactor Core: Basic Analysis"}', '# Reactor Core: Basic Analysis\nThe reactor core is a high-throughput system.\nKey observations:\n- The `reactor_status` endpoint is slow.\n- It uses `time.sleep(3)`, which blocks the event loop.\n- This causes the server to become unresponsive under load.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,694 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,694 INFO sqlalchemy.engine.Engine [cached since 0.002276s ago] ('reactor-core-tier-2',)
+2025-12-03 20:17:36,695 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,695 INFO sqlalchemy.engine.Engine [cached since 0.002349s ago] ('codex', 'reactor-core-tier-2', 0, '{"boss_id": "boss-reactor-core", "tier": 2, "title": "Reactor Core: Async Patterns"}', '# Reactor Core: Async Patterns\nTo fix the blocking issue:\n1. Use `async def` for the route handler.\n2. Replace `time.sleep()` with `asyncio.sleep()`.\n3. Ensure the return type matches the Pydantic model.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,695 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,696 INFO sqlalchemy.engine.Engine [cached since 0.004153s ago] ('reactor-core-tier-3',)
+2025-12-03 20:17:36,696 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,696 INFO sqlalchemy.engine.Engine [cached since 0.003852s ago] ('codex', 'reactor-core-tier-3', 0, '{"boss_id": "boss-reactor-core", "tier": 3, "title": "Reactor Core: Advanced Optimization"}', "# Reactor Core: Advanced Optimization\nFor maximum performance:\n- Offload heavy computation to a thread pool if needed.\n- Use caching for status if it doesn't change often.\n- Add proper error handling for sensor failures.\n", '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,697 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,697 INFO sqlalchemy.engine.Engine [cached since 0.0056s ago] ('signal-prism-lore',)
+2025-12-03 20:17:36,698 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,698 INFO sqlalchemy.engine.Engine [cached since 0.005682s ago] ('codex', 'signal-prism-lore', 0, '{"boss_id": "signal_prism", "tier": 1, "title": "The Signal Prism \\u2013 System Briefing"}', '---\nslug: boss-signal-prism-lore\nboss_id: signal_prism\ntier: 1\nworld_id: world-prism\ntags:\n  - boss\n  - signal_prism\n  - lore\n  - javascript ... (2199 characters truncated) ... ifferent shapes depending on the path (sometimes missing fields).\n\nDefeat is expected. Turning chaos into a clean reducer is the actual training.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,699 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,699 INFO sqlalchemy.engine.Engine [cached since 0.007571s ago] ('signal-prism-attacks',)
+2025-12-03 20:17:36,700 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,700 INFO sqlalchemy.engine.Engine [cached since 0.007284s ago] ('codex', 'signal-prism-attacks', 0, '{"boss_id": "signal_prism", "tier": 2, "title": "The Signal Prism \\u2013 Attack Patterns"}', '---\nslug: boss-signal-prism-attacks\nboss_id: signal_prism\ntier: 2\nworld_id: world-prism\ntags:\n  - boss\n  - signal_prism\n  - attacks\n  - mech ... (3416 characters truncated) ... cated array at the end,\n\nàthen most of the Prism\'s attacks pass straight through.\n\nOtherwise, the panel flickers ù and so does your Integrity.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,700 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,701 INFO sqlalchemy.engine.Engine [cached since 0.009194s ago] ('signal-prism-strategy',)
+2025-12-03 20:17:36,702 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,702 INFO sqlalchemy.engine.Engine [cached since 0.009114s ago] ('codex', 'signal-prism-strategy', 0, '{"boss_id": "signal_prism", "tier": 3, "title": "The Signal Prism \\u2013 Strategy Guide"}', '---\nslug: boss-signal-prism-strategy\nboss_id: signal_prism\ntier: 3\nworld_id: world-prism\ntags:\n  - boss\n  - signal_prism\n  - strategy\n  - ja ... (4215 characters truncated) ... oes.\n\n---\n\n> ELARA: "Once you can write reducers like this, most front-end state problems start looking like friendly prisms instead of chaos."\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,702 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,702 INFO sqlalchemy.engine.Engine [cached since 0.01093s ago] ('boss-query-vault-lore',)
+2025-12-03 20:17:36,703 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,703 INFO sqlalchemy.engine.Engine [cached since 0.01063s ago] ('codex', 'boss-query-vault-lore', 0, '{"boss_id": "query_vault", "tier": 1, "title": "The Query Vault \\u2013 System Briefing"}', '---\nslug: boss-query-vault-lore\nboss_id: query_vault\ntier: 1\nworld_id: world-archives\ntags:\n  - boss\n  - query_vault\n  - lore\n  - sql\n  - a ... (1982 characters truncated) ... to the right time windows.\n- Grouping by too many columns and fragmenting metrics.\n- Treating `NULL` as ô0ö without thinking about what it means.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,704 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,704 INFO sqlalchemy.engine.Engine [cached since 0.01231s ago] ('boss-query-vault-attacks',)
+2025-12-03 20:17:36,705 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,705 INFO sqlalchemy.engine.Engine [cached since 0.0122s ago] ('codex', 'boss-query-vault-attacks', 0, '{"boss_id": "query_vault", "tier": 2, "title": "The Query Vault \\u2013 Attack Patterns"}', '---\nslug: boss-query-vault-attacks\nboss_id: query_vault\ntier: 2\nworld_id: world-archives\ntags:\n  - boss\n  - query_vault\n  - attacks\n  - sql\ ... (2541 characters truncated) ... relationships deliberately,\n- Define time windows sharply,\n\nàthe Query Vault opens. Otherwise, it returns pretty, **confidently wrong** answers.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,705 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,705 INFO sqlalchemy.engine.Engine [cached since 0.01406s ago] ('boss-query-vault-strategy',)
+2025-12-03 20:17:36,706 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,706 INFO sqlalchemy.engine.Engine [cached since 0.01373s ago] ('codex', 'boss-query-vault-strategy', 0, '{"boss_id": "query_vault", "tier": 3, "title": "The Query Vault \\u2013 Strategy Guide"}', '---\nslug: boss-query-vault-strategy\nboss_id: query_vault\ntier: 3\nworld_id: world-archives\ntags:\n  - boss\n  - query_vault\n  - strategy\n  - sq ... (2424 characters truncated) ... , windows, and joins, SQL stops being a guessing game. The Vault stops being scary. It just becomes a locked door with a perfectly reasonable key."\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,707 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,707 INFO sqlalchemy.engine.Engine [cached since 0.01547s ago] ('boss-containment-grid-lore',)
+2025-12-03 20:17:36,708 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,708 INFO sqlalchemy.engine.Engine [cached since 0.01512s ago] ('codex', 'boss-containment-grid-lore', 0, '{"boss_id": "containment_grid", "tier": 1, "title": "The Containment Grid \\u2013 System Briefing"}', '---\nslug: boss-containment-grid-lore\nboss_id: containment_grid\ntier: 1\nworld_id: world-grid\ntags:\n  - boss\n  - containment_grid\n  - lore\n  - ... (594 characters truncated) ... works, and environment variables**.\n- Healthcheck sanity and restart policies.\n\nThe Grid is where "it runs on my machine" stops being an excuse.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,708 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,708 INFO sqlalchemy.engine.Engine [cached since 0.01705s ago] ('boss-containment-grid-attacks',)
+2025-12-03 20:17:36,709 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,709 INFO sqlalchemy.engine.Engine [cached since 0.0169s ago] ('codex', 'boss-containment-grid-attacks', 0, '{"boss_id": "containment_grid", "tier": 2, "title": "The Containment Grid \\u2013 Attack Patterns"}', '---\nslug: boss-containment-grid-attacks\nboss_id: containment_grid\ntier: 2\nworld_id: world-grid\ntags:\n  - boss\n  - containment_grid\n  - attack ... (953 characters truncated) ...  checks: ping/requests fail across containers.\n\nThe boss ensures you can read a compose file like a wiring diagram, not like a magic incantation.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,710 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,710 INFO sqlalchemy.engine.Engine [cached since 0.01862s ago] ('boss-containment-grid-strategy',)
+2025-12-03 20:17:36,711 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,711 INFO sqlalchemy.engine.Engine [cached since 0.01867s ago] ('codex', 'boss-containment-grid-strategy', 0, '{"boss_id": "containment_grid", "tier": 3, "title": "The Containment Grid \\u2013 Strategy Guide"}', '---\nslug: boss-containment-grid-strategy\nboss_id: containment_grid\ntier: 3\nworld_id: world-grid\ntags:\n  - boss\n  - containment_grid\n  - strat ... (953 characters truncated) ... ack to broken values.\n\nThe Containment Grid rewards infra that is **predictable, observable, and documented**, not "it worked once on my laptop."\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,712 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,712 INFO sqlalchemy.engine.Engine [cached since 0.02059s ago] ('boss-intent-oracle-lore',)
+2025-12-03 20:17:36,713 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,713 INFO sqlalchemy.engine.Engine [cached since 0.0205s ago] ('codex', 'boss-intent-oracle-lore', 0, '{"boss_id": "intent_oracle", "tier": 1, "title": "The Intent Oracle \\u2013 System Briefing"}', '---\nslug: boss-intent-oracle-lore\nboss_id: intent_oracle\ntier: 1\nworld_id: world-oracle\ntags:\n  - boss\n  - intent_oracle\n  - lore\n  - agents ... (555 characters truncated) ... *steps**,\n- Choosing appropriate tools,\n- Respecting **constraints and safety** (avoid disallowed actions),\n- Emitting well-formed JSON actions.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,714 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,714 INFO sqlalchemy.engine.Engine [cached since 0.02238s ago] ('boss-intent-oracle-attacks',)
+2025-12-03 20:17:36,715 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,715 INFO sqlalchemy.engine.Engine [cached since 0.02225s ago] ('codex', 'boss-intent-oracle-attacks', 0, '{"boss_id": "intent_oracle", "tier": 2, "title": "The Intent Oracle \\u2013 Attack Patterns"}', '---\nslug: boss-intent-oracle-attacks\nboss_id: intent_oracle\ntier: 2\nworld_id: world-oracle\ntags:\n  - boss\n  - intent_oracle\n  - attacks\n  -  ... (730 characters truncated) ...  tool names, inputs, or expected outputs.\n   - Tests check for structured, complete plan objects.\n\nThe Oracle punishes both chaos and vagueness.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,716 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,716 INFO sqlalchemy.engine.Engine [cached since 0.02428s ago] ('boss-intent-oracle-strategy',)
+2025-12-03 20:17:36,717 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,717 INFO sqlalchemy.engine.Engine [cached since 0.02407s ago] ('codex', 'boss-intent-oracle-strategy', 0, '{"boss_id": "intent_oracle", "tier": 3, "title": "The Intent Oracle \\u2013 Strategy Guide"}', '---\nslug: boss-intent-oracle-strategy\nboss_id: intent_oracle\ntier: 3\nworld_id: world-oracle\ntags:\n  - boss\n  - intent_oracle\n  - strategy\n   ... (660 characters truncated) ... reason),\n- Write (mutations / side effects).\n\nThe Intent Oracle rewards planners that **do the minimum safe thing** in a clearly structured way.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,717 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,717 INFO sqlalchemy.engine.Engine [cached since 0.02578s ago] ('boss-branch-keeper-lore',)
+2025-12-03 20:17:36,718 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,718 INFO sqlalchemy.engine.Engine [cached since 0.0254s ago] ('codex', 'boss-branch-keeper-lore', 0, '{"boss_id": "branch_keeper", "tier": 1, "title": "The Branch Keeper \\u2013 System Briefing"}', '---\nslug: boss-branch-keeper-lore\nboss_id: branch_keeper\ntier: 1\nworld_id: world-timeline\ntags:\n  - boss\n  - branch_keeper\n  - lore\n  - git\ ... (487 characters truncated) ... ou understand:\n\n- When to **merge** vs **rebase**,\n- How to resolve conflicts without losing work,\n- How to keep history clean and explainable.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,718 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,719 INFO sqlalchemy.engine.Engine [cached since 0.02713s ago] ('boss-branch-keeper-attacks',)
+2025-12-03 20:17:36,719 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,719 INFO sqlalchemy.engine.Engine [cached since 0.02689s ago] ('codex', 'boss-branch-keeper-attacks', 0, '{"boss_id": "branch_keeper", "tier": 2, "title": "The Branch Keeper \\u2013 Attack Patterns"}', '---\nslug: boss-branch-keeper-attacks\nboss_id: branch_keeper\ntier: 2\nworld_id: world-timeline\ntags:\n  - boss\n  - branch_keeper\n  - attacks\n   ... (698 characters truncated) ... eline Fracture"**  \n   - Simulated conflicts.\n   - Planner must acknowledge conflict points and outline steps, not just pretend they donÆt exist.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,720 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,720 INFO sqlalchemy.engine.Engine [cached since 0.02869s ago] ('boss-branch-keeper-strategy',)
+2025-12-03 20:17:36,721 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,721 INFO sqlalchemy.engine.Engine [cached since 0.02831s ago] ('codex', 'boss-branch-keeper-strategy', 0, '{"boss_id": "branch_keeper", "tier": 3, "title": "The Branch Keeper \\u2013 Strategy Guide"}', '---\nslug: boss-branch-keeper-strategy\nboss_id: branch_keeper\ntier: 3\nworld_id: world-timeline\ntags:\n  - boss\n  - branch_keeper\n  - strategy\n ... (653 characters truncated) ... flicts,\n  - `git push --force-with-lease` or merge back.\n\nThe Branch Keeper rewards **calm, explicit plans** that respect teammates and history.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,721 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,721 INFO sqlalchemy.engine.Engine [cached since 0.03s ago] ('boss-gradient-nexus-lore',)
+2025-12-03 20:17:36,722 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,722 INFO sqlalchemy.engine.Engine [cached since 0.02966s ago] ('codex', 'boss-gradient-nexus-lore', 0, '{"boss_id": "gradient_nexus", "tier": 1, "title": "The Gradient Nexus \\u2013 System Briefing"}', '---\nslug: boss-gradient-nexus-lore\nboss_id: gradient_nexus\ntier: 1\nworld_id: world-synapse\ntags:\n  - boss\n  - gradient_nexus\n  - lore\n  - ml ... (414 characters truncated) ... (e.g. tabular or tiny image/text), including:\n\n- Train/validation split,\n- Training loop,\n- Metric computation,\n- Basic overfitting detection.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,723 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,723 INFO sqlalchemy.engine.Engine [cached since 0.03162s ago] ('boss-gradient-nexus-attacks',)
+2025-12-03 20:17:36,724 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,724 INFO sqlalchemy.engine.Engine [cached since 0.03149s ago] ('codex', 'boss-gradient-nexus-attacks', 0, '{"boss_id": "gradient_nexus", "tier": 2, "title": "The Gradient Nexus \\u2013 Attack Patterns"}', '---\nslug: boss-gradient-nexus-attacks\nboss_id: gradient_nexus\ntier: 2\nworld_id: world-synapse\ntags:\n  - boss\n  - gradient_nexus\n  - attacks\n ... (558 characters truncated) ... are against a baseline.\n\n4. **No Repro û "Non-deterministic Fog"**  \n   - No seed setting, runs vary wildly.\n   - Tests prefer stable behavior.\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,725 INFO sqlalchemy.engine.Engine SELECT knowledgechunk.id, knowledgechunk.source_type, knowledgechunk.source_id, knowledgechunk.chunk_index, knowledgechunk.metadata_json, knowledgechunk.content, knowledgechunk.embedding 
+FROM knowledgechunk 
+WHERE knowledgechunk.source_id = ?
+2025-12-03 20:17:36,725 INFO sqlalchemy.engine.Engine [cached since 0.03324s ago] ('boss-gradient-nexus-strategy',)
+2025-12-03 20:17:36,726 INFO sqlalchemy.engine.Engine INSERT INTO knowledgechunk (source_type, source_id, chunk_index, metadata_json, content, embedding) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,726 INFO sqlalchemy.engine.Engine [cached since 0.03325s ago] ('codex', 'boss-gradient-nexus-strategy', 0, '{"boss_id": "gradient_nexus", "tier": 3, "title": "The Gradient Nexus \\u2013 Strategy Guide"}', '---\nslug: boss-gradient-nexus-strategy\nboss_id: gradient_nexus\ntier: 3\nworld_id: world-synapse\ntags:\n  - boss\n  - gradient_nexus\n  - strategy ... (796 characters truncated) ... des, acknowledge it and adjust.\n\nThe Gradient Nexus rewards **clean, explicit ML workflows**, not just "I called fit() and it printed something."\n', '[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (2775 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]')
+2025-12-03 20:17:36,726 INFO sqlalchemy.engine.Engine COMMIT
+Bosses Seeded.
+DEBUG: Test engine: sqlite+aiosqlite:///./test.db
+2025-12-03 20:17:36,733 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,734 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.technical_objective, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition
+2025-12-03 20:17:36,734 INFO sqlalchemy.engine.Engine [generated in 0.00010s] ()
+DEBUG: Bosses in DB: ['boss-reactor-core', 'signal_prism', 'query_vault', 'containment_grid', 'intent_oracle', 'branch_keeper', 'gradient_nexus']
+2025-12-03 20:17:36,745 INFO sqlalchemy.engine.Engine ROLLBACK
+DEBUG: force_boss engine: sqlite+aiosqlite:///./test.db
+DEBUG: force_boss looking for boss-reactor-core
+2025-12-03 20:17:36,748 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,749 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id AS bossdefinition_id, bossdefinition.name AS bossdefinition_name, bossdefinition.description AS bossdefinition_description, bossdefinition.technical_objective AS bossdefinition_technical_objective, bossdefinition.rubric AS bossdefinition_rubric, bossdefinition.starting_code AS bossdefinition_starting_code, bossdefinition.world_id AS bossdefinition_world_id, bossdefinition.track_id AS bossdefinition_track_id, bossdefinition.time_limit_seconds AS bossdefinition_time_limit_seconds, bossdefinition.max_hp AS bossdefinition_max_hp, bossdefinition.base_xp_reward AS bossdefinition_base_xp_reward, bossdefinition.difficulty AS bossdefinition_difficulty, bossdefinition.hint_codex_id AS bossdefinition_hint_codex_id, bossdefinition.enabled AS bossdefinition_enabled, bossdefinition.created_at AS bossdefinition_created_at, bossdefinition.updated_at AS bossdefinition_updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,749 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ('boss-reactor-core',)
+DEBUG: force_boss found: rubric='\nScoring (0û100):\n\nAsync correctness (0û40 pts)\n- async def on the route (10)\n- At least one await in the function body (10)\n- No time.sleep anywhere (10)\n- Uses asyncio.sleep or equivalent (10)\n\nModel & typing (0û30 pts)\n- ReactorStatus model present, subclass of BaseModel (10)\n- Has fields status: str and temperature: int (10)\n- Route annotated to return ReactorStatus and/or uses response_model (10)\n\nStructure & clarity (0û20 pts)\n- Helper async def fetch_reactor_status() exists (10)\n- Endpoint uses helper instead of inlining everything (5)\n- No obvious junk / debug prints / unused imports (5)\n\nStyle & extras (0û10 pts)\n- Good naming, docstring, or small extra (e.g. handling delay as a param).\n' name='The Reactor Core' description='A high-pressure backend service that demands async correctness and robust error handling.' world_id='world-python' time_limit_seconds=1800 base_xp_reward=300 hint_codex_id='boss-reactor-core-strategy' created_at=datetime.datetime(2025, 12, 4, 1, 17, 36, 658103) id='boss-reactor-core' technical_objective='Implement a stable reactor status endpoint that handles high load without blocking.' starting_code='' track_id='backend-api' max_hp=100 difficulty='hard' enabled=True updated_at=datetime.datetime(2025, 12, 4, 1, 17, 36, 658323)
+2025-12-03 20:17:36,750 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,751 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id AS bossdefinition_id, bossdefinition.name AS bossdefinition_name, bossdefinition.description AS bossdefinition_description, bossdefinition.technical_objective AS bossdefinition_technical_objective, bossdefinition.rubric AS bossdefinition_rubric, bossdefinition.starting_code AS bossdefinition_starting_code, bossdefinition.world_id AS bossdefinition_world_id, bossdefinition.track_id AS bossdefinition_track_id, bossdefinition.time_limit_seconds AS bossdefinition_time_limit_seconds, bossdefinition.max_hp AS bossdefinition_max_hp, bossdefinition.base_xp_reward AS bossdefinition_base_xp_reward, bossdefinition.difficulty AS bossdefinition_difficulty, bossdefinition.hint_codex_id AS bossdefinition_hint_codex_id, bossdefinition.enabled AS bossdefinition_enabled, bossdefinition.created_at AS bossdefinition_created_at, bossdefinition.updated_at AS bossdefinition_updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,751 INFO sqlalchemy.engine.Engine [cached since 0.001754s ago] ('boss-reactor-core',)
+2025-12-03 20:17:36,751 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,753 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.user_id = ? AND bossrun.result IS NULL
+2025-12-03 20:17:36,753 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('test-user',)
+2025-12-03 20:17:36,754 INFO sqlalchemy.engine.Engine INSERT INTO bossrun (user_id, boss_id, started_at, expires_at, completed_at, result, score, hp_remaining, judge_trace_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-03 20:17:36,754 INFO sqlalchemy.engine.Engine [generated in 0.00018s] ('test-user', 'boss-reactor-core', '2025-12-04 01:17:36.753914', '2025-12-04 01:47:36.753914', None, None, 0, 100, None, None)
+2025-12-03 20:17:36,756 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-03 20:17:36,760 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,761 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.id = ?
+2025-12-03 20:17:36,761 INFO sqlalchemy.engine.Engine [generated in 0.00011s] (1,)
+2025-12-03 20:17:36,762 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.id = ?
+2025-12-03 20:17:36,762 INFO sqlalchemy.engine.Engine [cached since 0.001301s ago] (1,)
+2025-12-03 20:17:36,764 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,764 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,764 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id AS bossdefinition_id, bossdefinition.name AS bossdefinition_name, bossdefinition.description AS bossdefinition_description, bossdefinition.technical_objective AS bossdefinition_technical_objective, bossdefinition.rubric AS bossdefinition_rubric, bossdefinition.starting_code AS bossdefinition_starting_code, bossdefinition.world_id AS bossdefinition_world_id, bossdefinition.track_id AS bossdefinition_track_id, bossdefinition.time_limit_seconds AS bossdefinition_time_limit_seconds, bossdefinition.max_hp AS bossdefinition_max_hp, bossdefinition.base_xp_reward AS bossdefinition_base_xp_reward, bossdefinition.difficulty AS bossdefinition_difficulty, bossdefinition.hint_codex_id AS bossdefinition_hint_codex_id, bossdefinition.enabled AS bossdefinition_enabled, bossdefinition.created_at AS bossdefinition_created_at, bossdefinition.updated_at AS bossdefinition_updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,765 INFO sqlalchemy.engine.Engine [cached since 0.01562s ago] ('boss-reactor-core',)
+2025-12-03 20:17:36,766 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.user_id = ? AND bossrun.result IS NULL
+2025-12-03 20:17:36,766 INFO sqlalchemy.engine.Engine [cached since 0.01334s ago] ('test-user',)
+2025-12-03 20:17:36,767 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,768 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,768 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.user_id = ? AND bossrun.result IS NULL
+2025-12-03 20:17:36,768 INFO sqlalchemy.engine.Engine [cached since 0.0156s ago] ('test-user',)
+2025-12-03 20:17:36,769 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,770 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id AS bossdefinition_id, bossdefinition.name AS bossdefinition_name, bossdefinition.description AS bossdefinition_description, bossdefinition.technical_objective AS bossdefinition_technical_objective, bossdefinition.rubric AS bossdefinition_rubric, bossdefinition.starting_code AS bossdefinition_starting_code, bossdefinition.world_id AS bossdefinition_world_id, bossdefinition.track_id AS bossdefinition_track_id, bossdefinition.time_limit_seconds AS bossdefinition_time_limit_seconds, bossdefinition.max_hp AS bossdefinition_max_hp, bossdefinition.base_xp_reward AS bossdefinition_base_xp_reward, bossdefinition.difficulty AS bossdefinition_difficulty, bossdefinition.hint_codex_id AS bossdefinition_hint_codex_id, bossdefinition.enabled AS bossdefinition_enabled, bossdefinition.created_at AS bossdefinition_created_at, bossdefinition.updated_at AS bossdefinition_updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,770 INFO sqlalchemy.engine.Engine [cached since 0.02083s ago] ('boss-reactor-core',)
+2025-12-03 20:17:36,770 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,771 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,772 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,772 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.user_id = ? AND bossrun.result IS NULL
+2025-12-03 20:17:36,772 INFO sqlalchemy.engine.Engine [cached since 0.01926s ago] ('test-user',)
+2025-12-03 20:17:36,773 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,773 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id AS bossdefinition_id, bossdefinition.name AS bossdefinition_name, bossdefinition.description AS bossdefinition_description, bossdefinition.technical_objective AS bossdefinition_technical_objective, bossdefinition.rubric AS bossdefinition_rubric, bossdefinition.starting_code AS bossdefinition_starting_code, bossdefinition.world_id AS bossdefinition_world_id, bossdefinition.track_id AS bossdefinition_track_id, bossdefinition.time_limit_seconds AS bossdefinition_time_limit_seconds, bossdefinition.max_hp AS bossdefinition_max_hp, bossdefinition.base_xp_reward AS bossdefinition_base_xp_reward, bossdefinition.difficulty AS bossdefinition_difficulty, bossdefinition.hint_codex_id AS bossdefinition_hint_codex_id, bossdefinition.enabled AS bossdefinition_enabled, bossdefinition.created_at AS bossdefinition_created_at, bossdefinition.updated_at AS bossdefinition_updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,773 INFO sqlalchemy.engine.Engine [cached since 0.02429s ago] ('boss-reactor-core',)
+2025-12-03 20:17:36,773 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,775 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,776 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,777 INFO sqlalchemy.engine.Engine SELECT bossrun.id AS bossrun_id, bossrun.user_id AS bossrun_user_id, bossrun.boss_id AS bossrun_boss_id, bossrun.started_at AS bossrun_started_at, bossrun.expires_at AS bossrun_expires_at, bossrun.completed_at AS bossrun_completed_at, bossrun.result AS bossrun_result, bossrun.score AS bossrun_score, bossrun.hp_remaining AS bossrun_hp_remaining, bossrun.judge_trace_id AS bossrun_judge_trace_id, bossrun.notes AS bossrun_notes 
+FROM bossrun 
+WHERE bossrun.id = ?
+2025-12-03 20:17:36,777 INFO sqlalchemy.engine.Engine [generated in 0.00014s] (1,)
+2025-12-03 20:17:36,778 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id AS bossdefinition_id, bossdefinition.name AS bossdefinition_name, bossdefinition.description AS bossdefinition_description, bossdefinition.technical_objective AS bossdefinition_technical_objective, bossdefinition.rubric AS bossdefinition_rubric, bossdefinition.starting_code AS bossdefinition_starting_code, bossdefinition.world_id AS bossdefinition_world_id, bossdefinition.track_id AS bossdefinition_track_id, bossdefinition.time_limit_seconds AS bossdefinition_time_limit_seconds, bossdefinition.max_hp AS bossdefinition_max_hp, bossdefinition.base_xp_reward AS bossdefinition_base_xp_reward, bossdefinition.difficulty AS bossdefinition_difficulty, bossdefinition.hint_codex_id AS bossdefinition_hint_codex_id, bossdefinition.enabled AS bossdefinition_enabled, bossdefinition.created_at AS bossdefinition_created_at, bossdefinition.updated_at AS bossdefinition_updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,778 INFO sqlalchemy.engine.Engine [cached since 0.02912s ago] ('boss-reactor-core',)
+2025-12-03 20:17:36,780 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,780 INFO sqlalchemy.engine.Engine SELECT bossrun.id AS bossrun_id, bossrun.user_id AS bossrun_user_id, bossrun.boss_id AS bossrun_boss_id, bossrun.started_at AS bossrun_started_at, bossrun.expires_at AS bossrun_expires_at, bossrun.completed_at AS bossrun_completed_at, bossrun.result AS bossrun_result, bossrun.score AS bossrun_score, bossrun.hp_remaining AS bossrun_hp_remaining, bossrun.judge_trace_id AS bossrun_judge_trace_id, bossrun.notes AS bossrun_notes 
+FROM bossrun 
+WHERE bossrun.id = ?
+2025-12-03 20:17:36,780 INFO sqlalchemy.engine.Engine [cached since 0.003705s ago] (1,)
+2025-12-03 20:17:36,780 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,782 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress 
+FROM profile 
+WHERE profile.user_id = ?
+2025-12-03 20:17:36,782 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('test-user',)
+2025-12-03 20:17:36,783 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id AS bossdefinition_id, bossdefinition.name AS bossdefinition_name, bossdefinition.description AS bossdefinition_description, bossdefinition.technical_objective AS bossdefinition_technical_objective, bossdefinition.rubric AS bossdefinition_rubric, bossdefinition.starting_code AS bossdefinition_starting_code, bossdefinition.world_id AS bossdefinition_world_id, bossdefinition.track_id AS bossdefinition_track_id, bossdefinition.time_limit_seconds AS bossdefinition_time_limit_seconds, bossdefinition.max_hp AS bossdefinition_max_hp, bossdefinition.base_xp_reward AS bossdefinition_base_xp_reward, bossdefinition.difficulty AS bossdefinition_difficulty, bossdefinition.hint_codex_id AS bossdefinition_hint_codex_id, bossdefinition.enabled AS bossdefinition_enabled, bossdefinition.created_at AS bossdefinition_created_at, bossdefinition.updated_at AS bossdefinition_updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = ?
+2025-12-03 20:17:36,783 INFO sqlalchemy.engine.Engine [cached since 0.03402s ago] ('boss-reactor-core',)
+2025-12-03 20:17:36,784 INFO sqlalchemy.engine.Engine UPDATE bossrun SET completed_at=?, result=?, score=? WHERE bossrun.id = ?
+2025-12-03 20:17:36,785 INFO sqlalchemy.engine.Engine [generated in 0.00014s] ('2025-12-04 01:17:36.784113', 'loss', 45, 1)
+2025-12-03 20:17:36,786 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-03 20:17:36,790 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,790 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.id = ?
+2025-12-03 20:17:36,791 INFO sqlalchemy.engine.Engine [cached since 0.02992s ago] (1,)
+2025-12-03 20:17:36,792 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,792 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,793 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.user_id = ? AND bossrun.result IS NULL
+2025-12-03 20:17:36,793 INFO sqlalchemy.engine.Engine [cached since 0.04022s ago] ('test-user',)
+2025-12-03 20:17:36,794 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,795 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,795 INFO sqlalchemy.engine.Engine SELECT bossrun.id, bossrun.user_id, bossrun.boss_id, bossrun.started_at, bossrun.expires_at, bossrun.completed_at, bossrun.result, bossrun.score, bossrun.hp_remaining, bossrun.judge_trace_id, bossrun.notes 
+FROM bossrun 
+WHERE bossrun.user_id = ? AND bossrun.result IS NULL
+2025-12-03 20:17:36,795 INFO sqlalchemy.engine.Engine [cached since 0.04238s ago] ('test-user',)
+.2025-12-03 20:17:36,796 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-03 20:17:36,797 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-03 20:17:36,797 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = OFF
+2025-12-03 20:17:36,797 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ()
+2025-12-03 20:17:36,798 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-12-03 20:17:36,798 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,798 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-12-03 20:17:36,798 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,799 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chatsession")
+2025-12-03 20:17:36,799 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,799 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-12-03 20:17:36,799 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,800 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("skillnode")
+2025-12-03 20:17:36,800 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,800 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userskill")
+2025-12-03 20:17:36,800 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,801 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-12-03 20:17:36,801 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-12-03 20:17:36,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-12-03 20:17:36,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-12-03 20:17:36,803 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,803 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("projectcodexdoc")
+2025-12-03 20:17:36,803 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,803 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-12-03 20:17:36,803 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,804 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossdefinition")
+2025-12-03 20:17:36,804 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,805 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossrun")
+2025-12-03 20:17:36,805 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,805 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossprogress")
+2025-12-03 20:17:36,805 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,806 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bosscodexprogress")
+2025-12-03 20:17:36,806 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,806 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("trackdefinition")
+2025-12-03 20:17:36,807 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,807 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("questdefinition")
+2025-12-03 20:17:36,807 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,808 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userquest")
+2025-12-03 20:17:36,808 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-03 20:17:36,808 INFO sqlalchemy.engine.Engine 
+DROP TABLE bosscodexprogress
+2025-12-03 20:17:36,808 INFO sqlalchemy.engine.Engine [no key 0.00009s] ()
+2025-12-03 20:17:36,814 INFO sqlalchemy.engine.Engine 
+DROP TABLE projectcodexdoc
+2025-12-03 20:17:36,814 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,820 INFO sqlalchemy.engine.Engine 
+DROP TABLE userquest
+2025-12-03 20:17:36,820 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-03 20:17:36,825 INFO sqlalchemy.engine.Engine 
+DROP TABLE bossprogress
+2025-12-03 20:17:36,826 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-03 20:17:36,831 INFO sqlalchemy.engine.Engine 
+DROP TABLE bossrun
+2025-12-03 20:17:36,831 INFO sqlalchemy.engine.Engine [no key 0.00021s] ()
+2025-12-03 20:17:36,836 INFO sqlalchemy.engine.Engine 
+DROP TABLE project
+2025-12-03 20:17:36,836 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-03 20:17:36,841 INFO sqlalchemy.engine.Engine 
+DROP TABLE userbadge
+2025-12-03 20:17:36,841 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,847 INFO sqlalchemy.engine.Engine 
+DROP TABLE usermetric
+2025-12-03 20:17:36,847 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,852 INFO sqlalchemy.engine.Engine 
+DROP TABLE userskill
+2025-12-03 20:17:36,853 INFO sqlalchemy.engine.Engine [no key 0.00032s] ()
+2025-12-03 20:17:36,858 INFO sqlalchemy.engine.Engine 
+DROP TABLE profile
+2025-12-03 20:17:36,858 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-03 20:17:36,864 INFO sqlalchemy.engine.Engine 
+DROP TABLE chatsession
+2025-12-03 20:17:36,864 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-03 20:17:36,869 INFO sqlalchemy.engine.Engine 
+DROP TABLE user
+2025-12-03 20:17:36,869 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-03 20:17:36,873 INFO sqlalchemy.engine.Engine 
+DROP TABLE questdefinition
+2025-12-03 20:17:36,873 INFO sqlalchemy.engine.Engine [no key 0.00011s] ()
+2025-12-03 20:17:36,878 INFO sqlalchemy.engine.Engine 
+DROP TABLE trackdefinition
+2025-12-03 20:17:36,878 INFO sqlalchemy.engine.Engine [no key 0.00014s] ()
+2025-12-03 20:17:36,883 INFO sqlalchemy.engine.Engine 
+DROP TABLE bossdefinition
+2025-12-03 20:17:36,883 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-12-03 20:17:36,891 INFO sqlalchemy.engine.Engine 
+DROP TABLE knowledgechunk
+2025-12-03 20:17:36,891 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,896 INFO sqlalchemy.engine.Engine 
+DROP TABLE badgedefinition
+2025-12-03 20:17:36,896 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-03 20:17:36,900 INFO sqlalchemy.engine.Engine 
+DROP TABLE skillnode
+2025-12-03 20:17:36,901 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-03 20:17:36,905 INFO sqlalchemy.engine.Engine 
+DROP TABLE avatardefinition
+2025-12-03 20:17:36,905 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-03 20:17:36,910 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = ON
+2025-12-03 20:17:36,910 INFO sqlalchemy.engine.Engine [generated in 0.00016s] ()
+2025-12-03 20:17:36,911 INFO sqlalchemy.engine.Engine COMMIT
+
+
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\vertexai\_model_garden\_model_garden_models.py:278
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\vertexai\_model_garden\_model_garden_models.py:278: UserWarning: This feature is deprecated as of June 24, 2025 and will be removed on June 24, 2026. For details, see https://cloud.google.com/vertex-ai/generative-ai/docs/deprecations/genai-vertexai-sdk.
+    warning_logs.show_deprecation_warning()
+
+arcade_app\agent.py:424
+  D:\EvalForge\arcade_app\agent.py:424: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/backend/test_boss_combat_regression.py: 14 warnings
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\fields.py:656: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+tests/backend/test_boss_combat_regression.py::test_boss_combat_regression_accept_submit_changes_state
+tests/backend/test_boss_combat_regression.py::test_boss_combat_regression_accept_submit_changes_state
+  D:\\EvalForge\\arcade_app\\boss_helper.py:19: DeprecationWarning: \n          \U0001f6a8 You probably want to use `session.exec()` instead of `session.execute()`.\n  \n          This is the original SQLAlchemy `session.execute()` method that returns objects\n          of type `Row`, and that you have to call `scalars()` to get the model objects.\n  \n          For example:\n  \n          ```Python\n          heroes = await session.execute(select(Hero)).scalars().all()\n          ```\n  \n          instead you could use `exec()`:\n  \n          ```Python\n          heroes = await session.exec(select(Hero)).all()\n          ```\n          \n    result = await session.execute(stmt)
+
+tests/backend/test_boss_combat_regression.py::test_boss_combat_regression_accept_submit_changes_state
+  D:\EvalForge\arcade_app\boss_helper.py:24: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests/backend/test_boss_combat_regression.py::test_boss_combat_regression_accept_submit_changes_state
+tests/backend/test_boss_combat_regression.py::test_boss_combat_regression_accept_submit_changes_state
+tests/backend/test_boss_combat_regression.py::test_boss_combat_regression_accept_submit_changes_state
+tests/backend/test_boss_combat_regression.py::test_boss_combat_regression_accept_submit_changes_state
+  D:\\EvalForge\\arcade_app\\boss_helper.py:45: DeprecationWarning: \n          \U0001f6a8 You probably want to use `session.exec()` instead of `session.execute()`.\n  \n          This is the original SQLAlchemy `session.execute()` method that returns objects\n          of type `Row`, and that you have to call `scalars()` to get the model objects.\n  \n          For example:\n  \n          ```Python\n          heroes = await session.execute(select(Hero)).scalars().all()\n          ```\n  \n          instead you could use `exec()`:\n  \n          ```Python\n          heroes = await session.exec(select(Hero)).all()\n          ```\n          \n    result = await session.execute(stmt)
+
+tests/backend/test_boss_combat_regression.py::test_boss_combat_regression_accept_submit_changes_state
+  D:\EvalForge\arcade_app\boss_helper.py:63: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    enc.completed_at = datetime.utcnow()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 1 passed, 26 warnings in 6.69s ========================

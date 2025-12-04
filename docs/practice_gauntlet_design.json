@@ -1,0 +1,162 @@
+{
+    "snapshot_kind": "evalforge_practice_gauntlet_design",
+    "evalforge_version": "2.0",
+    "meta": {
+        "name": "Practice Gauntlet",
+        "slug": "practice_rounds",
+        "goal": "Daily adaptive practice that revisits weak spots across worlds and personal projects.",
+        "status": "designed_not_implemented",
+        "created": "2025-12-04"
+    },
+    "lore": {
+        "tagline": "Each dawn, the Forge assembles a Practice Gauntlet: a curated string of challenges drawn from your past failures, current projects, and neglected skills."
+    },
+    "data_model": {
+        "tables": [
+            "PracticeRound(id, profile_id, date, label, seed, total_items, completed_items, created_at)",
+            "PracticeItem(id, practice_round_id, item_type, world_slug, quest_id, boss_slug, project_slug, difficulty, rationale, status, started_at, completed_at)"
+        ],
+        "views": [
+            "DailyPracticePlan(date, label, items[], completed_count, total_count, streak_days)"
+        ],
+        "item_types": [
+            "quest_review",
+            "boss_review",
+            "micro_drill",
+            "project_maintenance",
+            "concept_flashcard"
+        ]
+    },
+    "selection_logic": {
+        "inputs": [
+            "QuestRun history (grades, attempts, last_run_at)",
+            "BossRun history (scores, autofail, HP)",
+            "Project boss QA results (ApplyLens, LedgerMind, etc.)"
+        ],
+        "struggle_score": {
+            "formula": "0-100 heuristic combining low grades, autofails, repeated attempts, and neglect",
+            "components": [
+                "+40 if last_grade in {D, F, MISSING}",
+                "+25 if last_boss_run.autofail",
+                "+20 if attempts_last_7d >= 2 and last_grade < B",
+                "+10 if not attempted in >= 30 days",
+                "-20 if last_grade == A and attempts_last_30d <= 1"
+            ],
+            "range": "[0, 100] clamped"
+        },
+        "daily_recipe": {
+            "count": "3-5 items",
+            "mix": [
+                "1-2 struggle targets (struggle_score >= 60)",
+                "1-2 maintenance targets (20 <= struggle_score < 60)",
+                "0-1 exploration/new targets (attempts == 0)"
+            ],
+            "determinism": "RNG seeded by hash(profile_id + date)",
+            "world_balance": "Penalty for worlds overused in last N days"
+        }
+    },
+    "api": {
+        "routes": [
+            {
+                "method": "GET",
+                "path": "/api/practice_rounds/today",
+                "returns": "DailyPracticePlan",
+                "description": "Fetch practice plan for current day"
+            },
+            {
+                "method": "POST",
+                "path": "/api/practice_rounds/{round_id}/items/{item_id}/complete",
+                "returns": "updated DailyPracticePlan",
+                "description": "Mark item as completed"
+            },
+            {
+                "method": "GET",
+                "path": "/api/practice_rounds/history",
+                "params": "?limit=N",
+                "returns": "list[DailyPracticePlanSummary]",
+                "description": "Historical practice plans"
+            }
+        ]
+    },
+    "ux": {
+        "locations": [
+            "Workshop / Orion dashboard card: 'Practice Gauntlet'",
+            "Boss HUD / Cyberdeck: 'Practice' tab with today's boss rematches"
+        ],
+        "item_visuals": {
+            "icons": {
+                "quest_review": "scroll/terminal icon",
+                "boss_review": "skull/crown icon",
+                "project_maintenance": "wrench/logs icon",
+                "micro_drill": "target/crosshair icon",
+                "concept_flashcard": "card/brain icon"
+            },
+            "difficulty_colors": "Border color coded by difficulty",
+            "rationale_tooltip": "Show why this item was selected"
+        },
+        "rewards": [
+            {
+                "type": "XP bonus",
+                "value": "+15-25% XP on struggle items"
+            },
+            {
+                "type": "Streak tracking",
+                "mechanics": "Consecutive days with ≥1 practice item completed"
+            },
+            {
+                "type": "Cosmetic titles",
+                "examples": [
+                    "Consistent Caster",
+                    "Loop Grinder"
+                ]
+            }
+        ],
+        "completion_effects": [
+            "Checkmark + subtle XP flare per item",
+            "'Practice Gauntlet Completed!' banner when all items done"
+        ]
+    },
+    "future_extensions": [
+        "Time-budget aware plans (15/30/60-minute modes)",
+        "Agent-guided practice explanations ('why this drill now')",
+        "Integration with external GitHub repos for project-specific drills",
+        "Adaptive difficulty based on completion rate",
+        "Weekly/monthly gauntlet variants for deeper practice",
+        "Team/cohort gauntlet challenges"
+    ],
+    "implementation_phases": {
+        "phase_1": {
+            "scope": "MVP with single world + single project",
+            "worlds": [
+                "The Foundry (Python)"
+            ],
+            "projects": [
+                "ApplyLens"
+            ],
+            "deliverables": [
+                "Models: PracticeRound, PracticeItem",
+                "Builder: build_daily_practice_round()",
+                "API: GET /api/practice_rounds/today",
+                "Basic UI card in Workshop"
+            ]
+        },
+        "phase_2": {
+            "scope": "Full multi-world support",
+            "additions": [
+                "All 7 standard worlds",
+                "Project maintenance items",
+                "Streak tracking",
+                "Completion endpoint"
+            ]
+        },
+        "phase_3": {
+            "scope": "Polish & gamification",
+            "additions": [
+                "Cosmetic rewards",
+                "Agent integration",
+                "History view",
+                "Advanced difficulty adaptation"
+            ]
+        }
+    }
+}

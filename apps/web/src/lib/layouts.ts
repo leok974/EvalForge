@@ -14,7 +14,13 @@ export interface LayoutDefinition {
 // But the plan says "Wire up feature flags", so we might want a wrapper that chooses.
 
 import { OrionLayout } from "@/layouts/OrionLayout";
+import { WorkshopLayout } from "@/layouts/WorkshopLayout";
 import { orionEnabled } from "@/lib/featureFlags";
+
+// We'll use a dummy wrapper for Workshop since it requires props, 
+// but the registry expects ComponentType<{ children: React.ReactNode }>.
+// Actually, GameShell handles the rendering logic, so this registry is mostly for the switcher labels.
+// We can just pass the component and handle props in the consumer.
 
 export const LAYOUTS: LayoutDefinition[] = [
     { id: "cyberdeck", label: "Cyberdeck", component: CyberdeckLayout },
@@ -23,5 +29,14 @@ export const LAYOUTS: LayoutDefinition[] = [
 if (orionEnabled) {
     LAYOUTS.push({ id: "orion", label: "Orion Map", component: OrionLayout });
 }
+
+// Workshop is always available if unlocked (logic handled in switcher)
+// For now we add it here so it shows up.
+LAYOUTS.push({
+    id: "workshop",
+    label: "Workshop",
+    // @ts-ignore - WorkshopLayout props don't match children-only signature, but we handle it in DevUI
+    component: WorkshopLayout
+});
 
 export const DEFAULT_LAYOUT: LayoutId = "cyberdeck";

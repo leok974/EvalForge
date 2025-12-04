@@ -4,7 +4,7 @@ import httpx
 from datetime import datetime, timedelta
 from typing import Dict, Any, Optional
 from jose import jwt, JWTError
-from fastapi import Request, Response
+from fastapi import Request, Response, Depends
 from sqlmodel import select
 from sqlalchemy.exc import IntegrityError
 from arcade_app.database import get_session
@@ -170,3 +170,19 @@ async def get_current_user(request: Request) -> Dict:
         pass
         
     return {}
+
+
+def get_dev_profile_for_boss_qa(current_user: dict = Depends(get_current_user)):
+    """
+    Dev-only helper for boss QA routes.
+    In mock mode, returns a dev user dict without requiring auth.
+    """
+    auth_mode = os.getenv("EVALFORGE_AUTH_MODE", "real")
+    if auth_mode != "mock":
+        return current_user
+    return {
+        "id": "dev-boss-qa@evalforge.local",
+        "name": "Dev Boss QA",
+        "email": "dev-boss-qa@evalforge.local",
+    }
+

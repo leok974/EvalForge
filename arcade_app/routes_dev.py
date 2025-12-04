@@ -21,7 +21,10 @@ async def force_boss(req: ForceBossRequest, user=Depends(get_current_user)):
 
     # Verify boss exists
     async for session in get_session():
+        print(f"DEBUG: force_boss engine: {session.bind.url}")
+        print(f"DEBUG: force_boss looking for {req.boss_id}")
         boss = await session.get(BossDefinition, req.boss_id)
+        print(f"DEBUG: force_boss found: {boss}")
         if not boss:
             raise HTTPException(status_code=404, detail=f"Boss {req.boss_id} not found")
         break
@@ -61,3 +64,4 @@ async def reset_boss_progress(boss_id: str, user=Depends(get_current_user)):
         await session.commit()
         
     return {"status": "reset", "boss_id": boss_id}
+

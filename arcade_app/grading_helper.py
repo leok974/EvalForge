@@ -157,3 +157,135 @@ async def judge_boss_submission(user_id: str, encounter_id: int, code: str) -> i
             return 0
             
     return 0
+
+async def grade_quest_submission(user: Any, quest: Any, code: str, language: str | None = None) -> tuple[int, bool]:
+    """
+    Grades a standard quest submission.
+    Returns (score, passed).
+    """
+    # For now, we map quest track to the track expected by grade_submission
+    # or just pass "default" if not specified.
+    track = quest.track_id if hasattr(quest, "track_id") else "default"
+    
+    # Call the existing grade_submission
+    # Note: grade_submission returns a dict with 'weighted_score' etc.
+    result = await grade_submission(code, track=track)
+    
+    score = int(result.get("weighted_score", 0))
+    
+    # Define pass threshold (e.g. 70)
+    passed = score >= 70
+    
+    return score, passed
+
+
+async def judge_boss_with_rubric(
+    boss, 
+    run,
+    player,
+    submission_context: Dict[str, Any]
+):
+    """
+    Use ZERO + rubric JSON to evaluate a boss submission and compute
+    score + grade + per-dimension breakdown.
+    
+    Args:
+        boss: BossDefinition with rubric_id
+        run: BossRun being evaluated
+        player: Profile of the player
+        submission_context: Code, metrics, and any other context for evaluation
+        
+    Returns:
+        BossEvalResult with score, grade, and combat numbers
+    """
+    from .boss_rubric_helper import load_boss_rubric, score_boss_eval
+    from .boss_rubric_models import BossEvalLLMChoice
+    
+    rubric_id = boss.rubric
+    rubric = load_boss_rubric(rubric_id)
+
+    # Build the payload for ZERO
+    zero_payload = {
+        "boss_slug": boss.id,
+        "rubric_id": rubric.id,
+        "player": {
+            "id": player.id,
+            "name": player.display_name,
+            "level": player.level,
+        },
+        "run": {
+            "id": run.id,
+            "attempt_index": getattr(run, "attempt", 1),
+        },
+        "submission": submission_context,
+    }
+
+    # Call ZERO
+    if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
+        # Mock ZERO response for dev/testing
+        code = submission_context.get("code", "")
+        if "MAGIC_BOSS_PASS" in code:
+            # Perfect score across all dimensions
+            choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": max(b.level for b in dim.bands), "rationale": "Perfect implementation"}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": []
+            }
+        else:
+            # Mid-range score
+            choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": 1, "rationale": "Partial implementation"}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": []
+            }
+        choice = BossEvalLLMChoice.model_validate(choice_data)
+    else:
+        # Real ZERO call via LLM
+        from .llm import call_zero_boss_judge
+        
+        try:
+            zero_resp = call_zero_boss_judge(rubric=rubric, payload=zero_payload)
+            choice = BossEvalLLMChoice.model_validate(zero_resp)
+        except Exception as e:
+            logger.error(f"ZERO boss judge failed: {e}")
+            # Fallback to mid-range score
+            choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": 1, "rationale": f"Eval failed: {str(e)[:50]}"}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": []
+            }
+            choice = BossEvalLLMChoice.model_validate(choice_data)
+
+    # Score the evaluation
+    eval_result = score_boss_eval(rubric, choice)
+
+    # Compute HP + Integrity deltas based on score
+    boss_hp_before = run.boss_hp if run.boss_hp is not None else boss.max_hp
+    hp_fraction = eval_result.total_score / max(1, eval_result.max_score)
+    damage = int(round(boss.max_hp * hp_fraction))
+    boss_hp_after = max(0, boss_hp_before - damage)
+    boss_hp_delta = boss_hp_after - boss_hp_before
+
+    # Integrity damage if score is low
+    integrity_before = player.integrity
+    integrity_damage = 0
+    if eval_result.total_score < eval_result.max_score * 0.5:
+        integrity_damage = 10  # tune this
+    integrity_after = max(0, integrity_before - integrity_damage)
+    integrity_delta = integrity_after - integrity_before
+
+    # Attach combat numbers to result
+    eval_result.boss_hp_before = boss_hp_before
+    eval_result.boss_hp_after = boss_hp_after
+    eval_result.boss_hp_delta = boss_hp_delta
+    eval_result.integrity_before = integrity_before
+    eval_result.integrity_after = integrity_after
+    eval_result.integrity_delta = integrity_delta
+
+    return eval_result

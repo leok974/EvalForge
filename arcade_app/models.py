@@ -75,6 +75,7 @@ class Profile(SQLModel, table=True):
     skill_points: int = 0  # Points available for Tech Tree
     # Store world-specific progress as JSON for flexibility
     world_progress: Dict = Field(default={}, sa_type=JSON) 
+    flags: Dict = Field(default={}, sa_type=JSON) # Generic flags for unlocks
     
     user: User = Relationship(back_populates="profile")
     boss_codex_progress: List["BossCodexProgress"] = Relationship(back_populates="profile")
@@ -207,12 +208,18 @@ class BossDefinition(SQLModel, table=True):
     id: str = Field(primary_key=True)  # e.g. "boss-reactor-core"
     name: str
     description: str = Field(default="")
-    technical_objective: str = Field(default="")
+    # technical_objective: str = Field(default="")  # TODO: Add via migration
     rubric: str = Field(default="")
+    starting_code: str = Field(default="")
 
     # Optional: link back into your worlds/tracks system
     world_id: Optional[str] = Field(default=None, index=True)   # e.g. "world-infra"
     track_id: Optional[str] = Field(default=None, index=True)   # e.g. "infra-fundamentals"
+
+    # Project-specific fields (for project questlines)
+    project_slug: Optional[str] = Field(default=None, index=True)  # e.g. "applylens"
+    tech_focus: List[str] = Field(default_factory=list, sa_type=JSON)  # e.g. ["fastapi", "gmail"]
+    phase: Optional[str] = Field(default=None)  # e.g. "runtime", "intelligence"
 
     # Gameplay / scoring knobs
     time_limit_seconds: int = Field(default=1800)  # 30 min default
@@ -239,6 +246,7 @@ class BossRun(SQLModel, table=True):
     boss_id: str = Field(index=True, foreign_key="bossdefinition.id")
 
     started_at: datetime = Field(default_factory=datetime.utcnow)
+    expires_at: datetime = Field(default_factory=lambda: datetime.utcnow() + timedelta(minutes=30))
     completed_at: Optional[datetime] = Field(default=None)
 
     result: Optional[str] = Field(default=None)  # "win" | "loss" | "timeout"
@@ -280,38 +288,72 @@ class BossCodexProgress(SQLModel, table=True):
 
     profile: "Profile" = Relationship(back_populates="boss_codex_progress")
 
-# --- QUEST MODELS ---
+# --- QUEST MODELS (System 2.0) ---
+
+class QuestState(str, Enum):
+    LOCKED = "locked"
+    AVAILABLE = "available"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    MASTERED = "mastered"
+
+class TrackDefinition(SQLModel, table=True):
+    """
+    Static content for a learning track.
+    """
+    id: str = Field(primary_key=True) # e.g. "python-fundamentals"
+    world_id: str = Field(index=True) # e.g. "world-python"
+    name: str
+    description: str = Field(default="")
+    order_index: int = Field(default=0)
+    boss_slug: Optional[str] = Field(default=None) # Link to boss if track ends with one
 
 class QuestDefinition(SQLModel, table=True):
     """
-    Static content for a quest.
+    Static content for a quest (v2).
     """
-    id: str = Field(primary_key=True) # e.g. "py_01"
-    track_id: str = Field(index=True) # e.g. "python-fundamentals"
-    
-    sequence_order: int = Field(default=1)
-    tier: int = Field(default=1)
-    xp_reward: int = Field(default=100)
-    
-    title: str
-    technical_objective: str
-    rubric_hints: str = ""
-    
-    boss: bool = Field(default=False)
+    id: Optional[int] = Field(default=None, primary_key=True)
+    slug: str = Field(index=True, unique=True)
 
-class UserQuest(SQLModel, table=True):
+    world_id: str = Field(index=True)
+    track_id: str = Field(index=True)
+    order_index: int = Field(default=0)
+
+    title: str
+    short_description: str
+    detailed_description: Optional[str] = None
+
+    rubric_id: Optional[str] = None
+    starting_code_path: Optional[str] = None
+
+    unlocks_boss_id: Optional[str] = None
+    unlocks_layout_id: Optional[str] = None
+
+    base_xp_reward: int = Field(default=50)
+    mastery_xp_bonus: int = Field(default=25)
+
+    is_repeatable: bool = Field(default=False)
+
+class QuestProgress(SQLModel, table=True):
     """
-    Tracks a user's progress on a specific quest instance.
+    Per-user progress state machine for a quest.
     """
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: str = Field(foreign_key="user.id", index=True)
-    
-    source: QuestSource = Field(default=QuestSource.fundamentals)
-    quest_def_id: Optional[str] = Field(default=None, foreign_key="questdefinition.id")
-    
-    status: str = "active" # active, completed
-    started_at: datetime = Field(default_factory=datetime.utcnow)
+    quest_id: int = Field(foreign_key="questdefinition.id")
+
+    state: QuestState = Field(default=QuestState.AVAILABLE)
+
+    attempts: int = Field(default=0)
+    best_score: Optional[float] = None
+
+    last_submitted_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
+    mastered_at: Optional[datetime] = None
     
-    # For dynamic quests (not from curriculum)
-    dynamic_objective: Optional[str] = None
+    # Relationships
+    user: "User" = Relationship()
+    quest: "QuestDefinition" = Relationship()
+
+# Deprecated but kept for migration safety if needed (or remove if bold)
+# class UserQuest(SQLModel, table=True): ...

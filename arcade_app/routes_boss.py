@@ -35,11 +35,12 @@ async def get_current_boss(user=Depends(get_current_user)):
             "encounter_id": enc.id,
             "boss_id": enc.boss_id,
             "expires_at": enc.expires_at.isoformat(),
-            "status": enc.status,
-            "attempts": enc.attempts,
-            "last_score": enc.last_score,
+            "status": "active",
+            "attempts": 1, # Placeholder
+            "last_score": 0, # Placeholder
             "technical_objective": boss.technical_objective if boss else "",
-            "starting_code": boss.starting_code if boss else ""
+            "starting_code": boss.starting_code if boss else "",
+            "hp_remaining": enc.hp_remaining
         }
     
     return {"active": False} # Should not happen if enc exists

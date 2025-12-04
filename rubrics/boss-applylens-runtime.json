@@ -1,0 +1,230 @@
+{
+    "schema_version": "1.0",
+    "id": "applylens_runtime_boss",
+    "boss_slug": "applylens-runtime-boss",
+    "title": "Inbox Maelstrom – Runtime Rubric",
+    "max_score": 100,
+    "dimensions": [
+        {
+            "key": "slo_and_metrics",
+            "label": "SLOs & Metrics",
+            "weight": 0.2,
+            "description": "How clearly the runtime win conditions are defined and wired into metrics.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Missing",
+                    "score": 0,
+                    "criteria": "No explicit SLOs or ingest metrics. Cannot tell when the system is failing."
+                },
+                {
+                    "level": 1,
+                    "label": "Basic",
+                    "score": 10,
+                    "criteria": "Some ingest metrics exist (e.g., a counter or log) but no clear SLO targets or thresholds."
+                },
+                {
+                    "level": 2,
+                    "label": "Good",
+                    "score": 15,
+                    "criteria": "Clear ingest latency/error SLOs and basic dashboards. Alerts could be improved but problems are visible."
+                },
+                {
+                    "level": 3,
+                    "label": "Excellent",
+                    "score": 20,
+                    "criteria": "Well-defined SLOs tied to metrics and alerts; dashboards make storm behavior obvious and actionable."
+                }
+            ]
+        },
+        {
+            "key": "observability_pipeline",
+            "label": "Ingest Observability",
+            "weight": 0.2,
+            "description": "How well the Gmail → DB → Search path is instrumented and debuggable.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Opaque",
+                    "score": 0,
+                    "criteria": "Little or no instrumentation on the ingest path. Failures require manual log spelunking."
+                },
+                {
+                    "level": 1,
+                    "label": "Partial",
+                    "score": 10,
+                    "criteria": "Some logs or metrics exist, but missing key identifiers or stage separation. Hard to tell where threads are stuck."
+                },
+                {
+                    "level": 2,
+                    "label": "Layered",
+                    "score": 15,
+                    "criteria": "Per-stage metrics or logs (Gmail fetch, DB write, index write) with thread IDs and basic correlation."
+                },
+                {
+                    "level": 3,
+                    "label": "Crystal Clear",
+                    "score": 20,
+                    "criteria": "Stage-by-stage metrics, structured logs with correlation IDs, and clear views of queue depth and latency per step."
+                }
+            ]
+        },
+        {
+            "key": "failure_handling",
+            "label": "Timeouts, Retries, and Failure Modes",
+            "weight": 0.2,
+            "description": "How robustly the system handles Gmail/DB/Elasticsearch failures under load.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Fragile",
+                    "score": 0,
+                    "criteria": "No clear timeouts or retries. Failures may hang or crash workers."
+                },
+                {
+                    "level": 1,
+                    "label": "Naive",
+                    "score": 10,
+                    "criteria": "Some retries exist but without proper backoff or limits. Timeouts are inconsistent or missing."
+                },
+                {
+                    "level": 2,
+                    "label": "Resilient",
+                    "score": 15,
+                    "criteria": "Timeouts are configured for core dependencies. Retries use bounded backoff and are visible in logs/metrics."
+                },
+                {
+                    "level": 3,
+                    "label": "Storm-Hardened",
+                    "score": 20,
+                    "criteria": "Clear distinction between transient and permanent failures, bounded retries with backoff, dead-letter/quarantine paths, and clean worker recovery."
+                }
+            ]
+        },
+        {
+            "key": "idempotency_and_consistency",
+            "label": "Idempotency and Consistency",
+            "weight": 0.2,
+            "description": "How well the system handles duplicate/out-of-order events and keeps DB and search index aligned.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Unreliable",
+                    "score": 0,
+                    "criteria": "Duplicates and out-of-order events cause inconsistent state. DB and index drift without detection."
+                },
+                {
+                    "level": 1,
+                    "label": "Basic Guards",
+                    "score": 10,
+                    "criteria": "Some idempotency checks exist (e.g., based on IDs), but no systematic approach to backfill vs real-time or index reconciliation."
+                },
+                {
+                    "level": 2,
+                    "label": "Coherent",
+                    "score": 15,
+                    "criteria": "Idempotent writes using natural keys, basic rules for backfill vs real-time ordering, and some reconciliation logic between DB and index."
+                },
+                {
+                    "level": 3,
+                    "label": "Strong Consistency Discipline",
+                    "score": 20,
+                    "criteria": "Well-defined idempotency across ingest, explicit last-write-wins rules, and regular reconciliation/repair jobs keep DB and index aligned."
+                }
+            ]
+        },
+        {
+            "key": "alerts_and_response",
+            "label": "Alerts and Operational Response",
+            "weight": 0.1,
+            "description": "How quickly operators can detect and respond to Maelstrom conditions.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Silent",
+                    "score": 0,
+                    "criteria": "No alerts or only generic infrastructure alerts. Ingest issues are discovered manually by users."
+                },
+                {
+                    "level": 1,
+                    "label": "Noisy or Vague",
+                    "score": 5,
+                    "criteria": "Some alerts exist, but they are noisy, poorly scoped, or hard to act on."
+                },
+                {
+                    "level": 2,
+                    "label": "Actionable",
+                    "score": 8,
+                    "criteria": "Alerts tied to ingest SLOs and error rates with clear runbook hints."
+                },
+                {
+                    "level": 3,
+                    "label": "Battle-Tested",
+                    "score": 10,
+                    "criteria": "Well-tuned alerts, clear runbooks, and evidence of simulated storm drills or load tests."
+                }
+            ]
+        },
+        {
+            "key": "load_testing_and_drills",
+            "label": "Load Testing and Storm Drills",
+            "weight": 0.1,
+            "description": "Evidence that the system has been tested under storm-like conditions.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Untested",
+                    "score": 0,
+                    "criteria": "No load testing or storm simulation has been done."
+                },
+                {
+                    "level": 1,
+                    "label": "Ad-Hoc",
+                    "score": 5,
+                    "criteria": "Some manual testing or rough scripts exist, but no repeatable process or metrics are captured."
+                },
+                {
+                    "level": 2,
+                    "label": "Scripted",
+                    "score": 8,
+                    "criteria": "There is a repeatable load test or backfill storm script that produces useful metrics and findings."
+                },
+                {
+                    "level": 3,
+                    "label": "Operational Exercise",
+                    "score": 10,
+                    "criteria": "Storm drills are part of regular practice, with documented outcomes and improvements feeding back into code and runbooks."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 90,
+            "label": "S",
+            "description": "Storm-proof runtime: clearly defined SLOs, strong observability, robust failure handling, and tested storm drills."
+        },
+        {
+            "min_score": 75,
+            "label": "A",
+            "description": "Production-ready with minor gaps that show only under extreme or unusual storms."
+        },
+        {
+            "min_score": 60,
+            "label": "B",
+            "description": "Healthy for typical load, but with noticeable weaknesses under sustained storms or dependency failures."
+        },
+        {
+            "min_score": 40,
+            "label": "C",
+            "description": "Adequate for development or low-stakes environments, but not ready for Maelstrom conditions."
+        },
+        {
+            "min_score": 0,
+            "label": "F",
+            "description": "Critical runtime gaps; ingest is fragile or opaque under load."
+        }
+    ],
+    "autofail_conditions": [],
+    "llm_judge_instructions": "Evaluate the ApplyLens runtime implementation against the Inbox Maelstrom rubric. For each dimension, pick the band whose criteria best matches what you observe in the code, configuration, and metrics. Sum band scores to get a total out of max_score. Then map the total to a grade using grade_bands. Explain briefly which dimensions were strong or weak."
+}

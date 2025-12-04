@@ -1,0 +1,33 @@
+name: intent-oracle-evaluator
+description: Evaluate planner implementations via the EvalForge Intent Oracle boss.
+
+entry:
+  kind: process
+  command:
+    - python
+    - scripts/agents/run_intent_oracle_eval.py
+    - "${CANDIDATE_PATH}"
+
+env:
+  EVALFORGE_BASE_URL: "${BASE_URL}"
+  EVALFORGE_API_TOKEN: "${API_TOKEN}"
+
+inputs:
+  BASE_URL:
+    description: EvalForge backend base URL
+    required: true
+  API_TOKEN:
+    description: EvalForge API token allowed to call boss endpoints
+    required: true
+  CANDIDATE_PATH:
+    description: Path to planner implementation defining plan_actions()
+    required: false
+    default: scripts/agents/candidate_planner.py
+
+outputs:
+  output:
+    description: JSON printed by run_intent_oracle_eval.py to stdout
+    from: stdout.json
+  logs:
+    description: Raw logs from the process
+    from: stderr.text

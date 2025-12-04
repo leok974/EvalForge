@@ -22,14 +22,13 @@ async def create_encounter(user_id: str, boss_id: str):
             return existing
 
         now = datetime.utcnow()
+        expires_at = now + timedelta(seconds=boss.time_limit_seconds)
         encounter = BossRun(
             user_id=user_id,
             boss_id=boss.id,
             started_at=now,
+            expires_at=expires_at,
             hp_remaining=boss.max_hp,
-            # Note: BossRun doesn't have status/expires_at in the new model?
-            # We might need to map them or update BossRun model.
-            # For now let's assume BossRun is what we want.
         )
         session.add(encounter)
         await session.commit()

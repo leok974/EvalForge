@@ -1,0 +1,99 @@
+{
+    "kind": "evalforge_boss_qa_system",
+    "version": "1.0",
+    "status": "production_ready",
+    "created": "2025-12-04",
+    "components": {
+        "llm_integration": {
+            "engine": "ZERO",
+            "prompt_file": "arcade_app/prompts/zero_boss_judge.py",
+            "client": "arcade_app/llm.py:call_zero_boss_judge"
+        },
+        "rubric_scoring": {
+            "models": "BossRubric, BossEvalLLMChoice, BossEvalResult",
+            "helper": "arcade_app/boss_rubric_helper.py"
+        },
+        "combat_mapping": {
+            "location": "resolve_boss_run (grading helper)",
+            "fields": [
+                "boss_hp_before",
+                "boss_hp_after",
+                "integrity_before",
+                "integrity_after"
+            ]
+        },
+        "auth": {
+            "mode_env": "EVALFORGE_AUTH_MODE",
+            "mock_helper": "get_dev_profile_for_boss_qa",
+            "behavior": "auto-dev profile when mode=mock"
+        },
+        "api_endpoints": {
+            "world_boss_qa": "POST /api/dev/boss_qa/worlds",
+            "applylens_boss_qa": "POST /api/dev/boss_qa/applylens"
+        },
+        "cli_tools": {
+            "worlds": "scripts/agents/evalforge_boss_qa_all_worlds.py",
+            "applylens": "scripts/agents/evalforge_boss_qa_applylens.py",
+            "unified": "scripts/agents/evalforge_boss_qa_all.py"
+        },
+        "db": {
+            "model": "BossDefinition",
+            "debug_tool": "scripts/debug_sqlmodel_create_all.py",
+            "seeder": "scripts/seed_evalforge_bosses.py"
+        },
+        "tests": {
+            "components": "tests/backend/test_boss_qa_components.py"
+        }
+    },
+    "runbook": {
+        "env": [
+            "export DATABASE_URL=postgresql+asyncpg://evalforge:evalforge@localhost:5432/evalforge",
+            "export EVALFORGE_AUTH_MODE=mock"
+        ],
+        "steps": [
+            "python scripts/debug_sqlmodel_create_all.py",
+            "python scripts/seed_evalforge_bosses.py",
+            "uvicorn arcade_app.agent:app --port 8081",
+            "python scripts/agents/evalforge_boss_qa_all.py --base-url http://127.0.0.1:8081"
+        ]
+    },
+    "ci_integration": {
+        "pattern": "explicit_seeding",
+        "steps": [
+            "alembic upgrade head",
+            "python scripts/seed_evalforge_bosses.py",
+            "uvicorn arcade_app.agent:app --host 0.0.0.0 --port 8081 &",
+            "sleep 5",
+            "python scripts/agents/evalforge_boss_qa_all.py --base-url http://127.0.0.1:8081"
+        ]
+    },
+    "files_created": {
+        "count": 17,
+        "list": [
+            "arcade_app/prompts/zero_boss_judge.py",
+            "arcade_app/llm.py (additions)",
+            "arcade_app/boss_rubric_models.py",
+            "arcade_app/boss_rubric_helper.py",
+            "arcade_app/grading_helper.py (additions)",
+            "arcade_app/boss_qa_applylens.py",
+            "arcade_app/boss_qa_worlds.py",
+            "arcade_app/routers/routes_boss_qa_applylens.py",
+            "arcade_app/routers/routes_boss_qa_worlds.py",
+            "arcade_app/seed_bosses_core.py",
+            "arcade_app/auth_helper.py (get_dev_profile_for_boss_qa)",
+            "scripts/agents/evalforge_boss_qa_applylens.py",
+            "scripts/agents/evalforge_boss_qa_all_worlds.py",
+            "scripts/agents/evalforge_boss_qa_all.py",
+            "scripts/seed_evalforge_bosses.py",
+            "scripts/debug_sqlmodel_create_all.py",
+            "alembic/versions/001_add_boss_technical_objective.py"
+        ]
+    },
+    "verification": {
+        "component_tests": "✅ PASSING",
+        "table_creation": "✅ VERIFIED (debug script)",
+        "boss_seeding": "✅ VERIFIED (4 bosses seeded)",
+        "metadata_registration": "✅ VERIFIED (bossdefinition in metadata)",
+        "database_tables": "✅ VERIFIED (19 tables created)"
+    }
+}
