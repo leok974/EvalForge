@@ -389,8 +389,8 @@ def _compute_struggle_score_for_boss(
     return max(0, min(100, score))
 
 
-def _boss_candidates_for_profile_foundry_and_applylens(
-    db: "Session",
+async def _boss_candidates_for_profile_foundry_and_applylens(
+    db: "AsyncSession",
     profile: "Profile",
 ) -> List[PracticeCandidate]:
     """
@@ -405,7 +405,7 @@ def _boss_candidates_for_profile_foundry_and_applylens(
     from arcade_app.models import BossDefinition
     
     target_ids = {
-        "reactor-core",            # Foundry boss
+        "reactor-core",            # Foundary boss
         "signal-prism",            # Prism boss
         "applylens-runtime-boss",  # ApplyLens runtime boss
         "applylens-agent-boss",    # ApplyLens agent boss
@@ -416,7 +416,8 @@ def _boss_candidates_for_profile_foundry_and_applylens(
         .where(BossDefinition.id.in_(target_ids))  # type: ignore
         .where(BossDefinition.enabled == True)  # type: ignore[comparison-overlap]
     )
-    boss_defs = db.exec(q_boss_defs).all()
+    result = await db.execute(q_boss_defs)
+    boss_defs = result.scalars().all()
 
     if not boss_defs:
         return []
@@ -445,8 +446,8 @@ def _boss_candidates_for_profile_foundry_and_applylens(
     return candidates
 
 
-def _quest_candidates_for_profile_foundry(
-    db: "Session",
+async def _quest_candidates_for_profile_foundry(
+    db: "AsyncSession",
     profile: "Profile",
 ) -> List[PracticeCandidate]:
     """
@@ -460,7 +461,8 @@ def _quest_candidates_for_profile_foundry(
     
     # Grab quests in world-python
     q_quests = select(QuestDefinition).where(QuestDefinition.world_id == "world-python")
-    quests = db.exec(q_quests).all()
+    result = await db.execute(q_quests)
+    quests = result.scalars().all()
 
     if not quests:
         return []
@@ -513,8 +515,8 @@ def _project_maintenance_candidates_applylens(
     ]
 
 
-def collect_practice_candidates_for_profile_foundry_applylens(
-    db: "Session",
+async def collect_practice_candidates_for_profile_foundry_applylens(
+    db: "AsyncSession",
     profile: "Profile",
 ) -> List[PracticeCandidate]:
     """
@@ -525,15 +527,15 @@ def collect_practice_candidates_for_profile_foundry_applylens(
     """
     candidates: List[PracticeCandidate] = []
 
-    candidates += _quest_candidates_for_profile_foundry(db, profile)
-    candidates += _boss_candidates_for_profile_foundry_and_applylens(db, profile)
+    candidates += await _quest_candidates_for_profile_foundry(db, profile)
+    candidates += await _boss_candidates_for_profile_foundry_and_applylens(db, profile)
     candidates += _project_maintenance_candidates_applylens(db, profile)
 
     return candidates
 
 
-def get_daily_practice_plan_for_profile_foundry_applylens(
-    db: "Session",
+async def get_daily_practice_plan_for_profile_foundry_applylens(
+    db: "AsyncSession",
     profile: "Profile",
     today: date,
     max_items: int = 5,
@@ -545,7 +547,7 @@ def get_daily_practice_plan_for_profile_foundry_applylens(
       
     Returns a deterministic daily practice plan focused on these areas.
     """
-    candidates = collect_practice_candidates_for_profile_foundry_applylens(db, profile)
+    candidates = await collect_practice_candidates_for_profile_foundry_applylens(db, profile)
 
     return build_practice_round_from_candidates(
         profile_id=str(profile.id),

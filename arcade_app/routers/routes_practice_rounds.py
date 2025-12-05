@@ -2,10 +2,10 @@
 from datetime import date
 
 from fastapi import APIRouter, Depends
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from arcade_app.database import get_session
-from arcade_app.models import Profile
+from arcade_app.models import Profile, User
 from arcade_app.auth_helper import get_current_user
 from arcade_app.practice_gauntlet import (
     DailyPracticePlan,
@@ -31,32 +31,34 @@ async def get_today_practice_round(
     Note: This is a dev/gameplay route, not admin-only.
     In mock mode (EVALFORGE_AUTH_MODE=mock), it will work without real auth.
     """
-    # Get or create profile from user
-    # For Phase 0, we'll use a simple approach
-    from sqlmodel import select
-    from arcade_app.models import Profile, User
-    
     # Get user
     user_id = current_user.get("id") or current_user.get("email") or "dev-user"
     
-    # Try to get existing user
+    # Try to get existing user - properly await async session
     user_stmt = select(User).where(User.id == user_id)
-    user = session.exec(user_stmt).first()
+    result = await session.execute(user_stmt)
+    user = result.scalar_one_or_none()
     
     if not user:
+        # Ensure default avatar exists BEFORE creating user (prevents FK violation)
+        from arcade_app.auth_helper import ensure_default_avatar
+        await ensure_default_avatar(session)
+        
         # Create dev user for testing
         user = User(
             id=user_id,
             name=current_user.get("name", "Dev User"),
             avatar_url=current_user.get("avatar_url", ""),
+            # current_avatar_id will use model default ("default_user") which now exists
         )
         session.add(user)
-        session.commit()
-        session.refresh(user)
+        await session.commit()
+        await session.refresh(user)
     
-    # Get or create profile
+    # Get or create profile - properly await async session
     profile_stmt = select(Profile).where(Profile.user_id == user.id)
-    profile = session.exec(profile_stmt).first()
+    result = await session.execute(profile_stmt)
+    profile = result.scalar_one_or_none()
     
     if not profile:
         # Create profile
@@ -67,11 +69,11 @@ async def get_today_practice_round(
             total_xp=0,
         )
         session.add(profile)
-        session.commit()
-        session.refresh(profile)
+        await session.commit()
+        await session.refresh(profile)
     
     today = date.today()
-    return get_daily_practice_plan_for_profile_foundry_applylens(
+    return await get_daily_practice_plan_for_profile_foundry_applylens(
         db=session,
         profile=profile,
         today=today,

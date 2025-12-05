@@ -11,6 +11,9 @@ class QuestSource(str, Enum):
     project = "project"
     boss = "boss"
 
+# Avatar constants
+DEFAULT_AVATAR_ID = "default_user"
+
 # --- USER & GAMIFICATION ---
 
 # --- USER & GAMIFICATION ---

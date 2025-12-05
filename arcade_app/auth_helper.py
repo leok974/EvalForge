@@ -186,3 +186,37 @@ def get_dev_profile_for_boss_qa(current_user: dict = Depends(get_current_user)):
         "email": "dev-boss-qa@evalforge.local",
     }
 
+
+# --- Avatar Helper ---
+
+async def ensure_default_avatar(session):
+    """
+    Ensure the default avatar exists in the database.
+    
+    This prevents FK constraint violations when creating dev users.
+    Called automatically during dev user creation.
+    """
+    from arcade_app.models import AvatarDefinition
+    
+    # Use hardcoded constant for now (will be imported from models once constant is added properly)
+    DEFAULT_AVATAR_ID = "default_user"
+    
+    avatar = await session.get(AvatarDefinition, DEFAULT_AVATAR_ID)
+    if avatar:
+        return avatar
+
+    # Create the default avatar
+    avatar = AvatarDefinition(
+        id=DEFAULT_AVATAR_ID,
+        name="Default Adventurer",
+        description="Fallback avatar for new users. A mysterious figure shrouded in starter gear.",
+        visual_type="icon",
+        visual_data="user",  # Lucide icon name
+        rarity="common",
+        required_level=1,
+        is_active=True,
+    )
+    session.add(avatar)
+    await session.commit()
+    await session.refresh(avatar)
+    return avatar
