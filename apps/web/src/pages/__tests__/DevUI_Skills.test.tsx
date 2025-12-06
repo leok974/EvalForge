@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import DevUI from '../DevUI';
 import * as SkillsHook from '../../hooks/useSkills';
 import * as AuthHook from '../../hooks/useAuth';
 import * as StreamHook from '../../hooks/useArcadeStream';
 import * as BossStore from '../../store/bossStore';
+import { MemoryRouter } from 'react-router-dom';
 
 // Mock Hooks
 vi.mock('../../hooks/useArcadeStream', () => ({
@@ -47,7 +48,14 @@ describe('DevUI Skill Gating', () => {
             hasSkill: (key: string) => false // All locked
         });
 
-        render(<DevUI />);
+        render(
+            <MemoryRouter>
+                <DevUI />
+            </MemoryRouter>
+        );
+
+        // Switch to Terminal View to see Input
+        fireEvent.click(screen.getByText('Terminal'));
 
         // Editor should show raw mode placeholder
         expect(screen.getByPlaceholderText(/RAW MODE/)).toBeDefined();
@@ -61,7 +69,14 @@ describe('DevUI Skill Gating', () => {
             hasSkill: (key: string) => key === 'syntax_highlighter'
         });
 
-        render(<DevUI />);
+        render(
+            <MemoryRouter>
+                <DevUI />
+            </MemoryRouter>
+        );
+
+        // Switch to Terminal View
+        fireEvent.click(screen.getByText('Terminal'));
 
         // Editor should show standard placeholder
         expect(screen.getByPlaceholderText(/Paste code or ask a question/)).toBeDefined();
@@ -74,7 +89,11 @@ describe('DevUI Skill Gating', () => {
             hasSkill: (key: string) => key === 'agent_explain'
         });
 
-        render(<DevUI />);
+        render(
+            <MemoryRouter>
+                <DevUI />
+            </MemoryRouter>
+        );
 
         const btn = screen.getByText('EXPLAIN'); // No lock icon
         expect(btn).toBeDefined();
@@ -89,7 +108,11 @@ describe('DevUI Skill Gating', () => {
             hasSkill: (key: string) => key === 'agent_debug'
         });
 
-        render(<DevUI />);
+        render(
+            <MemoryRouter>
+                <DevUI />
+            </MemoryRouter>
+        );
 
         const btn = screen.getByText('DEBUG'); // No lock icon
         expect(btn).toBeDefined();

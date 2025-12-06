@@ -1,25 +1,54 @@
 import { OrionTrackNode, OrionWorldId } from "./types";
-import { useCurriculumStore } from "@/store/curriculumStore";
+import { worlds } from "@/config/worldConfig";
+import { WORLD_TRACKS } from "@/config/worldTracks";
 
-// Pseudo-adapter to get tracks from store and map to Orion nodes
-export function buildOrionTracks(worldId: OrionWorldId): OrionTrackNode[] {
-    // In a real app, we'd filter by worldId. 
-    // For now, we'll just grab all tracks and pretend they belong to the world, 
-    // or filter if the store supports it.
-    // The user prompt said: "from your store/api"
+export type { OrionTrackNode };
 
-    const tracks = useCurriculumStore.getState().tracks;
+// Map world config to Orion nodes
+export function getWorldNodes() {
+    const ringRadius = 220;
+    const angleStep = (2 * Math.PI) / worlds.length;
 
-    // Filter tracks relevant to the world (mock logic for now as tracks might not have worldId yet)
-    // We'll just map the first N tracks to avoid empty screens if filtering fails
-    const worldTracks = tracks.slice(0, 8);
-
-    return worldTracks.map((track, idx) => ({
-        id: track.id,
-        title: track.title,
-        difficulty: track.difficulty as "novice" | "intermediate" | "advanced",
-        progressPct: track.progress, // Assuming store has 'progress'
-        orbitIndex: 1 + Math.floor(idx / 4), // simple ring assignment
-        angleDeg: (idx % 4) * 90 + 15 * (idx % 2),
+    return worlds.map((world, index) => ({
+        id: world.slug as OrionWorldId,
+        label: world.name,
+        color: world.color,
+        radius: ringRadius,
+        angle: index * angleStep,
     }));
+}
+
+import { getTrackProgress } from "@/features/progress/trackProgress";
+
+// Get tracks for a specific world from config
+export function getTrackNodesForWorld(worldSlug: string): OrionTrackNode[] {
+    const worldTracks = WORLD_TRACKS.filter(t => t.worldSlug === worldSlug);
+
+    // Default to at least one 'empty' track slot if none found?
+    // User request: "no more blank bubbles... every world gets at least one track"
+    // Since WORLD_TRACKS covers all worlds, we should use that.
+
+    // Fallback if somehow config is missing (safety)
+    const count = worldTracks.length || 1;
+    const ringRadius = 320;
+    const angleStep = (2 * Math.PI) / count;
+    const startAngle = -Math.PI / 2;
+
+    return worldTracks.map((track, index) => {
+        // Real progress from cache
+        const progress = getTrackProgress(track.trackSlug);
+
+        return {
+            id: track.trackSlug, // Use slug as ID for compatibility
+            title: track.label,
+            difficulty: track.difficulty,
+            progressPct: progress,
+            orbitIndex: 1,
+            angleDeg: 0,
+            radius: ringRadius,
+            angle: startAngle + (index * angleStep),
+            slug: track.trackSlug,
+            worldSlug: track.worldSlug,
+        };
+    });
 }

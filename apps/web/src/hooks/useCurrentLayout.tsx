@@ -46,7 +46,7 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         [layout, setLayout],
     );
 
-    return <LayoutContext.Provider value={ value }> { children } </LayoutContext.Provider>;
+    return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
 };
 
 export function useCurrentLayout(): LayoutContextValue {

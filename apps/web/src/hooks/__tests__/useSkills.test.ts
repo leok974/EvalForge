@@ -12,6 +12,13 @@ const mockTree = {
 
 describe('useSkills Hook', () => {
     beforeAll(() => {
+        // Verify god mode is OFF in tests
+        console.log('🔍 ENV in useSkills.test.ts', {
+            DEV_UNLOCK: import.meta.env.VITE_DEV_UNLOCK_ALL,
+            UNLOCK_ALL: import.meta.env.VITE_UNLOCK_ALL,
+            LAYOUT_UNLOCK: import.meta.env.VITE_LAYOUT_UNLOCK_ALL,
+        });
+
         global.fetch = vi.fn();
         window.fetch = global.fetch;
     });

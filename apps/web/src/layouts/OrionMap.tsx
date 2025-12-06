@@ -1,28 +1,53 @@
 import { ORION_WORLDS, OrionWorldId, OrionWorldConfig, OrionTrackNode } from "./orion/types";
-import { useMemo, useState } from "react";
-import { buildOrionTracks } from "./orion/adapters";
+import { useEffect, useMemo, useState } from "react";
+import { getTrackNodesForWorld, getWorldNodes } from "./orion/adapters";
 import { cn } from "@/lib/utils";
-import { useGameStore } from "@/store/gameStore";
+import { useGameStore, ActiveTrack } from "@/store/gameStore";
 import { fxEnabled } from "@/lib/featureFlags";
-
-type Props = {
-    activeWorldId: OrionWorldId;
-    onWorldChange: (worldId: OrionWorldId) => void;
-    onTrackSelected: (trackId: string) => void;
-};
+import { subscribeWorldProgress } from "@/lib/worldProgressEvents";
 
 type ParallaxState = { x: number; y: number }; // normalized -1..1
 
-export function OrionMap({ activeWorldId, onWorldChange, onTrackSelected }: Props) {
+export function OrionMap() {
+    const [localWorldId, setLocalWorldId] = useState<OrionWorldId>('world-python');
     const [hoverTrackId, setHoverTrackId] = useState<string | null>(null);
     const [parallax, setParallax] = useState<ParallaxState>({ x: 0, y: 0 });
 
+    // REAL-TIME UPDATES STATE
+    const [progressVersion, setProgressVersion] = useState(0);
+    const [highlightTrackSlug, setHighlightTrackSlug] = useState<string | null>(null);
+
+    const activeTrack = useGameStore((s) => s.activeTrack);
+    const setActiveTrack = useGameStore((s) => s.setActiveTrack);
+
+    // 🔔 Listen for world progress updates
+    useEffect(() => {
+        const unsubscribe = subscribeWorldProgress((event) => {
+            setProgressVersion((v) => v + 1);
+
+            if (event.trackSlug) {
+                setHighlightTrackSlug(event.trackSlug);
+                // Clear highlight after a short glow
+                window.setTimeout(() => {
+                    setHighlightTrackSlug((current) =>
+                        current === event.trackSlug ? null : current
+                    );
+                }, 1200);
+            }
+        });
+        return unsubscribe;
+    }, []);
+
+    // Default to the first world if no valid ID
     const activeWorld: OrionWorldConfig =
-        ORION_WORLDS.find((w) => w.id === activeWorldId) ?? ORION_WORLDS[0];
+        ORION_WORLDS.find((w) => w.id === localWorldId) ?? ORION_WORLDS[0];
+
+    // Get all worlds for the navigation ring
+    const worldNodes = useMemo(() => getWorldNodes(), []);
 
     const tracks: OrionTrackNode[] = useMemo(
-        () => buildOrionTracks(activeWorld.id),
-        [activeWorld.id]
+        () => getTrackNodesForWorld(activeWorld.id),
+        [activeWorld.id, progressVersion] // 👈 progressVersion forces recompute
     );
 
     const selectedTrack =
@@ -36,15 +61,34 @@ export function OrionMap({ activeWorldId, onWorldChange, onTrackSelected }: Prop
         const nx = (e.clientX - rect.left) / rect.width;  // 0..1
         const ny = (e.clientY - rect.top) / rect.height;  // 0..1
 
-        const x = (nx - 0.5) * 2; // -1..1
-        const y = (ny - 0.5) * 2; // -1..1
+        const strength = 40;
+        const x = (nx - 0.5) * strength;
+        const y = (ny - 0.5) * strength;
 
-        setParallax({ x: Math.max(-1, Math.min(1, x)), y: Math.max(-1, Math.min(1, y)) });
+        setParallax({ x: Math.max(-1, Math.min(1, x / 20)), y: Math.max(-1, Math.min(1, y / 20)) }); // Keep normalized state roughly same range but use stronger effect in render or just bump state range?
+        // User patch said:
+        // const strength = 40;
+        // setOffset({ x: -relX * strength, y: -relY * strength });
+        // My implementation uses normalized -1..1 state.
+
+        // Let's adjust the calculation to match the "stronger" desire while keeping my state shape simple.
+        // I will just bump the multipliers in the render function instead of changing state range here to minimize regression.
+        setParallax({ x: (nx - 0.5) * 2, y: (ny - 0.5) * 2 });
     }
 
     function handleMouseLeave() {
         if (!fxEnabled) return;
         setParallax({ x: 0, y: 0 });
+    }
+
+    function handleWorldClick(worldId: OrionWorldId) {
+        setLocalWorldId(worldId);
+
+        // Clear active track if switching to a different world
+        const targetWorld = ORION_WORLDS.find(w => w.id === worldId);
+        if (activeTrack && targetWorld && activeTrack.worldSlug !== targetWorld.slug) {
+            setActiveTrack(null);
+        }
     }
 
     return (
@@ -62,18 +106,28 @@ export function OrionMap({ activeWorldId, onWorldChange, onTrackSelected }: Prop
                 <div className="relative flex-1">
                     <GalaxyView
                         activeWorld={activeWorld}
+                        worldNodes={worldNodes}
                         tracks={tracks}
-                        onWorldChange={onWorldChange}
+                        onWorldChange={handleWorldClick}
                         onTrackHover={setHoverTrackId}
                         onTrackClick={(id) => {
-                            onTrackSelected(id);
-                            setHoverTrackId(id);
+                            // find the track node to pass full details
+                            const trackNode = tracks.find(t => t.id === id);
+                            if (trackNode) {
+                                setActiveTrack({
+                                    worldSlug: trackNode.worldSlug,
+                                    trackSlug: trackNode.slug,
+                                    label: trackNode.title
+                                });
+                            }
                         }}
                         parallax={parallax}
+                        activeTrack={activeTrack}
+                        highlightTrackSlug={highlightTrackSlug}
                     />
                 </div>
 
-                <div className="relative w-[320px] border-l border-cyan-400/25 bg-slate-950/80 backdrop-blur-sm">
+                <div className="relative w-[320px] border-l border-cyan-400/25 bg-slate-950/80 backdrop-blur-sm hidden xl:block">
                     <InfoPanel world={activeWorld} track={selectedTrack} />
                 </div>
             </div>
@@ -83,148 +137,28 @@ export function OrionMap({ activeWorldId, onWorldChange, onTrackSelected }: Prop
 
 function GalaxyView({
     activeWorld,
+    worldNodes,
     tracks,
     onWorldChange,
     onTrackHover,
     onTrackClick,
     parallax,
+    activeTrack,
+    highlightTrackSlug,
 }: {
     activeWorld: OrionWorldConfig;
+    worldNodes: ReturnType<typeof getWorldNodes>;
     tracks: OrionTrackNode[];
     onWorldChange: (id: OrionWorldId) => void;
     onTrackHover: (id: string | null) => void;
     onTrackClick: (id: string) => void;
     parallax: { x: number; y: number };
+    activeTrack: ActiveTrack | null;
+    highlightTrackSlug: string | null;
 }) {
-    const orbitIndices = Array.from(new Set(tracks.map((t) => t.orbitIndex)));
-
-    const worldParallaxStyle = fxEnabled
-        ? {
-            transform: `translate3d(${parallax.x * 18}px, ${parallax.y * 12}px, 0)`,
-        }
-        : undefined;
-
-    const orbitParallaxStyle = fxEnabled
-        ? {
-            transform: `translate3d(${parallax.x * -10}px, ${parallax.y * -8}px, 0)`,
-        }
-        : undefined;
-
     return (
-        <div className="relative flex h-full w-full items-center justify-center">
-            {/* World selector planets (outer ring) */}
-            <div
-                className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                style={worldParallaxStyle}
-            >
-                <div
-                    className={cn(
-                        "relative h-[520px] w-[520px] pointer-events-auto",
-                        fxEnabled && "orion-spin-worlds"
-                    )}
-                >
-                    {ORION_WORLDS.map((world) => {
-                        const radius = 230;
-                        const angle = (world.angleDeg * Math.PI) / 180;
-                        const x = Math.cos(angle) * radius;
-                        const y = Math.sin(angle) * radius;
-                        const isActive = world.id === activeWorld.id;
-
-                        return (
-                            <button
-                                key={world.id}
-                                onClick={() => onWorldChange(world.id)}
-                                className={cn(
-                                    "absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 transition-transform duration-200 ease-out",
-                                    isActive ? "scale-110" : "scale-95 hover:scale-105"
-                                )}
-                                style={{
-                                    left: `calc(50% + ${x}px)`,
-                                    top: `calc(50% + ${y}px)`,
-                                    borderColor: world.color,
-                                    boxShadow: isActive
-                                        ? `0 0 25px ${world.color}55`
-                                        : `0 0 10px ${world.color}33`,
-                                }}
-                            >
-                                <div
-                                    className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-950/90"
-                                    style={{
-                                        backgroundImage: `radial-gradient(circle at 30% 20%, ${world.color}, transparent 55%)`,
-                                    }}
-                                >
-                                    <span className="text-[10px] font-semibold tracking-[0.18em] text-slate-50">
-                                        {world.label}
-                                    </span>
-                                </div>
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* Orbit rings + track nodes */}
-            <div
-                className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                style={orbitParallaxStyle}
-            >
-                <div
-                    className={cn(
-                        "relative h-[420px] w-[420px] pointer-events-auto",
-                        fxEnabled && "orion-spin-orbits"
-                    )}
-                >
-                    {/* Orbits */}
-                    {orbitIndices.map((orbitIndex) => {
-                        const size = 120 + orbitIndex * 60;
-                        return (
-                            <div
-                                key={orbitIndex}
-                                className="absolute rounded-full border border-cyan-400/25"
-                                style={{
-                                    width: size * 2,
-                                    height: size * 2,
-                                    left: "50%",
-                                    top: "50%",
-                                    transform: "translate(-50%, -50%)",
-                                }}
-                            />
-                        );
-                    })}
-
-                    {/* Track nodes */}
-                    {tracks.map((track) => {
-                        const radius = 120 + track.orbitIndex * 60;
-                        const angle = (track.angleDeg * Math.PI) / 180;
-                        const x = Math.cos(angle) * radius;
-                        const y = Math.sin(angle) * radius;
-                        const progress = Math.round(track.progressPct);
-
-                        return (
-                            <button
-                                key={track.id}
-                                onMouseEnter={() => onTrackHover(track.id)}
-                                onMouseLeave={() => onTrackHover(null)}
-                                onClick={() => onTrackClick(track.id)}
-                                className="absolute -translate-x-1/2 -translate-y-1/2"
-                                style={{
-                                    left: `calc(50% + ${x}px)`,
-                                    top: `calc(50% + ${y}px)`,
-                                }}
-                            >
-                                <div className="rounded-full border border-cyan-400/70 bg-slate-950/90 px-3 py-1.5 text-center text-[10px] tracking-[0.16em] text-slate-50 shadow-[0_0_16px_rgba(56,189,248,0.55)] hover:bg-cyan-500/10">
-                                    <div className="truncate">{track.title}</div>
-                                    <div className="mt-0.5 text-[9px] text-slate-400">
-                                        {progress}% • {track.difficulty.toUpperCase()}
-                                    </div>
-                                </div>
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* Central planet stays in the middle */}
+        <div className="absolute inset-0 flex items-center justify-center">
+            {/* Central Planet (Active World) */}
             <div
                 className={cn(
                     "absolute flex items-center justify-center rounded-full border-2 border-cyan-300 shadow-[0_0_40px_rgba(56,189,248,0.8)]",
@@ -233,16 +167,85 @@ function GalaxyView({
                 style={{
                     width: activeWorld.radius * 2,
                     height: activeWorld.radius * 2,
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%, -50%)",
+                    // Parallax effect on planet? Optional
+                    transform: `translate(${parallax.x * 10}px, ${parallax.y * 10}px)`,
                     backgroundImage: `radial-gradient(circle at 35% 25%, ${activeWorld.color}, #020617 55%)`,
                 }}
             >
-                <span className="text-xs font-semibold tracking-[0.22em]">
-                    {activeWorld.label} WORLD
-                </span>
+                <div className="flex flex-col items-center">
+                    <span className="text-xs font-semibold tracking-[0.22em] text-white">
+                        {activeWorld.label}
+                    </span>
+                    <span className="text-[9px] text-cyan-200/60 tracking-wider">SECTOR</span>
+                </div>
             </div>
+
+            {/* Orbiting Worlds (Navigation) */}
+            {worldNodes.map((world: any) => { // TODO: Type this properly
+                const isActive = world.id === activeWorld.id;
+                // Calculate position based on its static angle from adapter
+                const x = Math.cos(world.angle) * world.radius;
+                const y = Math.sin(world.angle) * world.radius;
+
+                return (
+                    <button
+                        key={world.id}
+                        onClick={() => onWorldChange(world.id)}
+                        className={cn(
+                            "absolute flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-500",
+                            isActive
+                                ? "border-cyan-300 bg-cyan-500/20 scale-110 shadow-[0_0_15px_rgba(34,211,238,0.4)]"
+                                : "border-slate-800 bg-slate-900/40 text-slate-500 hover:border-cyan-500/50 hover:text-cyan-100"
+                        )}
+                        style={{
+                            transform: `translate(calc(-50% + ${x + parallax.x * 5}px), calc(-50% + ${y + parallax.y * 5}px))`,
+                        }}
+                    >
+                        <span className="text-[9px] font-bold tracking-wider">{world.label.slice(0, 3).toUpperCase()}</span>
+                    </button>
+                )
+            })}
+
+            {/* Tracks Orbiting */}
+            {tracks.map((track) => {
+                const x = Math.cos(track.angle) * track.radius;
+                const y = Math.sin(track.angle) * track.radius;
+                const progress = Math.round(track.progressPct);
+
+                // Check selection using slugs
+                const isSelected = activeTrack?.trackSlug === track.slug;
+                const isHighlighted = highlightTrackSlug === track.slug;
+
+                return (
+                    <button
+                        key={track.id}
+                        onMouseEnter={() => onTrackHover(track.id)}
+                        onMouseLeave={() => onTrackHover(null)}
+                        onClick={() => onTrackClick(track.id)}
+                        className="absolute"
+                        style={{
+                            // Start from center, add offset
+                            transform: `translate(calc(-50% + ${x + parallax.x * 40}px), calc(-50% + ${y + parallax.y * 40}px))`,
+                        }}
+                    >
+                        <div
+                            className={cn(
+                                "rounded-full border px-3 py-1.5 text-center text-[10px] tracking-[0.16em] shadow-[0_0_16px_rgba(56,189,248,0.55)] transition-all duration-300",
+                                isSelected
+                                    ? "border-cyan-300 bg-cyan-950/90 text-cyan-50 ring-2 ring-cyan-400/50 scale-110"
+                                    : "border-cyan-400/70 bg-slate-950/90 text-slate-50 hover:bg-cyan-500/10 hover:border-cyan-300",
+                                isHighlighted && "ring-2 ring-emerald-400 shadow-[0_0_24px_rgba(16,185,129,0.8)] scale-110 border-emerald-300"
+                            )}
+                        >
+                            <div className="truncate">{track.title}</div>
+                            <div className={cn("mt-0.5 text-[9px]", isSelected ? "text-cyan-200" : "text-slate-400")}>
+                                {progress}% • {track.difficulty.toUpperCase()}
+                            </div>
+                        </div>
+                    </button>
+                );
+            })}
+
         </div>
     );
 }
@@ -294,7 +297,7 @@ function InfoPanel({
     world: OrionWorldConfig;
     track: OrionTrackNode | null;
 }) {
-    const { setLayout } = useGameStore();
+    // const { setLayout } = useGameStore();
 
     return (
         <div className="flex h-full flex-col px-4 py-4">
@@ -321,15 +324,7 @@ function InfoPanel({
 
             {/* Later: quest/boss details, small log, etc. */}
             <div className="mt-auto flex flex-col gap-2">
-                <button className="rounded-lg border border-cyan-400/70 bg-cyan-500/15 px-3 py-2 text-[11px] font-semibold tracking-[0.2em] text-cyan-100 shadow-[0_0_16px_rgba(34,211,238,0.7)] hover:bg-cyan-500/25">
-                    WARP TO TRACK
-                </button>
-                <button
-                    onClick={() => setLayout("cyberdeck")}
-                    className="rounded-lg border border-slate-500/70 bg-slate-900/80 px-3 py-2 text-[10px] tracking-[0.18em] text-slate-300 hover:border-cyan-400/50 hover:text-cyan-100"
-                >
-                    OPEN IN CYBERDECK
-                </button>
+                {/* Buttons moved to OrionLayout footer */}
             </div>
         </div>
     );

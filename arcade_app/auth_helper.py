@@ -130,6 +130,23 @@ async def get_current_user(request: Request) -> Dict:
         # (Same mock logic as before for dev safety)
         async for session in get_session():
             user = await session.get(User, "leo")
+            if not user:
+                # Ensure existence (Case B fix)
+                await ensure_default_avatar(session)
+                user = User(
+                    id="leo", 
+                    name="Leo", 
+                    avatar_url="https://avatars.githubusercontent.com/u/1?v=4",
+                    current_avatar_id="default_user"
+                )
+                session.add(user)
+                # Ensure profile
+                profile = Profile(user_id="leo", world_progress={})
+                session.add(profile)
+                
+                await session.commit()
+                await session.refresh(user)
+
             if user:
                 return {
                     "id": user.id,

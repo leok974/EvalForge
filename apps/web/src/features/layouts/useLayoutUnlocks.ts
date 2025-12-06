@@ -1,10 +1,9 @@
 import { useMemo } from "react";
 import { LAYOUT_OPTIONS, LayoutId } from "./layoutConfig";
 import { useGameStore } from "../../store/gameStore";
+import { isGodModeEnabledFromEnv } from "../../config/devFlags";
 
-const UNLOCK_ALL =
-    import.meta.env.VITE_LAYOUT_UNLOCK_ALL === "1" ||
-    import.meta.env.VITE_UNLOCK_ALL === "1";
+const UNLOCK_ALL = isGodModeEnabledFromEnv();
 
 export interface LayoutUnlockState {
     id: LayoutId;

@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
-import { useCurrentLayout } from '../hooks/useCurrentLayout';
 import { useLayoutUnlocks } from '../features/layouts/useLayoutUnlocks';
-import { LayoutId } from '../features/layouts/layoutConfig';
 import { cn } from '../lib/utils';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+const LAYOUT_PATHS: Record<string, string> = {
+    workshop: '/workshop',
+    orion: '/orion',
+    cyberdeck: '/deck',
+};
 
 export function LayoutSwitcher() {
-    const { layout, setLayout } = useCurrentLayout();
+    // const { layout, setLayout } = useCurrentLayout(); // Deprecated in favor of Router
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Determine active layout ID from path
+    const getActiveLayoutId = (pathname: string): string => {
+        if (pathname.startsWith('/orion') || pathname.startsWith('/worlds')) return 'orion';
+        if (pathname.startsWith('/workshop') || pathname.includes('/quests/') || pathname.includes('/bosses/')) return 'workshop';
+        if (pathname.startsWith('/deck')) return 'cyberdeck';
+        return 'workshop'; // Default
+    };
+
+    const activeLayoutId = getActiveLayoutId(location.pathname);
+
     const layouts = useLayoutUnlocks();
     const [isOpen, setIsOpen] = useState(false);
 
-    const currentLayoutLabel = layouts.find(l => l.id === layout)?.label || layout.toUpperCase();
+    const currentLayoutLabel = layouts.find(l => l.id === activeLayoutId)?.label || activeLayoutId.toUpperCase();
 
     return (
         <div className="relative">
@@ -39,7 +57,7 @@ export function LayoutSwitcher() {
                         </div>
                         <div className="grid grid-cols-1 gap-1">
                             {layouts.map((opt) => {
-                                const isActive = layout === opt.id;
+                                const isActive = activeLayoutId === opt.id;
                                 const isLocked = !opt.unlocked;
 
                                 return (
@@ -50,7 +68,9 @@ export function LayoutSwitcher() {
                                         disabled={isLocked}
                                         onClick={() => {
                                             if (isLocked) return;
-                                            setLayout(opt.id as LayoutId);
+                                            // setLayout(opt.id as LayoutId); // OLD
+                                            const path = LAYOUT_PATHS[opt.id] ?? '/workshop';
+                                            navigate(path);
                                             setIsOpen(false);
                                         }}
                                         className={cn(

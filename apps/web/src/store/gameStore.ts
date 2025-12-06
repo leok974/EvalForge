@@ -1,7 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type LayoutId = 'cyberdeck' | 'navigator' | 'workshop' | 'orion';
+export type LayoutId = 'cyberdeck' | 'orion' | 'workshop';
+
+export type ActiveTrack = {
+    worldSlug: string;
+    trackSlug: string;
+    label: string;
+};
 
 interface GameState {
     // --- Progression ---
@@ -15,12 +21,15 @@ interface GameState {
     layout: LayoutId;
     setLayout: (layout: LayoutId) => void;
 
+    // --- Active State ---
+    activeTrack: ActiveTrack | null;
+    setActiveTrack: (track: ActiveTrack | null) => void;
+
     // --- Actions ---
     addXp: (amount: number) => void;
     damageIntegrity: (amount: number) => void;
     restoreIntegrity: () => void;
     setBossesUnlocked: (bosses: string[]) => void;
-    // We can add triggerBoss() or completeQuest() here later
 }
 
 export const useGameStore = create<GameState>()(
@@ -33,9 +42,11 @@ export const useGameStore = create<GameState>()(
             layout: 'cyberdeck',
             integrity: 100,
             bossesUnlocked: [],
+            activeTrack: null,
 
             // Actions
             setLayout: (layout) => set({ layout }),
+            setActiveTrack: (track) => set({ activeTrack: track }),
 
             addXp: (amount) => set((state) => {
                 const newXp = state.xp + amount;

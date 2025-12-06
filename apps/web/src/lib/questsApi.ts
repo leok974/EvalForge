@@ -1,7 +1,9 @@
+import { refreshWorldProgress } from '@/features/progress/trackProgress';
 
 export type QuestState = "locked" | "available" | "in_progress" | "completed" | "mastered";
 
 export interface QuestSummary {
+    // ... existing types ...
     id: number;
     slug: string;
     world_id: string;
@@ -58,6 +60,7 @@ export async function acceptQuest(slug: string): Promise<QuestSummary> {
     return res.json();
 }
 
+
 export async function submitQuestSolution(
     slug: string,
     code: string,
@@ -76,5 +79,11 @@ export async function submitQuestSolution(
     if (!res.ok) {
         throw new Error(`Failed to submit quest ${slug}: ${res.status}`);
     }
+
+    // Fire off a progress refresh without blocking
+    refreshWorldProgress().catch((err) => {
+        console.warn('World progress refresh failed after quest completion', err);
+    });
+
     return res.json();
 }

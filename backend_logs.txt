@@ -1,0 +1,500 @@
+2025-12-05 22:35:04,106 INFO sqlalchemy.engine.Engine SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.world_id = $1::VARCHAR
+2025-12-05 22:35:04,106 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('world-python',)
+2025-12-05 22:35:04,107 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:04,107 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id IN ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR) AND bossdefinition.enabled = true
+2025-12-05 22:35:04,107 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('signal-prism', 'applylens-runtime-boss', 'reactor-core', 'applylens-agent-boss')
+INFO:     172.28.0.1:42324 - "GET /api/session/active HTTP/1.1" 200 OK
+INFO:     172.28.0.1:42314 - "GET /api/practice_rounds/today HTTP/1.1" 200 OK
+2025-12-05 22:35:04,109 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:04,109 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:04,121 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:04,121 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:35:04,121 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+2025-12-05 22:35:04,124 INFO sqlalchemy.engine.Engine SELECT skillnode.id, skillnode.name, skillnode.description, skillnode.tier, skillnode.cost, skillnode.category, skillnode.feature_key, skillnode.parent_id 
+FROM skillnode
+2025-12-05 22:35:04,124 INFO sqlalchemy.engine.Engine [cached since 7957s ago] ()
+2025-12-05 22:35:04,125 INFO sqlalchemy.engine.Engine SELECT userskill.id, userskill.user_id, userskill.skill_id, userskill.unlocked_at 
+FROM userskill 
+WHERE userskill.user_id = $1::VARCHAR
+2025-12-05 22:35:04,125 INFO sqlalchemy.engine.Engine [cached since 7957s ago] ('leo',)
+INFO:     172.28.0.1:42318 - "GET /api/skills HTTP/1.1" 200 OK
+2025-12-05 22:35:04,127 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:08,780 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:08,780 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:35:08,780 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+INFO:     172.28.0.1:55532 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:35:08,782 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection closed
+2025-12-05 22:35:08,828 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:08,829 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:35:08,829 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+2025-12-05 22:35:08,830 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:08,830 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:35:08,830 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+2025-12-05 22:35:08,831 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:08,832 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:35:08,832 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+2025-12-05 22:35:08,832 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:08,832 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:35:08,833 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+INFO:     172.28.0.1:55570 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:35:08,834 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:08,834 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:35:08,834 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+2025-12-05 22:35:08,835 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:08,836 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:08,837 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:08,838 INFO sqlalchemy.engine.Engine SELECT skillnode.id, skillnode.name, skillnode.description, skillnode.tier, skillnode.cost, skillnode.category, skillnode.feature_key, skillnode.parent_id 
+FROM skillnode
+2025-12-05 22:35:08,838 INFO sqlalchemy.engine.Engine [cached since 7962s ago] ()
+2025-12-05 22:35:08,838 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:08,839 INFO sqlalchemy.engine.Engine SELECT userskill.id, userskill.user_id, userskill.skill_id, userskill.unlocked_at 
+FROM userskill 
+WHERE userskill.user_id = $1::VARCHAR
+2025-12-05 22:35:08,839 INFO sqlalchemy.engine.Engine [cached since 7962s ago] ('leo',)
+INFO:     172.28.0.1:55574 - "GET /api/skills HTTP/1.1" 200 OK
+2025-12-05 22:35:08,859 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:08,859 INFO sqlalchemy.engine.Engine SELECT "user".id, "user".name, "user".avatar_url, "user".current_avatar_id, "user".created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:35:08,859 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+2025-12-05 22:35:08,860 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:35:08,860 INFO sqlalchemy.engine.Engine SELECT chatsession.id, chatsession.user_id, chatsession.mode, chatsession.world_id, chatsession.track_id, chatsession.history, chatsession.state, chatsession.created_at, chatsession.updated_at 
+FROM chatsession 
+INFO:     connection closed
+INFO:     172.28.0.1:55548 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+INFO:     172.28.0.1:55556 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+WHERE chatsession.user_id = $1::VARCHAR ORDER BY chatsession.updated_at DESC
+2025-12-05 22:35:08,860 INFO sqlalchemy.engine.Engine [cached since 7962s ago] ('leo',)
+2025-12-05 22:35:08,860 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:08,862 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:35:08,862 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('leo',)
+INFO:     172.28.0.1:55584 - "GET /api/session/active HTTP/1.1" 200 OK
+2025-12-05 22:35:08,863 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:35:08,864 INFO sqlalchemy.engine.Engine SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.world_id = $1::VARCHAR
+2025-12-05 22:35:08,864 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('world-python',)
+2025-12-05 22:35:08,865 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id IN ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR) AND bossdefinition.enabled = true
+2025-12-05 22:35:08,865 INFO sqlalchemy.engine.Engine [cached since 1.739e+04s ago] ('signal-prism', 'applylens-runtime-boss', 'reactor-core', 'applylens-agent-boss')
+INFO:     172.28.0.1:55580 - "GET /api/practice_rounds/today HTTP/1.1" 200 OK
+2025-12-05 22:35:08,867 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     172.28.0.1:36618 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+INFO:     172.28.0.1:36646 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+2025-12-05 22:41:33,946 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:41:33,947 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:41:33,947 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('leo',)
+INFO:     172.28.0.1:36630 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:41:33,949 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:41:34,011 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:41:34,012 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:41:34,012 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('leo',)
+2025-12-05 22:41:34,014 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:41:34,014 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:41:34,014 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('leo',)
+INFO:     172.28.0.1:36662 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:41:34,017 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:41:34,017 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:41:34,017 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('leo',)
+2025-12-05 22:41:34,017 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:41:34,018 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:41:34,020 INFO sqlalchemy.engine.Engine SELECT "user".id, "user".name, "user".avatar_url, "user".current_avatar_id, "user".created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:41:34,021 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('leo',)
+2025-12-05 22:41:34,024 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:41:34,024 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:41:34,024 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('leo',)
+2025-12-05 22:41:34,025 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:41:34,026 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:41:34,026 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:41:34,026 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('leo',)
+2025-12-05 22:41:34,029 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:41:34,029 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('leo',)
+2025-12-05 22:41:34,029 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:41:34,030 INFO sqlalchemy.engine.Engine SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.world_id = $1::VARCHAR
+2025-12-05 22:41:34,030 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('world-python',)
+2025-12-05 22:41:34,030 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:41:34,031 INFO sqlalchemy.engine.Engine SELECT skillnode.id, skillnode.name, skillnode.description, skillnode.tier, skillnode.cost, skillnode.category, skillnode.feature_key, skillnode.parent_id 
+FROM skillnode
+2025-12-05 22:41:34,031 INFO sqlalchemy.engine.Engine [cached since 8307s ago] ()
+2025-12-05 22:41:34,032 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id IN ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR) AND bossdefinition.enabled = true
+2025-12-05 22:41:34,032 INFO sqlalchemy.engine.Engine [cached since 1.774e+04s ago] ('signal-prism', 'applylens-runtime-boss', 'reactor-core', 'applylens-agent-boss')
+2025-12-05 22:41:34,033 INFO sqlalchemy.engine.Engine SELECT userskill.id, userskill.user_id, userskill.skill_id, userskill.unlocked_at 
+FROM userskill 
+WHERE userskill.user_id = $1::VARCHAR
+2025-12-05 22:41:34,033 INFO sqlalchemy.engine.Engine [cached since 8307s ago] ('leo',)
+INFO:     172.28.0.1:36676 - "GET /api/practice_rounds/today HTTP/1.1" 200 OK
+2025-12-05 22:41:34,037 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     172.28.0.1:36690 - "GET /api/skills HTTP/1.1" 200 OK
+2025-12-05 22:41:34,049 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:41:34,050 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:41:34,051 INFO sqlalchemy.engine.Engine SELECT chatsession.id, chatsession.user_id, chatsession.mode, chatsession.world_id, chatsession.track_id, chatsession.history, chatsession.state, chatsession.created_at, chatsession.updated_at 
+FROM chatsession 
+WHERE chatsession.user_id = $1::VARCHAR ORDER BY chatsession.updated_at DESC
+2025-12-05 22:41:34,051 INFO sqlalchemy.engine.Engine [cached since 8307s ago] ('leo',)
+INFO:     172.28.0.1:36698 - "GET /api/session/active HTTP/1.1" 200 OK
+2025-12-05 22:41:34,054 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     172.28.0.1:36048 - "WebSocket /ws/game_events" [accepted]
+2025-12-05 22:43:27,629 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:27,629 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:27,629 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('leo',)
+INFO:     172.28.0.1:36056 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:43:27,631 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection open
+2025-12-05 22:43:27,654 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:27,655 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+INFO:     172.28.0.1:36066 - "WebSocket /ws/game_events" [accepted]
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:27,655 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('leo',)
+INFO:     connection open
+2025-12-05 22:43:27,655 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:27,655 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:27,656 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('leo',)
+2025-12-05 22:43:27,656 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:27,656 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:27,656 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('leo',)
+2025-12-05 22:43:27,657 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:27,657 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:27,657 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('leo',)
+INFO:     172.28.0.1:36082 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:43:27,658 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:27,658 INFO sqlalchemy.engine.Engine SELECT "user".id, "user".name, "user".avatar_url, "user".current_avatar_id, "user".created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:27,658 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('leo',)
+2025-12-05 22:43:27,659 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:27,660 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:27,661 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:27,661 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:43:27,661 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('leo',)
+2025-12-05 22:43:27,662 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:27,662 INFO sqlalchemy.engine.Engine SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.world_id = $1::VARCHAR
+2025-12-05 22:43:27,662 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('world-python',)
+2025-12-05 22:43:27,663 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id IN ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR) AND bossdefinition.enabled = true
+2025-12-05 22:43:27,663 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('signal-prism', 'applylens-runtime-boss', 'reactor-core', 'applylens-agent-boss')
+INFO:     172.28.0.1:36088 - "GET /api/practice_rounds/today HTTP/1.1" 200 OK
+2025-12-05 22:43:27,672 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:27,680 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:27,680 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:43:27,680 INFO sqlalchemy.engine.Engine [cached since 1.784e+04s ago] ('leo',)
+2025-12-05 22:43:27,681 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:27,681 INFO sqlalchemy.engine.Engine SELECT chatsession.id, chatsession.user_id, chatsession.mode, chatsession.world_id, chatsession.track_id, chatsession.history, chatsession.state, chatsession.created_at, chatsession.updated_at 
+FROM chatsession 
+WHERE chatsession.user_id = $1::VARCHAR ORDER BY chatsession.updated_at DESC
+2025-12-05 22:43:27,681 INFO sqlalchemy.engine.Engine [cached since 8411s ago] ('leo',)
+2025-12-05 22:43:27,682 INFO sqlalchemy.engine.Engine SELECT skillnode.id, skillnode.name, skillnode.description, skillnode.tier, skillnode.cost, skillnode.category, skillnode.feature_key, skillnode.parent_id 
+FROM skillnode
+2025-12-05 22:43:27,682 INFO sqlalchemy.engine.Engine [cached since 8411s ago] ()
+INFO:     172.28.0.1:36110 - "GET /api/session/active HTTP/1.1" 200 OK
+2025-12-05 22:43:27,683 INFO sqlalchemy.engine.Engine SELECT userskill.id, userskill.user_id, userskill.skill_id, userskill.unlocked_at 
+FROM userskill 
+WHERE userskill.user_id = $1::VARCHAR
+2025-12-05 22:43:27,683 INFO sqlalchemy.engine.Engine [cached since 8411s ago] ('leo',)
+2025-12-05 22:43:27,683 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     172.28.0.1:36098 - "GET /api/skills HTTP/1.1" 200 OK
+2025-12-05 22:43:27,684 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection closed
+2025-12-05 22:43:45,763 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:     connection closed
+INFO:     172.28.0.1:39682 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+INFO:     172.28.0.1:39688 - "WebSocket /ws/game_events" [accepted]
+2025-12-05 22:43:45,764 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:45,764 INFO sqlalchemy.engine.Engine [cached since 1.785e+04s ago] ('leo',)
+INFO:     172.28.0.1:39666 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:43:45,769 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection open
+2025-12-05 22:43:45,798 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:45,798 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:45,799 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('leo',)
+2025-12-05 22:43:45,801 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:45,801 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:45,801 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('leo',)
+2025-12-05 22:43:45,802 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:45,802 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:45,802 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('leo',)
+INFO:     172.28.0.1:39704 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:43:45,808 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:45,811 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:45,811 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('leo',)
+2025-12-05 22:43:45,813 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:45,813 INFO sqlalchemy.engine.Engine SELECT "user".id, "user".name, "user".avatar_url, "user".current_avatar_id, "user".created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:43:45,813 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('leo',)
+2025-12-05 22:43:45,814 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:45,817 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:45,817 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:45,818 INFO sqlalchemy.engine.Engine SELECT chatsession.id, chatsession.user_id, chatsession.mode, chatsession.world_id, chatsession.track_id, chatsession.history, chatsession.state, chatsession.created_at, chatsession.updated_at 
+FROM chatsession 
+WHERE chatsession.user_id = $1::VARCHAR ORDER BY chatsession.updated_at DESC
+2025-12-05 22:43:45,818 INFO sqlalchemy.engine.Engine [cached since 8426s ago] ('leo',)
+2025-12-05 22:43:45,818 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:45,819 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:43:45,819 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('leo',)
+2025-12-05 22:43:45,819 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:45,820 INFO sqlalchemy.engine.Engine SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.world_id = $1::VARCHAR
+2025-12-05 22:43:45,820 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('world-python',)
+INFO:     172.28.0.1:39734 - "GET /api/session/active HTTP/1.1" 200 OK
+2025-12-05 22:43:45,821 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id IN ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR) AND bossdefinition.enabled = true
+2025-12-05 22:43:45,821 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('signal-prism', 'applylens-runtime-boss', 'reactor-core', 'applylens-agent-boss')
+2025-12-05 22:43:45,821 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     172.28.0.1:39716 - "GET /api/practice_rounds/today HTTP/1.1" 200 OK
+2025-12-05 22:43:45,823 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:43:45,841 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:43:45,841 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:43:45,841 INFO sqlalchemy.engine.Engine [cached since 1.786e+04s ago] ('leo',)
+2025-12-05 22:43:45,850 INFO sqlalchemy.engine.Engine SELECT skillnode.id, skillnode.name, skillnode.description, skillnode.tier, skillnode.cost, skillnode.category, skillnode.feature_key, skillnode.parent_id 
+FROM skillnode
+2025-12-05 22:43:45,850 INFO sqlalchemy.engine.Engine [cached since 8426s ago] ()
+2025-12-05 22:43:45,852 INFO sqlalchemy.engine.Engine SELECT userskill.id, userskill.user_id, userskill.skill_id, userskill.unlocked_at 
+FROM userskill 
+WHERE userskill.user_id = $1::VARCHAR
+2025-12-05 22:43:45,852 INFO sqlalchemy.engine.Engine [cached since 8426s ago] ('leo',)
+INFO:     172.28.0.1:39724 - "GET /api/skills HTTP/1.1" 200 OK
+2025-12-05 22:43:45,855 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection closed
+2025-12-05 22:44:02,664 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:     connection closed
+2025-12-05 22:44:02,664 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:02,664 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('leo',)
+INFO:     172.28.0.1:55034 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:44:02,666 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     172.28.0.1:55048 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+INFO:     172.28.0.1:55064 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+2025-12-05 22:44:02,706 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:02,706 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:02,706 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('leo',)
+2025-12-05 22:44:02,707 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:02,707 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:02,707 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('leo',)
+2025-12-05 22:44:02,735 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:02,735 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:02,735 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('leo',)
+2025-12-05 22:44:02,739 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:02,739 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:02,739 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('leo',)
+INFO:     172.28.0.1:55070 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:44:02,743 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:02,743 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:44:02,743 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('leo',)
+2025-12-05 22:44:02,745 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:02,746 INFO sqlalchemy.engine.Engine SELECT skillnode.id, skillnode.name, skillnode.description, skillnode.tier, skillnode.cost, skillnode.category, skillnode.feature_key, skillnode.parent_id 
+FROM skillnode
+2025-12-05 22:44:02,746 INFO sqlalchemy.engine.Engine [cached since 8442s ago] ()
+2025-12-05 22:44:02,747 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:02,747 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:02,749 INFO sqlalchemy.engine.Engine SELECT userskill.id, userskill.user_id, userskill.skill_id, userskill.unlocked_at 
+FROM userskill 
+WHERE userskill.user_id = $1::VARCHAR
+2025-12-05 22:44:02,749 INFO sqlalchemy.engine.Engine [cached since 8442s ago] ('leo',)
+2025-12-05 22:44:02,749 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     172.28.0.1:55088 - "GET /api/skills HTTP/1.1" 200 OK
+2025-12-05 22:44:02,751 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:02,779 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:02,780 INFO sqlalchemy.engine.Engine SELECT chatsession.id, chatsession.user_id, chatsession.mode, chatsession.world_id, chatsession.track_id, chatsession.history, chatsession.state, chatsession.created_at, chatsession.updated_at 
+FROM chatsession 
+WHERE chatsession.user_id = $1::VARCHAR ORDER BY chatsession.updated_at DESC
+2025-12-05 22:44:02,780 INFO sqlalchemy.engine.Engine [cached since 8443s ago] ('leo',)
+2025-12-05 22:44:02,780 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:02,781 INFO sqlalchemy.engine.Engine SELECT "user".id, "user".name, "user".avatar_url, "user".current_avatar_id, "user".created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:02,781 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('leo',)
+INFO:     172.28.0.1:55104 - "GET /api/session/active HTTP/1.1" 200 OK
+2025-12-05 22:44:02,786 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:02,787 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:44:02,787 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('leo',)
+2025-12-05 22:44:02,789 INFO sqlalchemy.engine.Engine SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.world_id = $1::VARCHAR
+2025-12-05 22:44:02,789 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('world-python',)
+2025-12-05 22:44:02,791 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id IN ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR) AND bossdefinition.enabled = true
+2025-12-05 22:44:02,791 INFO sqlalchemy.engine.Engine [cached since 1.787e+04s ago] ('signal-prism', 'applylens-runtime-boss', 'reactor-core', 'applylens-agent-boss')
+INFO:     172.28.0.1:55080 - "GET /api/practice_rounds/today HTTP/1.1" 200 OK
+2025-12-05 22:44:02,794 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:14,316 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:     connection closed
+2025-12-05 22:44:14,317 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:14,317 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('leo',)
+INFO:     172.28.0.1:55118 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:44:14,320 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection closed
+INFO:     172.28.0.1:55112 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+INFO:     172.28.0.1:55128 - "WebSocket /ws/game_events" [accepted]
+INFO:     connection open
+2025-12-05 22:44:14,558 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:14,559 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:14,559 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('leo',)
+2025-12-05 22:44:14,561 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:14,561 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:14,561 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('leo',)
+INFO:     172.28.0.1:55136 - "GET /api/auth/me HTTP/1.1" 200 OK
+2025-12-05 22:44:14,571 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:14,571 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:14,571 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('leo',)
+2025-12-05 22:44:14,573 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:14,573 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:14,573 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('leo',)
+2025-12-05 22:44:14,573 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:14,574 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:14,575 INFO sqlalchemy.engine.Engine SELECT "user".id, "user".name, "user".avatar_url, "user".current_avatar_id, "user".created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-05 22:44:14,575 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('leo',)
+2025-12-05 22:44:14,575 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:14,576 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:14,576 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:44:14,576 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('leo',)
+2025-12-05 22:44:14,578 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-05 22:44:14,578 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('leo',)
+2025-12-05 22:44:14,578 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:14,579 INFO sqlalchemy.engine.Engine SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.world_id = $1::VARCHAR
+2025-12-05 22:44:14,579 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('world-python',)
+2025-12-05 22:44:14,579 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:14,579 INFO sqlalchemy.engine.Engine SELECT skillnode.id, skillnode.name, skillnode.description, skillnode.tier, skillnode.cost, skillnode.category, skillnode.feature_key, skillnode.parent_id 
+FROM skillnode
+2025-12-05 22:44:14,579 INFO sqlalchemy.engine.Engine [cached since 8451s ago] ()
+2025-12-05 22:44:14,580 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id IN ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR) AND bossdefinition.enabled = true
+2025-12-05 22:44:14,580 INFO sqlalchemy.engine.Engine [cached since 1.788e+04s ago] ('signal-prism', 'applylens-runtime-boss', 'reactor-core', 'applylens-agent-boss')
+2025-12-05 22:44:14,580 INFO sqlalchemy.engine.Engine SELECT userskill.id, userskill.user_id, userskill.skill_id, userskill.unlocked_at 
+FROM userskill 
+WHERE userskill.user_id = $1::VARCHAR
+2025-12-05 22:44:14,580 INFO sqlalchemy.engine.Engine [cached since 8451s ago] ('leo',)
+INFO:     172.28.0.1:55144 - "GET /api/practice_rounds/today HTTP/1.1" 200 OK
+2025-12-05 22:44:14,581 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     172.28.0.1:55158 - "GET /api/skills HTTP/1.1" 200 OK
+2025-12-05 22:44:14,582 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:44:14,598 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:44:14,598 INFO sqlalchemy.engine.Engine SELECT chatsession.id, chatsession.user_id, chatsession.mode, chatsession.world_id, chatsession.track_id, chatsession.history, chatsession.state, chatsession.created_at, chatsession.updated_at 
+FROM chatsession 
+WHERE chatsession.user_id = $1::VARCHAR ORDER BY chatsession.updated_at DESC
+2025-12-05 22:44:14,598 INFO sqlalchemy.engine.Engine [cached since 8451s ago] ('leo',)
+INFO:     172.28.0.1:55160 - "GET /api/session/active HTTP/1.1" 200 OK
+2025-12-05 22:44:14,603 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     connection closed
+INFO:     connection closed
+WARNING:  WatchFiles detected changes in 'arcade_app/seed_curriculum.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for background tasks to complete. (CTRL+C to force quit)

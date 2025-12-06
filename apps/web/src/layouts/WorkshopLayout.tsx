@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { openWorkshopGuide } from "../features/workshop/useWorkshopTips";
 import { PracticeGauntletCard } from "../components/practice/PracticeGauntletCard";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useQuestStore } from "../store/questStore";
 
 interface WorkshopLayoutProps {
     bossHud: React.ReactNode;
@@ -30,6 +32,26 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
     integrityDelta,
     bossHpDelta,
 }) => {
+    // Routing Integration
+    const params = useParams<{ worldSlug?: string; questId?: string; bossSlug?: string }>();
+    const [searchParams] = useSearchParams();
+
+    // Store Actions
+    const setActiveWorld = useQuestStore((s) => s.setActiveWorldSlug);
+    const setActiveTrack = useQuestStore((s) => s.setActiveTrackId);
+    const setActiveBoss = useQuestStore((s) => s.setActiveBossSlug);
+
+    useEffect(() => {
+        const worldSlug = params.worldSlug || searchParams.get('world');
+        const trackId = params.questId || searchParams.get('track');
+        const bossSlug = params.bossSlug; // Boss can imply world, but worldSlug usually present
+
+        if (worldSlug) setActiveWorld(worldSlug);
+        if (trackId) setActiveTrack(trackId);
+        if (bossSlug) setActiveBoss(bossSlug);
+
+    }, [params.worldSlug, params.questId, params.bossSlug, searchParams, setActiveWorld, setActiveTrack, setActiveBoss]);
+
     const [benchHit, setBenchHit] = useState<BenchHit>("none");
     const [activityHit, setActivityHit] = useState<"none" | "tick">("none");
 
@@ -83,6 +105,7 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
             data-testid="layout-workshop"
         >
             {/* Ambient background / floor */}
+            <div className="orion-starfield-layer" />
             <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 opacity-60 mix-blend-screen"

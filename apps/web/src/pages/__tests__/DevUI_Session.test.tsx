@@ -2,10 +2,23 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import DevUI from '../DevUI';
 import * as AuthHook from '../../hooks/useAuth';
-import * as StreamHook from '../../hooks/useArcadeStream';
+import * as BossStore from '../../store/bossStore';
+import { MemoryRouter } from 'react-router-dom';
 
 // --- MOCKS ---
-global.fetch = vi.fn();
+// --- MOCKS ---
+global.fetch = vi.fn((url: string) => {
+    if (url.includes('/api/boss/history') || url.includes('/api/projects')) {
+        return Promise.resolve({
+            ok: true,
+            json: async () => []
+        });
+    }
+    return Promise.resolve({
+        ok: true,
+        json: async () => ({})
+    });
+}) as any;
 
 // Mock Auth to simulate logged-in user
 vi.mock('../../hooks/useAuth', () => ({
@@ -43,10 +56,23 @@ vi.mock('../../hooks/useSkills', () => ({
     })
 }));
 
+import { createMockBossStoreState } from '../../test/mockBossStore';
+
+// Mock Boss Store
+const bossStoreState = createMockBossStoreState({
+    runs: [
+        { id: '1', boss_slug: 'reactor-core', score: 90, grade: 'S', passed: true, timestamp: Date.now() },
+        { id: '2', boss_slug: 'intent-oracle', score: 45, grade: 'F', passed: false, timestamp: Date.now() }
+    ]
+});
+
+vi.mock('../../store/bossStore', () => ({
+    useBossStore: (selector?: any) => selector ? selector(bossStoreState) : bossStoreState
+}));
+
 describe('DevUI Session Restoration', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        // Mock scrollIntoView
         Element.prototype.scrollIntoView = vi.fn();
     });
 
@@ -63,11 +89,34 @@ describe('DevUI Session Restoration', () => {
             history: [{ role: 'user', content: 'Restore this' }]
         };
 
-        (global.fetch as any).mockResolvedValueOnce({
-            json: async () => mockSession
+        (global.fetch as any).mockImplementation((url: string) => {
+            if (url.includes('/api/session/active')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => mockSession
+                });
+            }
+            // Fallback for boss/history etc provided by global mock or default
+            if (url.includes('/api/boss/history') || url.includes('/api/projects') || url.includes('/api/quests')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => []
+                });
+            }
+            if (url.includes('/api/practice_rounds/today')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ items: [] })
+                });
+            }
+            return Promise.resolve({ ok: true, json: async () => ({}) });
         });
 
-        render(<DevUI />);
+        render(
+            <MemoryRouter>
+                <DevUI />
+            </MemoryRouter>
+        );
 
         // 3. Verify API Call
         expect(global.fetch).toHaveBeenCalledWith('/api/session/active');
@@ -88,7 +137,11 @@ describe('DevUI Session Restoration', () => {
         // 1. Setup Guest User
         (AuthHook.useAuth as any).mockReturnValue({ user: null });
 
-        render(<DevUI />);
+        render(
+            <MemoryRouter>
+                <DevUI />
+            </MemoryRouter>
+        );
 
         // 2. Verify No API Call
         expect(global.fetch).not.toHaveBeenCalledWith('/api/session/active');
@@ -98,11 +151,40 @@ describe('DevUI Session Restoration', () => {
         (AuthHook.useAuth as any).mockReturnValue({ user: { id: 'leo' } });
 
         // 2. Return Empty/Null Response
-        (global.fetch as any).mockResolvedValueOnce({
-            json: async () => null
+        // 2. Return Empty/Null Response
+        (global.fetch as any).mockImplementation((url: string) => {
+            if (url.includes('/api/session/active')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => null
+                });
+            }
+            if (url.includes('/api/boss/history') || url.includes('/api/projects')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => []
+                });
+            }
+            if (url.includes('/api/practice_rounds/today')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ items: [] })
+                });
+            }
+            if (url.includes('/api/quests')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => []
+                });
+            }
+            return Promise.resolve({ ok: true, json: async () => ({}) });
         });
 
-        render(<DevUI />);
+        render(
+            <MemoryRouter>
+                <DevUI />
+            </MemoryRouter>
+        );
 
         // Should not crash, should simply not call setMessages
         await waitFor(() => expect(global.fetch).toHaveBeenCalled());

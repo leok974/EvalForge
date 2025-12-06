@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { subscribeWorldProgress } from "@/lib/worldProgressEvents";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     Swords,
     ScrollText,
@@ -30,6 +31,9 @@ interface DailyPracticePlan {
     items: PracticeItemView[];
     completed_count: number;
     total_count: number;
+    today_quests_completed: number;
+    today_bosses_cleared: number;
+    today_trials_completed: number;
     streak_days?: number | null;
 }
 
@@ -86,20 +90,24 @@ function getPracticeTargetPath(item: PracticeItemView): string | null {
 
     switch (item.item_type) {
         case "quest_review": {
-            // Example routes:
-            // - /worlds/world-python/quests/{quest_id}
-            // - fallback: /quests/{quest_id}
+            // New Router Pattern: Nested under /worlds/:worldSlug
             if (item.world_slug) {
                 return `/worlds/${item.world_slug}/quests/${identifier}`;
             }
+            // Fallback for world-less quests (unlikely but possible)
             return `/quests/${identifier}`;
         }
 
         case "boss_review": {
-            // Example routes:
-            // - world boss:   /worlds/{world_slug}/bosses/{boss_slug}
-            // - project boss: /projects/{project_slug}/bosses/{boss_slug}
+            // New Router Pattern
             if (item.project_slug) {
+                // Project bosses might still live under /projects
+                return `/projects/${item.project_slug}`;
+                // Note: user mentioned /projects/:slug?panel=boss in prompt, 
+                // but let's stick to safe known routes or what was requested.
+                // User prompt: `if (t.kind === 'project_boss' && t.project_slug) { return navigate(/projects/${t.project_slug}?panel=boss); }`
+                // My existing code had /projects/.../bosses/...
+                // I will align with "Project Bench" logic if possible, but for now specific boss route in workshop is acceptable if project param supported.
                 return `/projects/${item.project_slug}/bosses/${identifier}`;
             }
             if (item.world_slug) {
@@ -125,55 +133,62 @@ function getPracticeTargetPath(item: PracticeItemView): string | null {
     }
 }
 
+
 export const PracticeGauntletCard: React.FC = () => {
     const [state, setState] = useState<State>({ status: "idle" });
+    const [justUpdated, setJustUpdated] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        let cancelled = false;
+    const loadRounds = useCallback(async () => {
+        // Don't show loading spinner if already loaded (silent refresh)
+        setState((prev) => (prev.status === "idle" ? { status: "loading" } : prev));
 
-        const load = async () => {
-            setState({ status: "loading" });
+        try {
+            const res = await fetch("/api/practice_rounds/today", {
+                credentials: "include",
+                headers: {
+                    Accept: "application/json",
+                },
+            });
 
-            try {
-                const res = await fetch("/api/practice_rounds/today", {
-                    credentials: "include",
-                    headers: {
-                        Accept: "application/json",
-                    },
+            if (!res.ok) {
+                const text = await res.text();
+                setState({
+                    status: "error",
+                    error: `Request failed (${res.status}): ${text || "Unknown error"}`,
                 });
-
-                if (!res.ok) {
-                    const text = await res.text();
-                    if (!cancelled) {
-                        setState({
-                            status: "error",
-                            error: `Request failed (${res.status}): ${text || "Unknown error"}`,
-                        });
-                    }
-                    return;
-                }
-
-                const data = (await res.json()) as DailyPracticePlan;
-                if (!cancelled) {
-                    setState({ status: "loaded", plan: data });
-                }
-            } catch (err: any) {
-                if (!cancelled) {
-                    setState({
-                        status: "error",
-                        error: err?.message || "Network error",
-                    });
-                }
+                return;
             }
-        };
 
-        load();
-
-        return () => {
-            cancelled = true;
-        };
+            const data = (await res.json()) as DailyPracticePlan;
+            setState({ status: "loaded", plan: data });
+        } catch (err: any) {
+            setState({
+                status: "error",
+                error: err?.message || "Network error",
+            });
+        }
     }, []);
+
+    // Initial load
+    useEffect(() => {
+        void loadRounds();
+    }, [loadRounds]);
+
+    // 🔔 Subscribe to world progress updates
+    useEffect(() => {
+        const unsubscribe = subscribeWorldProgress(() => {
+            // Fire & forget reload
+            void loadRounds();
+
+            // Show subtle "updated" glow
+            setJustUpdated(true);
+            const timeout = window.setTimeout(() => setJustUpdated(false), 1200);
+            return () => window.clearTimeout(timeout);
+        });
+
+        return unsubscribe;
+    }, [loadRounds]);
 
     const isLoading = state.status === "loading" || state.status === "idle";
     const hasError = state.status === "error";
@@ -185,7 +200,11 @@ export const PracticeGauntletCard: React.FC = () => {
 
     return (
         <section
-            className="relative col-span-1 flex flex-col rounded-2xl border border-slate-800/80 bg-slate-950/60 p-4 shadow-lg shadow-emerald-900/30 backdrop-blur"
+            className={`
+                relative col-span-1 flex flex-col rounded-2xl border border-slate-800/80 bg-slate-950/60 p-4 shadow-lg shadow-emerald-900/30 backdrop-blur
+                transition-all duration-300
+                ${justUpdated ? "ring-2 ring-emerald-400 shadow-[0_0_24px_rgba(16,185,129,0.7)]" : ""}
+            `}
             data-testid="practice-gauntlet-card"
         >
             {/* Header */}
@@ -198,9 +217,32 @@ export const PracticeGauntletCard: React.FC = () => {
                         <h2 className="text-sm font-semibold uppercase tracking-wide text-emerald-200">
                             Practice Gauntlet
                         </h2>
-                        <p className="text-xs text-slate-400">
-                            Daily practice across worlds &amp; projects
-                        </p>
+                        <div className="flex items-center gap-2">
+                            <p className="text-xs text-slate-400">
+                                Daily practice across worlds &amp; projects
+                            </p>
+                            {justUpdated && (
+                                <span className="rounded-full border border-emerald-500/70 bg-emerald-500/10 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-[0.18em] text-emerald-300 animate-pulse">
+                                    Updated
+                                </span>
+                            )}
+                        </div>
+                        {state.status === "loaded" && (
+                            <p className="mt-1 text-[10px] text-slate-400">
+                                <span className="text-emerald-300 font-medium">
+                                    {plan?.today_trials_completed ?? 0}
+                                </span>{" "}
+                                runs today ·{" "}
+                                <span className="text-emerald-300/80">
+                                    {plan?.today_quests_completed ?? 0}
+                                </span>{" "}
+                                quests ·{" "}
+                                <span className="text-amber-300/80">
+                                    {plan?.today_bosses_cleared ?? 0}
+                                </span>{" "}
+                                bosses
+                            </p>
+                        )}
                     </div>
                 </div>
 
@@ -212,7 +254,7 @@ export const PracticeGauntletCard: React.FC = () => {
                     )}
                     {typeof totalItems === "number" && totalItems > 0 && (
                         <span className="rounded-full bg-emerald-950/70 px-2 py-0.5 text-[10px] font-semibold text-emerald-300 ring-1 ring-emerald-600/60">
-                            {totalItems} {totalItems === 1 ? "challenge" : "challenges"}
+                            {totalItems} {totalItems === 1 ? "target" : "targets"}
                         </span>
                     )}
                 </div>

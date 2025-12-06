@@ -14,7 +14,7 @@ const THEME_ASSETS: Record<LayoutId, Partial<Record<SoundKey, string>>> = {
         boss: '/sounds/boss_alarm.mp3',
         lock: '/sounds/access_denied.mp3'
     },
-    navigator: {
+    orion: {
         click: '/sounds/nav_beep.mp3',
         hover: '/sounds/nav_hum.mp3',
         success: '/sounds/nav_chime.mp3',

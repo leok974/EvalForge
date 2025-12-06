@@ -3,43 +3,45 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { LayoutSwitcher } from '../LayoutSwitcher';
 import { useGameStore } from '../../store/gameStore';
 
-// Mock the layouts constant if needed, but we can rely on the real one if it's simple.
-// The user's test setup mocks import.meta.env.
+// Mock the hooks directly
+vi.mock('../../features/layouts/useLayoutUnlocks', () => ({
+  useLayoutUnlocks: vi.fn()
+}));
+
+vi.mock('../../hooks/useCurrentLayout', () => ({
+  useCurrentLayout: () => ({ layout: 'cyberdeck', setLayout: vi.fn() })
+}));
+
+import { useLayoutUnlocks } from '../../features/layouts/useLayoutUnlocks';
 
 describe("LayoutSwitcher", () => {
-  function setup(env: Partial<NodeJS.ProcessEnv> = {}) {
-    const oldEnv = import.meta.env;
-    // @ts-expect-error: test shim
-    import.meta.env = { ...oldEnv, ...env };
+  it("shows Orion option when unlocked", () => {
+    // Mock the hook to return unlocked Orion
+    (useLayoutUnlocks as any).mockReturnValue([
+      { id: 'cyberdeck', label: 'Cyberdeck', unlocked: true },
+      { id: 'orion', label: 'Orion', unlocked: true, description: 'Star Map' }
+    ]);
 
-    const ui = render(
-      <LayoutSwitcher />
-    );
+    render(<LayoutSwitcher />);
 
-    return {
-      ...ui,
-      restore: () => {
-        // @ts-expect-error
-        import.meta.env = oldEnv;
-      },
-    };
-  }
-
-  it("shows Orion option when enabled", () => {
-    const { restore } = setup({ VITE_LAYOUT_ORION_ENABLED: "1" });
-
-    fireEvent.click(screen.getByText(/layout:/i));
-    expect(screen.getByText(/orion map/i)).toBeInTheDocument();
-
-    restore();
+    fireEvent.click(screen.getByTestId('layout-picker-trigger'));
+    expect(screen.getByText(/Star Map/i)).toBeInTheDocument();
+    expect(screen.getByTestId('layout-option-orion')).not.toBeDisabled();
   });
 
-  it("does not show Orion option when disabled", () => {
-    const { restore } = setup({ VITE_LAYOUT_ORION_ENABLED: "0" });
+  it("shows Orion as disabled/locked when locked", () => {
+    // Mock the hook to return locked Orion
+    (useLayoutUnlocks as any).mockReturnValue([
+      { id: 'cyberdeck', label: 'Cyberdeck', unlocked: true },
+      { id: 'orion', label: 'Orion', unlocked: false, description: 'Star Map', lockedReason: 'Need Level 3' }
+    ]);
 
-    fireEvent.click(screen.getByText(/layout:/i));
-    expect(screen.queryByText(/orion map/i)).not.toBeInTheDocument();
+    render(<LayoutSwitcher />);
 
-    restore();
+    fireEvent.click(screen.getByTestId('layout-picker-trigger'));
+
+    const option = screen.getByTestId('layout-option-orion');
+    expect(option).toBeDisabled();
+    expect(screen.getByText('Need Level 3')).toBeInTheDocument();
   });
 });

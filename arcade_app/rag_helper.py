@@ -5,19 +5,29 @@ from sqlalchemy import text
 from arcade_app.database import get_session
 from arcade_app.models import KnowledgeChunk
 
-# Vertex AI Imports
-import vertexai
-from vertexai.language_models import TextEmbeddingModel
+# Vertex AI Imports (Lazy)
+# import vertexai
+# from vertexai.language_models import TextEmbeddingModel
 
 # Initialize Model (Lazy load recommended in prod, but fine here)
+# Initialize Model (Lazy load recommended in prod, but fine here)
 try:
-    vertexai.init(
-        project=os.getenv("GOOGLE_CLOUD_PROJECT"), 
-        location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-    )
-    # "text-embedding-004" is the current best-in-class for RAG
-    embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-004")
-    # print("✅ Vertex AI Embeddings initialized")
+    # Check if we should even try to init Vertex
+    should_init = os.getenv("EVALFORGE_AUTH_MODE") != "mock" and os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    
+    if should_init:
+        import vertexai
+        from vertexai.language_models import TextEmbeddingModel
+        
+        vertexai.init(
+            project=os.getenv("GOOGLE_CLOUD_PROJECT"), 
+            location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+        )
+        # "text-embedding-004" is the current best-in-class for RAG
+        embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-004")
+        # print("✅ Vertex AI Embeddings initialized")
+    else:
+        embedding_model = None
 except Exception as e:
     # print(f"⚠️ Vertex AI Embeddings not available: {e}")
     embedding_model = None

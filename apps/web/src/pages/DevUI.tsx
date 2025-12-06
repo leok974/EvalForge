@@ -6,7 +6,7 @@ import { Terminal, ShieldAlert, BookOpen, Radio } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useSkills } from '../hooks/useSkills';
 import { useBossStore } from '../store/bossStore';
-import { useAgentStore } from '../store/agentStore';
+import { useTrackWarp } from '../hooks/useTrackWarp';
 import { BossPanel } from '../components/BossPanel';
 import { CodexDrawer } from '../components/CodexDrawer';
 import { OracleTrackCard } from '../components/tracks/OracleTrackCard';
@@ -21,6 +21,7 @@ import { LayoutProvider, useCurrentLayout } from '../hooks/useCurrentLayout';
 import { WorkshopGuide } from '../features/workshop/WorkshopGuide';
 import { QuestBoard } from '../components/QuestBoard';
 import { EventFeed } from '../components/EventFeed';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Map backend color names to Tailwind classes
 const COLOR_MAP: Record<string, string> = {
@@ -47,11 +48,34 @@ function DevUIContent() {
   const [sid, setSid] = useState<string>('');
   const [isCodexOpen, setIsCodexOpen] = useState(false);
 
+  // View Mode for Workbench (Quest Board vs Terminal) - MUST be before early returns
+  const [viewMode, setViewMode] = useState<'board' | 'terminal'>('board');
+
   // Local Context State
   const [context, setContext] = useState<StreamContext>({
     mode: 'judge',
     world_id: 'world-python',
     track_id: 'applylens-backend'
+  });
+
+  // --- WARP LOGIC (New) ---
+  useTrackWarp((track) => {
+    // 1. Map worldSlug to context world_id
+    // If track.worldSlug is 'python', context usually expects 'world-python'.
+    let targetWorldId = track.worldSlug;
+    if (!targetWorldId.startsWith('world-')) {
+      targetWorldId = `world-${targetWorldId}`;
+    }
+
+    // 2. Map trackSlug directly (assuming context.track_id uses slugs like 'python-basics')
+    setContext(prev => ({
+      ...prev,
+      world_id: targetWorldId,
+      track_id: track.trackSlug // Ensure QuestBoard respects this
+    }));
+
+    // Optionally switch view to 'board' to see the quests
+    setViewMode('board');
   });
 
   const {
@@ -65,6 +89,9 @@ function DevUIContent() {
 
   // Fetch skills for the logged-in user (or null)
   const { hasSkill, godMode } = useSkills(user);
+
+  // Boss store data - MUST be before early returns
+  const lastResult = useBossStore(s => s.lastResult);
 
   useEffect(() => {
     if (user) {
@@ -142,8 +169,6 @@ function DevUIContent() {
     />
   );
 
-  // View Mode for Workbench (Quest Board vs Terminal)
-  const [viewMode, setViewMode] = useState<'board' | 'terminal'>('board');
 
   const questPanel = (
     <div className="h-full flex flex-col bg-black/40 rounded-xl border border-zinc-800 overflow-hidden shadow-inner relative">
@@ -360,8 +385,6 @@ function DevUIContent() {
 
   // --- LAYOUT SWITCHING ---
 
-  const lastResult = useBossStore(s => s.lastResult);
-
   const commonProps = {
     bossHud,
     worldSelector,
@@ -392,38 +415,63 @@ function DevUIContent() {
     bossHpDelta: lastResult?.boss_hp_delta
   };
 
-  let layoutContent;
-  if (layout === 'workshop') {
-    layoutContent = <WorkshopLayout {...commonProps} />;
-  } else if (layout === 'orion') {
-    // Orion Layout (Star Map) - does not use the standard panels
-    layoutContent = <OrionLayout />;
-  } else {
-    // Cyberdeck (Default)
-    layoutContent = (
-      <CyberdeckLayout>
-        <div className="h-full flex flex-col">
-          {/* 1. Context Navigation */}
-          <div className="flex-none z-20 mb-4">
-            {worldSelector}
-          </div>
+  // --- ROUTING ---
+  // Replace manual layout switching with React Router
 
-          {/* 2. Main Workspace */}
-          <div className="flex-1 p-4 grid grid-cols-1 lg:grid-cols-4 gap-6 overflow-hidden">
-            {/* Left Column: Info/Score */}
-            <div className="hidden lg:block lg:col-span-1 space-y-4 overflow-y-auto">
-              {projectPanel}
+
+  const layoutContent = (
+    <Routes>
+      {/* Default / Dashboard route -> Workshop or Cyberdeck? 
+          User requested: 
+            index → WorkshopLayout 
+            top-level workshop → WorkshopLayout
+            top-level orion → OrionLayout
+      */}
+      <Route path="/" element={<Navigate to="/workshop" replace />} />
+
+      <Route path="/workshop" element={<WorkshopLayout {...commonProps} />} />
+      <Route path="/orion" element={<OrionLayout />} />
+
+      {/* Cyberdeck fallback or explicit route */}
+      <Route path="/deck" element={
+        <CyberdeckLayout>
+          <div className="h-full flex flex-col">
+            {/* 1. Context Navigation */}
+            <div className="flex-none z-20 mb-4">
+              {worldSelector}
             </div>
 
-            {/* Center/Right: Chat Terminal OR Boss Panel */}
-            <div className="lg:col-span-3 flex flex-col bg-black/40 rounded-xl border border-zinc-800 overflow-hidden shadow-inner h-full">
-              {questPanel}
+            {/* 2. Main Workspace */}
+            <div className="flex-1 p-4 grid grid-cols-1 lg:grid-cols-4 gap-6 overflow-hidden">
+              {/* Left Column: Info/Score */}
+              <div className="hidden lg:block lg:col-span-1 space-y-4 overflow-y-auto">
+                {projectPanel}
+              </div>
+
+              {/* Center/Right: Chat Terminal OR Boss Panel */}
+              <div className="lg:col-span-3 flex flex-col bg-black/40 rounded-xl border border-zinc-800 overflow-hidden shadow-inner h-full">
+                {questPanel}
+              </div>
             </div>
           </div>
-        </div>
-      </CyberdeckLayout>
-    );
-  }
+        </CyberdeckLayout>
+      } />
+
+      {/* Worlds Routing */}
+      <Route path="/worlds/:worldSlug">
+        {/* Index: /worlds/foo -> Orion Map */}
+        <Route index element={<OrionLayout />} />
+
+        {/* Sub-routes: /worlds/foo/quests/bar -> Workshop */}
+        <Route path="quests/:questId" element={<WorkshopLayout {...commonProps} />} />
+        <Route path="bosses/:bossSlug" element={<WorkshopLayout {...commonProps} />} />
+      </Route>
+
+      {/* Projects Routing - Similar pattern if needed later, but keeping simple for now */}
+      <Route path="/projects/:projectSlug/*" element={<WorkshopLayout {...commonProps} />} />
+
+    </Routes>
+  );
 
   return (
     <>

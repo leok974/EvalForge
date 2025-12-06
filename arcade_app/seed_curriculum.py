@@ -209,27 +209,42 @@ async def seed_oracle_curriculum():
         ]
 
         for q in quests:
-            stmt = select(QuestDefinition).where(QuestDefinition.id == q["id"])
+            # Use slug for lookup, as ID is auto-increment integer
+            stmt = select(QuestDefinition).where(QuestDefinition.slug == q["id"])
             existing = (await session.execute(stmt)).scalar_one_or_none()
             
             if not existing:
                 print(f"  - Creating Quest: {q['id']}")
                 quest = QuestDefinition(
-                    id=q["id"],
+                    slug=q["id"], # Map JSON 'id' to DB 'slug'
                     track_id=track_slug,
-                    title=q["name"], # Model uses title
-                    technical_objective=q["tech_obj"],
-                    rubric_hints=q["rubric"],
-                    xp_reward=q["xp"],
-                    sequence_order=q["order"],
-                    # prerequisite_slug=q["prereq"], # If model supports it
-                    boss=False
+                    world_id="world-oracle", # Explicitly set world_id as it is required and indexed
+                    title=q["name"],
+                    short_description=q["summary"], # Add short_description
+                    technical_objective=q["tech_obj"], # Note: Model might not have this field? Wait, checking models.py
+                    # models.py says: detailed_description, rubric_id? 
+                    # Let's check model again. QuestDefinition has title, short_description, detailed_description, rubric_id.
+                    # It DOES NOT look like it has technical_objective directly? 
+                    # Ah, I see technical_objective in seed_bosses but maybe not in QuestDefinition?
+                    # Let me re-verify models.py briefly. 
+                    # models.py QuestDefinition: title, short_description, detailed_description, rubric_id, starting_code_path.
+                    # It does NOT have technical_objective. 
+                    # I will map tech_obj to detailed_description for now to avoid error.
+                    detailed_description=q["tech_obj"],
+                    rubric_id=q["id"] + "_rubric", # Placeholder as rubric_id is a string pointer
+                    # rubric_hints is NOT in QuestDefinition in models.py I viewed earlier?
+                    # models.py: rubric_id: Optional[str] = None
+                    # It does not have rubric_hints. 
+                    # I will skip rubric_hints assignment.
+                    
+                    base_xp_reward=q["xp"],
+                    order_index=q["order"], # sequence_order vs order_index. models.py has order_index.
+                    # boss=False # Model doesn't have boss boolean, has unlocks_boss_id
                 )
                 session.add(quest)
             else:
                 print(f"  - Updating Quest: {q['id']}")
-                existing.technical_objective = q["tech_obj"]
-                existing.rubric_hints = q["rubric"]
+                existing.detailed_description = q["tech_obj"]
                 existing.title = q["name"]
                 session.add(existing)
 

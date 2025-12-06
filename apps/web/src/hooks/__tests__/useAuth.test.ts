@@ -35,7 +35,7 @@ describe('useAuth Hook', () => {
         });
 
         expect(result.current.user).toEqual(mockUser);
-        expect(global.fetch).toHaveBeenCalledWith('/api/auth/me');
+        expect(global.fetch).toHaveBeenCalledWith('/api/auth/me', { credentials: 'include' });
     });
 
     it('handles login flow (Mock)', async () => {
@@ -67,7 +67,7 @@ describe('useAuth Hook', () => {
             expect((window as any).location.href).toBe('https://github.com/login/oauth/authorize');
         });
 
-        expect(global.fetch).toHaveBeenCalledWith('/api/auth/github/start');
+        expect(global.fetch).toHaveBeenCalledWith('/api/auth/login');
     });
 
     it('handles logout', async () => {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { isGodModeEnabledFromEnv } from '@/config/devFlags';
 
 export type SkillNode = {
     id: string;
@@ -19,7 +20,7 @@ export function useSkills(user: any) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const godMode = user?.dev_unlock_all_features || (import.meta as any).env.VITE_DEV_UNLOCK_ALL === '1';
+    const godMode = user?.dev_unlock_all_features || isGodModeEnabledFromEnv();
 
     // Fetch Tree
     const refreshSkills = useCallback(() => {

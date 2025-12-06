@@ -208,399 +208,6 @@
     border-color: rgba(34, 211, 238, 0.9);
     box-shadow: 0 0 18px rgba(34, 211, 238, 0.8);
   }
-
-  text-shadow: 0 0 transparent;
-}
-}
-
-/* SLOW ORBITAL SPINS */
-.orion-spin-worlds {
-  animation: orion-spin-worlds 80s linear infinite;
-  transform-origin: center center;
-}
-
-.orion-spin-orbits {
-  animation: orion-spin-orbits 110s linear infinite;
-  transform-origin: center center;
-}
-
-@keyframes orion-spin-worlds {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(-360deg);
-    /* slow clockwise drift */
-  }
-}
-
-@keyframes orion-spin-orbits {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-    /* opposite direction for parallax feel */
-  }
-}
-
-/* CENTRAL PLANET "BREATHING" */
-.orion-planet-breathe {
-  animation: orion-planet-breathe 6s ease-in-out infinite;
-  transform-origin: 50% 50%;
-}
-
-@keyframes orion-planet-breathe {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    box-shadow: 0 0 32px rgba(56, 189, 248, 0.7);
-  }
-
-  50% {
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: 0 0 52px rgba(56, 189, 248, 0.95);
-  }
-
-  100% {
-    #root {
-      height: 100%;
-    }
-
-    body {
-      @apply bg-bg text-text antialiased;
-      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    }
-
-    ::selection {
-      background: rgba(99, 102, 241, .25);
-    }
-  }
-
-  /* ---------- Reusable component classes ---------- */
-  @layer components {
-    .container-page {
-      @apply max-w-4xl mx-auto px-4 py-6;
-    }
-
-    .card {
-      @apply rounded-xl2 bg-surface/95 border border-border shadow-soft;
-    }
-
-    .btn {
-      @apply inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text hover:bg-surface/80 transition;
-    }
-
-    .btn-primary {
-      @apply bg-brand text-brandFg border-transparent hover:bg-brand/90;
-    }
-
-    .btn-ghost {
-      @apply bg-transparent hover:bg-surface/60;
-    }
-
-    .section-title {
-      @apply text-lg font-semibold tracking-tight;
-    }
-
-    .muted {
-      @apply text-sm text-muted;
-    }
-
-    .input {
-      @apply rounded-lg border border-border bg-surface px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand/40;
-    }
-  }
-
-  @layer utilities {
-    @keyframes enter {
-      from {
-        opacity: 0;
-        transform: translateY(6px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .animate-in {
-      animation: enter 160ms ease-out both;
-    }
-
-    /* Simple spinner utility if you need one later */
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border-radius: 9999px;
-      border: 2px solid rgba(0, 0, 0, 0.15);
-      border-top-color: rgba(99, 102, 241, 1);
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  }
-
-  /* Cyberdeck FX */
-  .scanline-animation {
-    background-image: linear-gradient(to bottom,
-        rgba(248, 250, 252, 0.05) 1px,
-        transparent 1px);
-    background-size: 100% 3px;
-    animation: deck-scanlines 6s linear infinite;
-  }
-
-  @keyframes deck-scanlines {
-    0% {
-      transform: translateY(0);
-    }
-
-    100% {
-      transform: translateY(3px);
-    }
-  }
-
-  .deck-mode-pulse {
-    box-shadow:
-      0 0 0 0 rgba(34, 211, 238, 0.7),
-      0 0 16px rgba(34, 211, 238, 0.8);
-    animation: deck-mode-pulse 1.6s ease-out infinite;
-  }
-
-  @keyframes deck-mode-pulse {
-    0% {
-      box-shadow:
-        0 0 0 0 rgba(34, 211, 238, 0.7),
-        0 0 16px rgba(34, 211, 238, 0.8);
-    }
-
-    70% {
-      box-shadow:
-        0 0 0 10px rgba(34, 211, 238, 0),
-        0 0 28px rgba(34, 211, 238, 0.3);
-    }
-
-    100% {
-      box-shadow:
-        0 0 0 0 rgba(34, 211, 238, 0),
-        0 0 16px rgba(34, 211, 238, 0.0);
-    }
-  }
-
-  .deck-event-flash {
-    animation: deck-event-flash 1.2s ease-out;
-  }
-
-  @keyframes deck-event-flash {
-    0% {
-      background-color: rgba(34, 211, 238, 0.35);
-      border-color: rgba(34, 211, 238, 0.9);
-      box-shadow: 0 0 18px rgba(34, 211, 238, 0.8);
-    }
-
-    text-shadow: 0 0 transparent;
-  }
-}
-
-/* SLOW ORBITAL SPINS */
-.orion-spin-worlds {
-  animation: orion-spin-worlds 80s linear infinite;
-  transform-origin: center center;
-}
-
-.orion-spin-orbits {
-  animation: orion-spin-orbits 110s linear infinite;
-  transform-origin: center center;
-}
-
-@keyframes orion-spin-worlds {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(-360deg);
-    /* slow clockwise drift */
-  }
-}
-
-@keyframes orion-spin-orbits {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-    /* opposite direction for parallax feel */
-  }
-}
-
-/* CENTRAL PLANET "BREATHING" */
-.orion-planet-breathe {
-  animation: orion-planet-breathe 6s ease-in-out infinite;
-  transform-origin: 50% 50%;
-}
-
-@keyframes orion-planet-breathe {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    box-shadow: 0 0 32px rgba(56, 189, 248, 0.7);
-  }
-
-  50% {
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: 0 0 52px rgba(56, 189, 248, 0.95);
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    box-shadow: 0 0 32px rgba(56, 189, 248, 0.7);
-  }
-}
-
-/* RESPECT REDUCED MOTION */
-@media (prefers-reduced-motion: reduce) {
-
-  .orion-spin-worlds,
-  .orion-spin-orbits,
-  .orion-planet-breathe,
-  .orion-stars-slow,
-  .orion-stars-mid,
-  .orion-stars-fast {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
-
-.orion-stars {
-  background-image:
-    radial-gradient(1px 1px at 20px 30px, rgba(148, 163, 184, 0.8) 0, transparent 55%),
-    radial-gradient(1.2px 1.2px at 140px 80px, rgba(148, 163, 184, 0.7) 0, transparent 55%),
-    radial-gradient(1px 1px at 230px 150px, rgba(148, 163, 184, 0.8) 0, transparent 55%),
-    radial-gradient(1.4px 1.4px at 340px 200px, rgba(148, 163, 184, 0.9) 0, transparent 55%);
-  background-repeat: repeat;
-  background-size: 240px 240px;
-  opacity: 0.35;
-}
-
-.orion-stars-slow {
-  animation: orion-stars-twinkle 16s ease-in-out infinite alternate;
-}
-
-.orion-stars-mid {
-  animation: orion-stars-twinkle 11s ease-in-out infinite alternate;
-  opacity: 0.45;
-}
-
-.orion-stars-fast {
-  animation: orion-stars-twinkle 7s ease-in-out infinite alternate;
-  opacity: 0.6;
-}
-
-@keyframes orion-stars-twinkle {
-  0% {
-    opacity: 0.2;
-    filter: blur(0.2px);
-  }
-
-  ``` @keyframes enter {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-in {
-    animation: enter 160ms ease-out both;
-  }
-
-  /* Simple spinner utility if you need one later */
-  .spinner {
-    width: 16px;
-    height: 16px;
-    border-radius: 9999px;
-    border: 2px solid rgba(0, 0, 0, 0.15);
-    border-top-color: rgba(99, 102, 241, 1);
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}
-
-/* Cyberdeck FX */
-.scanline-animation {
-  background-image: linear-gradient(to bottom,
-      rgba(248, 250, 252, 0.05) 1px,
-      transparent 1px);
-  background-size: 100% 3px;
-  animation: deck-scanlines 6s linear infinite;
-}
-
-@keyframes deck-scanlines {
-  0% {
-    transform: translateY(0);
-  }
-
-  100% {
-    transform: translateY(3px);
-  }
-}
-
-.deck-mode-pulse {
-  box-shadow:
-    0 0 0 0 rgba(34, 211, 238, 0.7),
-    0 0 16px rgba(34, 211, 238, 0.8);
-  animation: deck-mode-pulse 1.6s ease-out infinite;
-}
-
-@keyframes deck-mode-pulse {
-  0% {
-    box-shadow:
-      0 0 0 0 rgba(34, 211, 238, 0.7),
-      0 0 16px rgba(34, 211, 238, 0.8);
-  }
-
-  70% {
-    box-shadow:
-      0 0 0 10px rgba(34, 211, 238, 0),
-      0 0 28px rgba(34, 211, 238, 0.3);
-  }
-
-  100% {
-    box-shadow:
-      0 0 0 0 rgba(34, 211, 238, 0),
-      0 0 16px rgba(34, 211, 238, 0.0);
-  }
-}
-
-.deck-event-flash {
-  animation: deck-event-flash 1.2s ease-out;
-}
-
-@keyframes deck-event-flash {
-  0% {
-    background-color: rgba(34, 211, 238, 0.35);
-    border-color: rgba(34, 211, 238, 0.9);
-    box-shadow: 0 0 18px rgba(34, 211, 238, 0.8);
-  }
-
-  text-shadow: 0 0 transparent;
-}
 }
 
 /* SLOW ORBITAL SPINS */
@@ -792,11 +399,86 @@
   }
 }
 
-```
-@keyframes wiggle {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-1px); }
-  50% { transform: translateX(1px); }
-  75% { transform: translateX(-1px); }
-  100% { transform: translateX(0); }
+/* ORION STARFIELD BACKGROUND */
+/* ORION / WORKSHOP STARFIELD
+   ------------------------------------------------------------------ */
+
+.orion-starfield-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: #020617;
+  /* slate-950 base */
+}
+
+/* Single large “sheet” of stars, no tile seams. */
+.orion-starfield-layer::before,
+.orion-starfield-layer::after {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  /* bleed slightly offscreen */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.7;
+}
+
+/* Far, softer layer */
+.orion-starfield-layer::before {
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(248, 250, 252, 0.45) 1px, transparent 3px),
+    radial-gradient(circle at 38% 78%, rgba(226, 232, 240, 0.4) 1px, transparent 3px),
+    radial-gradient(circle at 72% 32%, rgba(241, 245, 249, 0.55) 1px, transparent 3px),
+    radial-gradient(circle at 88% 64%, rgba(148, 163, 184, 0.5) 1px, transparent 3px),
+    radial-gradient(circle at 22% 82%, rgba(148, 163, 184, 0.4) 1px, transparent 3px);
+  animation: orionStarDriftFar 80s linear infinite;
+}
+
+/* Near, brighter stars + soft glows */
+.orion-starfield-layer::after {
+  background-image:
+    radial-gradient(circle at 18% 16%, rgba(248, 250, 252, 0.85) 1.5px, transparent 3px),
+    radial-gradient(circle at 64% 26%, rgba(248, 250, 252, 0.95) 2px, transparent 3px),
+    radial-gradient(circle at 44% 86%, rgba(226, 232, 240, 0.8) 1.5px, transparent 3px),
+    radial-gradient(circle at 82% 76%, rgba(148, 163, 184, 0.85) 1.5px, transparent 3px),
+
+    /* large soft “nebula” glows */
+    radial-gradient(circle at 28% 46%, rgba(56, 189, 248, 0.18) 0, transparent 55%),
+    radial-gradient(circle at 80% 72%, rgba(96, 165, 250, 0.15) 0, transparent 60%);
+  animation:
+    orionStarDriftNear 55s linear infinite,
+    orionStarTwinkle 6s ease-in-out infinite alternate;
+  opacity: 0.9;
+}
+
+@keyframes orionStarDriftFar {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(40px, -60px, 0);
+  }
+}
+
+@keyframes orionStarDriftNear {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-40px, 40px, 0);
+  }
+}
+
+@keyframes orionStarTwinkle {
+  from {
+    filter: brightness(0.9);
+  }
+
+  to {
+    filter: brightness(1.15);
+  }
 }

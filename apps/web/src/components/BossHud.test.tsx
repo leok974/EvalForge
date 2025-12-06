@@ -121,6 +121,8 @@ describe('BossHud', () => {
         renderHud();
 
         // Check that HP values are rendered
-        expect(screen.getByText(/100\/100/)).toBeTruthy();
+        // Check that HP values are rendered (might be multiple due to shadow/layers)
+        const hpTexts = screen.getAllByText(/100\/100/);
+        expect(hpTexts.length).toBeGreaterThan(0);
     });
 });

@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
+import { MemoryRouter } from "react-router-dom";
 import { PracticeGauntletCard } from "./PracticeGauntletCard";
 
 describe("PracticeGauntletCard", () => {
@@ -38,7 +39,13 @@ describe("PracticeGauntletCard", () => {
         // @ts-expect-error - override global fetch in tests
         global.fetch = fetchMock;
 
-        render(<PracticeGauntletCard />);
+
+        render(
+            <MemoryRouter>
+                <PracticeGauntletCard />
+            </MemoryRouter>
+        );
+
 
         expect(
             screen.getByTestId("practice-gauntlet-card")
@@ -70,7 +77,11 @@ describe("PracticeGauntletCard", () => {
         // @ts-expect-error - override global fetch in tests
         global.fetch = fetchMock;
 
-        render(<PracticeGauntletCard />);
+        render(
+            <MemoryRouter>
+                <PracticeGauntletCard />
+            </MemoryRouter>
+        );
 
         await waitFor(() =>
             expect(
@@ -98,7 +109,11 @@ describe("PracticeGauntletCard", () => {
         // @ts-expect-error - override global fetch in tests
         global.fetch = fetchMock;
 
-        render(<PracticeGauntletCard />);
+        render(
+            <MemoryRouter>
+                <PracticeGauntletCard />
+            </MemoryRouter>
+        );
 
         await waitFor(() =>
             expect(

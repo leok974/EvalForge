@@ -3,27 +3,20 @@ import { render, screen } from '@testing-library/react';
 import { GameShell } from '../GameShell';
 import { useGameStore } from '../../store/gameStore';
 
-// Mock the child layouts to avoid rendering the full app tree
+// Mock DevUI to avoid rendering the full application tree
+vi.mock('../../pages/DevUI', () => ({
+  default: () => <div data-testid="dev-ui-mock">DevUI Rendered</div>
+}));
+
+// Mock child layouts (even though they shouldn't be rendered directly anymore, good for safety)
 vi.mock('../CyberdeckLayout', () => ({
   CyberdeckLayout: () => <div data-testid="layout-cyberdeck">Cyberdeck Rendered</div>
 }));
 
 describe('GameShell', () => {
-  it('renders Cyberdeck by default', () => {
+  it('renders DevUI which initializes correctly', () => {
     useGameStore.setState({ layout: 'cyberdeck' });
     render(<GameShell />);
-    expect(screen.getByTestId('layout-cyberdeck')).toBeDefined();
-  });
-
-  it('renders Navigator placeholder', () => {
-    useGameStore.setState({ layout: 'navigator' });
-    render(<GameShell />);
-    expect(screen.getByText('NAVIGATOR INTERFACE')).toBeDefined();
-  });
-
-  it('renders Workshop placeholder', () => {
-    useGameStore.setState({ layout: 'workshop' });
-    render(<GameShell />);
-    expect(screen.getByText('ISOMETRIC WORKSHOP')).toBeDefined();
+    expect(screen.getByTestId('dev-ui-mock')).toBeDefined();
   });
 });

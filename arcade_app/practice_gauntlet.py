@@ -69,8 +69,75 @@ class DailyPracticePlan(BaseModel):
     items: List[PracticeItemView] = Field(default_factory=list)
     completed_count: int = 0
     total_count: int = 0
-    # Optional: streak_days can be filled in by a higher-level service
+    today_quests_completed: int = 0
+    today_bosses_cleared: int = 0
+
+    @property
+    def today_trials_completed(self) -> int:
+        return self.today_quests_completed + self.today_bosses_cleared
+# Optional: streak_days can be filled in by a higher-level service
     streak_days: Optional[int] = None
+
+
+# -----------------------
+# Helpers
+# -----------------------
+
+async def get_daily_completion_stats(
+    session: "AsyncSession", profile: "Profile"
+) -> tuple[int, int]:
+    """Return (quests_completed_today, bosses_cleared_today).
+
+    This is defensive: if the schema isn't what we expect, we log and return zeros
+    instead of throwing a 500.
+    """
+    from datetime import datetime, time, timedelta, timezone
+    from sqlmodel import select, func, or_
+    import logging
+    # Import actual models found in models.py
+    from arcade_app.models import QuestProgress, BossRun, QuestState
+
+    logger = logging.getLogger(__name__)
+
+    now = datetime.now(timezone.utc)
+    start_of_day = datetime.combine(now.date(), time.min, tzinfo=timezone.utc)
+    end_of_day = start_of_day + timedelta(days=1)
+
+    quests_completed_today = 0
+    bosses_cleared_today = 0
+
+    # 🔢 Quests (using QuestProgress via completed_at)
+    try:
+        q_stmt = (
+            select(func.count())
+            .select_from(QuestProgress)
+            .where(
+                QuestProgress.user_id == profile.user_id, # Link via user_id
+                QuestProgress.completed_at >= start_of_day,
+                QuestProgress.completed_at < end_of_day,
+            )
+        )
+        quests_completed_today = int((await session.exec(q_stmt)).one() or 0)
+    except Exception:
+        logger.exception("Practice Gauntlet: failed to compute quests_completed_today")
+
+    # 🔢 Bosses (using BossRun via completed_at + result)
+    try:
+        b_stmt = (
+            select(func.count())
+            .select_from(BossRun)
+            .where(
+                BossRun.user_id == profile.user_id, # Link via user_id
+                BossRun.completed_at >= start_of_day,
+                BossRun.completed_at < end_of_day,
+                BossRun.result == "win",
+            )
+        )
+        bosses_cleared_today = int((await session.exec(b_stmt)).one() or 0)
+    except Exception:
+        logger.exception("Practice Gauntlet: failed to compute bosses_cleared_today")
+
+    return quests_completed_today, bosses_cleared_today
 
 
 # -----------------------
@@ -547,9 +614,12 @@ async def get_daily_practice_plan_for_profile_foundry_applylens(
       
     Returns a deterministic daily practice plan focused on these areas.
     """
+    from datetime import datetime, time, timezone, timedelta
+    from sqlmodel import select, func
+
     candidates = await collect_practice_candidates_for_profile_foundry_applylens(db, profile)
 
-    return build_practice_round_from_candidates(
+    plan = build_practice_round_from_candidates(
         profile_id=str(profile.id),
         for_date=today,
         candidates=candidates,
@@ -557,5 +627,13 @@ async def get_daily_practice_plan_for_profile_foundry_applylens(
         include_worlds={"world-python"},
         include_projects={"applylens"},
         struggle_threshold=60,
-        maintenance_threshold=20,
     )
+
+    # 🔢 NEW: Safe daily stats
+    quests_today, bosses_today = await get_daily_completion_stats(db, profile)
+
+    # Inject stats into the plan copy
+    plan.today_quests_completed = quests_today
+    plan.today_bosses_cleared = bosses_today
+    
+    return plan

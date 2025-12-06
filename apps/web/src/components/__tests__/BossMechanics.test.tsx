@@ -7,10 +7,12 @@ import { useSettingsStore } from "../../store/settingsStore";
 // Mock hooks
 vi.mock("../../hooks/useGameSocket");
 vi.mock("../../store/settingsStore");
+import { createMockBossStoreState } from '../../test/mockBossStore';
+
+const bossStoreState = createMockBossStoreState();
+
 vi.mock("../../store/bossStore", () => ({
-    useBossStore: () => ({
-        startBoss: vi.fn(),
-    }),
+    useBossStore: (selector?: any) => selector ? selector(bossStoreState) : bossStoreState
 }));
 vi.mock("../../hooks/useSound", () => ({
     useSound: () => ({ play: vi.fn() }),

@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./styles.css";
 import { ThemeProvider } from "@/lib/theme";
@@ -9,7 +10,9 @@ const root = createRoot(document.getElementById("root")!);
 root.render(
   <ThemeProvider>
     <ToastProvider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ToastProvider>
   </ThemeProvider>
 );

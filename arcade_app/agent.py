@@ -386,6 +386,10 @@ app.include_router(intent_oracle_eval.router)
 from arcade_app.routers import routes_quests
 app.include_router(routes_quests.router)
 
+# World Progress routes
+from arcade_app.routers import routes_world_progress
+app.include_router(routes_world_progress.router)
+
 # --- 5. Missing Routes (Restored) ---
 
 from arcade_app.socket_manager import websocket_endpoint

@@ -126,8 +126,8 @@ export function FXLayer({ children }: Props) {
                 />
             )}
 
-            {/* NAVIGATOR (Stars) - z-0 (Background) */}
-            {layout === 'navigator' && (
+            {/* ORION (Stars) - z-0 (Background) */}
+            {layout === 'orion' && (
                 <div className="absolute inset-0 pointer-events-none z-0">
                     <div className="absolute inset-0 bg-[radial-gradient(white_1px,transparent_1px)] [background-size:50px_50px] opacity-20" />
                     <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 to-transparent" />

@@ -47,8 +47,8 @@ describe('EventLog Component', () => {
 
         const logEntry = screen.getByText(/WARNING: MEGA BUG DETECTED/i);
         expect(logEntry).toBeDefined();
-        // Check styling (red color) - verifying class presence
-        expect(logEntry.className).toContain('text-red-500');
+        // Check styling (rose color for boss warnings) - verifying class presence
+        expect(logEntry.className).toContain('text-rose-400');
     });
 
     it('logs Sync Complete events', () => {

@@ -45,7 +45,13 @@ export default defineConfig(({ mode }) => {
     },
     test: {
       environment: "jsdom",
-      globals: true
+      globals: true,
+      setupFiles: ['./src/test/setupTests.ts'],
+      env: {
+        // Disable god mode for tests to get predictable skill/feature state
+        VITE_DEV_UNLOCK_ALL: '0',
+        VITE_UNLOCK_ALL: '0',
+      },
     }
   }
 });

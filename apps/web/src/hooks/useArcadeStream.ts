@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useBossStore } from '../store/bossStore';
+import { refreshWorldProgress } from '../features/progress/trackProgress';
 
 type Grade = {
     weighted_score: number;
@@ -180,6 +181,13 @@ export function useArcadeStream(sessionId: string, user: string = 'test') {
             try {
                 const resultData = JSON.parse(data);
                 useBossStore.getState().applyBossResult(resultData);
+
+                // If boss was defeated, refresh world progress (Orion + Practice Gauntlet)
+                if (resultData.passed) {
+                    refreshWorldProgress().catch(err =>
+                        console.warn('World progress refresh failed after boss completion', err)
+                    );
+                }
             } catch (e) { console.error('Failed to parse boss_result', e); }
         }
     };
