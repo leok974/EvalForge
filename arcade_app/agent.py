@@ -257,6 +257,7 @@ class QuestAgent(BaseAgent):
     Generates challenges based on World/Track context.
     """
     async def run(self, user_input: str, context: Dict) -> AsyncGenerator[Dict, None]:
+        print(f"DEBUG: QuestAgent.run called with track_id={context.get('track_id')}")
         from langchain_core.messages import HumanMessage, SystemMessage
         from arcade_app.quest_agent_graph import quest_graph 
         from arcade_app.quest_helper import stream_quest_generator
@@ -551,6 +552,7 @@ async def stream_session(user: str, sid: str, payload: QueryRequest):
             logging.error(f"Stream Error: {e}")
             yield {"event": "error", "data": str(e)}
 
+    from sse_starlette.sse import EventSourceResponse
     return EventSourceResponse(event_generator())
 
 @app.get("/health")

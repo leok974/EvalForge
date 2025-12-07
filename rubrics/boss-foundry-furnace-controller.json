@@ -1,0 +1,156 @@
+{
+    "rubric_id": "boss-rubric-foundry-furnace-controller",
+    "boss_id": "boss-foundry-ignition-furnace-controller",
+    "version": 1,
+    "overall": {
+        "score_scale": "per-criterion 0–2",
+        "pass_threshold": 6,
+        "max_score": 8,
+        "notes": "Sum the best-matching level.score for each criterion (0–2) and compare to pass_threshold. 6+ is a pass; 7–8 is a strong pass."
+    },
+    "criteria": [
+        {
+            "id": "correctness_semantics",
+            "label": "Correctness & CLI Semantics",
+            "weight": 0.35,
+            "description": "Does the furnace controller behave correctly on the happy path, with the right CLI flags, output, and exit codes?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Missing or incorrect",
+                    "description": "CLI is incomplete or broken. Required flags are missing or ignored; average temperature is not computed correctly; HEAT/COOL/STABLE logic is wrong or absent; exit codes are missing or clearly incorrect."
+                },
+                {
+                    "score": 1,
+                    "label": "Partially correct",
+                    "description": "Core logic mostly works but has gaps. For example: arguments parsed but not validated, edge cases misbehave (e.g., boundary temps), or exit codes are present but inconsistently applied."
+                },
+                {
+                    "score": 2,
+                    "label": "Solid and correct",
+                    "description": "Script accepts the expected flags (--input, --target-temp, --tolerance), computes an average correctly, decides HEAT/COOL/STABLE in a way that matches the spec or is clearly documented, and uses exit codes in a consistent, documented way."
+                }
+            ],
+            "signals": {
+                "strong_positive": [
+                    "Has a main() function with argument parsing and explicit exit codes.",
+                    "Defines a pure decide_action(avg, target, tolerance) that is easy to reason about.",
+                    "Correct handling of boundary values (exactly on tolerance)."
+                ],
+                "strong_negative": [
+                    "Directly uses sys.argv without any structure.",
+                    "No clear mapping from decision → exit code."
+                ]
+            }
+        },
+        {
+            "id": "structure_and_design",
+            "label": "Structure & Design",
+            "weight": 0.25,
+            "description": "Is the code broken into clear functions/modules, or is it a single monolithic script?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Monolith / tangled",
+                    "description": "Most logic is in one large function or in top-level script code. Hard to tell what happens where. No separation between CLI parsing, IO, and decision logic."
+                },
+                {
+                    "score": 1,
+                    "label": "Some structure",
+                    "description": "There are functions, but responsibilities are fuzzy or mixed (e.g., IO and business logic in the same function). Overall still understandable but not easy to test in isolation."
+                },
+                {
+                    "score": 2,
+                    "label": "Well structured",
+                    "description": "CLI parsing, IO (file+JSON handling), and decision logic (compute average, decide action) are separated into focused functions. Business logic is pure where reasonable, and the overall flow is easy to follow."
+                }
+            ],
+            "signals": {
+                "strong_positive": [
+                    "Small, focused helpers like load_sensor_data(), compute_average(), decide_action().",
+                    "Main function orchestrates these helpers without doing heavy work itself."
+                ],
+                "strong_negative": [
+                    "Hundreds of lines of logic inside if __name__ == '__main__': with no helpers.",
+                    "Business logic embedded directly in argument parsing."
+                ]
+            }
+        },
+        {
+            "id": "robustness_logging_errors",
+            "label": "Robustness, Logging & Error Handling",
+            "weight": 0.25,
+            "description": "Does the controller fail gracefully on bad input and provide useful logs instead of raw tracebacks?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Fragile",
+                    "description": "Bad inputs (missing file, invalid JSON, non-numeric readings) cause unhandled exceptions and full tracebacks. Logging is absent or only uses print()."
+                },
+                {
+                    "score": 1,
+                    "label": "Basic",
+                    "description": "Some errors are caught and logged, but coverage is incomplete. Certain invalid states still crash or yield confusing error messages. Logging is present but minimal."
+                },
+                {
+                    "score": 2,
+                    "label": "Robust",
+                    "description": "File-not-found, invalid JSON, empty readings, and bad numeric values are caught and turned into clear error messages, typically logged through the logging module. The script returns a non-zero exit code instead of crashing, and logging includes enough context (file path, offending value)."
+                }
+            ],
+            "signals": {
+                "strong_positive": [
+                    "Consistent use of logging.* with timestamps/levels configured once.",
+                    "Wrapping JSON and numeric parsing in try/except with contextual messages."
+                ],
+                "strong_negative": [
+                    "Bare except that swallows errors.",
+                    "Stack traces printed directly to stdout/stderr as the only feedback."
+                ]
+            }
+        },
+        {
+            "id": "tests_and_verification",
+            "label": "Tests & Verification",
+            "weight": 0.15,
+            "description": "Are there meaningful tests for the controller’s core logic?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "No tests",
+                    "description": "No tests present, or only trivial smoke tests that do not assert behavior."
+                },
+                {
+                    "score": 1,
+                    "label": "Minimal tests",
+                    "description": "There are a few tests (e.g., for decide_action or average computation) but coverage is limited and no error cases are tested."
+                },
+                {
+                    "score": 2,
+                    "label": "Good test coverage",
+                    "description": "Core logic (e.g., decide_action and average computation) is covered by unit tests, with at least one test around a failure case or boundary condition. Tests are readable and clearly named."
+                }
+            ],
+            "signals": {
+                "strong_positive": [
+                    "Tests for HEAT/COOL/STABLE decisions including boundary values.",
+                    "Tests asserting that invalid input raises clean exceptions or returns error codes."
+                ],
+                "strong_negative": [
+                    "Tests exist but only assert that the script runs without crashing, without verifying behavior."
+                ]
+            }
+        }
+    ],
+    "zero_guidance": {
+        "instructions_to_model": [
+            "You are reviewing a Python CLI tool called the Furnace Controller.",
+            "You are given the rubric above and a candidate solution: one or more Python files, possibly with tests.",
+            "For each criterion, select the level (0, 1, or 2) whose description best matches the candidate’s code and tests. Use the signals as hints, not strict rules.",
+            "Then compute an overall impression: does this solution clearly pass, clearly fail, or sit on the border?",
+            "Focus on behavior, structure, error handling, and presence of tests, not on minor stylistic preferences."
+        ],
+        "success_summary_hint": "Summarize in 2–3 sentences why this implementation would be safe to hand to a junior engineer as a reference implementation (or why not).",
+        "failure_summary_hint": "If you consider this a fail or borderline, highlight the top 2–3 changes that would most improve correctness and robustness."
+    }
+}

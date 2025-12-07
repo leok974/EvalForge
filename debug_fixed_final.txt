@@ -1,0 +1,46 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1 item
+
+tests\backend\test_quest_smoke.py .                                      [100%]
+
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:441
+  D:\EvalForge\arcade_app\agent.py:441: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/backend/test_quest_smoke.py::test_quest_agent_smoke_streams_response
+  <frozen abc>:106: LangGraphDeprecatedSinceV10: AgentStatePydantic has been moved to `langchain.agents`. Please update your import to `from langchain.agents import AgentStatePydantic`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+
+tests/backend/test_quest_smoke.py::test_quest_agent_smoke_streams_response
+  D:\\EvalForge\\arcade_app\\quest_helper.py:89: DeprecationWarning: \n          \U0001f6a8 You probably want to use `session.exec()` instead of `session.execute()`.\n  \n          This is the original SQLAlchemy `session.execute()` method that returns objects\n          of type `Row`, and that you have to call `scalars()` to get the model objects.\n  \n          For example:\n  \n          ```Python\n          heroes = await session.execute(select(Hero)).scalars().all()\n          ```\n  \n          instead you could use `exec()`:\n  \n          ```Python\n          heroes = await session.exec(select(Hero)).all()\n          ```\n          \n    result = await session.execute(statement)
+
+tests/backend/test_quest_smoke.py::test_quest_agent_smoke_streams_response
+  D:\\EvalForge\\arcade_app\\quest_helper.py:95: DeprecationWarning: \n          \U0001f6a8 You probably want to use `session.exec()` instead of `session.execute()`.\n  \n          This is the original SQLAlchemy `session.execute()` method that returns objects\n          of type `Row`, and that you have to call `scalars()` to get the model objects.\n  \n          For example:\n  \n          ```Python\n          heroes = await session.execute(select(Hero)).scalars().all()\n          ```\n  \n          instead you could use `exec()`:\n  \n          ```Python\n          heroes = await session.exec(select(Hero)).all()\n          ```\n          \n    q_def = (await session.execute(
+
+tests/backend/test_quest_smoke.py::test_quest_agent_smoke_streams_response
+  D:\\EvalForge\\arcade_app\\quest_helper.py:106: DeprecationWarning: \n          \U0001f6a8 You probably want to use `session.exec()` instead of `session.execute()`.\n  \n          This is the original SQLAlchemy `session.execute()` method that returns objects\n          of type `Row`, and that you have to call `scalars()` to get the model objects.\n  \n          For example:\n  \n          ```Python\n          heroes = await session.execute(select(Hero)).scalars().all()\n          ```\n  \n          instead you could use `exec()`:\n  \n          ```Python\n          heroes = await session.exec(select(Hero)).all()\n          ```\n          \n    active_check = await session.execute(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 1 passed, 7 warnings in 6.25s ========================

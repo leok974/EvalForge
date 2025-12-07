@@ -1,0 +1,40 @@
+{
+    "world_slug": "world-python",
+    "rubrics": [
+        {
+            "rubric_id": "boss-rubric-foundry-furnace-controller",
+            "boss_id": "boss-foundry-ignition-furnace-controller",
+            "world_slug": "world-python",
+            "track_id": "foundry-ignition",
+            "slug": "furnace-controller",
+            "title": "Rubric: Furnace Controller",
+            "file_path": "rubrics/boss-foundry-furnace-controller.json",
+            "summary": "Scoring model for the Furnace Controller boss (Ignition track). Focuses on correctness, structure, robustness, and tests.",
+            "tags": [
+                "rubric",
+                "python",
+                "cli",
+                "logging",
+                "tests"
+            ]
+        },
+        {
+            "rubric_id": "boss-rubric-foundry-data-crucible",
+            "boss_id": "boss-foundry-loop-data-crucible",
+            "world_slug": "world-python",
+            "track_id": "foundry-loop",
+            "slug": "data-crucible",
+            "title": "Rubric: Data Crucible",
+            "file_path": "rubrics/boss-foundry-data-crucible.json",
+            "summary": "Scoring model for the Data Crucible boss (Loop track). Focuses on config-first design, aggregation correctness, structure, and tests.",
+            "tags": [
+                "rubric",
+                "python",
+                "csv",
+                "aggregation",
+                "config",
+                "tests"
+            ]
+        }
+    ]
+}

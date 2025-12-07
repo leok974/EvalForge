@@ -20,6 +20,12 @@ const mockProject = {
     summary_data: { stack: ['react'] }
 };
 
+// Mock the socket hook to avoid connection attempts
+// Mock the socket hook to avoid connection attempts
+vi.mock('../../hooks/useGameSocket', () => ({
+    useGameSocket: vi.fn(),
+}));
+
 describe('ProjectsPanel', () => {
     beforeEach(() => {
         vi.resetAllMocks();

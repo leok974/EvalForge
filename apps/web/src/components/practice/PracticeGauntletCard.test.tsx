@@ -121,6 +121,6 @@ describe("PracticeGauntletCard", () => {
             ).toBeInTheDocument()
         );
 
-        expect(screen.getByText(/No practice targets today/)).toBeInTheDocument();
+        expect(screen.getByText(/No specific targets today/)).toBeInTheDocument();
     });
 });

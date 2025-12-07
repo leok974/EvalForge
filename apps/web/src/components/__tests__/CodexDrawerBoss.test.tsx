@@ -62,7 +62,7 @@ describe('CodexDrawer - Boss Tab', () => {
         render(<CodexDrawer isOpen={true} onClose={() => { }} currentWorldId="world-python" />);
 
         // Switch to Boss Tab
-        const bossTab = screen.getByText(/boss intel/i);
+        const bossTab = screen.getByTestId('tab-boss');
         fireEvent.click(bossTab);
 
         // Wait for boss list to load

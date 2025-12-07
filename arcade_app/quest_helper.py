@@ -62,6 +62,7 @@ async def stream_quest_generator(
 ) -> AsyncGenerator[str, None]:
     
     # 1. Mock Check
+    print(f"DEBUG: Entering stream_quest_generator for user={user_id}")
     if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
         yield f"⚔️ **MOCK QUEST**\n\nObjective: Master {track.get('name')}.\nTask: {user_input}"
         return

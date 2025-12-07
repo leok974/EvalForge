@@ -1,0 +1,155 @@
+{
+    "rubric_id": "boss-rubric-foundry-data-crucible",
+    "boss_id": "boss-foundry-loop-data-crucible",
+    "version": 1,
+    "overall": {
+        "score_scale": "per-criterion 0–2",
+        "pass_threshold": 6,
+        "max_score": 8,
+        "notes": "Sum the best-matching level.score for each criterion (0–2) and compare to pass_threshold. 6+ is a pass; 7–8 is a strong pass."
+    },
+    "criteria": [
+        {
+            "id": "config_first_design",
+            "label": "Config-First Design",
+            "weight": 0.3,
+            "description": "Does the implementation genuinely use the JSON config (group_by, value_field) to drive behavior, rather than hard-coding grouping logic?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Config mostly ignored",
+                    "description": "Config structure is present but essentially unused. Grouping and aggregation are hard-coded for specific columns, or the tool cannot adapt to different configs."
+                },
+                {
+                    "score": 1,
+                    "label": "Partial config usage",
+                    "description": "Some config fields are used (e.g., value_field) but others are effectively ignored, or the logic assumes a very specific schema that is not truly generic."
+                },
+                {
+                    "score": 2,
+                    "label": "Config drives behavior",
+                    "description": "Both group_by and value_field are used to dynamically decide how to aggregate. Changing the config to different group keys or value field works without code changes, and the config is validated clearly."
+                }
+            ],
+            "signals": {
+                "strong_positive": [
+                    "Has a dedicated config class/structure with validation.",
+                    "A pure aggregate() function that takes group_by and value_field as parameters."
+                ],
+                "strong_negative": [
+                    "Always groups by a specific pair of columns regardless of config contents.",
+                    "Config is parsed but never used to shape the aggregation."
+                ]
+            }
+        },
+        {
+            "id": "aggregation_correctness",
+            "label": "Aggregation Correctness",
+            "weight": 0.3,
+            "description": "Are the grouping and aggregate calculations (sum, count, average) implemented correctly?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Incorrect or incomplete",
+                    "description": "Aggregations are wrong (e.g., sums or counts are incorrect), group keys are mishandled, or the output does not reflect the intended grouping."
+                },
+                {
+                    "score": 1,
+                    "label": "Mostly correct with minor issues",
+                    "description": "Basic grouping and sums work, but there may be minor edge case issues (e.g., float rounding not handled, averages slightly inconsistent, or inconsistent handling of empty groups)."
+                },
+                {
+                    "score": 2,
+                    "label": "Correct and stable",
+                    "description": "Grouping is correct for multiple groups and keys. Sum, count, and average fields are correct and clearly derived, and output is stable/deterministic (e.g., sorted by group keys)."
+                }
+            ],
+            "signals": {
+                "strong_positive": [
+                    "Explicit tests show correct sums/counts/averages for multiple groups.",
+                    "Output entries clearly include all group_by keys plus sum/count/avg fields."
+                ],
+                "strong_negative": [
+                    "Aggregations only work for trivial 1-row inputs.",
+                    "Output shape is inconsistent across groups."
+                ]
+            }
+        },
+        {
+            "id": "structure_and_separation",
+            "label": "Structure & Separation of Concerns",
+            "weight": 0.2,
+            "description": "Is IO (files/CLI) separated from the core transformation logic?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Tangled",
+                    "description": "CSV reading, config parsing, aggregation, and writing output are all mixed together in one or two large functions, making the logic hard to test or reason about."
+                },
+                {
+                    "score": 1,
+                    "label": "Some separation",
+                    "description": "There are some helper functions, but responsibilities overlap (e.g., a function that both reads files AND performs aggregation). The core logic is somewhat isolated but not clean."
+                },
+                {
+                    "score": 2,
+                    "label": "Well separated",
+                    "description": "There is a clear pipeline: load_config(), load_rows(), aggregate(), write_output(). The aggregate() function is pure and can be tested independently of IO, and main() just wires these pieces together."
+                }
+            ],
+            "signals": {
+                "strong_positive": [
+                    "A pure aggregate() that operates on in-memory rows and config only.",
+                    "Main/CLI layer is thin; heavy lifting occurs in reusable helpers."
+                ],
+                "strong_negative": [
+                    "Tests are forced to exercise file/CLI just to verify a small aggregation."
+                ]
+            }
+        },
+        {
+            "id": "errors_and_tests",
+            "label": "Error Handling & Tests",
+            "weight": 0.2,
+            "description": "How well does the Data Crucible handle bad input and how well is it tested?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Fragile and untested",
+                    "description": "Missing files, invalid JSON, missing columns, or non-numeric values cause unhandled exceptions and confusing errors. There are no meaningful tests."
+                },
+                {
+                    "score": 1,
+                    "label": "Basic resilience and tests",
+                    "description": "Some invalid cases are handled (e.g., missing file or empty CSV) and there are a few tests for the happy path or a single error case, but coverage is limited."
+                },
+                {
+                    "score": 2,
+                    "label": "Robust and reasonably tested",
+                    "description": "Common failure modes (missing config keys, missing columns, invalid numeric values, empty CSV) are handled with clear errors. There are unit tests that cover both successful aggregations and at least one failure scenario."
+                }
+            ],
+            "signals": {
+                "strong_positive": [
+                    "Config parsing and aggregate() raise explicit ValueError with contextual messages.",
+                    "Tests assert that invalid rows/configs produce clear, expected failures."
+                ],
+                "strong_negative": [
+                    "Raw KeyError or JSONDecodeError bubbles up to the user without explanation.",
+                    "No tests, or only trivial tests that do not assert behavior."
+                ]
+            }
+        }
+    ],
+    "zero_guidance": {
+        "instructions_to_model": [
+            "You are reviewing a Python tool called the Data Crucible.",
+            "The tool is supposed to: (1) read a CSV of rows, (2) read a JSON config with group_by and value_field, (3) group rows by the configured keys, (4) compute sum, count, and average for the value_field, and (5) output a JSON summary.",
+            "Use the rubric above to score the candidate's implementation. For each criterion, choose level 0, 1, or 2 based on the descriptions and signals.",
+            "Pay particular attention to whether the config genuinely controls the grouping, whether aggregation is mathematically correct, and whether errors are handled in a way that would be acceptable in a small production job.",
+            "After scoring, give a short narrative summary explaining why you consider this a strong pass, pass, borderline, or fail, and highlight the top improvements you would recommend."
+        ],
+        "success_summary_hint": "Explain in a few sentences why this implementation would be safe to reuse as a template for other CSV aggregation jobs.",
+        "failure_summary_hint": "If the implementation is weak, focus feedback on making it truly config-driven, correcting aggregation logic, and separating IO from the core aggregation function."
+    }
+}

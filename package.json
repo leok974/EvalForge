@@ -6,7 +6,10 @@
   "scripts": {
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:smoke": "cross-env BASE_URL=${BASE_URL:-http://127.0.0.1:19010} playwright test tests/e2e/devui-smoke.spec.ts"
+    "test:smoke": "cross-env BASE_URL=${BASE_URL:-http://127.0.0.1:19010} playwright test tests/e2e/devui-smoke.spec.ts",
+    "test:web": "pnpm -C apps/web test -- --run",
+    "test:api": "pytest",
+    "test:ci": "pnpm test:web && pnpm test:api"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0",

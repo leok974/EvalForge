@@ -7,18 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 // --- MOCKS ---
 // --- MOCKS ---
-global.fetch = vi.fn((url: string) => {
-    if (url.includes('/api/boss/history') || url.includes('/api/projects')) {
-        return Promise.resolve({
-            ok: true,
-            json: async () => []
-        });
-    }
-    return Promise.resolve({
-        ok: true,
-        json: async () => ({})
-    });
-}) as any;
+// Mock will be set in beforeEach
 
 // Mock Auth to simulate logged-in user
 vi.mock('../../hooks/useAuth', () => ({
@@ -48,6 +37,7 @@ vi.mock('../../components/ContextSelector', () => ({
 
 // Mock Scoreboard to avoid rendering issues
 vi.mock('../../components/Scoreboard', () => ({ Scoreboard: () => <div>Scoreboard</div> }));
+vi.mock('../../components/BossHud', () => ({ BossHud: () => <div data-testid="boss-hud">BossHud</div> }));
 
 // Mock useSkills hook
 vi.mock('../../hooks/useSkills', () => ({
@@ -70,10 +60,45 @@ vi.mock('../../store/bossStore', () => ({
     useBossStore: (selector?: any) => selector ? selector(bossStoreState) : bossStoreState
 }));
 
+vi.mock('../../store/gameStore', () => ({
+    useGameStore: vi.fn((selector) => {
+        const state = {
+            layout: 'workshop',
+            setLayout: vi.fn(),
+            addXp: vi.fn(),
+            activeTrack: null
+        };
+        return selector ? selector(state) : state;
+    })
+}));
+
 describe('DevUI Session Restoration', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         Element.prototype.scrollIntoView = vi.fn();
+
+        // Robust Fetch Mock
+        const fetchMock = vi.fn((url: string | Request | URL) => {
+            const urlStr = url.toString();
+            if (urlStr.includes('/api/boss/history') || urlStr.includes('/api/projects') || urlStr.includes('/api/quests')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => []
+                });
+            }
+            if (urlStr.includes('/api/practice_rounds/today')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ items: [] })
+                });
+            }
+            // Default safe response
+            return Promise.resolve({
+                ok: true,
+                json: async () => ({})
+            });
+        });
+        vi.stubGlobal('fetch', fetchMock);
     });
 
     it('fetches active session on mount if user is logged in', async () => {

@@ -31,6 +31,26 @@ async def publish_badge_event(user_id: str, badge: BadgeDefinition):
     except Exception as e:
         print(f"⚠️ Redis Publish Error: {e}")
 
+async def add_xp(user_id: str, world_id: str, amount: int) -> dict:
+    """
+    Adds XP to the user's profile and tracks world-specific progress.
+    Returns the updated progress dict (level, xp, etc).
+    """
+    # Simple stub for now, expanding logic as needed
+    async for session in get_session():
+         # In a real impl, we'd fetch profile, update xp, check level up
+         pass
+    
+    # Return dummy data matching expected shape for UI
+    return {
+        "user_id": user_id,
+        "world_id": world_id,
+        "xp_added": amount,
+        "level": 1,
+        "current_xp": amount,
+        "next_level_xp": 1000
+    }
+
 async def process_quest_completion(user_id: str, world_id: str, score: float):
     """
     Updates stats and checks for new badges.

@@ -1,0 +1,541 @@
+[
+    {
+        "world_slug": "world-python",
+        "world_name": "The Foundry",
+        "tier_tracks": [
+            {
+                "tier": 1,
+                "tracks": [
+                    {
+                        "track_id": "foundry-ignition",
+                        "title": "Ignition: Core Python",
+                        "difficulty": "beginner",
+                        "quests": [
+                            {
+                                "quest_id": "py-ignition-q1-warmup-script",
+                                "slug": "warmup-script",
+                                "title": "Warmup Script – First Sparks",
+                                "summary": "Write a tiny CLI script that greets the user and loops a few times.",
+                                "objective": "Get comfortable with variables, functions, and a basic CLI.",
+                                "tasks": [
+                                    "Create a Python script with a main() function.",
+                                    "Parse --name and --times from the command line (argparse or click).",
+                                    "Print a greeting that repeats 'times' times.",
+                                    "Add a simple docstring explaining how to run it."
+                                ],
+                                "acceptance_criteria": [
+                                    "Running `python script.py --name Leo --times 3` prints 3 greetings.",
+                                    "Script exits with code 0 for valid input.",
+                                    "No obvious style horrors: basic readability and naming."
+                                ],
+                                "estimated_minutes": 20,
+                                "tags": [
+                                    "cli",
+                                    "basics",
+                                    "functions"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-ignition-q2-control-the-flame",
+                                "slug": "control-the-flame",
+                                "title": "Control the Flame – Branching & Logic",
+                                "summary": "Build a function that classifies temperatures into ranges.",
+                                "objective": "Practice conditionals and returning structured results.",
+                                "tasks": [
+                                    "Implement classify_temperature(celsius: float) -> str.",
+                                    "Return 'cold', 'warm', 'hot', or 'danger' based on thresholds.",
+                                    "Write 4–6 tests covering each range."
+                                ],
+                                "acceptance_criteria": [
+                                    "Thresholds are clearly defined and documented.",
+                                    "Edge cases (exact thresholds) behave consistently.",
+                                    "Tests pass and live in a separate test file."
+                                ],
+                                "estimated_minutes": 25,
+                                "tags": [
+                                    "branching",
+                                    "tests",
+                                    "functions"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-ignition-q3-collections",
+                                "slug": "collections",
+                                "title": "Collections – Sensor Rollup",
+                                "summary": "Aggregate sensor readings into per-sensor averages.",
+                                "objective": "Use lists/dicts and simple transformations.",
+                                "tasks": [
+                                    "Take a list of {sensor_id, value} readings.",
+                                    "Compute the average per sensor_id.",
+                                    "Return a dict mapping sensor_id -> avg_value."
+                                ],
+                                "acceptance_criteria": [
+                                    "Function handles empty list without crashing.",
+                                    "Multiple sensors with mixed counts are handled correctly.",
+                                    "Uses Pythonic style (dicts, comprehensions) instead of weird manual indexing."
+                                ],
+                                "estimated_minutes": 30,
+                                "tags": [
+                                    "collections",
+                                    "dict",
+                                    "averages"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-ignition-q4-errors-logging",
+                                "slug": "errors-and-logging",
+                                "title": "Errors & Logging – Keep the Furnace Safe",
+                                "summary": "Wrap parsing code with robust error handling and logging.",
+                                "objective": "Learn to use try/except and the logging module.",
+                                "tasks": [
+                                    "Implement parse_reading(text: str) -> float that may raise.",
+                                    "Wrap it in a helper that catches errors, logs them, and returns None.",
+                                    "Configure logging to print to stderr with levels."
+                                ],
+                                "acceptance_criteria": [
+                                    "Invalid inputs are logged with helpful messages, not raw tracebacks.",
+                                    "Valid inputs still return correct values.",
+                                    "No bare `except:` without at least logging."
+                                ],
+                                "estimated_minutes": 30,
+                                "tags": [
+                                    "exceptions",
+                                    "logging",
+                                    "safety"
+                                ]
+                            }
+                        ],
+                        "boss": {
+                            "boss_id": "boss-foundry-ignition-furnace-controller",
+                            "slug": "furnace-controller",
+                            "title": "Boss: The Furnace Controller",
+                            "summary": "Turn your small scripts into a clean, testable furnace controller CLI.",
+                            "mission": "Build a small module that reads sensor JSON, accepts CLI args, validates them, logs decisions, and exits with meaningful codes.",
+                            "requirements": [
+                                "CLI with --target-temp and --tolerance flags.",
+                                "Reads a JSON file of sensor readings passed via --input.",
+                                "Computes average temp and decides 'HEAT', 'COOL', or 'STABLE'.",
+                                "Logs key decisions and errors; never crashes with an ugly traceback.",
+                                "Has at least 3 basic tests for decision logic."
+                            ],
+                            "difficulty": "intermediate"
+                        }
+                    },
+                    {
+                        "track_id": "foundry-loop",
+                        "title": "Loop: Collections & Data Flow",
+                        "difficulty": "beginner",
+                        "quests": [
+                            {
+                                "quest_id": "py-loop-q1-csv-scraper",
+                                "slug": "csv-scraper",
+                                "title": "CSV Scraper – First Data Tap",
+                                "summary": "Read a CSV of transactions and filter them by criteria.",
+                                "objective": "Use csv / DictReader and simple filtering.",
+                                "tasks": [
+                                    "Read a CSV file of transactions: id, amount, category, created_at.",
+                                    "Return only 'EXPENSE' rows above a configurable minimum.",
+                                    "Expose a simple CLI wrapper: --min-amount, --category."
+                                ],
+                                "acceptance_criteria": [
+                                    "Uses csv.DictReader or similar, not brittle string splitting.",
+                                    "Filters are tested with at least two different datasets."
+                                ],
+                                "estimated_minutes": 25,
+                                "tags": [
+                                    "csv",
+                                    "filtering",
+                                    "cli"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-loop-q2-frequency-forge",
+                                "slug": "frequency-forge",
+                                "title": "Frequency Forge – Count the Logs",
+                                "summary": "Aggregate log levels and top offending messages.",
+                                "objective": "Practice Counter, sorting, and helpers.",
+                                "tasks": [
+                                    "Given a list of log entries with level + message, compute counts by level.",
+                                    "Find the top 3 most common messages.",
+                                    "Return a structured summary dict."
+                                ],
+                                "acceptance_criteria": [
+                                    "Uses collections.Counter instead of manual nested loops.",
+                                    "Handles tie-breaking and empty inputs gracefully."
+                                ],
+                                "estimated_minutes": 30,
+                                "tags": [
+                                    "counter",
+                                    "aggregation",
+                                    "logs"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-loop-q3-grouping",
+                                "slug": "grouping",
+                                "title": "Grouping – Buckets of Molten Metal",
+                                "summary": "Group items by key and compute aggregates.",
+                                "objective": "Work with dict-of-lists or groupby patterns.",
+                                "tasks": [
+                                    "Group transactions by month and category.",
+                                    "Compute total amount per (month, category)."
+                                ],
+                                "acceptance_criteria": [
+                                    "No duplicated accumulation logic; uses helper functions.",
+                                    "Works if there are multiple months / categories or just one."
+                                ],
+                                "estimated_minutes": 30,
+                                "tags": [
+                                    "grouping",
+                                    "dicts",
+                                    "aggregation"
+                                ]
+                            }
+                        ],
+                        "boss": {
+                            "boss_id": "boss-foundry-loop-data-crucible",
+                            "slug": "data-crucible",
+                            "title": "Boss: The Data Crucible",
+                            "summary": "Build a mini-ETL that ingests CSV + config and outputs aggregated JSON.",
+                            "mission": "Design a small CLI that reads a CSV plus a JSON config describing aggregations, and emits a structured JSON report.",
+                            "requirements": [
+                                "Config defines group-by fields and aggregation fields.",
+                                "Supports at least sum + count.",
+                                "Has tests for at least two different configs.",
+                                "Handles missing files / malformed config with clean error messages."
+                            ],
+                            "difficulty": "intermediate"
+                        }
+                    },
+                    {
+                        "track_id": "foundry-data-forge",
+                        "title": "Data Forge: Files, IO & Config",
+                        "difficulty": "beginner",
+                        "quests": [
+                            {
+                                "quest_id": "py-data-forge-q1-file-io",
+                                "slug": "file-io",
+                                "title": "File IO – Shape the Ingot",
+                                "summary": "Read a text file, normalize lines, and write a cleaned version.",
+                                "objective": "Practice context managers and path handling.",
+                                "tasks": [
+                                    "Use pathlib.Path to build input/output paths.",
+                                    "Strip trailing whitespace and lower-case all lines.",
+                                    "Write to a new file, preserving line count."
+                                ],
+                                "acceptance_criteria": [
+                                    "Uses `with` statements for file IO.",
+                                    "Handles missing file by raising a clear exception or exiting gracefully."
+                                ],
+                                "estimated_minutes": 20,
+                                "tags": [
+                                    "files",
+                                    "pathlib",
+                                    "cleanup"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-data-forge-q2-json-validation",
+                                "slug": "json-validation",
+                                "title": "JSON Validation – Inspect the Alloy",
+                                "summary": "Validate JSON records for required keys.",
+                                "objective": "Handle basic validation and error reporting.",
+                                "tasks": [
+                                    "Load JSON list of objects from file.",
+                                    "Ensure each object has required keys: id, value.",
+                                    "Collect and report invalid records."
+                                ],
+                                "acceptance_criteria": [
+                                    "Does not crash on malformed JSON; surfaces a clear error.",
+                                    "Invalid records are reported with enough context to debug."
+                                ],
+                                "estimated_minutes": 25,
+                                "tags": [
+                                    "json",
+                                    "validation"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-data-forge-q3-config-layer",
+                                "slug": "config-layer",
+                                "title": "Config Layer – Control the Furnace",
+                                "summary": "Load config from JSON and override with environment variables.",
+                                "objective": "Nail config layering and defaults.",
+                                "tasks": [
+                                    "Implement load_config(default_path='config.json').",
+                                    "Merge file config with environment overrides (e.g., APP_ENV, APP_LOG_LEVEL)."
+                                ],
+                                "acceptance_criteria": [
+                                    "Environment variables can override file values.",
+                                    "Missing config file leads to sensible defaults instead of a crash."
+                                ],
+                                "estimated_minutes": 30,
+                                "tags": [
+                                    "config",
+                                    "env",
+                                    "json"
+                                ]
+                            }
+                        ],
+                        "boss": {
+                            "boss_id": "boss-foundry-data-forge-config-anvil",
+                            "slug": "config-anvil",
+                            "title": "Boss: The Config Anvil",
+                            "summary": "Build a batch job runner with a solid config system.",
+                            "mission": "Create a small batch tool that loads config, runs a multi-step transform, and logs to file + console.",
+                            "requirements": [
+                                "Config drives input/output paths and at least one behavior flag.",
+                                "Logging is configurable (log level, optional file).",
+                                "Core transformation logic is testable in isolation from IO."
+                            ],
+                            "difficulty": "intermediate"
+                        }
+                    }
+                ]
+            },
+            {
+                "tier": 2,
+                "tracks": [
+                    {
+                        "track_id": "foundry-ember-api",
+                        "title": "Ember API: FastAPI Fundamentals",
+                        "difficulty": "intermediate",
+                        "quests": [
+                            {
+                                "quest_id": "py-ember-api-q1-hello-api",
+                                "slug": "hello-api",
+                                "title": "Hello API – First Endpoint",
+                                "summary": "Create a minimal FastAPI service with health and echo endpoints.",
+                                "objective": "Get comfortable with FastAPI, path operations, and basic models.",
+                                "tasks": [
+                                    "Implement GET /health returning {'status': 'ok'}.",
+                                    "Implement GET /echo?value=... returning the same value.",
+                                    "Add a simple Pydantic model for the health response."
+                                ],
+                                "acceptance_criteria": [
+                                    "Service starts without errors.",
+                                    "Endpoints respond with correct JSON and status 200.",
+                                    "Basic tests use TestClient or httpx to hit both endpoints."
+                                ],
+                                "estimated_minutes": 25,
+                                "tags": [
+                                    "fastapi",
+                                    "healthcheck",
+                                    "pydantic"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-ember-api-q2-resource-forge",
+                                "slug": "resource-forge",
+                                "title": "Resource Forge – CRUD in the Foundry",
+                                "summary": "Expose CRUD routes for a simple in-memory resource.",
+                                "objective": "Learn to model resources and implement CRUD semantics.",
+                                "tasks": [
+                                    "Define a Pydantic model for a simple resource (e.g., Quest or Note).",
+                                    "Implement POST/GET/PUT/DELETE for /items.",
+                                    "Store data in-memory (dict) for now."
+                                ],
+                                "acceptance_criteria": [
+                                    "Returns correct status codes (201 for create, 404 for missing).",
+                                    "Validation errors return 422 or 400 with useful bodies.",
+                                    "Tests cover create → read → update → delete."
+                                ],
+                                "estimated_minutes": 40,
+                                "tags": [
+                                    "crud",
+                                    "fastapi",
+                                    "models"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-ember-api-q3-validation-errors",
+                                "slug": "validation-and-errors",
+                                "title": "Validation & Errors – Guard the Ember",
+                                "summary": "Add robust validation and friendly error responses.",
+                                "objective": "Handle bad input gracefully and consistently.",
+                                "tasks": [
+                                    "Add constraints to your Pydantic models (length, ranges).",
+                                    "Customize error messages for common failure modes.",
+                                    "Introduce at least one error-handling dependency or handler."
+                                ],
+                                "acceptance_criteria": [
+                                    "Bad input no longer yields confusing tracebacks.",
+                                    "Errors return JSON with a clear message and error code.",
+                                    "Tests assert on error behavior, not just success paths."
+                                ],
+                                "estimated_minutes": 35,
+                                "tags": [
+                                    "validation",
+                                    "errors",
+                                    "pydantic"
+                                ]
+                            }
+                        ],
+                        "boss": {
+                            "boss_id": "boss-foundry-ember-api-ember-service",
+                            "slug": "ember-service",
+                            "title": "Boss: The Ember Service",
+                            "summary": "Build a small, well-behaved FastAPI service with a real resource, pagination, and tests.",
+                            "mission": "Expose a resource with at least 3 fields, support listing with filtering/pagination, and provide thorough tests for success + error paths.",
+                            "requirements": [
+                                "RESTful routes for the resource (create/read/update/delete/list).",
+                                "Pagination or basic filtering on list endpoint.",
+                                "Validation for required fields and basic constraints.",
+                                "Test suite that covers happy paths and key error paths.",
+                                "Reasonable structure (routers, schemas, main app) instead of one giant file."
+                            ],
+                            "difficulty": "advanced"
+                        }
+                    },
+                    {
+                        "track_id": "foundry-ember-async",
+                        "title": "Ember Async: Concurrency & Workers",
+                        "difficulty": "intermediate",
+                        "quests": [
+                            {
+                                "quest_id": "py-ember-async-q1-fanout",
+                                "slug": "async-fanout",
+                                "title": "Async Fanout – Fetch Many Sparks",
+                                "summary": "Fetch multiple URLs concurrently with async/await.",
+                                "objective": "Use asyncio + httpx.AsyncClient to parallelize work.",
+                                "tasks": [
+                                    "Implement fetch_many(urls: list[str]) -> list[Result].",
+                                    "Handle timeouts and network errors gracefully."
+                                ],
+                                "acceptance_criteria": [
+                                    "Concurrent fetching is actually faster than sequential.",
+                                    "Errors for some URLs don't kill the whole batch."
+                                ],
+                                "estimated_minutes": 30,
+                                "tags": [
+                                    "asyncio",
+                                    "httpx",
+                                    "concurrency"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-ember-async-q2-job-queue",
+                                "slug": "job-queue",
+                                "title": "Job Queue – Ember Workers",
+                                "summary": "Create an in-memory job queue and background worker.",
+                                "objective": "Practice scheduling, state, and error handling.",
+                                "tasks": [
+                                    "Add endpoint to enqueue jobs.",
+                                    "Worker processes jobs in background, recording status.",
+                                    "Expose endpoint to inspect job status."
+                                ],
+                                "acceptance_criteria": [
+                                    "Jobs survive minor errors and are marked failed when appropriate.",
+                                    "Tests simulate a few jobs and check their final state."
+                                ],
+                                "estimated_minutes": 45,
+                                "tags": [
+                                    "workers",
+                                    "background-tasks"
+                                ]
+                            }
+                        ],
+                        "boss": {
+                            "boss_id": "boss-foundry-ember-async-ember-worker",
+                            "slug": "ember-worker",
+                            "title": "Boss: The Ember Worker",
+                            "summary": "Design a small job-processing subsystem with async workers and metrics.",
+                            "mission": "Build a worker that processes queued jobs, captures errors, and exposes basic metrics endpoint.",
+                            "requirements": [
+                                "Job submission endpoint with validation.",
+                                "Worker that processes jobs concurrently, with a max concurrency cap.",
+                                "Metrics endpoint summarizing successes/failures.",
+                                "Tests that simulate error cases (timeouts, exceptions)."
+                            ],
+                            "difficulty": "advanced"
+                        }
+                    },
+                    {
+                        "track_id": "foundry-toolsmith",
+                        "title": "Toolsmith: Packaging, Tests & CI",
+                        "difficulty": "intermediate",
+                        "quests": [
+                            {
+                                "quest_id": "py-toolsmith-q1-package-skeleton",
+                                "slug": "package-skeleton",
+                                "title": "Package Skeleton – Name Your Tool",
+                                "summary": "Turn a script into a proper Python package.",
+                                "objective": "Set up pyproject.toml, src layout, and imports.",
+                                "tasks": [
+                                    "Create pyproject.toml with project metadata.",
+                                    "Move code into src/<package_name>/.",
+                                    "Adjust imports and verify tests still pass."
+                                ],
+                                "acceptance_criteria": [
+                                    "Package installs locally with `pip install -e .`.",
+                                    "Entry point still works after refactor."
+                                ],
+                                "estimated_minutes": 30,
+                                "tags": [
+                                    "packaging",
+                                    "pyproject"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-toolsmith-q2-cli-entrypoint",
+                                "slug": "cli-entrypoint",
+                                "title": "CLI Entrypoint – Forge Handle",
+                                "summary": "Expose a console script for your tool.",
+                                "objective": "Wire entry_points and CLI parsing.",
+                                "tasks": [
+                                    "Add a console_scripts entrypoint in pyproject.",
+                                    "Wrap core logic in a main() that handles arguments and exit codes."
+                                ],
+                                "acceptance_criteria": [
+                                    "Running the command from shell works without touching python directly.",
+                                    "Non-zero exit codes for error conditions."
+                                ],
+                                "estimated_minutes": 25,
+                                "tags": [
+                                    "cli",
+                                    "entry-points"
+                                ]
+                            },
+                            {
+                                "quest_id": "py-toolsmith-q3-lint-test",
+                                "slug": "lint-and-test",
+                                "title": "Lint & Test – Temper the Steel",
+                                "summary": "Add ruff/black/pytest and fix basic issues.",
+                                "objective": "Establish a baseline of code quality.",
+                                "tasks": [
+                                    "Configure ruff and black.",
+                                    "Add pytest and one or two tests for core logic.",
+                                    "Add a simple CI job configuration file."
+                                ],
+                                "acceptance_criteria": [
+                                    "Lint and tests pass locally.",
+                                    "CI config is syntactically valid and runs tests."
+                                ],
+                                "estimated_minutes": 40,
+                                "tags": [
+                                    "lint",
+                                    "tests",
+                                    "ci"
+                                ]
+                            }
+                        ],
+                        "boss": {
+                            "boss_id": "boss-foundry-toolsmith-foundry-toolchain",
+                            "slug": "foundry-toolchain",
+                            "title": "Boss: The Foundry Toolchain",
+                            "summary": "Ship a reusable tool with packaging, tests, and CI.",
+                            "mission": "Turn a small utility into a production-ready package with a CLI, tests, and a CI pipeline.",
+                            "requirements": [
+                                "Installable package with console script.",
+                                "Basic test suite and lint configuration.",
+                                "CI config that runs tests and lint on push/PR.",
+                                "README that explains how to install and use the tool."
+                            ],
+                            "difficulty": "advanced"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

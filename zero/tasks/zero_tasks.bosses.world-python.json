@@ -1,0 +1,162 @@
+{
+    "tasks": [
+        {
+            "task_id": "boss_foundry_furnace_controller",
+            "kind": "boss_judge",
+            "description": "Judge Furnace Controller boss submissions (Ignition track) using the Boss Judge rubric.",
+            "model": "gpt-5.1-thinking",
+            "mode": "chat-completion",
+            "system_prompt_path": "rubrics/zero_boss_judge.md",
+            "input_contract": {
+                "type": "object",
+                "required": [
+                    "boss_definition",
+                    "boss_rubric",
+                    "boss_codex",
+                    "submission"
+                ],
+                "properties": {
+                    "boss_definition": {
+                        "type": "object"
+                    },
+                    "boss_rubric": {
+                        "type": "object"
+                    },
+                    "boss_codex": {
+                        "type": [
+                            "object",
+                            "null"
+                        ]
+                    },
+                    "submission": {
+                        "type": "object",
+                        "required": [
+                            "files"
+                        ],
+                        "properties": {
+                            "files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "path",
+                                        "content"
+                                    ],
+                                    "properties": {
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "notes": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "output_contract": {
+                "type": "object",
+                "required": [
+                    "boss_id",
+                    "rubric_id",
+                    "score_total",
+                    "score_max",
+                    "passed",
+                    "integrity",
+                    "verdict",
+                    "criteria",
+                    "summary",
+                    "improvements",
+                    "raw_notes"
+                ]
+            }
+        },
+        {
+            "task_id": "boss_foundry_data_crucible",
+            "kind": "boss_judge",
+            "description": "Judge Data Crucible boss submissions (Loop track) using the Boss Judge rubric.",
+            "model": "gpt-5.1-thinking",
+            "mode": "chat-completion",
+            "system_prompt_path": "rubrics/zero_boss_judge.md",
+            "input_contract": {
+                "type": "object",
+                "required": [
+                    "boss_definition",
+                    "boss_rubric",
+                    "boss_codex",
+                    "submission"
+                ],
+                "properties": {
+                    "boss_definition": {
+                        "type": "object"
+                    },
+                    "boss_rubric": {
+                        "type": "object"
+                    },
+                    "boss_codex": {
+                        "type": [
+                            "object",
+                            "null"
+                        ]
+                    },
+                    "submission": {
+                        "type": "object",
+                        "required": [
+                            "files"
+                        ],
+                        "properties": {
+                            "files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "path",
+                                        "content"
+                                    ],
+                                    "properties": {
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "notes": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "output_contract": {
+                "type": "object",
+                "required": [
+                    "boss_id",
+                    "rubric_id",
+                    "score_total",
+                    "score_max",
+                    "passed",
+                    "integrity",
+                    "verdict",
+                    "criteria",
+                    "summary",
+                    "improvements",
+                    "raw_notes"
+                ]
+            }
+        }
+    ]
+}

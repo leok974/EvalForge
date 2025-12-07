@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { openWorkshopGuide } from "../features/workshop/useWorkshopTips";
 import { PracticeGauntletCard } from "../components/practice/PracticeGauntletCard";
 import { useParams, useSearchParams } from "react-router-dom";
-import { useQuestStore } from "../store/questStore";
+import { useQuestStore, QuestState } from "../store/questStore";
+import { NeonPanel } from "../components/workshop/NeonPanel";
+import { cn } from "../lib/utils";
+import { EyeIcon } from "lucide-react";
+
+export type WorkshopMode = 'judge' | 'quest' | 'explain' | 'debug' | 'codex';
 
 interface WorkshopLayoutProps {
     bossHud: React.ReactNode;
@@ -17,6 +22,11 @@ interface WorkshopLayoutProps {
     integrityDelta?: number | null;
     /** Latest boss HP delta from combat (negative = boss took damage). */
     bossHpDelta?: number | null;
+
+    // Mode Control
+    currentMode?: WorkshopMode;
+    onModeChange?: (mode: WorkshopMode) => void;
+    hasSkill?: (skill: string) => boolean;
 }
 
 type BenchHit = "none" | "player" | "boss" | "both";
@@ -31,20 +41,23 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
     extraTopRight,
     integrityDelta,
     bossHpDelta,
+    currentMode = 'quest',
+    onModeChange,
+    hasSkill,
 }) => {
     // Routing Integration
     const params = useParams<{ worldSlug?: string; questId?: string; bossSlug?: string }>();
     const [searchParams] = useSearchParams();
 
     // Store Actions
-    const setActiveWorld = useQuestStore((s) => s.setActiveWorldSlug);
-    const setActiveTrack = useQuestStore((s) => s.setActiveTrackId);
-    const setActiveBoss = useQuestStore((s) => s.setActiveBossSlug);
+    const setActiveWorld = useQuestStore((s: QuestState) => s.setActiveWorldSlug);
+    const setActiveTrack = useQuestStore((s: QuestState) => s.setActiveTrackId);
+    const setActiveBoss = useQuestStore((s: QuestState) => s.setActiveBossSlug);
 
     useEffect(() => {
         const worldSlug = params.worldSlug || searchParams.get('world');
         const trackId = params.questId || searchParams.get('track');
-        const bossSlug = params.bossSlug; // Boss can imply world, but worldSlug usually present
+        const bossSlug = params.bossSlug;
 
         if (worldSlug) setActiveWorld(worldSlug);
         if (trackId) setActiveTrack(trackId);
@@ -52,8 +65,9 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
 
     }, [params.worldSlug, params.questId, params.bossSlug, searchParams, setActiveWorld, setActiveTrack, setActiveBoss]);
 
-    const [benchHit, setBenchHit] = useState<BenchHit>("none");
-    const [activityHit, setActivityHit] = useState<"none" | "tick">("none");
+    // Local state for hit effects only
+    const [benchHit, setBenchHit] = React.useState<BenchHit>("none");
+    const [activityHit, setActivityHit] = React.useState<"none" | "tick">("none");
 
     // Whenever deltas change, trigger a short “flash” on the workbench.
     useEffect(() => {
@@ -94,233 +108,168 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
             : "";
 
     return (
-        <div
-            className={`
-        relative grid h-full w-full
-        grid-rows-[auto,1fr,auto]
-        bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950
-        text-slate-100
-        overflow-hidden
-      `}
+        <main
+            className="min-h-screen bg-workshop-bg text-workshop-text overflow-hidden flex flex-col font-sans"
             data-testid="layout-workshop"
         >
-            {/* Ambient background / floor */}
-            <div className="orion-starfield-layer" />
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-60 mix-blend-screen"
-            >
-                <div className="absolute -left-24 top-10 h-64 w-64 rotate-[-8deg] rounded-[40%] bg-cyan-500/10 blur-3xl" />
-                <div className="absolute -right-20 bottom-0 h-64 w-64 rotate-3 rounded-[40%] bg-amber-500/10 blur-3xl" />
-                <div className="absolute inset-x-0 bottom-0 h-[45%] bg-[radial-gradient(circle_at_50%_0%,rgba(15,23,42,0)_0,rgba(15,23,42,0.8)_60%,rgba(15,23,42,1)_100%)]" />
+            {/* Ambient Background */}
+            <div className="fixed inset-0 pointer-events-none">
+                <div className="absolute top-0 left-0 w-full h-[500px] bg-workshop-cyan/5 blur-[120px]" />
+                <div className="absolute bottom-0 right-0 w-full h-[500px] bg-workshop-violet/5 blur-[120px]" />
+                <div className="orion-starfield-layer opacity-40 mix-blend-screen" />
             </div>
 
-            {/* Top row: Boss + World selector + extra */}
-            <header className="relative z-10 flex items-start justify-between gap-3 px-3 pt-3 sm:px-4 sm:pt-4">
-                <div className="flex flex-1 flex-wrap items-start gap-3">
-                    <div
-                        className={`
-              rounded-2xl border border-rose-500/60 bg-slate-950/90
-              px-2.5 py-2 shadow-[0_18px_40px_rgba(248,113,113,0.45)]
-              backdrop-blur-xl
-              transform -rotate-1 hover:rotate-0 transition-transform duration-150
-            `}
-                    >
-                        {bossHud}
+            {/* Top HUD */}
+            <header className="relative z-20 px-6 pt-5 pb-4 flex items-center justify-between gap-6 bg-workshop-bg/50 backdrop-blur-sm border-b border-white/5">
+                <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3">
+                        <span className="text-sm font-semibold text-workshop-subtle tracking-wide uppercase">
+                            World Selector
+                        </span>
+                        {/* Wrapper for existing component with Neon styling override if needed */}
+                        <div className="rounded-full bg-workshop-panel border border-white/10 shadow-workshop-neon overflow-hidden">
+                            {worldSelector}
+                        </div>
                     </div>
 
-                    <div
-                        className={`
-              rounded-2xl border border-cyan-500/60 bg-slate-950/90
-              px-2.5 py-2 shadow-[0_18px_34px_rgba(34,211,238,0.4)]
-              backdrop-blur-xl
-              transform rotate-1 hover:rotate-0 transition-transform duration-150
-            `}
-                    >
-                        {worldSelector}
+                    <div className="hidden md:flex items-center gap-3">
+                        {/* Project Placeholder - or actual component if available */}
+                        <div className="rounded-full bg-workshop-panel border border-white/10 px-4 py-1.5 text-xs font-medium text-workshop-text shadow-workshop-violet flex items-center gap-2">
+                            <span className="text-workshop-subtle">Project:</span>
+                            <span className="text-workshop-violet">ApplyLens – Backend</span>
+                        </div>
                     </div>
                 </div>
 
-                {extraTopRight && (
-                    <div className="hidden sm:block">
-                        {extraTopRight}
-                    </div>
-                )}
+                <div className="flex items-center gap-2">
+                    {['JUDGE', 'QUEST', 'EXPLAIN', 'DEBUG', 'CODEX'].map((tab) => {
+                        const tabKey = tab.toLowerCase();
+                        const isActive = currentMode === tabKey;
+                        // Determine lock status based on skill
+                        let isLocked = false;
+                        if (tabKey === 'explain' && hasSkill && !hasSkill('agent_explain')) isLocked = true;
+                        if (tabKey === 'debug' && hasSkill && !hasSkill('agent_debug')) isLocked = true;
+
+                        return (
+                            <button
+                                key={tab}
+                                type="button"
+                                disabled={isLocked}
+                                className={cn(
+                                    'relative px-5 py-2 text-[10px] font-bold tracking-widest rounded-full transition-all duration-200 flex items-center gap-1',
+                                    isActive
+                                        ? 'bg-workshop-panel border border-workshop-cyan/80 text-workshop-cyan shadow-workshop-neon'
+                                        : isLocked
+                                            ? 'bg-transparent border border-transparent text-workshop-subtle/50 cursor-not-allowed'
+                                            : 'bg-transparent border border-white/5 text-workshop-subtle hover:border-workshop-cyan/40 hover:text-workshop-text'
+                                )}
+                                onClick={() => !isLocked && onModeChange?.(tabKey as WorkshopMode)}
+                            >
+                                {tab} {isLocked && '🔒'}
+                            </button>
+                        );
+                    })}
+                </div>
+
+                {extraTopRight && <div className="ml-4">{extraTopRight}</div>}
             </header>
 
-            {/* Middle row: Workbench + side benches */}
-            <main
-                className={`
-          relative z-10 grid grid-cols-1 gap-4
-          px-3 pb-3 pt-2 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] sm:px-4 sm:pb-4
-        `}
-            >
-                {/* Center Workbench */}
-                <section
-                    className={`
-            relative flex h-full flex-col
-            rounded-[26px] border border-slate-700/80
-            bg-slate-950/95
-            shadow-[0_28px_60px_rgba(15,23,42,0.9)]
-            overflow-hidden
-            transform -rotate-[1.5deg] skew-y-[0.5deg]
-            hover:rotate-[-0.5deg] hover:skew-y-0
-            transition-transform duration-200
-            ${benchHitClass}
-          `}
-                    data-testid="workshop-workbench"
-                >
-                    {/* Micro-animation: desk lamp glow */}
-                    <div
-                        aria-hidden="true"
-                        className="pointer-events-none absolute -top-4 right-8 h-10 w-10 rounded-full bg-amber-400/70 blur-[8px] opacity-70 animate-pulse"
-                    />
-                    <div
-                        aria-hidden="true"
-                        className="pointer-events-none absolute -top-6 right-6 h-12 w-12 rounded-full border border-amber-300/40 opacity-40 animate-ping"
-                    />
+            {/* Main Grid */}
+            <section className="relative z-10 flex-1 px-6 pb-6 pt-6 overflow-hidden">
+                <div className="grid h-full gap-6 grid-cols-1 lg:grid-cols-[2fr_1fr]">
 
-                    {/* “desk edge” */}
-                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-400/50 via-slate-100/70 to-slate-400/50 opacity-60" />
-                    <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900" />
-
-                    <div className="flex items-center justify-between border-b border-slate-700/70 px-3 py-2">
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">
-                                Workbench
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                            <span className="hidden text-[10px] text-slate-500 sm:inline">
-                                Quests • Boss Coding • Trials
-                            </span>
-                            <button
-                                type="button"
-                                onClick={openWorkshopGuide}
-                                aria-label="Show Workshop help"
-                                data-testid="workshop-guide-trigger"
-                                className={`
-                  inline-flex h-5 w-5 items-center justify-center
-                  rounded-full border border-slate-600/80
-                  bg-slate-900/80 text-[10px] font-semibold text-slate-200
-                  hover:border-indigo-400 hover:text-indigo-200
-                  transition-colors
-                `}
-                            >
-                                ?
+                    {/* LEFT COLUMN: Workbench */}
+                    <div
+                        className={cn("flex flex-col gap-4 min-h-0", benchHitClass)}
+                        data-testid="workshop-workbench"
+                    >
+                        <div className="flex items-center justify-between text-xs font-semibold tracking-[0.2em] text-workshop-subtle uppercase px-1">
+                            <span>Workbench</span>
+                            <button onClick={openWorkshopGuide} className="hover:text-workshop-cyan transition-colors">
+                                ? Help
                             </button>
                         </div>
+
+                        {/* Code Editor Panel */}
+                        <NeonPanel className="flex-1 flex flex-col overflow-hidden p-0 bg-workshop-panel/95">
+                            {/* Quest Panel fills this space */}
+                            <div className="w-full h-full relative">
+                                {questPanel}
+                            </div>
+                        </NeonPanel>
+
+                        {/* Log/Activity Panel */}
+                        <NeonPanel
+                            variant="subtle"
+                            className={cn("h-48 flex flex-col overflow-hidden p-0", activityHitClass)}
+                            data-testid="workshop-activity-strip"
+                        >
+                            <div className="w-full h-full overflow-auto bg-black/40">
+                                {activityFeed}
+                            </div>
+                        </NeonPanel>
                     </div>
 
-                    <div className="flex-1 overflow-hidden px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
-                        {questPanel}
-                    </div>
-                </section>
-
-                {/* Right side: Project Bench + Codex Shelf */}
-                <section
-                    className={`
-            flex h-full flex-col gap-3
-            transform rotate-[1.2deg] skew-y-[-0.4deg]
-            sm:pt-1
-            transition-transform duration-200
-            hover:rotate-[0.5deg] hover:skew-y-0
-          `}
-                >
-                    {/* Project Bench */}
-                    <div
-                        className={`
-              rounded-[22px] border border-emerald-500/60
-              bg-slate-950/95
-              shadow-[0_20px_40px_rgba(16,185,129,0.4)]
-              backdrop-blur-xl
-              overflow-hidden
-            `}
+                    {/* RIGHT COLUMN: Project Bench + Practice */}
+                    <aside
+                        className="flex flex-col gap-4 min-h-0 overflow-y-auto pr-1 pb-2 scrollbar-thin scrollbar-thumb-workshop-subtle/20"
                         data-testid="workshop-project-bench"
                     >
-                        <div className="flex items-center justify-between border-b border-emerald-500/40 px-3 py-2">
-                            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-200">
-                                Project Bench
-                            </span>
-                            <span className="text-[10px] text-emerald-100/80">
-                                Synced Repos • ApplyLens • SiteAgent
-                            </span>
+                        <div className="text-xs font-semibold tracking-[0.2em] text-workshop-subtle uppercase px-1">
+                            Project Bench
                         </div>
-                        <div className="max-h-[52vh] overflow-auto px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
-                            {projectPanel}
+
+                        {/* Intent Oracle Status Card & Project Controls */}
+                        <NeonPanel variant="violet" className="p-5 flex flex-col gap-3 shrink-0">
+                            <div className="flex items-center justify-between border-b border-workshop-violet/20 pb-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 rounded-lg bg-workshop-violet/10 ring-1 ring-workshop-violet/40">
+                                        <EyeIcon className="w-5 h-5 text-workshop-violet" />
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-sm text-workshop-text">Intent Oracle</div>
+                                        <div className="text-[10px] text-workshop-subtle uppercase tracking-wider">Automated Judge</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-1.5">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                                </div>
+                            </div>
+
+                            <div className="text-xs flex items-center justify-between text-workshop-subtle/80 font-mono">
+                                <span>Status: <span className="text-emerald-400">Online</span></span>
+                                <span>Latency: <span className="text-workshop-cyan">12ms</span></span>
+                            </div>
+
+                            {/* Render actual Boss HUD here if needed, or keeping it separate */}
+                            {bossHud}
+
+                            {/* We also render projectPanel to ensure functionality (Scoreboard, Eval buttons etc) are present 
+                                even if visual duplication occurs with Top tabs. 
+                            */}
+                            <div className="mt-2 border-t border-white/5 pt-2">
+                                {projectPanel}
+                            </div>
+                        </NeonPanel>
+
+                        {/* Practice Gauntlet */}
+                        <div className="text-xs font-semibold tracking-[0.2em] text-workshop-subtle uppercase px-1 mt-2">
+                            Assignments
                         </div>
-                    </div>
+                        <PracticeGauntletCard />
 
-                    {/* Practice Gauntlet */}
-                    <PracticeGauntletCard />
-
-                    {/* Codex Shelf */}
-                    <div
-                        className={`
-              rounded-[22px] border border-indigo-500/60
-              bg-slate-950/95
-              shadow-[0_18px_38px_rgba(129,140,248,0.45)]
-              backdrop-blur-xl
-              overflow-hidden
-            `}
-                        data-testid="workshop-codex-shelf"
-                    >
-                        <div className="flex items-center justify-between border-b border-indigo-500/40 px-3 py-2">
-                            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-indigo-200">
-                                Codex Shelf
-                            </span>
-                            <span className="text-[10px] text-indigo-100/80">
-                                Boss Guides • Project Docs
-                            </span>
+                        {/* Codex Shelf (optional if space permits, or hide) */}
+                        <div className="mt-auto pt-4" data-testid="workshop-codex-shelf">
+                            <NeonPanel variant="subtle" className="p-4 min-h-[100px]">
+                                <div className="text-[10px] uppercase tracking-wider text-workshop-subtle mb-2">Codex Shelf</div>
+                                <div className="max-h-32 overflow-auto">
+                                    {codexPanel}
+                                </div>
+                            </NeonPanel>
                         </div>
-                        <div className="max-h-[32vh] overflow-auto px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
-                            {codexPanel}
-                        </div>
-                    </div>
-                </section>
-            </main>
-
-            {/* Bottom row: activity strip */}
-            <footer
-                className={`
-          relative z-10 flex items-stretch gap-3
-          border-t border-slate-800/80
-          bg-slate-950/95/60
-          px-3 pb-2.5 pt-2 sm:px-4
-        `}
-            >
-                <div
-                    className={`
-            relative flex-1 rounded-2xl border border-slate-700/80
-            bg-slate-950/95
-            shadow-[0_12px_26px_rgba(15,23,42,0.85)]
-            backdrop-blur-xl
-            overflow-hidden
-            ${activityHitClass}
-          `}
-                    data-testid="workshop-activity-strip"
-                >
-                    {/* impact ripple overlay */}
-                    {activityHit === "tick" && (
-                        <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-x-4 bottom-0 h-6 bg-gradient-to-t from-emerald-400/30 via-emerald-300/10 to-transparent animate-pulse"
-                        />
-                    )}
-
-                    <div className="flex items-center justify-between border-b border-slate-800 px-3 py-1.5">
-                        <span className="text-[10px] uppercase tracking-[0.16em] text-slate-400">
-                            Activity Feed
-                        </span>
-                        <span className="text-[10px] text-slate-500">
-                            Events • XP • Logs
-                        </span>
-                    </div>
-                    <div className="max-h-32 overflow-auto px-3 pb-2 pt-1.5 sm:max-h-40 sm:px-4">
-                        {activityFeed}
-                    </div>
+                    </aside>
                 </div>
-            </footer>
-        </div>
+            </section>
+        </main>
     );
 };

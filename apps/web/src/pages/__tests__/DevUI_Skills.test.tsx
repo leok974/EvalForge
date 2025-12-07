@@ -23,15 +23,45 @@ vi.mock('../../store/bossStore', () => ({
 vi.mock('../../store/agentStore', () => ({
     useAgentStore: () => ({ openAgent: vi.fn() })
 }));
+vi.mock('../../store/gameStore', () => ({
+    useGameStore: vi.fn((selector) => {
+        const state = {
+            layout: 'workshop',
+            setLayout: vi.fn(),
+            addXp: vi.fn(),
+            activeTrack: null
+        };
+        return selector ? selector(state) : state;
+    })
+}));
 
 // Mock Child Components
 vi.mock('../../components/Scoreboard', () => ({ Scoreboard: () => <div>Scoreboard</div> }));
 vi.mock('../../components/ContextSelector', () => ({ ContextSelector: () => <div>Selector</div> }));
 vi.mock('../../components/BossPanel', () => ({ BossPanel: () => <div>BossPanel</div> }));
+vi.mock('../../components/BossHud', () => ({ BossHud: () => <div data-testid="boss-hud">BossHud</div> }));
+vi.mock('../../components/practice/PracticeGauntletCard', () => ({
+    PracticeGauntletCard: () => <div data-testid="mock-practice-gauntlet">Mock Gauntlet</div>
+}));
 
 describe('DevUI Skill Gating', () => {
     beforeEach(() => {
-        vi.resetAllMocks();
+        vi.clearAllMocks();
+
+        // Robust Fetch Mock
+        const fetchMock = vi.fn((url: string | Request | URL) => {
+            const urlStr = url.toString();
+            if (urlStr.includes('/api/boss/history') || urlStr.includes('/api/projects') || urlStr.includes('/api/quests')) {
+                return Promise.resolve({ ok: true, json: async () => [] });
+            }
+            if (urlStr.includes('/api/session/active')) {
+                // Default to empty/no session unless overridden
+                return Promise.resolve({ ok: true, json: async () => ({}) });
+            }
+            return Promise.resolve({ ok: true, json: async () => ({}) });
+        });
+        vi.stubGlobal('fetch', fetchMock);
+
         (AuthHook.useAuth as any).mockReturnValue({ user: { id: 'leo' } });
         (StreamHook.useArcadeStream as any).mockReturnValue({
             messages: [],

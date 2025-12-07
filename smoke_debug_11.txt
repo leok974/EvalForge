@@ -1,0 +1,1271 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1 item
+
+tests\backend\test_quest_smoke.py 2025-12-05 22:48:00,122 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:48:00,122 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-12-05 22:48:00,122 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,123 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("avatardefinition")
+2025-12-05 22:48:00,123 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,124 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-12-05 22:48:00,124 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,124 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("user")
+2025-12-05 22:48:00,124 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,125 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chatsession")
+2025-12-05 22:48:00,125 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,125 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("chatsession")
+2025-12-05 22:48:00,125 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,126 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-12-05 22:48:00,126 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,126 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("profile")
+2025-12-05 22:48:00,126 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,127 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("skillnode")
+2025-12-05 22:48:00,127 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,127 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("skillnode")
+2025-12-05 22:48:00,127 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,128 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userskill")
+2025-12-05 22:48:00,128 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,129 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("userskill")
+2025-12-05 22:48:00,129 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,129 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-12-05 22:48:00,129 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,130 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("usermetric")
+2025-12-05 22:48:00,130 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,130 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-12-05 22:48:00,130 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,130 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("badgedefinition")
+2025-12-05 22:48:00,130 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,131 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-12-05 22:48:00,131 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,131 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("userbadge")
+2025-12-05 22:48:00,131 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,132 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-12-05 22:48:00,132 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,132 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("project")
+2025-12-05 22:48:00,132 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,133 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("projectcodexdoc")
+2025-12-05 22:48:00,133 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,133 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("projectcodexdoc")
+2025-12-05 22:48:00,133 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,133 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-12-05 22:48:00,133 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,134 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("knowledgechunk")
+2025-12-05 22:48:00,134 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,134 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossdefinition")
+2025-12-05 22:48:00,134 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,134 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("bossdefinition")
+2025-12-05 22:48:00,134 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,135 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossrun")
+2025-12-05 22:48:00,135 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,135 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("bossrun")
+2025-12-05 22:48:00,135 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,136 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossprogress")
+2025-12-05 22:48:00,136 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,136 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("bossprogress")
+2025-12-05 22:48:00,136 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bosscodexprogress")
+2025-12-05 22:48:00,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,137 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("bosscodexprogress")
+2025-12-05 22:48:00,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("trackdefinition")
+2025-12-05 22:48:00,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,137 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("trackdefinition")
+2025-12-05 22:48:00,138 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,138 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("questdefinition")
+2025-12-05 22:48:00,138 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,138 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("questdefinition")
+2025-12-05 22:48:00,138 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,138 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("questprogress")
+2025-12-05 22:48:00,139 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,139 INFO sqlalchemy.engine.Engine PRAGMA temp.table_info("questprogress")
+2025-12-05 22:48:00,139 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:00,140 INFO sqlalchemy.engine.Engine 
+CREATE TABLE avatardefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	required_level INTEGER NOT NULL, 
+	rarity VARCHAR NOT NULL, 
+	visual_type VARCHAR NOT NULL, 
+	visual_data VARCHAR NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-05 22:48:00,140 INFO sqlalchemy.engine.Engine [no key 0.00009s] ()
+2025-12-05 22:48:00,157 INFO sqlalchemy.engine.Engine 
+CREATE TABLE skillnode (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	tier INTEGER NOT NULL, 
+	cost INTEGER NOT NULL, 
+	category VARCHAR NOT NULL, 
+	feature_key VARCHAR NOT NULL, 
+	parent_id VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(parent_id) REFERENCES skillnode (id)
+)
+
+
+2025-12-05 22:48:00,158 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-05 22:48:00,165 INFO sqlalchemy.engine.Engine 
+CREATE TABLE badgedefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	icon_url VARCHAR, 
+	xp_bonus INTEGER NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-05 22:48:00,165 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,172 INFO sqlalchemy.engine.Engine 
+CREATE TABLE knowledgechunk (
+	id INTEGER NOT NULL, 
+	source_type VARCHAR NOT NULL, 
+	source_id VARCHAR NOT NULL, 
+	chunk_index INTEGER NOT NULL, 
+	metadata_json JSON NOT NULL, 
+	content VARCHAR NOT NULL, 
+	embedding VECTOR(768), 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-05 22:48:00,172 INFO sqlalchemy.engine.Engine [no key 0.00013s] ()
+2025-12-05 22:48:00,180 INFO sqlalchemy.engine.Engine 
+CREATE TABLE bossdefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	rubric VARCHAR NOT NULL, 
+	starting_code VARCHAR NOT NULL, 
+	world_id VARCHAR, 
+	track_id VARCHAR, 
+	project_slug VARCHAR, 
+	tech_focus JSON NOT NULL, 
+	phase VARCHAR, 
+	time_limit_seconds INTEGER NOT NULL, 
+	max_hp INTEGER NOT NULL, 
+	base_xp_reward INTEGER NOT NULL, 
+	difficulty VARCHAR NOT NULL, 
+	hint_codex_id VARCHAR, 
+	enabled BOOLEAN NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-05 22:48:00,180 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,188 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossdefinition_project_slug ON bossdefinition (project_slug)
+2025-12-05 22:48:00,188 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-05 22:48:00,196 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossdefinition_track_id ON bossdefinition (track_id)
+2025-12-05 22:48:00,196 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-12-05 22:48:00,204 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossdefinition_world_id ON bossdefinition (world_id)
+2025-12-05 22:48:00,204 INFO sqlalchemy.engine.Engine [no key 0.00011s] ()
+2025-12-05 22:48:00,212 INFO sqlalchemy.engine.Engine 
+CREATE TABLE trackdefinition (
+	id VARCHAR NOT NULL, 
+	world_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	order_index INTEGER NOT NULL, 
+	boss_slug VARCHAR, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-05 22:48:00,212 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-05 22:48:00,219 INFO sqlalchemy.engine.Engine CREATE INDEX ix_trackdefinition_world_id ON trackdefinition (world_id)
+2025-12-05 22:48:00,219 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-05 22:48:00,227 INFO sqlalchemy.engine.Engine 
+CREATE TABLE questdefinition (
+	id INTEGER NOT NULL, 
+	slug VARCHAR NOT NULL, 
+	world_id VARCHAR NOT NULL, 
+	track_id VARCHAR NOT NULL, 
+	order_index INTEGER NOT NULL, 
+	title VARCHAR NOT NULL, 
+	short_description VARCHAR NOT NULL, 
+	detailed_description VARCHAR, 
+	rubric_id VARCHAR, 
+	starting_code_path VARCHAR, 
+	unlocks_boss_id VARCHAR, 
+	unlocks_layout_id VARCHAR, 
+	base_xp_reward INTEGER NOT NULL, 
+	mastery_xp_bonus INTEGER NOT NULL, 
+	is_repeatable BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+2025-12-05 22:48:00,227 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,234 INFO sqlalchemy.engine.Engine CREATE INDEX ix_questdefinition_track_id ON questdefinition (track_id)
+2025-12-05 22:48:00,234 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-05 22:48:00,242 INFO sqlalchemy.engine.Engine CREATE INDEX ix_questdefinition_world_id ON questdefinition (world_id)
+2025-12-05 22:48:00,242 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-05 22:48:00,250 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_questdefinition_slug ON questdefinition (slug)
+2025-12-05 22:48:00,250 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,258 INFO sqlalchemy.engine.Engine 
+CREATE TABLE user (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	avatar_url VARCHAR, 
+	current_avatar_id VARCHAR NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(current_avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+2025-12-05 22:48:00,258 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-05 22:48:00,269 INFO sqlalchemy.engine.Engine 
+CREATE TABLE chatsession (
+	id VARCHAR NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	mode VARCHAR NOT NULL, 
+	world_id VARCHAR, 
+	track_id VARCHAR, 
+	history JSON NOT NULL, 
+	state JSON NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-12-05 22:48:00,269 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-05 22:48:00,277 INFO sqlalchemy.engine.Engine CREATE INDEX ix_chatsession_user_id ON chatsession (user_id)
+2025-12-05 22:48:00,277 INFO sqlalchemy.engine.Engine [no key 0.00014s] ()
+2025-12-05 22:48:00,285 INFO sqlalchemy.engine.Engine 
+CREATE TABLE profile (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	total_xp INTEGER NOT NULL, 
+	global_level INTEGER NOT NULL, 
+	skill_points INTEGER NOT NULL, 
+	world_progress JSON NOT NULL, 
+	flags JSON NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-12-05 22:48:00,285 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-05 22:48:00,293 INFO sqlalchemy.engine.Engine 
+CREATE TABLE userskill (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	skill_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(skill_id) REFERENCES skillnode (id)
+)
+
+
+2025-12-05 22:48:00,293 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-05 22:48:00,302 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userskill_user_id ON userskill (user_id)
+2025-12-05 22:48:00,302 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,310 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userskill_skill_id ON userskill (skill_id)
+2025-12-05 22:48:00,310 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-05 22:48:00,318 INFO sqlalchemy.engine.Engine 
+CREATE TABLE usermetric (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	metric_key VARCHAR NOT NULL, 
+	value INTEGER NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-12-05 22:48:00,318 INFO sqlalchemy.engine.Engine [no key 0.00021s] ()
+2025-12-05 22:48:00,326 INFO sqlalchemy.engine.Engine CREATE INDEX ix_usermetric_user_id ON usermetric (user_id)
+2025-12-05 22:48:00,326 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-05 22:48:00,334 INFO sqlalchemy.engine.Engine 
+CREATE TABLE userbadge (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	badge_id VARCHAR NOT NULL, 
+	awarded_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(badge_id) REFERENCES badgedefinition (id)
+)
+
+
+2025-12-05 22:48:00,334 INFO sqlalchemy.engine.Engine [no key 0.00014s] ()
+2025-12-05 22:48:00,342 INFO sqlalchemy.engine.Engine CREATE INDEX ix_userbadge_user_id ON userbadge (user_id)
+2025-12-05 22:48:00,342 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-05 22:48:00,351 INFO sqlalchemy.engine.Engine 
+CREATE TABLE project (
+	id VARCHAR NOT NULL, 
+	owner_user_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	repo_url VARCHAR NOT NULL, 
+	provider VARCHAR NOT NULL, 
+	source VARCHAR NOT NULL, 
+	default_world_id VARCHAR NOT NULL, 
+	summary_data JSON NOT NULL, 
+	sync_status VARCHAR NOT NULL, 
+	last_sync_at DATETIME, 
+	codex_status VARCHAR NOT NULL, 
+	codex_warnings JSON NOT NULL, 
+	codex_last_sync DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(owner_user_id) REFERENCES user (id)
+)
+
+
+2025-12-05 22:48:00,351 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,360 INFO sqlalchemy.engine.Engine 
+CREATE TABLE bossrun (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	started_at DATETIME NOT NULL, 
+	expires_at DATETIME NOT NULL, 
+	completed_at DATETIME, 
+	result VARCHAR, 
+	score INTEGER NOT NULL, 
+	hp_remaining INTEGER NOT NULL, 
+	judge_trace_id VARCHAR, 
+	notes VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(boss_id) REFERENCES bossdefinition (id)
+)
+
+
+2025-12-05 22:48:00,360 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,368 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossrun_boss_id ON bossrun (boss_id)
+2025-12-05 22:48:00,368 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,376 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossrun_user_id ON bossrun (user_id)
+2025-12-05 22:48:00,376 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,384 INFO sqlalchemy.engine.Engine 
+CREATE TABLE bossprogress (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	fail_streak INTEGER NOT NULL, 
+	highest_hint_level INTEGER NOT NULL, 
+	last_attempt_at DATETIME NOT NULL, 
+	last_result VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(boss_id) REFERENCES bossdefinition (id)
+)
+
+
+2025-12-05 22:48:00,384 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-05 22:48:00,392 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossprogress_user_id ON bossprogress (user_id)
+2025-12-05 22:48:00,393 INFO sqlalchemy.engine.Engine [no key 0.00036s] ()
+2025-12-05 22:48:00,401 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bossprogress_boss_id ON bossprogress (boss_id)
+2025-12-05 22:48:00,401 INFO sqlalchemy.engine.Engine [no key 0.00018s] ()
+2025-12-05 22:48:00,409 INFO sqlalchemy.engine.Engine 
+CREATE TABLE questprogress (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	quest_id INTEGER NOT NULL, 
+	state VARCHAR(11) NOT NULL, 
+	attempts INTEGER NOT NULL, 
+	best_score FLOAT, 
+	last_submitted_at DATETIME, 
+	completed_at DATETIME, 
+	mastered_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(quest_id) REFERENCES questdefinition (id)
+)
+
+
+2025-12-05 22:48:00,409 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-05 22:48:00,420 INFO sqlalchemy.engine.Engine CREATE INDEX ix_questprogress_user_id ON questprogress (user_id)
+2025-12-05 22:48:00,420 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,427 INFO sqlalchemy.engine.Engine 
+CREATE TABLE projectcodexdoc (
+	id INTEGER NOT NULL, 
+	project_id VARCHAR NOT NULL, 
+	doc_type VARCHAR NOT NULL, 
+	title VARCHAR NOT NULL, 
+	summary VARCHAR NOT NULL, 
+	body_md VARCHAR NOT NULL, 
+	world_ids JSON NOT NULL, 
+	level INTEGER NOT NULL, 
+	tags JSON NOT NULL, 
+	metadata_json JSON NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	auto_generated BOOLEAN NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(project_id) REFERENCES project (id)
+)
+
+
+2025-12-05 22:48:00,428 INFO sqlalchemy.engine.Engine [no key 0.00016s] ()
+2025-12-05 22:48:00,436 INFO sqlalchemy.engine.Engine CREATE INDEX ix_projectcodexdoc_project_id ON projectcodexdoc (project_id)
+2025-12-05 22:48:00,436 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,444 INFO sqlalchemy.engine.Engine CREATE INDEX ix_projectcodexdoc_doc_type ON projectcodexdoc (doc_type)
+2025-12-05 22:48:00,445 INFO sqlalchemy.engine.Engine [no key 0.00015s] ()
+2025-12-05 22:48:00,452 INFO sqlalchemy.engine.Engine 
+CREATE TABLE bosscodexprogress (
+	id INTEGER NOT NULL, 
+	profile_id INTEGER NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	tier_unlocked INTEGER NOT NULL, 
+	deaths INTEGER NOT NULL, 
+	wins INTEGER NOT NULL, 
+	first_seen_at DATETIME, 
+	first_kill_at DATETIME, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(profile_id) REFERENCES profile (id)
+)
+
+
+2025-12-05 22:48:00,452 INFO sqlalchemy.engine.Engine [no key 0.00017s] ()
+2025-12-05 22:48:00,460 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bosscodexprogress_boss_id ON bosscodexprogress (boss_id)
+2025-12-05 22:48:00,460 INFO sqlalchemy.engine.Engine [no key 0.00027s] ()
+2025-12-05 22:48:00,468 INFO sqlalchemy.engine.Engine CREATE INDEX ix_bosscodexprogress_profile_id ON bosscodexprogress (profile_id)
+2025-12-05 22:48:00,469 INFO sqlalchemy.engine.Engine [no key 0.00019s] ()
+2025-12-05 22:48:00,476 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-05 22:48:00,500 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:48:00,501 INFO sqlalchemy.engine.Engine INSERT INTO questdefinition (slug, world_id, track_id, order_index, title, short_description, detailed_description, rubric_id, starting_code_path, unlocks_boss_id, unlocks_layout_id, base_xp_reward, mastery_xp_bonus, is_repeatable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-05 22:48:00,501 INFO sqlalchemy.engine.Engine [generated in 0.00017s] ('loop', 'world-python', 'python-fundamentals', 0, 'Loop Quest', 'Write a loop', None, None, None, None, None, 50, 25, 0)
+2025-12-05 22:48:00,503 INFO sqlalchemy.engine.Engine INSERT INTO user (id, name, avatar_url, current_avatar_id, created_at) VALUES (?, ?, ?, ?, ?)
+2025-12-05 22:48:00,503 INFO sqlalchemy.engine.Engine [generated in 0.00014s] ('smoke_test_user', 'Smoke Tester', None, 'default_user', '2025-12-06 03:48:00.499029')
+2025-12-05 22:48:00,505 INFO sqlalchemy.engine.Engine INSERT INTO profile (user_id, total_xp, global_level, skill_points, world_progress, flags) VALUES (?, ?, ?, ?, ?, ?)
+2025-12-05 22:48:00,505 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('smoke_test_user', 0, 1, 0, '{}', '{}')
+2025-12-05 22:48:00,505 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-05 22:48:00,512 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:48:00,513 INFO sqlalchemy.engine.Engine SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.id = ?
+2025-12-05 22:48:00,513 INFO sqlalchemy.engine.Engine [generated in 0.00013s] (1,)
+2025-12-05 22:48:00,515 INFO sqlalchemy.engine.Engine INSERT INTO questprogress (user_id, quest_id, state, attempts, best_score, last_submitted_at, completed_at, mastered_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-05 22:48:00,515 INFO sqlalchemy.engine.Engine [generated in 0.00018s] ('smoke_test_user', 1, 'IN_PROGRESS', 0, None, None, None, None)
+2025-12-05 22:48:00,517 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-05 22:48:00,535 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:48:00,536 INFO sqlalchemy.engine.Engine SELECT chatsession.id AS chatsession_id, chatsession.user_id AS chatsession_user_id, chatsession.mode AS chatsession_mode, chatsession.world_id AS chatsession_world_id, chatsession.track_id AS chatsession_track_id, chatsession.history AS chatsession_history, chatsession.state AS chatsession_state, chatsession.created_at AS chatsession_created_at, chatsession.updated_at AS chatsession_updated_at 
+FROM chatsession 
+WHERE chatsession.id = ?
+2025-12-05 22:48:00,536 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('test_session_123',)
+2025-12-05 22:48:00,537 INFO sqlalchemy.engine.Engine SELECT chatsession.id AS chatsession_id, chatsession.user_id AS chatsession_user_id, chatsession.mode AS chatsession_mode, chatsession.world_id AS chatsession_world_id, chatsession.track_id AS chatsession_track_id, chatsession.history AS chatsession_history, chatsession.state AS chatsession_state, chatsession.created_at AS chatsession_created_at, chatsession.updated_at AS chatsession_updated_at 
+FROM chatsession 
+WHERE chatsession.id = ?
+2025-12-05 22:48:00,537 INFO sqlalchemy.engine.Engine [cached since 0.001129s ago] ('test_session_123',)
+Stream output:
+event: error
+
+data: __spec__
+
+
+
+
+F2025-12-05 22:48:05,837 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-05 22:48:05,839 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-05 22:48:05,839 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = OFF
+2025-12-05 22:48:05,840 INFO sqlalchemy.engine.Engine [generated in 0.00019s] ()
+2025-12-05 22:48:05,840 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("avatardefinition")
+2025-12-05 22:48:05,840 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,841 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2025-12-05 22:48:05,841 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,842 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chatsession")
+2025-12-05 22:48:05,842 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,843 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("profile")
+2025-12-05 22:48:05,843 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,843 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("skillnode")
+2025-12-05 22:48:05,843 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,844 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userskill")
+2025-12-05 22:48:05,844 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usermetric")
+2025-12-05 22:48:05,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,846 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("badgedefinition")
+2025-12-05 22:48:05,846 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,847 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("userbadge")
+2025-12-05 22:48:05,847 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,848 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("project")
+2025-12-05 22:48:05,848 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,849 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("projectcodexdoc")
+2025-12-05 22:48:05,849 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,850 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("knowledgechunk")
+2025-12-05 22:48:05,850 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,851 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossdefinition")
+2025-12-05 22:48:05,851 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,852 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossrun")
+2025-12-05 22:48:05,852 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,853 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bossprogress")
+2025-12-05 22:48:05,853 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,854 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("bosscodexprogress")
+2025-12-05 22:48:05,854 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,855 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("trackdefinition")
+2025-12-05 22:48:05,855 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,856 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("questdefinition")
+2025-12-05 22:48:05,856 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,857 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("questprogress")
+2025-12-05 22:48:05,858 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-05 22:48:05,859 INFO sqlalchemy.engine.Engine 
+DROP TABLE bosscodexprogress
+2025-12-05 22:48:05,859 INFO sqlalchemy.engine.Engine [no key 0.00011s] ()
+2025-12-05 22:48:05,887 INFO sqlalchemy.engine.Engine 
+DROP TABLE projectcodexdoc
+2025-12-05 22:48:05,888 INFO sqlalchemy.engine.Engine [no key 0.00053s] ()
+2025-12-05 22:48:05,897 INFO sqlalchemy.engine.Engine 
+DROP TABLE questprogress
+2025-12-05 22:48:05,897 INFO sqlalchemy.engine.Engine [no key 0.00027s] ()
+2025-12-05 22:48:05,905 INFO sqlalchemy.engine.Engine 
+DROP TABLE bossprogress
+2025-12-05 22:48:05,905 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-12-05 22:48:05,915 INFO sqlalchemy.engine.Engine 
+DROP TABLE bossrun
+2025-12-05 22:48:05,915 INFO sqlalchemy.engine.Engine [no key 0.00024s] ()
+2025-12-05 22:48:05,923 INFO sqlalchemy.engine.Engine 
+DROP TABLE project
+2025-12-05 22:48:05,924 INFO sqlalchemy.engine.Engine [no key 0.00025s] ()
+2025-12-05 22:48:05,932 INFO sqlalchemy.engine.Engine 
+DROP TABLE userbadge
+2025-12-05 22:48:05,933 INFO sqlalchemy.engine.Engine [no key 0.00028s] ()
+2025-12-05 22:48:05,941 INFO sqlalchemy.engine.Engine 
+DROP TABLE usermetric
+2025-12-05 22:48:05,941 INFO sqlalchemy.engine.Engine [no key 0.00026s] ()
+2025-12-05 22:48:05,950 INFO sqlalchemy.engine.Engine 
+DROP TABLE userskill
+2025-12-05 22:48:05,950 INFO sqlalchemy.engine.Engine [no key 0.00026s] ()
+2025-12-05 22:48:05,958 INFO sqlalchemy.engine.Engine 
+DROP TABLE profile
+2025-12-05 22:48:05,959 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2025-12-05 22:48:05,967 INFO sqlalchemy.engine.Engine 
+DROP TABLE chatsession
+2025-12-05 22:48:05,967 INFO sqlalchemy.engine.Engine [no key 0.00027s] ()
+2025-12-05 22:48:05,985 INFO sqlalchemy.engine.Engine 
+DROP TABLE user
+2025-12-05 22:48:05,985 INFO sqlalchemy.engine.Engine [no key 0.00030s] ()
+2025-12-05 22:48:05,994 INFO sqlalchemy.engine.Engine 
+DROP TABLE questdefinition
+2025-12-05 22:48:05,994 INFO sqlalchemy.engine.Engine [no key 0.00021s] ()
+2025-12-05 22:48:06,001 INFO sqlalchemy.engine.Engine 
+DROP TABLE trackdefinition
+2025-12-05 22:48:06,002 INFO sqlalchemy.engine.Engine [no key 0.00060s] ()
+2025-12-05 22:48:06,009 INFO sqlalchemy.engine.Engine 
+DROP TABLE bossdefinition
+2025-12-05 22:48:06,009 INFO sqlalchemy.engine.Engine [no key 0.00026s] ()
+2025-12-05 22:48:06,015 INFO sqlalchemy.engine.Engine 
+DROP TABLE knowledgechunk
+2025-12-05 22:48:06,015 INFO sqlalchemy.engine.Engine [no key 0.00026s] ()
+2025-12-05 22:48:06,021 INFO sqlalchemy.engine.Engine 
+DROP TABLE badgedefinition
+2025-12-05 22:48:06,022 INFO sqlalchemy.engine.Engine [no key 0.00027s] ()
+2025-12-05 22:48:06,027 INFO sqlalchemy.engine.Engine 
+DROP TABLE skillnode
+2025-12-05 22:48:06,028 INFO sqlalchemy.engine.Engine [no key 0.00025s] ()
+2025-12-05 22:48:06,033 INFO sqlalchemy.engine.Engine 
+DROP TABLE avatardefinition
+2025-12-05 22:48:06,034 INFO sqlalchemy.engine.Engine [no key 0.00024s] ()
+2025-12-05 22:48:06,040 INFO sqlalchemy.engine.Engine PRAGMA foreign_keys = ON
+2025-12-05 22:48:06,040 INFO sqlalchemy.engine.Engine [generated in 0.00029s] ()
+2025-12-05 22:48:06,041 INFO sqlalchemy.engine.Engine COMMIT
+
+
+================================== FAILURES ===================================
+_________________________ test_quest_agent_smoke_sse __________________________
+
+db_session = <sqlalchemy.orm.session.AsyncSession object at 0x0000016926005400>
+mock_llm_response = <MagicMock id='1551120750912'>
+
+    async def test_quest_agent_smoke_sse(db_session, mock_llm_response):
+        """
+        Smoke test: verify strict Quest Agent chat flow via SSE endpoint.
+        Simulates:
+        1. User asking 'Help me'.
+        2. Agent (mocked LLM) responding 'Hello from Smoke Test Agent'.
+        3. SSE stream delivering the text delta.
+        """
+        user_id = "smoke_test_user"
+        world_slug = "world-python"
+        track_id = "python-fundamentals"
+        quest_slug = "loop"
+    
+        # 1. Seed Database
+        user = User(id=user_id, name="Smoke Tester")
+        db_session.add(user)
+    
+        profile = Profile(user_id=user_id, total_xp=0)
+        db_session.add(profile)
+    
+        q1 = QuestDefinition(
+            slug=quest_slug,
+            world_id=world_slug,
+            track_id=track_id,
+            sequence_order=1,
+            title="Loop Quest",
+            short_description="Write a loop",
+            technical_objective="Write a loop",
+            rubric_hints="Check for..",
+            xp_reward=10
+        )
+        db_session.add(q1)
+        await db_session.commit()
+        await db_session.refresh(q1)
+    
+        qp = QuestProgress(
+            user_id=user_id,
+            quest_id=q1.id,
+            state=QuestState.IN_PROGRESS,
+            attempts=0
+        )
+        db_session.add(qp)
+    
+        await db_session.commit()
+    
+        # 2. Prepare Client
+        client = TestClient(app)
+    
+        async def mock_get_session():
+            yield db_session
+    
+        with patch("arcade_app.quest_helper.get_session", side_effect=mock_get_session), \
+             patch("arcade_app.session_helper.get_session", side_effect=mock_get_session):
+    
+            sid = "test_session_123"
+            url = f"/apps/arcade_app/users/{user_id}/sessions/{sid}/query/stream"
+    
+            payload = {
+                "message": "Start the quest",
+                "mode": "quest",
+                "world_id": world_slug,
+                "track_id": track_id
+            }
+    
+            # 3. Call Endpoint
+            response = client.post(url, json=payload)
+    
+            assert response.status_code == 200
+    
+            # 4. Consume and Verify
+            content = response.text
+    
+            print(f"Stream output:\n{content}")
+    
+            if "event: error" in content:
+>               pytest.fail(f"SSE returned error event: {content}")
+E               Failed: SSE returned error event: event: error
+
+E               data: __spec__
+
+tests\backend\test_quest_smoke.py:149: Failed
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("avatardefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("avatardefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("user")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("user")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("chatsession")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("chatsession")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("profile")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("profile")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("skillnode")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("skillnode")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("userskill")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("userskill")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("usermetric")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("usermetric")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("badgedefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("badgedefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("userbadge")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("userbadge")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("project")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("project")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("projectcodexdoc")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("projectcodexdoc")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("knowledgechunk")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("knowledgechunk")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("bossdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("bossdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("bossrun")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("bossrun")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("bossprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("bossprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("bosscodexprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("bosscodexprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("trackdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("trackdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("questdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("questdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("questprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("questprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE avatardefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	required_level INTEGER NOT NULL, 
+	rarity VARCHAR NOT NULL, 
+	visual_type VARCHAR NOT NULL, 
+	visual_data VARCHAR NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00009s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE skillnode (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	tier INTEGER NOT NULL, 
+	cost INTEGER NOT NULL, 
+	category VARCHAR NOT NULL, 
+	feature_key VARCHAR NOT NULL, 
+	parent_id VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(parent_id) REFERENCES skillnode (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE badgedefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	icon_url VARCHAR, 
+	xp_bonus INTEGER NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE knowledgechunk (
+	id INTEGER NOT NULL, 
+	source_type VARCHAR NOT NULL, 
+	source_id VARCHAR NOT NULL, 
+	chunk_index INTEGER NOT NULL, 
+	metadata_json JSON NOT NULL, 
+	content VARCHAR NOT NULL, 
+	embedding VECTOR(768), 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE bossdefinition (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	rubric VARCHAR NOT NULL, 
+	starting_code VARCHAR NOT NULL, 
+	world_id VARCHAR, 
+	track_id VARCHAR, 
+	project_slug VARCHAR, 
+	tech_focus JSON NOT NULL, 
+	phase VARCHAR, 
+	time_limit_seconds INTEGER NOT NULL, 
+	max_hp INTEGER NOT NULL, 
+	base_xp_reward INTEGER NOT NULL, 
+	difficulty VARCHAR NOT NULL, 
+	hint_codex_id VARCHAR, 
+	enabled BOOLEAN NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bossdefinition_project_slug ON bossdefinition (project_slug)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bossdefinition_track_id ON bossdefinition (track_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bossdefinition_world_id ON bossdefinition (world_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE trackdefinition (
+	id VARCHAR NOT NULL, 
+	world_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	order_index INTEGER NOT NULL, 
+	boss_slug VARCHAR, 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_trackdefinition_world_id ON trackdefinition (world_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE questdefinition (
+	id INTEGER NOT NULL, 
+	slug VARCHAR NOT NULL, 
+	world_id VARCHAR NOT NULL, 
+	track_id VARCHAR NOT NULL, 
+	order_index INTEGER NOT NULL, 
+	title VARCHAR NOT NULL, 
+	short_description VARCHAR NOT NULL, 
+	detailed_description VARCHAR, 
+	rubric_id VARCHAR, 
+	starting_code_path VARCHAR, 
+	unlocks_boss_id VARCHAR, 
+	unlocks_layout_id VARCHAR, 
+	base_xp_reward INTEGER NOT NULL, 
+	mastery_xp_bonus INTEGER NOT NULL, 
+	is_repeatable BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_questdefinition_track_id ON questdefinition (track_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_questdefinition_world_id ON questdefinition (world_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE UNIQUE INDEX ix_questdefinition_slug ON questdefinition (slug)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE user (
+	id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	avatar_url VARCHAR, 
+	current_avatar_id VARCHAR NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(current_avatar_id) REFERENCES avatardefinition (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE chatsession (
+	id VARCHAR NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	mode VARCHAR NOT NULL, 
+	world_id VARCHAR, 
+	track_id VARCHAR, 
+	history JSON NOT NULL, 
+	state JSON NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_chatsession_user_id ON chatsession (user_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE profile (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	total_xp INTEGER NOT NULL, 
+	global_level INTEGER NOT NULL, 
+	skill_points INTEGER NOT NULL, 
+	world_progress JSON NOT NULL, 
+	flags JSON NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (user_id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE userskill (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	skill_id VARCHAR NOT NULL, 
+	unlocked_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(skill_id) REFERENCES skillnode (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_userskill_user_id ON userskill (user_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_userskill_skill_id ON userskill (skill_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE usermetric (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	metric_key VARCHAR NOT NULL, 
+	value INTEGER NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_usermetric_user_id ON usermetric (user_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE userbadge (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	badge_id VARCHAR NOT NULL, 
+	awarded_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(badge_id) REFERENCES badgedefinition (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_userbadge_user_id ON userbadge (user_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE project (
+	id VARCHAR NOT NULL, 
+	owner_user_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	repo_url VARCHAR NOT NULL, 
+	provider VARCHAR NOT NULL, 
+	source VARCHAR NOT NULL, 
+	default_world_id VARCHAR NOT NULL, 
+	summary_data JSON NOT NULL, 
+	sync_status VARCHAR NOT NULL, 
+	last_sync_at DATETIME, 
+	codex_status VARCHAR NOT NULL, 
+	codex_warnings JSON NOT NULL, 
+	codex_last_sync DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(owner_user_id) REFERENCES user (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE bossrun (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	started_at DATETIME NOT NULL, 
+	expires_at DATETIME NOT NULL, 
+	completed_at DATETIME, 
+	result VARCHAR, 
+	score INTEGER NOT NULL, 
+	hp_remaining INTEGER NOT NULL, 
+	judge_trace_id VARCHAR, 
+	notes VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(boss_id) REFERENCES bossdefinition (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bossrun_boss_id ON bossrun (boss_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bossrun_user_id ON bossrun (user_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE bossprogress (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	fail_streak INTEGER NOT NULL, 
+	highest_hint_level INTEGER NOT NULL, 
+	last_attempt_at DATETIME NOT NULL, 
+	last_result VARCHAR, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(boss_id) REFERENCES bossdefinition (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bossprogress_user_id ON bossprogress (user_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00036s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bossprogress_boss_id ON bossprogress (boss_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE questprogress (
+	id INTEGER NOT NULL, 
+	user_id VARCHAR NOT NULL, 
+	quest_id INTEGER NOT NULL, 
+	state VARCHAR(11) NOT NULL, 
+	attempts INTEGER NOT NULL, 
+	best_score FLOAT, 
+	last_submitted_at DATETIME, 
+	completed_at DATETIME, 
+	mastered_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id), 
+	FOREIGN KEY(quest_id) REFERENCES questdefinition (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_questprogress_user_id ON questprogress (user_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE projectcodexdoc (
+	id INTEGER NOT NULL, 
+	project_id VARCHAR NOT NULL, 
+	doc_type VARCHAR NOT NULL, 
+	title VARCHAR NOT NULL, 
+	summary VARCHAR NOT NULL, 
+	body_md VARCHAR NOT NULL, 
+	world_ids JSON NOT NULL, 
+	level INTEGER NOT NULL, 
+	tags JSON NOT NULL, 
+	metadata_json JSON NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME NOT NULL, 
+	auto_generated BOOLEAN NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(project_id) REFERENCES project (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_projectcodexdoc_project_id ON projectcodexdoc (project_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_projectcodexdoc_doc_type ON projectcodexdoc (doc_type)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE bosscodexprogress (
+	id INTEGER NOT NULL, 
+	profile_id INTEGER NOT NULL, 
+	boss_id VARCHAR NOT NULL, 
+	tier_unlocked INTEGER NOT NULL, 
+	deaths INTEGER NOT NULL, 
+	wins INTEGER NOT NULL, 
+	first_seen_at DATETIME, 
+	first_kill_at DATETIME, 
+	updated_at DATETIME NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(profile_id) REFERENCES profile (id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bosscodexprogress_boss_id ON bosscodexprogress (boss_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00027s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_bosscodexprogress_profile_id ON bosscodexprogress (profile_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO questdefinition (slug, world_id, track_id, order_index, title, short_description, detailed_description, rubric_id, starting_code_path, unlocks_boss_id, unlocks_layout_id, base_xp_reward, mastery_xp_bonus, is_repeatable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00017s] ('loop', 'world-python', 'python-fundamentals', 0, 'Loop Quest', 'Write a loop', None, None, None, None, None, 50, 25, 0)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO user (id, name, avatar_url, current_avatar_id, created_at) VALUES (?, ?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00014s] ('smoke_test_user', 'Smoke Tester', None, 'default_user', '2025-12-06 03:48:00.499029')
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO profile (user_id, total_xp, global_level, skill_points, world_progress, flags) VALUES (?, ?, ?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00015s] ('smoke_test_user', 0, 1, 0, '{}', '{}')
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT questdefinition.id, questdefinition.slug, questdefinition.world_id, questdefinition.track_id, questdefinition.order_index, questdefinition.title, questdefinition.short_description, questdefinition.detailed_description, questdefinition.rubric_id, questdefinition.starting_code_path, questdefinition.unlocks_boss_id, questdefinition.unlocks_layout_id, questdefinition.base_xp_reward, questdefinition.mastery_xp_bonus, questdefinition.is_repeatable 
+FROM questdefinition 
+WHERE questdefinition.id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00013s] (1,)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO questprogress (user_id, quest_id, state, attempts, best_score, last_submitted_at, completed_at, mastered_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00018s] ('smoke_test_user', 1, 'IN_PROGRESS', 0, None, None, None, None)
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT chatsession.id AS chatsession_id, chatsession.user_id AS chatsession_user_id, chatsession.mode AS chatsession_mode, chatsession.world_id AS chatsession_world_id, chatsession.track_id AS chatsession_track_id, chatsession.history AS chatsession_history, chatsession.state AS chatsession_state, chatsession.created_at AS chatsession_created_at, chatsession.updated_at AS chatsession_updated_at 
+FROM chatsession 
+WHERE chatsession.id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00015s] ('test_session_123',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT chatsession.id AS chatsession_id, chatsession.user_id AS chatsession_user_id, chatsession.mode AS chatsession_mode, chatsession.world_id AS chatsession_world_id, chatsession.track_id AS chatsession_track_id, chatsession.history AS chatsession_history, chatsession.state AS chatsession_state, chatsession.created_at AS chatsession_created_at, chatsession.updated_at AS chatsession_updated_at 
+FROM chatsession 
+WHERE chatsession.id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.001129s ago] ('test_session_123',)
+ERROR    root:agent.py:551 Stream Error: __spec__
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2705 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA foreign_keys = OFF
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("avatardefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("user")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("chatsession")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("profile")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("skillnode")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("userskill")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("usermetric")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("badgedefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("userbadge")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("project")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("projectcodexdoc")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("knowledgechunk")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("bossdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("bossrun")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("bossprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("bosscodexprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("trackdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("questdefinition")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("questprogress")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE bosscodexprogress
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE projectcodexdoc
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00053s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE questprogress
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00027s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE bossprogress
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE bossrun
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00024s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE project
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00025s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE userbadge
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00028s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE usermetric
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00026s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE userskill
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00026s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE profile
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE chatsession
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00027s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE user
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00030s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE questdefinition
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE trackdefinition
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00060s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE bossdefinition
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00026s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE knowledgechunk
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00026s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE badgedefinition
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00027s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE skillnode
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00025s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE avatardefinition
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00024s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA foreign_keys = ON
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00029s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2708 COMMIT
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:440
+  D:\EvalForge\arcade_app\agent.py:440: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/backend/test_quest_smoke.py::test_quest_agent_smoke_sse
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\fields.py:656: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+tests/backend/test_quest_smoke.py::test_quest_agent_smoke_sse
+  <frozen abc>:106: LangGraphDeprecatedSinceV10: AgentStatePydantic has been moved to `langchain.agents`. Please update your import to `from langchain.agents import AgentStatePydantic`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+
+tests/backend/test_quest_smoke.py::test_quest_agent_smoke_sse
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_generate_schema.py:628: UserWarning: <MagicMock name='mock.SafetySettingsType.__or__()' id='1551475164560'> is not a Python type (it may be an instance of an object), Pydantic will allow any object with no validation since we cannot even enforce that the input is an instance of the given type. To get rid of this error wrap the type with `pydantic.SkipValidation`.
+    warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_quest_smoke.py::test_quest_agent_smoke_sse - Failed: SSE returned error event: event: error
+
+======================== 1 failed, 6 warnings in 6.67s ========================

@@ -1,0 +1,70 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.14 [39m[90mD:/EvalForge/apps/web[39m
+
+stderr | src/pages/__tests__/DevUI_Skills.test.tsx > DevUI Skill Gating > enables EXPLAIN button when agent_explain is unlocked
+Warning: An update to QuestBoard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at QuestBoard (D:/EvalForge/apps/web/src/components/QuestBoard.tsx:29:3)
+    at div
+    at div
+    at div
+    at div
+    at NeonPanel (D:/EvalForge/apps/web/src/components/workshop/NeonPanel.tsx:7:3)
+    at div
+    at div
+    at section
+    at main
+    at WorkshopLayout (D:/EvalForge/apps/web/src/layouts/WorkshopLayout.tsx:21:3)
+    at RenderedRoute (file:///D:/EvalForge/apps/web/node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs:5672:26)
+    at Routes (file:///D:/EvalForge/apps/web/node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs:6470:3)
+    at DevUIContent (D:/EvalForge/apps/web/src/pages/DevUI.tsx:69:65)
+    at LayoutProvider (D:/EvalForge/apps/web/src/hooks/useCurrentLayout.tsx:13:27)
+    at DevUI
+    at Router (file:///D:/EvalForge/apps/web/node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs:6411:13)
+    at MemoryRouter (file:///D:/EvalForge/apps/web/node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs:6327:3)
+
+stderr | src/pages/__tests__/DevUI_Skills.test.tsx > DevUI Skill Gating > enables DEBUG button when agent_debug is unlocked
+Warning: An update to QuestBoard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at QuestBoard (D:/EvalForge/apps/web/src/components/QuestBoard.tsx:29:3)
+    at div
+    at div
+    at div
+    at div
+    at NeonPanel (D:/EvalForge/apps/web/src/components/workshop/NeonPanel.tsx:7:3)
+    at div
+    at div
+    at section
+    at main
+    at WorkshopLayout (D:/EvalForge/apps/web/src/layouts/WorkshopLayout.tsx:21:3)
+    at RenderedRoute (file:///D:/EvalForge/apps/web/node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs:5672:26)
+    at Routes (file:///D:/EvalForge/apps/web/node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs:6470:3)
+    at DevUIContent (D:/EvalForge/apps/web/src/pages/DevUI.tsx:69:65)
+    at LayoutProvider (D:/EvalForge/apps/web/src/hooks/useCurrentLayout.tsx:13:27)
+    at DevUI
+    at Router (file:///D:/EvalForge/apps/web/node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs:6411:13)
+    at MemoryRouter (file:///D:/EvalForge/apps/web/node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs:6327:3)
+
+ [32mΓ£ô[39m src/pages/__tests__/DevUI_Skills.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 104[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 17:25:03
+[2m   Duration [22m 2.32s[2m (transform 549ms, setup 188ms, import 1.28s, tests 104ms, environment 616ms)[22m
+

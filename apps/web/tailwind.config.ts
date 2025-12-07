@@ -31,6 +31,14 @@ export default {
           500: '#06B6D4', // Cyan 500
           900: '#164E63', // Cyan 900
         },
+        workshop: {
+          bg: '#050914',
+          panel: '#0A1220',
+          cyan: '#2EE6D6',
+          violet: '#B574FF',
+          text: '#E5F3FF',
+          subtle: '#8090B2',
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -53,9 +61,12 @@ export default {
       },
       boxShadow: {
         soft: "0 8px 24px rgba(0,0,0,0.12)",
+        'workshop-neon': '0 0 24px rgba(46, 230, 214, 0.4)',
+        'workshop-violet': '0 0 24px rgba(181, 116, 255, 0.45)',
       },
       borderRadius: {
-        xl2: "1.25rem"
+        xl2: "1.25rem",
+        'workshop': '1rem',
       }
     }
   },

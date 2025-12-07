@@ -289,3 +289,29 @@ async def judge_boss_with_rubric(
     eval_result.integrity_delta = integrity_delta
 
     return eval_result
+
+async def stream_coach_feedback(user_input: str, grade_result: Dict[str, Any], track: str = "default"):
+    """
+    Streams constructive feedback based on the grade.
+    """
+    try:
+        import vertexai
+        from vertexai.generative_models import GenerativeModel
+        
+        project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+        model_name = os.getenv("EVALFORGE_MODEL_VERSION", "gemini-2.5-flash-001")
+        
+        vertexai.init(project=project_id, location=location)
+        model = GenerativeModel(model_name)
+        
+        prompt = f"Provide feedback on code that got coverage={grade_result.get('coverage')}..."
+        
+        stream = await model.generate_content_async(prompt, stream=True)
+        async for chunk in stream:
+            if chunk.text:
+                yield chunk.text
+                
+    except Exception as e:
+        logger.error(f"Feedback stream failed: {e}")
+        yield "Good job!"

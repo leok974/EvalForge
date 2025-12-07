@@ -1,0 +1,91 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1 item
+
+tests\backend\test_quest_smoke.py E                                      [100%]
+
+=================================== ERRORS ====================================
+__________ ERROR at setup of test_quest_agent_smoke_streams_response __________
+
+self = <Coroutine test_quest_agent_smoke_streams_response>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:463: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:733: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+tests\backend\conftest.py:35: in mock_vertex_ai_modules
+    install_vertex_ai_mocks()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+default_text = None
+
+    def install_vertex_ai_mocks(default_text: Optional[str] = None) -> None:
+        """
+        Install mocked `vertexai` modules into sys.modules.
+    
+        This creates:
+        - vertexai
+        - vertexai.generative_models (with GenerativeModel)
+        - vertexai.language_models
+        - vertexai.preview
+        - vertexai.vision_models
+    
+        If `default_text` is provided, it becomes the default LLM output.
+        """
+        global _DEFAULT_TEXT
+        if default_text is not None:
+            _DEFAULT_TEXT = default_text
+    
+        # Root module
+        vertexai_root = types.ModuleType("vertexai")
+    
+        # Provide a no-op init to satisfy vertexai.init(...)
+        def _init(*_args, **_kwargs) -> None:
+            return None
+    
+        vertexai_root.init = _init  # type: ignore[attr-defined]
+    
+        # Submodules
+>       generative_models.GenerativeModel = MockGenerativeModel  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^
+E       NameError: name 'generative_models' is not defined
+
+tests\backend\vertex_ai_mocks.py:112: NameError
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:441
+  D:\EvalForge\arcade_app\agent.py:441: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR tests/backend/test_quest_smoke.py::test_quest_agent_smoke_streams_response
+======================== 3 warnings, 1 error in 0.25s =========================

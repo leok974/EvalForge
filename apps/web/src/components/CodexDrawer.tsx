@@ -243,6 +243,7 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                 {/* Top-Level Tabs */}
                 <div className="flex border-b border-zinc-800">
                     <button
+                        data-testid="tab-system"
                         onClick={() => {
                             setActiveTopTab('system');
                             setSelectedEntry(null);
@@ -252,6 +253,7 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                         System Codex
                     </button>
                     <button
+                        data-testid="tab-project"
                         onClick={() => {
                             setActiveTopTab('project');
                             setMode('project-list');
@@ -262,6 +264,7 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                         Project Codex
                     </button>
                     <button
+                        data-testid="tab-boss"
                         onClick={() => {
                             setActiveTopTab('boss');
                             setSelectedBossId(null);

@@ -1,0 +1,102 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 2 items
+
+tests\backend\test_agents_smoke.py EE                                    [100%]
+
+=================================== ERRORS ====================================
+__________ ERROR at setup of test_judge_agent_smoke_streams_response __________
+file D:\EvalForge\tests\backend\test_agents_smoke.py, line 17
+  @pytest.mark.asyncio
+  async def test_judge_agent_smoke_streams_response(mock_db_session):
+      """
+      Verify JudgeAgent runs and streams chunks without crashing.
+      """
+      set_vertex_ai_default_text("Mocked Judge Decision")
+
+      agent = AGENTS["judge"]
+      message = "Evaluate this code."
+      context = {
+          "world_id": "world-python",
+          "track_id": "python-fundamentals",
+          "user_id": "smoke_test_user"
+      }
+
+      chunks = []
+      async for event in agent.run(message, context):
+          chunks.append(event)
+          if event["event"] == "text_delta":
+              assert isinstance(event["data"], str)
+
+      # Check we got at least one text_delta
+      text_deltas = [c["data"] for c in chunks if c["event"] == "text_delta"]
+      assert len(text_deltas) > 0, "Judge agent did not return any text_delta events"
+      assert "Mocked Judge Decision" in "".join(text_deltas)
+E       fixture 'mock_db_session' not found
+>       available fixtures: _class_scoped_runner, _function_scoped_runner, _module_scoped_runner, _package_scoped_runner, _session_faker, _session_scoped_runner, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, client, cov, db_session, doctest_namespace, event_loop_policy, explain_smoke_session, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, httpx_mock, judge_smoke_session, mock_vertex_ai_env, mock_vertex_ai_modules, monkeypatch, no_cover, patch_tracks_for_explain, patch_tracks_for_judge, patch_tracks_for_quest, pytestconfig, quest_smoke_session, record_property, record_testsuite_property, record_xml_attribute, recwarn, test_engine, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory, vertex_text
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\EvalForge\tests\backend\test_agents_smoke.py:17
+_________ ERROR at setup of test_explain_agent_smoke_streams_response _________
+file D:\EvalForge\tests\backend\test_agents_smoke.py, line 44
+  @pytest.mark.asyncio
+  async def test_explain_agent_smoke_streams_response(mock_db_session):
+      """
+      Verify ExplainAgent runs and streams chunks without crashing.
+      """
+      set_vertex_ai_default_text("Mocked Explanation")
+
+      agent = AGENTS["explain"]
+      message = "Explain this concept."
+      context = {
+          "world_id": "world-python",
+          "track_id": "python-fundamentals",
+          "user_id": "smoke_test_user"
+      }
+
+      chunks = []
+      async for event in agent.run(message, context):
+          chunks.append(event)
+          if event["event"] == "text_delta":
+              assert isinstance(event["data"], str)
+
+      # Check we got at least one text_delta
+      text_deltas = [c["data"] for c in chunks if c["event"] == "text_delta"]
+      assert len(text_deltas) > 0, "Explain agent did not return any text_delta events"
+      assert "Mocked Explanation" in "".join(text_deltas)
+E       fixture 'mock_db_session' not found
+>       available fixtures: _class_scoped_runner, _function_scoped_runner, _module_scoped_runner, _package_scoped_runner, _session_faker, _session_scoped_runner, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, client, cov, db_session, doctest_namespace, event_loop_policy, explain_smoke_session, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, httpx_mock, judge_smoke_session, mock_vertex_ai_env, mock_vertex_ai_modules, monkeypatch, no_cover, patch_tracks_for_explain, patch_tracks_for_judge, patch_tracks_for_quest, pytestconfig, quest_smoke_session, record_property, record_testsuite_property, record_xml_attribute, recwarn, test_engine, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory, vertex_text
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\EvalForge\tests\backend\test_agents_smoke.py:44
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:441
+  D:\EvalForge\arcade_app\agent.py:441: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR tests/backend/test_agents_smoke.py::test_judge_agent_smoke_streams_response
+ERROR tests/backend/test_agents_smoke.py::test_explain_agent_smoke_streams_response
+======================== 3 warnings, 2 errors in 0.10s ========================

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { LayoutSwitcher } from '../LayoutSwitcher';
-import { useGameStore } from '../../store/gameStore';
+import { MemoryRouter } from 'react-router-dom';
 
 // Mock the hooks directly
 vi.mock('../../features/layouts/useLayoutUnlocks', () => ({
@@ -22,7 +22,11 @@ describe("LayoutSwitcher", () => {
       { id: 'orion', label: 'Orion', unlocked: true, description: 'Star Map' }
     ]);
 
-    render(<LayoutSwitcher />);
+    render(
+      <MemoryRouter>
+        <LayoutSwitcher />
+      </MemoryRouter>
+    );
 
     fireEvent.click(screen.getByTestId('layout-picker-trigger'));
     expect(screen.getByText(/Star Map/i)).toBeInTheDocument();
@@ -36,7 +40,11 @@ describe("LayoutSwitcher", () => {
       { id: 'orion', label: 'Orion', unlocked: false, description: 'Star Map', lockedReason: 'Need Level 3' }
     ]);
 
-    render(<LayoutSwitcher />);
+    render(
+      <MemoryRouter>
+        <LayoutSwitcher />
+      </MemoryRouter>
+    );
 
     fireEvent.click(screen.getByTestId('layout-picker-trigger'));
 

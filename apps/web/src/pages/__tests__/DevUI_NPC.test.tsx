@@ -30,13 +30,26 @@ vi.mock('../../store/bossStore', () => ({
     useBossStore: (selector?: any) => selector ? selector(bossStoreState) : bossStoreState
 }));
 
+vi.mock('../../store/gameStore', () => ({
+    useGameStore: vi.fn((selector) => {
+        const state = {
+            layout: 'workshop',
+            setLayout: vi.fn(),
+            addXp: vi.fn(),
+            activeTrack: null
+        };
+        return selector ? selector(state) : state;
+    })
+}));
+
 // Mock Child Components to reduce noise
 vi.mock('../../components/Scoreboard', () => ({ Scoreboard: () => <div>Scoreboard</div> }));
 vi.mock('../../components/ContextSelector', () => ({ ContextSelector: () => <div>Selector</div> }));
+vi.mock('../../components/BossHud', () => ({ BossHud: () => <div data-testid="boss-hud">BossHud</div> }));
 
 describe('DevUI NPC Rendering', () => {
     beforeEach(() => {
-        vi.resetAllMocks();
+        vi.clearAllMocks();
         (AuthHook.useAuth as any).mockReturnValue({ user: { id: 'leo' }, loading: false });
 
         // Mock fetch to return empty session

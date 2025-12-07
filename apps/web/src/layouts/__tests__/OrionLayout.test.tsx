@@ -30,6 +30,15 @@ vi.mock("@/store/gameStore", () => ({
     }),
 }));
 
+// Robust Fetch Mock
+const fetchMock = vi.fn((url: string | Request | URL) => {
+    return Promise.resolve({
+        ok: true,
+        json: async () => ({})
+    });
+});
+vi.stubGlobal('fetch', fetchMock);
+
 describe("OrionLayout", () => {
     it("renders correctly", () => {
         render(

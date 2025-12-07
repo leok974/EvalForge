@@ -71,6 +71,7 @@ class ExplainAgent:
         """
         user_id = context.get("user_id", "anonymous")
         track_id = context.get("track_id") or context.get("track")
+        world_id = context.get("world_id")
         codex_id = (
             context.get("codex_id")
             or context.get("hint_codex_id")  # from Boss HUD
@@ -104,8 +105,8 @@ class ExplainAgent:
 
         # 3) Build the system prompt (using tested helper)
         system_prompt = build_explain_system_prompt(
-            user_input=user_input,
-            track_id=track_id,
+            user_question=user_input,
+            world_id=world_id,
             codex_entry=codex_entry,
         )
 
