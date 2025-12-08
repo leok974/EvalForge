@@ -1,0 +1,150 @@
+{
+    "schema_version": "1.0.0",
+    "id": "boss-synapse-gradient-sentinel",
+    "boss_slug": "boss-synapse-gradient-sentinel",
+    "title": "Gradient Sentinel",
+    "world_slug": "world-ml",
+    "track_id": "synapse-tensor-gradient",
+    "description": "Grades an ML Training & Evaluation Incident Runbook: splits, diagnostics, experiments, and production thinking.",
+    "max_score": 8,
+    "pass_threshold": 6,
+    "llm_judge_instructions": "Review the entrant's Incident Runbook. Awards points for correct data split design (avoiding leakage), precise diagnosis of training curves (over/underfitting), disciplined experimentation with baselines, and production-ready monitoring plans.",
+    "autofail_conditions": [
+        "Fails to address data leakage or split design",
+        "Does not propose any baselines",
+        "Ignores production monitoring entirely",
+        "Fails to produce a structured runbook"
+    ],
+    "dimensions": [
+        {
+            "key": "data_checks_and_split_design",
+            "label": "Data Checks & Split Design",
+            "weight": 0.25,
+            "description": "Does the player correctly reason about data quality and train/val/test splits (and time-based splits when relevant)?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Shallow",
+                    "criteria": "Barely inspects data; treats metrics as absolute truth. No mention of stratification or time-based splits. Ignores potential leakage."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Partial",
+                    "criteria": "Performs some checks but misses key leakage or distribution issues. Talks about train/val/test but not how they are constructed."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Robust",
+                    "criteria": "Shows clear awareness of leakage, split strategies (e.g., time-based), and basic validation. Checks label balance and feature ranges."
+                }
+            ]
+        },
+        {
+            "key": "training_loop_and_metric_diagnostics",
+            "label": "Training Loop & Metric Diagnostics",
+            "weight": 0.3,
+            "description": "Can the player read training curves and logs and map them to plausible issues and fixes?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Guesswork",
+                    "criteria": "Proposes random hyperparameter changes. Ignores obvious signals (e.g., loss divergence, NaNs). No mention of overfitting patterns."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Decent Intuition",
+                    "criteria": "Recognizes some patterns (e.g. overfitting) but reasoning is incomplete. Vague fixes or ignores metrics other than loss."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Targeted Diagnostics",
+                    "criteria": "Reads curves/logs and proposes specific interventions. Connects flat loss to LR/init/bugs. Uses appropriate metrics (ROC/PR)."
+                }
+            ]
+        },
+        {
+            "key": "baselines_experiments_and_ablation_design",
+            "label": "Baselines, Experiments & Ablation Design",
+            "weight": 0.25,
+            "description": "Does the plan include strong baselines and a clear experiment strategy?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Ad Hoc",
+                    "criteria": "Jumps to complex models without baselines. Experiments are one-off tweaks with no structure."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Some Structure",
+                    "criteria": "Mentions baselines or experiments but with limited discipline. A/B-ish tests without clear metrics or stopping criteria."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Disciplined Experimenter",
+                    "criteria": "Defines baselines (simple models), ablations, and clear comparison criteria. Starts simple to sanity-check data."
+                }
+            ]
+        },
+        {
+            "key": "production_monitoring_and_retraining_plan",
+            "label": "Production Monitoring & Retraining Plan",
+            "weight": 0.2,
+            "description": "Does the runbook think beyond offline training to monitoring, drift, and safe retraining?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Offline Only",
+                    "criteria": "Considers only offline metrics. No mention of drift, calibration, or live metrics. Assumes training once is enough."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Basic Awareness",
+                    "criteria": "Mentions monitoring/drift at a high level. Does not distinguish offline validation from online evaluation."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Ops-Ready",
+                    "criteria": "Provides a concrete strategy: key metrics (calibration, FNR), thresholds, retraining cadence, and rollback path."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "grade": "S",
+            "label": "Warden's Favorite",
+            "description": "Perfect execution across all dimensions, showing senior engineering judgment."
+        },
+        {
+            "min_score": 6,
+            "grade": "A",
+            "label": "Certified Alchemist",
+            "description": "Strong analysis and planning, minor gaps in edge cases."
+        },
+        {
+            "min_score": 4,
+            "grade": "B",
+            "label": "Gradient Surfer",
+            "description": "Acceptable diagnostics but lacks depth in production or experiment design."
+        },
+        {
+            "min_score": 0,
+            "grade": "C",
+            "label": "NaN Seeker",
+            "description": "Fails to grasp the core issues of leakage or stability."
+        }
+    ]
+}

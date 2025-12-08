@@ -10,7 +10,7 @@ from typing import Dict
 from fastapi import APIRouter, Depends
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from arcade_app.boss_qa_worlds import WorldBossQAReport, run_standard_world_boss_qa
+from arcade_app.boss_qa_worlds import WorldBossQAReport, WorldBossQARequest, run_standard_world_boss_qa
 from arcade_app.database import get_session
 from arcade_app.models import Profile
 from arcade_app.auth_helper import get_dev_profile_for_boss_qa
@@ -24,39 +24,37 @@ router = APIRouter(
 
 @router.post("/worlds", response_model=WorldBossQAReport)
 async def run_world_boss_qa_route(
+    request: WorldBossQARequest | None = None,
     session: AsyncSession = Depends(get_session),
     current_user: dict = Depends(get_dev_profile_for_boss_qa),
 ) -> WorldBossQAReport:
     """
     Dev-only endpoint: run QA for all standard world bosses (Reactor Core, Signal Prism, etc.).
     """
-    # Create sync session for QA helper
-    from sqlalchemy.orm import Session
-    from sqlalchemy import create_engine
-    import os
-    
-    sync_db_url = os.getenv("DATABASE_URL", "postgresql+asyncpg://evalforge:evalforge@localhost:5432/evalforge")
-    sync_db_url = sync_db_url.replace("+asyncpg", "")
-    sync_engine = create_engine(sync_db_url)
-    sync_session = Session(sync_engine)
+    # Use the injected AsyncSession
+    from sqlmodel import select
     
     try:
-        profile = sync_session.query(Profile).filter(Profile.id == current_user["id"]).first()
+        # Check explicit Profile.user_id match
+        stmt = select(Profile).where(Profile.user_id == current_user["id"])
+        result = await session.exec(stmt)
+        profile = result.first()
+        
         if not profile:
             profile = Profile(
-                id=current_user["id"],
-                display_name=current_user.get("name", "Test User"),
+                user_id=current_user["id"],
                 integrity=100,
-                xp=0,
-                level=1,
+                total_xp=0,
+                global_level=1,
                 flags={}
             )
-            sync_session.add(profile)
-            sync_session.commit()
+            session.add(profile)
+            await session.commit()
+            await session.refresh(profile)
         
         min_scores: Dict[str, int] = {}
-        report = run_standard_world_boss_qa(db=sync_session, player=profile, min_scores=min_scores)
+        report = await run_standard_world_boss_qa(db=session, player=profile, min_scores=min_scores, request=request)
         
         return report
-    finally:
-        sync_session.close()
+    except Exception as e:
+        raise e

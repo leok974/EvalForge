@@ -1,0 +1,128 @@
+{
+    "schema_version": "1.0.0",
+    "id": "boss-timeline-history-rewriter",
+    "boss_slug": "boss-timeline-history-rewriter",
+    "title": "History Rewriter",
+    "max_score": 8,
+    "pass_threshold": 6,
+    "llm_judge_instructions": "Evaluate the Git Incident Runbook based on graph literacy, recovery skills, safety, and clarity.",
+    "autofail_conditions": [],
+    "dimensions": [
+        {
+            "key": "graph_literacy_and_diagnosis",
+            "label": "Graph Literacy & Diagnosis",
+            "weight": 0.25,
+            "description": "Can the player read and reason about the commit graph to understand what happened?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Shallow",
+                    "criteria": "Barely inspects history; relies on vague notions of 'the last commit'. Examples: No use of git log flags. No mental model of HEAD vs branch tips."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Partial",
+                    "criteria": "Uses some graph tools but misses key relationships or misinterprets them. Examples: Uses git log --graph but misses divergence point. Understands HEAD but not detached HEAD."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Strong",
+                    "criteria": "Shows clear graph literacy with concrete commands and explanations. Examples: Uses git log --oneline --graph --decorate --all. Explains specifically that feature branch was rebased onto main and force-pushed."
+                }
+            ]
+        },
+        {
+            "key": "recovery_and_rescue_skills",
+            "label": "Recovery & Rescue Skills",
+            "weight": 0.3,
+            "description": "Does the runbook show robust use of reflog, backups, and bisect to restore and debug history?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Weak",
+                    "criteria": "Little or no use of reflog or bisect. Recovery steps are mostly guesswork. Examples: Suggests re-cloning. No mention of git reflog for lost commits."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Partial",
+                    "criteria": "Shows some recovery knowledge but with gaps or risky steps. Examples: Uses reflog but no backup branches. Mentions bisect but not how to use it."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Robust",
+                    "criteria": "Demonstrates a disciplined, backup-first recovery approach. Examples: Uses git reflog to locate lost commits and creates safety branches. Uses git bisect to isolate regression."
+                }
+            ]
+        },
+        {
+            "key": "history_safety_and_collaboration",
+            "label": "History Safety & Collaboration",
+            "weight": 0.25,
+            "description": "Does the design respect public history and team workflows?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Risky",
+                    "criteria": "Casually rewrites public history or recommends dangerous commands without safeguards. Examples: Suggests git push --force to shared branches without coordination. Uses git reset --hard on main."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Aware but Imperfect",
+                    "criteria": "Shows some awareness of history safety, but some steps would be painful in a team. Examples: Warns about force-push but still uses it. Imprecise about private vs shared branches."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Team-Safe",
+                    "criteria": "Explicitly respects public history and describes how to coordinate safely. Examples: Prefers git revert for public branches. Uses backup branches before destructive ops."
+                }
+            ]
+        },
+        {
+            "key": "runbook_clarity_and_copy_paste_safety",
+            "label": "Runbook Clarity & Copy-Paste Safety",
+            "weight": 0.2,
+            "description": "Is the runbook easy and safe for another engineer to follow?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Confusing or Dangerous",
+                    "criteria": "Commands are unclear, overly destructive, or poorly explained. Examples: Unqualified git reset --hard. Ambiguous placeholders. Steps out of order."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Usable but Rough",
+                    "criteria": "Mostly correct but could cause confusion under pressure. Examples: Commands correct but not grouped. assumes implicit cwd. Minimal commentary."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "On-Call Friendly",
+                    "criteria": "Commands are scoped, commented, and safe to copy-paste with minimal surprises. Examples: Uses clear sectioning. Includes safety notes and $SAFE_BRANCH placeholders."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 0,
+            "label": "F",
+            "description": "Fail"
+        },
+        {
+            "min_score": 6,
+            "label": "S",
+            "description": "S-Rank"
+        }
+    ]
+}

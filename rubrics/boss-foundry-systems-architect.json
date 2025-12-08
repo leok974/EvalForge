@@ -1,0 +1,137 @@
+{
+    "schema_version": "1.0",
+    "id": "boss-foundry-systems-architect",
+    "boss_slug": "boss-foundry-systems-architect",
+    "title": "Foundry Systems Architect",
+    "max_score": 8,
+    "dimensions": [
+        {
+            "key": "architecture.boundaries",
+            "label": "Architecture & Boundaries",
+            "weight": 0.25,
+            "description": "Clean service boundaries and dependency injection.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Monolithic",
+                    "score": 0,
+                    "criteria": "Monolithic coupling remains; direct DB access mixed with logic. No clear layering or separation of concerns."
+                },
+                {
+                    "level": 1,
+                    "label": "Separated",
+                    "score": 1,
+                    "criteria": "Some separation, but interfaces are leaky or circular dependencies exist. Logic is partially decoupled but relies on specific implementations."
+                },
+                {
+                    "level": 2,
+                    "label": "Clean Architecture",
+                    "score": 2,
+                    "criteria": "Clean Facade/Port-Adapter pattern used. Core logic isolated from DB/API details. Dependency Injection is correctly implemented."
+                }
+            ]
+        },
+        {
+            "key": "resilience.circuit_breaker",
+            "label": "Resilience Patterns",
+            "weight": 0.25,
+            "description": "Implementation of Circuit Breaker and Retry logic.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "None",
+                    "score": 0,
+                    "criteria": "No resilience; failure propagates directly. No handling of timeouts or external API failures."
+                },
+                {
+                    "level": 1,
+                    "label": "Basic Retry",
+                    "score": 1,
+                    "criteria": "Basic try/except or retry loop without backoff/breaker state. Risky retry storms possible."
+                },
+                {
+                    "level": 2,
+                    "label": "Robust Circuit Breaker",
+                    "score": 2,
+                    "criteria": "Robust Circuit Breaker pattern (library or custom) with state (OPEN/CLOSED/HALF_OPEN) and fallback/caching strategy."
+                }
+            ]
+        },
+        {
+            "key": "observability.struct_logging",
+            "label": "Observability",
+            "weight": 0.25,
+            "description": "Structured logging and trace context propagation.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Unstructured",
+                    "score": 0,
+                    "criteria": "Print statements or unstructured logs. No correlation IDs."
+                },
+                {
+                    "level": 1,
+                    "label": "Basic Logging",
+                    "score": 1,
+                    "criteria": "Basic logging present but missing correlation IDs or context propagation across layers."
+                },
+                {
+                    "level": 2,
+                    "label": "Structured Tracing",
+                    "score": 2,
+                    "criteria": "JSON structured logs with `trace_id` propagated across function calls. Critical events are logged with context."
+                }
+            ]
+        },
+        {
+            "key": "concurrency.async_queue",
+            "label": "Concurrency & Async",
+            "weight": 0.25,
+            "description": "Async handling of background tasks.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Blocking",
+                    "score": 0,
+                    "criteria": "Blocking synchronous execution of heavy tasks in the main loop."
+                },
+                {
+                    "level": 1,
+                    "label": "Unsafe Async",
+                    "score": 1,
+                    "criteria": "Threads or asyncio used but without safe queue management or error handling/cancellation."
+                },
+                {
+                    "level": 2,
+                    "label": "Robust Queue",
+                    "score": 2,
+                    "criteria": "Asyncio task queue or robust producer/consumer pattern implemented. Graceful shutdown and signal handling included."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "label": "S",
+            "description": "Architectural mastery."
+        },
+        {
+            "min_score": 6,
+            "label": "A",
+            "description": "Production-ready system design."
+        },
+        {
+            "min_score": 4,
+            "label": "B",
+            "description": "Functional but brittle design."
+        },
+        {
+            "min_score": 0,
+            "label": "C",
+            "description": "Unsafe or incomplete architecture."
+        }
+    ],
+    "autofail_conditions": [],
+    "llm_judge_instructions": "Evaluate the Python System Design based on code structure, resilience patterns, and observability. Look for explicit Facade/Port usage and correct async patterns."
+}

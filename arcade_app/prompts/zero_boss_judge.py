@@ -51,3 +51,11 @@ You will be given:
 Use the rubric description and criteria to decide which band best fits for each dimension.
 If the rubric.llm_judge_instructions contains extra instructions, FOLLOW THEM as additional guidance.
 """
+
+ZERO_BOSS_PROMPTS = {
+    "boss-oracle-orchestrator-prime": "rubrics/zero_boss_judge_oracle_orchestrator_prime.md",
+    "boss-timeline-release-arbiter": "rubrics/zero_boss_judge_timeline_release_arbiter.md",
+    "boss-archives-analytics-arbiter": "rubrics/zero_boss_judge_archives_analytics_arbiter.md",
+    "boss-grid-resilience-warden": "rubrics/zero_boss_judge_grid_resilience_warden.md",
+    "boss-reactor-runtime-arbiter": "rubrics/zero_boss_judge_reactor_runtime_arbiter.md",
+}

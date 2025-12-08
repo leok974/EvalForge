@@ -1,0 +1,1012 @@
+{
+    "snapshot_kind": "evalforge_world_content",
+    "evalforge_version": "2.0",
+    "worlds": [
+        {
+            "world_slug": "world-sql",
+            "world_name": "The Archives – SQL",
+            "tracks": [
+                {
+                    "track_id": "archives-retrieval-analytics",
+                    "slug": "archives-retrieval-analytics",
+                    "title": "Retrieval & Analytics",
+                    "tier": 1,
+                    "order_index": 1,
+                    "stage_ref": "stage-1-archives-retrieval",
+                    "summary": "Core querying skills: SELECT, WHERE, joins, aggregates.",
+                    "quests": [
+                        {
+                            "quest_id": "sql-retrieval-q1-select-from-basics",
+                            "order_index": 1,
+                            "title": "Q1 – Select from the Stacks",
+                            "short_description": "Learn SELECT, FROM, and basic projections over one table.",
+                            "long_description": "You’re handed a single table in the Archives and asked to answer simple questions. Practice selecting specific columns, aliasing them, and ordering results. No joins yet—just mastering the basics.",
+                            "objectives": [
+                                "Write SELECT queries that return specific columns.",
+                                "Use column aliases to improve readability.",
+                                "Order results with ORDER BY and LIMIT."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-retrieval-analytics",
+                            "difficulty": "beginner",
+                            "xp": 30,
+                            "tags": [
+                                "sql",
+                                "select",
+                                "from",
+                                "order-by"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-retrieval-q2-where-and-order",
+                            "order_index": 2,
+                            "title": "Q2 – Filters and Ranks",
+                            "short_description": "Filter rows with WHERE and shape result sets.",
+                            "long_description": "The Archives keep growing; you must narrow down results. Apply WHERE filters, combine conditions with AND/OR, and control result size with ordering and limits.",
+                            "objectives": [
+                                "Use WHERE to filter rows by equality and ranges.",
+                                "Combine conditions with AND/OR and parentheses.",
+                                "Apply ORDER BY and LIMIT to answer targeted questions."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-retrieval-analytics",
+                            "difficulty": "beginner",
+                            "xp": 40,
+                            "tags": [
+                                "sql",
+                                "where",
+                                "filtering",
+                                "order-by"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-retrieval-q3-joins-and-keys",
+                            "order_index": 3,
+                            "title": "Q3 – Linking the Wings",
+                            "short_description": "Join multiple tables on keys.",
+                            "long_description": "Data in the Archives is split across wings. Learn to join tables using primary/foreign keys, pick the right join type, and avoid row blow-ups.",
+                            "objectives": [
+                                "Perform INNER and LEFT joins on key columns.",
+                                "Explain when to use INNER vs LEFT joins.",
+                                "Identify and fix duplicate rows caused by bad join conditions."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-retrieval-analytics",
+                            "difficulty": "intermediate",
+                            "xp": 50,
+                            "tags": [
+                                "sql",
+                                "joins",
+                                "keys"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-retrieval-q4-aggregate-and-group",
+                            "order_index": 4,
+                            "title": "Q4 – Signals from the Stacks",
+                            "short_description": "Aggregate data with GROUP BY and HAVING.",
+                            "long_description": "Curators ask for metrics, not raw rows. Use GROUP BY to aggregate, HAVING to filter groups, and be precise about every non-aggregated column.",
+                            "objectives": [
+                                "Use SUM, COUNT, AVG, MIN, MAX with GROUP BY.",
+                                "Filter aggregated results with HAVING.",
+                                "Explain and avoid ambiguous GROUP BY usage."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-retrieval-analytics",
+                            "difficulty": "intermediate",
+                            "xp": 60,
+                            "tags": [
+                                "sql",
+                                "group-by",
+                                "aggregates"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "track_id": "archives-analytics-engine",
+                    "slug": "archives-analytics-engine",
+                    "title": "Analytics Engine",
+                    "tier": 2,
+                    "order_index": 2,
+                    "stage_ref": "stage-2-archives-analytics-engine",
+                    "summary": "Windows, CTEs, schemas, and performance.",
+                    "quests": [
+                        {
+                            "quest_id": "sql-analytics-q1-window-functions",
+                            "order_index": 1,
+                            "title": "Q1 – Windows into Time",
+                            "short_description": "Use window functions for rankings and running totals.",
+                            "long_description": "Move beyond aggregates into analytics. Use ROW_NUMBER, RANK, and SUM OVER partitions to compute rankings and rolling metrics without losing row-level detail.",
+                            "objectives": [
+                                "Use ROW_NUMBER, RANK, and DENSE_RANK for ranking tasks.",
+                                "Compute running totals with SUM OVER (PARTITION BY ... ORDER BY ...).",
+                                "Explain differences between GROUP BY and window functions."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-analytics-engine",
+                            "difficulty": "advanced",
+                            "xp": 70,
+                            "tags": [
+                                "sql",
+                                "window-functions",
+                                "analytics"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-analytics-q2-ctes-and-views",
+                            "order_index": 2,
+                            "title": "Q2 – Stories in Layers",
+                            "short_description": "Encapsulate logic in CTEs and views.",
+                            "long_description": "Complex questions deserve layered answers. Learn to break big queries into smaller CTEs and views that are readable, testable, and reusable.",
+                            "objectives": [
+                                "Refactor long queries using WITH CTEs.",
+                                "Define and use views for common aggregations.",
+                                "Compare pros/cons of views vs CTEs in your warehouse."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-analytics-engine",
+                            "difficulty": "advanced",
+                            "xp": 70,
+                            "tags": [
+                                "sql",
+                                "cte",
+                                "views"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-analytics-q3-normalization-and-indexes",
+                            "order_index": 3,
+                            "title": "Q3 – Shelving the Archives",
+                            "short_description": "Normalize schemas and add helpful indexes.",
+                            "long_description": "Reshape the Archives so they scale. Learn basic normalization rules, when to denormalize, and how to add indexes that speed up queries without overfitting.",
+                            "objectives": [
+                                "Identify redundant/duplicated data and propose normalized schemas.",
+                                "Add indexes to support key query patterns.",
+                                "Explain tradeoffs between normalization and performance."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-analytics-engine",
+                            "difficulty": "advanced",
+                            "xp": 80,
+                            "tags": [
+                                "sql",
+                                "schema-design",
+                                "indexes"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-analytics-q4-query-tuning-basics",
+                            "order_index": 4,
+                            "title": "Q4 – Quieting the Query Storm",
+                            "short_description": "Use EXPLAIN and simple rewrites to tune queries.",
+                            "long_description": "When queries slow the Archives to a crawl, you must tune them. Use EXPLAIN/EXPLAIN ANALYZE and small rewrites (indexes, predicates, projections) to improve performance.",
+                            "objectives": [
+                                "Read EXPLAIN plans and identify full scans.",
+                                "Reduce data scanned by adjusting predicates and projections.",
+                                "Validate improvements via execution times or cost estimates."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-analytics-engine",
+                            "difficulty": "advanced",
+                            "xp": 80,
+                            "tags": [
+                                "sql",
+                                "performance",
+                                "explain"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-archives-query-warden",
+                    "world_slug": "world-sql",
+                    "track_id": "archives-retrieval-analytics",
+                    "slug": "archives-query-warden",
+                    "title": "Boss: Archive Query Warden",
+                    "short_description": "Guard of the core query paths in the Archives.",
+                    "difficulty": "intermediate",
+                    "rubric_id": "boss-archives-query-warden",
+                    "is_active": true
+                },
+                {
+                    "boss_id": "boss-archives-analytics-reporting-architect",
+                    "world_slug": "world-sql",
+                    "track_id": "archives-analytics-engine",
+                    "slug": "archives-reporting-architect",
+                    "title": "Boss: Archives Reporting Architect",
+                    "short_description": "Designer of analytic schemas and queries that scale.",
+                    "difficulty": "advanced",
+                    "is_active": false
+                }
+            ]
+        },
+        {
+            "world_slug": "world-infra",
+            "world_name": "The Grid – Infra",
+            "tracks": [
+                {
+                    "track_id": "grid-containment",
+                    "slug": "grid-containment",
+                    "title": "Containment",
+                    "tier": 1,
+                    "order_index": 1,
+                    "stage_ref": "stage-1-grid-containment",
+                    "summary": "Single-host debugging: processes, ports, logs.",
+                    "quests": [
+                        {
+                            "quest_id": "infra-containment-q1-linux-shell-and-fs",
+                            "order_index": 1,
+                            "title": "Q1 – Map of the Machine",
+                            "short_description": "Navigate the file system and processes of a Linux host.",
+                            "long_description": "Learn the basic landmarks on any production host: where logs live, how processes are listed, and how to orient yourself when things go wrong.",
+                            "objectives": [
+                                "Use ls, cd, find, and permissions commands safely.",
+                                "List processes and interpret CPU/memory usage.",
+                                "Locate core logs (syslog, app logs) on disk."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-containment",
+                            "difficulty": "beginner",
+                            "xp": 40,
+                            "tags": [
+                                "infra",
+                                "linux",
+                                "shell"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-containment-q2-processes-and-ports",
+                            "order_index": 2,
+                            "title": "Q2 – Who Owns the Port?",
+                            "short_description": "Relate processes to ports and services.",
+                            "long_description": "Production bugs often involve ports. Learn to map open ports to processes, check listeners, and confirm whether services are reachable.",
+                            "objectives": [
+                                "Use netstat/ss/lsof to list listening ports.",
+                                "Map ports to owning processes and binaries.",
+                                "Diagnose a simple 'service not reachable' report."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-containment",
+                            "difficulty": "intermediate",
+                            "xp": 50,
+                            "tags": [
+                                "infra",
+                                "ports",
+                                "networking"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-containment-q3-services-and-logs",
+                            "order_index": 3,
+                            "title": "Q3 – Reading the Grid’s Pulse",
+                            "short_description": "Manage services and interpret their logs.",
+                            "long_description": "Services crash, restart, and misbehave. Learn to manage systemd services, read their logs, and spot basic failure patterns.",
+                            "objectives": [
+                                "Start/stop/restart services using systemd or equivalent.",
+                                "Tail service logs and correlate them to incidents.",
+                                "Capture a minimal incident timeline from logs and metrics."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-containment",
+                            "difficulty": "intermediate",
+                            "xp": 60,
+                            "tags": [
+                                "infra",
+                                "services",
+                                "logging"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "track_id": "grid-service-link",
+                    "slug": "grid-service-link",
+                    "title": "Service Link",
+                    "tier": 2,
+                    "order_index": 2,
+                    "stage_ref": "stage-2-grid-service-link",
+                    "summary": "Containerized services behind proxies with health checks and metrics.",
+                    "quests": [
+                        {
+                            "quest_id": "infra-service-q1-dockerize-and-compose",
+                            "order_index": 1,
+                            "title": "Q1 – Bottling the Service",
+                            "short_description": "Containerize a service and wire dependencies with Compose.",
+                            "long_description": "Turn your standalone app into a container, define services in docker-compose, and ensure everything starts and stops together.",
+                            "objectives": [
+                                "Write a Dockerfile for a simple API service.",
+                                "Define a docker-compose file with service + DB.",
+                                "Prove the stack is reproducible from a clean checkout."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-service-link",
+                            "difficulty": "intermediate",
+                            "xp": 70,
+                            "tags": [
+                                "docker",
+                                "compose",
+                                "infra"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-service-q2-nginx-routing-and-tls",
+                            "order_index": 2,
+                            "title": "Q2 – Gateway of the Grid",
+                            "short_description": "Front the stack with nginx and TLS.",
+                            "long_description": "Expose your service safely through a reverse proxy. Configure nginx for routing, hostnames, and TLS (self-signed or local CA).",
+                            "objectives": [
+                                "Configure nginx to route a hostname to your service.",
+                                "Add TLS (self-signed or dev CA) to the gateway.",
+                                "Verify the service is reachable via HTTPS."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-service-link",
+                            "difficulty": "advanced",
+                            "xp": 80,
+                            "tags": [
+                                "nginx",
+                                "tls",
+                                "reverse-proxy"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-service-q3-healthchecks-and-restarts",
+                            "order_index": 3,
+                            "title": "Q3 – Watching for Failure",
+                            "short_description": "Add health checks and auto-restarts.",
+                            "long_description": "Help the Grid heal itself. Add HTTP health endpoints, configure retries and restart policies, and simulate failures.",
+                            "objectives": [
+                                "Add a /health or /ready endpoint to the service.",
+                                "Configure health checks at proxy and container level.",
+                                "Demonstrate a container crash and auto-recovery."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-service-link",
+                            "difficulty": "advanced",
+                            "xp": 80,
+                            "tags": [
+                                "healthchecks",
+                                "restarts",
+                                "infra"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-service-q4-logs-and-metrics-pipeline",
+                            "order_index": 4,
+                            "title": "Q4 – Telemetry Threads",
+                            "short_description": "Pipe logs and metrics into an observability stack.",
+                            "long_description": "Wire your service’s logs and metrics into a local stack (Prometheus + Grafana / ELK / similar) and build a simple dashboard.",
+                            "objectives": [
+                                "Expose metrics from the service (e.g., Prometheus format).",
+                                "Export logs to a centralized destination.",
+                                "Create a dashboard that shows key service health indicators."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-service-link",
+                            "difficulty": "advanced",
+                            "xp": 90,
+                            "tags": [
+                                "metrics",
+                                "logging",
+                                "observability"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-grid-containment-sandbox-warden",
+                    "world_slug": "world-infra",
+                    "track_id": "grid-containment",
+                    "slug": "grid-sandbox-warden",
+                    "title": "Boss: Sandbox Warden",
+                    "short_description": "Guardian of single-host stability.",
+                    "difficulty": "intermediate",
+                    "is_active": false
+                },
+                {
+                    "boss_id": "boss-grid-service-link-gateway-architect",
+                    "world_slug": "world-infra",
+                    "track_id": "grid-service-link",
+                    "slug": "grid-gateway-architect",
+                    "title": "Boss: Gateway Architect",
+                    "short_description": "Designer of a small but production-like stack.",
+                    "difficulty": "advanced",
+                    "is_active": false
+                }
+            ]
+        },
+        {
+            "world_slug": "world-agents",
+            "world_name": "The Oracle – Agents",
+            "tracks": [
+                {
+                    "track_id": "oracle-invocation",
+                    "slug": "oracle-invocation",
+                    "title": "Invocation",
+                    "tier": 1,
+                    "order_index": 1,
+                    "stage_ref": "stage-1-oracle-invocation",
+                    "summary": "Single-agent prompts, tools, and loops.",
+                    "quests": [
+                        {
+                            "quest_id": "agents-invocation-q1-prompt-anatomy",
+                            "order_index": 1,
+                            "title": "Q1 – Anatomy of a Spell",
+                            "short_description": "Dissect and design clear agent prompts.",
+                            "long_description": "Design system and user prompts that define roles, inputs, outputs, and constraints clearly. Practice writing prompts for a single, bounded task.",
+                            "objectives": [
+                                "Write a system prompt that defines role and constraints.",
+                                "Write a user prompt that includes structured inputs.",
+                                "Identify and remove ambiguous instructions."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-invocation",
+                            "difficulty": "beginner",
+                            "xp": 40,
+                            "tags": [
+                                "agents",
+                                "prompts"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-invocation-q2-tool-contracts",
+                            "order_index": 2,
+                            "title": "Q2 – Tools of the Oracle",
+                            "short_description": "Design typed tool contracts.",
+                            "long_description": "Tools are the Oracle’s hands. Define tool schemas with clear types, error states, and security constraints, then wire them into an agent.",
+                            "objectives": [
+                                "Define a tool with JSON schema or typed interface.",
+                                "Explain security constraints for a potentially dangerous tool.",
+                                "Demonstrate a simple tool call flow end-to-end."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-invocation",
+                            "difficulty": "intermediate",
+                            "xp": 50,
+                            "tags": [
+                                "agents",
+                                "tools",
+                                "contracts"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-invocation-q3-single-agent-loop",
+                            "order_index": 3,
+                            "title": "Q3 – Loop of Thought",
+                            "short_description": "Implement a single-agent loop with memory.",
+                            "long_description": "Build a simple agent loop: receive a task, plan, call tools, and log steps. Add lightweight memory so the agent can use prior steps.",
+                            "objectives": [
+                                "Implement a single-agent loop in code.",
+                                "Persist short-term state across tool calls.",
+                                "Log each step for later debugging."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-invocation",
+                            "difficulty": "intermediate",
+                            "xp": 60,
+                            "tags": [
+                                "agents",
+                                "loops",
+                                "memory"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "track_id": "oracle-grounding",
+                    "slug": "oracle-grounding",
+                    "title": "Grounding",
+                    "tier": 2,
+                    "order_index": 2,
+                    "stage_ref": "stage-2-oracle-grounding",
+                    "summary": "RAG, multi-agent orchestration, guardrails, and evals.",
+                    "quests": [
+                        {
+                            "quest_id": "agents-grounding-q1-rag-basics",
+                            "order_index": 1,
+                            "title": "Q1 – Voices from the Library",
+                            "short_description": "Connect an agent to a small RAG pipeline.",
+                            "long_description": "Ground the Oracle in real documents. Ingest a small corpus, implement retrieval, and condition the agent on retrieved context.",
+                            "objectives": [
+                                "Ingest documents into a simple vector or keyword index.",
+                                "Implement retrieval for a user query.",
+                                "Condition agent responses on retrieved context."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-grounding",
+                            "difficulty": "intermediate",
+                            "xp": 70,
+                            "tags": [
+                                "rag",
+                                "retrieval",
+                                "agents"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-grounding-q2-env-and-state",
+                            "order_index": 2,
+                            "title": "Q2 – Chambers of Context",
+                            "short_description": "Model environment and long-term state.",
+                            "long_description": "Teach the Oracle about environment and persistent state. Design where long-term state lives and how the agent retrieves and updates it safely.",
+                            "objectives": [
+                                "Design a data model for long-term agent state.",
+                                "Implement safe read/write patterns for that state.",
+                                "Avoid leaking sensitive env or secrets into logs."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-grounding",
+                            "difficulty": "advanced",
+                            "xp": 80,
+                            "tags": [
+                                "state",
+                                "env",
+                                "agents"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-grounding-q3-multi-agent-orchestration",
+                            "order_index": 3,
+                            "title": "Q3 – Council of Agents",
+                            "short_description": "Orchestrate multiple agents with clear roles.",
+                            "long_description": "Split responsibilities across multiple agents and design an orchestrator that routes tasks and composes results safely.",
+                            "objectives": [
+                                "Define at least two specialized agents and their roles.",
+                                "Implement an orchestrator that routes sub-tasks.",
+                                "Handle failures and timeouts across agents."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-grounding",
+                            "difficulty": "advanced",
+                            "xp": 90,
+                            "tags": [
+                                "multi-agent",
+                                "orchestration"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-grounding-q4-guardrails-and-evals",
+                            "order_index": 4,
+                            "title": "Q4 – Boundaries of the Oracle",
+                            "short_description": "Add guardrails and evaluations.",
+                            "long_description": "Wrap your agents in safety: implement policies, logging, and basic evals to catch regressions and risky behaviors.",
+                            "objectives": [
+                                "Define simple policy checks or allow/deny lists.",
+                                "Add evaluations for correctness or safety on sample tasks.",
+                                "Log enough context to debug failures without storing secrets."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-grounding",
+                            "difficulty": "advanced",
+                            "xp": 100,
+                            "tags": [
+                                "guardrails",
+                                "evals",
+                                "agents"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-oracle-invocation-simulation-weaver",
+                    "world_slug": "world-agents",
+                    "track_id": "oracle-invocation",
+                    "slug": "oracle-simulation-weaver",
+                    "title": "Boss: Simulation Weaver",
+                    "short_description": "Tests single-agent prompt and tool design.",
+                    "difficulty": "intermediate",
+                    "is_active": false
+                },
+                {
+                    "boss_id": "boss-oracle-grounding-orchestrator-conductor",
+                    "world_slug": "world-agents",
+                    "track_id": "oracle-grounding",
+                    "slug": "oracle-orchestrator-conductor",
+                    "title": "Boss: Orchestrator Conductor",
+                    "short_description": "Grades your multi-agent, RAG, and guardrail design.",
+                    "difficulty": "advanced",
+                    "is_active": false
+                }
+            ]
+        },
+        {
+            "world_slug": "world-git",
+            "world_name": "The Timeline – Git",
+            "tracks": [
+                {
+                    "track_id": "timeline-commit",
+                    "slug": "timeline-commit",
+                    "title": "Commit",
+                    "tier": 1,
+                    "order_index": 1,
+                    "stage_ref": "stage-1-timeline-commit",
+                    "summary": "Local Git mastery: history, diff, undo.",
+                    "quests": [
+                        {
+                            "quest_id": "git-commit-q1-init-and-first-commit",
+                            "order_index": 1,
+                            "title": "Q1 – First Mark on the Timeline",
+                            "short_description": "Init repos and create meaningful initial commits.",
+                            "long_description": "Create repositories, add files, and craft your first commits with clear messages that tell a story.",
+                            "objectives": [
+                                "Initialize a Git repo from scratch.",
+                                "Create commits with descriptive messages.",
+                                "Inspect commit history with log."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-commit",
+                            "difficulty": "beginner",
+                            "xp": 30,
+                            "tags": [
+                                "git",
+                                "init",
+                                "commit"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-commit-q2-history-and-diff",
+                            "order_index": 2,
+                            "title": "Q2 – Reading the Echoes",
+                            "short_description": "Read history and diffs effectively.",
+                            "long_description": "Git history is the story of your changes. Learn to read diffs, follow history, and understand what changed when.",
+                            "objectives": [
+                                "Use git status, git log, and git diff.",
+                                "Identify when and where a bug was introduced.",
+                                "Explain a change using diff output."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-commit",
+                            "difficulty": "beginner",
+                            "xp": 40,
+                            "tags": [
+                                "git",
+                                "log",
+                                "diff"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-commit-q3-undo-and-recover",
+                            "order_index": 3,
+                            "title": "Q3 – Undoing the Knot",
+                            "short_description": "Recover from common Git mistakes.",
+                            "long_description": "Fearless Git comes from knowing you can recover. Practice undoing local changes, restoring files, and safely reverting commits.",
+                            "objectives": [
+                                "Use restore/checkout to undo local changes.",
+                                "Use revert to undo a bad commit without rewriting history.",
+                                "Explain when (and when not) to use reset."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-commit",
+                            "difficulty": "intermediate",
+                            "xp": 50,
+                            "tags": [
+                                "git",
+                                "undo",
+                                "revert",
+                                "reset"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "track_id": "timeline-branch",
+                    "slug": "timeline-branch",
+                    "title": "Branch",
+                    "tier": 2,
+                    "order_index": 2,
+                    "stage_ref": "stage-2-timeline-branch",
+                    "summary": "Branching, rebasing, conflicts, and PR flows.",
+                    "quests": [
+                        {
+                            "quest_id": "git-branch-q1-branching-strategies",
+                            "order_index": 1,
+                            "title": "Q1 – Forking Futures",
+                            "short_description": "Create and manage feature branches.",
+                            "long_description": "Branch the Timeline. Create feature branches, keep them small, and merge them back cleanly.",
+                            "objectives": [
+                                "Create and switch between branches.",
+                                "Keep branches focused with small, cohesive changes.",
+                                "Merge a feature branch into main."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-branch",
+                            "difficulty": "intermediate",
+                            "xp": 60,
+                            "tags": [
+                                "git",
+                                "branches"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-branch-q2-merge-and-rebase",
+                            "order_index": 2,
+                            "title": "Q2 – The Clean Line",
+                            "short_description": "Use merge and rebase appropriately.",
+                            "long_description": "Practice keeping history clean. Learn when to merge, when to rebase, and how to avoid surprising others.",
+                            "objectives": [
+                                "Demonstrate a merge workflow with merge commits.",
+                                "Demonstrate a rebase workflow for local branches.",
+                                "Explain risks of rebasing shared branches."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-branch",
+                            "difficulty": "advanced",
+                            "xp": 70,
+                            "tags": [
+                                "git",
+                                "merge",
+                                "rebase"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-branch-q3-conflicts-and-resolutions",
+                            "order_index": 3,
+                            "title": "Q3 – Crossing Timelines",
+                            "short_description": "Resolve merge conflicts confidently.",
+                            "long_description": "Conflicts are inevitable. Learn to resolve them systematically, test after merges, and avoid subtle regressions.",
+                            "objectives": [
+                                "Trigger and resolve a merge conflict intentionally.",
+                                "Use tools (IDE, CLI) to resolve conflicts safely.",
+                                "Verify behavior after conflict resolution."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-branch",
+                            "difficulty": "advanced",
+                            "xp": 70,
+                            "tags": [
+                                "git",
+                                "conflicts"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-branch-q4-pr-flows-and-reviews",
+                            "order_index": 4,
+                            "title": "Q4 – Stories for the Team",
+                            "short_description": "Participate in PRs and reviews.",
+                            "long_description": "Work the full collab loop: push branches, open PRs, request review, and respond to feedback with tidy commits.",
+                            "objectives": [
+                                "Open a PR with a clear description and checklist.",
+                                "Incorporate review feedback via follow-up commits.",
+                                "Keep PRs focused and easy to review."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-branch",
+                            "difficulty": "advanced",
+                            "xp": 80,
+                            "tags": [
+                                "git",
+                                "pr",
+                                "review"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-timeline-commit-history-warden",
+                    "world_slug": "world-git",
+                    "track_id": "timeline-commit",
+                    "slug": "timeline-history-warden",
+                    "title": "Boss: History Warden",
+                    "short_description": "Tests your ability to keep and read a clean history.",
+                    "difficulty": "intermediate",
+                    "is_active": false
+                },
+                {
+                    "boss_id": "boss-timeline-branch-release-conductor",
+                    "world_slug": "world-git",
+                    "track_id": "timeline-branch",
+                    "slug": "timeline-release-conductor",
+                    "title": "Boss: Release Conductor",
+                    "short_description": "Grades your branching, rebasing, and conflict skills.",
+                    "difficulty": "advanced",
+                    "is_active": false
+                }
+            ]
+        },
+        {
+            "world_slug": "world-ml",
+            "world_name": "The Synapse – ML",
+            "tracks": [
+                {
+                    "track_id": "synapse-tensor",
+                    "slug": "synapse-tensor",
+                    "title": "Tensor",
+                    "tier": 1,
+                    "order_index": 1,
+                    "stage_ref": "stage-1-synapse-tensor",
+                    "summary": "Numerical foundations and simple models.",
+                    "quests": [
+                        {
+                            "quest_id": "ml-tensor-q1-numpy-and-shapes",
+                            "order_index": 1,
+                            "title": "Q1 – Shapes of Thought",
+                            "short_description": "Work with vectors and matrices.",
+                            "long_description": "Get comfortable with NumPy and tensor shapes. Build and reshape arrays, and verify your intuition with simple examples.",
+                            "objectives": [
+                                "Create 1D, 2D, and 3D arrays.",
+                                "Reshape arrays and reason about dimensions.",
+                                "Debug common shape mismatches."
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-tensor",
+                            "difficulty": "beginner",
+                            "xp": 40,
+                            "tags": [
+                                "ml",
+                                "numpy",
+                                "tensors"
+                            ]
+                        },
+                        {
+                            "quest_id": "ml-tensor-q2-vectorization",
+                            "order_index": 2,
+                            "title": "Q2 – Signals in Parallel",
+                            "short_description": "Replace loops with vectorized ops.",
+                            "long_description": "Learn why vectorization matters. Rewrite loop-based code into array operations and measure the difference.",
+                            "objectives": [
+                                "Rewrite loops into NumPy operations.",
+                                "Explain why vectorization is faster and safer.",
+                                "Profile a simple before/after example."
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-tensor",
+                            "difficulty": "intermediate",
+                            "xp": 50,
+                            "tags": [
+                                "ml",
+                                "vectorization"
+                            ]
+                        },
+                        {
+                            "quest_id": "ml-tensor-q3-linear-regression-from-scratch",
+                            "order_index": 3,
+                            "title": "Q3 – First Synapse",
+                            "short_description": "Implement linear regression by hand.",
+                            "long_description": "Train your first model from scratch. Implement linear regression, compute loss, and fit parameters manually or via gradient descent.",
+                            "objectives": [
+                                "Implement linear regression prediction and loss.",
+                                "Fit parameters via closed form or gradient descent.",
+                                "Visualize data and model predictions."
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-tensor",
+                            "difficulty": "intermediate",
+                            "xp": 60,
+                            "tags": [
+                                "ml",
+                                "regression",
+                                "training"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "track_id": "synapse-tensor-gradient",
+                    "slug": "synapse-tensor-gradient",
+                    "title": "Tensor & Gradient",
+                    "tier": 1,
+                    "order_index": 2,
+                    "stage_ref": "stage-1-synapse-tensor-gradient",
+                    "summary": "Training loops, metrics, regularization, and serving.",
+                    "quests": [
+                        {
+                            "quest_id": "ml-gradient-q1-training-loop-and-metrics",
+                            "order_index": 1,
+                            "title": "Q1 – Step by Step",
+                            "short_description": "Write a training loop with metrics.",
+                            "long_description": "Implement a basic training loop with train/val split, loss, metrics, and logging.",
+                            "objectives": [
+                                "Split data into train/validation sets.",
+                                "Track loss and a relevant metric each epoch.",
+                                "Prevent metric leakage between train and val."
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-tensor-gradient",
+                            "difficulty": "intermediate",
+                            "xp": 70,
+                            "tags": [
+                                "ml",
+                                "training",
+                                "metrics"
+                            ]
+                        },
+                        {
+                            "quest_id": "ml-gradient-q2-regularization-and-overfit",
+                            "order_index": 2,
+                            "title": "Q2 – Overfitting the Synapse",
+                            "short_description": "Recognize and fight overfitting.",
+                            "long_description": "Learn to spot overfitting on plots and metrics and apply simple regularization techniques to fight it.",
+                            "objectives": [
+                                "Visualize train vs validation curves.",
+                                "Demonstrate overfitting in a small experiment.",
+                                "Apply at least one regularization method."
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-tensor-gradient",
+                            "difficulty": "advanced",
+                            "xp": 80,
+                            "tags": [
+                                "ml",
+                                "overfitting",
+                                "regularization"
+                            ]
+                        },
+                        {
+                            "quest_id": "ml-gradient-q3-model-selection-and-baselines",
+                            "order_index": 3,
+                            "title": "Q3 – Choosing the Signal",
+                            "short_description": "Compare models to strong baselines.",
+                            "long_description": "Modeling is only useful relative to baselines. Compare your model to simple baselines and justify when a model is 'good enough'.",
+                            "objectives": [
+                                "Define and compute a simple baseline.",
+                                "Compare candidate models to the baseline.",
+                                "Explain why a more complex model may not be worth it."
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-tensor-gradient",
+                            "difficulty": "advanced",
+                            "xp": 80,
+                            "tags": [
+                                "ml",
+                                "baselines",
+                                "model-selection"
+                            ]
+                        },
+                        {
+                            "quest_id": "ml-gradient-q4-serving-and-monitoring-basics",
+                            "order_index": 4,
+                            "title": "Q4 – Models in the Wild",
+                            "short_description": "Serve a model and monitor it.",
+                            "long_description": "Ship your model as a simple service, feed it requests, and track basic health and drift indicators.",
+                            "objectives": [
+                                "Wrap a model in a simple HTTP or batch interface.",
+                                "Log predictions with minimal, privacy-safe context.",
+                                "Define a handful of metrics to watch in production."
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-tensor-gradient",
+                            "difficulty": "advanced",
+                            "xp": 90,
+                            "tags": [
+                                "ml",
+                                "serving",
+                                "monitoring"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-synapse-tensor-signal-shaper",
+                    "world_slug": "world-ml",
+                    "track_id": "synapse-tensor",
+                    "slug": "synapse-signal-shaper",
+                    "title": "Boss: Signal Shaper",
+                    "short_description": "Tests your numerical foundations and simple modeling.",
+                    "difficulty": "intermediate",
+                    "is_active": false
+                },
+                {
+                    "boss_id": "boss-synapse-gradient-sentinel",
+                    "world_slug": "world-ml",
+                    "track_id": "synapse-tensor-gradient",
+                    "slug": "synapse-gradient-sentinel",
+                    "title": "Boss: Gradient Sentinel",
+                    "short_description": "Grades an ML Training & Evaluation Incident Runbook: splits, diagnostics, experiments, and production thinking.",
+                    "difficulty": "advanced",
+                    "rubric_id": "boss-synapse-gradient-sentinel",
+                    "is_active": true
+                }
+            ]
+        }
+    ]
+}

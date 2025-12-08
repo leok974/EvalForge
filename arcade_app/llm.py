@@ -26,12 +26,23 @@ def call_zero_boss_judge(rubric, payload: dict) -> dict:
     Returns:
         Dictionary matching BossEvalLLMChoice schema
     """
-    from .prompts.zero_boss_judge import ZERO_BOSS_JUDGE_SYSTEM_PROMPT
+    from .prompts.zero_boss_judge import ZERO_BOSS_JUDGE_SYSTEM_PROMPT, ZERO_BOSS_PROMPTS
     import json
     
-    # Combine the global ZERO instructions with the rubric-specific instructions
+    # Check if this boss has a specialized system prompt
+    if rubric.boss_slug in ZERO_BOSS_PROMPTS:
+        try:
+            with open(ZERO_BOSS_PROMPTS[rubric.boss_slug], "r", encoding="utf-8") as f:
+                base_prompt = f.read()
+        except Exception:
+            # Fallback if file missing
+            base_prompt = ZERO_BOSS_JUDGE_SYSTEM_PROMPT
+    else:
+        base_prompt = ZERO_BOSS_JUDGE_SYSTEM_PROMPT
+
+    # Combine the base instructions (Generic or Custom) with the rubric-specific instructions
     system_prompt = (
-        ZERO_BOSS_JUDGE_SYSTEM_PROMPT.strip()
+        base_prompt.strip()
         + "\n\n--- RUBRIC-SPECIFIC INSTRUCTIONS ---\n"
         + rubric.llm_judge_instructions.strip()
     )

@@ -21,7 +21,7 @@ async def engine_fixture():
     engine = create_async_engine(
         TEST_DB_URL, 
         connect_args={"check_same_thread": False}, 
-        echo=True
+        echo=False
     )
     
     # Create Tables

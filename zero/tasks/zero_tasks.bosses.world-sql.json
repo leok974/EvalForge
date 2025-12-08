@@ -1,0 +1,21 @@
+{
+    "tasks": [
+        {
+            "task_id": "boss_archives_retrieval_query_warden",
+            "name": "Boss: Archives Query Warden",
+            "description": "Submit a SQL query to satisfy the Warden's retrieval challenge.",
+            "input_schema": {
+                "solution_file": "path/to/solution.sql"
+            },
+            "evaluation_config": {
+                "type": "llm_judge",
+                "golden_file": "solutions/bosses/archives_retrieval/query_warden.sql",
+                "rubric_file": "rubrics/boss-archives-retrieval-query-warden.json",
+                "codex_file": "codex/world-sql/track-retrieval-circuit.md"
+            },
+            "agent_config": {
+                "system_prompt_file": "rubrics/zero_boss_judge.md"
+            }
+        }
+    ]
+}

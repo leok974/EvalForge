@@ -1,6 +1,7 @@
 export type OrionWorldId =
     | "world-python"
-    | "world-js"
+    | "world-typescript"
+    | "world-java"
     | "world-sql"
     | "world-infra"
     | "world-agents"
@@ -31,7 +32,8 @@ export interface OrionTrackNode {
 
 export const ORION_WORLDS: OrionWorldConfig[] = [
     { id: "world-python", slug: "python", label: "PYTHON", color: "#38bdf8", radius: 70, angleDeg: 210 },
-    { id: "world-js", slug: "js", label: "JAVASCRIPT", color: "#facc15", radius: 55, angleDeg: 320 },
+    { id: "world-typescript", slug: "typescript", label: "THE PRISM", color: "#facc15", radius: 55, angleDeg: 320 },
+    { id: "world-java", slug: "java", label: "THE REACTOR", color: "#ea580c", radius: 65, angleDeg: 140 },
     { id: "world-sql", slug: "sql", label: "SQL", color: "#22c55e", radius: 50, angleDeg: 30 },
     { id: "world-infra", slug: "infra", label: "INFRA", color: "#e5e5e5", radius: 60, angleDeg: 110 },
     { id: "world-agents", slug: "agents", label: "AGENTS", color: "#a855f7", radius: 58, angleDeg: 40 },

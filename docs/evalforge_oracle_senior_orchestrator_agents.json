@@ -1,0 +1,99 @@
+{
+    "snapshot_kind": "evalforge_world_content",
+    "world_slug": "world-agents",
+    "tracks": [
+        {
+            "track_id": "oracle-senior-orchestrator",
+            "slug": "oracle-senior-orchestrator",
+            "world_slug": "world-agents",
+            "title": "Senior Orchestrator – Multi-Agent Systems",
+            "tier": "senior",
+            "stage": 3,
+            "order_index": 30,
+            "summary": "Design, orchestrate, and harden multi-agent systems with real tools, guardrails, and eval loops.",
+            "quests": [
+                {
+                    "quest_id": "oracle-orchestrator-agent-map",
+                    "slug": "oracle-orchestrator-agent-map",
+                    "title": "Agent Graph & Role Map",
+                    "order_index": 1,
+                    "difficulty": "hard",
+                    "summary": "Define a multi-agent graph with clear roles, responsibilities, and communication patterns.",
+                    "objective": "Produce a concrete agent map (planner, workers, reviewers, tools) for a realistic use case, including responsibilities, hand-off rules, and failure modes.",
+                    "tags": [
+                        "agents",
+                        "architecture",
+                        "design"
+                    ]
+                },
+                {
+                    "quest_id": "oracle-orchestrator-tool-contracts",
+                    "slug": "oracle-orchestrator-tool-contracts",
+                    "title": "Tool Contracts & IO Design",
+                    "order_index": 2,
+                    "difficulty": "hard",
+                    "summary": "Turn messy tools into reliable, typed contracts agents can safely call.",
+                    "objective": "Design a set of tool contracts (schemas, error handling, timeouts, idempotency) for a multi-agent system. Deliver typed interfaces plus a short rationale.",
+                    "tags": [
+                        "agents",
+                        "tools",
+                        "contracts",
+                        "typing"
+                    ]
+                },
+                {
+                    "quest_id": "oracle-orchestrator-guardrails",
+                    "slug": "oracle-orchestrator-guardrails",
+                    "title": "Guardrails & Policy Layer",
+                    "order_index": 3,
+                    "difficulty": "hard",
+                    "summary": "Add a policy layer that constrains what agents can do and how they talk.",
+                    "objective": "Specify prompts, policies, and filters that prevent unsafe actions, constrain tool use, and handle denials gracefully in a multi-agent setting.",
+                    "tags": [
+                        "agents",
+                        "safety",
+                        "guardrails"
+                    ]
+                },
+                {
+                    "quest_id": "oracle-orchestrator-eval-loop",
+                    "slug": "oracle-orchestrator-eval-loop",
+                    "title": "Evaluator in the Loop",
+                    "order_index": 4,
+                    "difficulty": "hard",
+                    "summary": "Design an evaluation agent and metrics for multi-step plans.",
+                    "objective": "Define an evaluator/critic loop with quantitative and qualitative signals, including how to sample runs, label them, and feed improvements back into prompts or policies.",
+                    "tags": [
+                        "agents",
+                        "evaluation",
+                        "metrics"
+                    ]
+                },
+                {
+                    "quest_id": "oracle-orchestrator-observability",
+                    "slug": "oracle-orchestrator-observability",
+                    "title": "Resilience & Observability",
+                    "order_index": 5,
+                    "difficulty": "hard",
+                    "summary": "Make the orchestrator debuggable and resilient in production.",
+                    "objective": "Design logging, tracing, and recovery strategies for a multi-agent orchestrator, including what to log, how to inspect stuck runs, and how to safely abort.",
+                    "tags": [
+                        "agents",
+                        "observability",
+                        "reliability"
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-oracle-orchestrator-prime",
+                    "slug": "boss-oracle-orchestrator-prime",
+                    "title": "Oracle Orchestrator Prime",
+                    "order_index": 99,
+                    "difficulty": "boss",
+                    "summary": "Guardian of multi-agent orchestration. Tests your ability to design a safe, observable, tool-using agent system end-to-end."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,140 @@
+{
+    "schema_version": "1.0",
+    "id": "boss-grid-resilience-warden",
+    "boss_slug": "boss-grid-resilience-warden",
+    "title": "Grid Resilience Warden",
+    "max_score": 8,
+    "dimensions": [
+        {
+            "key": "slo_and_error_budgets",
+            "label": "SLO & Error Budget Design",
+            "weight": 0.25,
+            "description": "Definition and usage of SLOs to drive reliability decisions.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Unmeasured",
+                    "score": 0,
+                    "criteria": "No SLOs/SLIs defined; 'uptime' is vague. Alerts on everything or nothing."
+                },
+                {
+                    "level": 1,
+                    "label": "Defined",
+                    "score": 1,
+                    "criteria": "Defines basic availability/latency SLOs. Mentions error budgets but not how they affect decisions."
+                },
+                {
+                    "level": 2,
+                    "label": "Driving",
+                    "score": 2,
+                    "criteria": "SLOs are clear, user-centric, and drive policy (e.g. freeze feature launches effectively when budget burns)."
+                }
+            ]
+        },
+        {
+            "key": "failure_mitigation",
+            "label": "Failure Mode Coverage & Mitigation",
+            "weight": 0.25,
+            "description": "Strategies for handling partial failure, overload, and dependency loss.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Fragile",
+                    "score": 0,
+                    "criteria": "System likely cascades on failure. No circuit breakers, load shedding, or meaningful retries/backoff."
+                },
+                {
+                    "level": 1,
+                    "label": "Defensive",
+                    "score": 1,
+                    "criteria": "Includes basic defenses like retries and timeouts. Blast radius is considered but large."
+                },
+                {
+                    "level": 2,
+                    "label": "Resilient",
+                    "score": 2,
+                    "criteria": "Comprehensive defense: circuit breaking, aggressive load shedding, graceful degradation, and tight failure domains."
+                }
+            ]
+        },
+        {
+            "key": "observability_and_alerts",
+            "label": "Observability & Alert Design",
+            "weight": 0.25,
+            "description": "Quality of signals and alert routing.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Noisy/Blind",
+                    "score": 0,
+                    "criteria": "Logs are sparse or flooding; alerts are noisy and non-actionable. Debugging is guesswork."
+                },
+                {
+                    "level": 1,
+                    "label": "Visible",
+                    "score": 1,
+                    "criteria": "Good dashboard coverage. Alerts exist but might be flaky or cause fatigue."
+                },
+                {
+                    "level": 2,
+                    "label": "Signal",
+                    "score": 2,
+                    "criteria": "Structured logs, distributed tracing, and symptom-based alerting. Clear path from alert to root cause."
+                }
+            ]
+        },
+        {
+            "key": "incident_lifecycle",
+            "label": "Incident Lifecycle & Learning",
+            "weight": 0.25,
+            "description": "Deployment safety, incident response, and postmortem culture.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Hero-based",
+                    "score": 0,
+                    "criteria": "Deploys are 'scary events'. Incident response relies on heroes. No postmortems."
+                },
+                {
+                    "level": 1,
+                    "label": "Process-based",
+                    "score": 1,
+                    "criteria": "Automated pipelines exists. Incidents have some structure. Postmortems happen but maybe blame-heavy."
+                },
+                {
+                    "level": 2,
+                    "label": "Antifragile",
+                    "score": 2,
+                    "criteria": "Progressive delivery (canary). Automated rollbacks. Blameless postmortems that drive architectural fixes."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "label": "S",
+            "description": "World-class SRE implementation."
+        },
+        {
+            "min_score": 6,
+            "label": "A",
+            "description": "Strong, resilient production architecture."
+        },
+        {
+            "min_score": 4,
+            "label": "B",
+            "description": "Decent foundation but risks remain."
+        },
+        {
+            "min_score": 0,
+            "label": "C",
+            "description": "Likely to suffer major, unrecoverable outages."
+        }
+    ],
+    "autofail_conditions": [
+        "No backup/restore strategy.",
+        "Unbounded retries causing cascading failure."
+    ],
+    "llm_judge_instructions": "Evaluate the Resilience Architecture Blueprint. Look for practical SRE patterns (SLOs, Circuit Breakers, Postmortems). Penalize vague assurances of 'high availability' without mechanism."
+}

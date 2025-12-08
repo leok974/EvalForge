@@ -41,6 +41,9 @@ class PracticeCandidate:
     # UI-friendly labels
     label: str = ""
     description: str = ""
+    
+    # Special flags
+    is_legendary: bool = False
 
 
 class PracticeItemView(BaseModel):
@@ -54,9 +57,10 @@ class PracticeItemView(BaseModel):
     description: str
     world_slug: Optional[str] = None
     project_slug: Optional[str] = None
-    difficulty: Literal["easy", "medium", "hard"]
+    difficulty: Literal["easy", "medium", "hard", "legendary"]
     rationale: str
     struggle_score: int
+
 
 
 class DailyPracticePlan(BaseModel):
@@ -71,12 +75,9 @@ class DailyPracticePlan(BaseModel):
     total_count: int = 0
     today_quests_completed: int = 0
     today_bosses_cleared: int = 0
-
-    @property
-    def today_trials_completed(self) -> int:
-        return self.today_quests_completed + self.today_bosses_cleared
-# Optional: streak_days can be filled in by a higher-level service
-    streak_days: Optional[int] = None
+    today_trials_completed: int = 0
+    streak_days: int = 0
+    best_streak_days: int = 0
 
 
 # -----------------------
@@ -138,6 +139,99 @@ async def get_daily_completion_stats(
         logger.exception("Practice Gauntlet: failed to compute bosses_cleared_today")
 
     return quests_completed_today, bosses_cleared_today
+
+
+async def get_streak_stats(
+    session: "AsyncSession", profile: "Profile"
+) -> tuple[int, int]:
+    """
+    Compute (current_streak, best_streak) based on daily activity.
+    Activity = QuestProgress.completed_at OR BossRun (win).
+    """
+    from sqlmodel import select, text
+    import logging
+
+    logger = logging.getLogger(__name__)
+
+    # We need a unified list of dates where the user did something.
+    # Since we can't easily union different tables with SA in a simple way for just dates distinct,
+    # we'll fetch distinct dates from both and merge in python (assuming not massive history yet).
+    # properly we'd verify this query scales.
+
+    try:
+        # Quests
+        q_dates_sql = text("""
+            SELECT DISTINCT date(completed_at) as d
+            FROM questprogress
+            WHERE user_id = :uid
+        """)
+        q_result = await session.exec(q_dates_sql, params={"uid": profile.user_id})
+        quest_dates = {row[0] for row in q_result.all() if row[0]}
+
+        # Bosses
+        b_dates_sql = text("""
+            SELECT DISTINCT date(completed_at) as d
+            FROM bossrun
+            WHERE user_id = :uid AND result = 'win'
+        """)
+        b_result = await session.exec(b_dates_sql, params={"uid": profile.user_id})
+        boss_dates = {row[0] for row in b_result.all() if row[0]}
+
+        all_dates = sorted(list(quest_dates | boss_dates))
+
+        if not all_dates:
+            return 0, 0
+
+        # Calculate streaks
+        current_streak = 0
+        best_streak = 0
+        
+        # Current streak: scan backwards from today/yesterday
+        from datetime import date, timedelta
+        today = date.today()
+        
+        # Check if active today
+        is_active_today = today in all_dates
+        
+        temp_streak = 0
+        # Iterate backwards to find current run
+        check_date = today 
+        if not is_active_today:
+             # if not active today, check if active yesterday to keep streak alive?
+             # Standard game logic: streak is alive if you played yesterday.
+             # If you haven't played today yet, streak is yesterday's streak.
+             # If you missed yesterday, streak is 0.
+             check_date = today - timedelta(days=1)
+        
+        # Walk backwards
+        while check_date in all_dates:
+            current_streak += 1
+            check_date -= timedelta(days=1)
+
+        # Best Streak: scan all dates
+        # This is a classic "longest sequence of consecutive dates" problem
+        if not all_dates:
+            pass # already 0
+        else:
+            temp_run = 1
+            max_run = 1
+            # all_dates is sorted
+            for i in range(1, len(all_dates)):
+                prev = all_dates[i-1]
+                curr = all_dates[i]
+                if (curr - prev).days == 1:
+                    temp_run += 1
+                else:
+                    max_run = max(max_run, temp_run)
+                    temp_run = 1
+            max_run = max(max_run, temp_run)
+            best_streak = max_run
+
+        return current_streak, best_streak
+
+    except Exception:
+        logger.exception("Practice Gauntlet: failed to compute streaks")
+        return 0, 0
 
 
 # -----------------------
@@ -359,44 +453,30 @@ def build_practice_round_from_candidates(
         remaining_exploration = [
             c for c in exploration if c not in selected
         ]
-        # exploration is more about variety than struggle_score, so we just shuffle
-        rng.shuffle(remaining_exploration)
-        selected += remaining_exploration[:remaining_slots]
+        max_exploration = min(max_items - len(selected), len(remaining_exploration))
+        selected += _pick_with_priority(remaining_exploration, max_exploration, rng)
 
-    # Truncate if we ever overshoot
-    selected = selected[:max_items]
-
-    # Map candidates -> PracticeItemView
-    items: List[PracticeItemView] = []
+    items_view = []
     for c in selected:
-        item_id = f"{c.item_type}:{c.identifier}"
-        difficulty = _difficulty_from_struggle(c.struggle_score)
-        rationale = _default_rationale(c)
-
-        items.append(
-            PracticeItemView(
-                id=item_id,
-                item_type=c.item_type,
-                label=c.label or c.identifier,
-                description=c.description,
-                world_slug=c.world_slug,
-                project_slug=c.project_slug,
-                difficulty=difficulty,
-                rationale=rationale,
-                struggle_score=c.struggle_score,
-            )
-        )
+        items_view.append(PracticeItemView(
+            id=f"{c.item_type}:{c.identifier}",
+            item_type=c.item_type,
+            label=c.label,
+            description=c.description,
+            world_slug=c.world_slug,
+            project_slug=c.project_slug,
+            difficulty="legendary" if c.is_legendary else _difficulty_from_struggle(c.struggle_score),
+            rationale=_default_rationale(c),
+            struggle_score=c.struggle_score,
+        ))
 
     return DailyPracticePlan(
         date=for_date,
         label="Practice Gauntlet",
-        items=items,
+        items=items_view,
         completed_count=0,
-        total_count=len(items),
+        total_count=len(items_view),
     )
-
-
-# --- DB-aware adapter + service layer (Phase 0: Foundry + ApplyLens) ---
 
 from typing import TYPE_CHECKING
 
@@ -456,90 +536,86 @@ def _compute_struggle_score_for_boss(
     return max(0, min(100, score))
 
 
-async def _boss_candidates_for_profile_foundry_and_applylens(
+# -----------------------
+# Universal Candidate Collection
+# -----------------------
+
+CORE_WORLD_SLUGS: List[str] = [
+    "world-python",
+    "world-typescript",
+    "world-java",
+    "world-sql",
+    "world-infra",
+    "world-agents",
+    "world-git",
+    "world-ml",
+]
+
+CORE_PRACTICE_BOSS_IDS: List[str] = [
+    # Foundry / Python
+    "boss-foundry-furnace-controller",
+    "boss-foundry-systems-architect",  # Senior
+
+    # Prism / TypeScript
+    "boss-prism-refraction-type-guardian",
+    "boss-prism-spectrum-curator-generic-arsenal",
+
+    # Reactor / Java
+    "boss-reactor-core-ops",
+
+    # Archives / SQL
+    "boss-archives-query-warden",
+
+    # Grid / Infra
+    "boss-grid-containment-sandbox-warden",
+
+    # Oracle / Agents
+    "boss-oracle-invocation-summoner",
+
+    # Timeline / Git
+    "boss-timeline-history-rewriter",
+
+    # Synapse / ML
+    "boss-synapse-gradient-sentinel",
+    "boss-synapse-mlops-sentinel", # Senior
+
+    # ApplyLens
+    "boss-applylens-runtime-strategy",
+    "boss-applylens-agent-strategy",
+]
+
+SENIOR_PRACTICE_BOSS_IDS: set[str] = {
+    "boss-foundry-systems-architect",
+    "boss-synapse-mlops-sentinel",
+    # later: agents/generic senior bosses can be added here
+}
+
+async def _collect_core_quests(
     db: "AsyncSession",
     profile: "Profile",
 ) -> List[PracticeCandidate]:
     """
-    Practice candidates for:
-      - Foundry boss: reactor-core (world-python)
-      - ApplyLens bosses: applylens-runtime-boss, applylens-agent-boss
-      
-    Phase 0: Uses BossDefinition table. Boss run history will be added later
-    when BossRun table is implemented.
+    Collect stage-1 / fundamentals quests from all core worlds.
     """
     from sqlmodel import select
-    from arcade_app.models import BossDefinition
-    
-    target_ids = {
-        "reactor-core",            # Foundary boss
-        "signal-prism",            # Prism boss
-        "applylens-runtime-boss",  # ApplyLens runtime boss
-        "applylens-agent-boss",    # ApplyLens agent boss
-    }
+    from arcade_app.models import QuestDefinition, TrackDefinition
 
-    q_boss_defs = (
-        select(BossDefinition)
-        .where(BossDefinition.id.in_(target_ids))  # type: ignore
-        .where(BossDefinition.enabled == True)  # type: ignore[comparison-overlap]
-    )
-    result = await db.execute(q_boss_defs)
-    boss_defs = result.scalars().all()
-
-    if not boss_defs:
-        return []
-
-    # TODO: Query BossRun table when it exists for real struggle scores
-    # For now, create exploration candidates (attempts=0)
-    candidates: List[PracticeCandidate] = []
-    for boss in boss_defs:
-        # Default to exploration mode until we have run history
-        struggle_score = 50  # Neutral score for now
-        
-        candidates.append(
-            PracticeCandidate(
-                item_type="boss_review",
-                identifier=str(boss.id),
-                world_slug=boss.world_id,
-                project_slug=boss.project_slug,
-                struggle_score=struggle_score,
-                attempts=0,  # No history yet
-                last_run_at=None,
-                label=boss.name,
-                description=boss.description or "",
-            )
+    # heuristic: order_index <= 2 for fundamentals
+    q_quests = (
+        select(QuestDefinition)
+        .join(TrackDefinition, QuestDefinition.track_id == TrackDefinition.id)
+        .where(
+            QuestDefinition.world_id.in_(CORE_WORLD_SLUGS),
+            TrackDefinition.order_index <= 2  
         )
-
-    return candidates
-
-
-async def _quest_candidates_for_profile_foundry(
-    db: "AsyncSession",
-    profile: "Profile",
-) -> List[PracticeCandidate]:
-    """
-    Build PracticeCandidate entries for Foundry (world-python) quests.
-    
-    Phase 0: Uses QuestDefinition table. Quest run history will be added later
-    when QuestRun table is implemented.
-    """
-    from sqlmodel import select
-    from arcade_app.models import QuestDefinition
-    
-    # Grab quests in world-python
-    q_quests = select(QuestDefinition).where(QuestDefinition.world_id == "world-python")
+    )
     result = await db.execute(q_quests)
     quests = result.scalars().all()
 
-    if not quests:
-        return []
-
-    # TODO: Query QuestRun table when it exists for real struggle scores
-    # For now, create exploration candidates (attempts=0)
     candidates: List[PracticeCandidate] = []
     for quest in quests:
-        # Default to exploration mode until we have run history
-        struggle_score = 30  # Light maintenance score
+         # Default exploration score
+        struggle_score = 30  
         
         candidates.append(
             PracticeCandidate(
@@ -548,54 +624,91 @@ async def _quest_candidates_for_profile_foundry(
                 world_slug=quest.world_id,
                 project_slug=None,
                 struggle_score=struggle_score,
-                attempts=0,  # No history yet
+                attempts=0,
                 last_run_at=None,
                 label=quest.title,
                 description=quest.short_description or "",
             )
         )
+    return candidates
 
+async def _collect_core_bosses(
+    db: "AsyncSession",
+    profile: "Profile",
+) -> List[PracticeCandidate]:
+    """
+    Collect bosses from the curated core list.
+    """
+    from sqlmodel import select
+    from arcade_app.models import BossDefinition
+    
+    q_boss = select(BossDefinition).where(BossDefinition.id.in_(CORE_PRACTICE_BOSS_IDS))
+    result = await db.execute(q_boss)
+    bosses = result.scalars().all()
+
+    candidates: List[PracticeCandidate] = []
+    for boss in bosses:
+        struggle_score = 50 
+        
+        # Determine world/project context from the boss definition or heuristics
+        world_slug = boss.world_id
+        project_slug = boss.project_slug
+        
+        candidates.append(
+            PracticeCandidate(
+                item_type="boss_review",
+                identifier=str(boss.id),
+                world_slug=world_slug,
+                project_slug=project_slug,
+                struggle_score=struggle_score,
+                attempts=0,
+                last_run_at=None,
+                label=boss.name,
+                description=boss.description or "",
+                is_legendary=(str(boss.id) in SENIOR_PRACTICE_BOSS_IDS)
+            )
+        )
     return candidates
 
 
 def _project_maintenance_candidates_applylens(
-    db: "Session",
+    db: "AsyncSession",
     profile: "Profile",
 ) -> List[PracticeCandidate]:
     """
-    Project-level maintenance items for ApplyLens.
-    
-    Phase 0: Simple stub that suggests running Boss QA.
+    Generate practice candidates for ApplyLens project maintenance.
     """
-    return [
+    candidates = []
+    # Add a static daily QA task
+    candidates.append(
         PracticeCandidate(
             item_type="project_maintenance",
             identifier="applylens-daily-boss-qa",
-            world_slug=None,
             project_slug="applylens",
-            struggle_score=50,  # neutral; will show up in maintenance bucket
-            attempts=0,
-            last_run_at=None,
-            label="Run ApplyLens Boss QA",
-            description="Run the ApplyLens boss QA script and ensure both bosses are passing.",
+            label="ApplyLens: Daily Boss QA",
+            description="Run a QA pass on your ApplyLens agents.",
+            struggle_score=40,
+            attempts=0
         )
-    ]
-
+    )
+    return candidates
 
 async def collect_practice_candidates_for_profile_foundry_applylens(
     db: "AsyncSession",
     profile: "Profile",
 ) -> List[PracticeCandidate]:
     """
-    High-level adapter: collect all practice candidates relevant to
-    Foundry (world-python) and ApplyLens.
-
-    Phase 0: Uses definition tables only. Will be extended with run history later.
+    Now collects candidates for the ENTIRE Universe (Python, TS, Java, SQL, etc.) + ApplyLens.
     """
     candidates: List[PracticeCandidate] = []
 
-    candidates += await _quest_candidates_for_profile_foundry(db, profile)
-    candidates += await _boss_candidates_for_profile_foundry_and_applylens(db, profile)
+    # 1. Core Quests
+    candidates += await _collect_core_quests(db, profile)
+
+    # 2. Core Bosses
+    candidates += await _collect_core_bosses(db, profile)
+
+    # 3. Projects (ApplyLens)
     candidates += _project_maintenance_candidates_applylens(db, profile)
 
     return candidates
@@ -608,32 +721,36 @@ async def get_daily_practice_plan_for_profile_foundry_applylens(
     max_items: int = 5,
 ) -> DailyPracticePlan:
     """
-    Service entrypoint for Practice Gauntlet (Phase 0 scope):
-      - Worlds: The Foundry (world-python)
-      - Project: ApplyLens
-      
-    Returns a deterministic daily practice plan focused on these areas.
+    Service entrypoint for Practice Gauntlet (Universal).
     """
-    from datetime import datetime, time, timezone, timedelta
-    from sqlmodel import select, func
-
     candidates = await collect_practice_candidates_for_profile_foundry_applylens(db, profile)
+
+    # Allow all core worlds + projects
+    # We can effectively pass None to allow everything, or use the set of core worlds.
+    all_worlds_set = set(CORE_WORLD_SLUGS)
 
     plan = build_practice_round_from_candidates(
         profile_id=str(profile.id),
         for_date=today,
         candidates=candidates,
         max_items=max_items,
-        include_worlds={"world-python"},
+        include_worlds=all_worlds_set,
         include_projects={"applylens"},
         struggle_threshold=60,
     )
 
-    # 🔢 NEW: Safe daily stats
+    # Daily stats
     quests_today, bosses_today = await get_daily_completion_stats(db, profile)
-
-    # Inject stats into the plan copy
+    current_streak, best_streak = await get_streak_stats(db, profile)
+    
     plan.today_quests_completed = quests_today
     plan.today_bosses_cleared = bosses_today
+    plan.streak_days = current_streak
+    plan.best_streak_days = best_streak
+    # plan.today_trials_completed is computed field in Pydantic model if we set it, or property?
+    # Actually I changed the model above to have integer fields.
+    # Let's ensure explicit assignment if I changed it to field, or let property handle it.
+    # Looking at my previous edit, I added `today_trials_completed: int = 0` as a field.
+    plan.today_trials_completed = quests_today + bosses_today
     
     return plan

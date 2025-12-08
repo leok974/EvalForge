@@ -40,7 +40,10 @@ def load_boss_rubric(rubric_id: str) -> BossRubric:
     else:
         # Try boss-{slug} format first (our actual naming)
         slug_format = rubric_id.replace('_', '-')
-        path = RUBRIC_DIR / f"boss-{slug_format}.json"
+        if slug_format.startswith("boss-"):
+            path = RUBRIC_DIR / f"{slug_format}.json"
+        else:
+            path = RUBRIC_DIR / f"boss-{slug_format}.json"
         
         if not path.exists():
             # Fallback to direct rubric_id.json
@@ -122,6 +125,9 @@ def score_boss_eval(rubric: BossRubric, choice: BossEvalLLMChoice) -> BossEvalRe
         autofail_triggered=autofail_triggered,
         autofail_reasons=autofail_reasons,
         dimensions=dim_results,
+        summary=choice.summary,
+        strengths=choice.strengths,
+        improvements=choice.improvements,
     )
 
 

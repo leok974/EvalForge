@@ -1,0 +1,174 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 2 items
+
+tests/backend/test_senior_tier_visibility.py::test_senior_progress_api FAILED [ 50%]
+tests/backend/test_senior_tier_visibility.py::test_senior_boss_runs_api FAILED [100%]
+
+================================== FAILURES ===================================
+__________________________ test_senior_progress_api ___________________________
+
+client = <httpx.AsyncClient object at 0x0000027445317380>
+db_session = <sqlalchemy.orm.session.AsyncSession object at 0x000002744540A3C0>
+test_user = User(id='test_senior_user', name='Senior Tester', avatar_url=None, current_avatar_id='default_user', created_at=datetime.datetime(2025, 12, 8, 16, 37, 14, 269735))
+mock_auth = None
+
+    async def test_senior_progress_api(client: AsyncClient, db_session, test_user: User, mock_auth):
+        """
+        Verify /api/profile/senior_progress returns correct aggregation.
+        """
+        # 1. Setup Data
+        # Ensure profile exists (created by fixture usually, but verify)
+        profile = (await db_session.exec(select(Profile).where(Profile.user_id == test_user.id))).first()
+        if not profile:
+            profile = Profile(user_id=test_user.id, username="test_senior")
+            db_session.add(profile)
+            await db_session.commit()
+    
+        # Create a senior boss run (Win)
+        senior_boss_id = "boss-foundry-systems-architect"
+    
+        boss_def = BossDefinition(
+            id=senior_boss_id,
+            name="Mock Senior Boss",
+            track_id="foundry-senior-systems",
+            world_id="world-python",
+            difficulty="legendary"
+        )
+        db_session.add(boss_def)
+    
+        # Add a run
+        run = BossRun(
+            user_id=test_user.id,
+            boss_id=senior_boss_id,
+            result="win",
+            score=100,
+            hp_remaining=0,
+            completed_at=datetime.utcnow()
+        )
+        db_session.add(run)
+        await db_session.commit()
+    
+        # Verify DB has item
+        check = (await db_session.exec(select(BossRun).where(BossRun.user_id == test_user.id))).all()
+        # print(f"DEBUG: Test Setup BossRuns (User Filter): {len(check)}")
+    
+        # Check constants
+        from arcade_app.practice.constants import SENIOR_BOSS_IDS as APP_CONSTANTS
+        assert senior_boss_id in APP_CONSTANTS, f"ID {senior_boss_id} not in {APP_CONSTANTS}"
+    
+        # Check IN query
+        check_in = (await db_session.exec(select(BossRun).where(BossRun.boss_id.in_(APP_CONSTANTS)))).all()
+        # print(f"DEBUG: Test Setup BossRuns (IN Filter): {len(check_in)}")
+        assert len(check_in) > 0, "BossRun not found via IN clause"
+    
+        # 2. Call API
+        resp = await client.get("/api/profile/senior_progress")
+        assert resp.status_code == 200, f"Failed: {resp.text}"
+    
+        data = resp.json()
+    
+        # 3. Assertions
+>       assert data["senior_bosses_cleared"] >= 1
+E       assert 0 >= 1
+
+tests\backend\test_senior_tier_visibility.py:100: AssertionError
+__________________________ test_senior_boss_runs_api __________________________
+
+client = <httpx.AsyncClient object at 0x0000027445452350>
+db_session = <sqlalchemy.orm.session.AsyncSession object at 0x000002744540A120>
+test_user = User(id='test_senior_user', name='Senior Tester', avatar_url=None, current_avatar_id='default_user', created_at=datetime.datetime(2025, 12, 8, 16, 37, 14, 924360))
+mock_auth = None
+
+    async def test_senior_boss_runs_api(client: AsyncClient, db_session, test_user: User, mock_auth):
+        """
+        Verify /api/boss_runs/senior returns the history.
+        """
+        # 1. Setup Data
+        senior_boss_id = "boss-synapse-mlops-sentinel" # ML Senior
+    
+        boss_def = BossDefinition(
+            id=senior_boss_id,
+            name="ML Sentinel",
+            track_id="synapse-senior-mlops",
+            world_id="world-ml",
+            difficulty="legendary"
+        )
+        db_session.add(boss_def)
+    
+        run = BossRun(
+            user_id=test_user.id,
+            boss_id=senior_boss_id,
+            result="win",
+            score=8,
+            hp_remaining=90, # 90% integrity
+            completed_at=datetime.utcnow()
+        )
+        db_session.add(run)
+        await db_session.commit()
+    
+        # 2. Call API
+        resp = await client.get("/api/boss_runs/senior")
+        assert resp.status_code == 200
+    
+        data = resp.json()
+        items = data["items"]
+    
+>       assert len(items) >= 1
+E       assert 0 >= 1
+E        +  where 0 = len([])
+
+tests\backend\test_senior_tier_visibility.py:143: AssertionError
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:449
+  D:\EvalForge\arcade_app\agent.py:449: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/backend/test_senior_tier_visibility.py: 10 warnings
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\fields.py:656: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+tests/backend/test_senior_tier_visibility.py::test_senior_progress_api
+  D:\EvalForge\tests\backend\test_senior_tier_visibility.py:75: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    completed_at=datetime.utcnow()
+
+tests/backend/test_senior_tier_visibility.py::test_senior_progress_api
+tests/backend/test_senior_tier_visibility.py::test_senior_boss_runs_api
+  D:\EvalForge\arcade_app\models.py:252: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expires_at: datetime = Field(default_factory=lambda: datetime.utcnow() + timedelta(minutes=30))
+
+tests/backend/test_senior_tier_visibility.py::test_senior_progress_api
+  D:\EvalForge\arcade_app\practice\service_senior.py:127: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    updated_at=datetime.utcnow(),
+
+tests/backend/test_senior_tier_visibility.py::test_senior_boss_runs_api
+  D:\EvalForge\tests\backend\test_senior_tier_visibility.py:131: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    completed_at=datetime.utcnow()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_senior_tier_visibility.py::test_senior_progress_api
+FAILED tests/backend/test_senior_tier_visibility.py::test_senior_boss_runs_api
+======================= 2 failed, 18 warnings in 1.31s ========================

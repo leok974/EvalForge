@@ -1,0 +1,9 @@
+ImportError while loading conftest 'D:\EvalForge\tests\backend\conftest.py'.
+tests\backend\conftest.py:6: in <module>
+    from arcade_app.agent import app
+arcade_app\agent.py:396: in <module>
+    from arcade_app.routers import routes_profile
+E     File "D:\EvalForge\arcade_app\routers\routes_profile.py", line 12
+E       async def senior_progress(
+E                                ^
+E   SyntaxError: '(' was never closed

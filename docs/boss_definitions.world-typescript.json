@@ -1,0 +1,76 @@
+{
+    "world_slug": "world-typescript",
+    "bosses": [
+        {
+            "boss_id": "boss-prism-refraction-type-guardian",
+            "world_slug": "world-typescript",
+            "track_id": "prism-refraction",
+            "tier": 1,
+            "slug": "type-guardian",
+            "title": "Boss: Type Guardian of Refraction",
+            "short_description": "Refactor a messy JS auth module into a strict TypeScript module with unions, type guards, and a clean public API.",
+            "long_description": "You are given a startup-style auth module with loose JavaScript objects, stringly-typed status fields, and ad-hoc runtime checks. Your mission is to impose a strict TypeScript model: define Credentials, User, Session, and a discriminated union AuthResult. Implement well-typed authenticate and supporting helpers, plus type guards for success/failure. The result should be easy to use, easy to test, and safe in strict mode—no implicit any, no blind casting.",
+            "difficulty": "intermediate",
+            "recommended_level": 1,
+            "hint_codex_id": "codex.world-typescript.prism-refraction.type-guardian",
+            "rubric_id": "boss-rubric-prism-refraction-type-guardian",
+            "zero_task_id": "boss_prism_refraction_type_guardian",
+            "evaluation_mode": "zero_boss_judge",
+            "tags": [
+                "typescript",
+                "unions",
+                "type-guards",
+                "auth",
+                "strict"
+            ],
+            "is_active": true,
+            "metadata": {
+                "requires_quests": [
+                    "ts-refraction-q1-align-the-beam",
+                    "ts-refraction-q2-shape-the-spectrum",
+                    "ts-refraction-q3-signal-splitter",
+                    "ts-refraction-q4-guard-rails"
+                ],
+                "expected_artifacts": [
+                    "src/boss/typeGuardian/auth.ts",
+                    "src/boss/typeGuardian/auth.test.ts"
+                ]
+            }
+        },
+        {
+            "boss_id": "boss-prism-spectrum-curator-generic-arsenal",
+            "world_slug": "world-typescript",
+            "track_id": "prism-spectrum",
+            "tier": 1,
+            "slug": "curator-generic-arsenal",
+            "title": "Boss: Curator of the Generic Arsenal",
+            "short_description": "Design a small, reusable generic collection toolkit for TypeScript that feels publishable as an internal library.",
+            "long_description": "You are handed a grab-bag of copy-pasted list utilities from multiple teams. Your task is to design and implement a generic collection arsenal: pluck, groupBy, indexBy, mergeById, and ensureUnique. All helpers must be generic, strongly typed, and pleasant to use. No any in the public API. Call sites in example code should infer types automatically.",
+            "difficulty": "intermediate",
+            "recommended_level": 2,
+            "hint_codex_id": "codex.world-typescript.prism-spectrum.curator-generic-arsenal",
+            "rubric_id": "boss-rubric-prism-spectrum-curator-generic-arsenal",
+            "zero_task_id": "boss_prism_spectrum_curator_generic_arsenal",
+            "evaluation_mode": "zero_boss_judge",
+            "tags": [
+                "typescript",
+                "generics",
+                "collections",
+                "library-design"
+            ],
+            "is_active": true,
+            "metadata": {
+                "requires_quests": [
+                    "ts-spectrum-q1-typed-toolbox",
+                    "ts-spectrum-q2-record-forge",
+                    "ts-spectrum-q3-shape-shifter",
+                    "ts-spectrum-q4-mirror-types"
+                ],
+                "expected_artifacts": [
+                    "src/boss/genericArsenal/collection.ts",
+                    "src/boss/genericArsenal/collection.test.ts"
+                ]
+            }
+        }
+    ]
+}

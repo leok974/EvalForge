@@ -1,0 +1,180 @@
+{
+    "rubric_id": "boss-archives-retrieval-query-warden",
+    "boss_id": "boss-archives-retrieval-query-warden",
+    "world_slug": "world-sql",
+    "track_id": "archives-retrieval-circuit",
+    "name": "Archives Query Warden",
+    "version": "1.0.0",
+    "description": "Grades multi-query SQL submissions for the Archives Retrieval Circuit boss fight: correctness, joins/filters, aggregates, and readability.",
+    "max_score": 8,
+    "pass_threshold": 6,
+    "criteria": [
+        {
+            "id": "core_correctness",
+            "label": "Core Correctness Across Tasks",
+            "weight": 0.35,
+            "description": "Do the queries for each task actually answer the question, using the right tables and fields?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Misses the Question",
+                    "guidance": "One or more tasks are fundamentally incorrect (wrong tables, wrong keys, wrong understanding of the question). At least one query would mislead stakeholders.",
+                    "examples": [
+                        "Task 1 ignores the time window.",
+                        "Task 2 counts loans per book instead of per user.",
+                        "Task 3 returns total rows instead of grouped per category."
+                    ]
+                },
+                {
+                    "score": 1,
+                    "label": "Partially Correct",
+                    "guidance": "Most tasks are roughly correct, but with notable mistakes or edge cases (e.g., off-by-one conditions, missing filters, or misinterpreted requirement for one task).",
+                    "examples": [
+                        "Task 1 correctly finds popular books but forgets to filter to the last 90 days.",
+                        "Task 2 counts all loans, not only active (returned_at IS NULL).",
+                        "Task 3 mislabels a column or forgets DISTINCT where needed."
+                    ]
+                },
+                {
+                    "score": 2,
+                    "label": "Solidly Correct",
+                    "guidance": "All tasks map correctly to the schema and business questions. Joins and filters are aligned with the problem statement and produce sensible, trustworthy results.",
+                    "examples": [
+                        "Each task uses the correct tables and keys.",
+                        "Time windows, active/closed statuses, and groupings match the spec.",
+                        "There are no obvious misinterpretations of the tasks."
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "joins_and_filters",
+            "label": "Joins & Filters Safety",
+            "weight": 0.25,
+            "description": "Are joins well-keyed and filters applied correctly without cartesian explosions or silent data loss?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Unsafe or Wrong Joins",
+                    "guidance": "Joins are missing key predicates, or join types are clearly wrong (e.g., cartesian products or massive row duplication). Filters are misplaced, leading to obviously wrong cardinality.",
+                    "examples": [
+                        "Omitting the join predicate between loans and users.",
+                        "Using INNER JOIN where a LEFT JOIN is required (dropping needed rows).",
+                        "Filtering on aggregated columns in WHERE instead of HAVING in a way that breaks logic."
+                    ]
+                },
+                {
+                    "score": 1,
+                    "label": "Mostly Safe, Minor Issues",
+                    "guidance": "Joins and filters are mostly sound but contain small issues that can cause subtle row duplication, minor data loss, or confusing logic.",
+                    "examples": [
+                        "Correct join keys, but an extra unnecessary join inflates some counts.",
+                        "A filter is applied in WHERE instead of HAVING but does not fully break semantics.",
+                        "Some queries rely on implicit casting or loose equality."
+                    ]
+                },
+                {
+                    "score": 2,
+                    "label": "Safe & Intentional",
+                    "guidance": "Joins are explicit, keyed correctly, and show awareness of cardinality. Filters are placed in the right clauses, and the queries avoid unnecessary joins.",
+                    "examples": [
+                        "Each join uses the correct key pairs (users.id → loans.user_id).",
+                        "LEFT vs INNER JOIN usage is justified by the task.",
+                        "Filters on aggregates are implemented with HAVING and clear predicates."
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "aggregates_and_grouping",
+            "label": "Aggregates & Grouping",
+            "weight": 0.2,
+            "description": "Are GROUP BY, aggregates, and HAVING clauses used correctly to compute the requested metrics?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Broken Aggregations",
+                    "guidance": "GROUP BY is misused (e.g., non-aggregated columns present without grouping), or aggregates do not match the business question.",
+                    "examples": [
+                        "Selecting non-grouped, non-aggregated columns in a strict SQL dialect.",
+                        "Grouping at the wrong level (per loan instead of per user or per book).",
+                        "Using COUNT(*) where COUNT(DISTINCT ...) is clearly needed."
+                    ]
+                },
+                {
+                    "score": 1,
+                    "label": "Serviceable but Flawed",
+                    "guidance": "Aggregations work for common cases but have subtle grouping or HAVING issues that could become bugs at scale.",
+                    "examples": [
+                        "Correct grouping but missing a HAVING filter for thresholds.",
+                        "Uses COUNT(*) instead of COUNT(DISTINCT) but still close to intent.",
+                        "Groups by slightly too many columns, producing noisy results."
+                    ]
+                },
+                {
+                    "score": 2,
+                    "label": "Clean & Intentional Aggregates",
+                    "guidance": "Aggregation logic is crisp and aligned with the questions. GROUP BY and HAVING are used precisely, with the right grouping keys and thresholds.",
+                    "examples": [
+                        "Grouping per user or per book exactly as requested.",
+                        "Counts and sums are clearly labeled and filtered by thresholds in HAVING.",
+                        "The intent of each aggregated metric is obvious from the query."
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "readability_and_maintainability",
+            "label": "Readability & Maintainability",
+            "weight": 0.2,
+            "description": "Will another engineer be able to understand and safely modify these queries?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Difficult to Maintain",
+                    "guidance": "The SQL is hard to read: no aliases, no structure, inconsistent casing, or confusing column naming. Future edits are risky.",
+                    "examples": [
+                        "All one-line queries with no indentation.",
+                        "Using t1/t2/t3 for table aliases without context.",
+                        "Overly clever tricks with no comments."
+                    ]
+                },
+                {
+                    "score": 1,
+                    "label": "Readable but Rough",
+                    "guidance": "Queries are mostly readable but lack consistent formatting or minimal commentary. Another engineer could maintain them with effort.",
+                    "examples": [
+                        "Some indentation and aliases but inconsistent style.",
+                        "Minimal or no comments on complex parts.",
+                        "Minor naming issues (cryptic aliases, unclear column names)."
+                    ]
+                },
+                {
+                    "score": 2,
+                    "label": "On-Call Friendly",
+                    "guidance": "Queries are well-structured, consistently formatted, and use meaningful aliases and column names. Comments clarify non-obvious logic.",
+                    "examples": [
+                        "Logical block layout: SELECT / FROM / JOIN / WHERE / GROUP BY / ORDER BY.",
+                        "Aliases like u, b, l with a short comment or obvious meaning.",
+                        "Brief comments before complex joins or HAVING conditions."
+                    ]
+                }
+            ]
+        }
+    ],
+    "hp_mapping": {
+        "max_hp": 100,
+        "score_to_integrity": {
+            "0": 0.0,
+            "1": 0.2,
+            "2": 0.35,
+            "3": 0.5,
+            "4": 0.65,
+            "5": 0.78,
+            "6": 0.88,
+            "7": 0.94,
+            "8": 1.0
+        },
+        "pass_threshold_score": 6
+    }
+}

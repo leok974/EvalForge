@@ -1,0 +1,167 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests/backend/test_boss_archives_query_smoke.py::test_archives_query_boss_judge_smoke 
+DEBUG Payload: {'world_slug': 'world-sql', 'boss_id': 'boss-archives-query-warden', 'mode': 'smoke', 'submission_markdown': '# Analytics Query Incident Runbook û Smoke Test\n\n# MAGIC_BOSS_PASS\n\n## Incident Context\nDAU and revenue by country are inflated/missing after a query change; performance is worse.\n\n## Phase 1 û Clarify the Metric\n- Define DAU as COUNT(DISTINCT user_id) per day + country (UTC).\n- Revenue as SUM(amount) per day + country.\n\n## Phase 2 û Inspect Current Query & Data\n- Save current SQL and look for risky joins and filters.\n- Sample events and orders to understand distributions.\n\n## Phase 3 û Propose Corrected Query\n- Separate daily_dau and daily_revenue aggregates.\n- Join them at day + country grain via countries dim.\n- Use LEFT JOIN to keep countries visible even with 0 activity.\n\n## Phase 4 û Performance & Safety Checks\n- Run EXPLAIN/EXPLAIN ANALYZE to inspect plan.\n- Ensure predicates on event_ts/created_at can use indexes/partitions.\n- Add appropriate indexes on date + country_code if missing.\n\n## Phase 5 û Rollout & Monitoring\n- Compare old vs new metrics for a few countries/days.\n- Backfill to a sandbox table, wire dashboards via feature flag.\n- Monitor latency and metric shapes after deploy.\n'}
+2025-12-07 14:05:59,217 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-12-07 14:05:59,217 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-07 14:05:59,219 INFO sqlalchemy.engine.Engine select current_schema()
+2025-12-07 14:05:59,219 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-07 14:05:59,220 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-12-07 14:05:59,220 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-07 14:05:59,221 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-07 14:05:59,237 INFO sqlalchemy.engine.Engine SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+2025-12-07 14:05:59,237 INFO sqlalchemy.engine.Engine [generated in 0.00021s] ('leo',)
+2025-12-07 14:05:59,246 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-12-07 14:05:59,266 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-07 14:05:59,268 INFO sqlalchemy.engine.Engine SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+2025-12-07 14:05:59,268 INFO sqlalchemy.engine.Engine [generated in 0.00013s] ('leo',)
+2025-12-07 14:05:59,271 INFO sqlalchemy.engine.Engine SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = $1::VARCHAR
+2025-12-07 14:05:59,271 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ('boss-archives-query-warden',)
+2025-12-07 14:05:59,274 INFO sqlalchemy.engine.Engine INSERT INTO bossrun (user_id, boss_id, started_at, expires_at, completed_at, result, score, hp_remaining, judge_trace_id, notes) VALUES ($1::VARCHAR, $2::VARCHAR, $3::TIMESTAMP WITHOUT TIME ZONE, $4::TIMESTAMP WITHOUT TIME ZONE, $5::TIMESTAMP WITHOUT TIME ZONE, $6::VARCHAR, $7::INTEGER, $8::INTEGER, $9::VARCHAR, $10::VARCHAR) RETURNING bossrun.id
+2025-12-07 14:05:59,274 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ('leo', 'boss-archives-query-warden', datetime.datetime(2025, 12, 7, 19, 5, 59, 273000), datetime.datetime(2025, 12, 7, 19, 35, 59, 273018), None, None, 0, 0, None, None)
+2025-12-07 14:05:59,277 INFO sqlalchemy.engine.Engine ROLLBACK
+
+DEBUG Status: 200
+
+DEBUG Results: {'label': 'worlds-fundamentals', 'results': [{'boss_slug': 'boss-archives-query-warden', 'rubric_id': 'boss-archives-query-warden', 'score': 8, 'grade': "Warden's Favorite", 'min_score_required': 6, 'passed': True, 'boss_hp_before': 100, 'boss_hp_after': 100, 'boss_hp_delta': -100, 'integrity_before': 100, 'integrity_after': 100, 'integrity_delta': 0, 'criteria': [{'id': 'requirement_translation_and_data_modeling', 'score': 2, 'feedback': 'Perfect implementation'}, {'id': 'query_correctness_and_edge_cases', 'score': 2, 'feedback': 'Perfect implementation'}, {'id': 'performance_and_query_plan_reasoning', 'score': 2, 'feedback': 'Perfect implementation'}, {'id': 'runbook_clarity_and_validation', 'score': 2, 'feedback': 'Perfect implementation'}], 'summary': 'Mock Judge: Excellent work! You recovered the history perfectly.', 'strengths': ['Perfect graph diagnosis', 'Safe recovery strategy'], 'improvements': []}], 'overall_pass': True}
+FAILED
+
+================================== FAILURES ===================================
+____________________ test_archives_query_boss_judge_smoke _____________________
+
+client = <httpx.AsyncClient object at 0x0000022D72FAEA50>
+vertex_text = <function vertex_text.<locals>._setter at 0x0000022D73008400>
+
+    @pytest.mark.asyncio
+    async def test_archives_query_boss_judge_smoke(client, vertex_text):
+        """
+        Smoke test: ensure Archive Query Warden boss QA returns a valid BossEvalResult.
+        """
+    
+        payload = {
+            "world_slug": "world-sql",
+            "boss_id": "boss-archives-query-warden",
+            "mode": "smoke",
+            "submission_markdown": """# Analytics Query Incident Runbook û Smoke Test
+    
+    # MAGIC_BOSS_PASS
+    
+    ## Incident Context
+    DAU and revenue by country are inflated/missing after a query change; performance is worse.
+    
+    ## Phase 1 û Clarify the Metric
+    - Define DAU as COUNT(DISTINCT user_id) per day + country (UTC).
+    - Revenue as SUM(amount) per day + country.
+    
+    ## Phase 2 û Inspect Current Query & Data
+    - Save current SQL and look for risky joins and filters.
+    - Sample events and orders to understand distributions.
+    
+    ## Phase 3 û Propose Corrected Query
+    - Separate daily_dau and daily_revenue aggregates.
+    - Join them at day + country grain via countries dim.
+    - Use LEFT JOIN to keep countries visible even with 0 activity.
+    
+    ## Phase 4 û Performance & Safety Checks
+    - Run EXPLAIN/EXPLAIN ANALYZE to inspect plan.
+    - Ensure predicates on event_ts/created_at can use indexes/partitions.
+    - Add appropriate indexes on date + country_code if missing.
+    
+    ## Phase 5 û Rollout & Monitoring
+    - Compare old vs new metrics for a few countries/days.
+    - Backfill to a sandbox table, wire dashboards via feature flag.
+    - Monitor latency and metric shapes after deploy.
+    """
+        }
+    
+        # Debug print payload
+        print(f"\nDEBUG Payload: {payload}")
+    
+        resp = await client.post("/api/dev/boss_qa/worlds", json=payload)
+    
+        # Debug print response
+        print(f"\nDEBUG Status: {resp.status_code}")
+        # print(f"DEBUG Response: {resp.text}") # Commented out to reduce noise, enable if needed
+    
+        assert resp.status_code == 200
+    
+        results = resp.json()
+        print(f"\nDEBUG Results: {results}")
+    
+>       assert isinstance(results, list)
+E       AssertionError: assert False
+E        +  where False = isinstance({'label': 'worlds-fundamentals', 'overall_pass': True, 'results': [{'boss_hp_after': 100, 'boss_hp_before': 100, 'boss_hp_delta': -100, 'boss_slug': 'boss-archives-query-warden', ...}]}, list)
+
+tests\backend\test_boss_archives_query_smoke.py:59: AssertionError
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:1846 select pg_catalog.version()
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 select current_schema()
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 show standard_conforming_strings
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT "user".id AS user_id, "user".name AS user_name, "user".avatar_url AS user_avatar_url, "user".current_avatar_id AS user_current_avatar_id, "user".created_at AS user_created_at 
+FROM "user" 
+WHERE "user".id = $1::VARCHAR
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00021s] ('leo',)
+INFO     sqlalchemy.engine.Engine:base.py:2705 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2702 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT profile.id, profile.user_id, profile.total_xp, profile.global_level, profile.skill_points, profile.world_progress, profile.flags 
+FROM profile 
+WHERE profile.user_id = $1::VARCHAR
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00013s] ('leo',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT bossdefinition.id, bossdefinition.name, bossdefinition.description, bossdefinition.rubric, bossdefinition.starting_code, bossdefinition.world_id, bossdefinition.track_id, bossdefinition.project_slug, bossdefinition.tech_focus, bossdefinition.phase, bossdefinition.time_limit_seconds, bossdefinition.max_hp, bossdefinition.base_xp_reward, bossdefinition.difficulty, bossdefinition.hint_codex_id, bossdefinition.enabled, bossdefinition.created_at, bossdefinition.updated_at 
+FROM bossdefinition 
+WHERE bossdefinition.id = $1::VARCHAR
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00012s] ('boss-archives-query-warden',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO bossrun (user_id, boss_id, started_at, expires_at, completed_at, result, score, hp_remaining, judge_trace_id, notes) VALUES ($1::VARCHAR, $2::VARCHAR, $3::TIMESTAMP WITHOUT TIME ZONE, $4::TIMESTAMP WITHOUT TIME ZONE, $5::TIMESTAMP WITHOUT TIME ZONE, $6::VARCHAR, $7::INTEGER, $8::INTEGER, $9::VARCHAR, $10::VARCHAR) RETURNING bossrun.id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00012s] ('leo', 'boss-archives-query-warden', datetime.datetime(2025, 12, 7, 19, 5, 59, 273000), datetime.datetime(2025, 12, 7, 19, 35, 59, 273018), None, None, 0, 0, None, None)
+INFO     sqlalchemy.engine.Engine:base.py:2705 ROLLBACK
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:440
+  D:\EvalForge\arcade_app\agent.py:440: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/backend/test_boss_archives_query_smoke.py::test_archives_query_boss_judge_smoke
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\fields.py:656: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+tests/backend/test_boss_archives_query_smoke.py::test_archives_query_boss_judge_smoke
+  D:\EvalForge\arcade_app\models.py:252: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expires_at: datetime = Field(default_factory=lambda: datetime.utcnow() + timedelta(minutes=30))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_boss_archives_query_smoke.py::test_archives_query_boss_judge_smoke
+======================== 1 failed, 5 warnings in 0.28s ========================

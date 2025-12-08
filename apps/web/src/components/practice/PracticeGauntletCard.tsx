@@ -11,7 +11,33 @@ import {
 import { useNavigate } from "react-router-dom";
 
 type PracticeItemType = "quest_review" | "boss_review" | "project_maintenance";
-type Difficulty = "easy" | "medium" | "hard";
+type Difficulty = "easy" | "medium" | "hard" | "legendary";
+
+const WORLD_LABELS: Record<string, string> = {
+    "world-python": "Python",
+    "world-typescript": "TypeScript",
+    "world-java": "Java",
+    "world-sql": "SQL",
+    "world-infra": "Infra",
+    "world-agents": "Agents",
+    "world-git": "Git",
+    "world-ml": "ML",
+    "world-applylens": "ApplyLens",
+};
+
+const WORLD_PILL_CLASSES: Record<string, string> = {
+    "world-python": "bg-amber-500/20 text-amber-200 border-amber-400/60",
+    "world-typescript": "bg-sky-500/20 text-sky-200 border-sky-400/60",
+    "world-java": "bg-orange-500/20 text-orange-200 border-orange-400/60",
+    "world-sql": "bg-emerald-500/20 text-emerald-200 border-emerald-400/60",
+    "world-infra": "bg-slate-500/20 text-slate-200 border-slate-400/60",
+    "world-agents": "bg-fuchsia-500/20 text-fuchsia-200 border-fuchsia-400/60",
+    "world-git": "bg-rose-500/20 text-rose-200 border-rose-400/60",
+    "world-ml": "bg-lime-500/20 text-lime-200 border-lime-400/60",
+    "world-applylens": "bg-yellow-500/20 text-yellow-200 border-yellow-400/60",
+};
+
+const DEFAULT_PILL = "bg-slate-800/60 text-slate-100 border-slate-500/60";
 
 interface PracticeItemView {
     id: string; // e.g. "boss_review:reactor-core"
@@ -23,6 +49,7 @@ interface PracticeItemView {
     difficulty: Difficulty;
     rationale: string;
     struggle_score: number;
+    legendary?: boolean;
 }
 
 interface DailyPracticePlan {
@@ -34,7 +61,9 @@ interface DailyPracticePlan {
     today_quests_completed: number;
     today_bosses_cleared: number;
     today_trials_completed: number;
-    streak_days?: number | null;
+    streak_days: number;
+    best_streak_days: number;
+    streak_days_optional?: number | null; // For backward compat if needed, though we set defaults.
 }
 
 type State =
@@ -60,6 +89,8 @@ function difficultyChipClasses(difficulty: Difficulty): string {
             return "bg-amber-900/40 text-amber-200 border border-amber-500/50";
         case "hard":
             return "bg-rose-900/40 text-rose-200 border border-rose-500/50";
+        case "legendary":
+            return "bg-amber-900/40 text-amber-200 border border-amber-500/50 shadow-[0_0_10px_rgba(251,191,36,0.2)] animate-pulse";
         default:
             return "bg-slate-800 text-slate-200 border border-slate-600/50";
     }
@@ -218,6 +249,26 @@ export const PracticeGauntletCard: React.FC = () => {
                     <div className="text-[11px] text-workshop-subtle/80 opacity-80">
                         Daily practice across worlds & projects
                     </div>
+                    {(() => {
+                        if (!plan?.items) return null;
+                        const worldSet = new Set(
+                            plan.items
+                                .map((item) => item.world_slug)
+                                .filter(Boolean) as string[]
+                        );
+                        const worldNames = Array.from(worldSet)
+                            .map((slug) => WORLD_LABELS[slug] ?? "Unknown")
+                            .slice(0, 4);
+
+                        if (worldNames.length === 0) return null;
+
+                        return (
+                            <p className="mt-1 text-[10px] text-emerald-200/60 font-medium">
+                                Today touches {worldNames.join(", ")}
+                                {worldSet.size > 4 && " …"}
+                            </p>
+                        );
+                    })()}
                 </div>
 
                 {typeof totalItems === "number" && totalItems > 0 && (
@@ -284,7 +335,13 @@ export const PracticeGauntletCard: React.FC = () => {
                                     key={item.id}
                                     type="button"
                                     onClick={() => targetPath && navigate(targetPath)}
-                                    className="group w-full relative overflow-hidden text-left rounded-full border border-white/5 bg-workshop-panel/40 px-3 py-2.5 transition-all hover:bg-workshop-panel hover:border-workshop-cyan/60 hover:shadow-workshop-neon"
+                                    data-testid={`gauntlet-card-${(item.difficulty === 'legendary' || item.legendary === true) ? 'legendary' : 'normal'}-${item.id}`}
+                                    className={`group w-full relative overflow-hidden text-left rounded-full border bg-workshop-panel/40 px-3 py-2.5 transition-all hover:bg-workshop-panel hover:shadow-workshop-neon
+                                        ${(item.difficulty === 'legendary' || item.legendary === true)
+                                            ? 'border-amber-400/60 shadow-[0_0_15px_rgba(251,191,36,0.15)] hover:border-amber-300'
+                                            : 'border-white/5 hover:border-workshop-cyan/60'
+                                        }
+                                    `}
                                 >
                                     <div className="flex items-center gap-3 relative z-10">
                                         {/* State Icon */}
@@ -294,7 +351,12 @@ export const PracticeGauntletCard: React.FC = () => {
 
                                         <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                                             <div className="flex items-center justify-between gap-2">
-                                                <div className="text-xs font-medium text-workshop-text truncate">
+                                                <div className="text-xs font-medium text-workshop-text truncate flex items-center gap-2">
+                                                    {item.world_slug && WORLD_LABELS[item.world_slug] && (
+                                                        <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide ${WORLD_PILL_CLASSES[item.world_slug] || DEFAULT_PILL}`}>
+                                                            {WORLD_LABELS[item.world_slug]}
+                                                        </span>
+                                                    )}
                                                     {item.label}
                                                 </div>
                                             </div>
@@ -311,7 +373,7 @@ export const PracticeGauntletCard: React.FC = () => {
                                         {/* Right Action / Difficulty */}
                                         <div className="flex-none opacity-50 group-hover:opacity-100 transition-opacity">
                                             <span className={difficultyChipClasses(item.difficulty) + " rounded-full px-2 py-0.5 text-[9px] uppercase tracking-wider font-bold border-none"}>
-                                                {item.difficulty}
+                                                {(item.difficulty === "legendary" || item.legendary === true) ? "Legendary Boss" : item.difficulty}
                                             </span>
                                         </div>
                                     </div>
@@ -323,14 +385,34 @@ export const PracticeGauntletCard: React.FC = () => {
             </div>
 
             {/* Footer Stats */}
-            <footer className="mt-4 pt-3 flex items-center justify-between text-[11px] text-workshop-subtle border-t border-white/5">
-                <div className="flex items-center gap-1.5">
-                    {justUpdated && <span className="animate-pulse text-emerald-400">● Live Updated</span>}
+            <footer className="mt-4 pt-3 flex flex-col gap-2 border-t border-white/5">
+                <div className="flex items-center justify-between text-[11px] text-workshop-subtle">
+                    <div className="flex items-center gap-1.5">
+                        {justUpdated && <span className="animate-pulse text-emerald-400">● Live Updated</span>}
+                        {!justUpdated && (
+                            <span>
+                                {plan?.today_trials_completed ?? 0} trials today
+                            </span>
+                        )}
+                    </div>
+                    {plan && plan.streak_days > 0 && (
+                        <span className="font-mono text-workshop-cyan">
+                            {plan.streak_days} day streak
+                            <span className="opacity-50 ml-1">(best {plan.best_streak_days})</span>
+                        </span>
+                    )}
                 </div>
-                {typeof streak === "number" && streak > 0 && (
-                    <span className="font-mono text-workshop-cyan">
-                        Streak: {streak}d
-                    </span>
+
+                {/* Today Bar */}
+                {plan && (
+                    <div className="h-1.5 w-full rounded-full bg-emerald-950/40 border border-white/5 overflow-hidden">
+                        <div
+                            className="h-full bg-emerald-500/80 transition-all duration-500 ease-out rounded-full"
+                            style={{
+                                width: `${Math.min(100, ((plan.today_trials_completed || 0) / Math.max(1, totalItems)) * 100)}%`
+                            }}
+                        />
+                    </div>
                 )}
             </footer>
         </section>

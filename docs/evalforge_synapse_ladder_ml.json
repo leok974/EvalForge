@@ -1,0 +1,165 @@
+{
+    "snapshot_kind": "evalforge_ladder_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-ml",
+    "world_name": "The Synapse – ML",
+    "ladder": {
+        "ladder_id": "synapse-ml-core-to-mlops",
+        "slug": "synapse-ml-core-to-mlops",
+        "title": "Synapse Engineer – Tensors to MLOps",
+        "summary": "From basic tensors to training, evaluating, and shipping models responsibly.",
+        "recommended_entry_level": "comfortable-with-python",
+        "recommended_exit_level": "ml-mid-level",
+        "tags": [
+            "ml",
+            "data",
+            "training",
+            "mlops"
+        ],
+        "stages": [
+            {
+                "stage_id": "stage-1-synapse-tensor",
+                "order_index": 1,
+                "title": "Stage 1 – Tensor (Numerical Foundations)",
+                "description": "Learn arrays, shapes, vectorization, and simple models from scratch.",
+                "goals": [
+                    "Manipulate vectors and matrices with NumPy or a tensor library.",
+                    "Implement a simple regression model from scratch.",
+                    "Visualize basic data and model predictions."
+                ],
+                "quests": [
+                    "ml-tensor-q1-numpy-and-shapes",
+                    "ml-tensor-q2-vectorization",
+                    "ml-tensor-q3-linear-regression-from-scratch"
+                ],
+                "bosses": [
+                    "boss-synapse-tensor-signal-shaper"
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-synapse-tensor-signal-shaper"
+                },
+                "badge": {
+                    "code": "synapse-tensor-ready",
+                    "label": "Tensor Ready",
+                    "description": "Understands the basics of tensors and simple models."
+                }
+            },
+            {
+                "stage_id": "stage-2-synapse-gradient",
+                "order_index": 2,
+                "title": "Stage 2 – Gradient (Training & MLOps Basics)",
+                "description": "Train models with proper data splits, metrics, and a path to deployment and monitoring.",
+                "goals": [
+                    "Write training loops with loss, optimization, and validation.",
+                    "Use appropriate metrics for classification/regression.",
+                    "Understand overfitting, regularization, and basic serving/monitoring patterns."
+                ],
+                "quests": [
+                    "ml-gradient-q1-training-loop-and-metrics",
+                    "ml-gradient-q2-regularization-and-overfit",
+                    "ml-gradient-q3-model-selection-and-baselines",
+                    "ml-gradient-q4-serving-and-monitoring-basics"
+                ],
+                "bosses": [
+                    "boss-synapse-gradient-mlops-custodian"
+                ],
+                "prerequisites": {
+                    "type": "stage_complete",
+                    "stage_ids": [
+                        "stage-1-synapse-tensor"
+                    ]
+                },
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-synapse-gradient-mlops-custodian"
+                },
+                "badge": {
+                    "code": "synapse-mlops-ready",
+                    "label": "MLOps Ready",
+                    "description": "Can take a simple model through training, evaluation, and a basic deployment story."
+                },
+                "status": "design-next"
+            },
+            {
+                "stage_id": "stage-3-senior-mlops",
+                "title": "Stage 3 – ML Ops & Safety",
+                "description": "Senior-level MLOps, governance, and model safety.",
+                "goals": [
+                    "Master MLOps lifecycle.",
+                    "Implement drift monitoring.",
+                    "Ensure model governance."
+                ],
+                "order_index": 3,
+                "quests": [],
+                "bosses": [],
+                "nodes": [
+                    {
+                        "id": "synapse-mlops-feature-lifecycle",
+                        "kind": "quest",
+                        "label": "Feature Lifecycle",
+                        "order_index": 1
+                    },
+                    {
+                        "id": "synapse-mlops-ci-cd",
+                        "kind": "quest",
+                        "label": "Model CI/CD",
+                        "order_index": 2
+                    },
+                    {
+                        "id": "synapse-mlops-monitoring-drift",
+                        "kind": "quest",
+                        "label": "Drift & Monitoring",
+                        "order_index": 3
+                    },
+                    {
+                        "id": "synapse-mlops-governance",
+                        "kind": "quest",
+                        "label": "Governance",
+                        "order_index": 4
+                    },
+                    {
+                        "id": "synapse-mlops-multi-model-strategy",
+                        "kind": "quest",
+                        "label": "Multi-Model Strategy",
+                        "order_index": 5
+                    },
+                    {
+                        "id": "boss-synapse-mlops-sentinel",
+                        "kind": "legendary_boss",
+                        "label": "ML Ops Sentinel",
+                        "order_index": 99
+                    }
+                ],
+                "unlock_condition": {
+                    "type": "stage_complete",
+                    "boss_id": "boss-synapse-mlops-sentinel"
+                },
+                "badge": {
+                    "code": "synapse-senior-mlops",
+                    "label": "ML Ops Sentinel",
+                    "description": "Master of ML production lifecycle and safety."
+                }
+            }
+        ],
+        "completion_rewards": {
+            "xp": 700,
+            "titles": [
+                "Synapse Engineer",
+                "ML Ops Adept"
+            ],
+            "unlocks": [
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-agents",
+                    "note": "You are ready to embed models into agents in The Oracle."
+                },
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-sql",
+                    "note": "You can now design feature pipelines in The Archives."
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,243 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1 item
+
+tests\backend\test_boss_timeline_history_smoke.py F
+
+================================== FAILURES ===================================
+___________________ test_timeline_history_boss_judge_smoke ____________________
+
+client = <httpx.AsyncClient object at 0x0000024C5DE7AA50>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000024C5DDF6C40>
+db_session = <sqlalchemy.orm.session.AsyncSession object at 0x0000024C5DEF5A90>
+
+    @pytest.mark.asyncio
+    async def test_timeline_history_boss_judge_smoke(client, monkeypatch, db_session):
+        """
+        Smoke test: ensure History Rewriter boss QA returns a valid BossEvalResult.
+        """
+    
+        # SEED BOSS DEFINITION (Ensures it exists in the test DB)
+        boss = BossDefinition(
+            id="boss-timeline-history-rewriter",
+            name="History Rewriter",
+            description="The Timeline boss",
+            rubric="boss-timeline-history-rewriter",
+            base_xp_reward=500,
+            max_hp=100,
+            difficulty="hard",
+            enabled=True
+        )
+        db_session.add(boss)
+        await db_session.commit()
+    
+        # Enable Mock Grading Mode to bypass Vertex AI auth/mocks issues
+        monkeypatch.setenv("EVALFORGE_MOCK_GRADING", "1")
+    
+        payload = {
+            "world_slug": "world-git",
+            "boss_id": "boss-timeline-history-rewriter",
+            "mode": "smoke",
+            "submission_markdown": """# Git Incident Runbook û Smoke Test
+    
+    # MAGIC_BOSS_PASS
+    
+    ## Incident Context
+    History mangled on feature/auth-redesign after a bad rebase/force-push. Bug surfaced post-deploy.
+    
+    ## Phase 1 û Inspect & Map the Graph
+    - git fetch --all --prune
+    - git log --oneline --graph --decorate --all
+    - git branch -vv to see divergence.
+    
+    ## Phase 2 û Recovery Plan
+    - Use git reflog on feature/auth-redesign to find pre-rebase tip.
+    - Create backup/auth-redesign-pre-rebase branch at that reflog entry.
+    - Compare old vs new feature history to find lost commits.
+    
+    ## Phase 3 û Execute Safely
+    - Use git bisect between known good tag and main head to find culprit.
+    - On main, prefer git revert on bad commit rather than rewriting public history.
+    - Push main + cherry-pick to release/1.2 as needed.
+    
+    ## Phase 4 û Verify & Communicate
+    - Verify tests and staging after revert.
+    - Add branch protection for main/release.
+    - Document incident and updated Git guidelines.
+    """
+        }
+    
+        # Use the test client to hit the endpoint
+        # Note: 'client' fixture comes from pytest-asyncio + httpx usually
+>       resp = await client.post("/api/dev/boss_qa/worlds", json=payload)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\backend\test_boss_timeline_history_smoke.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1859: in post
+    return await self.request(
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1540: in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1629: in send
+    response = await self._send_handling_auth(
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1657: in _send_handling_auth
+    response = await self._send_handling_redirects(
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1694: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1730: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_transports\asgi.py:170: in handle_async_request
+    await self.app(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1082: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:113: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    raise exc
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:716: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:736: in app
+    await route.handle(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:290: in handle
+    await self.app(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:78: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    raise exc
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:75: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:308: in app
+    raw_response = await run_endpoint_function(
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:219: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+arcade_app\routers\routes_boss_qa_worlds.py:60: in run_world_boss_qa_route
+    raise e
+arcade_app\routers\routes_boss_qa_worlds.py:56: in run_world_boss_qa_route
+    report = await run_standard_world_boss_qa(db=session, player=profile, min_scores=min_scores, request=request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+arcade_app\boss_qa_worlds.py:236: in run_standard_world_boss_qa
+    status = await _run_single_boss_world_qa(
+arcade_app\boss_qa_worlds.py:61: in _run_single_boss_world_qa
+    eval_result: BossEvalResult = await judge_boss_with_rubric(
+arcade_app\grading_helper.py:205: in judge_boss_with_rubric
+    rubric = load_boss_rubric(rubric_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+rubric_id = 'boss-timeline-history-rewriter'
+
+    def load_boss_rubric(rubric_id: str) -> BossRubric:
+        """
+        Load a boss rubric JSON by rubric_id.
+    
+        Args:
+            rubric_id: The rubric identifier (e.g., 'applylens_runtime_boss')
+    
+        Returns:
+            Parsed BossRubric object
+    
+        Raises:
+            FileNotFoundError: If rubric file doesn't exist
+        """
+        # Support both direct filename and rubric_id format
+        if rubric_id.endswith('.json'):
+            path = RUBRIC_DIR / rubric_id
+        else:
+            # Try boss-{slug} format first (our actual naming)
+            slug_format = rubric_id.replace('_', '-')
+            path = RUBRIC_DIR / f"boss-{slug_format}.json"
+    
+            if not path.exists():
+                # Fallback to direct rubric_id.json
+                path = RUBRIC_DIR / f"{rubric_id}.json"
+    
+        with path.open("r", encoding="utf-8") as f:
+            data = json.load(f)
+    
+>       rubric = BossRubric.model_validate(data)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 8 validation errors for BossRubric
+E       schema_version
+E         Field required [type=missing, input_value={'rubric_id': 'boss-timel...ss_threshold_score': 6}}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.11/v/missing
+E       id
+E         Field required [type=missing, input_value={'rubric_id': 'boss-timel...ss_threshold_score': 6}}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.11/v/missing
+E       boss_slug
+E         Field required [type=missing, input_value={'rubric_id': 'boss-timel...ss_threshold_score': 6}}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.11/v/missing
+E       title
+E         Field required [type=missing, input_value={'rubric_id': 'boss-timel...ss_threshold_score': 6}}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.11/v/missing
+E       dimensions
+E         Field required [type=missing, input_value={'rubric_id': 'boss-timel...ss_threshold_score': 6}}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.11/v/missing
+E       grade_bands
+E         Field required [type=missing, input_value={'rubric_id': 'boss-timel...ss_threshold_score': 6}}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.11/v/missing
+E       autofail_conditions
+E         Field required [type=missing, input_value={'rubric_id': 'boss-timel...ss_threshold_score': 6}}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.11/v/missing
+E       llm_judge_instructions
+E         Field required [type=missing, input_value={'rubric_id': 'boss-timel...ss_threshold_score': 6}}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.11/v/missing
+
+arcade_app\boss_rubric_helper.py:52: ValidationError
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:440
+  D:\EvalForge\arcade_app\agent.py:440: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/backend/test_boss_timeline_history_smoke.py::test_timeline_history_boss_judge_smoke
+tests/backend/test_boss_timeline_history_smoke.py::test_timeline_history_boss_judge_smoke
+tests/backend/test_boss_timeline_history_smoke.py::test_timeline_history_boss_judge_smoke
+tests/backend/test_boss_timeline_history_smoke.py::test_timeline_history_boss_judge_smoke
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\fields.py:656: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+tests/backend/test_boss_timeline_history_smoke.py::test_timeline_history_boss_judge_smoke
+  D:\EvalForge\arcade_app\models.py:252: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expires_at: datetime = Field(default_factory=lambda: datetime.utcnow() + timedelta(minutes=30))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_boss_timeline_history_smoke.py::test_timeline_history_boss_judge_smoke
+======================== 1 failed, 8 warnings in 0.79s ========================

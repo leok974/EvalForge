@@ -1,0 +1,17 @@
+{
+    "world_slug": "world-infra",
+    "rubrics": [
+        {
+            "rubric_id": "boss-grid-containment-sandbox-warden",
+            "boss_id": "boss-grid-containment-sandbox-warden",
+            "title": "Rubric: Sandbox Warden",
+            "file_path": "rubrics/boss-grid-containment-sandbox-warden.json",
+            "tags": [
+                "infra",
+                "rubric",
+                "containment",
+                "linux"
+            ]
+        }
+    ]
+}

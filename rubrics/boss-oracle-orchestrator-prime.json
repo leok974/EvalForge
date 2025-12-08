@@ -1,0 +1,140 @@
+{
+    "schema_version": "1.0",
+    "id": "boss-oracle-orchestrator-prime",
+    "boss_slug": "boss-oracle-orchestrator-prime",
+    "title": "Oracle Orchestrator Prime",
+    "max_score": 8,
+    "dimensions": [
+        {
+            "key": "architecture_and_roles",
+            "label": "Architecture & Agent Roles",
+            "weight": 0.25,
+            "description": "Clarity of the agent graph, responsibilities, and state flow.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Vague",
+                    "score": 0,
+                    "criteria": "Agents and roles are hand-wavy. Examples: 'some agents' without concrete roles. No clear picture of context flow."
+                },
+                {
+                    "level": 1,
+                    "label": "Partial",
+                    "score": 1,
+                    "criteria": "Identifies some agents but leaves gaps. Example: Planner vs Worker exists but no Critic. Unclear state management."
+                },
+                {
+                    "level": 2,
+                    "label": "Coherent",
+                    "score": 2,
+                    "criteria": "Clear agent graph with well-defined roles (Planner, Tools Router, Safety Guard). Explicit state flow and access patterns."
+                }
+            ]
+        },
+        {
+            "key": "tooling_and_contracts",
+            "label": "Tooling & Contracts",
+            "weight": 0.25,
+            "description": "Quality of tool contracts, IO design, and error handling.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Loose",
+                    "score": 0,
+                    "criteria": "Tools are loosely defined (free-form JSON). No timeouts/retries discussed."
+                },
+                {
+                    "level": 1,
+                    "label": "Improved",
+                    "score": 1,
+                    "criteria": "Some structure but missing error modes or explicit constraints. Partial mapping."
+                },
+                {
+                    "level": 2,
+                    "label": "Robust",
+                    "score": 2,
+                    "criteria": "Typed schemas for tools. Explicit error handling, idempotency, and access control."
+                }
+            ]
+        },
+        {
+            "key": "guardrails_and_policy",
+            "label": "Guardrails & Policy Layer",
+            "weight": 0.25,
+            "description": "Strength of safety, policy, and constraint design.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Porous",
+                    "score": 0,
+                    "criteria": "Relies on 'good prompts' only. No central guardrails. No denial strategies."
+                },
+                {
+                    "level": 1,
+                    "label": "Aware",
+                    "score": 1,
+                    "criteria": "Some guardrails but inconsistent. Denial behavior exists but no escalation/feedback loop."
+                },
+                {
+                    "level": 2,
+                    "label": "Layered",
+                    "score": 2,
+                    "criteria": "Central policy layer + local role prompts. clear denial/redaction/escalation logic."
+                }
+            ]
+        },
+        {
+            "key": "observability_and_eval_loop",
+            "label": "Observability & Evaluation Loop",
+            "weight": 0.25,
+            "description": "How well the design supports debugging, monitoring, and improvement.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Opaque",
+                    "score": 0,
+                    "criteria": "No logging or eval strategy. 'It works on my machine'."
+                },
+                {
+                    "level": 1,
+                    "label": "Instrumented",
+                    "score": 1,
+                    "criteria": "Basic logging and metrics. Eval loop mentioned but underspecified."
+                },
+                {
+                    "level": 2,
+                    "label": "Measured & Improving",
+                    "score": 2,
+                    "criteria": "Full traces per run. Defined metrics (success rate, tool errors). Closed feedback loop from runs to prompts."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "label": "S",
+            "description": "Visionary architecture with deep safety and observability."
+        },
+        {
+            "min_score": 6,
+            "label": "A",
+            "description": "Solid, professional-grade orchestrator design."
+        },
+        {
+            "min_score": 4,
+            "label": "B",
+            "description": "Functional but has significant gaps in safety or reliability."
+        },
+        {
+            "min_score": 0,
+            "label": "C",
+            "description": "Unsafe or incomplete design."
+        }
+    ],
+    "autofail_conditions": [
+        "Unsafe tool use (e.g. exec without guardrails).",
+        "No mention of policy or safety layer."
+    ],
+    "llm_judge_instructions": "Evaluate the Agentic Orchestrator Blueprint. Look for concrete details on Role separation, Tool Contracts (schemas), Policy enforcement, and the Evaluation Loop. Be strict about 'Magic AI' vs Engineered Systems."
+}

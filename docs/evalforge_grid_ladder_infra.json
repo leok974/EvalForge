@@ -1,0 +1,159 @@
+{
+    "snapshot_kind": "evalforge_ladder_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-infra",
+    "world_name": "The Grid – Infra",
+    "ladder": {
+        "ladder_id": "grid-infra-core-to-platform",
+        "slug": "grid-infra-core-to-platform",
+        "title": "Grid Engineer – Hosts to Platforms",
+        "summary": "From a single Linux box to a small, observable, production-like stack.",
+        "recommended_entry_level": "comfortable-with-cli",
+        "recommended_exit_level": "infra-mid-level",
+        "tags": [
+            "infra",
+            "linux",
+            "networking",
+            "ops"
+        ],
+        "stages": [
+            {
+                "stage_id": "stage-1-grid-containment",
+                "order_index": 1,
+                "title": "Stage 1 – Containment (Host Fundamentals)",
+                "description": "Learn how to reason about a single host: processes, ports, logs, file systems, and services.",
+                "goals": [
+                    "Navigate Linux file systems and permissions.",
+                    "Inspect processes, ports, and services.",
+                    "Read system logs and basic metrics to debug issues."
+                ],
+                "quests": [
+                    "infra-containment-q1-linux-shell-and-fs",
+                    "infra-containment-q2-processes-and-ports",
+                    "infra-containment-q3-services-and-logs"
+                ],
+                "bosses": [
+                    "boss-grid-containment-sandbox-warden"
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-grid-containment-sandbox-warden"
+                },
+                "badge": {
+                    "code": "grid-containment-ready",
+                    "label": "Containment Ready",
+                    "description": "Can debug basic issues on a single Linux host."
+                }
+            },
+            {
+                "stage_id": "stage-2-grid-service-link",
+                "order_index": 2,
+                "title": "Stage 2 – Service Link (Services & Routing)",
+                "description": "Package services into containers, put them behind a proxy, add health checks, TLS, and basic observability.",
+                "goals": [
+                    "Containerize a service with Docker and compose it with dependencies.",
+                    "Configure a reverse proxy (nginx) for routing and TLS termination.",
+                    "Add health checks, logs, and metrics suitable for on-call debugging."
+                ],
+                "quests": [
+                    "infra-service-q1-dockerize-and-compose",
+                    "infra-service-q2-nginx-routing-and-tls",
+                    "infra-service-q3-healthchecks-and-restarts",
+                    "infra-service-q4-logs-and-metrics-pipeline"
+                ],
+                "bosses": [
+                    "boss-grid-service-link-gateway-architect"
+                ],
+                "prerequisites": {
+                    "type": "stage_complete",
+                    "stage_ids": [
+                        "stage-1-grid-containment"
+                    ]
+                },
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-grid-service-link-gateway-architect"
+                },
+                "badge": {
+                    "code": "grid-platform-ready",
+                    "label": "Platform Ready",
+                    "description": "Can stand up a small, observable stack on modern infra."
+                },
+                "status": "design-next"
+            },
+            {
+                "stage_id": "stage-3-grid-senior-sre-architect",
+                "title": "Stage 3 – Senior SRE Architect",
+                "track_id": "grid-senior-sre-architect",
+                "order_index": 3,
+                "description": "Design systems that survive huge scale, chaos, and human error.",
+                "goals": [
+                    "Design service topology for fault isolation.",
+                    "Implement comprehensive Observability and SLOs.",
+                    "Master incident management and blameless postmortems."
+                ],
+                "nodes": [
+                    {
+                        "id": "grid-sre-topology-blast-radius",
+                        "kind": "quest",
+                        "label": "Topology & Blast Radius",
+                        "order_index": 1
+                    },
+                    {
+                        "id": "grid-sre-failure-modes-runbooks",
+                        "kind": "quest",
+                        "label": "Failure Modes & Runbooks",
+                        "order_index": 2
+                    },
+                    {
+                        "id": "grid-sre-observability-signals",
+                        "kind": "quest",
+                        "label": "Observability & Signals",
+                        "order_index": 3
+                    },
+                    {
+                        "id": "grid-sre-capacity-deploys",
+                        "kind": "quest",
+                        "label": "Capacity & Deploys",
+                        "order_index": 4
+                    },
+                    {
+                        "id": "grid-sre-incident-lifecycle",
+                        "kind": "quest",
+                        "label": "Incident Lifecycle",
+                        "order_index": 5
+                    },
+                    {
+                        "id": "boss-grid-resilience-warden",
+                        "kind": "legendary_boss",
+                        "label": "Grid Resilience Warden",
+                        "order_index": 99
+                    }
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-grid-resilience-warden"
+                }
+            }
+        ],
+        "completion_rewards": {
+            "xp": 600,
+            "titles": [
+                "Grid Engineer",
+                "Platform Adept"
+            ],
+            "unlocks": [
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-agents",
+                    "note": "You’re ready to host agents and tools from The Oracle."
+                },
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-git",
+                    "note": "You can design repo structures and deployment flows in The Timeline."
+                }
+            ]
+        }
+    }
+}

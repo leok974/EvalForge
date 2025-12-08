@@ -1,0 +1,160 @@
+{
+    "snapshot_kind": "evalforge_ladder_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-java",
+    "world_name": "The Reactor – Java",
+    "ladder": {
+        "ladder_id": "reactor-java-core-to-ops",
+        "slug": "reactor-java-core-to-ops",
+        "title": "Reactor Engineer – Core to Ops",
+        "summary": "A focused path that takes you from first Java sparks to running a stable Reactor service in production-like conditions.",
+        "recommended_entry_level": "new-to-java",
+        "recommended_exit_level": "java-mid-level",
+        "tags": [
+            "java",
+            "backend",
+            "service-design",
+            "ops"
+        ],
+        "stages": [
+            {
+                "stage_id": "stage-1-core-circuit",
+                "order_index": 1,
+                "title": "Stage 1 – Core Circuit (Language Fundamentals)",
+                "description": "Learn Java syntax, control flow, OOP, and collections by stabilizing a single Reactor core.",
+                "goals": [
+                    "Understand the structure of a Java program (class, main, packages).",
+                    "Use primitives, Strings, and methods with clear types.",
+                    "Apply control flow, exceptions, interfaces, and collections in small modules."
+                ],
+                "quests": [
+                    "java-core-q1-first-spark",
+                    "java-core-q2-flow-and-failsafes",
+                    "java-core-q3-cores-and-shells",
+                    "java-core-q4-circuits-and-collections"
+                ],
+                "bosses": [
+                    "boss-reactor-core-circuit-stable-core-controller"
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-reactor-core-circuit-stable-core-controller"
+                },
+                "badge": {
+                    "code": "reactor-core-ready",
+                    "label": "Reactor Core Ready",
+                    "description": "Can design small Java modules with clean control flow, exceptions, and collections."
+                }
+            },
+            {
+                "stage_id": "stage-2-service-loop",
+                "order_index": 2,
+                "title": "Stage 2 – Service Loop (Build, Tests & Signals)",
+                "description": "Take your core code and make it service-ready: build pipelines, tests, logs, and configuration for multiple environments.",
+                "goals": [
+                    "Use Maven/Gradle to build and test Java projects.",
+                    "Write meaningful JUnit tests for happy and failure paths.",
+                    "Add structured logging and environment-aware configuration."
+                ],
+                "quests": [
+                    "java-service-q1-reactor-buildfile",
+                    "java-service-q2-fault-injection-tests",
+                    "java-service-q3-signals-in-the-logs",
+                    "java-service-q4-environment-channels"
+                ],
+                "bosses": [
+                    "boss-reactor-service-loop-reactor-ops-conductor"
+                ],
+                "prerequisites": {
+                    "type": "stage_complete",
+                    "stage_ids": [
+                        "stage-1-core-circuit"
+                    ]
+                },
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-reactor-service-loop-reactor-ops-conductor"
+                },
+                "badge": {
+                    "code": "reactor-ops-ready",
+                    "label": "Reactor Ops Ready",
+                    "description": "Can wire Java modules into a small, operable service with logs, config and graceful shutdown."
+                },
+                "status": "design-next"
+            },
+            {
+                "stage_id": "stage-3-reactor-senior-runtime-architect",
+                "title": "Stage 3 – Senior Runtime Architect",
+                "track_id": "reactor-senior-runtime-architect",
+                "order_index": 3,
+                "description": "Design and defend Java backend systems that stay fast, safe, and operable as they grow.",
+                "goals": [
+                    "Design scalable architecture with clear boundaries.",
+                    "Master JVM performance tuning and GC analysis.",
+                    "Implement robust concurrency and resilience patterns."
+                ],
+                "nodes": [
+                    {
+                        "id": "reactor-senior-01-architecture-boundaries",
+                        "kind": "quest",
+                        "label": "Architecture & Boundaries",
+                        "order_index": 1
+                    },
+                    {
+                        "id": "reactor-senior-02-jvm-performance",
+                        "kind": "quest",
+                        "label": "JVM Performance",
+                        "order_index": 2
+                    },
+                    {
+                        "id": "reactor-senior-03-concurrency-resilience",
+                        "kind": "quest",
+                        "label": "Concurrency & Resilience",
+                        "order_index": 3
+                    },
+                    {
+                        "id": "reactor-senior-04-api-contracts",
+                        "kind": "quest",
+                        "label": "API Contracts",
+                        "order_index": 4
+                    },
+                    {
+                        "id": "reactor-senior-05-operability-incidents",
+                        "kind": "quest",
+                        "label": "Operability & Incidents",
+                        "order_index": 5
+                    },
+                    {
+                        "id": "boss-reactor-runtime-arbiter",
+                        "kind": "legendary_boss",
+                        "label": "Reactor Runtime Arbiter",
+                        "order_index": 99
+                    }
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-reactor-runtime-arbiter"
+                }
+            }
+        ],
+        "completion_rewards": {
+            "xp": 500,
+            "titles": [
+                "Reactor Engineer",
+                "Backend Ops Adept"
+            ],
+            "unlocks": [
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-infra",
+                    "note": "You are now ready to dive deeper into Infra & deployment (The Grid)."
+                },
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-agents",
+                    "note": "You can now author backend agents that sit on top of the Reactor service."
+                }
+            ]
+        }
+    }
+}

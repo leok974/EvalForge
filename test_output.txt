@@ -6,154 +6,140 @@ plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0
 asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
 collecting ... collected 2 items
 
-tests/backend/test_world_progress_endpoint.py::test_world_progress_endpoint_smoke FAILED [ 50%]
-tests/backend/test_world_progress_endpoint.py::test_progress_calculation_logic FAILED [100%]
+tests/backend/test_senior_tier_visibility.py::test_senior_progress_api ERROR [ 50%]
+tests/backend/test_senior_tier_visibility.py::test_senior_boss_runs_api ERROR [100%]
 
-================================== FAILURES ===================================
-_____________________ test_world_progress_endpoint_smoke ______________________
+=================================== ERRORS ====================================
+_________________ ERROR at setup of test_senior_progress_api __________________
+file D:\EvalForge\tests\backend\test_senior_tier_visibility.py, line 11
+  async def test_senior_progress_api(client: AsyncClient, session, test_user: User):
+      """
+      Verify /api/profile/senior_progress returns correct aggregation.
+      """
+      # 1. Setup Data
+      # Ensure profile exists (created by fixture usually, but verify)
+      profile = (await session.exec(select(Profile).where(Profile.user_id == test_user.id))).first()
+      if not profile:
+          profile = Profile(user_id=test_user.id, username="test_senior")
+          session.add(profile)
+          await session.commit()
 
-    @pytest.mark.asyncio
-    async def test_world_progress_endpoint_smoke():
-        # 1. Hit the endpoint
->       async with AsyncClient(app=app, base_url="http://test") as client:
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E       TypeError: AsyncClient.__init__() got an unexpected keyword argument 'app'
+      # Create a senior boss run (Win)
+      # Pick a real senior boss ID if possible, or mock one if the system allows arbitrary IDs.
+      # The constants validation might be strict.
+      # Let's use a known one: "boss-foundry-systems-architect" (Python Senior)
+      senior_boss_id = "boss-foundry-systems-architect"
 
-tests\backend\test_world_progress_endpoint.py:18: TypeError
-_______________________ test_progress_calculation_logic _______________________
+      # We might need to seed the BossDefinition first if foreign keys are enforced and not seeded in test DB.
+      # Check if we need to seed definitions.
+      # Usually tests run against a DB that might be empty.
+      # Let's seed a mock definition just in case.
+      boss_def = BossDefinition(
+          id=senior_boss_id,
+          name="Mock Senior Boss",
+          track_id="foundry-senior-systems",
+          world_id="world-python",
+          difficulty="legendary"
+      )
+      session.add(boss_def)
 
-    @pytest.mark.asyncio
-    async def test_progress_calculation_logic():
-        # This test manually inserts a completion to verify progress > 0
-        # Uses database directly
-        from arcade_app.database import engine
-    
-        async with AsyncSession(engine) as session:
-            # Find a quest
->           quest = (await session.exec(select(QuestDefinition))).first()
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      # Add a run
+      run = BossRun(
+          user_id=test_user.id,
+          boss_id=senior_boss_id,
+          result="win",
+          score=100,
+          hp_remaining=0, # This might mean 0 remaining HP for boss? Or for user?
+          # Usually for boss runs, `hp_remaining` is boss HP? Or player integrity?
+          # The frontend logic `integrity = hp_remaining` suggests it's player health?
+          # Let's set it to 1.0 (100%) just in case context implies integrity.
+          # Actually API logic: `integrity=float(getattr(run, "hp_remaining", 0.0) or 0.0)`
+          completed_at=datetime.utcnow()
+      )
+      session.add(run)
+      await session.commit()
 
-tests\backend\test_world_progress_endpoint.py:49: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlmodel\ext\asyncio\session.py:98: in exec
-    result = await greenlet_spawn(
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:201: in greenlet_spawn
-    result = context.throw(*sys.exc_info())
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlmodel\orm\session.py:83: in exec
-    results = super().execute(
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2365: in execute
-    return self._execute_internal(
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2241: in _execute_internal
-    conn = self._connection_for_bind(bind)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2110: in _connection_for_bind
-    return trans._connection_for_bind(engine, execution_options)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-<string>:2: in _connection_for_bind
-    ???
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
-    ret_value = fn(self, *arg, **kw)
-                ^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:1189: in _connection_for_bind
-    conn = bind.connect()
-           ^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:3277: in connect
-    return self._connection_cls(self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:143: in __init__
-    self._dbapi_connection = engine.raw_connection()
-                             ^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:3301: in raw_connection
-    return self.pool.connect()
-           ^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\base.py:447: in connect
-    return _ConnectionFairy._checkout(self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\base.py:1264: in _checkout
-    fairy = _ConnectionRecord.checkout(pool)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\base.py:711: in checkout
-    rec = pool._do_get()
-          ^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\impl.py:177: in _do_get
-    with util.safe_reraise():
-         ^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
-    raise exc_value.with_traceback(exc_tb)
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\impl.py:175: in _do_get
-    return self._create_connection()
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\base.py:388: in _create_connection
-    return _ConnectionRecord(self)
-           ^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\base.py:673: in __init__
-    self.__connect()
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\base.py:899: in __connect
-    with util.safe_reraise():
-         ^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
-    raise exc_value.with_traceback(exc_tb)
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\pool\base.py:895: in __connect
-    self.dbapi_connection = connection = pool._invoke_creator(self)
-                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\create.py:661: in connect
-    return dialect.connect(*cargs, **cparams)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:629: in connect
-    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py:964: in connect
-    await_only(creator_fn(*arg, **kw)),
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
-    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
-    value = await result
-            ^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\asyncpg\connection.py:2443: in connect
-    return await connect_utils._connect(
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\asyncpg\connect_utils.py:1249: in _connect
-    raise last_error or exceptions.TargetServerAttributeNotMatched(
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\asyncpg\connect_utils.py:1218: in _connect
-    conn = await _connect_addr(
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\asyncpg\connect_utils.py:1054: in _connect_addr
-    return await __connect_addr(params, True, *args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\asyncpg\connect_utils.py:1099: in __connect_addr
-    tr, pr = await connector
-             ^^^^^^^^^^^^^^^
-C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\asyncpg\connect_utils.py:969: in _create_ssl_connection
-    tr, pr = await loop.create_connection(
-C:\Python313\Lib\asyncio\base_events.py:1176: in create_connection
-    raise exceptions[0]
-C:\Python313\Lib\asyncio\base_events.py:1146: in create_connection
-    sock = await self._connect_sock(
-C:\Python313\Lib\asyncio\base_events.py:1045: in _connect_sock
-    await self.sock_connect(sock, address)
-C:\Python313\Lib\asyncio\proactor_events.py:728: in sock_connect
-    return await self._proactor.connect(sock, address)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Python313\Lib\asyncio\windows_events.py:804: in _poll
-    value = callback(transferred, key, ov)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+      # 2. Call API
+      resp = await client.get("/api/profile/senior_progress")
+      assert resp.status_code == 200, f"Failed: {resp.text}"
 
-trans = 0, key = 0, ov = <_overlapped.Overlapped object at 0x0000021E7FDA89F0>
+      data = resp.json()
 
-    def finish_connect(trans, key, ov):
->       ov.getresult()
-E       ConnectionRefusedError: [WinError 1225] The remote computer refused the network connection
+      # 3. Assertions
+      # Global counts
+      # We added 1 senior boss run.
+      # `senior_bosses_cleared` should be at least 1 (if valid senior boss id).
+      # Since we used a real ID from constants?
+      # Wait, `SENIOR_BOSS_IDS` is imported in service. If "boss-foundry-systems-architect" is in it (it should be).
 
-C:\Python313\Lib\asyncio\windows_events.py:600: ConnectionRefusedError
+      assert data["senior_bosses_cleared"] >= 1
+      assert data["legendary_trials_completed"] >= 1
+
+      # Python World Verification (slug="world-python")
+      python_world = next((w for w in data["worlds"] if w["world_slug"] == "world-python"), None)
+      assert python_world is not None
+      assert python_world["senior_boss_cleared"] is True
+      assert python_world["senior_boss_id"] == senior_boss_id
+E       fixture 'session' not found
+>       available fixtures: _class_scoped_runner, _function_scoped_runner, _module_scoped_runner, _package_scoped_runner, _session_faker, _session_scoped_runner, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, client, cov, db_session, doctest_namespace, event_loop_policy, explain_smoke_session, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, httpx_mock, judge_smoke_session, mock_vertex_ai_modules, monkeypatch, no_cover, patch_tracks_for_explain, patch_tracks_for_judge, patch_tracks_for_quest, pytestconfig, quest_smoke_session, record_property, record_testsuite_property, record_xml_attribute, recwarn, test_engine, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory, vertex_text
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\EvalForge\tests\backend\test_senior_tier_visibility.py:11
+_________________ ERROR at setup of test_senior_boss_runs_api _________________
+file D:\EvalForge\tests\backend\test_senior_tier_visibility.py, line 80
+  async def test_senior_boss_runs_api(client: AsyncClient, session, test_user: User):
+      """
+      Verify /api/boss_runs/senior returns the history.
+      """
+      # 1. Setup Data
+      senior_boss_id = "boss-synapse-mlops-sentinel" # ML Senior
+
+      boss_def = BossDefinition(
+          id=senior_boss_id,
+          name="ML Sentinel",
+          track_id="synapse-senior-mlops",
+          world_id="world-ml",
+          difficulty="legendary"
+      )
+      session.add(boss_def)
+
+      run = BossRun(
+          user_id=test_user.id,
+          boss_id=senior_boss_id,
+          result="win",
+          score=8,
+          hp_remaining=90, # 90% integrity
+          completed_at=datetime.utcnow()
+      )
+      session.add(run)
+      await session.commit()
+
+      # 2. Call API
+      resp = await client.get("/api/boss_runs/senior")
+      assert resp.status_code == 200
+
+      data = resp.json()
+      items = data["items"]
+
+      assert len(items) >= 1
+      item = items[0]
+      assert item["boss_id"] == senior_boss_id
+      assert item["passed"] is True
+      assert item["score"] == 8
+      # Integrity check: backend casts to float. 90 -> 90.0
+      assert item["integrity"] == 90.0
+E       fixture 'session' not found
+>       available fixtures: _class_scoped_runner, _function_scoped_runner, _module_scoped_runner, _package_scoped_runner, _session_faker, _session_scoped_runner, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, client, cov, db_session, doctest_namespace, event_loop_policy, explain_smoke_session, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, httpx_mock, judge_smoke_session, mock_vertex_ai_modules, monkeypatch, no_cover, patch_tracks_for_explain, patch_tracks_for_judge, patch_tracks_for_quest, pytestconfig, quest_smoke_session, record_property, record_testsuite_property, record_xml_attribute, recwarn, test_engine, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory, vertex_text
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\EvalForge\tests\backend\test_senior_tier_visibility.py:80
 ============================== warnings summary ===============================
 C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
   C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
     warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
 
-arcade_app\agent.py:440
-  D:\EvalForge\arcade_app\agent.py:440: DeprecationWarning: 
+arcade_app\agent.py:449
+  D:\EvalForge\arcade_app\agent.py:449: DeprecationWarning: 
           on_event is deprecated, use lifespan event handlers instead.
   
           Read more about it in the
@@ -172,6 +158,6 @@ C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applicatio
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 =========================== short test summary info ===========================
-FAILED tests/backend/test_world_progress_endpoint.py::test_world_progress_endpoint_smoke
-FAILED tests/backend/test_world_progress_endpoint.py::test_progress_calculation_logic
-======================== 2 failed, 3 warnings in 4.99s ========================
+ERROR tests/backend/test_senior_tier_visibility.py::test_senior_progress_api
+ERROR tests/backend/test_senior_tier_visibility.py::test_senior_boss_runs_api
+======================== 3 warnings, 2 errors in 0.11s ========================

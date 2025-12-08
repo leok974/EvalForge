@@ -1,0 +1,34 @@
+{
+    "world_slug": "world-java",
+    "rubrics": [
+        {
+            "rubric_id": "boss-rubric-reactor-core-circuit-stable-core-controller",
+            "boss_id": "boss-reactor-core-circuit-stable-core-controller",
+            "world_slug": "world-java",
+            "track_id": "reactor-core-circuit",
+            "slug": "stable-core-controller",
+            "title": "Rubric: Stable Core Controller",
+            "file_path": "rubrics/boss-reactor-core-circuit-stable-core-controller.json",
+            "tags": [
+                "rubric",
+                "java",
+                "boss"
+            ]
+        },
+        {
+            "rubric_id": "boss-rubric-reactor-service-loop-reactor-ops-conductor",
+            "boss_id": "boss-reactor-service-loop-reactor-ops-conductor",
+            "world_slug": "world-java",
+            "track_id": "reactor-service-loop",
+            "slug": "reactor-ops-conductor",
+            "title": "Rubric: Reactor Ops Conductor",
+            "file_path": "rubrics/boss-reactor-service-loop-reactor-ops-conductor.json",
+            "tags": [
+                "rubric",
+                "java",
+                "boss",
+                "ops"
+            ]
+        }
+    ]
+}

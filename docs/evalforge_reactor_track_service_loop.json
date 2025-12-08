@@ -1,0 +1,275 @@
+{
+    "snapshot_kind": "evalforge_track_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-java",
+    "world_name": "The Reactor – Java",
+    "track": {
+        "track_id": "reactor-service-loop",
+        "slug": "service-loop",
+        "title": "Service Loop – Build, Tests & Signals",
+        "order_index": 2,
+        "summary": "Turn your Reactor code into a service-ready module: build pipeline, tests, logs, and environments.",
+        "intended_outcome": "Player can structure a Java service module with Maven/Gradle, write meaningful JUnit tests, add logging, and handle configuration for multiple environments.",
+        "recommended_entry_level": "solid-java-junior",
+        "recommended_exit_level": "java-mid-level",
+        "skills": [
+            "build_tools_maven_gradle",
+            "project_structure",
+            "junit_testing",
+            "logging_slf4j",
+            "configuration_properties",
+            "environment_switching"
+        ]
+    },
+    "quests": [
+        {
+            "quest_id": "java-service-q1-reactor-buildfile",
+            "slug": "reactor-buildfile",
+            "title": "Q1 – Reactor Buildfile",
+            "order_index": 1,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 30,
+            "narrative_blurb": "The Reactor won’t run without a stable supply line. Your first task: create a build pipeline that can compile, test, and package the core safely.",
+            "learning_goals": [
+                "Understand standard Maven/Gradle project structure.",
+                "Declare dependencies for tests and logging.",
+                "Run the full test suite with a single command."
+            ],
+            "starting_state": {
+                "description": "Source code for the Core Circuit exists under src/main/java and src/test/java, but build files are minimal or incomplete.",
+                "files": [
+                    "pom.xml (stub) or build.gradle (stub)",
+                    "src/main/java/ev/forge/reactor/core/**",
+                    "src/test/java/ev/forge/reactor/core/**"
+                ]
+            },
+            "target_state": {
+                "description": "A working Maven or Gradle config that compiles Java 17+, runs tests, and produces a JAR for the Reactor core.",
+                "expected_artifacts": [
+                    "pom.xml or build.gradle",
+                    "README snippet describing how to build & test"
+                ]
+            },
+            "tasks": [
+                "Configure Java version (17+) in the build file.",
+                "Add JUnit 5 (or similar) as a test dependency.",
+                "Add SLF4J API and a simple backend (e.g., Logback) as dependencies for later quests.",
+                "Ensure mvn test or gradle test runs all existing tests successfully.",
+                "Optionally configure a simple plugin to build an executable JAR for a tiny CLI entry point."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Build tool command (mvn test or gradle test) exits successfully.",
+                    "Tests from Core Circuit still pass.",
+                    "No dependency conflicts or duplicate versions."
+                ],
+                "semantic_checks": [
+                    "Build config is minimal and understandable; no unnecessary plugins or random dependencies.",
+                    "Project structure follows conventional layout (src/main/java, src/test/java)."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward conventional structure over clever hacks.",
+                    "Penalize overly complex configs or unnecessary dependencies."
+                ],
+                "hint_snippets": [
+                    "Start from the official Maven/Gradle quickstart and adapt minimally.",
+                    "Explicit Java version is better than relying on defaults."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "java-service-q2-fault-injection-tests"
+                ]
+            }
+        },
+        {
+            "quest_id": "java-service-q2-fault-injection-tests",
+            "slug": "fault-injection-tests",
+            "title": "Q2 – Fault Injection Tests",
+            "order_index": 2,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 40,
+            "narrative_blurb": "A Reactor only proves itself under fault. You’ll write JUnit tests that inject bad readings and missing cores into the Stable Core Controller.",
+            "learning_goals": [
+                "Write JUnit tests for happy and unhappy paths.",
+                "Use parameterized tests to cover multiple scenarios.",
+                "Assert on exceptions and value objects, not just booleans."
+            ],
+            "starting_state": {
+                "description": "StableCoreController and its collaborators exist, along with minimal or sample tests.",
+                "files": [
+                    "src/main/java/ev/forge/reactor/boss/StableCoreController.java",
+                    "src/test/java/ev/forge/reactor/boss/StableCoreControllerTest.java (stub)"
+                ]
+            },
+            "target_state": {
+                "description": "A suite of tests that prove StableCoreController behavior for core missing, invalid readings, shutdown, and normal operations.",
+                "expected_artifacts": [
+                    "src/test/java/ev/forge/reactor/boss/StableCoreControllerTest.java"
+                ]
+            },
+            "tasks": [
+                "Create tests for: happy path, missing core, InvalidReadingException, shutdown action.",
+                "Use fakes or mocks for ReactorRegistry, ReactorController, and AlarmSink.",
+                "Add at least one parameterized test over several SensorReading cases (e.g., low temp, high temp, emergencyStop).",
+                "Use expressive assertions (e.g., AssertJ or JUnit assertions) for CoreTickResult and alarm lists."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "All tests pass via the build tool.",
+                    "Coverage includes at least one failure path for each error type."
+                ],
+                "semantic_checks": [
+                    "Tests read like examples of system behavior, not just mechanical checks.",
+                    "Fakes/mocks keep tests focused on behavior, not setup noise."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward tests that clearly describe expected behavior in names and assertions.",
+                    "Penalize brittle tests that depend on internal implementation details (like exact log message formatting beyond what’s needed)."
+                ],
+                "hint_snippets": [
+                    "Name tests as stories: `ticksCore_whenInvalidReading_shutdownsAndRaisesAlarm`.",
+                    "Use parameterized tests instead of copy-pasting similar cases."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "java-service-q3-signals-in-the-logs"
+                ]
+            }
+        },
+        {
+            "quest_id": "java-service-q3-signals-in-the-logs",
+            "slug": "signals-in-the-logs",
+            "title": "Q3 – Signals in the Logs",
+            "order_index": 3,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 40,
+            "narrative_blurb": "A silent Reactor is a dangerous one. You’ll integrate structured logging so operators can see what the core is doing in real time.",
+            "learning_goals": [
+                "Integrate SLF4J logging in key components.",
+                "Choose appropriate log levels (INFO, WARN, ERROR).",
+                "Optionally capture logs in tests using a fake appender."
+            ],
+            "starting_state": {
+                "description": "Build tool has SLF4J + backend dependencies; StableCoreController and related classes perform logic but don’t log much.",
+                "files": [
+                    "src/main/java/ev/forge/reactor/boss/StableCoreController.java",
+                    "src/main/java/ev/forge/reactor/core/** (for context)",
+                    "logback-test.xml (stub, optional)"
+                ]
+            },
+            "target_state": {
+                "description": "Key events (core missing, invalid reading, shutdown, alarms) are logged with clear, structured entries at appropriate levels.",
+                "expected_artifacts": [
+                    "Updated StableCoreController with SLF4J logger",
+                    "Optional test helpers for capturing logs"
+                ]
+            },
+            "tasks": [
+                "Add a private static final Logger using SLF4J to StableCoreController.",
+                "Log at INFO for normal ticks, WARN for unusual but handled situations, and ERROR for severe issues (e.g., repeated invalid readings).",
+                "Include structured fields where possible (coreId, action, alarmCount).",
+                "Optionally add tests that assert certain conditions cause WARN/ERROR logs using a fake appender or in-memory logger."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Application/startup logs show at least one INFO entry when a tick occurs in an integration test or demo.",
+                    "No logging in tight inner loops that would spam output unnecessarily."
+                ],
+                "semantic_checks": [
+                    "Log messages are actionable and concise.",
+                    "Log levels make sense; no everything-ERROR or everything-DEBUG disasters."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward structured, concise logs at sensible levels.",
+                    "Penalize noisy logging or logs that duplicate what exceptions already convey."
+                ],
+                "hint_snippets": [
+                    "Think: if on call at 3am, would these logs help you debug a core outage?",
+                    "Prefer logging higher in the stack (StableCoreController) over low-level spam."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "java-service-q4-environment-channels"
+                ]
+            }
+        },
+        {
+            "quest_id": "java-service-q4-environment-channels",
+            "slug": "environment-channels",
+            "title": "Q4 – Environment Channels",
+            "order_index": 4,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 40,
+            "narrative_blurb": "The Reactor runs in multiple halls: dev, staging, prod. You’ll introduce configuration so behavior can change without touching code.",
+            "learning_goals": [
+                "Load configuration from properties or YAML.",
+                "Provide defaults but allow overrides via environment/system properties.",
+                "Pass configuration through to components cleanly."
+            ],
+            "starting_state": {
+                "description": "Code uses hard-coded thresholds (e.g., shutdown temperature) and log levels. A minimal config file is present but unused.",
+                "files": [
+                    "src/main/resources/reactor.properties (stub)",
+                    "src/main/java/ev/forge/reactor/config/ReactorConfig.java (stub)",
+                    "src/main/java/ev/forge/reactor/boss/StableCoreController.java"
+                ]
+            },
+            "target_state": {
+                "description": "A ReactorConfig that loads from properties, with environment overrides, and is used by control logic.",
+                "expected_artifacts": [
+                    "src/main/java/ev/forge/reactor/config/ReactorConfig.java",
+                    "src/main/resources/reactor.properties",
+                    "tests verifying config loading behavior"
+                ]
+            },
+            "tasks": [
+                "Implement ReactorConfig with fields like shutdownTemperature, warningTemperature, maxInvalidReadingsBeforeError.",
+                "Load defaults from reactor.properties.",
+                "Allow overrides via System properties or environment variables (e.g., REACTOR_SHUTDOWN_TEMPERATURE).",
+                "Inject ReactorConfig into ReactorController or StableCoreController (constructor or factory).",
+                "Write tests to verify default behavior and at least one override scenario."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Tests confirm that changing a system property changes the threshold used by control logic.",
+                    "No hard-coded magic numbers remain where config should apply."
+                ],
+                "semantic_checks": [
+                    "Configuration API is simple; not a sprawling config system.",
+                    "Config is read once and passed in, not fetched ad-hoc everywhere."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward clean configuration boundaries and dependency injection.",
+                    "Penalize sprinkling System.getProperty calls throughout the codebase."
+                ],
+                "hint_snippets": [
+                    "Config objects are just another dependency—treat them like any other.",
+                    "Keep environment-specific logic at the edges, not deep inside domain classes."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "boss-reactor-service-loop-reactor-ops-conductor"
+                ]
+            }
+        }
+    ],
+    "boss_stub": {
+        "boss_id": "boss-reactor-service-loop-reactor-ops-conductor",
+        "title": "Boss: Reactor Ops Conductor",
+        "summary": "Wire the build, tests, logging, and configuration into a small, CLI-style Reactor service process with graceful shutdown and clear operational signals.",
+        "status": "design-next",
+        "notes": "Boss will test service wiring: main entrypoint, config, logging, and hooks for running the core tick loop. Similar pattern to Stable Core Controller, but one layer up."
+    }
+}

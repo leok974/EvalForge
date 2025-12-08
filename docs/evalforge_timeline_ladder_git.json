@@ -1,0 +1,158 @@
+{
+    "snapshot_kind": "evalforge_ladder_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-git",
+    "world_name": "The Timeline – Git",
+    "ladder": {
+        "ladder_id": "timeline-git-core-to-collab",
+        "slug": "timeline-git-core-to-collab",
+        "title": "Timeline Engineer – Commits to Collaboration",
+        "summary": "From solo history to clean, collaborative workflows with branches, PRs, and conflict resolution.",
+        "recommended_entry_level": "new-to-git",
+        "recommended_exit_level": "git-mid-level",
+        "tags": [
+            "git",
+            "version-control",
+            "collaboration"
+        ],
+        "stages": [
+            {
+                "stage_id": "stage-1-timeline-commit",
+                "order_index": 1,
+                "title": "Stage 1 – Commit (Local Mastery)",
+                "description": "Master local Git: commits, history, undoing mistakes, and keeping a clean working tree.",
+                "goals": [
+                    "Initialize repos, create commits, and inspect history.",
+                    "Use status, diff, and log to understand changes.",
+                    "Undo mistakes with checkout, restore, revert, and reset safely."
+                ],
+                "quests": [
+                    "git-commit-q1-init-and-first-commit",
+                    "git-commit-q2-history-and-diff",
+                    "git-commit-q3-undo-and-recover"
+                ],
+                "bosses": [
+                    "boss-timeline-commit-history-warden"
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-timeline-commit-history-warden"
+                },
+                "badge": {
+                    "code": "timeline-commit-ready",
+                    "label": "Commit Ready",
+                    "description": "Can manage local history without fear."
+                }
+            },
+            {
+                "stage_id": "stage-2-timeline-branch",
+                "order_index": 2,
+                "title": "Stage 2 – Branch (Collab & Flows)",
+                "description": "Work with branches, remotes, rebases, PRs, and conflict resolution in real workflows.",
+                "goals": [
+                    "Use branches for features, fixes, and releases.",
+                    "Rebase and merge cleanly with good commit hygiene.",
+                    "Resolve conflicts and debug history with bisect."
+                ],
+                "quests": [
+                    "git-branch-q1-branching-strategies",
+                    "git-branch-q2-merge-and-rebase",
+                    "git-branch-q3-conflicts-and-resolutions",
+                    "git-branch-q4-pr-flows-and-reviews"
+                ],
+                "bosses": [
+                    "boss-timeline-branch-release-conductor"
+                ],
+                "prerequisites": {
+                    "type": "stage_complete",
+                    "stage_ids": [
+                        "stage-1-timeline-commit"
+                    ]
+                },
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-timeline-branch-release-conductor"
+                },
+                "badge": {
+                    "code": "timeline-collab-ready",
+                    "label": "Collab Ready",
+                    "description": "Can work in collaborative Git flows with confidence."
+                },
+                "status": "design-next"
+            },
+            {
+                "stage_id": "stage-3-senior-release-architect",
+                "title": "Stage 3 – Release Architect",
+                "track_id": "timeline-senior-release-architect",
+                "order_index": 3,
+                "description": "Design branching, release trains, and recovery strategies for real teams.",
+                "goals": [
+                    "Design robust branching models for diverse environments.",
+                    "Manage release trains and hotfix flows safely.",
+                    "Recover from history disasters and debug complex timelines."
+                ],
+                "nodes": [
+                    {
+                        "id": "timeline-release-env-map",
+                        "kind": "quest",
+                        "label": "Branch & Env Map",
+                        "order_index": 1
+                    },
+                    {
+                        "id": "timeline-release-train",
+                        "kind": "quest",
+                        "label": "Release Train",
+                        "order_index": 2
+                    },
+                    {
+                        "id": "timeline-release-hotfix-backport",
+                        "kind": "quest",
+                        "label": "Hotfix & Backport",
+                        "order_index": 3
+                    },
+                    {
+                        "id": "timeline-release-monorepo-strategy",
+                        "kind": "quest",
+                        "label": "Monorepo Strategy",
+                        "order_index": 4
+                    },
+                    {
+                        "id": "timeline-release-history-surgery",
+                        "kind": "quest",
+                        "label": "History Surgery",
+                        "order_index": 5
+                    },
+                    {
+                        "id": "boss-timeline-release-arbiter",
+                        "kind": "legendary_boss",
+                        "label": "Timeline Release Arbiter",
+                        "order_index": 99
+                    }
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-timeline-release-arbiter"
+                }
+            }
+        ],
+        "completion_rewards": {
+            "xp": 450,
+            "titles": [
+                "Timeline Engineer",
+                "Collaboration Adept"
+            ],
+            "unlocks": [
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-infra",
+                    "note": "You are ready to wire Git into CI/CD flows in The Grid."
+                },
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-agents",
+                    "note": "You can now design Git-aware agents in The Oracle."
+                }
+            ]
+        }
+    }
+}

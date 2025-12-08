@@ -1,0 +1,115 @@
+{
+    "rubric_id": "boss-rubric-prism-spectrum-curator-generic-arsenal",
+    "boss_id": "boss-prism-spectrum-curator-generic-arsenal",
+    "version": 1,
+    "overall": {
+        "score_scale": "per-criterion 0–2",
+        "pass_threshold": 6,
+        "max_score": 8,
+        "notes": "6+ is pass; 7–8 is strong pass."
+    },
+    "criteria": [
+        {
+            "id": "generic_design",
+            "label": "Generic Design & Signatures",
+            "weight": 0.3,
+            "description": "Quality of generic function/type design for the toolkit.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Weak",
+                    "description": "Signatures are not truly generic or rely on any/unknown. Constraints are missing or incorrect."
+                },
+                {
+                    "score": 1,
+                    "label": "Okay",
+                    "description": "Generics exist but are slightly awkward, overly constrained, or require manual type parameters at most call sites."
+                },
+                {
+                    "score": 2,
+                    "label": "Strong",
+                    "description": "Signatures are idiomatic and inference-friendly. Constraints (e.g., K extends keyof T) are correct and useful."
+                }
+            ]
+        },
+        {
+            "id": "inference_and_dx",
+            "label": "Inference & Developer Experience",
+            "weight": 0.25,
+            "description": "How it feels to consume the toolkit from real code.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Clumsy",
+                    "description": "Call sites require frequent casting or explicit type parameters; autocomplete is poor."
+                },
+                {
+                    "score": 1,
+                    "label": "Usable",
+                    "description": "Most call sites work, but some require extra annotations or casts."
+                },
+                {
+                    "score": 2,
+                    "label": "Smooth",
+                    "description": "Callers get correct types by default. Little to no casting is needed in normal usage."
+                }
+            ]
+        },
+        {
+            "id": "correctness_and_edge_cases",
+            "label": "Correctness & Edge Cases",
+            "weight": 0.25,
+            "description": "Behavior of helpers on realistic inputs.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Buggy",
+                    "description": "Helpers mishandle common cases (duplicates, empty arrays, simple merges)."
+                },
+                {
+                    "score": 1,
+                    "label": "Mostly correct",
+                    "description": "Core behavior is correct but some edge cases (like no matches or duplicates) are not clearly defined or tested."
+                },
+                {
+                    "score": 2,
+                    "label": "Robust",
+                    "description": "Helpers behave predictably and tests cover common edge cases such as empty inputs and duplicate IDs."
+                }
+            ]
+        },
+        {
+            "id": "tests_and_examples",
+            "label": "Tests & Examples",
+            "weight": 0.2,
+            "description": "Quality of tests and usage examples.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Minimal",
+                    "description": "Few or no tests. No real usage example."
+                },
+                {
+                    "score": 1,
+                    "label": "Basic",
+                    "description": "Some tests for main helpers. A small example exists but is limited."
+                },
+                {
+                    "score": 2,
+                    "label": "Good",
+                    "description": "Tests cover multiple helpers and edge cases. A concise example module shows how a real team would use the toolkit."
+                }
+            ]
+        }
+    ],
+    "zero_guidance": {
+        "instructions_to_model": [
+            "You are reviewing a TypeScript generic collection toolkit for the 'Curator of the Generic Arsenal' boss.",
+            "Use the criteria above to score the solution. Focus on generic API design, type inference, correctness, and tests.",
+            "For each criterion, pick score 0, 1, or 2 and explain briefly why.",
+            "Then compute score_total, score_max, passed based on pass_threshold, integrity as score_total / score_max, and an overall verdict."
+        ],
+        "success_summary_hint": "Explain why this toolkit would be safe and pleasant to adopt as a shared internal package.",
+        "failure_summary_hint": "If it is weak, highlight how to improve generic design, inference, and edge case handling."
+    }
+}

@@ -209,9 +209,9 @@ async def judge_boss_with_rubric(
         "boss_slug": boss.id,
         "rubric_id": rubric.id,
         "player": {
-            "id": player.id,
-            "name": player.display_name,
-            "level": player.level,
+            "id": str(player.id),
+            "name": player.user_id,
+            "level": player.global_level,
         },
         "run": {
             "id": run.id,
@@ -231,8 +231,35 @@ async def judge_boss_with_rubric(
                     {"key": dim.key, "level": max(b.level for b in dim.bands), "rationale": "Perfect implementation"}
                     for dim in rubric.dimensions
                 ],
-                "autofail_conditions_triggered": []
+                "autofail_conditions_triggered": [],
+                "summary": "Mock Judge: Excellent work! You recovered the history perfectly.",
+                "strengths": ["Perfect graph diagnosis", "Safe recovery strategy"],
+                "improvements": []
             }
+        elif "MAGIC_BOSS_PASS" in code and "world-sql" in str(rubric.world_slug):
+             # SQL Boss Perfect Score
+             choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": max(b.level for b in dim.bands), "rationale": "Precise and performant."}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": [],
+                "summary": "Mock Judge: Excellent analytics runbook.",
+                "strengths": ["Clear grain definitions", "Explicit EXPLAIN checks", "Safe rollouts"],
+                "improvements": [] 
+             }
+        elif "MAGIC_BOSS_PASS" in code and "world-ml" in str(rubric.world_slug):
+             # ML Boss Perfect Score
+             choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": max(b.level for b in dim.bands), "rationale": "Scientifically rigorous."}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": [],
+                "summary": "Mock Judge: Outstanding analysis of the gradient storm.",
+                "strengths": ["Disciplined baselines", "Deep understanding of leakage", "Ops-ready monitoring"],
+                "improvements": [] 
+             }
         else:
             # Mid-range score
             choice_data = {
@@ -240,7 +267,10 @@ async def judge_boss_with_rubric(
                     {"key": dim.key, "level": 1, "rationale": "Partial implementation"}
                     for dim in rubric.dimensions
                 ],
-                "autofail_conditions_triggered": []
+                "autofail_conditions_triggered": [],
+                "summary": "Mock Judge: Partial implementation.",
+                "strengths": [],
+                "improvements": ["Need better recovery steps"]
             }
         choice = BossEvalLLMChoice.model_validate(choice_data)
     else:
@@ -266,14 +296,14 @@ async def judge_boss_with_rubric(
     eval_result = score_boss_eval(rubric, choice)
 
     # Compute HP + Integrity deltas based on score
-    boss_hp_before = run.boss_hp if run.boss_hp is not None else boss.max_hp
+    boss_hp_before = run.hp_remaining if run.hp_remaining is not None and run.hp_remaining > 0 else boss.max_hp
     hp_fraction = eval_result.total_score / max(1, eval_result.max_score)
     damage = int(round(boss.max_hp * hp_fraction))
     boss_hp_after = max(0, boss_hp_before - damage)
     boss_hp_delta = boss_hp_after - boss_hp_before
 
     # Integrity damage if score is low
-    integrity_before = player.integrity
+    integrity_before = getattr(player, "integrity", 100)
     integrity_damage = 0
     if eval_result.total_score < eval_result.max_score * 0.5:
         integrity_damage = 10  # tune this

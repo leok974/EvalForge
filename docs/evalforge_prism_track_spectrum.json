@@ -1,0 +1,276 @@
+{
+    "snapshot_kind": "evalforge_track_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-typescript",
+    "world_name": "The Prism – TypeScript",
+    "track": {
+        "track_id": "prism-spectrum",
+        "slug": "spectrum",
+        "title": "Spectrum – Generics & Collections",
+        "order_index": 2,
+        "summary": "Turn copy-paste utilities into a reusable generic arsenal. Learn to bend all shapes of data through the same typed primitives.",
+        "intended_outcome": "Player can design and implement reusable generic helpers and small libraries using generics, constraints, mapped types, and utility types.",
+        "recommended_entry_level": "solid-ts-junior",
+        "recommended_exit_level": "mid-to-senior-ts",
+        "skills": [
+            "generics_functions",
+            "generics_constraints",
+            "mapped_types",
+            "utility_types",
+            "record_and_map",
+            "type_inference_infer"
+        ]
+    },
+    "quests": [
+        {
+            "quest_id": "ts-spectrum-q1-typed-toolbox",
+            "slug": "typed-toolbox",
+            "title": "Q1 – Typed Toolbox",
+            "order_index": 1,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 30,
+            "narrative_blurb": "The Prism shows countless arrays and maps, all screaming to be DRY. Your first task: forge generic tools that work for any shape of data.",
+            "learning_goals": [
+                "Write generic functions with constraints.",
+                "Return strongly-typed values based on input type parameters.",
+                "Avoid any and keep inference working for callers."
+            ],
+            "starting_state": {
+                "description": "A handful of copy-pasted array helpers written for specific types: pluckUsers, pluckJobs, indexUsersById, etc.",
+                "files": [
+                    "src/spectrum/q1/toolbox.start.ts"
+                ]
+            },
+            "target_state": {
+                "description": "A reusable, generic toolbox module that supports pluck, groupBy, and indexBy for arbitrary shapes.",
+                "expected_artifacts": [
+                    "src/spectrum/q1/toolbox.ts",
+                    "src/spectrum/q1/toolbox.test.ts"
+                ]
+            },
+            "tasks": [
+                "Implement pluck<T, K extends keyof T>(items: T[], key: K): T[K][].",
+                "Implement indexBy<T, K extends keyof T>(items: T[], key: K): Record<string, T> or Record<T[K] & (string | number | symbol), T>.",
+                "Optionally implement groupBy<T, K extends keyof T>(items: T[], key: K): Record<string, T[]>.",
+                "Refactor existing type-specific helpers to call the generic versions.",
+                "Ensure no any is used in the public API of this module."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "tsc -p tsconfig.spectrum.q1.json passes with no errors.",
+                    "pluck, indexBy, and groupBy are generic and fully typed.",
+                    "Call sites get correct IntelliSense and types for return values."
+                ],
+                "semantic_checks": [
+                    "Constraints (K extends keyof T) prevent invalid keys.",
+                    "No manual casts required at call sites for normal usage."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward clean generic signatures that infer T and K from usage.",
+                    "Penalize any or unnecessary type assertions.",
+                    "Check that refactored call sites still compile without casts."
+                ],
+                "hint_snippets": [
+                    "Start from the call sites: what signature would make them feel natural?",
+                    "Use keyof and generics together instead of hard-coding property names."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "ts-spectrum-q2-record-forge"
+                ]
+            }
+        },
+        {
+            "quest_id": "ts-spectrum-q2-record-forge",
+            "slug": "record-forge",
+            "title": "Q2 – Record Forge",
+            "order_index": 2,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 30,
+            "narrative_blurb": "The Prism’s core spins, mapping IDs to entities and entities to states. Your next task is to forge durable maps using Record and Map with clear types.",
+            "learning_goals": [
+                "Use Record and Map with explicit type parameters.",
+                "Build small repositories with typed operations.",
+                "Understand tradeoffs between Record and Map for lookups."
+            ],
+            "starting_state": {
+                "description": "A mini in-memory store using plain objects and untyped string keys.",
+                "files": [
+                    "src/spectrum/q2/store.start.ts"
+                ]
+            },
+            "target_state": {
+                "description": "A small generic Repository<T, IdKey> that provides typed CRUD-like operations.",
+                "expected_artifacts": [
+                    "src/spectrum/q2/store.ts",
+                    "src/spectrum/q2/store.test.ts"
+                ]
+            },
+            "tasks": [
+                "Define type RepositoryOptions<T, IdKey extends keyof T> with a key field (e.g., 'id').",
+                "Implement class Repository<T, IdKey extends keyof T> with methods like add, get, update, remove, all.",
+                "Internally, use a Map or Record keyed by T[IdKey].",
+                "Ensure Repository correctly infers the ID type from the provided IdKey.",
+                "Write tests showing Repository working for User, Job, and generic entities."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Repository<User, 'id'> exposes methods returning User and taking User.",
+                    "Using a non-existent key in IdKey should be a compile error.",
+                    "tsc -p tsconfig.spectrum.q2.json passes with no errors."
+                ],
+                "semantic_checks": [
+                    "Repository implementation keeps the in-memory index consistent.",
+                    "No any is used inside the public API surfaces."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward correct use of IdKey extends keyof T for Repository.",
+                    "Penalize designs that hard-code 'id' instead of honoring IdKey.",
+                    "Check that tests use multiple entity shapes to prove generality."
+                ],
+                "hint_snippets": [
+                    "Let the type of the id field come from T[IdKey], not from assumptions.",
+                    "Repository should feel like a tiny generic library, not a one-off store."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "ts-spectrum-q3-shape-shifter"
+                ]
+            }
+        },
+        {
+            "quest_id": "ts-spectrum-q3-shape-shifter",
+            "slug": "shape-shifter",
+            "title": "Q3 – Shape Shifter",
+            "order_index": 3,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 35,
+            "narrative_blurb": "The Prism begins to warp shapes themselves. You must learn to derive new types from old ones using mapped types and utility types.",
+            "learning_goals": [
+                "Use built-in utility types like Partial, Pick, Omit, Readonly.",
+                "Define custom mapped types over an object type.",
+                "Understand when to use derived types vs duplicating structures."
+            ],
+            "starting_state": {
+                "description": "A domain model file with User, Job, and Application types and some manually defined variants (UserUpdate, JobPreview, etc.).",
+                "files": [
+                    "src/spectrum/q3/models.start.ts"
+                ]
+            },
+            "target_state": {
+                "description": "A set of derived types using mapped types and utilities instead of duplication.",
+                "expected_artifacts": [
+                    "src/spectrum/q3/models.ts",
+                    "src/spectrum/q3/models.test.ts"
+                ]
+            },
+            "tasks": [
+                "Replace manually defined update types with Partial-based variants (e.g., UserUpdate = Partial<User>).",
+                "Define a Preview<T, K extends keyof T> = Pick<T, K> type and use it to create JobPreview, UserPreview types.",
+                "Define a ReadonlyDeep<T> or a lighter subset that makes nested properties readonly (even if shallow).",
+                "Write tests that ensure these derived types still line up with the base model (e.g., no typoed keys)."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Preview<Job, 'id' | 'title'> behaves like the to-be-replaced JobPreview type.",
+                    "Readonly<T> and/or your deep readonly ensure compile-time errors when mutating.",
+                    "tsc -p tsconfig.spectrum.q3.json passes with no errors."
+                ],
+                "semantic_checks": [
+                    "Derived types remove duplication instead of adding new parallel structures.",
+                    "Mapped types are readable and reasonably simple (no overcomplicated type-level metaprogramming)."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward replacement of duplicated structures with derived types.",
+                    "Penalize overuse of any/unknown in mapped types.",
+                    "Prefer clarity and maintainability over cleverness."
+                ],
+                "hint_snippets": [
+                    "If you find yourself creating Foo and FooUpdate manually, consider whether Partial<Foo> is enough.",
+                    "Use Pick and Omit to shape data for specific views or contexts."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "ts-spectrum-q4-mirror-types"
+                ]
+            }
+        },
+        {
+            "quest_id": "ts-spectrum-q4-mirror-types",
+            "slug": "mirror-types",
+            "title": "Q4 – Mirror Types",
+            "order_index": 4,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 35,
+            "narrative_blurb": "Configs, once written, must reflect through the Prism into types. Your task: let a const configuration define the types of routes, features, or permissions.",
+            "learning_goals": [
+                "Infer types from const objects (as const).",
+                "Use keyof and indexed access types to derive unions.",
+                "Optionally, use infer in conditional types to extract information."
+            ],
+            "starting_state": {
+                "description": "A config file with routes, feature flags, or permissions defined as const objects, plus some manually maintained string unions.",
+                "files": [
+                    "src/spectrum/q4/config.start.ts"
+                ]
+            },
+            "target_state": {
+                "description": "A small type system that mirrors config shapes into unions and helper types.",
+                "expected_artifacts": [
+                    "src/spectrum/q4/config.ts",
+                    "src/spectrum/q4/config.test.ts"
+                ]
+            },
+            "tasks": [
+                "Define a const routes object such as routes = { home: '/', profile: '/u/:id', settings: '/settings' } as const.",
+                "Derive type RouteName = keyof typeof routes and type RoutePath = (typeof routes)[RouteName].",
+                "If applicable, define a similar config for feature flags and derive FeatureName unions.",
+                "Implement a helper function navigate(route: RouteName) that uses the types to restrict callers.",
+                "Write tests that ensure navigating to invalid route names fails at compile time (via dts-style tests or explicit comments) and valid names behave as expected."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "RouteName is the union of the config keys, not a free-form string.",
+                    "RoutePath is the union of the config values.",
+                    "navigate(route) only accepts valid route names."
+                ],
+                "semantic_checks": [
+                    "Adding a new route in the config automatically updates RouteName without needing manual sync.",
+                    "No duplicate, hand-maintained string unions shadow the config."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward clean use of as const and keyof to create unions.",
+                    "Penalize manual unions that could obviously be derived from const config.",
+                    "Treat good examples of type-safe helper functions as a strong positive signal."
+                ],
+                "hint_snippets": [
+                    "Let the config be the source of truth; types should follow it, not the other way around.",
+                    "If changing the config requires touching union types, consider deriving the unions instead."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "boss-prism-spectrum-curator-generic-arsenal"
+                ]
+            }
+        }
+    ],
+    "boss_stub": {
+        "boss_id": "boss-prism-spectrum-curator-generic-arsenal",
+        "title": "Boss: Curator of the Generic Arsenal",
+        "summary": "Build a reusable generic collection toolkit that could ship as a small library: typed helpers for plucking, grouping, indexing, and transforming collections.",
+        "status": "design-complete",
+        "notes": "BossDefinition, Codex, Rubric, ZERO task defined in separate seed files."
+    }
+}

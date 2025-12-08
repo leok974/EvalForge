@@ -1,0 +1,140 @@
+{
+    "schema_version": "1.0",
+    "id": "boss-synapse-mlops-sentinel",
+    "boss_slug": "boss-synapse-mlops-sentinel",
+    "title": "ML Ops Sentinel",
+    "max_score": 8,
+    "dimensions": [
+        {
+            "key": "lifecycle_and_architecture",
+            "label": "Lifecycle & Architecture",
+            "weight": 0.25,
+            "description": "Does the player present a coherent end-to-end lifecycle for data, features, models, and deployments?",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Fragmented",
+                    "score": 0,
+                    "criteria": "Treats each script or project as its own island; no clear picture of the overall lifecycle. Describes steps in isolation with no shared components. Ignores feature and model versioning. No separation between platform and per-project glue."
+                },
+                {
+                    "level": 1,
+                    "label": "Partial",
+                    "score": 1,
+                    "criteria": "Identifies some lifecycle stages but glosses over important transitions or shared services. Mentions feature store or registry but does not show how they fit. Covers training and deployment but not data ingestion or deprecation. Leaves unclear who owns which parts of the lifecycle."
+                },
+                {
+                    "level": 2,
+                    "label": "Coherent",
+                    "score": 2,
+                    "criteria": "Presents a clear, end-to-end lifecycle with shared platform components and explicit boundaries. Shows how data flows into features, models, and deployments. Separates platform services (e.g., feature store, registry) from project pipelines. Calls out versioning and ownership for key stages."
+                }
+            ]
+        },
+        {
+            "key": "ci_cd_and_promotion_strategy",
+            "label": "CI/CD & Promotion Strategy",
+            "weight": 0.25,
+            "description": "How well does the runbook define training, evaluation, promotion, canaries, and rollback?",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Ad Hoc",
+                    "score": 0,
+                    "criteria": "Relies on manual scripts or one-off notebooks with no repeatable pipeline or promotion rules. Deploys are described as manual copy/paste operations. No separation between experiments and production models."
+                },
+                {
+                    "level": 1,
+                    "label": "Basic",
+                    "score": 1,
+                    "criteria": "Mentions pipelines or promotion in general terms but leaves critical details unspecified. Suggests using a CI system but not what it runs. Mentions staging or canary but not criteria for success. Rollback is a vague 'revert to previous model' with no process."
+                },
+                {
+                    "level": 2,
+                    "label": "Disciplined",
+                    "score": 2,
+                    "criteria": "Defines a concrete CI/CD flow with explicit gates, canaries, and rollback steps. Specifies which tests and checks run before promotion. Describes how to compare candidate vs current model on offline and online metrics. Includes a clear rollback procedure and ownership."
+                }
+            ]
+        },
+        {
+            "key": "monitoring_drift_and_fairness",
+            "label": "Monitoring, Drift & Fairness",
+            "weight": 0.25,
+            "description": "Does the plan provide actionable monitoring for performance, drift, and basic fairness?",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Blind",
+                    "score": 0,
+                    "criteria": "Focuses only on offline metrics at training time; no real production monitoring. No mention of data or target drift. Ignores segment-level performance. No alerts or dashboards are proposed."
+                },
+                {
+                    "level": 1,
+                    "label": "Aware",
+                    "score": 1,
+                    "criteria": "Acknowledges monitoring and drift but at a high level with limited specifics. Suggests 'monitor metrics' without naming them. Mentions fairness but not how to compute or track it. Proposes dashboards without thresholds or response plans."
+                },
+                {
+                    "level": 2,
+                    "label": "Actionable",
+                    "score": 2,
+                    "criteria": "Defines concrete metrics, segments, and alerting/response patterns. Specifies which metrics to track (e.g., segment-wise error, calibration, drift scores). Outlines alert thresholds and how on-call should respond. Includes at least a minimal fairness surface with clear follow-up actions."
+                }
+            ]
+        },
+        {
+            "key": "governance_and_risk_controls",
+            "label": "Governance & Risk Controls",
+            "weight": 0.25,
+            "description": "How well does the plan address approvals, documentation, and auditability?",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Uncontrolled",
+                    "score": 0,
+                    "criteria": "No real governance; anyone can ship anything, and there is no trace of who changed what. No model cards, owners, or approval steps. No mention of audit logs or change history."
+                },
+                {
+                    "level": 1,
+                    "label": "Lightweight",
+                    "score": 1,
+                    "criteria": "Proposes some governance elements but leaves gaps or makes them hard to follow in practice. Defines model cards but not when they are updated or by whom. Suggests an approval step with no criteria. Auditing is mentioned but not integrated into normal workflows."
+                },
+                {
+                    "level": 2,
+                    "label": "Pragmatic & Traceable",
+                    "score": 2,
+                    "criteria": "Defines a practical governance layer with clear ownership and auditability. Model cards are versioned and tied to deployments. Approvals have concrete criteria (e.g., metrics, risk assessment). Changes are logged in a way that supports investigations and audits."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "label": "S",
+            "description": "Exemplary MLOps architecture, ready for high-scale production."
+        },
+        {
+            "min_score": 6,
+            "label": "A",
+            "description": "Solid, professional-grade platform design with minor gaps."
+        },
+        {
+            "min_score": 4,
+            "label": "B",
+            "description": "Functional but has significant gaps in reliability or safety."
+        },
+        {
+            "min_score": 0,
+            "label": "C",
+            "description": "Unsafe or incomplete design."
+        }
+    ],
+    "autofail_conditions": [
+        "No mention of rollback strategy.",
+        "Ignoring data privacy or compliance entirely."
+    ],
+    "llm_judge_instructions": "Evaluate the player's MLOps platform design (Markdown/Diagram) against the dimensions provided. Be strict about specific examples vs vague hand-waving."
+}

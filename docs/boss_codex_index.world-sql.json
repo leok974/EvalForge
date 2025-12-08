@@ -1,0 +1,11 @@
+{
+    "items": [
+        {
+            "id": "boss-archives-query-warden",
+            "world_slug": "world-sql",
+            "track_id": "archives-retrieval-analytics",
+            "path": "codex/world-sql/boss_archives_query_warden.md",
+            "title": "Boss Codex – Archive Query Warden"
+        }
+    ]
+}

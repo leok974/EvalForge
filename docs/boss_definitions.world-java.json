@@ -1,0 +1,81 @@
+{
+    "world_slug": "world-java",
+    "bosses": [
+        {
+            "boss_id": "boss-reactor-core-circuit-stable-core-controller",
+            "world_slug": "world-java",
+            "track_id": "reactor-core-circuit",
+            "tier": 1,
+            "slug": "stable-core-controller",
+            "title": "Boss: Stable Core Controller",
+            "short_description": "Design a cohesive CoreController that coordinates sensors, control actions, and the registry to keep the Reactor stable under stress.",
+            "long_description": "You are given the building blocks from the Core Circuit track: SensorReading, InvalidReadingException, ControlAction, ReactorController, and ReactorRegistry. Your mission is to design a StableCoreController that orchestrates these pieces into a clear, testable, production-ready module. It must validate inputs, route errors, interact with the registry, and produce a concise CoreTickResult describing what happened during a single control loop tick.",
+            "difficulty": "intermediate",
+            "recommended_level": 1,
+            "hint_codex_id": "codex.world-java.reactor-core-circuit.stable-core-controller",
+            "rubric_id": "boss-rubric-reactor-core-circuit-stable-core-controller",
+            "zero_task_id": "boss_reactor_core_circuit_stable_core_controller",
+            "evaluation_mode": "zero_boss_judge",
+            "tags": [
+                "java",
+                "orchestration",
+                "exceptions",
+                "collections",
+                "oop"
+            ],
+            "is_active": true,
+            "metadata": {
+                "requires_quests": [
+                    "java-core-q1-first-spark",
+                    "java-core-q2-flow-and-failsafes",
+                    "java-core-q3-cores-and-shells",
+                    "java-core-q4-circuits-and-collections"
+                ],
+                "expected_artifacts": [
+                    "src/main/java/ev/forge/reactor/boss/CoreTickResult.java",
+                    "src/main/java/ev/forge/reactor/boss/StableCoreController.java",
+                    "src/test/java/ev/forge/reactor/boss/StableCoreControllerTest.java"
+                ]
+            }
+        },
+        {
+            "boss_id": "boss-reactor-service-loop-reactor-ops-conductor",
+            "world_slug": "world-java",
+            "track_id": "reactor-service-loop",
+            "tier": 2,
+            "slug": "reactor-ops-conductor",
+            "title": "Boss: Reactor Ops Conductor",
+            "short_description": "Compose the Reactor into a small Java service with config, logging, and graceful shutdown.",
+            "long_description": "The Reactor now lives as a service, not a toy program. The Reactor Ops Conductor is responsible for wiring configuration, logging, main entrypoint, and the Stable Core Controller into a loop that can run in dev, staging, or prod. It should start cleanly, log useful signals, handle SIGINT/SIGTERM gracefully, and exit with a sensible status code.",
+            "difficulty": "advanced",
+            "recommended_level": 2,
+            "hint_codex_id": "codex.world-java.reactor-service-loop.reactor-ops-conductor",
+            "rubric_id": "boss-rubric-reactor-service-loop-reactor-ops-conductor",
+            "zero_task_id": "boss_reactor_service_loop_reactor_ops_conductor",
+            "evaluation_mode": "zero_boss_judge",
+            "tags": [
+                "java",
+                "service",
+                "logging",
+                "configuration",
+                "cli",
+                "shutdown"
+            ],
+            "is_active": true,
+            "metadata": {
+                "requires_quests": [
+                    "java-service-q1-reactor-buildfile",
+                    "java-service-q2-fault-injection-tests",
+                    "java-service-q3-signals-in-the-logs",
+                    "java-service-q4-environment-channels"
+                ],
+                "expected_artifacts": [
+                    "src/main/java/ev/forge/reactor/service/ReactorOpsMain.java",
+                    "src/main/java/ev/forge/reactor/service/ReactorOpsConductor.java",
+                    "src/main/resources/reactor.properties",
+                    "src/test/java/ev/forge/reactor/service/ReactorOpsConductorTest.java"
+                ]
+            }
+        }
+    ]
+}

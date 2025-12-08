@@ -1,0 +1,10 @@
+{
+    "world_slug": "world-python",
+    "items": [
+        {
+            "id": "boss-foundry-systems-architect",
+            "title": "Foundry Systems Architect",
+            "path": "codex/world-python/boss_foundry_systems_architect.md"
+        }
+    ]
+}

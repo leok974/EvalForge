@@ -1,0 +1,103 @@
+{
+    "snapshot_kind": "evalforge_world_content",
+    "world_slug": "world-java",
+    "tracks": [
+        {
+            "track_id": "reactor-senior-runtime-architect",
+            "slug": "reactor-senior-runtime-architect",
+            "world_slug": "world-java",
+            "title": "Senior Runtime Architect – Java Systems at Scale",
+            "tier": "senior",
+            "stage": 3,
+            "order_index": 30,
+            "summary": "Design and defend Java backend systems that stay fast, safe, and operable as they grow.",
+            "quests": [
+                {
+                    "quest_id": "reactor-senior-01-architecture-boundaries",
+                    "slug": "reactor-senior-01-architecture-boundaries",
+                    "title": "Force-Field Boundaries",
+                    "order_index": 1,
+                    "difficulty": "hard",
+                    "summary": "Define service boundaries, modules, and contracts for a growing Java platform.",
+                    "objective": "A clear architecture narrative that explains where code lives, how services talk, and how change risk is contained.",
+                    "tags": [
+                        "java",
+                        "architecture",
+                        "microservices",
+                        "modules"
+                    ]
+                },
+                {
+                    "quest_id": "reactor-senior-02-jvm-performance",
+                    "slug": "reactor-senior-02-jvm-performance",
+                    "title": "Taming the JVM",
+                    "order_index": 2,
+                    "difficulty": "hard",
+                    "summary": "Diagnose performance issues using GC logs, profiles, and JVM flags.",
+                    "objective": "A performance plan showing how you'd profile, interpret GC behavior, and choose JVM settings for predictable latency.",
+                    "tags": [
+                        "java",
+                        "jvm",
+                        "performance",
+                        "gc"
+                    ]
+                },
+                {
+                    "quest_id": "reactor-senior-03-concurrency-resilience",
+                    "slug": "reactor-senior-03-concurrency-resilience",
+                    "title": "Threads, Pools, and Storms",
+                    "order_index": 3,
+                    "difficulty": "hard",
+                    "summary": "Design concurrency strategies and resilience patterns under load.",
+                    "objective": "A concurrency/resilience design that covers thread pools, async flows, backpressure, and failure isolation.",
+                    "tags": [
+                        "java",
+                        "concurrency",
+                        "resilience",
+                        "threads"
+                    ]
+                },
+                {
+                    "quest_id": "reactor-senior-04-api-contracts",
+                    "slug": "reactor-senior-04-api-contracts",
+                    "title": "Contracts Under Pressure",
+                    "order_index": 4,
+                    "difficulty": "hard",
+                    "summary": "Keep APIs evolving without breaking downstream teams.",
+                    "objective": "A versioning and compatibility strategy for REST/JSON (or gRPC) APIs under frequent change.",
+                    "tags": [
+                        "java",
+                        "api",
+                        "contracts",
+                        "evolution"
+                    ]
+                },
+                {
+                    "quest_id": "reactor-senior-05-operability-incidents",
+                    "slug": "reactor-senior-05-operability-incidents",
+                    "title": "Runtime Under Fire",
+                    "order_index": 5,
+                    "difficulty": "hard",
+                    "summary": "Debug, triage, and learn from JVM incidents.",
+                    "objective": "An incident run-through with thread dumps, metrics, logs, root cause, and changes to prevent recurrence.",
+                    "tags": [
+                        "java",
+                        "operability",
+                        "incidents",
+                        "postmortem"
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-reactor-runtime-arbiter",
+                    "slug": "boss-reactor-runtime-arbiter",
+                    "title": "Reactor Runtime Arbiter",
+                    "order_index": 99,
+                    "difficulty": "boss",
+                    "summary": "Judges your ability to design and defend high-scale JVM architectures."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,1297 @@
+{
+    "snapshot_kind": "evalforge_world_content",
+    "evalforge_version": "2.0",
+    "worlds": [
+        {
+            "world_slug": "world-python",
+            "world_name": "The Foundry – Python",
+            "tracks": [
+                {
+                    "track_id": "foundry-senior-systems",
+                    "slug": "foundry-senior-systems",
+                    "title": "Systems & Reliability Engineer",
+                    "tier": 3,
+                    "order_index": 3,
+                    "stage_ref": "stage-3-systems-reliability",
+                    "summary": "Design scalable Python systems, focusing on boundaries, resilience, observability, and internal tooling.",
+                    "quests": [
+                        {
+                            "quest_id": "python-systems-service-boundaries",
+                            "order_index": 1,
+                            "title": "Service Boundaries & Contracts",
+                            "short_description": "Refactor a monolith into clean layers with defined contracts.",
+                            "long_description": "Design clean module/service boundaries. Practice hexagonal architecture, DTOs vs ORM models, and dependency injection.",
+                            "objectives": [
+                                "Identify and isolate core domain logic from adapters.",
+                                "Define clear interfaces/contracts for module interaction.",
+                                "Implement an anti-corruption layer."
+                            ],
+                            "world_slug": "world-python",
+                            "track_id": "foundry-senior-systems",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "architecture",
+                                "clean-code",
+                                "refactoring"
+                            ]
+                        },
+                        {
+                            "quest_id": "python-systems-resilient-job-runner",
+                            "order_index": 2,
+                            "title": "Resilient Job Runner",
+                            "short_description": "Build a background worker with retries and graceful shutdowns.",
+                            "long_description": "Build a production-ready job runner. Implement idempotency, retries with backoff/DLQ, and graceful shutdown handling.",
+                            "objectives": [
+                                "Implement a job processing loop with signal handling.",
+                                "Add exponential backoff and dead-letter queue logic.",
+                                "Ensure job idempotency via unique keys."
+                            ],
+                            "world_slug": "world-python",
+                            "track_id": "foundry-senior-systems",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "async",
+                                "systems",
+                                "reliability"
+                            ]
+                        },
+                        {
+                            "quest_id": "python-systems-observability-sli",
+                            "order_index": 3,
+                            "title": "Observability & SLIs",
+                            "short_description": "Instrument a service with metrics, logs, and traces.",
+                            "long_description": "Add observability to a python service. Define SLIs, implement structured logging, and propagate trace contexts.",
+                            "objectives": [
+                                "Define and measure SLIs for latency and error rate.",
+                                "Implement structured logging with correlation IDs.",
+                                "Add open-telemetry tracing middleware."
+                            ],
+                            "world_slug": "world-python",
+                            "track_id": "foundry-senior-systems",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "observability",
+                                "metrics",
+                                "tracing"
+                            ]
+                        },
+                        {
+                            "quest_id": "python-systems-performance-profile",
+                            "order_index": 4,
+                            "title": "Performance & Profiling",
+                            "short_description": "Diagnose bottlenecks using profilers and benchmarks.",
+                            "long_description": "Profile a slow endpoint/script. Use profiling tools to find bottlenecks and optimize via algos, async, or caching.",
+                            "objectives": [
+                                "Generate flame graphs to identify hotspots.",
+                                "Benchmark code before and after optimization.",
+                                "Document trade-offs of the chosen optimization."
+                            ],
+                            "world_slug": "world-python",
+                            "track_id": "foundry-senior-systems",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "performance",
+                                "profiling",
+                                "optimization"
+                            ]
+                        },
+                        {
+                            "quest_id": "python-systems-platform-tooling",
+                            "order_index": 5,
+                            "title": "Internal Tooling & DX",
+                            "short_description": "Build a CLI or SDK to improve developer efficiency.",
+                            "long_description": "Create an internal tool. Focus on CLI ergonomics, packaging, versioning, and documentation.",
+                            "objectives": [
+                                "Build a CLI with intuitive command structure (e.g. Typer).",
+                                "Package the tool for easy distribution.",
+                                "Write usage documentation and a changelog."
+                            ],
+                            "world_slug": "world-python",
+                            "track_id": "foundry-senior-systems",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "tooling",
+                                "cli",
+                                "dx"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-foundry-systems-architect",
+                            "title": "Foundry Systems Architect",
+                            "world_slug": "world-python",
+                            "track_id": "foundry-senior-systems",
+                            "description": "Design a modernization runbook for a legacy Python monolith.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "blueprint",
+                            "objectives": [
+                                "Clarify architecture and service boundaries.",
+                                "Design an observability and SLO strategy.",
+                                "Plan safe concurrency and async adoption.",
+                                "Create a phased rollout and rollback plan."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-typescript",
+            "world_name": "The Prism – TypeScript",
+            "tracks": [
+                {
+                    "track_id": "prism-senior-frontier",
+                    "slug": "prism-senior-frontier",
+                    "title": "Frontier Frontend & DX Lead",
+                    "tier": 3,
+                    "order_index": 3,
+                    "stage_ref": "stage-3-frontend-dx",
+                    "summary": "Master frontend architecture, performance, design systems, and developer experience.",
+                    "quests": [
+                        {
+                            "quest_id": "ts-frontier-architecture",
+                            "order_index": 1,
+                            "title": "Frontend Architecture & State",
+                            "short_description": "Design scalable app architecture.",
+                            "long_description": "Design a scalable TS React architecture. Define state management layers, module boundaries, and feature flag strategies.",
+                            "objectives": [
+                                "Define global vs local state boundaries.",
+                                "Architect module federation or lazy loading.",
+                                "Implement a feature flag provider pattern."
+                            ],
+                            "world_slug": "world-typescript",
+                            "track_id": "prism-senior-frontier",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "architecture",
+                                "react",
+                                "state"
+                            ]
+                        },
+                        {
+                            "quest_id": "ts-frontier-performance",
+                            "order_index": 2,
+                            "title": "Web Performance & Budgets",
+                            "short_description": "Optimize bundles and TTI.",
+                            "long_description": "Diagnose bundle bloat and slow TTI. Implement code-splitting, memoization, and establish performance budgets.",
+                            "objectives": [
+                                "Analyze bundle size and implement splitting.",
+                                "Optimize render cycles with memoization.",
+                                "Define performance budgets in CI."
+                            ],
+                            "world_slug": "world-typescript",
+                            "track_id": "prism-senior-frontier",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "performance",
+                                "optimization",
+                                "metrics"
+                            ]
+                        },
+                        {
+                            "quest_id": "ts-frontier-design-systems",
+                            "order_index": 3,
+                            "title": "Design System Steward",
+                            "short_description": "Integrate typed design tokens.",
+                            "long_description": "Integrate a design system. Create typed design tokens, reusable primitives, and enforce usage via types.",
+                            "objectives": [
+                                "Define typed design tokens.",
+                                "Build accessible UI primitives.",
+                                "Document components in Storybook."
+                            ],
+                            "world_slug": "world-typescript",
+                            "track_id": "prism-senior-frontier",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "design-system",
+                                "css",
+                                "types"
+                            ]
+                        },
+                        {
+                            "quest_id": "ts-frontier-typed-api-client",
+                            "order_index": 4,
+                            "title": "Typed API & Errors",
+                            "short_description": "Build a robust API layer.",
+                            "long_description": "Build a typed API client. proper schema validation (Zod), structured error handling, and retry policies.",
+                            "objectives": [
+                                "Generate or define types from API schema.",
+                                "Implement runtime validation with Zod.",
+                                "Standardize error handling and retries."
+                            ],
+                            "world_slug": "world-typescript",
+                            "track_id": "prism-senior-frontier",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "api",
+                                "types",
+                                "validation"
+                            ]
+                        },
+                        {
+                            "quest_id": "ts-frontier-dx-pipeline",
+                            "order_index": 5,
+                            "title": "DX & Testing Pipeline",
+                            "short_description": "Setup linting, types, and E2E.",
+                            "long_description": "Set up a complete DX pipeline. Configure eslint/prettier, strict type-checking, E2E tests, and preview environments.",
+                            "objectives": [
+                                "Configure strict strict tooling configurations.",
+                                "Setup E2E testing framework (e.g., Playwright).",
+                                "Script preview environment deployments."
+                            ],
+                            "world_slug": "world-typescript",
+                            "track_id": "prism-senior-frontier",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "dx",
+                                "ci",
+                                "testing"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-prism-frontier-architect",
+                            "title": "Prism Frontier Architect",
+                            "world_slug": "world-typescript",
+                            "track_id": "prism-senior-frontier",
+                            "description": "Blueprint the migration of a large JS SPA to a modular, typed TS ecosystem.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "hologram",
+                            "objectives": [
+                                "Plan incremental migration to TypeScript.",
+                                "Design module boundaries for decoupling.",
+                                "Integrate design system and DX tools.",
+                                "Minimize downtime during transition."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-java",
+            "world_name": "The Reactor – Java",
+            "tracks": [
+                {
+                    "track_id": "reactor-senior-platform",
+                    "slug": "reactor-senior-platform",
+                    "title": "Platform & Services Engineer",
+                    "tier": 3,
+                    "order_index": 3,
+                    "stage_ref": "stage-3-platform-services",
+                    "summary": "Engineer resilient Java platforms, handling consistency, observability, and upgrades.",
+                    "quests": [
+                        {
+                            "quest_id": "java-platform-bounded-contexts",
+                            "order_index": 1,
+                            "title": "Bounded Contexts",
+                            "short_description": "Define service boundaries.",
+                            "long_description": "Define and enforce bounded contexts within a service mesh architecture.",
+                            "objectives": [
+                                "Identify domain boundaries.",
+                                "Define explicit context maps.",
+                                "Enforce boundaries via API contracts."
+                            ],
+                            "world_slug": "world-java",
+                            "track_id": "reactor-senior-platform",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "architecture",
+                                "ddd",
+                                "microservices"
+                            ]
+                        },
+                        {
+                            "quest_id": "java-platform-resilient-apis",
+                            "order_index": 2,
+                            "title": "Resilient APIs",
+                            "short_description": "Design for failure.",
+                            "long_description": "Design resilient APIs using timeouts, circuit breakers, and bulkheads.",
+                            "objectives": [
+                                "Implement circuit breakers with resilience4j.",
+                                "Configure aggressive timeouts.",
+                                "Design for partial failure."
+                            ],
+                            "world_slug": "world-java",
+                            "track_id": "reactor-senior-platform",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "resilience",
+                                "api",
+                                "systems"
+                            ]
+                        },
+                        {
+                            "quest_id": "java-platform-data-consistency",
+                            "order_index": 3,
+                            "title": "Data Consistency",
+                            "short_description": "Manage transactions and eventuality.",
+                            "long_description": "Reason about consistency. Handle distributed transactions versus eventual consistency using messaging patterns.",
+                            "objectives": [
+                                "Implement the Outbox pattern.",
+                                "Handle idempotent message consumption.",
+                                "Design compensating transactions."
+                            ],
+                            "world_slug": "world-java",
+                            "track_id": "reactor-senior-platform",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "data",
+                                "consistency",
+                                "distributed"
+                            ]
+                        },
+                        {
+                            "quest_id": "java-platform-observability",
+                            "order_index": 4,
+                            "title": "Distributed Observability",
+                            "short_description": "Trace across services.",
+                            "long_description": "Implement full tracing and metrics for multi-service interactions.",
+                            "objectives": [
+                                "Configure distributed tracing (Zipkin/Jaeger).",
+                                "Correlate logs across services.",
+                                "Visualize service dependencies."
+                            ],
+                            "world_slug": "world-java",
+                            "track_id": "reactor-senior-platform",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "observability",
+                                "tracing",
+                                "monitoring"
+                            ]
+                        },
+                        {
+                            "quest_id": "java-platform-upgrade-runbook",
+                            "order_index": 5,
+                            "title": "Zero-Downtime Upgrade",
+                            "short_description": "Plan a safe major upgrade.",
+                            "long_description": "Plan a rolling upgrade for JDK or framework version with zero downtime.",
+                            "objectives": [
+                                "Design a rolling update strategy.",
+                                "Ensure backward compatibility.",
+                                "Plan verify/rollback steps."
+                            ],
+                            "world_slug": "world-java",
+                            "track_id": "reactor-senior-platform",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "ops",
+                                "upgrade",
+                                "maintenance"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-reactor-platform-guardian",
+                            "title": "Reactor Platform Guardian",
+                            "world_slug": "world-java",
+                            "track_id": "reactor-senior-platform",
+                            "description": "Orchestrate a critical service migration with breaking changes and infra upgrades.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "core",
+                            "objectives": [
+                                "Manage breaking API changes safely.",
+                                "Upgrade infrastructure without downtime.",
+                                "Balance performance and safety.",
+                                "Handle business constraints."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-sql",
+            "world_name": "The Archives – SQL",
+            "tracks": [
+                {
+                    "track_id": "archives-senior-analytics-lead",
+                    "slug": "archives-senior-analytics-lead",
+                    "title": "Analytics Lead & Governance",
+                    "tier": 3,
+                    "order_index": 3,
+                    "stage_ref": "stage-3-analytics-governance",
+                    "summary": "Lead data governance, modeling, and warehouse optimization.",
+                    "quests": [
+                        {
+                            "quest_id": "sql-governance-metrics-contracts",
+                            "order_index": 1,
+                            "title": "Metrics Contracts",
+                            "short_description": "Standardize definitions.",
+                            "long_description": "Define canonical metrics and data contracts across teams.",
+                            "objectives": [
+                                "Define metric definitions in code.",
+                                "Establish SLAs for data delivery.",
+                                "Implement contract testing."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-senior-analytics-lead",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "governance",
+                                "metrics",
+                                "contracts"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-warehouse-modeling",
+                            "order_index": 2,
+                            "title": "Warehouse Modeling",
+                            "short_description": "Design star/snowflake schemas.",
+                            "long_description": "Design fact/dimension models for a new product surface.",
+                            "objectives": [
+                                "Design a star schema.",
+                                "Handle slowly changing dimensions.",
+                                "Optimize for query patterns."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-senior-analytics-lead",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "modeling",
+                                "warehouse",
+                                "design"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-cost-and-performance",
+                            "order_index": 3,
+                            "title": "Cost & Performance",
+                            "short_description": "Optimize warehouse efficiency.",
+                            "long_description": "Optimize warehouse costs via partitioning, clustering, and storage tiers.",
+                            "objectives": [
+                                "Implement table partitioning.",
+                                "Set up clustering keys.",
+                                "Analyze and reduce query costs."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-senior-analytics-lead",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "optimization",
+                                "performance",
+                                "cost"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-quality-monitoring",
+                            "order_index": 4,
+                            "title": "Quality Monitoring",
+                            "short_description": "Detect data issues.",
+                            "long_description": "Implement data quality checks and incident procedures for schema drift or missing data.",
+                            "objectives": [
+                                "Deploy automated DQ checks (e.g., dbt test).",
+                                "Alert on anomaly detection.",
+                                "Define schema evolution policies."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-senior-analytics-lead",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "quality",
+                                "monitoring",
+                                "ops"
+                            ]
+                        },
+                        {
+                            "quest_id": "sql-analytics-selfservice",
+                            "order_index": 5,
+                            "title": "Self-Service Analytics",
+                            "short_description": "Empower data users.",
+                            "long_description": "Design self-serve patterns including views, dashboards, and documentation.",
+                            "objectives": [
+                                "Create semantic views for users.",
+                                "Build template dashboards.",
+                                "Write data dictionary docs."
+                            ],
+                            "world_slug": "world-sql",
+                            "track_id": "archives-senior-analytics-lead",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "analytics",
+                                "viz",
+                                "enablement"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-archives-governance-warden",
+                            "title": "Governance Warden",
+                            "world_slug": "world-sql",
+                            "track_id": "archives-senior-analytics-lead",
+                            "description": "Establish governance and resolve incidents for a failing warehouse.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "library",
+                            "objectives": [
+                                "Create a data governance framework.",
+                                "Resolve broken dashboard incidents.",
+                                "Define ownership and escalation paths.",
+                                "Enforce data contracts."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-infra",
+            "world_name": "The Grid – Infra",
+            "tracks": [
+                {
+                    "track_id": "grid-senior-sre",
+                    "slug": "grid-senior-sre",
+                    "title": "SRE & Incident Commander",
+                    "tier": 3,
+                    "order_index": 3,
+                    "stage_ref": "stage-3-sre-incident",
+                    "summary": "Master SRE practices, incident command, and infrastructure scaling.",
+                    "quests": [
+                        {
+                            "quest_id": "infra-sre-sli-slo",
+                            "order_index": 1,
+                            "title": "SLIs & SLOs",
+                            "short_description": "Define reliability targets.",
+                            "long_description": "Define SLI/SLOs for a multi-service product and calculate error budgets.",
+                            "objectives": [
+                                "Select meaningful SLIs.",
+                                "Set realistic SLO targets.",
+                                "Calculate error budget consumption."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-senior-sre",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "sre",
+                                "reliability",
+                                "metrics"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-sre-incident-drills",
+                            "order_index": 2,
+                            "title": "Incident Drills",
+                            "short_description": "Practice failure response.",
+                            "long_description": "Design incident runbooks and Game Day scenarios with failure injection.",
+                            "objectives": [
+                                "Write actionable runbooks.",
+                                "Plan a Chaos Engineering experiment.",
+                                "Facilitate a post-mortem review."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-senior-sre",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "incident",
+                                "ops",
+                                "chaos"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-sre-capacity-planning",
+                            "order_index": 3,
+                            "title": "Capacity Planning",
+                            "short_description": "Scale for growth.",
+                            "long_description": "Perform capacity planning and design scaling plans for future growth.",
+                            "objectives": [
+                                "Model traffic growth scenarios.",
+                                "Identify system bottlenecks.",
+                                "Propose hardware/arch scaling."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-senior-sre",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "scaling",
+                                "planning",
+                                "performance"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-sre-multi-region",
+                            "order_index": 4,
+                            "title": "Multi-Region Design",
+                            "short_description": "Architect for failover.",
+                            "long_description": "Outline multi-region / multi-AZ design and failover strategies.",
+                            "objectives": [
+                                "Design data replication strategy.",
+                                "Plan traffic routing/failover.",
+                                "Address latency and consistency."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-senior-sre",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "architecture",
+                                "ha",
+                                "cloud"
+                            ]
+                        },
+                        {
+                            "quest_id": "infra-sre-security-baseline",
+                            "order_index": 5,
+                            "title": "Security Baseline",
+                            "short_description": "Secure the foundation.",
+                            "long_description": "Set pragmatic security baselines: secrets management, RBAC, and network perimeters.",
+                            "objectives": [
+                                "Implement secrets rotation.",
+                                "Define least-privilege IAM policies.",
+                                "Secure network with SG/NACLS."
+                            ],
+                            "world_slug": "world-infra",
+                            "track_id": "grid-senior-sre",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "security",
+                                "hardening",
+                                "compliance"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-grid-incident-commander",
+                            "title": "Incident Commander",
+                            "world_slug": "world-infra",
+                            "track_id": "grid-senior-sre",
+                            "description": "Lead the response to a complex multi-region outage.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "terminal",
+                            "objectives": [
+                                "Manage a major incident response.",
+                                "Diagnose multi-symptom failures.",
+                                "Coordinate communication and fix.",
+                                "Conduct a blameless post-mortem."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-agents",
+            "world_name": "The Oracle – Agents",
+            "tracks": [
+                {
+                    "track_id": "oracle-senior-orchestrator",
+                    "slug": "oracle-senior-orchestrator",
+                    "title": "Orchestrator & Policy Engineer",
+                    "tier": 3,
+                    "order_index": 3,
+                    "stage_ref": "stage-3-agent-orchestrator",
+                    "summary": "Build robust, orchestrated multi-agent systems with safety and evaluation.",
+                    "quests": [
+                        {
+                            "quest_id": "agents-senior-task-decomposition",
+                            "order_index": 1,
+                            "title": "Task Decomposition",
+                            "short_description": "Break down complex goals.",
+                            "long_description": "Design a robust strategy for decomposing complex user goals into agent tasks.",
+                            "objectives": [
+                                "Implement hierarchical planning.",
+                                "Define sub-agent delegation logic.",
+                                "Handle decomposition failures."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-senior-orchestrator",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "planning",
+                                "ai",
+                                "architecture"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-senior-tool-contracts",
+                            "order_index": 2,
+                            "title": "Tool Contracts",
+                            "short_description": "Define rigid tool interfaces.",
+                            "long_description": "Define typed tool contracts, error channels, and fallback mechanisms for reliability.",
+                            "objectives": [
+                                "Define schemas with strict typing.",
+                                "Implement standardized error returns.",
+                                "Design fallback behaviors."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-senior-orchestrator",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "tools",
+                                "api",
+                                "integration"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-senior-evals",
+                            "order_index": 3,
+                            "title": "Agent Evals",
+                            "short_description": "Measure agent quality.",
+                            "long_description": "Design an evaluation harness for agents including metrics and regression tests.",
+                            "objectives": [
+                                "Define success metrics.",
+                                "Build a dataset of golden runs.",
+                                "Automate regression testing."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-senior-orchestrator",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "evaluation",
+                                "testing",
+                                "metrics"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-senior-guardrails",
+                            "order_index": 4,
+                            "title": "Safety Guardrails",
+                            "short_description": "Enforce safety policies.",
+                            "long_description": "Implement policy and safety rails, including allow/deny lists and budget controls.",
+                            "objectives": [
+                                "Implement input/output filtering.",
+                                "Enforce usage/cost budgets.",
+                                "Prevent prompt injection."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-senior-orchestrator",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "safety",
+                                "security",
+                                "policy"
+                            ]
+                        },
+                        {
+                            "quest_id": "agents-senior-observability",
+                            "order_index": 5,
+                            "title": "Agent Observability",
+                            "short_description": "Trace thought processes.",
+                            "long_description": "Instrument agent runs with traces, spans, cost tracking, and latency metrics.",
+                            "objectives": [
+                                "Trace agent reasoning steps.",
+                                "Monitor token usage and cost.",
+                                "Debug agent loops."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-senior-orchestrator",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "observability",
+                                "tracing",
+                                "debugging"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-oracle-orchestrator-warden",
+                            "title": "Orchestrator Warden",
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-senior-orchestrator",
+                            "description": "Architect a resilient multi-agent orchestration system from a brittle PoC.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "network",
+                            "objectives": [
+                                "Design a multi-agent control logic.",
+                                "Implement comprehensive policies.",
+                                "Setup rigorous evaluation.",
+                                "Ensure deep system observability."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-git",
+            "world_name": "The Timeline – Git",
+            "tracks": [
+                {
+                    "track_id": "timeline-senior-release",
+                    "slug": "timeline-senior-release",
+                    "title": "Release & Migration Engineer",
+                    "tier": 3,
+                    "order_index": 3,
+                    "stage_ref": "stage-3-release-migration",
+                    "summary": "Expertise in release strategy, migrations, and complex repo management.",
+                    "quests": [
+                        {
+                            "quest_id": "git-senior-release-strategy",
+                            "order_index": 1,
+                            "title": "Release Strategy",
+                            "short_description": "Design branching models.",
+                            "long_description": "Design release strategies (trunk, git-flow, preview environments) suitable for the team.",
+                            "objectives": [
+                                "Compare and select a branching model.",
+                                "Design a release promotion flow.",
+                                "Automate preview environments."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "release",
+                                "branching",
+                                "ci-cd"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-senior-migration-branch",
+                            "order_index": 2,
+                            "title": "Long-Running Migrations",
+                            "short_description": "Manage feature branches safely.",
+                            "long_description": "Handle long-running migration branches using feature flags and backports.",
+                            "objectives": [
+                                "Manage merge conflicts proactively.",
+                                "Use feature toggles for safety.",
+                                "Strategy for backporting fixes."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "migration",
+                                "merging",
+                                "maintenance"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-senior-monorepo",
+                            "order_index": 3,
+                            "title": "Monorepo Practices",
+                            "short_description": "Scale code organization.",
+                            "long_description": "Implement best practices for monorepos including workspaces, CI sharding, and code ownership.",
+                            "objectives": [
+                                "Configure package workspaces.",
+                                "Implement CI check sharding.",
+                                "Define CODEOWNERS paths."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "monorepo",
+                                "scaling",
+                                "tooling"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-senior-audit-trails",
+                            "order_index": 4,
+                            "title": "Audit & Ownership",
+                            "short_description": "Trace changes and owners.",
+                            "long_description": "Build an audit trail and robust code ownership map for a complex repository.",
+                            "objectives": [
+                                "Analyze commit history for hotspots.",
+                                "Establish strict code ownership.",
+                                "generate audit reports."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "audit",
+                                "compliance",
+                                "history"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-senior-emergency-fix",
+                            "order_index": 5,
+                            "title": "Hotfix Process",
+                            "short_description": "Handle repo emergencies.",
+                            "long_description": "Define valid processes for emergency hotfixes and post-incident cleanup.",
+                            "objectives": [
+                                "Create a hotfix branching protocol.",
+                                "Automate hotfix deployment.",
+                                "Ensure changes are synced to main."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "process",
+                                "emergency",
+                                "hotfix"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-timeline-migration-guardian",
+                            "title": "Migration Guardian",
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "description": "Execute a safe, breaking schema/API migration across distributed services.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "clockwork",
+                            "objectives": [
+                                "Plan a multi-repo migration.",
+                                "Manage backwards compatibility.",
+                                "Coordinate release timing.",
+                                "Ensuring full data integrity."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-agents",
+            "world_name": "The Oracle – Agents",
+            "tracks": [
+                {
+                    "track_id": "oracle-senior-orchestrator",
+                    "title": "Orchestration Architect",
+                    "slug": "oracle-senior-orchestrator",
+                    "world_slug": "world-agents",
+                    "difficulty": "hard",
+                    "order_index": 3,
+                    "quests": [
+                        {
+                            "quest_id": "agents-senior-observability",
+                            "order_index": 5,
+                            "title": "Agent Observability",
+                            "short_description": "Trace thought processes.",
+                            "long_description": "Instrument agent runs with traces, spans, cost tracking, and latency metrics.",
+                            "objectives": [
+                                "Trace agent reasoning steps.",
+                                "Monitor token usage and cost.",
+                                "Debug agent loops."
+                            ],
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-senior-orchestrator",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "observability",
+                                "tracing",
+                                "debugging"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-oracle-orchestrator-warden",
+                            "title": "Orchestrator Warden",
+                            "world_slug": "world-agents",
+                            "track_id": "oracle-senior-orchestrator",
+                            "description": "Architect a resilient multi-agent orchestration system from a brittle PoC.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "network",
+                            "objectives": [
+                                "Design a multi-agent control logic.",
+                                "Implement comprehensive policies.",
+                                "Setup rigorous evaluation.",
+                                "Ensure deep system observability."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-git",
+            "world_name": "The Timeline – Git",
+            "tracks": [
+                {
+                    "track_id": "timeline-senior-release",
+                    "slug": "timeline-senior-release",
+                    "title": "Release & Migration Engineer",
+                    "tier": 3,
+                    "order_index": 3,
+                    "stage_ref": "stage-3-release-migration",
+                    "summary": "Expertise in release strategy, migrations, and complex repo management.",
+                    "quests": [
+                        {
+                            "quest_id": "git-senior-release-strategy",
+                            "order_index": 1,
+                            "title": "Release Strategy",
+                            "short_description": "Design branching models.",
+                            "long_description": "Design release strategies (trunk, git-flow, preview environments) suitable for the team.",
+                            "objectives": [
+                                "Compare and select a branching model.",
+                                "Design a release promotion flow.",
+                                "Automate preview environments."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "release",
+                                "branching",
+                                "ci-cd"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-senior-migration-branch",
+                            "order_index": 2,
+                            "title": "Long-Running Migrations",
+                            "short_description": "Manage feature branches safely.",
+                            "long_description": "Handle long-running migration branches using feature flags and backports.",
+                            "objectives": [
+                                "Manage merge conflicts proactively.",
+                                "Use feature toggles for safety.",
+                                "Strategy for backporting fixes."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "migration",
+                                "merging",
+                                "maintenance"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-senior-monorepo",
+                            "order_index": 3,
+                            "title": "Monorepo Practices",
+                            "short_description": "Scale code organization.",
+                            "long_description": "Implement best practices for monorepos including workspaces, CI sharding, and code ownership.",
+                            "objectives": [
+                                "Configure package workspaces.",
+                                "Implement CI check sharding.",
+                                "Define CODEOWNERS paths."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "monorepo",
+                                "scaling",
+                                "tooling"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-senior-audit-trails",
+                            "order_index": 4,
+                            "title": "Audit & Ownership",
+                            "short_description": "Trace changes and owners.",
+                            "long_description": "Build an audit trail and robust code ownership map for a complex repository.",
+                            "objectives": [
+                                "Analyze commit history for hotspots.",
+                                "Establish strict code ownership.",
+                                "generate audit reports."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "audit",
+                                "compliance",
+                                "history"
+                            ]
+                        },
+                        {
+                            "quest_id": "git-senior-emergency-fix",
+                            "order_index": 5,
+                            "title": "Hotfix Process",
+                            "short_description": "Handle repo emergencies.",
+                            "long_description": "Define valid processes for emergency hotfixes and post-incident cleanup.",
+                            "objectives": [
+                                "Create a hotfix branching protocol.",
+                                "Automate hotfix deployment.",
+                                "Ensure changes are synced to main."
+                            ],
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "difficulty": "hard",
+                            "xp": 100,
+                            "tags": [
+                                "process",
+                                "emergency",
+                                "hotfix"
+                            ]
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-timeline-migration-guardian",
+                            "title": "Migration Guardian",
+                            "world_slug": "world-git",
+                            "track_id": "timeline-senior-release",
+                            "description": "Execute a safe, breaking schema/API migration across distributed services.",
+                            "difficulty": "hard",
+                            "xp_reward": 500,
+                            "visual_theme": "clockwork",
+                            "objectives": [
+                                "Plan a multi-repo migration.",
+                                "Manage backwards compatibility.",
+                                "Coordinate release timing.",
+                                "Ensuring full data integrity."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "world_slug": "world-ml",
+            "world_name": "The Synapse – ML",
+            "tracks": [
+                {
+                    "track_id": "synapse-senior-mlops",
+                    "slug": "synapse-senior-mlops",
+                    "world_slug": "world-ml",
+                    "title": "ML Ops & Safety Lead",
+                    "tier": "senior",
+                    "stage": 3,
+                    "order_index": 30,
+                    "summary": "Design and run an ML platform that is reliable, observable, and safe to iterate on.",
+                    "quests": [
+                        {
+                            "quest_id": "synapse-mlops-feature-lifecycle",
+                            "slug": "synapse-mlops-feature-lifecycle",
+                            "title": "Feature Lifecycle Architect",
+                            "order_index": 1,
+                            "difficulty": "hard",
+                            "summary": "Design the end-to-end lifecycle for ML features: creation, backfill, online/ offline usage, and deprecation.",
+                            "objective": "Given a product scenario (e.g., risk scoring or recommendations), define a feature registry schema, backfill strategy, and online/ offline access patterns. Document how features are versioned, tested, and retired.",
+                            "tags": [
+                                "mlops",
+                                "features",
+                                "data-modeling",
+                                "governance"
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-senior-mlops"
+                        },
+                        {
+                            "quest_id": "synapse-mlops-ci-cd",
+                            "slug": "synapse-mlops-ci-cd",
+                            "title": "Model CI/CD Pipeline Engineer",
+                            "order_index": 2,
+                            "difficulty": "hard",
+                            "summary": "Design a CI/CD pipeline that takes models from training notebook to safe production deploys.",
+                            "objective": "Sketch a pipeline that runs training, evaluation, regression checks, and canary deploys. Include artifact storage, promotion rules, and rollback steps.",
+                            "tags": [
+                                "mlops",
+                                "ci-cd",
+                                "deployment",
+                                "experiments"
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-senior-mlops"
+                        },
+                        {
+                            "quest_id": "synapse-mlops-monitoring-drift",
+                            "slug": "synapse-mlops-monitoring-drift",
+                            "title": "Drift & Performance Watcher",
+                            "order_index": 3,
+                            "difficulty": "hard",
+                            "summary": "Define monitoring for performance, drift, and basic fairness of a live ML model.",
+                            "objective": "For a given model (binary classification or ranking), specify the metrics, dashboards, and alerts you would build. Cover data drift, target drift, latency, and a minimal fairness surface.",
+                            "tags": [
+                                "mlops",
+                                "monitoring",
+                                "drift",
+                                "fairness"
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-senior-mlops"
+                        },
+                        {
+                            "quest_id": "synapse-mlops-governance",
+                            "slug": "synapse-mlops-governance",
+                            "title": "Model Governance Steward",
+                            "order_index": 4,
+                            "difficulty": "hard",
+                            "summary": "Introduce pragmatic governance: model cards, approvals, and audit trails.",
+                            "objective": "Create a template for model cards and an approval workflow. Show how you would track who changed what, when, and why across models and datasets.",
+                            "tags": [
+                                "mlops",
+                                "governance",
+                                "risk",
+                                "documentation"
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-senior-mlops"
+                        },
+                        {
+                            "quest_id": "synapse-mlops-multi-model-strategy",
+                            "slug": "synapse-mlops-multi-model-strategy",
+                            "title": "Champion–Challenger Strategist",
+                            "order_index": 5,
+                            "difficulty": "hard",
+                            "summary": "Plan a multi-model strategy: champion/challenger, routing, and graceful retirement.",
+                            "objective": "For a product with multiple segments and legacy models, design how you would run A/Bs, champion/challenger tests, and gradually retire old models without breaking users.",
+                            "tags": [
+                                "mlops",
+                                "multi-model",
+                                "experimentation",
+                                "strategy"
+                            ],
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-senior-mlops"
+                        }
+                    ],
+                    "bosses": [
+                        {
+                            "boss_id": "boss-synapse-mlops-sentinel",
+                            "slug": "boss-synapse-mlops-sentinel",
+                            "title": "ML Ops Sentinel",
+                            "world_slug": "world-ml",
+                            "track_id": "synapse-senior-mlops",
+                            "rubric_id": "boss-synapse-mlops-sentinel",
+                            "order_index": 99,
+                            "difficulty": "boss",
+                            "summary": "Guard of the ML platform’s reliability and safety. Tests your ability to design an end-to-end ML platform modernization plan."
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

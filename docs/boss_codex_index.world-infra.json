@@ -1,0 +1,21 @@
+{
+    "world_slug": "world-infra",
+    "boss_codex": [
+        {
+            "codex_id": "codex.world-infra.grid-containment.sandbox-warden",
+            "boss_id": "boss-grid-containment-sandbox-warden",
+            "world_slug": "world-infra",
+            "track_id": "grid-containment",
+            "slug": "sandbox-warden",
+            "title": "Boss Codex – Grid Sandbox Warden",
+            "file_path": "codex/world-infra/boss_grid_sandbox_warden.md",
+            "summary": "Lore, attacks, and strategy for the Grid Sandbox Warden boss fight (Linux/Infra debugging).",
+            "tags": [
+                "lore",
+                "infra",
+                "grid",
+                "debugging"
+            ]
+        }
+    ]
+}

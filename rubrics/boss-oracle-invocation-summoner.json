@@ -1,0 +1,128 @@
+{
+    "schema_version": "1.0.0",
+    "id": "boss-oracle-invocation-summoner",
+    "boss_slug": "boss-oracle-invocation-summoner",
+    "title": "Oracle Invocation Summoner",
+    "max_score": 8,
+    "pass_threshold": 6,
+    "llm_judge_instructions": "Evaluate the Invocation Blueprint based on task modeling, tool contracts, grounding, and observability. Ensure realistic engineering practices are followed.",
+    "autofail_conditions": [],
+    "dimensions": [
+        {
+            "key": "task_modeling_and_decomposition",
+            "label": "Task Modeling & Decomposition",
+            "weight": 0.3,
+            "description": "Does the blueprint turn messy user questions into a clear, multi-step plan?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Vague or Flat",
+                    "criteria": "Barely decomposes tasks. Treats complex queries as a single step or leaves the plan implicit. Examples: Says 'the agent will just answer' without substeps. Makes no distinction between steps needing tools vs pure reasoning."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Partial Decomposition",
+                    "criteria": "Shows some structure (e.g., parse -> search -> answer) but misses key branches or cases. Examples: Has a basic 2-3 step flow but no decision points. Does not fully address mixed questions."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Clear, Intent-Aware Plan",
+                    "criteria": "Provides a crisp plan with explicit stages, decision points, and separation of concerns. Examples: Describes how the agent parses user intent into sub-queries. Separates planning from execution."
+                }
+            ]
+        },
+        {
+            "key": "tool_contracts_and_invocation_logic",
+            "label": "Tool Contracts & Invocation Logic",
+            "weight": 0.25,
+            "description": "Are tools well-defined and called with clear rules, avoiding flailing?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Hand-Wavy Tools",
+                    "criteria": "Defines tools loosely or not at all. Invocation rules are unclear or obviously flawed. Examples: Mentions 'search' without specifying inputs/outputs. No mapping from task types to specific tools."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Defined but Imperfect",
+                    "criteria": "Tools are defined with some structure, but invocation logic is incomplete or brittle. Examples: Good schemas, but ambiguous about when to call each tool. Does not clarify how tool results are combined."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Crisp Contracts & Intentional Calls",
+                    "criteria": "Tools have clear contracts and are invoked through explicit, sensible rules. Examples: Each tool has a well-defined purpose, inputs, and outputs. The flow encodes when to call which tool based on user intent."
+                }
+            ]
+        },
+        {
+            "key": "grounding_and_guardrails",
+            "label": "Grounding & Guardrails",
+            "weight": 0.25,
+            "description": "Does the design minimize hallucinations and enforce good grounding behaviors?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Weak Grounding",
+                    "criteria": "Little to no guidance on when the agent must use tools. Hallucinations are likely. Examples: Agent is free to answer from 'general knowledge' for time-sensitive questions. No policies for checking metrics."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Basic Guardrails",
+                    "criteria": "Some grounding rules exist but are incomplete or underspecified. Examples: Requires tool calls in some scenarios but misses key cases. Mentions error handling but does not specify behaviors."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Strong Grounding & Safety",
+                    "criteria": "The design strongly nudges the agent toward grounded answers and handles failures safely. Examples: Explicit rules like 'always use repo_search for repo-related questions'. Protocols for tool timeouts/retries."
+                }
+            ]
+        },
+        {
+            "key": "observability_and_maintainability",
+            "label": "Observability & Maintainability",
+            "weight": 0.2,
+            "description": "Can other engineers debug, operate, and evolve this agent?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Opaque",
+                    "criteria": "Little or no mention of logging, tracing, or configuration. The system would be hard to debug. Examples: No logs beyond generic 'agent started'. No way to trace tool calls for a request."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Partially Observable",
+                    "criteria": "Some observability ideas are present, but the story is incomplete. Examples: Logs tool calls but not user intent or intermediate state. Mentions metrics without specifying what to measure."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Operator-Friendly Design",
+                    "criteria": "Provides a coherent plan for logging, metrics, and configuration. Examples: Describes structured logs for user intent, plan, and tool calls. Defines key metrics (e.g. tool_call_count)."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 0,
+            "label": "F",
+            "description": "Fail"
+        },
+        {
+            "min_score": 6,
+            "label": "S",
+            "description": "S-Rank"
+        }
+    ]
+}

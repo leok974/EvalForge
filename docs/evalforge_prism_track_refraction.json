@@ -1,0 +1,280 @@
+{
+    "snapshot_kind": "evalforge_track_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-typescript",
+    "world_name": "The Prism – TypeScript",
+    "track": {
+        "track_id": "prism-refraction",
+        "slug": "refraction",
+        "title": "Refraction – Type Foundations",
+        "order_index": 1,
+        "summary": "Go from loose JavaScript to strict, well-structured TypeScript. Learn to bend dynamic light into type-safe beams.",
+        "intended_outcome": "Player can confidently write strict TypeScript modules (no implicit any), model basic domains, and use unions + type guards to control flow.",
+        "recommended_entry_level": "junior-js",
+        "recommended_exit_level": "solid-ts-mid",
+        "skills": [
+            "tsconfig.strict",
+            "noImplicitAny",
+            "strictNullChecks",
+            "type_vs_interface",
+            "unions",
+            "discriminated_unions",
+            "type_narrowing",
+            "custom_type_guards"
+        ]
+    },
+    "quests": [
+        {
+            "quest_id": "ts-refraction-q1-align-the-beam",
+            "slug": "align-the-beam",
+            "title": "Q1 – Align the Beam",
+            "order_index": 1,
+            "difficulty": "beginner",
+            "estimated_duration_minutes": 25,
+            "narrative_blurb": "The Prism will not stabilize while raw JavaScript noise leaks through. Your first task is to align the beam: take a wobbly JS utility file and bring it under strict TypeScript control.",
+            "learning_goals": [
+                "Enable a strict tsconfig for a small module.",
+                "Eliminate implicit any without papering over with any.",
+                "Use unknown + narrowing instead of unsafe casts."
+            ],
+            "starting_state": {
+                "description": "Small JS file with a couple of utilities (parseNumber, formatUser) and a minimal tsconfig with loose settings.",
+                "files": [
+                    "src/q1/utils.js",
+                    "tsconfig.q1.json"
+                ]
+            },
+            "target_state": {
+                "description": "Module is migrated to TypeScript, compiled with a strict tsconfig, with zero TypeScript errors and no unsafe anys.",
+                "expected_artifacts": [
+                    "src/q1/utils.ts",
+                    "tsconfig.q1.json"
+                ]
+            },
+            "tasks": [
+                "Rename utils.js → utils.ts and update imports if needed.",
+                "Enable strict flags in tsconfig.q1.json (noImplicitAny, strictNullChecks at minimum).",
+                "Add explicit parameter and return types for all exported functions.",
+                "Use unknown for external inputs where the type is truly unknown, then narrow (typeof / Array.isArray / custom checks).",
+                "Remove or avoid any and @ts-ignore; use them only if absolutely unavoidable and clearly commented."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "tsc -p tsconfig.q1.json completes with 0 errors.",
+                    "Search for 'any' in src/q1/utils.ts returns 0 matches, except in allowed comment '@ts-expect-error' if explicitly whitelisted.",
+                    "No '@ts-ignore' present in src/q1/utils.ts."
+                ],
+                "semantic_checks": [
+                    "Function signatures correctly describe inputs/outputs (e.g., parseNumber returns number | null, not any).",
+                    "Unknown inputs are narrowed before use (no unsafe property access on unknown)."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward removal of implicit anys and clear function signatures.",
+                    "Penalize heavy use of any / @ts-ignore when better typing is possible.",
+                    "Prefer unknown + narrowing for truly dynamic values."
+                ],
+                "hint_snippets": [
+                    "Activate strict mode first so the compiler shows you where the beam is misaligned.",
+                    "If you don’t know the input type yet, use unknown, not any."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "ts-refraction-q2-shape-the-spectrum"
+                ]
+            }
+        },
+        {
+            "quest_id": "ts-refraction-q2-shape-the-spectrum",
+            "slug": "shape-the-spectrum",
+            "title": "Q2 – Shape the Spectrum",
+            "order_index": 2,
+            "difficulty": "beginner",
+            "estimated_duration_minutes": 30,
+            "narrative_blurb": "Light through the Prism splits into forms. Users, Teams, Organizations—all part of the same spectrum. You must model them cleanly so the rest of the system can depend on them.",
+            "learning_goals": [
+                "Understand and use type vs interface appropriately.",
+                "Model related entities with shared fields via extension/intersections.",
+                "Use structural typing to write reusable helpers over these models."
+            ],
+            "starting_state": {
+                "description": "A hand-written JSDoc-based model file and scattered inline object literals representing users, teams, and organizations.",
+                "files": [
+                    "src/q2/models.ts"
+                ]
+            },
+            "target_state": {
+                "description": "A typed model layer for User, Team, Organization plus a shared helper operating on a discriminated union.",
+                "expected_artifacts": [
+                    "src/q2/models.ts",
+                    "src/q2/models.test.ts"
+                ]
+            },
+            "tasks": [
+                "Define User, Team, Organization using type and/or interface (you may mix, but be deliberate).",
+                "Introduce shared base fields (id, createdAt, kind) using an interface or base type.",
+                "Create a union type DirectoryEntity = User | Team | Organization.",
+                "Implement getDisplayName(entity: DirectoryEntity): string that picks a sensible field (e.g., fullName for User, name for Team/Org).",
+                "Add a simple test suite for getDisplayName using a few example entities."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "tsc -p tsconfig.q2.json completes with 0 errors.",
+                    "getDisplayName has the signature (entity: DirectoryEntity) => string.",
+                    "DirectoryEntity is a union of the three concrete types, not any."
+                ],
+                "semantic_checks": [
+                    "Models share common fields via a base type or interface, not duplication.",
+                    "getDisplayName uses structural typing correctly (no unsafe casts)."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward clear base types and unions that match the problem domain.",
+                    "Penalize copy-pasted fields with no common abstraction.",
+                    "Minor differences between type and interface usage are acceptable as long as the design is coherent."
+                ],
+                "hint_snippets": [
+                    "Think: what fields do ALL directory entities share? That’s your base type.",
+                    "Your helper should not need to know the exact concrete type; the type system can tell you enough."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "ts-refraction-q3-signal-splitter"
+                ]
+            }
+        },
+        {
+            "quest_id": "ts-refraction-q3-signal-splitter",
+            "slug": "signal-splitter",
+            "title": "Q3 – Signal Splitter",
+            "order_index": 3,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 30,
+            "narrative_blurb": "The Prism’s core shows three pulses: loading, success, error. You must capture them as a single, precise type and let TypeScript guide the control flow.",
+            "learning_goals": [
+                "Define discriminated unions for async/status state.",
+                "Use type narrowing in control flow (switch / if) without casts.",
+                "Avoid 'stringly-typed' status fields with no shared tag."
+            ],
+            "starting_state": {
+                "description": "A small React-ish or Node status system using loose objects like { status: 'loading' } | { status: 'success', data: any } | { status: 'error', message: string }.",
+                "files": [
+                    "src/q3/status.ts"
+                ]
+            },
+            "target_state": {
+                "description": "A discriminated union Status that correctly narrows in handleStatus() and is safe to extend.",
+                "expected_artifacts": [
+                    "src/q3/status.ts",
+                    "src/q3/status.test.ts"
+                ]
+            },
+            "tasks": [
+                "Define a discriminated union Status with at least three variants: Loading, Success, Error (e.g., using 'kind' or 'status' as the discriminant).",
+                "Ensure Success carries a generic payload type, e.g. StatusSuccess<T>. You may define Status as Status<T>. ",
+                "Implement handleStatus(status: Status<T>): string that returns a human-readable message for each variant, using exhaustive checking.",
+                "Add an exhaustive check (e.g., a 'never' helper) so adding a new variant will cause a compile error if handleStatus is not updated.",
+                "Write tests for handleStatus for each status variant."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Status is a discriminated union (all variants share a common literal tag key).",
+                    "handleStatus(status) uses switch or if/else and narrows each variant without casts.",
+                    "Attempting to add a new variant in Status without updating handleStatus should cause a TS error (e.g., via a never check)."
+                ],
+                "semantic_checks": [
+                    "Success variant models data in a type-safe way (no any).",
+                    "Error variant exposes a clear message field as string."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward clean discriminated unions and exhaustive checking.",
+                    "Penalize reliance on 'as' casting to convince the compiler instead of proper narrowing.",
+                    "Prefer a single, shared discriminant ('status' or 'kind') over ad-hoc keys."
+                ],
+                "hint_snippets": [
+                    "Pick a single discriminant field like 'status' or 'kind' and give each variant a distinct literal.",
+                    "Use a never-check helper to force the compiler to complain when new variants are added."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "ts-refraction-q4-guard-rails"
+                ]
+            }
+        },
+        {
+            "quest_id": "ts-refraction-q4-guard-rails",
+            "slug": "guard-rails",
+            "title": "Q4 – Guard Rails",
+            "order_index": 4,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 35,
+            "narrative_blurb": "The Prism’s beam passes over many unknown shapes. The only way to keep the system safe is to erect proper guards—so that once you step past them, the types are guaranteed.",
+            "learning_goals": [
+                "Write custom type guard functions that narrow unions and unknown inputs.",
+                "Use guards in real control flow instead of ad-hoc casting.",
+                "Understand when to validate at runtime vs. trust types."
+            ],
+            "starting_state": {
+                "description": "A few loose checker functions like isUser(obj) that return boolean but do not inform TypeScript about the type.",
+                "files": [
+                    "src/q4/guards.ts"
+                ]
+            },
+            "target_state": {
+                "description": "A small library of well-typed guards (isUser, isTeam, isOrganization, isStatusSuccess, etc.) used in control flow.",
+                "expected_artifacts": [
+                    "src/q4/guards.ts",
+                    "src/q4/guards.test.ts"
+                ]
+            },
+            "tasks": [
+                "Define a shared union type PrismEntity combining 2–3 shapes (e.g., User, Team, Organization or similar).",
+                "Implement type guards like isUser(entity: PrismEntity | unknown): entity is User, and similar for other variants.",
+                "Use these guards in a function routeEntity(entity: PrismEntity | unknown): string that returns different strings based on the concrete type.",
+                "Add guards for Status from Q3 (e.g., isStatusSuccess, isStatusError) and demonstrate narrowing in a small handler function.",
+                "Write tests that show (a) true positives, (b) false positives avoided (bad shapes should not pass)."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Type guards use the 'entity is Type' syntax in return types.",
+                    "Within guarded branches, TypeScript knows the narrowed type (no casts required).",
+                    "tsc -p tsconfig.q4.json passes with no errors and no implicit anys."
+                ],
+                "semantic_checks": [
+                    "Guards actually check enough fields to be meaningful (not just 'in' checks on a single property with no validation).",
+                    "routeEntity and similar functions avoid unsafe property access on unguarded values."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward meaningful runtime checks in guards, not just minimal property presence checks.",
+                    "Penalize guards that always return true or trivially accept incorrect shapes.",
+                    "Treat thoughtful test coverage of guards as a strong signal of competency."
+                ],
+                "hint_snippets": [
+                    "A guard is a promise: after calling it, code can rely on the type. Make sure the runtime checks earn that promise.",
+                    "Think about negative cases: your tests should prove that obviously-wrong shapes are rejected."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "boss-prism-refraction-type-guardian"
+                ]
+            }
+        }
+    ],
+    "boss_stub": {
+        "boss_id": "boss-prism-refraction-type-guardian",
+        "title": "Boss: Type Guardian of Refraction",
+        "summary": "Turn a messy startup-style JS auth/session module into a strict, well-structured TypeScript module with unions, type guards, and a clean public API.",
+        "status": "design-next",
+        "notes": "Will mirror Furnace Controller: Codex, golden solution, rubric, ZERO task."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "items": [
+        {
+            "id": "boss-archives-query-warden",
+            "world_slug": "world-sql",
+            "track_id": "archives-retrieval-analytics",
+            "path": "rubrics/boss-archives-query-warden.json",
+            "title": "Boss Rubric – Archive Query Warden"
+        }
+    ]
+}

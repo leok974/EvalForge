@@ -1,0 +1,149 @@
+{
+    "schema_version": "1.0.0",
+    "id": "boss-archives-query-warden",
+    "boss_slug": "boss-archives-query-warden",
+    "title": "Archive Query Warden",
+    "world_slug": "world-sql",
+    "track_id": "archives-retrieval-analytics",
+    "description": "Grades an Analytics Query Incident Runbook: requirement translation, query correctness, performance, and clarity.",
+    "max_score": 8,
+    "pass_threshold": 6,
+    "llm_judge_instructions": "Review the entrant's Incident Runbook. Awards points for precise metric definitions, correct SQL join logic (preventing fanout/drops), performance awareness (indexes/EXPLAIN), and clear verification steps.",
+    "autofail_conditions": [
+        "Does not propose any SQL fixes",
+        "Does not address the performance regression",
+        "Fails to produce a structured runbook"
+    ],
+    "dimensions": [
+        {
+            "key": "requirement_translation_and_data_modeling",
+            "label": "Requirement Translation & Data Modeling",
+            "weight": 0.25,
+            "description": "Does the player turn a vague metric request into a precise definition tied to the right tables and grain?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Vague",
+                    "criteria": "Barely restates the business question; no clear metric definition or data model."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Partial",
+                    "criteria": "Some definition of the metric and tables, but with gaps or ambiguities."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Precise",
+                    "criteria": "Provides a clear metric definition, data model, and grain (e.g., explicit DISTINCT, join types behavior)."
+                }
+            ]
+        },
+        {
+            "key": "query_correctness_and_edge_cases",
+            "label": "Query Correctness & Edge Cases",
+            "weight": 0.3,
+            "description": "Does the proposed query logic actually match the intended metric and handle edge cases?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Error-Prone",
+                    "criteria": "Likely to double-count, drop segments, or mis-handle nulls (e.g. bad fanout)."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Mostly Correct",
+                    "criteria": "Core logic is on the right track but some edge cases (nulls/inactive countries) are weak."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Robust",
+                    "criteria": "Careful about joins, distinct counts, and edge conditions. Uses LEFT JOINs correctly to preserve dimension rows."
+                }
+            ]
+        },
+        {
+            "key": "performance_and_query_plan_reasoning",
+            "label": "Performance & Query Plan Reasoning",
+            "weight": 0.25,
+            "description": "Does the runbook show awareness of performance, indexing, and query plans?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Naive",
+                    "criteria": "No mention of EXPLAIN, indexes, or data volume scans."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Basic",
+                    "criteria": "Some performance concern but limited specificity or reasoning."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Plan-Aware",
+                    "criteria": "Uses EXPLAIN and indexing/partitioning ideas to improve performance safely."
+                }
+            ]
+        },
+        {
+            "key": "runbook_clarity_and_validation",
+            "label": "Runbook Clarity & Validation",
+            "weight": 0.2,
+            "description": "Is the runbook easy to follow and does it describe how to validate results?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Confusing",
+                    "criteria": "Steps are unordered or lack validation; another analyst would struggle to use it."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Usable",
+                    "criteria": "Reasonably structured, but validation is light or implicit."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Analyst-Friendly",
+                    "criteria": "Clear phases, explicit validation queries, and documented assumptions for safe rollout."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "grade": "S",
+            "label": "Warden's Favorite",
+            "description": "Perfect execution across all dimensions."
+        },
+        {
+            "min_score": 6,
+            "grade": "A",
+            "label": "Certified Analyst",
+            "description": "Strong work, minor improvements possible."
+        },
+        {
+            "min_score": 4,
+            "grade": "B",
+            "label": "Query Tyro",
+            "description": "Acceptable but lacks depth in performance or correctness."
+        },
+        {
+            "min_score": 0,
+            "grade": "C",
+            "label": "Full-Scan Victim",
+            "description": "Fundamental issues with the query or approach."
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "items": [
+        {
+            "id": "boss-oracle-invocation-summoner",
+            "world_slug": "world-agents",
+            "track_id": "oracle-invocation-circuit",
+            "path": "rubrics/boss-oracle-invocation-summoner.json",
+            "title": "Boss Rubric – Oracle Invocation Summoner"
+        }
+    ]
+}

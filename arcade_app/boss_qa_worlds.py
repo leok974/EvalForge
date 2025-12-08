@@ -8,7 +8,9 @@ from __future__ import annotations
 from typing import List, Dict, Any
 
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from pydantic import BaseModel
+from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlmodel import select
 
 from arcade_app.boss_qa_applylens import BossQAStatus  # reuse the same shape
 from arcade_app.boss_rubric_models import BossEvalResult
@@ -16,25 +18,30 @@ from arcade_app.grading_helper import judge_boss_with_rubric
 from arcade_app.models import BossDefinition, BossRun, Profile
 
 
+class WorldBossQARequest(BaseModel):
+    boss_id: str | None = None
+    world_slug: str | None = None
+    submission_markdown: str | None = None
+    mode: str | None = None 
+
 class WorldBossQAReport(BaseModel):
     label: str = "worlds-fundamentals"
     results: List[BossQAStatus]
     overall_pass: bool
 
 
-def _get_boss(db: Session, slug: str) -> BossDefinition:
-    boss = (
-        db.query(BossDefinition)
-        .filter(BossDefinition.id == slug)
-        .one_or_none()
-    )
+async def _get_boss(db: AsyncSession, slug: str) -> BossDefinition:
+    stmt = select(BossDefinition).where(BossDefinition.id == slug)
+    result = await db.exec(stmt)
+    boss = result.one_or_none()
+    
     if boss is None:
         raise ValueError(f"BossDefinition not found for slug={slug}")
     return boss
 
 
-def _run_single_boss_world_qa(
-    db: Session,
+async def _run_single_boss_world_qa(
+    db: AsyncSession,
     boss: BossDefinition,
     player: Profile,
     min_score_required: int,
@@ -44,14 +51,14 @@ def _run_single_boss_world_qa(
     # Fresh BossRun for QA
     run = BossRun(
         boss_id=boss.id,
-        profile_id=player.id,
+        user_id=player.user_id,
         attempt=1,
         boss_hp=boss.max_hp,
     )
     db.add(run)
-    db.flush()
+    await db.flush()
 
-    eval_result: BossEvalResult = judge_boss_with_rubric(
+    eval_result: BossEvalResult = await judge_boss_with_rubric(
         boss=boss,
         run=run,
         player=player,
@@ -83,13 +90,21 @@ def _run_single_boss_world_qa(
         integrity_before=integrity_before,
         integrity_after=integrity_after,
         integrity_delta=integrity_delta,
+        criteria=[
+            {"id": d.key, "score": d.band_score, "feedback": d.rationale}
+            for d in eval_result.dimensions
+        ],
+        summary=eval_result.summary,
+        strengths=eval_result.strengths,
+        improvements=eval_result.improvements,
     )
 
 
-def run_standard_world_boss_qa(
-    db: Session,
+async def run_standard_world_boss_qa(
+    db: AsyncSession,
     player: Profile,
     min_scores: Dict[str, int] | None = None,
+    request: WorldBossQARequest | None = None,
 ) -> WorldBossQAReport:
     """
     Run a QA pass for the standard worlds bosses (e.g., Reactor Core, Signal Prism).
@@ -135,7 +150,65 @@ def run_standard_world_boss_qa(
             },
         },
         # Add more bosses here later (Archives, Grid, Oracle, etc.)
+        {
+            "boss_slug": "signal-prism",
+            "default_min_score": 60,
+            "submission_context": {
+                "summary": "Signal Prism TypeScript boss solution focusing on reducer logic and immutability.",
+                "files": [
+                    "apps/exercises/signal_prism/reducer.ts",
+                    "apps/exercises/signal_prism/tests/reducer.test.ts",
+                ],
+                "notes": [
+                    "Implements a pure reducer with no side effects.",
+                    "Handles all specified action types and invalid actions gracefully.",
+                    "Includes tests that cover happy path and edge cases.",
+                ],
+            },
+        },
+        {
+            "boss_slug": "boss-grid-containment-sandbox-warden",
+            "default_min_score": 6,
+            "submission_context": {
+                "summary": "Sandbox Warden Infra boss solution.",
+                "files": ["runbook.md"],
+                "notes": ["Checks triage, logs, and fix verification."],
+            },
+        },
     ]
+
+    # If a specific boss is requested, filter the config or create a custom one
+    if request and request.boss_id:
+        # Check if we have a config for this boss
+        matching_cfg = next((c for c in configs if c["boss_slug"] == request.boss_id), None)
+        
+        if request.submission_markdown:
+            # Create a custom config or override existing
+            custom_cfg = {
+                "boss_slug": request.boss_id,
+                "default_min_score": 6, # Default for rubric-based pass/fail
+                "submission_context": {
+                    "summary": "Smoke Test Runbook",
+                    "files": ["runbook.md"],
+                    "submission_markdown": request.submission_markdown,
+                    "code": request.submission_markdown, # Ensure 'code' key is present for mock grader checks
+                    # The judge logic needs to handle this.
+                    # Usually 'judge_boss_with_rubric' expects 'submission_context' to have what the prompt needs.
+                    # For ZERO prompts, we might inject this as the 'Player Runbook'.
+                }
+            }
+            # Update 'submission_markdown' into context so 'judge_boss_with_rubric' sees it
+            # We trust 'judge_boss_with_rubric' to use 'submission_markdown' key if present.
+            configs = [custom_cfg]
+        elif matching_cfg:
+             configs = [matching_cfg]
+        else:
+             # Fallback: Try to run it even if not in hardcoded list (assuming DB has it)
+             configs = [{
+                "boss_slug": request.boss_id,
+                "default_min_score": 6,
+                "submission_context": {"summary": "Ad-hoc Execution"} 
+             }]
 
     results: List[BossQAStatus] = []
 
@@ -144,7 +217,7 @@ def run_standard_world_boss_qa(
         min_score_required = min_scores.get(slug, cfg["default_min_score"])
         
         try:
-            boss = _get_boss(db, slug)
+            boss = await _get_boss(db, slug)
         except ValueError:
             # Boss not found in database - return graceful failure
             results.append(BossQAStatus(
@@ -163,7 +236,7 @@ def run_standard_world_boss_qa(
             ))
             continue
         
-        status = _run_single_boss_world_qa(
+        status = await _run_single_boss_world_qa(
             db=db,
             boss=boss,
             player=player,

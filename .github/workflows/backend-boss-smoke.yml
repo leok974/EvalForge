@@ -1,0 +1,33 @@
+name: Backend – Boss Smoke
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  boss-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+        # If your backend has a subdir (e.g. ./backend), add:
+        # working-directory: ./backend
+
+      - name: Run boss smoke tests
+        run: |
+          chmod +x scripts/run_boss_smoke.sh
+          ./scripts/run_boss_smoke.sh

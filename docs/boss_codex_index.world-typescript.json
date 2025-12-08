@@ -1,0 +1,39 @@
+{
+    "world_slug": "world-typescript",
+    "boss_codex": [
+        {
+            "codex_id": "codex.world-typescript.prism-refraction.type-guardian",
+            "boss_id": "boss-prism-refraction-type-guardian",
+            "world_slug": "world-typescript",
+            "track_id": "prism-refraction",
+            "slug": "type-guardian",
+            "title": "Codex: Type Guardian of Refraction",
+            "file_path": "codex/world-typescript/track-refraction-boss-type-guardian.md",
+            "summary": "Lore and guidance for turning a loose JS auth module into a strict, well-typed TypeScript API.",
+            "tags": [
+                "lore",
+                "guidance",
+                "typescript",
+                "unions",
+                "type-guards"
+            ]
+        },
+        {
+            "codex_id": "codex.world-typescript.prism-spectrum.curator-generic-arsenal",
+            "boss_id": "boss-prism-spectrum-curator-generic-arsenal",
+            "world_slug": "world-typescript",
+            "track_id": "prism-spectrum",
+            "slug": "curator-generic-arsenal",
+            "title": "Codex: Curator of the Generic Arsenal",
+            "file_path": "codex/world-typescript/track-spectrum-boss-curator-generic-arsenal.md",
+            "summary": "Lore and guidance for building a reusable generic collection toolkit.",
+            "tags": [
+                "lore",
+                "guidance",
+                "typescript",
+                "generics",
+                "collections"
+            ]
+        }
+    ]
+}

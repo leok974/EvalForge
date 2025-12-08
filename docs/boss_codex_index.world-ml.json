@@ -1,0 +1,18 @@
+{
+    "items": [
+        {
+            "id": "boss-synapse-gradient-sentinel",
+            "world_slug": "world-ml",
+            "track_id": "synapse-tensor-gradient",
+            "path": "codex/world-ml/boss_synapse_gradient_sentinel.md",
+            "title": "Boss Codex – Gradient Sentinel"
+        },
+        {
+            "id": "boss-synapse-mlops-sentinel",
+            "world_slug": "world-ml",
+            "track_id": "synapse-senior-mlops",
+            "path": "codex/world-ml/boss_synapse_mlops_sentinel.md",
+            "title": "Boss Codex – ML Ops Sentinel"
+        }
+    ]
+}

@@ -53,6 +53,9 @@ class BossEvalLLMChoice(BaseModel):
     """What ZERO returns after reading code/docs/metrics + rubric."""
     dimensions: List[BossEvalDimensionChoice]
     autofail_conditions_triggered: List[str] = []
+    summary: str = ""
+    strengths: List[str] = []
+    improvements: List[str] = []
 
 
 class BossEvalDimensionResult(BaseModel):
@@ -75,6 +78,9 @@ class BossEvalResult(BaseModel):
     autofail_triggered: bool
     autofail_reasons: List[str]
     dimensions: List[BossEvalDimensionResult]
+    summary: str = ""
+    strengths: List[str] = []
+    improvements: List[str] = []
 
     # Optional combat overlay fields (can be filled by caller)
     boss_hp_before: Optional[int] = None

@@ -376,20 +376,28 @@ app.include_router(routes_boss_qa_applylens.router)
 from arcade_app.routers import routes_boss_qa_worlds
 app.include_router(routes_boss_qa_worlds.router)
 
-# Practice Rounds routes
-from arcade_app.routers import routes_practice_rounds
-app.include_router(routes_practice_rounds.router)
-
-from arcade_app.routers import intent_oracle_eval
-app.include_router(intent_oracle_eval.router)
-
-# Quest routes (System 2.0)
 from arcade_app.routers import routes_quests
 app.include_router(routes_quests.router)
 
 # World Progress routes
 from arcade_app.routers import routes_world_progress
 app.include_router(routes_world_progress.router)
+
+# Universe Routes (Worlds/Tracks/Bosses metadata)
+from arcade_app.routers import routes_universe
+app.include_router(routes_universe.router)
+
+from arcade_app.routers import routes_ladders
+app.include_router(routes_ladders.router)
+
+from arcade_app.routers import routes_practice_rounds
+app.include_router(routes_practice_rounds.router)
+
+from arcade_app.routers import routes_profile
+app.include_router(routes_profile.router)
+
+from arcade_app.routers import routes_boss_runs
+app.include_router(routes_boss_runs.router)
 
 # --- 5. Missing Routes (Restored) ---
 

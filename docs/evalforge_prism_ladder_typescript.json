@@ -1,0 +1,103 @@
+{
+    "snapshot_kind": "evalforge_ladder_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-typescript",
+    "world_name": "The Prism – TypeScript",
+    "ladder": {
+        "ladder_id": "prism-typescript-core-to-ops",
+        "slug": "prism-typescript-core-to-ops",
+        "title": "Prism Engineer – Types to Systems",
+        "summary": "A path that takes you from annotating loose JS to designing robust, generic TypeScript systems.",
+        "recommended_entry_level": "js-comfortable",
+        "recommended_exit_level": "typescript-mid-level",
+        "tags": [
+            "typescript",
+            "frontend",
+            "api-design",
+            "type-systems"
+        ],
+        "stages": [
+            {
+                "stage_id": "stage-1-prism-refraction",
+                "order_index": 1,
+                "title": "Stage 1 – Refraction (Types from JS)",
+                "description": "Turn a messy JS module into strict, well-typed TypeScript using unions, type guards, and discriminated unions.",
+                "goals": [
+                    "Annotate functions, objects, and arrays with TypeScript types.",
+                    "Use unions and narrowing to model states and branches.",
+                    "Eliminate any type: and implicit any where it matters."
+                ],
+                "quests": [
+                    "ts-refraction-q1-js-to-ts-basics",
+                    "ts-refraction-q2-unions-and-guards",
+                    "ts-refraction-q3-discriminated-states"
+                ],
+                "bosses": [
+                    "boss-prism-refraction-type-guardian"
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-prism-refraction-type-guardian"
+                },
+                "badge": {
+                    "code": "prism-refraction-ready",
+                    "label": "Refraction Ready",
+                    "description": "Can take existing JS and safely fold it into a typed TS module."
+                }
+            },
+            {
+                "stage_id": "stage-2-prism-spectrum",
+                "order_index": 2,
+                "title": "Stage 2 – Spectrum (Generics & Design)",
+                "description": "Build generic utilities and type-safe APIs using generics, mapped types, and utility types.",
+                "goals": [
+                    "Use generics with constraints to author reusable helpers.",
+                    "Apply mapped types and utility types to model API payloads.",
+                    "Design type-safe client libraries and domain models."
+                ],
+                "quests": [
+                    "ts-spectrum-q1-generic-collections",
+                    "ts-spectrum-q2-mapped-utility-types",
+                    "ts-spectrum-q3-api-client-types"
+                ],
+                "bosses": [
+                    "boss-prism-spectrum-curator-generic-arsenal"
+                ],
+                "prerequisites": {
+                    "type": "stage_complete",
+                    "stage_ids": [
+                        "stage-1-prism-refraction"
+                    ]
+                },
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-prism-spectrum-curator-generic-arsenal"
+                },
+                "badge": {
+                    "code": "prism-spectrum-ready",
+                    "label": "Spectrum Ready",
+                    "description": "Can design generic TypeScript APIs and data models with confidence."
+                }
+            }
+        ],
+        "completion_rewards": {
+            "xp": 500,
+            "titles": [
+                "Prism Engineer",
+                "Type Systems Adept"
+            ],
+            "unlocks": [
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-agents",
+                    "note": "You can now design strong contracts for agent tools in The Oracle."
+                },
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-ml",
+                    "note": "You are ready to consume ML APIs and strongly-type their inputs/outputs."
+                }
+            ]
+        }
+    }
+}

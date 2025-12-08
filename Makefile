@@ -19,3 +19,7 @@ deploy:
 		--app_name=arcade \
 		--with_ui \
 		arcade_app
+.PHONY:
+boss-smoke
+boss-smoke:
+.\__pycache__\./scripts/run_boss_smoke.sh

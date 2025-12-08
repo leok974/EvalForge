@@ -1,50 +1,88 @@
 import asyncio
+import json
 import os
-import sys
-import frontmatter
+from pathlib import Path
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlmodel import delete
 
-# Setup Path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# App Imports
+from arcade_app.database import engine
+from arcade_app.models import KnowledgeChunk
 
-from arcade_app.rag_helper import index_content
-from arcade_app.database import init_db
+BASE_DOCS = Path("d:/EvalForge/docs")
+BASE_CODEX = Path("d:/EvalForge") # Relative paths in index start with codex/...
 
-# Codex directory
-CODEX_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "codex")
-
-async def run_ingestion():
-    print("🚀 Starting Codex Ingestion...")
+CODEX_INDEXES = [
+    "boss_codex_index.json", # This might not exist, but loop handles missing
+    "boss_codex_index.world-git.json",
+    "boss_codex_index.world-sql.json",
+    "boss_codex_index.world-ml.json",
+    "boss_codex_index.world-python.json"
+]
+async def ingest_codex_entry(session, entry, world_slug):
+    codex_id = entry.get("boss_id", entry.get("id"))
+    file_path = BASE_CODEX / entry["path"]
     
-    # Ensure DB is initialized
-    await init_db()
-    
-    if not os.path.exists(CODEX_DIR):
-        print(f"⚠️ Codex directory not found: {CODEX_DIR}")
+    if not file_path.exists():
+        print(f"⚠️ File not found: {file_path}")
         return
+
+    content = file_path.read_text(encoding="utf-8")
     
-    count = 0
-    for root, _, files in os.walk(CODEX_DIR):
-        for file in files:
-            if file.endswith(".md"):
-                path = os.path.join(root, file)
+    print(f"  - 📜 Ingesting Codex: {codex_id}")
+    
+    # 1. Clean existing chunks for this codex_id
+    stmt = delete(KnowledgeChunk).where(
+        (KnowledgeChunk.source_id == codex_id) & 
+        (KnowledgeChunk.source_type == "boss_codex")
+    )
+    await session.execute(stmt)
+    
+    # 2. Chunk it (Simulated simple chunking for now, entire doc as one chunk often okay for small codex)
+    # For actual RAG we might want smaller chunks.
+    
+    chunk = KnowledgeChunk(
+        source_type="boss_codex",
+        source_id=codex_id,
+        chunk_index=0,
+        content=content,
+        metadata_json={
+            "title": entry["title"],
+            "boss_id": codex_id,
+            "world_slug": world_slug,
+            "tags": entry.get("tags", [])
+        },
+        embedding=[0.0] * 768 # Placeholder zero vector to satisfy PGVector constraint
+    )
+    session.add(chunk)
+
+async def ingest_codexes():
+    print("📚 Ingesting Codex Entries...")
+    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+    
+    async with async_session() as session:
+        for index_file in CODEX_INDEXES:
+            path = BASE_DOCS / index_file
+            if not path.exists():
+                print(f"⚠️ Index not found: {index_file}"); continue
+                
+            index_data = json.loads(path.read_text(encoding="utf-8"))
+            world_slug = index_data.get("world_slug", "unknown")
+            
+            entries = index_data.get("boss_codex", index_data.get("items", []))
+            for entry in entries:
                 try:
-                    post = frontmatter.load(path)
-                    
-                    # We index the Title + Tags + Content for context
-                    title = post.metadata.get('title', 'Untitled')
-                    tags = post.metadata.get('tags', [])
-                    full_text = f"Title: {title}\nTags: {', '.join(tags) if tags else 'None'}\n\n{post.content}"
-                    
-                    doc_id = post.metadata.get("id", file.replace('.md', ''))
-                    await index_content("codex", doc_id, full_text)
-                    count += 1
+                    await ingest_codex_entry(session, entry, world_slug)
                 except Exception as e:
-                    print(f"❌ Failed to index {file}: {e}")
-    
-    print(f"✨ Ingestion Complete! Indexed {count} codex entries.")
+                    print(f"❌ ERROR processing entry {entry.get('id')}: {e}")
+                    import traceback
+                    traceback.print_exc()
+        
+        await session.commit()
+    print("✅ Codex Ingestion Complete.")
 
 if __name__ == "__main__":
-    # Ensure event loop logic works on Windows
-    if sys.platform == 'win32':
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(run_ingestion())
+    import sys
+    sys.path.append("d:/EvalForge")
+    asyncio.run(ingest_codexes())

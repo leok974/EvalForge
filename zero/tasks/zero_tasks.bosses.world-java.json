@@ -1,0 +1,162 @@
+{
+    "tasks": [
+        {
+            "task_id": "boss_reactor_core_circuit_stable_core_controller",
+            "kind": "boss_judge",
+            "description": "Judge Stable Core Controller (Reactor Core Circuit track) Java boss solutions.",
+            "model": "gpt-5.1-thinking",
+            "mode": "chat-completion",
+            "system_prompt_path": "zero/system/boss_judge.system.txt",
+            "input_contract": {
+                "type": "object",
+                "required": [
+                    "boss_definition",
+                    "boss_rubric",
+                    "boss_codex",
+                    "submission"
+                ],
+                "properties": {
+                    "boss_definition": {
+                        "type": "object"
+                    },
+                    "boss_rubric": {
+                        "type": "object"
+                    },
+                    "boss_codex": {
+                        "type": [
+                            "object",
+                            "null"
+                        ]
+                    },
+                    "submission": {
+                        "type": "object",
+                        "required": [
+                            "files"
+                        ],
+                        "properties": {
+                            "files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "path",
+                                        "content"
+                                    ],
+                                    "properties": {
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "notes": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "output_contract": {
+                "type": "object",
+                "required": [
+                    "boss_id",
+                    "rubric_id",
+                    "score_total",
+                    "score_max",
+                    "passed",
+                    "integrity",
+                    "verdict",
+                    "criteria",
+                    "summary",
+                    "improvements",
+                    "raw_notes"
+                ]
+            }
+        },
+        {
+            "task_id": "boss_reactor_service_loop_reactor_ops_conductor",
+            "kind": "boss_judge",
+            "description": "Judge Reactor Ops Conductor (Reactor Service Loop track) Java boss solutions.",
+            "model": "gpt-5.1-thinking",
+            "mode": "chat-completion",
+            "system_prompt_path": "zero/system/boss_judge.system.txt",
+            "input_contract": {
+                "type": "object",
+                "required": [
+                    "boss_definition",
+                    "boss_rubric",
+                    "boss_codex",
+                    "submission"
+                ],
+                "properties": {
+                    "boss_definition": {
+                        "type": "object"
+                    },
+                    "boss_rubric": {
+                        "type": "object"
+                    },
+                    "boss_codex": {
+                        "type": [
+                            "object",
+                            "null"
+                        ]
+                    },
+                    "submission": {
+                        "type": "object",
+                        "required": [
+                            "files"
+                        ],
+                        "properties": {
+                            "files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "path",
+                                        "content"
+                                    ],
+                                    "properties": {
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "notes": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "output_contract": {
+                "type": "object",
+                "required": [
+                    "boss_id",
+                    "rubric_id",
+                    "score_total",
+                    "score_max",
+                    "passed",
+                    "integrity",
+                    "verdict",
+                    "criteria",
+                    "summary",
+                    "improvements",
+                    "raw_notes"
+                ]
+            }
+        }
+    ]
+}

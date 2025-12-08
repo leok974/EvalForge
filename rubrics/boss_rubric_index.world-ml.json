@@ -1,0 +1,19 @@
+{
+    "items": [
+        {
+            "id": "boss-synapse-gradient-sentinel",
+            "world_slug": "world-ml",
+            "track_id": "synapse-tensor-gradient",
+            "path": "rubrics/boss-synapse-gradient-sentinel.json",
+            "title": "Boss Rubric – Gradient Sentinel"
+        },
+        {
+            "id": "boss-synapse-mlops-sentinel",
+            "world_slug": "world-ml",
+            "track_id": "synapse-senior-mlops",
+            "path": "rubrics/boss-synapse-mlops-sentinel.json",
+            "title": "Boss Rubric – ML Ops Sentinel",
+            "judge_prompt": "rubrics/zero_boss_judge_synapse_mlops_sentinel.md"
+        }
+    ]
+}

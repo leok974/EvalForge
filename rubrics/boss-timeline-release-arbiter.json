@@ -1,0 +1,140 @@
+{
+    "schema_version": "1.0",
+    "id": "boss-timeline-release-arbiter",
+    "boss_slug": "boss-timeline-release-arbiter",
+    "title": "Timeline Release Arbiter",
+    "max_score": 8,
+    "dimensions": [
+        {
+            "key": "architecture_and_branching",
+            "label": "Architecture & Branching Model",
+            "weight": 0.25,
+            "description": "Clarity and practicality of the branch model and environment mapping.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Vague",
+                    "score": 0,
+                    "criteria": "Branch model is hand-wavy or inconsistent; environments are unclear. Lists some branches but not clear usage."
+                },
+                {
+                    "level": 1,
+                    "label": "Partial",
+                    "score": 1,
+                    "criteria": "Defines a model but leaves gaps or contradictions. Environments mapped but rules fuzzy."
+                },
+                {
+                    "level": 2,
+                    "label": "Coherent",
+                    "score": 2,
+                    "criteria": "Provides a concrete, enforceable branching strategy tied to environments. Clearly maps rules for creation, merging, and deletion."
+                }
+            ]
+        },
+        {
+            "key": "workflow_and_automation",
+            "label": "Release Workflow & Automation",
+            "weight": 0.25,
+            "description": "Quality of the release train, tagging, and automation story.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Ad-hoc",
+                    "score": 0,
+                    "criteria": "Releases are loosely defined; lots of manual steps. Tags missing or afterthought."
+                },
+                {
+                    "level": 1,
+                    "label": "Structured",
+                    "score": 1,
+                    "criteria": "Has a reasonable workflow but light on automation or specifics. Mentions stabilization but not concrete gates."
+                },
+                {
+                    "level": 2,
+                    "label": "Deliberate",
+                    "score": 2,
+                    "criteria": "Outlines a release workflow ready for CI/CD. Clear release branch/tag validation and finalization steps."
+                }
+            ]
+        },
+        {
+            "key": "risk_and_recovery",
+            "label": "Risk Management & Recovery",
+            "weight": 0.25,
+            "description": "How hotfixes, backports, and history rewrites are handled safely.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Risky",
+                    "score": 0,
+                    "criteria": "Hotfix/backport flows barely addressed. No defined procedure for history rewrites."
+                },
+                {
+                    "level": 1,
+                    "label": "Aware",
+                    "score": 1,
+                    "criteria": "Acknowledges risks but leaves holes in recovery. Defines hotfix branch but not merge directions nicely."
+                },
+                {
+                    "level": 2,
+                    "label": "Resilient",
+                    "score": 2,
+                    "criteria": "Clear flows for hotfixes/backports with merge directions. Explicit guidance on revert vs rebase."
+                }
+            ]
+        },
+        {
+            "key": "collaboration_and_auditability",
+            "label": "Collaboration & Auditability",
+            "weight": 0.25,
+            "description": "How well the design supports team collaboration, debugging, and learning from history.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Opaque",
+                    "score": 0,
+                    "criteria": "Little thought on commit conventions/tags. New team members would struggle."
+                },
+                {
+                    "level": 1,
+                    "label": "Readable",
+                    "score": 1,
+                    "criteria": "Adds some conventions/notes but doesn't fully close the loop. Defines basic PR/commit practices."
+                },
+                {
+                    "level": 2,
+                    "label": "Auditable",
+                    "score": 2,
+                    "criteria": "Design makes history a teaching tool and audit trail. Clear standards for commits, tags, and onboarding."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "label": "S",
+            "description": "Exemplary release architecture."
+        },
+        {
+            "min_score": 6,
+            "label": "A",
+            "description": "Solid, professional-grade release strategy."
+        },
+        {
+            "min_score": 4,
+            "label": "B",
+            "description": "Functional but has gaps in safety or recovery."
+        },
+        {
+            "min_score": 0,
+            "label": "C",
+            "description": "Unsafe or incomplete design."
+        }
+    ],
+    "autofail_conditions": [
+        "No hotfix strategy mentioned.",
+        "Promoting history rewrites on shared branches without safety."
+    ],
+    "llm_judge_instructions": "Evaluate the 'Release & History Blueprint' against the dimensions. Focus on the practicality for a team of 5-20 engineers. Be strict about specific branch names and merge rules."
+}

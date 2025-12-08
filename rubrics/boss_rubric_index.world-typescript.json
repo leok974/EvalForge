@@ -1,0 +1,40 @@
+{
+    "world_slug": "world-typescript",
+    "rubrics": [
+        {
+            "rubric_id": "boss-rubric-prism-refraction-type-guardian",
+            "boss_id": "boss-prism-refraction-type-guardian",
+            "world_slug": "world-typescript",
+            "track_id": "prism-refraction",
+            "slug": "type-guardian",
+            "title": "Rubric: Type Guardian",
+            "file_path": "rubrics/boss-prism-refraction-type-guardian.json",
+            "summary": "Scoring model for the Type Guardian boss (Refraction track). Focuses on type modeling, discriminated unions, guards, and runtime safety.",
+            "tags": [
+                "rubric",
+                "typescript",
+                "unions",
+                "guards",
+                "auth",
+                "strict"
+            ]
+        },
+        {
+            "rubric_id": "boss-rubric-prism-spectrum-curator-generic-arsenal",
+            "boss_id": "boss-prism-spectrum-curator-generic-arsenal",
+            "world_slug": "world-typescript",
+            "track_id": "prism-spectrum",
+            "slug": "curator-generic-arsenal",
+            "title": "Rubric: Curator of the Generic Arsenal",
+            "file_path": "rubrics/boss-prism-spectrum-curator-generic-arsenal.json",
+            "summary": "Scoring model for the Curator of the Generic Arsenal boss (Spectrum track). Focuses on generic design and API ease of use.",
+            "tags": [
+                "rubric",
+                "typescript",
+                "generics",
+                "collections",
+                "library"
+            ]
+        }
+    ]
+}

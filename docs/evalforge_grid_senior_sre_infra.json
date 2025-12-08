@@ -1,0 +1,102 @@
+{
+    "snapshot_kind": "evalforge_world_content",
+    "world_slug": "world-infra",
+    "tracks": [
+        {
+            "track_id": "grid-senior-sre-architect",
+            "slug": "grid-senior-sre-architect",
+            "world_slug": "world-infra",
+            "title": "Senior SRE Architect – Resilient Systems at Scale",
+            "tier": "senior",
+            "stage": 3,
+            "order_index": 30,
+            "summary": "Design systems that survive huge scale, chaos, and human error.",
+            "quests": [
+                {
+                    "quest_id": "grid-sre-topology-blast-radius",
+                    "slug": "grid-sre-topology-blast-radius",
+                    "title": "Topology & Blast Radius",
+                    "order_index": 1,
+                    "difficulty": "hard",
+                    "summary": "Minimize the impact of component failure.",
+                    "objective": "Design service topology, failure domains, and isolation boundaries (cells/shards) for a massive global service.",
+                    "tags": [
+                        "infra",
+                        "sre",
+                        "topology",
+                        "resilience"
+                    ]
+                },
+                {
+                    "quest_id": "grid-sre-failure-modes-runbooks",
+                    "slug": "grid-sre-failure-modes-runbooks",
+                    "title": "Failure Modes & Runbooks",
+                    "order_index": 2,
+                    "difficulty": "hard",
+                    "summary": "Predict how it breaks and write the manual to fix it.",
+                    "objective": "Classify failure modes (e.g., latency, saturation, errors) and create actionable runbooks with escalation paths.",
+                    "tags": [
+                        "infra",
+                        "runbooks",
+                        "failure-analysis"
+                    ]
+                },
+                {
+                    "quest_id": "grid-sre-observability-signals",
+                    "slug": "grid-sre-observability-signals",
+                    "title": "Observability & Signals",
+                    "order_index": 3,
+                    "difficulty": "hard",
+                    "summary": "See the system clearly through logs, metrics, and traces.",
+                    "objective": "Design a complete signal strategy: SLOs/SLIs, error budgets, structured logging, and alert routing policy.",
+                    "tags": [
+                        "infra",
+                        "observability",
+                        "slo",
+                        "metrics"
+                    ]
+                },
+                {
+                    "quest_id": "grid-sre-capacity-deploys",
+                    "slug": "grid-sre-capacity-deploys",
+                    "title": "Capacity, Deploys & Rollbacks",
+                    "order_index": 4,
+                    "difficulty": "hard",
+                    "summary": "Ship code safely without falling over.",
+                    "objective": "Define deployment strategies (blue/green, canary), auto-scaling policies, lock shedding, and circuit breaking.",
+                    "tags": [
+                        "infra",
+                        "deploys",
+                        "capacity",
+                        "autoscaling"
+                    ]
+                },
+                {
+                    "quest_id": "grid-sre-incident-lifecycle",
+                    "slug": "grid-sre-incident-lifecycle",
+                    "title": "Incident Lifecycle & Postmortems",
+                    "order_index": 5,
+                    "difficulty": "hard",
+                    "summary": "Turn outages into learning.",
+                    "objective": "Map the full incident lifecycle: detection, mitigation, resolution, RCA, and the feedback loop to prevent recurrence.",
+                    "tags": [
+                        "infra",
+                        "incidents",
+                        "postmortem",
+                        "culture"
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-grid-resilience-warden",
+                    "slug": "boss-grid-resilience-warden",
+                    "title": "Grid Resilience Warden",
+                    "order_index": 99,
+                    "difficulty": "boss",
+                    "summary": "Judges your ability to defend reliability against chaos, scale, and entropy."
+                }
+            ]
+        }
+    ]
+}

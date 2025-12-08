@@ -1,0 +1,287 @@
+{
+    "snapshot_kind": "evalforge_track_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-java",
+    "world_name": "The Reactor – Java",
+    "track": {
+        "track_id": "reactor-core-circuit",
+        "slug": "core-circuit",
+        "title": "Core Circuit – Java Fundamentals",
+        "order_index": 1,
+        "summary": "From first spark to stable core: learn Java syntax, control flow, OOP, and collections with production habits baked in.",
+        "intended_outcome": "Player can write small, well-structured Java programs using classes, interfaces, collections, and exceptions, and is comfortable reading production Java code.",
+        "recommended_entry_level": "absolute-beginner-to-java",
+        "recommended_exit_level": "solid-java-junior",
+        "skills": [
+            "java_syntax_basics",
+            "types_and_primitives",
+            "control_flow",
+            "exceptions",
+            "classes_and_objects",
+            "interfaces_and_polymorphism",
+            "collections_list_map",
+            "simple_generics"
+        ]
+    },
+    "quests": [
+        {
+            "quest_id": "java-core-q1-first-spark",
+            "slug": "first-spark",
+            "title": "Q1 – First Spark",
+            "order_index": 1,
+            "difficulty": "beginner",
+            "estimated_duration_minutes": 25,
+            "narrative_blurb": "The Reactor is dark. Your first task is to bring a single control console online: compile, run, and read output from a tiny Java program.",
+            "learning_goals": [
+                "Understand the structure of a basic Java program (class, main method).",
+                "Use primitives, Strings, and simple methods.",
+                "Compile and run via CLI or IDE, not just copy-paste."
+            ],
+            "starting_state": {
+                "description": "A small project skeleton with an empty Main class and failing tests expecting simple numeric + string output.",
+                "files": [
+                    "src/main/java/ev/forge/reactor/core/Q1Main.java",
+                    "src/test/java/ev/forge/reactor/core/Q1MainTest.java",
+                    "pom.xml or build.gradle (pre-configured for tests)"
+                ]
+            },
+            "target_state": {
+                "description": "Main prints a small status report, backed by a helper method with clear types. Tests pass.",
+                "expected_artifacts": [
+                    "src/main/java/ev/forge/reactor/core/Q1Main.java",
+                    "src/main/java/ev/forge/reactor/core/CoreStatus.java"
+                ]
+            },
+            "tasks": [
+                "Implement a CoreStatus class with fields like int temperature, boolean online, String message.",
+                "Implement a static method formatStatus(CoreStatus status): String that produces a status line (e.g., \"Core online @ 450K\").",
+                "In Q1Main.main, construct a CoreStatus and print the formatted status.",
+                "Make Q1MainTest pass without modifying test code."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "mvn test or gradle test passes with 0 failures.",
+                    "No compilation errors under Java 17+.",
+                    "No use of var; explicit types for fields and parameters."
+                ],
+                "semantic_checks": [
+                    "CoreStatus has meaningful field names and types.",
+                    "formatStatus is pure (no I/O) and easy to test."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward separation of data (CoreStatus) from formatting logic.",
+                    "Penalize all-in-main spaghetti code.",
+                    "Encourage clear, descriptive names and consistent casing."
+                ],
+                "hint_snippets": [
+                    "Think of CoreStatus as a tiny DTO: just state, no behavior.",
+                    "Keep main() thin; push logic into reusable methods."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "java-core-q2-flow-and-failsafes"
+                ]
+            }
+        },
+        {
+            "quest_id": "java-core-q2-flow-and-failsafes",
+            "slug": "flow-and-failsafes",
+            "title": "Q2 – Flow and Failsafes",
+            "order_index": 2,
+            "difficulty": "beginner",
+            "estimated_duration_minutes": 30,
+            "narrative_blurb": "The Reactor must react to changing inputs. You’ll wire basic control flow and exception handling so a bad sensor reading doesn’t take the core down.",
+            "learning_goals": [
+                "Use if/else, loops, and switch to branch on data.",
+                "Define and throw a custom checked exception.",
+                "Handle exceptions with try/catch and finally."
+            ],
+            "starting_state": {
+                "description": "Skeleton classes for sensor readings and a ReactorController with TODOs, plus tests for valid/invalid scenarios.",
+                "files": [
+                    "src/main/java/ev/forge/reactor/core/SensorReading.java",
+                    "src/main/java/ev/forge/reactor/core/ReactorController.java",
+                    "src/test/java/ev/forge/reactor/core/ReactorControllerTest.java"
+                ]
+            },
+            "target_state": {
+                "description": "A ReactorController that validates sensor data, throws a custom exception on invalid readings, and chooses a control action based on thresholds.",
+                "expected_artifacts": [
+                    "src/main/java/ev/forge/reactor/core/InvalidReadingException.java",
+                    "src/main/java/ev/forge/reactor/core/ReactorController.java"
+                ]
+            },
+            "tasks": [
+                "Implement SensorReading with fields like double temperature, double pressure, boolean emergencyStop.",
+                "Define InvalidReadingException extends Exception (checked).",
+                "In ReactorController.adjustCore(SensorReading reading):",
+                "  - Validate ranges (e.g., negative temperature throws InvalidReadingException).",
+                "  - Use if/else or switch to choose actions like COOL, HEAT, SHUTDOWN.",
+                "  - Never swallow exceptions silently; tests expect specific behavior."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Tests cover at least one happy path and one InvalidReadingException path.",
+                    "No empty catch blocks; caught exceptions are at least logged or rethrown.",
+                    "ReactorController.adjustCore has a non-void return type representing the chosen action (e.g., enum ControlAction)."
+                ],
+                "semantic_checks": [
+                    "Use of checked vs unchecked exceptions is reasonable.",
+                    "Control flow is readable; no deeply nested if/else chains where a switch or early returns would help."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward clear custom exception + enum ControlAction.",
+                    "Penalize catching Exception broadly when not needed.",
+                    "Look for tests that assert on both actions and exceptions."
+                ],
+                "hint_snippets": [
+                    "Define a small ControlAction enum instead of returning raw strings.",
+                    "Prefer throwing a specific InvalidReadingException to ambiguous runtime errors."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "java-core-q3-cores-and-shells"
+                ]
+            }
+        },
+        {
+            "quest_id": "java-core-q3-cores-and-shells",
+            "slug": "cores-and-shells",
+            "title": "Q3 – Cores and Shells",
+            "order_index": 3,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 35,
+            "narrative_blurb": "The Reactor is more than one class. You’ll design a small object model where core logic and control panels interact via interfaces, not hard-coded implementations.",
+            "learning_goals": [
+                "Define classes, interfaces, and use composition.",
+                "Apply basic polymorphism to swap strategies.",
+                "Override equals, hashCode, and toString sensibly."
+            ],
+            "starting_state": {
+                "description": "Interface stubs for ReactorCore and ControlPanel plus a basic implementation and failing tests that expect polymorphic behavior.",
+                "files": [
+                    "src/main/java/ev/forge/reactor/core/ReactorCore.java",
+                    "src/main/java/ev/forge/reactor/core/ControlPanel.java",
+                    "src/test/java/ev/forge/reactor/core/CoreAndShellsTest.java"
+                ]
+            },
+            "target_state": {
+                "description": "A small object graph where a ControlPanel uses a ReactorCore via interfaces; multiple core implementations can be swapped in tests.",
+                "expected_artifacts": [
+                    "src/main/java/ev/forge/reactor/core/StandardReactorCore.java",
+                    "src/main/java/ev/forge/reactor/core/SafeModeReactorCore.java",
+                    "src/main/java/ev/forge/reactor/core/DefaultControlPanel.java"
+                ]
+            },
+            "tasks": [
+                "Define ReactorCore as an interface with methods like getStatus(), applyControl(ControlAction action).",
+                "Define ControlPanel as an interface with methods like manualShutdown(), raiseOutput().",
+                "Implement StandardReactorCore and SafeModeReactorCore with slightly different behavior.",
+                "Implement DefaultControlPanel that holds a ReactorCore reference (composition) and delegates through.",
+                "Override toString on ReactorCore implementations to produce debug-friendly strings.",
+                "Override equals/hashCode on a simple value object (e.g., CoreStatus) used in this quest."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "Tests verify that swapping core implementations changes behavior without changing ControlPanel code.",
+                    "No direct references to concrete implementations in client code (use interfaces).",
+                    "equals and hashCode are consistent with each other and use the same fields."
+                ],
+                "semantic_checks": [
+                    "Composition is preferred over inheritance where appropriate.",
+                    "Interfaces are small and cohesive; no god-interfaces."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward clean interfaces and usage of composition.",
+                    "Penalize leaking concrete types everywhere.",
+                    "Check that equals/hashCode/toString are implemented in a sane way (no recursion, no including volatile fields)."
+                ],
+                "hint_snippets": [
+                    "DefaultControlPanel should depend on ReactorCore, not StandardReactorCore.",
+                    "Limit equals/hashCode to fields that define identity (e.g., id)."
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "java-core-q4-circuits-and-collections"
+                ]
+            }
+        },
+        {
+            "quest_id": "java-core-q4-circuits-and-collections",
+            "slug": "circuits-and-collections",
+            "title": "Q4 – Circuits and Collections",
+            "order_index": 4,
+            "difficulty": "intermediate",
+            "estimated_duration_minutes": 40,
+            "narrative_blurb": "Multiple subsystems feed the core. You’ll manage collections of readings, alarms, and cores using Lists, Maps, and basic generics.",
+            "learning_goals": [
+                "Use List and Map with concrete types.",
+                "Write simple generic methods in Java.",
+                "Reason about iteration and aggregation."
+            ],
+            "starting_state": {
+                "description": "Skeleton of a ReactorRegistry that tracks cores and alarms using raw types and TODOs, plus tests expecting strongly-typed operations.",
+                "files": [
+                    "src/main/java/ev/forge/reactor/core/ReactorRegistry.java",
+                    "src/test/java/ev/forge/reactor/core/ReactorRegistryTest.java"
+                ]
+            },
+            "target_state": {
+                "description": "A type-safe registry managing cores and alarms using generics and proper collections.",
+                "expected_artifacts": [
+                    "src/main/java/ev/forge/reactor/core/ReactorRegistry.java"
+                ]
+            },
+            "tasks": [
+                "Use Map<String, ReactorCore> to store cores keyed by coreId.",
+                "Use List<String> or a small Alarm type to store active alarms.",
+                "Implement methods like registerCore, getCore, listCoreIds, addAlarm, clearAlarms.",
+                "Add a simple generic helper <T> List<T> filter(List<T> items, Predicate<T> predicate) using java.util.function.Predicate.",
+                "Use enhanced for-loops or streams where appropriate, without overcomplicating."
+            ],
+            "success_criteria": {
+                "machine_checks": [
+                    "No raw List or Map types (e.g., List instead of List<Something>).",
+                    "ReactorRegistryTest passes, verifying both happy paths and edge cases (missing core, empty alarms).",
+                    "filter helper compiles and infers T correctly at call sites."
+                ],
+                "semantic_checks": [
+                    "Collections usage is clear; methods don’t expose internal mutable collections directly without reason.",
+                    "Generic helper is small and readable."
+                ]
+            },
+            "agent_guidance": {
+                "rubric_hints": [
+                    "Reward elimination of raw types and any casts.",
+                    "Penalize returning internal mutable lists/maps directly without copying or clear intent.",
+                    "Check that simple generic method(s) are correctly parameterized."
+                ],
+                "hint_snippets": [
+                    "Avoid raw List/Map; always specify the element type.",
+                    "Start from the test expectations: how should callers interact with ReactorRegistry?"
+                ]
+            },
+            "unlocks": {
+                "next_quest_ids": [
+                    "boss-reactor-core-circuit-stable-core-controller"
+                ]
+            }
+        }
+    ],
+    "boss_stub": {
+        "boss_id": "boss-reactor-core-circuit-stable-core-controller",
+        "title": "Boss: Stable Core Controller",
+        "summary": "Design a small, cohesive Java module that coordinates sensor readings, control actions, and registry lookups to keep the Reactor core stable under stress.",
+        "status": "design-next",
+        "notes": "Boss will mirror Furnace Controller style: Codex, golden solution (CoreController + tests), rubric, ZERO task. Focus on clean layering, enums, exceptions, and collection usage."
+    }
+}

@@ -1,0 +1,103 @@
+{
+    "snapshot_kind": "evalforge_world_content",
+    "world_slug": "world-git",
+    "tracks": [
+        {
+            "track_id": "timeline-senior-release-architect",
+            "slug": "timeline-senior-release-architect",
+            "world_slug": "world-git",
+            "title": "Senior Release Architect – Git & Delivery",
+            "tier": "senior",
+            "stage": 3,
+            "order_index": 30,
+            "summary": "Design robust branching, release, and recovery strategies for real teams and monorepos.",
+            "quests": [
+                {
+                    "quest_id": "timeline-release-env-map",
+                    "slug": "timeline-release-env-map",
+                    "title": "Branching & Environment Map",
+                    "order_index": 1,
+                    "difficulty": "hard",
+                    "summary": "Map environments (dev, staging, prod) to branches and flows.",
+                    "objective": "Produce a concrete branch/env map for a multi-service product, including rules for what merges where and who is allowed to do it.",
+                    "tags": [
+                        "git",
+                        "release",
+                        "branching",
+                        "architecture"
+                    ]
+                },
+                {
+                    "quest_id": "timeline-release-train",
+                    "slug": "timeline-release-train",
+                    "title": "Release Train & Cadence",
+                    "order_index": 2,
+                    "difficulty": "hard",
+                    "summary": "Define how changes move from PR to production over time.",
+                    "objective": "Specify a release train (trunk-based or gitflow-inspired) including cut points, stabilization windows, and how releases are tagged and announced.",
+                    "tags": [
+                        "git",
+                        "release",
+                        "cadence",
+                        "process"
+                    ]
+                },
+                {
+                    "quest_id": "timeline-release-hotfix-backport",
+                    "slug": "timeline-release-hotfix-backport",
+                    "title": "Hotfix & Backport Flows",
+                    "order_index": 3,
+                    "difficulty": "hard",
+                    "summary": "Design how you handle urgent fixes and backports safely.",
+                    "objective": "Define a hotfix/backport workflow with concrete branches, commands, and rules for how fixes are merged forward and back.",
+                    "tags": [
+                        "git",
+                        "hotfix",
+                        "backport",
+                        "risk"
+                    ]
+                },
+                {
+                    "quest_id": "timeline-release-monorepo-strategy",
+                    "slug": "timeline-release-monorepo-strategy",
+                    "title": "Monorepo & Multi-Service Strategy",
+                    "order_index": 4,
+                    "difficulty": "hard",
+                    "summary": "Handle multiple services/modules in one repo without chaos.",
+                    "objective": "Describe how you structure a monorepo, manage service ownership, and decide what gets versioned together vs separately.",
+                    "tags": [
+                        "git",
+                        "monorepo",
+                        "services"
+                    ]
+                },
+                {
+                    "quest_id": "timeline-release-history-surgery",
+                    "slug": "timeline-release-history-surgery",
+                    "title": "History Surgery & Recovery",
+                    "order_index": 5,
+                    "difficulty": "hard",
+                    "summary": "Use rebase, revert, and bisect without corrupting shared history.",
+                    "objective": "Propose a policy for rebases vs merges and outline playbooks for reverting bad changes and using git bisect in production incidents.",
+                    "tags": [
+                        "git",
+                        "history",
+                        "rebase",
+                        "revert",
+                        "bisect"
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-timeline-release-arbiter",
+                    "slug": "boss-timeline-release-arbiter",
+                    "title": "Timeline Release Arbiter",
+                    "order_index": 99,
+                    "difficulty": "boss",
+                    "summary": "Judges your end-to-end release, branching, and recovery strategy for a real team."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,236 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1 item
+
+tests\backend\test_boss_oracle_invocation_smoke.py TEST DEBUG START: If you see this, stdout capturing works.
+DEBUG: arcade_app location: D:\EvalForge\arcade_app\__init__.py
+DEBUG: Boss in DB after commit: id='boss-oracle-invocation-summoner' name='Oracle Invocation Summoner' description='Agents world boss' rubric='boss-oracle-invocation-summoner' max_hp=100 base_xp_reward=500 difficulty='hard' enabled=True starting_code='' world_id=None track_id=None project_slug=None tech_focus=[] phase=None time_limit_seconds=1800 hint_codex_id=None created_at=datetime.datetime(2025, 12, 7, 17, 19, 21, 471581) updated_at=datetime.datetime(2025, 12, 7, 17, 19, 21, 471659)
+DEBUG: Loaded rubric boss-oracle-invocation-summoner, dims=4
+DEBUG: Scored result: 8/8
+DEBUG: Raw choice: dimensions=[BossEvalDimensionChoice(key='task_modeling_and_decomposition', level=2, rationale='Perfect implementation'), BossEvalDimensionChoice(key='tool_contracts_and_invocation_logic', level=2, rationale='Perfect implementation'), BossEvalDimensionChoice(key='grounding_and_guardrails', level=2, rationale='Perfect implementation'), BossEvalDimensionChoice(key='observability_and_maintainability', level=2, rationale='Perfect implementation')] autofail_conditions_triggered=[]
+F
+
+================================== FAILURES ===================================
+___________________ test_oracle_invocation_boss_judge_smoke ___________________
+
+client = <httpx.AsyncClient object at 0x000001B88D73E900>
+patch_tracks_for_judge = None
+judge_smoke_session = ('smoke_test_user', 'test_session_123')
+db_session = <sqlalchemy.orm.session.AsyncSession object at 0x000001B88D7B5A90>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001B88D6B2C40>
+
+    @pytest.mark.asyncio
+    async def test_oracle_invocation_boss_judge_smoke(client, patch_tracks_for_judge, judge_smoke_session, db_session, monkeypatch):
+        """
+        Smoke test: ensure Oracle Invocation Summoner boss QA path returns a valid BossEvalResult.
+        This uses the ZERO boss judge oracle invocation prompt + rubric + golden blueprint.
+        """
+        print("TEST DEBUG START: If you see this, stdout capturing works.")
+        import arcade_app
+        print(f"DEBUG: arcade_app location: {arcade_app.__file__}")
+    
+        # SEED BOSS DEFINITION (Ensures it exists even if ingestion script failed)
+        boss = BossDefinition(
+            id="boss-oracle-invocation-summoner",
+            name="Oracle Invocation Summoner",
+            description="Agents world boss",
+            rubric="boss-oracle-invocation-summoner",
+            base_xp_reward=500,
+            max_hp=100,
+            difficulty="hard",
+            enabled=True
+        )
+        db_session.add(boss)
+        await db_session.commit()
+    
+        # VERIFY
+        start_check = await db_session.get(BossDefinition, "boss-oracle-invocation-summoner")
+        print(f"DEBUG: Boss in DB after commit: {start_check}")
+    
+        # Enable Mock Grading Mode to bypass Vertex AI auth/mocks issues
+        monkeypatch.setenv("EVALFORGE_MOCK_GRADING", "1")
+    
+        # The payload we send. API expects 'submission_markdown' which is passed to judge.
+        # We add "MAGIC_BOSS_PASS" to ensure the mock judge awards full score (8/8).
+        payload = {
+            "world_slug": "world-agents",
+            "boss_id": "boss-oracle-invocation-summoner",
+            "mode": "smoke",
+            "submission_markdown": """# Invocation Blueprint û Smoke Test
+    
+    MAGIC_BOSS_PASS
+    
+    ## Scenario
+    Agent helps engineers debug latency and understand code/architecture using repo_search, doc_search, metrics_query.
+    
+    ## Tools
+    - repo_search(query): find code/config snippets.
+    - doc_search(query): find runbooks/ADRs.
+    - metrics_query(query): fetch latency/error metrics.
+    
+    ## Orchestrator Flow
+    1. Classify question_type and subjects (endpoints/services).
+    2. Plan steps: metrics_query -> repo_search -> doc_search (if needed).
+    3. Execute tools in order, summarizing each result.
+    4. Synthesize answer with evidence and next steps.
+    
+    ## Guardrails & Grounding
+    - Always call metrics_query for system behavior questions.
+    - Always call repo_search for code-related questions.
+    - Retry tools once on failure, then surface uncertainty.
+    
+    ## Observability & Debugging
+    - Log intent, plan, tool_calls, final_answer_summary as JSON.
+    - Metrics: agent_requests_total, agent_tool_calls_total, grounding_rate.
+    """
+        }
+    
+        # Send request
+>       resp = await client.post("/api/dev/boss_qa/worlds", json=payload)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\backend\test_boss_oracle_invocation_smoke.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1859: in post
+    return await self.request(
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1540: in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1629: in send
+    response = await self._send_handling_auth(
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1657: in _send_handling_auth
+    response = await self._send_handling_redirects(
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1694: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1730: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\httpx\_transports\asgi.py:170: in handle_async_request
+    await self.app(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1082: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:113: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    raise exc
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:716: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:736: in app
+    await route.handle(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:290: in handle
+    await self.app(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:78: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    raise exc
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:75: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:308: in app
+    raw_response = await run_endpoint_function(
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:219: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+arcade_app\routers\routes_boss_qa_worlds.py:60: in run_world_boss_qa_route
+    raise e
+arcade_app\routers\routes_boss_qa_worlds.py:56: in run_world_boss_qa_route
+    report = await run_standard_world_boss_qa(db=session, player=profile, min_scores=min_scores, request=request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+arcade_app\boss_qa_worlds.py:233: in run_standard_world_boss_qa
+    status = await _run_single_boss_world_qa(
+arcade_app\boss_qa_worlds.py:93: in _run_single_boss_world_qa
+    criteria=eval_result.criteria,
+             ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = BossEvalResult(boss_slug='boss-oracle-invocation-summoner', rubric_id='boss-oracle-invocation-summoner', total_score=8... boss_hp_before=100, boss_hp_after=0, boss_hp_delta=-100, integrity_before=100, integrity_after=100, integrity_delta=0)
+item = 'criteria'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra:
+                try:
+                    return pydantic_extra[item]
+                except KeyError as exc:
+                    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'BossEvalResult' object has no attribute 'criteria'
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\main.py:991: AttributeError
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:440
+  D:\EvalForge\arcade_app\agent.py:440: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/backend/test_boss_oracle_invocation_smoke.py::test_oracle_invocation_boss_judge_smoke
+tests/backend/test_boss_oracle_invocation_smoke.py::test_oracle_invocation_boss_judge_smoke
+tests/backend/test_boss_oracle_invocation_smoke.py::test_oracle_invocation_boss_judge_smoke
+tests/backend/test_boss_oracle_invocation_smoke.py::test_oracle_invocation_boss_judge_smoke
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\fields.py:656: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+tests/backend/test_boss_oracle_invocation_smoke.py::test_oracle_invocation_boss_judge_smoke
+  D:\EvalForge\arcade_app\models.py:252: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expires_at: datetime = Field(default_factory=lambda: datetime.utcnow() + timedelta(minutes=30))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_boss_oracle_invocation_smoke.py::test_oracle_invocation_boss_judge_smoke
+======================== 1 failed, 8 warnings in 1.03s ========================

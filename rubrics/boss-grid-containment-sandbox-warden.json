@@ -1,0 +1,127 @@
+{
+    "schema_version": "1.0.0",
+    "id": "boss-grid-containment-sandbox-warden",
+    "boss_slug": "boss-grid-containment-sandbox-warden",
+    "title": "Sandbox Warden",
+    "max_score": 8,
+    "llm_judge_instructions": "Evaluate the runbook based on clarity, technical accuracy, and adherence to the rubric dimensions.",
+    "autofail_conditions": [],
+    "dimensions": [
+        {
+            "key": "triage_and_structure",
+            "label": "Triage & Structure",
+            "weight": 0.3,
+            "description": "Is there a clear, logical triage path that a real on-call could follow?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Chaotic",
+                    "criteria": "Steps are unordered, missing, or make dangerous assumptions. It’s unclear how to even start debugging the host. Examples: Jumping directly to restarting random services. No initial health checks or environment orientation."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Serviceable",
+                    "criteria": "There is a rough triage flow, but some steps are missing or out of order. A strong engineer could fill in the gaps, but a junior might get lost. Examples: Starts with a basic sanity check then jumps quickly into deep dives. Covers some but not all of CPU, memory, ports, and logs."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "On-Call Ready",
+                    "criteria": "The runbook shows a disciplined triage: verify alert, check basic vitals, then branch into focused investigations. Steps are numbered and justified. Examples: Begins with ping/curl and basic host health checks. Separates triage (what’s happening) from remediation (what to change)."
+                }
+            ]
+        },
+        {
+            "key": "linux_and_infra_fundamentals",
+            "label": "Linux & Infra Fundamentals",
+            "weight": 0.25,
+            "description": "Does the player use appropriate commands and concepts for a single Linux host?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Weak Fundamentals",
+                    "criteria": "Relies on vague descriptions with little or no concrete commands. Misses core tools for processes, ports, logs, or disk. Examples: Says 'check CPU' without naming a tool. No mention of ps/top/journalctl/netstat/df/du."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Partial Coverage",
+                    "criteria": "Uses some correct tools but with gaps. The basics are there, but the picture is incomplete or slightly naive. Examples: Uses top and df, but never checks open ports or firewall rules. Reads logs from app files but ignores system journal."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Solid Fundamentals",
+                    "criteria": "Shows comfort with the ecosystem of tools: processes, ports, services, disk, and logs are all covered with appropriate commands. Examples: Uses ps/pgrep/top or htop for processes. Uses ss/netstat/lsof to check listeners."
+                }
+            ]
+        },
+        {
+            "key": "root_cause_and_fix",
+            "label": "Root Cause & Fix",
+            "weight": 0.25,
+            "description": "Does the runbook converge on plausible root causes and propose safe fixes?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "No Clear Root Cause",
+                    "criteria": "The runbook never really converges on root causes. Fixes are random restarts without understanding. Examples: Blindly restarts all services and considers the job done. Never distinguishes between port binding vs firewall vs DNS issues."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Plausible but Fuzzy",
+                    "criteria": "Identifies some likely causes and proposes fixes, but important edge cases or safety checks are missing. Examples: Correctly suspects log bloat but doesn’t check for other large files. Recognizes a port mismatch but doesn’t verify listeners after change."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "Targeted & Safe",
+                    "criteria": "Shows a coherent narrative: here’s what broke, here’s how I proved it, and here’s how I fixed it in a reversible, on-call-safe way. Examples: Confirms missing listener on expected port, finds misconfigured bind address, and updates config + restarts."
+                }
+            ]
+        },
+        {
+            "key": "runbook_clarity_and_copy_paste_safety",
+            "label": "Runbook Clarity & Copy-Paste Safety",
+            "weight": 0.2,
+            "description": "Is the runbook written so another engineer can safely copy-paste commands and follow along?",
+            "bands": [
+                {
+                    "level": 0,
+                    "score": 0,
+                    "label": "Risky or Opaque",
+                    "criteria": "Commands are dangerous, unclear, or lack context. A tired on-call could easily make things worse. Examples: Uses rm -rf on broad paths with no safeguards. Relies on implicit working directories or hidden assumptions."
+                },
+                {
+                    "level": 1,
+                    "score": 1,
+                    "label": "Usable but Rough",
+                    "criteria": "Commands are mostly safe, but formatting and context are inconsistent. Some steps may surprise a reader. Examples: Commands are correct but not grouped or labeled. Comments exist but are sparse or occasionally misleading."
+                },
+                {
+                    "level": 2,
+                    "score": 2,
+                    "label": "On-Call Copy-Paste Friendly",
+                    "criteria": "Commands are scoped, labeled, and explained. Variables are clearly marked. The runbook minimizes risk while remaining practical. Examples: Uses placeholders like $SERVICE_NAME, $LOG_DIR, with notes. Provides short explanations before non-trivial commands."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 0,
+            "label": "F",
+            "description": "Fail"
+        },
+        {
+            "min_score": 6,
+            "label": "S",
+            "description": "S-Rank"
+        }
+    ]
+}

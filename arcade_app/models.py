@@ -1,6 +1,6 @@
 from typing import Optional, List, Dict
 from sqlmodel import SQLModel, Field, Relationship, JSON, Column
-from datetime import datetime
+from datetime import datetime, timedelta
 import uuid
 from pgvector.sqlalchemy import Vector
 from enum import Enum

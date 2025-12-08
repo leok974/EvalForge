@@ -1,0 +1,38 @@
+{
+    "world_slug": "world-java",
+    "boss_codex": [
+        {
+            "codex_id": "codex.world-java.reactor-core-circuit.stable-core-controller",
+            "boss_id": "boss-reactor-core-circuit-stable-core-controller",
+            "world_slug": "world-java",
+            "track_id": "reactor-core-circuit",
+            "slug": "stable-core-controller",
+            "title": "Codex: Stable Core Controller",
+            "file_path": "codex/world-java/track-core-circuit-boss-stable-core-controller.md",
+            "summary": "Lore and guidance for a cohesive Java CoreController that orchestrates sensors, control logic, and the registry.",
+            "tags": [
+                "lore",
+                "guidance",
+                "java",
+                "architecture",
+                "error-handling"
+            ]
+        },
+        {
+            "codex_id": "codex.world-java.reactor-service-loop.reactor-ops-conductor",
+            "boss_id": "boss-reactor-service-loop-reactor-ops-conductor",
+            "world_slug": "world-java",
+            "track_id": "reactor-service-loop",
+            "slug": "reactor-ops-conductor",
+            "title": "Codex: Reactor Ops Conductor",
+            "file_path": "codex/world-java/track-service-loop-boss-reactor-ops-conductor.md",
+            "summary": "Guidance for building a small, operable Java service that runs the Reactor core with config, logging, and graceful shutdown.",
+            "tags": [
+                "lore",
+                "ops",
+                "java",
+                "service-design"
+            ]
+        }
+    ]
+}

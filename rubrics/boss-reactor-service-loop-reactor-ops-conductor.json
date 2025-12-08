@@ -1,0 +1,114 @@
+{
+    "rubric_id": "boss-rubric-reactor-service-loop-reactor-ops-conductor",
+    "boss_id": "boss-reactor-service-loop-reactor-ops-conductor",
+    "version": 1,
+    "overall": {
+        "score_scale": "0–2 per criterion",
+        "pass_threshold": 6,
+        "max_score": 8
+    },
+    "criteria": [
+        {
+            "id": "service_design",
+            "label": "Service Design & Boundaries",
+            "weight": 0.3,
+            "description": "Clarity of separation between main, conductor, and domain components.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Weak",
+                    "description": "All logic lives in main or a god class; no clear boundaries."
+                },
+                {
+                    "score": 1,
+                    "label": "Okay",
+                    "description": "Some separation exists, but cross-coupling and static access patterns remain."
+                },
+                {
+                    "score": 2,
+                    "label": "Strong",
+                    "description": "Main wires dependencies then delegates to a focused OpsConductor; domain/infra concerns are separated."
+                }
+            ]
+        },
+        {
+            "id": "config_integration",
+            "label": "Configuration Integration",
+            "weight": 0.25,
+            "description": "Use of ReactorConfig and environment overrides.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Loose",
+                    "description": "Magic numbers and environment logic scattered across code."
+                },
+                {
+                    "score": 1,
+                    "label": "Mixed",
+                    "description": "Some config wiring, but environment handling is ad-hoc or inconsistent."
+                },
+                {
+                    "score": 2,
+                    "label": "Cohesive",
+                    "description": "ReactorConfig is a clear single source of truth; overrides are localized and passed into components cleanly."
+                }
+            ]
+        },
+        {
+            "id": "logging_and_signals",
+            "label": "Logging & Signals",
+            "weight": 0.25,
+            "description": "Startup, loop events, errors, and shutdown visibility via logs.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Noisy or Silent",
+                    "description": "Either almost no logs or spammy logs with unclear meaning."
+                },
+                {
+                    "score": 1,
+                    "label": "Acceptable",
+                    "description": "Basic logs exist, but levels/structure are inconsistent."
+                },
+                {
+                    "score": 2,
+                    "label": "Operational",
+                    "description": "Logs clearly describe startup, environment, tick results, alarms, and shutdown at sensible levels."
+                }
+            ]
+        },
+        {
+            "id": "lifecycle_and_tests",
+            "label": "Lifecycle & Tests",
+            "weight": 0.2,
+            "description": "Graceful shutdown and testability of the run loop.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Fragile",
+                    "description": "Hard to stop; no tests around lifecycle or error paths."
+                },
+                {
+                    "score": 1,
+                    "label": "Basic",
+                    "description": "Some lifecycle handling; tests cover only happy path."
+                },
+                {
+                    "score": 2,
+                    "label": "Resilient",
+                    "description": "Clear start/stop semantics; tests exercise loop + shutdown behavior; main exits appropriately on failure."
+                }
+            ]
+        }
+    ],
+    "zero_guidance": {
+        "instructions_to_model": [
+            "You are evaluating a Java service boss called 'Reactor Ops Conductor'.",
+            "Use the criteria to assign 0, 1, or 2 for each.",
+            "Assess service design, configuration integration, logging, and lifecycle/testability.",
+            "Then compute score_total, score_max, passed (score_total >= pass_threshold), integrity (score_total / score_max), and a human-readable verdict."
+        ],
+        "success_summary_hint": "Describe why the service would be pleasant to run and debug in real environments.",
+        "failure_summary_hint": "Explain specific design and ops issues that would make the service difficult to rely on."
+    }
+}

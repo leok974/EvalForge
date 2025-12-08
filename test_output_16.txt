@@ -1,0 +1,167 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke FAILED [100%]
+
+================================== FAILURES ===================================
+_______________ test_oracle_orchestrator_prime_boss_judge_smoke _______________
+
+client = <httpx.AsyncClient object at 0x000001EE5959B4D0>
+db_session = <sqlalchemy.orm.session.AsyncSession object at 0x000001EE59676510>
+
+    @pytest.mark.asyncio
+    async def test_oracle_orchestrator_prime_boss_judge_smoke(client, db_session):
+        """
+        Smoke test: ensure Oracle Orchestrator Prime boss QA returns a valid BossEvalResult.
+        """
+        from arcade_app.models import BossDefinition
+    
+        # Seed the boss
+        boss_slug = "boss-oracle-orchestrator-prime"
+        boss_def = BossDefinition(
+            id=boss_slug,
+            name="Oracle Orchestrator Prime",
+            rubric=boss_slug,
+            world_id="world-agents",
+            track_id="oracle-senior-orchestrator",
+            difficulty="legendary",
+            max_hp=100
+        )
+        db_session.add(boss_def)
+        await db_session.commit()
+    
+        payload = {
+            "world_slug": "world-agents",
+            "boss_id": boss_slug,
+            "mode": "smoke",
+            "submission_markdown": """# Agentic Orchestrator Blueprint û Oracle Orchestrator Prime
+    
+    ## Use Case & Requirements
+    We are designing a multi-agent assistant that helps engineers debug production issues
+    by searching logs, querying metrics, and proposing remediation steps.
+    The system must be safe, observable, and able to improve over time.
+    
+    ## Agent Graph & Roles
+    - Planner Agent: reads the user problem, proposes a plan, and decomposes into steps.
+    - Tools Router: decides which tool-capable agent should handle each step.
+    - Logs Agent: specialized in log search and summarization with a limited tool set.
+    - Metrics Agent: queries metrics and explains anomalies.
+    - Fix Draft Agent: proposes remediation steps with explicit 'DO / DO NOT' sections.
+    - Safety Guard Agent: reviews actions and outputs against policy before they reach the user.
+    - Evaluator Agent: scores completed runs and suggests improvements.
+    
+    State:
+    - A central Run State holds the user request, plan, step results, and decisions.
+    - Each agent reads/writes specific fields; the orchestrator enforces boundaries.
+    
+    ## Tool Contracts & IO
+    Each tool is defined with a typed contract:
+    - `search_logs(query: string, window: TimeRange) -> LogSummary`
+    - `query_metric(name: string, window: TimeRange) -> MetricSummary`
+    - `open_ticket(summary: string, details: string) -> TicketRef`
+    
+    Contracts:
+    - Inputs/outputs have JSON schemas with explicit field names and types.
+    - Errors: all tools return structured error objects, not raw exceptions.
+    - Timeouts and retries: tools enforce time limits; the orchestrator handles retries with backoff.
+    - Only the Tools Router can invoke tools directly; worker agents must request tool calls via intents.
+    
+    ## Policy & Guardrails
+    - Global safety policy is enforced by the Safety Guard Agent.
+    - Safety Guard checks:
+      - No direct destructive actions (e.g., executing shell commands) are allowed in this system.
+      - No PII is logged or echoed back.
+      - Remediation suggestions are written as 'proposed steps', not auto-applied changes.
+    - Per-agent prompts include role-specific constraints (e.g., Logs Agent cannot open tickets).
+    - Denials:
+      - If a proposed action violates policy, the Safety Guard blocks it,
+        adds a policy_violation entry to run state, and returns a safe explanation to the user.
+    
+    ## Observability & Run State
+    - Each run has a unique run_id.
+    - For every agent step, we log:
+      - run_id, agent_name, step_index, inputs (redacted), outputs (redacted), tool calls, and timing.
+    - We emit traces that show the full decision tree of the run.
+    - Run state is persisted with a compact summary and links to logs/traces.
+    
+    ## Evaluation & Improvement Loop
+    - Metrics:
+      - Task success rate (did the user accept the proposed explanation/remediation?).
+      - Tool error rate and timeouts.
+      - Policy violation rate.
+    - We sample a subset of runs weekly for human review and label correctness and safety.
+    - Evaluator Agent:
+      - Uses metrics and annotated runs to suggest prompt/policy tweaks.
+      - Proposals are reviewed by humans before applying.
+    
+    ## Rollout & Risk Management
+    - Start with read-only tools only (logs and metrics); ticket creation is gated behind a flag.
+    - Introduce agents gradually (planner + logs first, then metrics, then fix-draft).
+    - Monitor metrics and policy violations; rollback to a simpler single-agent fallback if needed.
+    """
+        }
+    
+        resp = await client.post("/api/dev/boss_qa/worlds", json=payload)
+        assert resp.status_code == 200
+    
+        data = resp.json()
+    
+        # Identity checks
+>       assert data["boss_id"] == "boss-oracle-orchestrator-prime"
+               ^^^^^^^^^^^^^^^
+E       KeyError: 'boss_id'
+
+tests\backend\test_boss_oracle_orchestrator_prime_smoke.py:101: KeyError
+------------------------------ Captured log call ------------------------------
+ERROR    evalforge.judge:grading_helper.py:284 ZERO boss judge failed: 404 POST https://us-central1-aiplatform.googleapis.com/v1/projects/evalforge-480016/locations/us-central1/publishers/google/models/gemini-2.5-flash-001:generateContent?%24alt=json%3Benum-encoding%3Dint: Publisher Model `projects/evalforge-480016/locations/us-central1/publishers/google/models/gemini-2.5-flash-001` not found.
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+arcade_app\agent.py:449
+  D:\EvalForge\arcade_app\agent.py:449: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:4523: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke
+tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke
+tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke
+tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\fields.py:656: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke
+  D:\EvalForge\arcade_app\models.py:252: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expires_at: datetime = Field(default_factory=lambda: datetime.utcnow() + timedelta(minutes=30))
+
+tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke
+  D:\EvalForge\arcade_app\llm.py:51: PydanticDeprecatedSince20: The `dict` method is deprecated; use `model_dump` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    "rubric": rubric.dict(),
+
+tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\vertexai\generative_models\_generative_models.py:433: UserWarning: This feature is deprecated as of June 24, 2025 and will be removed on June 24, 2026. For details, see https://cloud.google.com/vertex-ai/generative-ai/docs/deprecations/genai-vertexai-sdk.
+    warning_logs.show_deprecation_warning()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_boss_oracle_orchestrator_prime_smoke.py::test_oracle_orchestrator_prime_boss_judge_smoke
+======================= 1 failed, 10 warnings in 34.44s =======================

@@ -1,0 +1,159 @@
+{
+    "snapshot_kind": "evalforge_ladder_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-sql",
+    "world_name": "The Archives – SQL",
+    "ladder": {
+        "ladder_id": "archives-sql-core-to-analytics",
+        "slug": "archives-sql-core-to-analytics",
+        "title": "Archive Engineer – Queries to Analytics",
+        "summary": "Go from basic SELECTs to analytics-grade SQL with joins, windows, and performance-aware schemas.",
+        "recommended_entry_level": "new-to-sql",
+        "recommended_exit_level": "sql-mid-level",
+        "tags": [
+            "sql",
+            "data",
+            "analytics"
+        ],
+        "stages": [
+            {
+                "stage_id": "stage-1-archives-retrieval",
+                "order_index": 1,
+                "title": "Stage 1 – Retrieval Circuit (Core SQL)",
+                "description": "Learn how to reliably query data: SELECT, WHERE, JOINs, aggregates and GROUP BY.",
+                "goals": [
+                    "Structure SELECT queries with FROM, WHERE, ORDER BY.",
+                    "Join tables with INNER/LEFT joins on proper keys.",
+                    "Aggregate and group data safely with GROUP BY and HAVING."
+                ],
+                "quests": [
+                    "sql-retrieval-q1-select-from-basics",
+                    "sql-retrieval-q2-where-and-order",
+                    "sql-retrieval-q3-joins-and-keys",
+                    "sql-retrieval-q4-aggregate-and-group"
+                ],
+                "bosses": [
+                    "boss-archives-retrieval-query-warden"
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-archives-retrieval-query-warden"
+                },
+                "badge": {
+                    "code": "archives-retrieval-ready",
+                    "label": "Retrieval Ready",
+                    "description": "Can write clear, correct queries across multiple tables."
+                }
+            },
+            {
+                "stage_id": "stage-2-archives-analytics-engine",
+                "order_index": 2,
+                "title": "Stage 2 – Analytics Engine (Windows & Schemas)",
+                "description": "Use window functions, CTEs, and better schemas to answer harder questions and keep queries fast.",
+                "goals": [
+                    "Apply window functions (ROW_NUMBER, RANK, SUM OVER, moving averages).",
+                    "Encapsulate logic in CTEs and views.",
+                    "Understand normalization, indexes, and basic performance tradeoffs."
+                ],
+                "quests": [
+                    "sql-analytics-q1-window-functions",
+                    "sql-analytics-q2-ctes-and-views",
+                    "sql-analytics-q3-normalization-and-indexes",
+                    "sql-analytics-q4-query-tuning-basics"
+                ],
+                "bosses": [
+                    "boss-archives-analytics-reporting-architect"
+                ],
+                "prerequisites": {
+                    "type": "stage_complete",
+                    "stage_ids": [
+                        "stage-1-archives-retrieval"
+                    ]
+                },
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-archives-analytics-reporting-architect"
+                },
+                "badge": {
+                    "code": "archives-analytics-ready",
+                    "label": "Analytics Ready",
+                    "description": "Can design queries and schemas for analytics workloads."
+                },
+                "status": "design-next"
+            },
+            {
+                "stage_id": "stage-3-senior-analytics-architect",
+                "title": "Stage 3 – Senior Analytics Architect",
+                "track_id": "archives-senior-analytics-architect",
+                "order_index": 3,
+                "description": "Design resilient schemas, queries, and warehouse processes for production analytics.",
+                "goals": [
+                    "Design star schemas and dimensional models.",
+                    "Optimize query performance with partitioning and indexing.",
+                    "Manage data quality, lineage, and incident recovery."
+                ],
+                "nodes": [
+                    {
+                        "id": "archives-analytics-domain-modeling",
+                        "kind": "quest",
+                        "label": "Domain Modeling",
+                        "order_index": 1
+                    },
+                    {
+                        "id": "archives-analytics-performance-tuning",
+                        "kind": "quest",
+                        "label": "Performance Tuning",
+                        "order_index": 2
+                    },
+                    {
+                        "id": "archives-analytics-quality-pipelines",
+                        "kind": "quest",
+                        "label": "Quality & Pipelines",
+                        "order_index": 3
+                    },
+                    {
+                        "id": "archives-analytics-lineage-governance",
+                        "kind": "quest",
+                        "label": "Lineage & Governance",
+                        "order_index": 4
+                    },
+                    {
+                        "id": "archives-analytics-incident-debugging",
+                        "kind": "quest",
+                        "label": "Incidents & Recovery",
+                        "order_index": 5
+                    },
+                    {
+                        "id": "boss-archives-analytics-arbiter",
+                        "kind": "legendary_boss",
+                        "label": "Archives Analytics Arbiter",
+                        "order_index": 99
+                    }
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-archives-analytics-arbiter"
+                }
+            }
+        ],
+        "completion_rewards": {
+            "xp": 500,
+            "titles": [
+                "Archive Engineer",
+                "Analytics Adept"
+            ],
+            "unlocks": [
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-ml",
+                    "note": "You’re ready to prepare features for ML in The Synapse."
+                },
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-infra",
+                    "note": "You can now think about data infra and pipelines in The Grid."
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,115 @@
+{
+    "rubric_id": "boss-rubric-reactor-core-circuit-stable-core-controller",
+    "boss_id": "boss-reactor-core-circuit-stable-core-controller",
+    "version": 1,
+    "overall": {
+        "score_scale": "0–2 per criterion",
+        "pass_threshold": 6,
+        "max_score": 8,
+        "notes": "6+ is pass; 7–8 is strong pass."
+    },
+    "criteria": [
+        {
+            "id": "layering_and_design",
+            "label": "Layering & Design",
+            "weight": 0.3,
+            "description": "How well StableCoreController orchestrates existing components with clear boundaries.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Weak",
+                    "description": "Controller mixes unrelated concerns (I/O, parsing, global state). No clear separation between registry, controller, and alarms."
+                },
+                {
+                    "score": 1,
+                    "label": "Okay",
+                    "description": "Layering is mostly clear but some responsibilities bleed together or there is tight coupling to concrete implementations."
+                },
+                {
+                    "score": 2,
+                    "label": "Strong",
+                    "description": "StableCoreController is a focused orchestrator depending on interfaces; responsibilities are clean and testable."
+                }
+            ]
+        },
+        {
+            "id": "error_handling_and_alarms",
+            "label": "Error Handling & Alarms",
+            "weight": 0.25,
+            "description": "Handling of missing cores, invalid readings, and alarms.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Fragile",
+                    "description": "Errors are swallowed, only logged, or handled inconsistently. Alarms are missing or vague."
+                },
+                {
+                    "score": 1,
+                    "label": "Basic",
+                    "description": "Most error paths are handled, but some cases are ambiguous or rely on generic exceptions. Alarms exist but are not systematically used."
+                },
+                {
+                    "score": 2,
+                    "label": "Robust",
+                    "description": "Missing cores and invalid readings are clearly modeled in CoreTickResult and alarms. SHUTDOWN or other safe defaults are used consistently."
+                }
+            ]
+        },
+        {
+            "id": "value_objects_and_enums",
+            "label": "Value Objects & Enums",
+            "weight": 0.25,
+            "description": "Quality of CoreTickResult, ControlAction usage, and data modeling.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Loose",
+                    "description": "Relies on raw strings or magic numbers instead of enums and value objects."
+                },
+                {
+                    "score": 1,
+                    "label": "Mixed",
+                    "description": "Uses enums/value objects in some places but still exposes raw strings or inconsistent structures."
+                },
+                {
+                    "score": 2,
+                    "label": "Crisp",
+                    "description": "CoreTickResult and enums make the control loop easy to understand at a glance. No need for external docs to interpret outcomes."
+                }
+            ]
+        },
+        {
+            "id": "tests_and_fakeability",
+            "label": "Tests & Fakeability",
+            "weight": 0.2,
+            "description": "Quality of tests and how easy it is to fake collaborators.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Poor",
+                    "description": "Few or no tests. Collaborators are hard-coded or static, making testing difficult."
+                },
+                {
+                    "score": 1,
+                    "label": "Basic",
+                    "description": "Some tests exist. Fakes or mocks are used, but coverage of error paths is limited."
+                },
+                {
+                    "score": 2,
+                    "label": "Good",
+                    "description": "Tests cover happy path and key error paths (missing core, invalid reading, shutdown). Collaborators are easily faked via interfaces."
+                }
+            ]
+        }
+    ],
+    "zero_guidance": {
+        "instructions_to_model": [
+            "You are reviewing a Java boss solution for the 'Stable Core Controller' in The Reactor world.",
+            "Use the criteria above to score the solution (0, 1, or 2 per criterion).",
+            "Focus on layering, error handling, use of enums/value objects, and tests/fakeability.",
+            "Then compute score_total, score_max, passed (score_total >= pass_threshold), integrity (score_total / score_max), and an overall verdict."
+        ],
+        "success_summary_hint": "Explain why this CoreController would be safe and maintainable in a production Java service.",
+        "failure_summary_hint": "If weak, highlight concrete steps to improve design, error handling, and testability."
+    }
+}

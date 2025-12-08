@@ -148,6 +148,9 @@ export function BossHud() {
         markHintRead();
     };
 
+    // Check for legendary status via difficulty or loose name matching for robustness
+    const isLegendary = difficulty === 'legendary' || bossName?.includes('Arbiter') || bossName?.includes('Warden');
+
     return (
         <div className="pointer-events-none fixed top-4 inset-x-0 z-40 flex justify-center px-4">
             <div
@@ -182,6 +185,11 @@ export function BossHud() {
                                 {showReadyState && (
                                     <span className="px-2 py-0.5 rounded-full text-[9px] uppercase tracking-widest bg-cyan-900/70 text-cyan-200">
                                         READY
+                                    </span>
+                                )}
+                                {isLegendary && (
+                                    <span className="px-2 py-0.5 rounded-full text-[9px] uppercase tracking-widest bg-amber-900/40 text-amber-200 border border-amber-500/50 shadow-sm shadow-amber-500/20 animate-pulse" data-testid="boss-hud-legendary-badge">
+                                        LEGENDARY
                                     </span>
                                 )}
                             </div>

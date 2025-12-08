@@ -14,10 +14,16 @@ export const worlds: World[] = [
         color: 'cyan',
     },
     {
-        slug: 'world-js',
-        name: 'JavaScript',
-        description: 'Apply functionality to the web substrate.',
+        slug: 'world-typescript',
+        name: 'The Prism',
+        description: 'Refract your logic through the lens of strict types.',
         color: 'yellow',
+    },
+    {
+        slug: 'world-java',
+        name: 'The Reactor',
+        description: 'Forge robust systems in the fusion core.',
+        color: 'orange',
     },
     {
         slug: 'world-sql',

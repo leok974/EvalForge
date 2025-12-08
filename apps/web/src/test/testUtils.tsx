@@ -1,4 +1,17 @@
 import { vi } from 'vitest';
+import React from 'react';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+
+export function renderWithRouter(ui: React.ReactElement, { initialEntries = ['/'] } = {}) {
+    return {
+        ...render(
+            <MemoryRouter initialEntries={initialEntries}>
+                {ui}
+            </MemoryRouter>
+        ),
+    };
+}
 
 /**
  * Stubs the global fetch API with a neutral implementation.

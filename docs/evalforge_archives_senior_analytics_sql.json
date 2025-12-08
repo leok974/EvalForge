@@ -1,0 +1,100 @@
+{
+    "snapshot_kind": "evalforge_world_content",
+    "world_slug": "world-sql",
+    "tracks": [
+        {
+            "track_id": "archives-senior-analytics-architect",
+            "slug": "archives-senior-analytics-architect",
+            "world_slug": "world-sql",
+            "title": "Senior Analytics Architect – Warehouse & SQL",
+            "tier": "senior",
+            "stage": 3,
+            "order_index": 30,
+            "summary": "Design resilient schemas, queries, and warehouse processes for production analytics.",
+            "quests": [
+                {
+                    "quest_id": "archives-analytics-domain-modeling",
+                    "slug": "archives-analytics-domain-modeling",
+                    "title": "Domain Modeling & Fact/Dim Design",
+                    "order_index": 1,
+                    "difficulty": "hard",
+                    "summary": "Translate a real business domain into fact/dimension tables and grain.",
+                    "objective": "Produce a star or snowflake schema for a realistic product (e.g., subscriptions or job search), with clear grain, keys, and slowly changing dimensions.",
+                    "tags": [
+                        "sql",
+                        "modeling",
+                        "warehouse",
+                        "schema"
+                    ]
+                },
+                {
+                    "quest_id": "archives-analytics-performance-tuning",
+                    "slug": "archives-analytics-performance-tuning",
+                    "title": "Performance & Partitioning",
+                    "order_index": 2,
+                    "difficulty": "hard",
+                    "summary": "Make heavy analytical queries fast and predictable.",
+                    "objective": "Design partitioning, clustering, indexing, and query patterns for a large table, including how to avoid full scans and hotspots.",
+                    "tags": [
+                        "sql",
+                        "performance",
+                        "partitioning"
+                    ]
+                },
+                {
+                    "quest_id": "archives-analytics-quality-pipelines",
+                    "slug": "archives-analytics-quality-pipelines",
+                    "title": "Quality, Tests & Pipelines",
+                    "order_index": 3,
+                    "difficulty": "hard",
+                    "summary": "Ensure data is trustworthy from ingest to mart.",
+                    "objective": "Define tests, checks, and alerting (e.g., dbt-style tests, row-count checks, null thresholds) for a small warehouse pipeline.",
+                    "tags": [
+                        "sql",
+                        "quality",
+                        "tests",
+                        "pipelines"
+                    ]
+                },
+                {
+                    "quest_id": "archives-analytics-lineage-governance",
+                    "slug": "archives-analytics-lineage-governance",
+                    "title": "Lineage & Governance",
+                    "order_index": 4,
+                    "difficulty": "hard",
+                    "summary": "Make it obvious where numbers come from and who owns them.",
+                    "objective": "Describe how you track lineage, ownership, and documentation for core metrics and tables, including how to deprecate and migrate.",
+                    "tags": [
+                        "sql",
+                        "lineage",
+                        "governance"
+                    ]
+                },
+                {
+                    "quest_id": "archives-analytics-incident-debugging",
+                    "slug": "archives-analytics-incident-debugging",
+                    "title": "Incident Debugging & Recovery",
+                    "order_index": 5,
+                    "difficulty": "hard",
+                    "summary": "Debug and recover from broken dashboards and bad loads.",
+                    "objective": "Propose runbooks for diagnosing bad data, rolling back, and reprocessing safely without breaking downstream consumers.",
+                    "tags": [
+                        "sql",
+                        "incidents",
+                        "runbooks"
+                    ]
+                }
+            ],
+            "bosses": [
+                {
+                    "boss_id": "boss-archives-analytics-arbiter",
+                    "slug": "boss-archives-analytics-arbiter",
+                    "title": "Archives Analytics Arbiter",
+                    "order_index": 99,
+                    "difficulty": "boss",
+                    "summary": "Judges your end-to-end analytics architecture: schema, performance, quality, lineage, and recovery."
+                }
+            ]
+        }
+    ]
+}

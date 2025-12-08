@@ -5,6 +5,9 @@ import { cn } from "@/lib/utils";
 import { useGameStore, ActiveTrack } from "@/store/gameStore";
 import { fxEnabled } from "@/lib/featureFlags";
 import { subscribeWorldProgress } from "@/lib/worldProgressEvents";
+import { subscribeWorldProgress } from "@/lib/worldProgressEvents";
+import { LadderPanel } from "../features/ladders/LadderPanel";
+import { useSeniorProgress } from "@/hooks/useSeniorProgress";
 
 type ParallaxState = { x: number; y: number }; // normalized -1..1
 
@@ -190,6 +193,7 @@ function GalaxyView({
                 return (
                     <button
                         key={world.id}
+                        data-testid={`orion-world-${world.slug}`}
                         onClick={() => onWorldChange(world.id)}
                         className={cn(
                             "absolute flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-500",
@@ -298,6 +302,8 @@ function InfoPanel({
     track: OrionTrackNode | null;
 }) {
     // const { setLayout } = useGameStore();
+    const { data: senior } = useSeniorProgress();
+    const currentWorldSenior = senior?.worlds.find(w => w.world_slug === world.id);
 
     return (
         <div className="flex h-full flex-col px-4 py-4">
@@ -321,6 +327,24 @@ function InfoPanel({
                     </>
                 )}
             </div>
+
+            {/* Senior Track Status */}
+            {currentWorldSenior && currentWorldSenior.senior_track_id && (
+                <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-950/20 p-3">
+                    <div className="flex justify-between items-center mb-1">
+                        <span className="text-[10px] font-bold text-amber-500 tracking-wider uppercase">Senior Track</span>
+                        {currentWorldSenior.senior_boss_cleared && (
+                            <span className="text-[9px] px-1.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CLEARED</span>
+                        )}
+                    </div>
+                    <div className="text-[10px] text-amber-200/80">
+                        {currentWorldSenior.senior_quests_completed}/{currentWorldSenior.senior_quests_total} Quests Complete
+                    </div>
+                </div>
+            )}
+
+            {/* Ladder Panel (Only for Java currently) */}
+            <LadderPanel worldSlug={world.slug} className="mb-4" />
 
             {/* Later: quest/boss details, small log, etc. */}
             <div className="mt-auto flex flex-col gap-2">

@@ -1,0 +1,140 @@
+{
+    "schema_version": "1.0",
+    "id": "boss-reactor-runtime-arbiter",
+    "boss_slug": "boss-reactor-runtime-arbiter",
+    "title": "Reactor Runtime Arbiter",
+    "max_score": 8,
+    "dimensions": [
+        {
+            "key": "architecture_boundaries",
+            "label": "Architecture & Boundaries",
+            "weight": 0.25,
+            "description": "Clarity of service/module boundaries and contract definitions.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Monolithic Tangle",
+                    "score": 0,
+                    "criteria": "Boundaries are vague; spaghetti dependencies dominant."
+                },
+                {
+                    "level": 1,
+                    "label": "Structured",
+                    "score": 1,
+                    "criteria": "Modules exist but leakage occurs. Contracts are defined but brittle."
+                },
+                {
+                    "level": 2,
+                    "label": "Fortified",
+                    "score": 2,
+                    "criteria": "Clear boundaries with explicit contracts. Change risk is well-contained."
+                }
+            ]
+        },
+        {
+            "key": "runtime_performance",
+            "label": "Runtime & Performance",
+            "weight": 0.25,
+            "description": "Reasoning about JVM performance using data (GC, profiles).",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Guesswork",
+                    "score": 0,
+                    "criteria": "Performance tuning based on superstition or defaults. No profiling mentioned."
+                },
+                {
+                    "level": 1,
+                    "label": "Reactive",
+                    "score": 1,
+                    "criteria": "Uses basic tools (top, logs) when things break. Aware of GC concepts."
+                },
+                {
+                    "level": 2,
+                    "label": "Data-Driven",
+                    "score": 2,
+                    "criteria": "Proactive profiling and GC log analysis. Tuning decisions backed by metrics."
+                }
+            ]
+        },
+        {
+            "key": "concurrency_resilience",
+            "label": "Concurrency & Resilience",
+            "weight": 0.25,
+            "description": "Handling of threads, pools, and failures under load.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Unsafe",
+                    "score": 0,
+                    "criteria": "Ignores thread safety. Unbounded queues or pools. No timeouts."
+                },
+                {
+                    "level": 1,
+                    "label": "Defensive",
+                    "score": 1,
+                    "criteria": "Uses standard pools and basic timeouts. Some resilience patterns present."
+                },
+                {
+                    "level": 2,
+                    "label": "Robust",
+                    "score": 2,
+                    "criteria": "Sophisticated concurrency (e.g., reactive, bulkheads). Comprehensive failure isolation."
+                }
+            ]
+        },
+        {
+            "key": "api_evolution_operability",
+            "label": "API & Operability",
+            "weight": 0.25,
+            "description": "API evolution strategy and operational maturity.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Brittle/Blind",
+                    "score": 0,
+                    "criteria": "Breaking changes common. Logs are sparse or noisy. No metrics."
+                },
+                {
+                    "level": 1,
+                    "label": "Functional",
+                    "score": 1,
+                    "criteria": "Versioning exists. Basic logs and metrics. Postmortems happen occasionally."
+                },
+                {
+                    "level": 2,
+                    "label": "Evolvable",
+                    "score": 2,
+                    "criteria": "Strong compatibility guarantees. Observability is first-class. Feedback loops improve system."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "label": "S",
+            "description": "Masterful Java Systems Architect."
+        },
+        {
+            "min_score": 6,
+            "label": "A",
+            "description": "Strong, production-hardened design."
+        },
+        {
+            "min_score": 4,
+            "label": "B",
+            "description": "Competent but lacks depth in resilience or tuning."
+        },
+        {
+            "min_score": 0,
+            "label": "C",
+            "description": "Risky or naive implementation."
+        }
+    ],
+    "autofail_conditions": [
+        "Ignoring thread safety completely.",
+        "No observability strategy."
+    ],
+    "llm_judge_instructions": "Evaluate the Java Architecture Blueprint. Look for specific JVM knowledge (GC, JIT, Threads) and robust system design patterns."
+}

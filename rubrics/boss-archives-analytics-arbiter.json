@@ -1,0 +1,140 @@
+{
+    "schema_version": "1.0",
+    "id": "boss-archives-analytics-arbiter",
+    "boss_slug": "boss-archives-analytics-arbiter",
+    "title": "Archives Analytics Arbiter",
+    "max_score": 8,
+    "dimensions": [
+        {
+            "key": "schema_and_grain",
+            "label": "Schema & Grain Design",
+            "weight": 0.25,
+            "description": "Clarity and suitability of fact/dim schema, grain, and relationships.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Confused",
+                    "score": 0,
+                    "criteria": "Schemas are vague or inconsistent; grain is unclear. Mixes multiple grains in a single fact table."
+                },
+                {
+                    "level": 1,
+                    "label": "Reasonable",
+                    "score": 1,
+                    "criteria": "Provides a plausible schema with some minor gaps. Fact and dimension tables exist but some grains are underspecified."
+                },
+                {
+                    "level": 2,
+                    "label": "Deliberate",
+                    "score": 2,
+                    "criteria": "Defines a coherent schema with explicit grain and relationships. Clearly states grain for each fact table. Dimensions and hierarchies well chosen."
+                }
+            ]
+        },
+        {
+            "key": "performance_and_scaling",
+            "label": "Performance & Scaling",
+            "weight": 0.25,
+            "description": "How queries, partitioning, and indexing are handled for scale.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Naive",
+                    "score": 0,
+                    "criteria": "Barely considers performance or large data volumes. Relies on full-table scans by default."
+                },
+                {
+                    "level": 1,
+                    "label": "Aware",
+                    "score": 1,
+                    "criteria": "Mentions performance tactics but without a full strategy. Suggests partitioning or clustering but not where or how."
+                },
+                {
+                    "level": 2,
+                    "label": "Intentional",
+                    "score": 2,
+                    "criteria": "Outlines a concrete performance strategy tied to usage patterns. Defines partitioning and clustering keys with rationale."
+                }
+            ]
+        },
+        {
+            "key": "quality_and_governance",
+            "label": "Quality & Governance",
+            "weight": 0.25,
+            "description": "Strength of testing, validation, ownership, and metric governance.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Fragile",
+                    "score": 0,
+                    "criteria": "Quality and governance are mostly implicit or missing. Little or no mention of tests or checks."
+                },
+                {
+                    "level": 1,
+                    "label": "Guarded",
+                    "score": 1,
+                    "criteria": "Introduces tests and ownership but leaves gaps. Mentions dbt-style tests or constraints but not how they gate deploys."
+                },
+                {
+                    "level": 2,
+                    "label": "Governed",
+                    "score": 2,
+                    "criteria": "Defines a robust quality and governance model. Specifies concrete tests (uniqueness, referential, thresholds) and what happens when they fail."
+                }
+            ]
+        },
+        {
+            "key": "incidents_and_recovery",
+            "label": "Incidents & Recovery",
+            "weight": 0.25,
+            "description": "How well incidents are detected, debugged, and resolved without making things worse.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Hopeful",
+                    "score": 0,
+                    "criteria": "Assumes things will mostly work; little incident planning. No clear plan for failed loads or corrupted data."
+                },
+                {
+                    "level": 1,
+                    "label": "Reactive",
+                    "score": 1,
+                    "criteria": "Describes incident handling but incompletely. Explains some steps to debug broken dashboards."
+                },
+                {
+                    "level": 2,
+                    "label": "Prepared",
+                    "score": 2,
+                    "criteria": "Provides concrete runbooks and blast-radius control. Defines how incidents are detected and triaged. Describes safe rollback/backfill strategies."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "label": "S",
+            "description": "Exemplary analytics architecture."
+        },
+        {
+            "min_score": 6,
+            "label": "A",
+            "description": "Solid, professional-grade warehouse design."
+        },
+        {
+            "min_score": 4,
+            "label": "B",
+            "description": "Functional but has significant gaps in reliability or safety."
+        },
+        {
+            "min_score": 0,
+            "label": "C",
+            "description": "Unsafe or incomplete design."
+        }
+    ],
+    "autofail_conditions": [
+        "No testing or quality checks.",
+        "Designing purely for ad-hoc queries with no schema structure."
+    ],
+    "llm_judge_instructions": "Evaluate the Analytics Architecture Blueprint. Focus on the practicality for a production warehouse. Be strict about specific schema definitions (fact/dim) and testing strategies."
+}

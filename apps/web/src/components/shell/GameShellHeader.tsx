@@ -13,13 +13,16 @@ import {
     Cpu,
     Wifi,
     Battery,
+    Battery,
     User
 } from 'lucide-react';
+import { useSeniorProgress } from '@/hooks/useSeniorProgress';
 
 export function GameShellHeader() {
     const { layout, setLayout } = useGameStore();
     const { crtMode } = useSettingsStore();
     const { user } = useAuth();
+    const { data: senior } = useSeniorProgress();
 
     // Local state for modals
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -97,6 +100,20 @@ export function GameShellHeader() {
 
                 {/* Right: Status Indicators */}
                 <div className="flex items-center gap-6 text-xs font-bold text-zinc-500">
+                    {/* Senior Progress Badge */}
+                    {senior && (
+                        <div className="hidden lg:flex items-center gap-2 text-[10px] uppercase tracking-wide mr-2">
+                            <span className="rounded-full bg-emerald-900/40 border border-emerald-500/30 px-2 py-0.5 text-emerald-400 font-mono shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                                Bosses {senior.senior_bosses_cleared}/{senior.total_senior_bosses}
+                            </span>
+                            {senior.legendary_trials_completed > 0 && (
+                                <span className="rounded-full bg-amber-900/40 border border-amber-500/30 px-2 py-0.5 text-amber-400 font-mono shadow-[0_0_10px_rgba(245,158,11,0.2)] animate-pulse">
+                                    Legendary {senior.legendary_trials_completed}
+                                </span>
+                            )}
+                        </div>
+                    )}
+
                     <div className="flex items-center gap-2 hidden md:flex">
                         <Shield className="w-3 h-3 text-emerald-500" />
                         <span>SECURE</span>

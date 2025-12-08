@@ -1,0 +1,165 @@
+{
+    "snapshot_kind": "evalforge_ladder_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-python",
+    "world_name": "The Foundry – Python",
+    "ladder": {
+        "ladder_id": "foundry-python-core-to-ops",
+        "slug": "foundry-python-core-to-ops",
+        "title": "Foundry Engineer – Core to Ops",
+        "summary": "A focused path that takes you from first Python sparks to a tested, production-ready service core.",
+        "recommended_entry_level": "new-to-programming",
+        "recommended_exit_level": "python-mid-level",
+        "tags": [
+            "python",
+            "backend",
+            "service-design",
+            "testing"
+        ],
+        "stages": [
+            {
+                "stage_id": "stage-1-foundry-core-circuit",
+                "order_index": 1,
+                "title": "Stage 1 – Core Circuit (Language & Control)",
+                "description": "Learn Python syntax, control flow, functions, and basic data structures by keeping a single Foundry furnace stable.",
+                "goals": [
+                    "Understand the structure of a Python module and package.",
+                    "Use functions, conditionals, loops, and exceptions to model furnace behavior.",
+                    "Work with lists/dicts to track readings and events."
+                ],
+                "quests": [
+                    "python-core-q1-ignition",
+                    "python-core-q2-looping-signals",
+                    "python-core-q3-data-forge"
+                ],
+                "bosses": [
+                    "boss-foundry-furnace-controller"
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-foundry-furnace-controller"
+                },
+                "badge": {
+                    "code": "foundry-core-ready",
+                    "label": "Foundry Core Ready",
+                    "description": "Can design small Python modules with clean control flow and basic data handling."
+                }
+            },
+            {
+                "stage_id": "stage-2-foundry-service-forge",
+                "order_index": 2,
+                "title": "Stage 2 – Service Forge (Packaging, Tests & I/O)",
+                "description": "Turn your Foundry code into a small, testable service: packaging, pytest, logging, and simple I/O.",
+                "goals": [
+                    "Use pyproject.toml or setup.cfg to define a Python package.",
+                    "Write pytest suites for happy- and failure-paths.",
+                    "Add structured logging and simple CLI/HTTP entry points."
+                ],
+                "quests": [
+                    "python-service-q1-pyproject-and-envs",
+                    "python-service-q2-pytest-suites",
+                    "python-service-q3-cli-and-logging",
+                    "python-service-q4-async-and-io"
+                ],
+                "bosses": [
+                    "boss-foundry-service-loop-production-forge"
+                ],
+                "prerequisites": {
+                    "type": "stage_complete",
+                    "stage_ids": [
+                        "stage-1-foundry-core-circuit"
+                    ]
+                },
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-foundry-service-loop-production-forge"
+                },
+                "badge": {
+                    "code": "foundry-ops-ready",
+                    "label": "Foundry Ops Ready",
+                    "description": "Can ship a tested Python service with logs, config, and basic I/O."
+                },
+                "status": "design-next"
+            },
+            {
+                "stage_id": "stage-3-senior-systems",
+                "title": "Stage 3 – Systems & Reliability",
+                "description": "Senior-level systems design, observability, and reliability.",
+                "goals": [
+                    "Design resilient systems with service boundaries.",
+                    "Implement observability and SLIs.",
+                    "Master internal tooling and developer experience."
+                ],
+                "order_index": 3,
+                "quests": [],
+                "bosses": [],
+                "nodes": [
+                    {
+                        "id": "foundry-systems-service-boundaries",
+                        "kind": "quest",
+                        "label": "Service Boundaries",
+                        "order_index": 1
+                    },
+                    {
+                        "id": "foundry-systems-resilient-job-runner",
+                        "kind": "quest",
+                        "label": "Resilient Job Runner",
+                        "order_index": 2
+                    },
+                    {
+                        "id": "foundry-systems-observability-sli",
+                        "kind": "quest",
+                        "label": "SLIs & Observability",
+                        "order_index": 3
+                    },
+                    {
+                        "id": "foundry-systems-performance-profile",
+                        "kind": "quest",
+                        "label": "Performance & Profiling",
+                        "order_index": 4
+                    },
+                    {
+                        "id": "foundry-systems-platform-tooling",
+                        "kind": "quest",
+                        "label": "Internal Tools & DX",
+                        "order_index": 5
+                    },
+                    {
+                        "id": "boss-foundry-systems-architect",
+                        "kind": "legendary_boss",
+                        "label": "Foundry Systems Architect",
+                        "order_index": 99
+                    }
+                ],
+                "unlock_condition": {
+                    "type": "stage_complete",
+                    "boss_id": "boss-foundry-systems-architect"
+                },
+                "badge": {
+                    "code": "foundry-senior-architect",
+                    "label": "Systems Architect",
+                    "description": "Capable of designing and scaling robust Python systems."
+                }
+            }
+        ],
+        "completion_rewards": {
+            "xp": 500,
+            "titles": [
+                "Foundry Engineer",
+                "Python Ops Adept"
+            ],
+            "unlocks": [
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-infra",
+                    "note": "You are ready to harden deployment in The Grid."
+                },
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-agents",
+                    "note": "You can now build agents on top of Python services in The Oracle."
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,159 @@
+{
+    "snapshot_kind": "evalforge_ladder_spec",
+    "evalforge_version": "2.0",
+    "world_slug": "world-agents",
+    "world_name": "The Oracle – Agents",
+    "ladder": {
+        "ladder_id": "oracle-agents-core-to-orchestrator",
+        "slug": "oracle-agents-core-to-orchestrator",
+        "title": "Oracle Engineer – Prompts to Orchestrators",
+        "summary": "Move from single prompts to grounded, tool-using, multi-agent systems with guardrails.",
+        "recommended_entry_level": "comfortable-with-python-or-ts",
+        "recommended_exit_level": "agents-mid-level",
+        "tags": [
+            "agents",
+            "llm",
+            "rag",
+            "tools"
+        ],
+        "stages": [
+            {
+                "stage_id": "stage-1-oracle-invocation",
+                "order_index": 1,
+                "title": "Stage 1 – Invocation (Single-Agent Basics)",
+                "description": "Learn how to structure prompts, tools, and state for a single agent solving a well-bounded task.",
+                "goals": [
+                    "Write clear system/user prompts with roles and constraints.",
+                    "Design typed tool contracts and parseable outputs.",
+                    "Run simple agent loops with memory for a single task."
+                ],
+                "quests": [
+                    "agents-invocation-q1-prompt-anatomy",
+                    "agents-invocation-q2-tool-contracts",
+                    "agents-invocation-q3-single-agent-loop"
+                ],
+                "bosses": [
+                    "boss-oracle-invocation-simulation-weaver"
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-oracle-invocation-simulation-weaver"
+                },
+                "badge": {
+                    "code": "oracle-invocation-ready",
+                    "label": "Invocation Ready",
+                    "description": "Can design robust single-agent flows with tools."
+                }
+            },
+            {
+                "stage_id": "stage-2-oracle-grounding",
+                "order_index": 2,
+                "title": "Stage 2 – Grounding (RAG & Multi-Agent)",
+                "description": "Ground agents in real data and orchestrate multiple agents safely with evaluations and guardrails.",
+                "goals": [
+                    "Implement RAG pipelines with retrieval and context windows.",
+                    "Design multi-agent graphs or orchestrators with clear responsibilities.",
+                    "Add guardrails, evals, and logging for safe operations."
+                ],
+                "quests": [
+                    "agents-grounding-q1-rag-basics",
+                    "agents-grounding-q2-env-and-state",
+                    "agents-grounding-q3-multi-agent-orchestration",
+                    "agents-grounding-q4-guardrails-and-evals"
+                ],
+                "bosses": [
+                    "boss-oracle-grounding-orchestrator-conductor"
+                ],
+                "prerequisites": {
+                    "type": "stage_complete",
+                    "stage_ids": [
+                        "stage-1-oracle-invocation"
+                    ]
+                },
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-oracle-grounding-orchestrator-conductor"
+                },
+                "badge": {
+                    "code": "oracle-orchestrator-ready",
+                    "label": "Orchestrator Ready",
+                    "description": "Can design grounded, multi-agent systems with safety checks."
+                },
+                "status": "design-next"
+            },
+            {
+                "stage_id": "stage-3-senior-orchestrator",
+                "title": "Stage 3 – Senior Orchestrator",
+                "track_id": "oracle-senior-orchestrator",
+                "order_index": 3,
+                "description": "Master the art of designing safe, observable, and evolvable multi-agent systems.",
+                "goals": [
+                    "Design complex agent graphs with specialized roles.",
+                    "Implement central policy layers and guardrails.",
+                    "Create evaluation loops to improve system performance over time."
+                ],
+                "nodes": [
+                    {
+                        "id": "oracle-orchestrator-agent-map",
+                        "kind": "quest",
+                        "label": "Agent Graph & Roles",
+                        "order_index": 1
+                    },
+                    {
+                        "id": "oracle-orchestrator-tool-contracts",
+                        "kind": "quest",
+                        "label": "Tool Contracts",
+                        "order_index": 2
+                    },
+                    {
+                        "id": "oracle-orchestrator-guardrails",
+                        "kind": "quest",
+                        "label": "Guardrails",
+                        "order_index": 3
+                    },
+                    {
+                        "id": "oracle-orchestrator-eval-loop",
+                        "kind": "quest",
+                        "label": "Eval Loop",
+                        "order_index": 4
+                    },
+                    {
+                        "id": "oracle-orchestrator-observability",
+                        "kind": "quest",
+                        "label": "Resilience & Observability",
+                        "order_index": 5
+                    },
+                    {
+                        "id": "boss-oracle-orchestrator-prime",
+                        "kind": "legendary_boss",
+                        "label": "Oracle Orchestrator Prime",
+                        "order_index": 99
+                    }
+                ],
+                "unlock_condition": {
+                    "type": "boss_pass",
+                    "boss_id": "boss-oracle-orchestrator-prime"
+                }
+            }
+        ],
+        "completion_rewards": {
+            "xp": 650,
+            "titles": [
+                "Oracle Engineer",
+                "Orchestrator Adept"
+            ],
+            "unlocks": [
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-ml",
+                    "note": "You can now orchestrate ML models and feature stores in The Synapse."
+                },
+                {
+                    "type": "world_link",
+                    "target_world_slug": "world-infra",
+                    "note": "You are ready to deploy agents on hardened infra in The Grid."
+                }
+            ]
+        }
+    }
+}

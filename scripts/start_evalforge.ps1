@@ -9,6 +9,10 @@ $env:EVALFORGE_PORT = "8092"
 $env:EVALFORGE_MOCK_GRADING = "0"
 $env:EVALFORGE_MODEL_VERSION = "gemini-2.5-flash"
 
+# 1.5 Ensure Database is Running
+Write-Host "   Database:   Starting Docker container..."
+docker-compose up -d db
+
 # 2. Display Config
 Write-Host "   Port:       $env:EVALFORGE_PORT"
 Write-Host "   Model:      $env:EVALFORGE_MODEL_VERSION"

@@ -1,0 +1,116 @@
+{
+    "rubric_id": "boss-rubric-prism-refraction-type-guardian",
+    "boss_id": "boss-prism-refraction-type-guardian",
+    "version": 1,
+    "overall": {
+        "score_scale": "per-criterion 0–2",
+        "pass_threshold": 6,
+        "max_score": 8,
+        "notes": "Sum the criterion scores (0–2 each). 6+ is a pass, 7–8 is a strong pass."
+    },
+    "criteria": [
+        {
+            "id": "type_modeling",
+            "label": "Type Modeling of Auth Domain",
+            "weight": 0.3,
+            "description": "How well are Credentials, User, Session, and related auth types modeled?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Weak or missing",
+                    "description": "Models are missing, overly vague (any/unknown everywhere), or inconsistent. Important fields are untyped or incorrectly typed."
+                },
+                {
+                    "score": 1,
+                    "label": "Basic but incomplete",
+                    "description": "Core types are present and mostly correct, but there may be loose anys, missing fields, or unclear literals (e.g., free-form strings instead of literal unions where appropriate)."
+                },
+                {
+                    "score": 2,
+                    "label": "Clear and coherent",
+                    "description": "Credentials, User, Session, and related types are well-defined, use literal unions where appropriate (e.g., roles, error kinds), and represent the domain in a way that would be acceptable in a production TS codebase."
+                }
+            ]
+        },
+        {
+            "id": "unions_narrowing",
+            "label": "Discriminated Unions & Narrowing",
+            "weight": 0.3,
+            "description": "Quality of AuthResult union and how it is used in control flow.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Poorly modeled",
+                    "description": "AuthResult is absent, not a union, or relies mostly on any/unknown with casts. Control flow does not benefit from TS narrowing."
+                },
+                {
+                    "score": 1,
+                    "label": "Partially correct",
+                    "description": "There is a union type, but the discriminant is inconsistent or not used effectively. Some control flow narrowing works, but casting is still common."
+                },
+                {
+                    "score": 2,
+                    "label": "Strong discriminated union",
+                    "description": "AuthResult is a clean discriminated union (e.g., kind: 'success' | 'failure'). The code uses switch/if to narrow variants without casts, and adding a new variant would be straightforward."
+                }
+            ]
+        },
+        {
+            "id": "guards_and_safety",
+            "label": "Type Guards & Runtime Safety",
+            "weight": 0.25,
+            "description": "How trustworthy and useful are the type guards and runtime checks?",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "Fragile / misleading",
+                    "description": "Guards are missing or misleading (e.g., always return true, or check almost nothing). Code accesses fields on unguarded values; runtime safety is weak."
+                },
+                {
+                    "score": 1,
+                    "label": "Basic guards",
+                    "description": "Some meaningful guards exist and are used, but runtime checks are minimal, or some accesses remain unsafe. Guard implementations may not justify the type promises they make."
+                },
+                {
+                    "score": 2,
+                    "label": "Robust guards",
+                    "description": "Guards use 'value is Type' properly and contain runtime checks that justify the claim. After guards, the code uses the narrowed types without casts. External/unknown inputs are validated before being trusted."
+                }
+            ]
+        },
+        {
+            "id": "tests_and_dx",
+            "label": "Tests & Developer Experience",
+            "weight": 0.15,
+            "description": "Tests around AuthResult, guards, and auth flows, plus overall DX.",
+            "levels": [
+                {
+                    "score": 0,
+                    "label": "No tests",
+                    "description": "No meaningful tests or only trivial smoke tests. No verification of unions/guards."
+                },
+                {
+                    "score": 1,
+                    "label": "Minimal tests",
+                    "description": "There are tests for at least one success and one failure path, or tests for guards, but coverage is limited and edge cases are not explored."
+                },
+                {
+                    "score": 2,
+                    "label": "Good test coverage",
+                    "description": "Tests cover both success and failure paths, and at least one guard behavior (true and false cases). The API is pleasant to use from the perspective of TypeScript consumers (good autocomplete, no casts needed in normal usage)."
+                }
+            ]
+        }
+    ],
+    "zero_guidance": {
+        "instructions_to_model": [
+            "You are reviewing a TypeScript auth module for the 'Type Guardian of Refraction' boss.",
+            "Use the rubric criteria above to score the candidate solution.",
+            "Focus on type modeling quality, discriminated union design, type guards, and tests—not minor style preferences.",
+            "For each criterion, choose level 0, 1, or 2 and explain why in a short comment.",
+            "Then compute score_total, score_max, passed (based on pass_threshold), integrity (score_total / score_max, clamped 0–1), and a verdict: fail, borderline, pass, or strong_pass."
+        ],
+        "success_summary_hint": "Explain in a few sentences why this auth module would be safe and pleasant to use in a real TypeScript codebase.",
+        "failure_summary_hint": "If you consider this weak, emphasize how to improve the type model, unions, and guards to reach production quality."
+    }
+}
