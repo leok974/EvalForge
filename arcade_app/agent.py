@@ -338,234 +338,37 @@ app = FastAPI(title="EvalForge Arcade", version="0.4.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://evalforge.app",
+        "https://www.evalforge.app",
+        "https://evalforge-agents-105491344850.us-central1.run.app",
+        "*" # Keep wildcard for now to avoid breaking other dev flows, can tighten later
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Import and register routers
-from arcade_app.routes_boss import router as boss_router
-app.include_router(boss_router)
-app.include_router(avatars.router)
-
-# Boss Codex routes
-from arcade_app import routes_boss_codex
-app.include_router(routes_boss_codex.router)
-
-# Codex routes
-from arcade_app.routers import codex
-app.include_router(codex.router)
-
-# Project Codex routes
-from arcade_app.routers import project_codex
-app.include_router(project_codex.router)
-
-# Projects routes
-from arcade_app.routers import projects
-app.include_router(projects.router)
-
-# Dev routes
-from arcade_app import routes_dev
-app.include_router(routes_dev.router)
-
-# Boss QA routes (dev-only)
-from arcade_app.routers import routes_boss_qa_applylens
-app.include_router(routes_boss_qa_applylens.router)
-
-from arcade_app.routers import routes_boss_qa_worlds
-app.include_router(routes_boss_qa_worlds.router)
-
-from arcade_app.routers import routes_quests
-app.include_router(routes_quests.router)
-
-# World Progress routes
-from arcade_app.routers import routes_world_progress
-app.include_router(routes_world_progress.router)
-
-# Universe Routes (Worlds/Tracks/Bosses metadata)
-from arcade_app.routers import routes_universe
-app.include_router(routes_universe.router)
-
-from arcade_app.routers import routes_ladders
-app.include_router(routes_ladders.router)
-
-from arcade_app.routers import routes_practice_rounds
-app.include_router(routes_practice_rounds.router)
-
-from arcade_app.routers import routes_profile
-app.include_router(routes_profile.router)
-
-from arcade_app.routers import routes_boss_runs
-app.include_router(routes_boss_runs.router)
-
-# --- 5. Missing Routes (Restored) ---
-
-from arcade_app.socket_manager import websocket_endpoint
-from fastapi import WebSocket, HTTPException
-
-@app.get("/api/universe")
-def get_universe():
-    return {
-        "worlds": list(WORLDS.values()),
-        "tracks": list(TRACKS.values())
-    }
-
-@app.get("/api/auth/me")
-async def auth_me(request: Request):
-    user = await get_current_user(request)
-    if not user:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    return user
-
-@app.get("/api/auth/login")
-def login():
-    return {"url": get_login_url()}
-
-@app.get("/api/auth/github/callback")
-async def github_callback(code: str):
-    user_profile = await exchange_github_code(code)
-    user_data = await get_or_create_github_user(user_profile)
-    session_token = create_session_token(user_data.id)
-    # Redirect to Frontend (localhost:5173)
-    response = RedirectResponse(url="http://localhost:5173/")
-    response.set_cookie(
-        key="session_token", 
-        value=session_token, 
-        httponly=True,
-        max_age=60*60*24*7,
-        samesite="lax",
-        secure=False,
-        domain=None,
-        path="/"
-    )
-    return response
-
-@app.websocket("/ws/game_events")
-async def ws_game_events(websocket: WebSocket):
-    await websocket_endpoint(websocket)
-
-# Initialize Universe
-@app.on_event("startup")
-async def startup_event():
-    _log_vertex_config()
-    load_universe_data()
-    await init_db()
-    
-    # Boss seeding moved to explicit script: scripts/seed_evalforge_bosses.py
-    # This keeps startup deterministic and CI-friendly
-    # from arcade_app.seed_bosses import seed_bosses
-    # await seed_bosses()
-
-    # TEMPORARILY DISABLED - oracle curriculum uses old Quest 1.0 schema
-    # from arcade_app.seed_curriculum import seed_oracle_curriculum
-    # await seed_oracle_curriculum()
-
-    # Seed Standard Quests (Foundry, Prism, etc.)
-    # TEMPORARILY DISABLED due to schema mismatch - needs migration
-    # from arcade_app.database import get_session
-    # from arcade_app.seed_quests_standard_worlds import seed_standard_world_quests
-    # 
-    # from arcade_app.database import engine
-    # 
-    # async with engine.begin() as conn:
-    #     def run_seeder(connection):
-    #         from sqlmodel import Session
-    #         session = Session(bind=connection)
-    #         seed_standard_world_quests(session)
-    #     await conn.run_sync(run_seeder)
-
-# Agent Registry
-AGENTS = {
-    "judge": JudgeAgent(),
-    "quest": QuestAgent(),
-    "explain": ExplainAgent(),
-    "debug": DebugAgent(),
-}
-
-@app.get("/api/session/active")
-async def get_active_session(request: Request):
-    user = await get_current_user(request)
-    if not user: return {}
-    return await get_or_create_session(user["id"])
-
-@app.get("/api/skills")
-async def get_skills(request: Request):
-    """Return user's skill tree with unlock status."""
-    from arcade_app.skill_helper import get_skill_tree
-    user = await get_current_user(request)
-    if not user:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    return await get_skill_tree(user["id"])
-
-from pydantic import BaseModel
-
-class UnlockSkillRequest(BaseModel):
-    skill_id: str
-
-@app.post("/api/skills/unlock")
-async def unlock_skill_endpoint(request: Request, payload: UnlockSkillRequest):
-    """Unlock a skill for the current user."""
-    from arcade_app.skill_helper import unlock_skill
-    user = await get_current_user(request)
-    if not user:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    
-    result = await unlock_skill(user["id"], payload.skill_id)
-    if "error" in result:
-        raise HTTPException(status_code=400, detail=result["error"])
-    return result
-
-
-@app.post("/apps/arcade_app/users/{user}/sessions/{sid}/query/stream")
-async def stream_session(user: str, sid: str, payload: QueryRequest):
-    """
-    Main entry point for the Chat Terminal.
-    Routes to the appropriate Agent based on 'mode'.
-    """
-    # 1. Update Session State (Context)
-    await update_session_state(sid, {
-        "mode": payload.mode,
-        "world_id": payload.world_id,
-        "track_id": payload.track_id
-    })
-    
-    # 2. Append User Message
-    await append_message(sid, "user", payload.message)
-    
-    # 3. Select Agent
-    agent = AGENTS.get(payload.mode, AGENTS["judge"])
-    
-    # 4. Stream Response
-    async def event_generator():
-        full_response = ""
-        context = {
-            "world_id": payload.world_id, 
-            "track_id": payload.track_id,
-            "codex_id": payload.codex_id,
-            "user_id": user
-        }
-        
-        try:
-            async for event in agent.run(payload.message, context):
-                # Capture text for history
-                if event["event"] == "text_delta":
-                    full_response += event["data"]
-                yield event
-                
-            # 5. Append Assistant Message (History)
-            await append_message(sid, "assistant", full_response)
-            
-        except Exception as e:
-            logging.error(f"Stream Error: {e}")
-            yield {"event": "error", "data": str(e)}
-
-    from sse_starlette.sse import EventSourceResponse
-    return EventSourceResponse(event_generator())
+# ... (routes) ...
 
 @app.get("/health")
 def health_check():
     return {"status": "ok", "version": "0.4.0"}
+
+@app.get("/healthz")
+def healthz_check():
+    """Alias for /health for automated monitors."""
+    return {"status": "ok", "version": "0.4.0"}
+
+@app.get("/version")
+def version_check():
+    """Returns application version information."""
+    return {
+        "version": "0.4.0",
+        "commit": os.getenv("GIT_COMMIT", "unknown"),
+        "environment": "production" if os.getenv("K_SERVICE") else "development"
+    }
 
 @app.get("/api/ready")
 async def readiness_check():

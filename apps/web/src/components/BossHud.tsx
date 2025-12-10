@@ -149,7 +149,7 @@ export function BossHud() {
     };
 
     // Check for legendary status via difficulty or loose name matching for robustness
-    const isLegendary = difficulty === 'legendary' || bossName?.includes('Arbiter') || bossName?.includes('Warden');
+    const isLegendary = difficulty === 'legendary' || (bossName || '').includes('Arbiter') || (bossName || '').includes('Warden');
 
     return (
         <div className="pointer-events-none fixed top-4 inset-x-0 z-40 flex justify-center px-4">

@@ -12,6 +12,7 @@ sqlmodel
 asyncpg           # Async Postgres driver
 psycopg2-binary   # Sync Postgres driver (often needed for tools/migrations)
 redis             # Redis client
+aiosqlite         # SQLite async driver (fallback)
 
 # --- AI & RAG (Phase 14) ---
 google-cloud-aiplatform>=1.38.0  # Vertex AI SDK

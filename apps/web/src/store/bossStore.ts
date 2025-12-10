@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export type BossStatus = 'idle' | 'active' | 'defeated' | 'failed';
-export type BossDifficulty = 'normal' | 'hard';
+export type BossDifficulty = 'normal' | 'hard' | 'legendary';
 
 export interface BossSpawnPayload {
     bossId: string;

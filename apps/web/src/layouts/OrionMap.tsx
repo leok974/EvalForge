@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { useGameStore, ActiveTrack } from "@/store/gameStore";
 import { fxEnabled } from "@/lib/featureFlags";
 import { subscribeWorldProgress } from "@/lib/worldProgressEvents";
-import { subscribeWorldProgress } from "@/lib/worldProgressEvents";
 import { LadderPanel } from "../features/ladders/LadderPanel";
 import { useSeniorProgress } from "@/hooks/useSeniorProgress";
 
