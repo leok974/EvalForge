@@ -28,7 +28,8 @@ async def test_judge_agent_smoke_streams_response(
     vertex_text('{"coverage": 5, "correctness": 5, "clarity": 5, "comment": "Mocked Judge Decision"}')
     
     user_id, session_id = judge_smoke_session
-    url = f"/apps/arcade_app/users/{user_id}/sessions/{session_id}/query/stream"
+    # Updated URL to match new endpoint
+    url = "/api/agent/query/stream"
     
     payload = {
         "message": "Evaluate this code.",
@@ -71,7 +72,7 @@ async def test_explain_agent_smoke_streams_response(
     vertex_text("Mocked Explanation")
     
     user_id, session_id = explain_smoke_session
-    url = f"/apps/arcade_app/users/{user_id}/sessions/{session_id}/query/stream"
+    url = "/api/agent/query/stream"
     
     payload = {
         "message": "Explain this concept.",

@@ -5,14 +5,20 @@ import { fxEnabled } from "@/lib/featureFlags";
 
 type Track = {
     id: string;
-    name: string;
-    world_id: string;
-    source: 'fundamentals' | 'personal' | 'user-repo';
+    title: string;
+    order_index: number;
+    // source: 'fundamentals' | 'personal' | 'user-repo'; // Backend doesn't send source yet, assume fundamentals for now
+};
+
+type World = {
+    slug: string;
+    label: string;
+    tracks: Track[];
+    bosses: any[];
 };
 
 type UniverseData = {
-    worlds: { id: string; name: string; icon: string }[];
-    tracks: Track[];
+    worlds: World[];
 };
 
 interface Props {
@@ -34,13 +40,15 @@ export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: 
 
     if (!universe) return <div className="text-xs text-zinc-600 animate-pulse">LOADING UNIVERSE...</div>;
 
-    // Filter tracks for current world
-    const activeTracks = universe.tracks.filter(t => t.world_id === context.world_id);
-    const activeWorld = universe.worlds.find(w => w.id === context.world_id);
+    // Filter tracks for current world using nested structure
+    const activeWorld = universe.worlds.find(w => w.slug === context.world_id);
+    const activeTracks = activeWorld ? activeWorld.tracks : [];
 
     // Group by Source Pillar
-    const myProjects = activeTracks.filter(t => t.source === 'personal' || t.source === 'user-repo');
-    const fundamentals = activeTracks.filter(t => t.source === 'fundamentals');
+    // Backend doesn't support source yet, so treating all as fundamentals for now unless logic changes
+    const myProjects: Track[] = [];
+    const fundamentals = activeTracks;
+
 
     return (
         <div className="bg-zinc-900 border-b border-zinc-800 p-4 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg z-20">
@@ -50,7 +58,7 @@ export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: 
 
                 {/* ACTIVE ICON INDICATOR */}
                 <div className="w-8 h-8 flex items-center justify-center bg-zinc-900 border border-zinc-700 rounded text-cyan-400 shrink-0">
-                    <WorldIcon iconName={activeWorld?.icon || 'box'} className="w-4 h-4" />
+                    <WorldIcon iconName={'box'} className="w-4 h-4" />
                 </div>
 
                 {/* World Selector */}
@@ -61,7 +69,7 @@ export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: 
                         className="appearance-none bg-black border border-zinc-700 text-zinc-300 text-sm rounded px-3 py-1.5 font-mono hover:border-cyan-500 focus:outline-none pr-8 cursor-pointer"
                     >
                         {universe.worlds.map(w => (
-                            <option key={w.id} value={w.id}>{w.name}</option>
+                            <option key={w.slug} value={w.slug}>{w.label}</option>
                         ))}
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-500">
@@ -80,13 +88,13 @@ export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: 
 
                         {myProjects.length > 0 && (
                             <optgroup label="My Projects (BYOR)">
-                                {myProjects.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                                {myProjects.map(t => <option key={t.id} value={t.id}>{t.title}</option>)}
                             </optgroup>
                         )}
 
                         {fundamentals.length > 0 && (
                             <optgroup label="Fundamentals">
-                                {fundamentals.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                                {fundamentals.map(t => <option key={t.id} value={t.id}>{t.title}</option>)}
                             </optgroup>
                         )}
                     </select>

@@ -38,8 +38,14 @@ export function useAuth() {
         fetch('/api/auth/login')
             .then(r => r.json())
             .then(data => {
-                // Force browser to navigate to GitHub (or the mock callback)
-                window.location.href = data.url;
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    console.error("Login failed: No URL returned", data);
+                }
+            })
+            .catch(err => {
+                console.error("Login error:", err);
             });
     };
 

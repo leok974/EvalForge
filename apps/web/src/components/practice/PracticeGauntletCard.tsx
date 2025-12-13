@@ -232,94 +232,54 @@ export const PracticeGauntletCard: React.FC = () => {
     const totalItems = plan?.total_count ?? plan?.items?.length ?? 0;
 
     return (
-        <section
+        <div
             className={`
-                relative col-span-1 flex flex-col rounded-workshop border border-white/5 bg-workshop-panel p-4 shadow-lg shadow-workshop-neon/10 backdrop-blur-md
+                flex flex-col h-full min-h-0
                 transition-all duration-300
-                ${justUpdated ? "ring-2 ring-emerald-400 shadow-[0_0_24px_rgba(16,185,129,0.7)]" : ""}
+                ${justUpdated ? "ring-1 ring-emerald-400" : ""}
             `}
             data-testid="practice-gauntlet-card"
         >
             {/* Header */}
-            <header className="mb-4 flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-3 shrink-0 mb-3">
                 <div className="flex flex-col">
-                    <h2 className="text-xs font-semibold uppercase tracking-wide text-workshop-subtle">
+                    <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-300">
                         Practice Gauntlet
                     </h2>
-                    <div className="text-[11px] text-workshop-subtle/80 opacity-80">
-                        Daily practice across worlds & projects
+                    <div className="text-[10px] text-workshop-subtle/80 opacity-80 mt-0.5">
+                        Daily practice targets
                     </div>
-                    {(() => {
-                        if (!plan?.items) return null;
-                        const worldSet = new Set(
-                            plan.items
-                                .map((item) => item.world_slug)
-                                .filter(Boolean) as string[]
-                        );
-                        const worldNames = Array.from(worldSet)
-                            .map((slug) => WORLD_LABELS[slug] ?? "Unknown")
-                            .slice(0, 4);
-
-                        if (worldNames.length === 0) return null;
-
-                        return (
-                            <p className="mt-1 text-[10px] text-emerald-200/60 font-medium">
-                                Today touches {worldNames.join(", ")}
-                                {worldSet.size > 4 && " …"}
-                            </p>
-                        );
-                    })()}
                 </div>
 
                 {typeof totalItems === "number" && totalItems > 0 && (
-                    <span className="inline-flex items-center rounded-full border border-workshop-cyan/40 px-3 py-0.5 text-[10px] text-workshop-cyan bg-workshop-cyan/5">
+                    <span className="text-[11px] text-slate-500">
                         {totalItems} targets
                     </span>
                 )}
-            </header>
+            </div>
 
-            {/* Body */}
-            <div className="flex-1 space-y-2.5">
+            {/* Scrollable Body */}
+            <div className="flex-1 overflow-y-auto pr-1 space-y-2">
                 {isLoading && (
                     <div className="space-y-2" data-testid="practice-gauntlet-loading">
                         {[0, 1].map((idx) => (
                             <div
                                 key={idx}
-                                className="h-12 w-full animate-pulse rounded-full bg-workshop-panel/50 border border-white/5"
+                                className="h-12 w-full animate-pulse rounded-2xl bg-slate-800/40 border border-white/5"
                             />
                         ))}
                     </div>
                 )}
 
                 {hasError && (
-                    <div
-                        className="flex items-start gap-2 rounded-xl bg-rose-950/20 p-3 border border-rose-500/20"
-                        data-testid="practice-gauntlet-error"
-                    >
-                        <AlertCircle className="mt-0.5 h-4 w-4 text-rose-400" />
-                        <div className="space-y-1">
-                            <p className="text-xs font-semibold text-rose-200">
-                                Practice Gauntlet unavailable
-                            </p>
-                            <p className="text-xs text-rose-300/60">{state.error}</p>
-                        </div>
+                    <div className="rounded-2xl border border-rose-500/20 bg-rose-950/20 p-3 text-xs text-rose-300">
+                        {state.error}
                     </div>
                 )}
 
                 {!isLoading && !hasError && plan && plan.items.length === 0 && (
-                    <div
-                        className="flex items-center gap-3 rounded-xl bg-workshop-panel/50 p-4 border border-emerald-500/20 border-dashed"
-                        data-testid="practice-gauntlet-empty"
-                    >
-                        <CheckCircle2 className="h-5 w-5 text-emerald-400" />
-                        <div className="space-y-0.5">
-                            <p className="text-xs font-semibold text-emerald-100">
-                                No specific targets today
-                            </p>
-                            <p className="text-[11px] text-workshop-subtle">
-                                Dive into the map to find new challenges.
-                            </p>
-                        </div>
+                    <div className="rounded-2xl border border-slate-800/50 bg-slate-900/20 p-4 text-center text-[11px] text-slate-500">
+                        No targets today. Check back later.
                     </div>
                 )}
 
@@ -327,94 +287,48 @@ export const PracticeGauntletCard: React.FC = () => {
                     <ul className="space-y-2" data-testid="practice-gauntlet-items">
                         {plan.items.map((item) => {
                             const targetPath = getPracticeTargetPath(item);
-                            // Mock progress for visuals if not present in API yet, usually 0 or random for demo
-                            const progressPercent = 0;
 
                             return (
-                                <button
-                                    key={item.id}
-                                    type="button"
-                                    onClick={() => targetPath && navigate(targetPath)}
-                                    data-testid={`gauntlet-card-${(item.difficulty === 'legendary' || item.legendary === true) ? 'legendary' : 'normal'}-${item.id}`}
-                                    className={`group w-full relative overflow-hidden text-left rounded-full border bg-workshop-panel/40 px-3 py-2.5 transition-all hover:bg-workshop-panel hover:shadow-workshop-neon
-                                        ${(item.difficulty === 'legendary' || item.legendary === true)
-                                            ? 'border-amber-400/60 shadow-[0_0_15px_rgba(251,191,36,0.15)] hover:border-amber-300'
-                                            : 'border-white/5 hover:border-workshop-cyan/60'
-                                        }
-                                    `}
-                                >
-                                    <div className="flex items-center gap-3 relative z-10">
-                                        {/* State Icon */}
-                                        <div className="flex-none text-workshop-subtle group-hover:text-workshop-cyan transition-colors">
+                                <li key={item.id} className="rounded-2xl border border-slate-800/70 bg-slate-950/80 px-3 py-2">
+                                    <button
+                                        onClick={() => targetPath && navigate(targetPath)}
+                                        className="w-full text-left flex items-start gap-3 group"
+                                    >
+                                        <div className="mt-0.5 text-slate-500 group-hover:text-emerald-400 transition-colors">
                                             {itemIcon(item.item_type)}
                                         </div>
-
-                                        <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+                                        <div className="flex-1">
                                             <div className="flex items-center justify-between gap-2">
-                                                <div className="text-xs font-medium text-workshop-text truncate flex items-center gap-2">
-                                                    {item.world_slug && WORLD_LABELS[item.world_slug] && (
-                                                        <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide ${WORLD_PILL_CLASSES[item.world_slug] || DEFAULT_PILL}`}>
-                                                            {WORLD_LABELS[item.world_slug]}
-                                                        </span>
-                                                    )}
+                                                <span className="text-xs font-medium text-slate-200 group-hover:text-emerald-200 transition-colors">
                                                     {item.label}
+                                                </span>
+                                                <span className={difficultyChipClasses(item.difficulty) + " rounded-full px-1.5 py-[1px] text-[9px] uppercase tracking-wider font-bold border-none"}>
+                                                    {(item.difficulty === "legendary" || item.legendary === true) ? "Legendary" : item.difficulty}
+                                                </span>
+                                            </div>
+                                            {item.world_slug && WORLD_LABELS[item.world_slug] && (
+                                                <div className="mt-1 flex items-center gap-2">
+                                                    <span className={`inline-flex items-center rounded-full border px-1.5 py-[0.5px] text-[9px] font-semibold uppercase tracking-wide ${WORLD_PILL_CLASSES[item.world_slug] || DEFAULT_PILL}`}>
+                                                        {WORLD_LABELS[item.world_slug]}
+                                                    </span>
                                                 </div>
-                                            </div>
-
-                                            {/* Progress Bar Track */}
-                                            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                                <div
-                                                    className="h-full bg-workshop-cyan group-hover:bg-workshop-cyan/80 transition-all rounded-full"
-                                                    style={{ width: `${progressPercent}%` }}
-                                                />
-                                            </div>
+                                            )}
                                         </div>
-
-                                        {/* Right Action / Difficulty */}
-                                        <div className="flex-none opacity-50 group-hover:opacity-100 transition-opacity">
-                                            <span className={difficultyChipClasses(item.difficulty) + " rounded-full px-2 py-0.5 text-[9px] uppercase tracking-wider font-bold border-none"}>
-                                                {(item.difficulty === "legendary" || item.legendary === true) ? "Legendary Boss" : item.difficulty}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </button>
+                                    </button>
+                                </li>
                             );
                         })}
                     </ul>
                 )}
             </div>
 
-            {/* Footer Stats */}
-            <footer className="mt-4 pt-3 flex flex-col gap-2 border-t border-white/5">
-                <div className="flex items-center justify-between text-[11px] text-workshop-subtle">
-                    <div className="flex items-center gap-1.5">
-                        {justUpdated && <span className="animate-pulse text-emerald-400">● Live Updated</span>}
-                        {!justUpdated && (
-                            <span>
-                                {plan?.today_trials_completed ?? 0} trials today
-                            </span>
-                        )}
-                    </div>
-                    {plan && plan.streak_days > 0 && (
-                        <span className="font-mono text-workshop-cyan">
-                            {plan.streak_days} day streak
-                            <span className="opacity-50 ml-1">(best {plan.best_streak_days})</span>
-                        </span>
-                    )}
-                </div>
-
-                {/* Today Bar */}
-                {plan && (
-                    <div className="h-1.5 w-full rounded-full bg-emerald-950/40 border border-white/5 overflow-hidden">
-                        <div
-                            className="h-full bg-emerald-500/80 transition-all duration-500 ease-out rounded-full"
-                            style={{
-                                width: `${Math.min(100, ((plan.today_trials_completed || 0) / Math.max(1, totalItems)) * 100)}%`
-                            }}
-                        />
-                    </div>
+            {/* Footer Stats - Compact */}
+            <div className="mt-3 shrink-0 border-t border-white/5 pt-2 flex items-center justify-between text-[10px] text-slate-500">
+                <span>{plan?.today_trials_completed ?? 0} done today</span>
+                {plan && plan.streak_days > 0 && (
+                    <span className="text-emerald-400">{plan.streak_days}d streak</span>
                 )}
-            </footer>
-        </section>
+            </div>
+        </div>
     );
 };

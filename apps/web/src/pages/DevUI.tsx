@@ -433,13 +433,13 @@ function DevUIContent() {
             top-level workshop → WorkshopLayout
             top-level orion → OrionLayout
       */}
-      <Route path="/" element={<Navigate to="/workshop" replace />} />
+      <Route path="/" element={<Navigate to="workshop" replace />} />
 
-      <Route path="/workshop" element={<WorkshopLayout {...commonProps} />} />
-      <Route path="/orion" element={<OrionLayout />} />
+      <Route path="workshop" element={<WorkshopLayout {...commonProps} />} />
+      <Route path="orion" element={<OrionLayout />} />
 
       {/* Cyberdeck fallback or explicit route */}
-      <Route path="/deck" element={
+      <Route path="deck" element={
         <CyberdeckLayout>
           <div className="h-full flex flex-col">
             {/* 1. Context Navigation */}
@@ -464,7 +464,7 @@ function DevUIContent() {
       } />
 
       {/* Worlds Routing */}
-      <Route path="/worlds/:worldSlug">
+      <Route path="worlds/:worldSlug">
         {/* Index: /worlds/foo -> Orion Map */}
         <Route index element={<OrionLayout />} />
 
@@ -474,7 +474,7 @@ function DevUIContent() {
       </Route>
 
       {/* Projects Routing - Similar pattern if needed later, but keeping simple for now */}
-      <Route path="/projects/:projectSlug/*" element={<WorkshopLayout {...commonProps} />} />
+      <Route path="projects/:projectSlug/*" element={<WorkshopLayout {...commonProps} />} />
 
     </Routes>
   );

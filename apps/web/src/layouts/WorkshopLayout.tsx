@@ -31,6 +31,22 @@ interface WorkshopLayoutProps {
 
 type BenchHit = "none" | "player" | "boss" | "both";
 
+function WorkbenchHeader({ onGuide }: { onGuide?: () => void }) {
+    return (
+        <div className="flex items-center justify-between px-1">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-workshop-subtle">
+                Workbench
+            </h2>
+            <button
+                onClick={onGuide}
+                className="text-[10px] text-workshop-cyan hover:underline"
+            >
+                ? Help
+            </button>
+        </div>
+    );
+}
+
 export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
     bossHud,
     worldSelector,
@@ -109,7 +125,7 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
 
     return (
         <main
-            className="min-h-screen bg-workshop-bg text-workshop-text overflow-hidden flex flex-col font-sans"
+            className="min-h-screen bg-workshop-bg text-workshop-text overflow-x-hidden flex flex-col font-sans"
             data-testid="layout-workshop"
         >
             {/* Ambient Background */}
@@ -119,154 +135,137 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                 <div className="orion-starfield-layer opacity-40 mix-blend-screen" />
             </div>
 
-            {/* Top HUD */}
-            <header className="relative z-20 px-6 pt-5 pb-4 flex items-center justify-between gap-6 bg-workshop-bg/50 backdrop-blur-sm border-b border-white/5">
-                <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-3">
-                        <span className="text-sm font-semibold text-workshop-subtle tracking-wide uppercase">
-                            World Selector
-                        </span>
-                        {/* Wrapper for existing component with Neon styling override if needed */}
-                        <div className="rounded-full bg-workshop-panel border border-white/10 shadow-workshop-neon overflow-hidden">
-                            {worldSelector}
+            {/* Top HUD - Two-row Layout */}
+            <header className="relative z-20 px-6 pt-4 pb-2 bg-workshop-bg/50 backdrop-blur-sm border-b border-white/5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                    {/* Left Group */}
+                    <div className="flex flex-wrap items-center gap-3">
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-workshop-subtle tracking-wide uppercase">
+                                World
+                            </span>
+                            <div className="rounded-full bg-workshop-panel border border-white/10 shadow-workshop-neon overflow-hidden">
+                                {worldSelector}
+                            </div>
                         </div>
                     </div>
 
-                    <div className="hidden md:flex items-center gap-3">
-                        {/* Project Placeholder - or actual component if available */}
-                        <div className="rounded-full bg-workshop-panel border border-white/10 px-4 py-1.5 text-xs font-medium text-workshop-text shadow-workshop-violet flex items-center gap-2">
-                            <span className="text-workshop-subtle">Project:</span>
-                            <span className="text-workshop-violet">ApplyLens – Backend</span>
+                    {/* Right Group: Project + Extras */}
+                    <div className="flex flex-wrap items-center gap-3">
+                        <div className="hidden md:flex items-center gap-3">
+                            <div className="rounded-full bg-workshop-panel border border-white/10 px-4 py-1.5 text-xs font-medium text-workshop-text shadow-workshop-violet flex items-center gap-2">
+                                <span className="text-workshop-subtle">Project:</span>
+                                <span className="text-workshop-violet">ApplyLens – Backend</span>
+                            </div>
                         </div>
+                        {extraTopRight}
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    {['JUDGE', 'QUEST', 'EXPLAIN', 'DEBUG', 'CODEX'].map((tab) => {
-                        const tabKey = tab.toLowerCase();
-                        const isActive = currentMode === tabKey;
-                        // Determine lock status based on skill
-                        let isLocked = false;
-                        if (tabKey === 'explain' && hasSkill && !hasSkill('agent_explain')) isLocked = true;
-                        if (tabKey === 'debug' && hasSkill && !hasSkill('agent_debug')) isLocked = true;
+                {/* Second Row: Mode Tabs */}
+                <div className="mt-3 flex flex-wrap gap-2 pb-2">
+                    <nav className="inline-flex flex-wrap gap-1 rounded-full bg-slate-900/80 p-1">
+                        {['JUDGE', 'QUEST', 'EXPLAIN', 'DEBUG', 'CODEX'].map((tab) => {
+                            const tabKey = tab.toLowerCase();
+                            const isActive = currentMode === tabKey;
+                            // Determine lock status based on skill
+                            let isLocked = false;
+                            if (tabKey === 'explain' && hasSkill && !hasSkill('agent_explain')) isLocked = true;
+                            if (tabKey === 'debug' && hasSkill && !hasSkill('agent_debug')) isLocked = true;
 
-                        return (
-                            <button
-                                key={tab}
-                                type="button"
-                                disabled={isLocked}
-                                className={cn(
-                                    'relative px-5 py-2 text-[10px] font-bold tracking-widest rounded-full transition-all duration-200 flex items-center gap-1',
-                                    isActive
-                                        ? 'bg-workshop-panel border border-workshop-cyan/80 text-workshop-cyan shadow-workshop-neon'
-                                        : isLocked
-                                            ? 'bg-transparent border border-transparent text-workshop-subtle/50 cursor-not-allowed'
-                                            : 'bg-transparent border border-white/5 text-workshop-subtle hover:border-workshop-cyan/40 hover:text-workshop-text'
-                                )}
-                                onClick={() => !isLocked && onModeChange?.(tabKey as WorkshopMode)}
-                            >
-                                {tab} {isLocked && '🔒'}
-                            </button>
-                        );
-                    })}
+                            return (
+                                <button
+                                    key={tab}
+                                    type="button"
+                                    disabled={isLocked}
+                                    className={cn(
+                                        'relative px-4 py-1.5 text-[10px] font-bold tracking-widest rounded-full transition-all duration-200 flex items-center gap-1',
+                                        isActive
+                                            ? 'bg-workshop-panel border border-workshop-cyan/80 text-workshop-cyan shadow-workshop-neon'
+                                            : isLocked
+                                                ? 'bg-transparent border border-transparent text-workshop-subtle/50 cursor-not-allowed'
+                                                : 'bg-transparent border border-white/5 text-workshop-subtle hover:border-workshop-cyan/40 hover:text-workshop-text'
+                                    )}
+                                    onClick={() => !isLocked && onModeChange?.(tabKey as WorkshopMode)}
+                                >
+                                    {tab} {isLocked && '🔒'}
+                                </button>
+                            );
+                        })}
+                    </nav>
                 </div>
-
-                {extraTopRight && <div className="ml-4">{extraTopRight}</div>}
             </header>
 
             {/* Main Grid */}
-            <section className="relative z-10 flex-1 px-6 pb-6 pt-6 overflow-hidden">
+            <section className="relative z-10 flex-1 px-6 pb-6 pt-2 overflow-hidden">
                 <div className="grid h-full gap-6 grid-cols-1 lg:grid-cols-[2fr_1fr]">
 
-                    {/* LEFT COLUMN: Workbench */}
-                    <div
-                        className={cn("flex flex-col gap-4 min-h-0", benchHitClass)}
+                    {/* LEFT COLUMN: Workbench – scrolls */}
+                    <section
+                        className={cn("flex min-h-0 flex-1 flex-col", benchHitClass)}
                         data-testid="workshop-workbench"
                     >
-                        <div className="flex items-center justify-between text-xs font-semibold tracking-[0.2em] text-workshop-subtle uppercase px-1">
-                            <span>Workbench</span>
-                            <button onClick={openWorkshopGuide} className="hover:text-workshop-cyan transition-colors">
-                                ? Help
-                            </button>
+                        <WorkbenchHeader onGuide={openWorkshopGuide} />
+
+                        {/* scroll container */}
+                        <div className="mt-3 flex-1 overflow-y-auto pr-1 pb-6 relative">
+                            {/* Quest Panel sits directly here */}
+                            {questPanel}
                         </div>
 
-                        {/* Code Editor Panel */}
-                        <NeonPanel className="flex-1 flex flex-col overflow-hidden p-0 bg-workshop-panel/95">
-                            {/* Quest Panel fills this space */}
-                            <div className="w-full h-full relative">
-                                {questPanel}
-                            </div>
-                        </NeonPanel>
-
-                        {/* Log/Activity Panel */}
-                        <NeonPanel
-                            variant="subtle"
-                            className={cn("h-48 flex flex-col overflow-hidden p-0", activityHitClass)}
-                            data-testid="workshop-activity-strip"
-                        >
-                            <div className="w-full h-full overflow-auto bg-black/40">
+                        {/* Activity Feed at bottom of column? Or separate? 
+                            User snippet didn't explicitly show activity feed. 
+                            I'll keep it as a small section below or integrated.
+                            The previous code had it in a NeonPanel at bottom.
+                            I'll put it in a small card at the bottom.
+                        */}
+                        <div className={cn("mt-4 h-32 shrink-0 rounded-2xl border border-slate-800/70 bg-slate-950/60 p-0 overflow-hidden", activityHitClass)} data-testid="workshop-activity-strip">
+                            <div className="w-full h-full overflow-auto bg-black/20 p-2">
                                 {activityFeed}
                             </div>
-                        </NeonPanel>
-                    </div>
+                        </div>
+                    </section>
 
-                    {/* RIGHT COLUMN: Project Bench + Practice */}
+                    {/* RIGHT COLUMN: Project Bench + Practice – fixed */}
                     <aside
-                        className="flex flex-col gap-4 min-h-0 overflow-y-auto pr-1 pb-2 scrollbar-thin scrollbar-thumb-workshop-subtle/20"
+                        className="hidden lg:flex flex-col gap-3 h-full min-w-[320px] overflow-y-auto pr-1 pb-2 scrollbar-thin scrollbar-thumb-workshop-subtle/20"
                         data-testid="workshop-project-bench"
                     >
-                        <div className="text-xs font-semibold tracking-[0.2em] text-workshop-subtle uppercase px-1">
-                            Project Bench
-                        </div>
-
-                        {/* Intent Oracle Status Card & Project Controls */}
-                        <NeonPanel variant="violet" className="p-5 flex flex-col gap-3 shrink-0">
-                            <div className="flex items-center justify-between border-b border-workshop-violet/20 pb-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 rounded-lg bg-workshop-violet/10 ring-1 ring-workshop-violet/40">
-                                        <EyeIcon className="w-5 h-5 text-workshop-violet" />
-                                    </div>
-                                    <div>
-                                        <div className="font-bold text-sm text-workshop-text">Intent Oracle</div>
-                                        <div className="text-[10px] text-workshop-subtle uppercase tracking-wider">Automated Judge</div>
-                                    </div>
+                        {/* 1. Status Panel (Intent Oracle) */}
+                        <section className="rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3 shrink-0">
+                            <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
+                                <div className="flex items-center gap-2">
+                                    <EyeIcon className="w-4 h-4 text-workshop-violet" />
+                                    <span className="text-xs font-bold text-slate-200">Intent Oracle</span>
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-                                </div>
+                                <span className="text-[10px] text-emerald-400 font-mono">ONLINE</span>
                             </div>
-
-                            <div className="text-xs flex items-center justify-between text-workshop-subtle/80 font-mono">
-                                <span>Status: <span className="text-emerald-400">Online</span></span>
-                                <span>Latency: <span className="text-workshop-cyan">12ms</span></span>
-                            </div>
-
-                            {/* Render actual Boss HUD here if needed, or keeping it separate */}
+                            {/* Boss HUD (mini) or Status checks */}
                             {bossHud}
+                        </section>
 
-                            {/* We also render projectPanel to ensure functionality (Scoreboard, Eval buttons etc) are present 
-                                even if visual duplication occurs with Top tabs. 
-                            */}
-                            <div className="mt-2 border-t border-white/5 pt-2">
-                                {projectPanel}
+                        {/* 2. Project Panel Content (Judge/Scoreboard) */}
+                        <section className="rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3 shrink-0">
+                            {projectPanel}
+                        </section>
+
+                        {/* 3. Assignments (Practice Gauntlet) */}
+                        <section className="flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3">
+                            {/* Header provided by PracticeGauntletCard or here? User snippet for AssignmentsPanel had header INSIDE.
+                                 But PracticeGauntletCard has its own header.
+                                 I'll let PracticeGauntletCard handle the layout inside this flex container.
+                                 I need to make sure PracticeGauntletCard takes full height as well.
+                             */}
+                            <PracticeGauntletCard />
+                        </section>
+
+                        {/* 4. Codex Shelf (if needed) */}
+                        <section className="rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3 shrink-0 min-h-[100px]" data-testid="workshop-codex-shelf">
+                            <div className="text-[10px] uppercase tracking-wider text-workshop-subtle mb-2">Codex Shelf</div>
+                            <div className="max-h-32 overflow-auto">
+                                {codexPanel}
                             </div>
-                        </NeonPanel>
-
-                        {/* Practice Gauntlet */}
-                        <div className="text-xs font-semibold tracking-[0.2em] text-workshop-subtle uppercase px-1 mt-2">
-                            Assignments
-                        </div>
-                        <PracticeGauntletCard />
-
-                        {/* Codex Shelf (optional if space permits, or hide) */}
-                        <div className="mt-auto pt-4" data-testid="workshop-codex-shelf">
-                            <NeonPanel variant="subtle" className="p-4 min-h-[100px]">
-                                <div className="text-[10px] uppercase tracking-wider text-workshop-subtle mb-2">Codex Shelf</div>
-                                <div className="max-h-32 overflow-auto">
-                                    {codexPanel}
-                                </div>
-                            </NeonPanel>
-                        </div>
+                        </section>
                     </aside>
                 </div>
             </section>

@@ -1,0 +1,207 @@
+{
+    "rubric_id": "boss-canvas-interface-arbiter-v1",
+    "boss_id": "boss-canvas-interface-arbiter",
+    "world_slug": "world-ui",
+    "track_id": "canvas-senior-interface-architect",
+    "title": "Senior Interface Architect – Product-grade UX",
+    "version": 1,
+    "total_points": 8.0,
+    "pass_threshold": 6.0,
+    "summary": "Evaluate whether the candidate can architect a cohesive, production-ready interface using React, Tailwind, and shadcn/ui: clear component architecture, reliable state, consistent design system, accessible interactions, sane performance, and documented tradeoffs.",
+    "criteria": [
+        {
+            "id": "architecture_composition",
+            "label": "Architecture & Composition",
+            "description": "How well the interface is decomposed into React components: boundaries, composition patterns, and separation of concerns. Focus on layout shells, feature modules, and shared primitives.",
+            "max_points": 2.0,
+            "levels": [
+                {
+                    "score": 0.0,
+                    "label": "Missing / Chaotic",
+                    "description": "Monolithic components or deeply tangled trees. Layout, data fetching, and UI logic are all mixed. No clear separation between shells, feature components, and primitives."
+                },
+                {
+                    "score": 1.0,
+                    "label": "Basic Structure",
+                    "description": "Some separation between layout and leaf components but still ad hoc. Reusable components exist, yet responsibilities are fuzzy and composition patterns are inconsistent."
+                },
+                {
+                    "score": 1.5,
+                    "label": "Solid Composition",
+                    "description": "Clear hierarchy: layout shells, feature modules, and shared primitives. Components have well-defined responsibilities and compose cleanly (props, slots, children). Duplication is low."
+                },
+                {
+                    "score": 2.0,
+                    "label": "Exceptional Architecture",
+                    "description": "Thoughtful, product-grade component architecture. Cross-cutting concerns (layout, state, data fetching, UI primitives) are cleanly separated. Easy to extend new flows without rewrites."
+                }
+            ]
+        },
+        {
+            "id": "state_and_data_flow",
+            "label": "State & Data Flow",
+            "description": "Where state lives, how it travels, and how predictable the interface is under change. Includes forms, async flows, and cross-component coordination.",
+            "max_points": 1.5,
+            "levels": [
+                {
+                    "score": 0.0,
+                    "label": "Confusing / Brittle",
+                    "description": "State is scattered across many components or crammed into a single root. Heavy prop drilling, unclear ownership, and side effects make reasoning difficult."
+                },
+                {
+                    "score": 0.75,
+                    "label": "Workable but Messy",
+                    "description": "State is mostly centralized per flow, but there is still leaky abstractions (duplicated state, unnecessary context, or race conditions in async logic)."
+                },
+                {
+                    "score": 1.25,
+                    "label": "Well-structured",
+                    "description": "Clear state ownership per feature or flow. Uses React hooks appropriately, minimal prop drilling, and predictable updates. Async flows (loading, error, success) are handled explicitly."
+                },
+                {
+                    "score": 1.5,
+                    "label": "Robust & Intentional",
+                    "description": "State model is explicitly designed around the user journey. Complex flows (multi-step, wizard, or dashboard) are easy to trace. Edge cases are covered and documented."
+                }
+            ]
+        },
+        {
+            "id": "design_system_consistency",
+            "label": "Design System & Consistency",
+            "description": "Use of Tailwind and shadcn/ui as a coherent design system: tokens, variants, and consistent patterns across the surface.",
+            "max_points": 1.5,
+            "levels": [
+                {
+                    "score": 0.0,
+                    "label": "Ad hoc Styling",
+                    "description": "Random Tailwind classes, duplicated colors and spacing, mixed component sources. No sense of a unified system; the UI feels stitched together."
+                },
+                {
+                    "score": 0.75,
+                    "label": "Local Consistency",
+                    "description": "Individual screens look consistent, but there is no clearly articulated token/tier system. shadcn/ui components are used, yet variants and naming are uneven."
+                },
+                {
+                    "score": 1.25,
+                    "label": "Systematic Use",
+                    "description": "Color, spacing, and radius tokens are applied consistently (via Tailwind config or documented tokens). shadcn/ui components are the primary primitives with coherent variants."
+                },
+                {
+                    "score": 1.5,
+                    "label": "Mature Design System Thinking",
+                    "description": "A small but well-structured UI kit: shared primitives, clear variant stories, and composable patterns. Easy to build new screens by reusing the system instead of inventing new patterns."
+                }
+            ]
+        },
+        {
+            "id": "accessibility_semantics",
+            "label": "Accessibility & Semantics",
+            "description": "Semantic HTML, keyboard navigation, focus management, and screen-reader friendliness of the interface.",
+            "max_points": 1.0,
+            "levels": [
+                {
+                    "score": 0.0,
+                    "label": "Problematic",
+                    "description": "Incorrect or missing semantics (e.g., clickable <div> without role), broken labels, or critical flows that are impossible via keyboard."
+                },
+                {
+                    "score": 0.5,
+                    "label": "Partially Accessible",
+                    "description": "Basic semantics are present (headings, buttons, links), but there are gaps: some unlabeled controls or missing focus outlines in key places."
+                },
+                {
+                    "score": 0.75,
+                    "label": "Generally Accessible",
+                    "description": "Most controls use proper semantics, labels, and focus management. shadcn/ui accessibility defaults are respected. Only minor issues remain."
+                },
+                {
+                    "score": 1.0,
+                    "label": "Deliberately Inclusive",
+                    "description": "Intentional a11y: meaningful headings, landmarks, labels, focus states, and announcements. Edge cases like error states, dialogs, and toasts are handled accessibly."
+                }
+            ]
+        },
+        {
+            "id": "performance_loading_strategy",
+            "label": "Performance & Loading Strategy",
+            "description": "Perceived performance and how loading, skeletons, and code-splitting are handled for the interface.",
+            "max_points": 1.0,
+            "levels": [
+                {
+                    "score": 0.0,
+                    "label": "Unconsidered",
+                    "description": "Large UI is loaded in one chunk, blocking interactions. No skeletons or loading states. Jank or long blank screens are likely."
+                },
+                {
+                    "score": 0.5,
+                    "label": "Basic Handling",
+                    "description": "Loading states exist and avoid blank screens, but there is little thought about what loads when. No clear performance budget or lazy-loading where it obviously matters."
+                },
+                {
+                    "score": 0.75,
+                    "label": "Thoughtful Strategy",
+                    "description": "Skeletons and spinners are used wisely. Non-critical parts of the UI are deferred or lazy-loaded. The main flows feel responsive under typical constraints."
+                },
+                {
+                    "score": 1.0,
+                    "label": "Product-grade Performance Mindset",
+                    "description": "Explicit strategy for performance: clear priorities, lazy-loading of heavy components, and good fallbacks. The interface feels snappy even with realistic network/API delays."
+                }
+            ]
+        },
+        {
+            "id": "interaction_motion_microcopy",
+            "label": "Interaction, Motion & Microcopy",
+            "description": "Use of motion (e.g., Framer Motion), hover/focus states, and microcopy to guide the user through flows without overwhelming them.",
+            "max_points": 0.5,
+            "levels": [
+                {
+                    "score": 0.0,
+                    "label": "Flat / Confusing",
+                    "description": "Interactions are abrupt or unclear. Motion is either absent or distracting. Microcopy is vague or missing (e.g., generic buttons like 'Do it')."
+                },
+                {
+                    "score": 0.25,
+                    "label": "Readable but Plain",
+                    "description": "Basic states (hover, focus) exist and microcopy is understandable, but there is little sense of flow or guidance. Motion, if present, is minimal."
+                },
+                {
+                    "score": 0.5,
+                    "label": "Polished & Helpful",
+                    "description": "Subtle motion reinforces hierarchy and feedback. Microcopy supports users during errors, empty states, and long-running actions. The UI feels intentional and alive, not noisy."
+                }
+            ]
+        },
+        {
+            "id": "docs_tradeoffs_devexp",
+            "label": "Documentation & Tradeoffs",
+            "description": "How well the interface architecture and design decisions are explained to another engineer joining the project.",
+            "max_points": 0.5,
+            "levels": [
+                {
+                    "score": 0.0,
+                    "label": "No Story",
+                    "description": "Little to no documentation or comments. It’s difficult to know why things are structured this way or how to extend the system."
+                },
+                {
+                    "score": 0.25,
+                    "label": "Some Hints",
+                    "description": "Scattered comments or notes give partial context, but there is no cohesive story about flows, state, and the design system."
+                },
+                {
+                    "score": 0.5,
+                    "label": "Clear Narrative",
+                    "description": "A short but clear explanation of the architecture, major components, and tradeoffs. Another engineer could extend the UI without guessing at intent."
+                }
+            ]
+        }
+    ],
+    "scoring_notes": {
+        "integrity_mapping": {
+            "min_score": 0.0,
+            "max_score": 8.0,
+            "pass_threshold_score": 6.0
+        },
+        "guidance": "The judge should evaluate the candidate’s submitted UI (code, demo, and explanation) across all criteria, then sum the scores. Use the highest level description that is fully satisfied by the work. Partial fulfillment can use intermediate scores where appropriate."
+    }
+}

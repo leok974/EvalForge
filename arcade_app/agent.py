@@ -5,13 +5,14 @@ import asyncio
 import logging
 import uuid
 import time
-from typing import AsyncGenerator, Optional, Dict, List, Literal, Any
+from typing import AsyncGenerator, Optional, Dict, List, Literal, Any, Callable
 from collections import defaultdict
 from arcade_app.gamification import process_quest_completion
 from arcade_app.gamification import process_quest_completion
-from arcade_app.session_helper import get_or_create_session, update_session_state, append_message
-from arcade_app.database import init_db
-from fastapi import FastAPI, Request, Depends
+from arcade_app.session_helper import get_or_create_session
+from arcade_app.database import init_db, get_session
+from sqlmodel import Session
+from fastapi import FastAPI, Request, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -88,6 +89,8 @@ def _log_vertex_config():
         file=sys.stderr,
         flush=True
     )
+
+GENAI_MODEL = os.getenv("GENAI_MODEL", "gemini-1.5-flash-002")
 
 # --- 3. Agent Definitions ---
 
@@ -332,23 +335,97 @@ class DebugAgent(BaseAgent):
             
         yield {"event": "done", "data": "[DONE]"}
 
+# Global Agent Registry (active sessions)
+AGENTS: Dict[str, BaseAgent] = {}
+
 # --- 4. FastAPI App ---
 
 app = FastAPI(title="EvalForge Arcade", version="0.4.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://evalforge.app",
-        "https://www.evalforge.app",
-        "https://evalforge-agents-105491344850.us-central1.run.app",
-        "*" # Keep wildcard for now to avoid breaking other dev flows, can tighten later
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class QueryRequest(BaseModel):
+    message: str
+    mode: str = "debug" # Default to debug agent
+    session_id: str = "default" # For future use, if we want stateful agents
+
+from fastapi.responses import StreamingResponse
+
+@app.post("/api/agent/query/stream")
+async def stream_agent_query(
+    body: QueryRequest,
+    current_user: Dict = Depends(get_current_user),
+    db: Session = Depends(get_session)  # If needed
+):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+        
+    user_id = current_user["id"]
+    # We ignore session_id in URL, use body or implied?
+    # The test passes session_id in URL but here we use generic endpoint.
+    # We can assume active session or new instance for now, or use cached AGENTS.
+    
+    mode = body.mode
+    agent = None
+    
+    # Factory Logic (simplified)
+    if mode == "judge":
+        agent = JudgeAgent(user_id=user_id, session_id="active", model=GENAI_MODEL)
+    elif mode == "explain":
+        agent = ExplainAgent(user_id=user_id, session_id="active", model=GENAI_MODEL)
+    elif mode == "quest":
+        agent = QuestAgent(user_id=user_id, session_id="active", model=GENAI_MODEL)
+    else:
+        # Default/Debug
+        agent = DebugAgent(user_id=user_id, session_id="active", model=GENAI_MODEL)
+        
+    # Run
+    return StreamingResponse(agent.run(body.message, context={"user_id": user_id}), media_type="text/event-stream")
+
+# --- 4.5 WebSocket Route ---
+from arcade_app.socket_manager import websocket_endpoint
+app.websocket("/ws/game_events")(websocket_endpoint)
+
+# --- 4.6 Routers ---
+from arcade_app.routers import (
+    auth, 
+    avatars, 
+    routes_quests as quests,
+    routes_universe as universe,
+    routes_profile as profile,
+    projects,
+    reporting,
+    codex,
+    skills,
+    codex,
+    skills,
+    session as session_router,
+    routes_practice_rounds as practice_rounds,
+    routes_ladders as ladders,
+    routes_world_progress as world_progress,
+    routes_boss_runs as boss_runs
+)
+
+app.include_router(auth.router)
+app.include_router(avatars.router)
+app.include_router(quests.router)
+app.include_router(universe.router)
+app.include_router(profile.router)
+app.include_router(projects.router)
+app.include_router(reporting.router)
+app.include_router(codex.router)
+app.include_router(skills.router)
+app.include_router(session_router.router)
+app.include_router(practice_rounds.router)
+app.include_router(ladders.router)
+app.include_router(world_progress.router)
+app.include_router(boss_runs.router)
 
 # ... (routes) ...
 

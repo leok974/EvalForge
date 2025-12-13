@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface QuestState {
+export interface QuestState {
     activeWorldSlug: string | null;
     activeTrackId: string | null;
     activeBossSlug: string | null;

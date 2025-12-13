@@ -6,7 +6,7 @@ import {
     QuestSummary,
     QuestState,
 } from "@/lib/questsApi";
-import { QuestStateChip } from "./quests/QuestStateChip";
+// import { QuestStateChip } from "./quests/QuestStateChip";
 import { QUEST_UPDATED_EVENT } from "@/lib/questsEvents";
 import type { QuestUpdatedDetail } from "@/lib/questsEvents";
 
@@ -278,7 +278,7 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
             </header>
 
             {/* Quest list */}
-            <div className="flex-1 space-y-2 overflow-auto" data-testid="quest-board">
+            <ul className="flex-1 space-y-2 overflow-auto pr-1" data-testid="quest-board">
                 {filteredQuests.map((q) => {
                     const isAccepting = acceptingSlug === q.slug;
                     const label =
@@ -295,69 +295,70 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                     const buttonDisabled = q.state === "locked" || isAccepting;
 
                     return (
-                        <article
+                        <li
                             key={q.id}
                             className={`
-                rounded-xl border border-slate-700/80
-                bg-slate-950/80 px-3 py-2
-                shadow-[0_12px_26px_rgba(15,23,42,0.75)]
-              `}
+                                mb-1 rounded-2xl border border-slate-800/70
+                                bg-slate-950/60 px-4 py-3
+                                shadow-sm shadow-slate-950/60 transition-all hover:bg-slate-900/40
+                            `}
                             data-testid={`quest-card-${q.slug}`}
                         >
-                            <div className="flex items-center justify-between gap-2">
-                                <div className="flex flex-col">
-                                    <span className="text-[12px] font-semibold text-slate-50">
-                                        {q.title}
-                                    </span>
-                                    <span className="text-[10px] text-slate-400">
+                            <div className="flex items-start justify-between gap-4">
+                                <div className="flex flex-col gap-1 flex-1">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <h3 className="text-sm font-semibold text-slate-50">
+                                            {q.title}
+                                        </h3>
+                                        {/* Assuming boss logic derived from unlocks or similar, or just quest type */}
+                                        {q.unlocks_boss_id && (
+                                            <span className="rounded-full border border-emerald-400/70 px-2 text-[10px] font-semibold uppercase tracking-wide text-emerald-300">
+                                                Boss
+                                            </span>
+                                        )}
+                                        {/* We still keep QuestStateChip for visual polish if not redundant? 
+                                            User snippet removed it, but it adds value (locked/in_progress icons).
+                                            I'll keep it but make it subtle?
+                                            User snippet didn't include it. I'll omit it to strictly follow "De-congest".
+                                            Actually, User snippet had "Locked" text in button.
+                                            I'll follow User snippet: Button has state text.
+                                            I will REMOVE QuestStateChip to de-congest.
+                                        */}
+                                    </div>
+
+                                    <p className="text-xs text-slate-400">
                                         {q.short_description}
-                                    </span>
-                                </div>
-                                <QuestStateChip state={q.state} />
-                            </div>
+                                    </p>
 
-                            <div className="mt-1 flex items-center justify-between gap-2">
-                                <div className="flex flex-wrap items-center gap-1.5 text-[10px] text-slate-500">
-                                    <span>XP: {q.base_xp_reward}</span>
-                                    {q.mastery_xp_bonus > 0 && (
-                                        <span className="text-purple-300/90">
-                                            +{q.mastery_xp_bonus} mastery
-                                        </span>
-                                    )}
-                                    {q.unlocks_boss_id && (
-                                        <span className="rounded-full border border-rose-500/60 bg-rose-500/10 px-2 py-[1px] text-[9px] uppercase tracking-[0.16em] text-rose-200">
-                                            Boss: {q.unlocks_boss_id}
-                                        </span>
-                                    )}
-                                    {q.unlocks_layout_id && (
-                                        <span className="rounded-full border border-cyan-500/60 bg-cyan-500/10 px-2 py-[1px] text-[9px] uppercase tracking-[0.16em] text-cyan-200">
-                                            Unlocks: {q.unlocks_layout_id}
-                                        </span>
-                                    )}
+                                    <div className="mt-1 flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
+                                        <span>XP: {q.base_xp_reward}–{q.base_xp_reward + (q.mastery_xp_bonus || 0)}</span>
+                                        <span className="h-1 w-1 rounded-full bg-slate-600" />
+                                        <span>+{q.mastery_xp_bonus} mastery</span>
+                                    </div>
                                 </div>
 
-                                <button
-                                    type="button"
-                                    onClick={() => handleAcceptOrContinue(q)}
-                                    disabled={buttonDisabled}
-                                    data-testid={`quest-action-${q.slug}`}
-                                    className={`
-                    rounded-full border px-2.5 py-[3px] text-[10px]
-                    ${buttonDisabled
-                                            ? "border-slate-700 bg-slate-900 text-slate-500 cursor-not-allowed"
-                                            : q.state === "available"
-                                                ? "border-amber-400 bg-amber-500/10 text-amber-100 hover:bg-amber-500/20"
-                                                : "border-cyan-400 bg-cyan-500/10 text-cyan-100 hover:bg-cyan-500/20"
-                                        }
-                  `}
-                                >
-                                    {isAccepting ? "…" : label}
-                                </button>
+                                <div className="flex flex-col items-end gap-1 shrink-0">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleAcceptOrContinue(q)}
+                                        disabled={buttonDisabled}
+                                        data-testid={`quest-action-${q.slug}`}
+                                        className={`
+                                            rounded-full border px-3 py-1 text-[11px] text-slate-200 transition-all
+                                            ${buttonDisabled
+                                                ? "border-slate-600/50 text-slate-500 opacity-40 cursor-not-allowed"
+                                                : "border-slate-600 hover:border-emerald-400 hover:text-emerald-200"
+                                            }
+                                        `}
+                                    >
+                                        {isAccepting ? "..." : q.state === "locked" ? "Locked" : label}
+                                    </button>
+                                </div>
                             </div>
-                        </article>
+                        </li>
                     );
                 })}
-            </div>
+            </ul>
         </div>
     );
 };

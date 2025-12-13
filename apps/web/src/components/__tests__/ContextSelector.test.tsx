@@ -8,11 +8,15 @@ global.fetch = vi.fn();
 
 const mockUniverse = {
     worlds: [
-        { id: 'w1', name: 'World 1', icon: '🌍' }
-    ],
-    tracks: [
-        { id: 't1', name: 'Track 1', world_id: 'w1', source: 'personal' },
-        { id: 't2', name: 'Track 2', world_id: 'w1', source: 'fundamentals' }
+        {
+            slug: 'w1',
+            label: 'World 1',
+            icon: '🌍',
+            tracks: [
+                { slug: 't1', title: 'Track 1', source: 'personal', difficulty: 'NOVICE' },
+                { slug: 't2', title: 'Track 2', source: 'fundamentals', difficulty: 'NOVICE' }
+            ]
+        }
     ]
 };
 

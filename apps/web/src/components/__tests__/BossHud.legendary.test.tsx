@@ -1,15 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { BossHud } from "../../components/BossHud";
 import { useBossStore } from "../../store/bossStore";
+import { vi, describe, it, expect, Mock } from "vitest";
 
 // Mock the store
-jest.mock("../../store/bossStore");
-jest.mock("../../store/gameStore", () => ({ useGameStore: () => ({ layout: "workshop", bossesUnlocked: ["b1"] }) }));
-jest.mock("../../store/agentStore", () => ({ useAgentStore: () => ({ openAgent: jest.fn() }) }));
+vi.mock("../../store/bossStore");
+vi.mock("../../store/gameStore", () => ({ useGameStore: (selector: any) => selector({ layout: "workshop", bossesUnlocked: ["b1"] }) }));
+vi.mock("../../store/agentStore", () => ({ useAgentStore: () => ({ openAgent: vi.fn() }) }));
 
 describe("BossHud Legendary Visuals", () => {
     it("renders LEGENDARY badge for legendary difficulty", () => {
-        (useBossStore as unknown as jest.Mock).mockReturnValue({
+        (useBossStore as unknown as Mock).mockReturnValue({
             activeBossId: "boss-legendary",
             bossName: "Legendary Boss",
             difficulty: "legendary",

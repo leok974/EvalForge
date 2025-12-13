@@ -11,6 +11,7 @@ export function getWorldNodes() {
 
     return worlds.map((world, index) => ({
         id: world.slug as OrionWorldId,
+        slug: world.slug,
         label: world.name,
         color: world.color,
         radius: ringRadius,

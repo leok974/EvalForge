@@ -1,0 +1,92 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 2 items
+
+tests\backend\test_agents_smoke.py FF                                    [100%]
+
+================================== FAILURES ===================================
+___________________ test_judge_agent_smoke_streams_response ___________________
+
+client = <httpx.AsyncClient object at 0x000002009285A900>
+mock_vertex_ai_modules = None, patch_tracks_for_judge = None
+judge_smoke_session = ('smoke_test_user', 'test_session_123')
+vertex_text = <function vertex_text.<locals>._setter at 0x000002009284F880>
+
+    @pytest.mark.asyncio
+    async def test_judge_agent_smoke_streams_response(
+        client,
+        mock_vertex_ai_modules,
+        patch_tracks_for_judge,
+        judge_smoke_session,
+        vertex_text,
+    ):
+        """
+        Verify JudgeAgent runs and streams chunks via the API.
+        """
+        vertex_text('{"coverage": 5, "correctness": 5, "clarity": 5, "comment": "Mocked Judge Decision"}')
+    
+        user_id, session_id = judge_smoke_session
+        url = f"/apps/arcade_app/users/{user_id}/sessions/{session_id}/query/stream"
+    
+        payload = {
+            "message": "Evaluate this code.",
+            "mode": "judge",
+            "world_id": "world-python",
+            "track_id": "python-fundamentals"
+        }
+    
+        async with client.stream("POST", url, json=payload) as response:
+>           assert response.status_code == 200
+E           assert 404 == 200
+E            +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\backend\test_agents_smoke.py:41: AssertionError
+__________________ test_explain_agent_smoke_streams_response __________________
+
+client = <httpx.AsyncClient object at 0x0000020092A3D310>
+mock_vertex_ai_modules = None, patch_tracks_for_explain = None
+explain_smoke_session = ('smoke_test_user', 'test_session_123')
+vertex_text = <function vertex_text.<locals>._setter at 0x0000020092B20EA0>
+
+    @pytest.mark.asyncio
+    async def test_explain_agent_smoke_streams_response(
+        client,
+        mock_vertex_ai_modules,
+        patch_tracks_for_explain,
+        explain_smoke_session,
+        vertex_text,
+    ):
+        """
+        Verify ExplainAgent runs and streams chunks via the API.
+        """
+        vertex_text("Mocked Explanation")
+    
+        user_id, session_id = explain_smoke_session
+        url = f"/apps/arcade_app/users/{user_id}/sessions/{session_id}/query/stream"
+    
+        payload = {
+            "message": "Explain this concept.",
+            "mode": "explain",
+            "world_id": "world-python",
+            "track_id": "python-fundamentals"
+        }
+    
+        async with client.stream("POST", url, json=payload) as response:
+>           assert response.status_code == 200
+E           assert 404 == 200
+E            +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\backend\test_agents_smoke.py:84: AssertionError
+============================== warnings summary ===============================
+C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\pierr\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/backend/test_agents_smoke.py::test_judge_agent_smoke_streams_response
+FAILED tests/backend/test_agents_smoke.py::test_explain_agent_smoke_streams_response
+======================== 2 failed, 1 warning in 1.36s =========================
