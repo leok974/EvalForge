@@ -90,7 +90,7 @@ def _log_vertex_config():
         flush=True
     )
 
-GENAI_MODEL = os.getenv("GENAI_MODEL", "gemini-1.5-flash-002")
+GENAI_MODEL = os.getenv("GENAI_MODEL", "gemini-2.5-flash")
 
 # --- 3. Agent Definitions ---
 
@@ -491,7 +491,7 @@ def metrics():
 
 # --- 6. Static Files (SPA Serving) ---
 # Must be last to avoid capturing API routes
-web_dist = os.getenv("WEB_DIST", "static")
+web_dist = os.getenv("WEB_DIST", "apps/web/dist")
 if os.path.exists(web_dist):
     app.mount("/assets", StaticFiles(directory=f"{web_dist}/assets"), name="assets")
     
