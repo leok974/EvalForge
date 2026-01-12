@@ -154,19 +154,63 @@ Write-Host ""
 # Run gcloud deploy with locked environment variables
 Set-Location $deployFolder
 
-# Vertex AI + DevDiag environment variables
+# Check for required auth secrets
+$githubClientId = $env:GITHUB_CLIENT_ID
+$githubClientSecret = $env:GITHUB_CLIENT_SECRET
+$secretKey = $env:SECRET_KEY
+
+if (-not $githubClientId -or -not $githubClientSecret -or -not $secretKey) {
+    Write-Host "⚠️  WARNING: Missing authentication secrets!" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "Required environment variables:" -ForegroundColor Yellow
+    Write-Host "  - GITHUB_CLIENT_ID $(if ($githubClientId) { '✓' } else { '✗ MISSING' })" -ForegroundColor $(if ($githubClientId) { 'Green' } else { 'Red' })
+    Write-Host "  - GITHUB_CLIENT_SECRET $(if ($githubClientSecret) { '✓' } else { '✗ MISSING' })" -ForegroundColor $(if ($githubClientSecret) { 'Green' } else { 'Red' })
+    Write-Host "  - SECRET_KEY $(if ($secretKey) { '✓' } else { '✗ MISSING' })" -ForegroundColor $(if ($secretKey) { 'Green' } else { 'Red' })
+    Write-Host ""
+    Write-Host "Set them before running this script:" -ForegroundColor Gray
+    Write-Host '  $env:GITHUB_CLIENT_ID = "your_github_oauth_client_id"' -ForegroundColor Gray
+    Write-Host '  $env:GITHUB_CLIENT_SECRET = "your_github_oauth_client_secret"' -ForegroundColor Gray
+    Write-Host '  $env:SECRET_KEY = "your_random_secret_key"' -ForegroundColor Gray
+    Write-Host ""
+    $proceed = Read-Host "Continue anyway with mock auth? (y/N)"
+    if ($proceed -ne "y" -and $proceed -ne "Y") {
+        Write-Host "Deployment cancelled." -ForegroundColor Red
+        exit 1
+    }
+}
+
+# Build environment variables array
 $envVars = @(
     "VERTEX_PROJECT_NUMBER=$ProjectNumber",
     "VERTEX_REGION=us-central1",
     "VERTEX_MODEL_ID=gemini-2.5-flash"
-) -join ","
+)
+
+# Add auth secrets if provided
+if ($githubClientId -and $githubClientSecret -and $secretKey) {
+    $envVars += "GITHUB_CLIENT_ID=$githubClientId"
+    $envVars += "GITHUB_CLIENT_SECRET=$githubClientSecret"
+    $envVars += "SECRET_KEY=$secretKey"
+    $envVars += "EVALFORGE_AUTH_MODE=github"
+} else {
+    # Fallback to mock auth if secrets not provided
+    $envVars += "EVALFORGE_AUTH_MODE=mock"
+}
+
+$envVarsString = $envVars -join ","
 
 Write-Host "Locked Environment Variables:" -ForegroundColor Cyan
 Write-Host "  VERTEX_PROJECT_NUMBER=$ProjectNumber" -ForegroundColor Gray
 Write-Host "  VERTEX_REGION=us-central1" -ForegroundColor Gray
 Write-Host "  VERTEX_MODEL_ID=gemini-2.5-flash" -ForegroundColor Gray
-Write-Host ""
-Write-Host "Note: DEVDIAG_BASE and DEVDIAG_JWT from GitHub secrets (if configured)" -ForegroundColor Yellow
+if ($githubClientId) {
+    Write-Host "  GITHUB_CLIENT_ID=***$(($githubClientId[-4..-1]) -join '')" -ForegroundColor Gray
+    Write-Host "  GITHUB_CLIENT_SECRET=***" -ForegroundColor Gray
+    Write-Host "  SECRET_KEY=***" -ForegroundColor Gray
+    Write-Host "  EVALFORGE_AUTH_MODE=github" -ForegroundColor Green
+} else {
+    Write-Host "  EVALFORGE_AUTH_MODE=mock" -ForegroundColor Yellow
+}
 Write-Host ""
 
 gcloud run deploy $ServiceName `
@@ -178,7 +222,7 @@ gcloud run deploy $ServiceName `
     --port=8080 `
     --memory=512Mi `
     --timeout=300 `
-    --set-env-vars=$envVars
+    --set-env-vars=$envVarsString
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
