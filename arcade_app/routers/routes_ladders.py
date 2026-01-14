@@ -24,6 +24,10 @@ WORLD_LADDER_DOCS = {
 def get_world_ladder(world_slug: str):
     filename = WORLD_LADDER_DOCS.get(world_slug)
     
+    # Try adding "world-" prefix if not found (e.g. "python" -> "world-python")
+    if not filename and not world_slug.startswith("world-"):
+        filename = WORLD_LADDER_DOCS.get(f"world-{world_slug}")
+    
     if not filename:
          # Implicit 404 for worlds without ladders defined yet
          raise HTTPException(status_code=404, detail=f"No ladder defined for world: {world_slug}")
