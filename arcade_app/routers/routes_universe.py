@@ -27,7 +27,7 @@ class WorldDTO(BaseModel):
 class UniverseResponse(BaseModel):
     worlds: List[WorldDTO]
 
-@router.get("/", response_model=UniverseResponse)
+@router.get("", response_model=UniverseResponse)
 async def get_universe(session: Session = Depends(get_session)):
     """
     Returns the static structure of the known Universe (Worlds -> Tracks/Bosses).

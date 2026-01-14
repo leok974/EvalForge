@@ -15,7 +15,8 @@ class Grade(BaseModel):
     clarity: int = Field(ge=0, le=5)
     comment: str = Field(max_length=280, default="Good start—see notes.")
     rubric: tuple[str, str, str] = ("coverage", "correctness", "clarity")
-    version: int = Field(ge=1, default=1)
+    weighted_score: float = Field(ge=0, le=100, default=0.0)
+    version: int = Field(ge=1, default=2)
 
 
 def normalize_for_hash(s: str) -> str:

@@ -1,174 +1,347 @@
-"""
-Grading helper for evaluating user debugging submissions.
-Uses Vertex AI to act as a structured evaluator.
-"""
-from __future__ import annotations
 import os
+import asyncio
 import json
-from time import perf_counter
-from typing import Dict, Any, Tuple
-import vertexai
-from vertexai.generative_models import GenerativeModel
+import logging
+from typing import Dict, Any
 
-from .session_state import SessionState, Grade, normalize_for_hash, sha1_of_text
-from .metrics import JUDGE_GRADE_TOTAL, JUDGE_GRADE_SEC, JUDGE_INPUT_BYTES
+# Configure logging
+logger = logging.getLogger("evalforge.judge")
 
-# Shared configuration - matches agent.py
-VERTEX_PROJECT_NUMBER = os.getenv("VERTEX_PROJECT_NUMBER", "291179078777")
-VERTEX_REGION = os.getenv("VERTEX_REGION", "us-central1")
-VERTEX_MODEL_ID = os.getenv("VERTEX_MODEL_ID", "gemini-2.5-flash")
-
-
-def grade_once_with_dedupe(state: SessionState, submission: str) -> Tuple[Grade, str, bool]:
+async def grade_submission(user_input: str, track: str = "default") -> Dict[str, Any]:
     """
-    Grade submission with deduplication.
-    
-    Returns:
-        Tuple of (grade, sha1, is_new)
-        - grade: Grade object with rubric scores
-        - sha1: Hash of normalized submission
-        - is_new: True if this is a new submission, False if deduplicated
+    Grades submission using Vertex AI. 
+    Strict mode: No silent fallback to mocks if connection fails.
     """
-    # Normalize and hash submission for deduplication
-    norm = normalize_for_hash(submission)
-    sha1 = sha1_of_text(norm)
     
-    # Check for duplicate
-    if state.last_graded_input_hash == sha1 and state.last_grade:
-        JUDGE_GRADE_TOTAL.labels(result="dedupe").inc()  # type: ignore[attr-defined]
-        return state.last_grade, sha1, False
+    # 1. Check if we are explicitly in Mock Mode (Dev only)
+    if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
+        from .mock_grader import mock_grader_instance
+        return await mock_grader_instance.grade(user_input, track)
+
+    # 2. Real Gemini Execution
+    try:
+        # Lazy imports are still good practice for startup speed
+        import vertexai
+        from vertexai.generative_models import GenerativeModel
+        
+        project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+        model_name = os.getenv("EVALFORGE_MODEL_VERSION", "gemini-2.5-flash-001")
+        
+        # Initialize Vertex
+        vertexai.init(project=project_id, location=location)
+        model = GenerativeModel(model_name)
+        
+        # Construct Prompt (Standardized Judge Prompt)
+        from arcade_app.persona_helper import wrap_prompt_with_persona
+        
+        base_task = f"""
+        TASK: Evaluate the following code based on the '{track}' track.
+        INPUT: {user_input}
+        
+        OUTPUT FORMAT (JSON ONLY):
+        {{
+            "coverage": <int 0-5>,
+            "correctness": <int 0-5>,
+            "clarity": <int 0-5>,
+            "comment": "<string>"
+        }}
+        """
+        
+        prompt = wrap_prompt_with_persona(base_task, "judge")
+        
+        # Call with timeout protection
+        response = await asyncio.wait_for(
+            model.generate_content_async(prompt, generation_config={"response_mime_type": "application/json"}),
+            timeout=15.0
+        )
+        
+        # Parse Result
+        data = json.loads(response.text)
+        
+        # Add metadata (Weighted Score logic)
+        return _calculate_final_grade(data, track)
+
+    except Exception as e:
+        logger.error(f"CRITICAL: Vertex AI Grading Failed: {e}")
+        # In Prod, we re-raise. We do NOT fallback to mock.
+        raise RuntimeError(f"Judge System Offline: {e}")
+
+def _calculate_final_grade(raw_grade: Dict, track: str) -> Dict:
+    """Helper to add the weighted_score math."""
+    # (Reuse your existing math logic here)
+    # Default weights
+    w = {"coverage": 0.4, "correctness": 0.4, "clarity": 0.2}
+    if track == "debugging":
+        w = {"coverage": 0.3, "correctness": 0.5, "clarity": 0.2}
+        
+    score = (
+        (raw_grade.get("coverage", 0) * w["coverage"]) +
+        (raw_grade.get("correctness", 0) * w["correctness"]) +
+        (raw_grade.get("clarity", 0) * w["clarity"])
+    ) / 5.0 * 100
     
-    # New submission - grade it
-    JUDGE_INPUT_BYTES.observe(len(submission.encode("utf-8")))  # type: ignore[attr-defined]
-    t0 = perf_counter()
+    return {**raw_grade, "weighted_score": round(score, 1), "rubric_used": track}
+
+async def judge_boss_submission(user_id: str, encounter_id: int, code: str) -> int:
+    """
+    Evaluates a Boss Fight submission using the specific boss rubric.
+    Returns a score (0-100).
+    """
+    from arcade_app.database import get_session
+    from arcade_app.models import BossRun, BossDefinition
+    from sqlmodel import select
+
+    # Fetch Boss Definition to get Rubric
+    async for session in get_session():
+        enc = await session.get(BossRun, encounter_id)
+        if not enc:
+            return 0
+        boss = await session.get(BossDefinition, enc.boss_id)
+        if not boss:
+            return 0
+            
+        # Mock Mode Check
+        if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
+            if "MAGIC_BOSS_PASS" in code:
+                return 100
+            return 45 # Fail but not zero
+
+        # Construct Custom Prompt
+        prompt = f"""
+        ROLE: Senior Code Reviewer (Boss Fight Judge).
+        TASK: Evaluate the following code against the specific RUBRIC below.
+        
+        TECHNICAL OBJECTIVE: {boss.technical_objective}
+        
+        RUBRIC:
+        {boss.rubric}
+        
+        INPUT CODE:
+        {code}
+        
+        OUTPUT FORMAT (JSON ONLY):
+        {{
+            "coverage": <int 0-5>,
+            "correctness": <int 0-5>,
+            "clarity": <int 0-5>,
+            "comment": "<string>",
+            "weighted_score": <int 0-100>
+        }}
+        
+        NOTE: 'weighted_score' should be calculated based on the rubric points. 
+        If the rubric defines specific points (e.g. 40 pts for Async), sum them up to get the final score out of 100.
+        Ignore the standard 0-5 coverage/correctness/clarity if they don't fit, but fill them with reasonable values.
+        The 'weighted_score' is the most important field here.
+        """
+        
+        try:
+            import vertexai
+            from vertexai.generative_models import GenerativeModel
+            
+            project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+            location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+            model_name = os.getenv("EVALFORGE_MODEL_VERSION", "gemini-2.5-flash-001")
+            
+            vertexai.init(project=project_id, location=location)
+            model = GenerativeModel(model_name)
+            
+            response = await model.generate_content_async(prompt, generation_config={"response_mime_type": "application/json"})
+            data = json.loads(response.text)
+            
+            return int(data.get("weighted_score", 0))
+            
+        except Exception as e:
+            logger.error(f"Boss Grading Failed: {e}")
+            # Fallback or re-raise
+            return 0
+            
+    return 0
+
+async def grade_quest_submission(user: Any, quest: Any, code: str, language: str | None = None) -> tuple[int, bool]:
+    """
+    Grades a standard quest submission.
+    Returns (score, passed).
+    """
+    # For now, we map quest track to the track expected by grade_submission
+    # or just pass "default" if not specified.
+    track = quest.track_id if hasattr(quest, "track_id") else "default"
     
-    # Call the actual grading logic
-    grade_dict = _grade_submission_internal(submission, state)
+    # Call the existing grade_submission
+    # Note: grade_submission returns a dict with 'weighted_score' etc.
+    result = await grade_submission(code, track=track)
     
-    # Convert dict to Grade model
-    grade = Grade(
-        coverage=grade_dict["coverage"],
-        correctness=grade_dict["correctness"],
-        clarity=grade_dict["clarity"],
-        comment=grade_dict["comment"]
-    )
+    score = int(result.get("weighted_score", 0))
     
-    # Update state
-    state.last_grade = grade
-    state.last_graded_input_hash = sha1
+    # Define pass threshold (e.g. 70)
+    passed = score >= 70
     
-    JUDGE_GRADE_TOTAL.labels(result="new").inc()  # type: ignore[attr-defined]
-    JUDGE_GRADE_SEC.observe(perf_counter() - t0)  # type: ignore[attr-defined]
-    
-    return grade, sha1, True
+    return score, passed
 
 
-def _grade_submission_internal(submission: str, state: SessionState) -> Dict[str, Any]:
+async def judge_boss_with_rubric(
+    boss, 
+    run,
+    player,
+    submission_context: Dict[str, Any]
+):
     """
-    Grade a user's debugging submission using a structured rubric.
-    
-    Uses Vertex AI to evaluate the submission against the rubric.
+    Use ZERO + rubric JSON to evaluate a boss submission and compute
+    score + grade + per-dimension breakdown.
     
     Args:
-        submission: User's code/text submission
-        state: Current session state for context
-    
+        boss: BossDefinition with rubric_id
+        run: BossRun being evaluated
+        player: Profile of the player
+        submission_context: Code, metrics, and any other context for evaluation
+        
     Returns:
-        Dictionary with coverage, correctness, clarity, comment
+        BossEvalResult with score, grade, and combat numbers
     """
-    # Build grading prompt with rubric
-    prompt = f"""You are "Judge", an evaluator for a coding bootcamp.
+    from .boss_rubric_helper import load_boss_rubric, score_boss_eval
+    from .boss_rubric_models import BossEvalLLMChoice
+    
+    rubric_id = boss.rubric
+    rubric = load_boss_rubric(rubric_id)
 
-Grade the user's latest debugging attempt using this rubric:
+    # Build the payload for ZERO
+    zero_payload = {
+        "boss_slug": boss.id,
+        "rubric_id": rubric.id,
+        "player": {
+            "id": str(player.id),
+            "name": player.user_id,
+            "level": player.global_level,
+        },
+        "run": {
+            "id": run.id,
+            "attempt_index": getattr(run, "attempt", 1),
+        },
+        "submission": submission_context,
+    }
 
-**Rubric:**
-- coverage (0-5): Did they try to fix the right thing / address the real bug?
-- correctness (0-5): Would their fix actually work?
-- clarity (0-5): Did they explain what they did in a way another engineer could follow?
-- comment (short): What should they do next to improve?
-
-**Context from previous turn:**
-- Known problem: {state.debug_problem or "none"}
-- Suggested next step: {state.debug_next_step or "none"}
-- Language: {state.language_hint or "unknown"}
-
-**User's submission:**
-```
-{submission}
-```
-
-**Your task:**
-Grade this submission. Return ONLY a JSON object with this exact structure:
-
-{{
-  "coverage": <integer 0-5>,
-  "correctness": <integer 0-5>,
-  "clarity": <integer 0-5>,
-  "comment": "<short feedback string, max 1-2 sentences>"
-}}
-
-Return ONLY valid JSON. Do not include any other text, markdown formatting, or code blocks.
-"""
-
-    try:
-        # Initialize Vertex AI if not already done
-        vertexai.init(project=VERTEX_PROJECT_NUMBER, location=VERTEX_REGION)
+    # Call ZERO
+    if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
+        # Mock ZERO response for dev/testing
+        code = submission_context.get("code", "")
+        if "MAGIC_BOSS_PASS" in code:
+            # Perfect score across all dimensions
+            choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": max(b.level for b in dim.bands), "rationale": "Perfect implementation"}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": [],
+                "summary": "Mock Judge: Excellent work! You recovered the history perfectly.",
+                "strengths": ["Perfect graph diagnosis", "Safe recovery strategy"],
+                "improvements": []
+            }
+        elif "MAGIC_BOSS_PASS" in code and "world-sql" in str(rubric.world_slug):
+             # SQL Boss Perfect Score
+             choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": max(b.level for b in dim.bands), "rationale": "Precise and performant."}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": [],
+                "summary": "Mock Judge: Excellent analytics runbook.",
+                "strengths": ["Clear grain definitions", "Explicit EXPLAIN checks", "Safe rollouts"],
+                "improvements": [] 
+             }
+        elif "MAGIC_BOSS_PASS" in code and "world-ml" in str(rubric.world_slug):
+             # ML Boss Perfect Score
+             choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": max(b.level for b in dim.bands), "rationale": "Scientifically rigorous."}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": [],
+                "summary": "Mock Judge: Outstanding analysis of the gradient storm.",
+                "strengths": ["Disciplined baselines", "Deep understanding of leakage", "Ops-ready monitoring"],
+                "improvements": [] 
+             }
+        else:
+            # Mid-range score
+            choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": 1, "rationale": "Partial implementation"}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": [],
+                "summary": "Mock Judge: Partial implementation.",
+                "strengths": [],
+                "improvements": ["Need better recovery steps"]
+            }
+        choice = BossEvalLLMChoice.model_validate(choice_data)
+    else:
+        # Real ZERO call via LLM
+        from .llm import call_zero_boss_judge
         
-        # Create model instance
-        model = GenerativeModel(VERTEX_MODEL_ID)
-        
-        # Generate response
-        response = model.generate_content(prompt)
-        result_text = response.text.strip()
-        
-        # Try to parse JSON from response
-        # Handle common formatting issues (markdown code blocks, etc.)
-        json_text = result_text
-        
-        # Remove markdown code blocks if present
-        if "```json" in json_text:
-            json_text = json_text.split("```json")[1].split("```")[0].strip()
-        elif "```" in json_text:
-            json_text = json_text.split("```")[1].split("```")[0].strip()
-        
-        # Try to parse
         try:
-            grade_data = json.loads(json_text)
-            
-            # Validate and clean the grade data
-            coverage = int(grade_data.get("coverage", 0))
-            correctness = int(grade_data.get("correctness", 0))
-            clarity = int(grade_data.get("clarity", 0))
-            comment = str(grade_data.get("comment", "Good effort. Keep practicing!"))
-            
-            # Clamp values to 0-5 range
-            coverage = max(0, min(5, coverage))
-            correctness = max(0, min(5, correctness))
-            clarity = max(0, min(5, clarity))
-            
-            grade: Dict[str, Any] = {
-                "coverage": coverage,
-                "correctness": correctness,
-                "clarity": clarity,
-                "comment": comment[:200]  # Limit comment length
+            zero_resp = call_zero_boss_judge(rubric=rubric, payload=zero_payload)
+            choice = BossEvalLLMChoice.model_validate(zero_resp)
+        except Exception as e:
+            logger.error(f"ZERO boss judge failed: {e}")
+            # Fallback to mid-range score
+            choice_data = {
+                "dimensions": [
+                    {"key": dim.key, "level": 1, "rationale": f"Eval failed: {str(e)[:50]}"}
+                    for dim in rubric.dimensions
+                ],
+                "autofail_conditions_triggered": []
             }
-            
-        except (json.JSONDecodeError, ValueError, KeyError) as e:
-            # Fallback: parse failed, return safe defaults
-            grade: Dict[str, Any] = {  # type: ignore[no-redef]
-                "coverage": 2,
-                "correctness": 2,
-                "clarity": 2,
-                "comment": "Submission received. Try to explain your reasoning more clearly."
-            }
+            choice = BossEvalLLMChoice.model_validate(choice_data)
+
+    # Score the evaluation
+    eval_result = score_boss_eval(rubric, choice)
+
+    # Compute HP + Integrity deltas based on score
+    boss_hp_before = run.hp_remaining if run.hp_remaining is not None and run.hp_remaining > 0 else boss.max_hp
+    hp_fraction = eval_result.total_score / max(1, eval_result.max_score)
+    damage = int(round(boss.max_hp * hp_fraction))
+    boss_hp_after = max(0, boss_hp_before - damage)
+    boss_hp_delta = boss_hp_after - boss_hp_before
+
+    # Integrity damage if score is low
+    integrity_before = getattr(player, "integrity", 100)
+    integrity_damage = 0
+    if eval_result.total_score < eval_result.max_score * 0.5:
+        integrity_damage = 10  # tune this
+    integrity_after = max(0, integrity_before - integrity_damage)
+    integrity_delta = integrity_after - integrity_before
+
+    # Attach combat numbers to result
+    eval_result.boss_hp_before = boss_hp_before
+    eval_result.boss_hp_after = boss_hp_after
+    eval_result.boss_hp_delta = boss_hp_delta
+    eval_result.integrity_before = integrity_before
+    eval_result.integrity_after = integrity_after
+    eval_result.integrity_delta = integrity_delta
+
+    return eval_result
+
+async def stream_coach_feedback(user_input: str, grade_result: Dict[str, Any], track: str = "default"):
+    """
+    Streams constructive feedback based on the grade.
+    """
+    try:
+        import vertexai
+        from vertexai.generative_models import GenerativeModel
         
-        return grade
+        project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+        model_name = os.getenv("EVALFORGE_MODEL_VERSION", "gemini-2.5-flash-001")
         
+        vertexai.init(project=project_id, location=location)
+        model = GenerativeModel(model_name)
+        
+        prompt = f"Provide feedback on code that got coverage={grade_result.get('coverage')}..."
+        
+        stream = await model.generate_content_async(prompt, stream=True)
+        async for chunk in stream:
+            if chunk.text:
+                yield chunk.text
+                
     except Exception as e:
-        # Graceful fallback if model call fails
-        return {
-            "coverage": 0,
-            "correctness": 0,
-            "clarity": 0,
-            "comment": f"Grading error: {str(e)[:100]}"
-        }
+        logger.error(f"Feedback stream failed: {e}")
+        yield "Good job!"

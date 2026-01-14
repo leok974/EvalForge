@@ -32,3 +32,5 @@ apps/web/build/
 
 # Guard: Prevent TasteOS scaffolding in EvalForge repo
 tasteos/
+
+cloud_run_deploy/

@@ -38,7 +38,7 @@ async def exchange_github_code(code: str) -> Dict:
             "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4"
         }
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(trust_env=False, follow_redirects=True, timeout=30.0) as client:
         # 1. Exchange Code
         token_res = await client.post(
             "https://github.com/login/oauth/access_token",
@@ -53,7 +53,10 @@ async def exchange_github_code(code: str) -> Dict:
         access_token = token_data.get("access_token")
         
         if not access_token:
-            raise ValueError("Failed to retrieve access token from GitHub")
+            error = token_data.get("error", "Unknown Error")
+            desc = token_data.get("error_description", "No description provided")
+            print(f"GitHub Auth Error: {token_data}", file=sys.stderr)
+            raise ValueError(f"GitHub Token Error: {error} - {desc}")
 
         # 2. Get User Profile
         user_res = await client.get(

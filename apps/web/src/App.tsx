@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { GameShell } from './layouts/GameShell';
 import EvalForgeLanding from './pages/EvalForgeLanding';
 
@@ -11,6 +11,12 @@ function App() {
             <Routes>
                 <Route path="/" element={<EvalForgeLanding />} />
                 <Route path="/arcade/*" element={<GameShell />} />
+
+                {/* Shortcuts */}
+                <Route path="/deck" element={<Navigate to="/arcade/deck" replace />} />
+                <Route path="/workshop" element={<Navigate to="/arcade/workshop" replace />} />
+                <Route path="/orion" element={<Navigate to="/arcade/orion" replace />} />
+                <Route path="/worlds/*" element={<Navigate to="/arcade/worlds" replace />} />
             </Routes>
         </FXLayer>
     );

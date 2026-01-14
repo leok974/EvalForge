@@ -13,16 +13,19 @@ import {
     Cpu,
     Wifi,
     Battery,
-    Battery,
     User
 } from 'lucide-react';
 import { useSeniorProgress } from '@/hooks/useSeniorProgress';
+
+import { useNavigate } from 'react-router-dom';
 
 export function GameShellHeader() {
     const { layout, setLayout } = useGameStore();
     const { crtMode } = useSettingsStore();
     const { user } = useAuth();
     const { data: senior } = useSeniorProgress();
+
+    const navigate = useNavigate();
 
     // Local state for modals
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -62,19 +65,19 @@ export function GameShellHeader() {
                         >
                             <div className="bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl overflow-hidden p-1 flex flex-col gap-1">
                                 <button
-                                    onClick={() => { setLayout('cyberdeck'); setIsLayoutOpen(false); }}
+                                    onClick={() => { navigate('/arcade/deck'); setIsLayoutOpen(false); }}
                                     className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'cyberdeck' ? 'bg-zinc-800 text-cyan-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-cyan-400'}`}
                                 >
                                     CYBERDECK
                                 </button>
                                 <button
-                                    onClick={() => { setLayout('orion'); setIsLayoutOpen(false); }}
+                                    onClick={() => { navigate('/arcade/orion'); setIsLayoutOpen(false); }}
                                     className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'orion' ? 'bg-zinc-800 text-purple-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-purple-400'}`}
                                 >
                                     ORION
                                 </button>
                                 <button
-                                    onClick={() => { setLayout('workshop'); setIsLayoutOpen(false); }}
+                                    onClick={() => { navigate('/arcade/workshop'); setIsLayoutOpen(false); }}
                                     className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'workshop' ? 'bg-zinc-800 text-orange-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-orange-400'}`}
                                 >
                                     WORKSHOP
