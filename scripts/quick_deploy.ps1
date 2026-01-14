@@ -26,7 +26,7 @@ Set-Location $DeployDir
 
 # --- SYNC SOURCES ---
 Write-Host "🔄 Syncing source files (using Robocopy)..."
-$filesToCopy = @("arcade_app", "apps", "exercises", "scripts", "seed", "requirements.txt")
+$filesToCopy = @("arcade_app", "apps", "exercises", "scripts", "seed", "requirements.txt", "docs")
 foreach ($item in $filesToCopy) {
     if (Test-Path "$RepoRoot\$item") {
         $src = "$RepoRoot\$item"

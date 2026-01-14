@@ -410,7 +410,9 @@ from arcade_app.routers import (
     routes_ladders as ladders,
     routes_world_progress as world_progress,
     routes_boss_runs as boss_runs,
-    routes_boss as boss
+    routes_boss as boss,
+    project_codex,
+    routes_boss_codex as boss_codex
 )
 
 app.include_router(auth.router)
@@ -428,6 +430,8 @@ app.include_router(practice_rounds.router)
 app.include_router(ladders.router)
 app.include_router(world_progress.router)
 app.include_router(boss_runs.router)
+app.include_router(project_codex.router)
+app.include_router(boss_codex.router)
 
 # ... (routes) ...
 

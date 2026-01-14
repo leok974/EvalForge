@@ -6,7 +6,8 @@ import os
 router = APIRouter()
 
 # Allow overriding base docs path for flexibility
-BASE_DOCS = os.getenv("EVALFORGE_DOCS_ROOT", "d:/EvalForge/docs")
+# Allow overriding base docs path for flexibility
+BASE_DOCS = os.getenv("EVALFORGE_DOCS_ROOT", "docs")
 
 WORLD_LADDER_DOCS = {
     "world-java": "evalforge_reactor_ladder_java.json",

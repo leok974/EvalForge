@@ -3,6 +3,7 @@ FROM node:18-alpine as frontend-build
 WORKDIR /app/web
 # Copy package files from apps/web
 COPY apps/web/package*.json ./
+COPY bust_cache.txt* ./
 RUN npm ci
 # Copy source code
 COPY apps/web/ ./
@@ -24,7 +25,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy backend code
 COPY arcade_app /app/arcade_app
 # Copy data/config if needed (assuming data dir exists)
-COPY data /app/data
+# COPY data /app/data
 
 # Copy built frontend assets from Stage 1
 COPY --from=frontend-build /app/web/dist /app/static

@@ -1,24 +1,40 @@
+# Stage 1: Build Frontend
+FROM node:18-alpine as frontend-build
+WORKDIR /app/web
+# Copy package files from apps/web
+COPY apps/web/package*.json ./
+COPY bust_cache.txt* ./
+RUN npm ci
+# Copy source code
+COPY apps/web/ ./
+RUN npm run build
+
+# Stage 2: Python Backend
 FROM python:3.11-slim
+WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-
-# Copy requirements and install dependencies
+# Install python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . .
+# Copy backend code
+COPY arcade_app /app/arcade_app
+# Copy data/config if needed (assuming data dir exists)
+# COPY data /app/data
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
+# Copy built frontend assets from Stage 1
+COPY --from=frontend-build /app/web/dist /app/static
 
-# Expose port (Cloud Run will set PORT env var)
-EXPOSE 8080
+# Env vars for production
+ENV PORT=8080
+ENV EVALFORGE_MOCK_GRADING=1
+ENV WEB_DIST=/app/static
+ENV EVALFORGE_ENV=prod
 
-# Start FastAPI with uvicorn (includes all routes: ADK + DevDiag proxy)
-CMD ["sh", "-c", "python -m uvicorn arcade_app.agent:app --host 0.0.0.0 --port ${PORT:-8080}"]
+# Run command
+CMD ["python", "-m", "uvicorn", "arcade_app.agent:app", "--host", "0.0.0.0", "--port", "8080"]
