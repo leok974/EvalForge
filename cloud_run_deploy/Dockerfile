@@ -24,6 +24,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy backend code
 COPY arcade_app /app/arcade_app
+# Copy docs (ladder specs, codex, etc.)
+COPY docs /app/docs
 # Copy data/config if needed (assuming data dir exists)
 # COPY data /app/data
 
