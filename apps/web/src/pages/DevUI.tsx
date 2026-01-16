@@ -20,6 +20,7 @@ import { LayoutSwitcher } from '../components/LayoutSwitcher';
 import { LayoutProvider, useCurrentLayout } from '../hooks/useCurrentLayout';
 import { WorkshopGuide } from '../features/workshop/WorkshopGuide';
 import { QuestBoard } from '../components/QuestBoard';
+import { QuestIDE } from '../components/quests/QuestIDE'; // New IDE Import
 import { QuestSummary, fetchQuest } from '../lib/questsApi';
 import { EventFeed } from '../components/EventFeed';
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -284,139 +285,47 @@ function DevUIContent() {
           <QuestBoard
             worldId={context.world_id}
             onOpenQuest={(quest) => {
-              // Switch to terminal view when a quest is opened
+              // MOCK DATA INJECTION for Starter Quest
+              if (quest.id === 1 || quest.slug === 'warmup-script-first-sparks') {
+                quest.starter_code = `# IGNITION SEQUENCE\n# -----------------\ndef main():\n    print("Ignition sequence started...")\n    for i in range(3, 0, -1):\n        print(f"T-minus {i}")\n    print("Liftoff!")\n\nif __name__ == "__main__":\n    main()\n`;
+                quest.briefing_md = `### SIGNAL INTERCEPTED
+**Source**: Foundry Ignition Console
+**Priority**: CRITICAL
+
+The automated ignition systems are offline. We need to manually override the launch sequence to deploy the Agentic Core.
+
+**Your mission**: Write a script that initiates the countdown and confirms liftoff.`;
+                quest.lore_md = `> *The Foundry was once the heart of the old web, before the stagnation. Now it's just cold iron and silence. Rekindling it requires more than just power; it requires intent.*`;
+                quest.objectives = [
+                  { id: 'def_main', text: 'Define a main() function', why: 'Entry point for the ignition script', validator: { kind: 'regex', value: 'def main' } },
+                  { id: 'loop', text: 'Countdown loop (T-minus)', why: 'Iterates through the launch sequence', validator: { kind: 'contains', value: 'for' } },
+                  { id: 'print', text: 'Confirm Liftoff', why: 'Signal the core is active', validator: { kind: 'contains', value: 'Liftoff' } }
+                ];
+                quest.hints = [
+                  { id: 'h1', type: 'concept', text: 'In Python, a standard entry point often looks like `if __name__ == "__main__":`' },
+                  { id: 'h2', type: 'snippet', text: '```python\nfor i in range(3, 0, -1):\n    print(f"T-minus {i}")\n```' },
+                  { id: 'h3', type: 'solution', text: 'Copy the starter code completely if you are stuck!' }
+                ];
+              }
+
               setActiveQuest(quest);
-              setViewMode('terminal');
-              // Optionally: We could also set context to match the quest's track/world if needed
-              // setContext(prev => ({ ...prev, track_id: quest.track_id }));
+              setViewMode('terminal'); // 'terminal' now maps to QuestIDE
             }}
           />
         </div>
       ) : (
-        <>
-          {/* Active Quest Context - Fixed Header in Terminal View */}
-          {activeQuest && (
-            <div className="shrink-0 p-4 border-b border-zinc-800 bg-zinc-900/40">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <p className="mb-1.5 text-[10px] font-mono uppercase tracking-[0.18em] text-emerald-400 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Active Quest
-                  </p>
-                  <h3 className="text-sm font-bold text-cyan-100 mb-1">{activeQuest.title}</h3>
-                  <p className="text-xs text-zinc-400 leading-relaxed mb-3 max-w-2xl">{activeQuest.short_description}</p>
-
-                  <div className="flex flex-wrap items-center gap-3">
-                    <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 border border-zinc-800/80 bg-black/20 px-2 py-1 rounded-md">
-                      <span className="uppercase tracking-wider font-bold text-zinc-400">XP</span>
-                      <span className="text-emerald-400">{activeQuest.base_xp_reward}</span>
-                    </div>
-                    <span className="text-[10px] text-zinc-600 font-mono">
-                      // Instructions above, terminal below. Use this panel to run code.
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setViewMode('board')}
-                  className="text-[10px] font-bold text-zinc-500 hover:text-zinc-300 border border-zinc-800 hover:border-zinc-600 px-3 py-1.5 rounded bg-zinc-900/50 hover:bg-zinc-900 transition-colors uppercase tracking-wider"
-                >
-                  Back
-                </button>
-              </div>
+        <div className="h-full">
+          {activeQuest ? (
+            <QuestIDE
+              quest={activeQuest}
+              onBack={() => setViewMode('board')}
+            />
+          ) : (
+            <div className="h-full flex items-center justify-center text-zinc-600">
+              No active quest loaded.
             </div>
           )}
-
-          {/* Chat History */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
-            {messages.length === 0 && (
-              <div className="h-full flex flex-col items-center justify-center text-zinc-700 font-mono text-sm opacity-50">
-                <div className="mb-4 text-4xl">_</div>
-                <div>SYSTEM READY</div>
-                <div>AWAITING INPUT...</div>
-              </div>
-            )}
-
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[90%] flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
-
-                  {/* --- NPC COMM LINK HEADER --- */}
-                  {msg.role === 'assistant' && msg.npc && (
-                    <div className="flex items-center gap-2 mb-1 px-1 opacity-0 animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'forwards' }}>
-                      {/* Icon */}
-                      {(() => {
-                        const Icon = ICON_MAP[msg.npc.avatar_icon] || Terminal;
-                        // Extract just the text color class
-                        const colorClass = COLOR_MAP[msg.npc.color].split(' ')[0];
-                        return <Icon className={`w-3 h-3 ${colorClass}`} />;
-                      })()}
-
-                      {/* Name & Title */}
-                      <div className="flex items-baseline gap-2">
-                        <span className={`text-[10px] font-bold tracking-widest uppercase ${COLOR_MAP[msg.npc.color].split(' ')[0]}`}>
-                          {msg.npc.name}
-                        </span>
-                        <span className="text-[9px] text-zinc-600 font-mono uppercase tracking-wide hidden sm:inline">
-                              // {msg.npc.title}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  {/* --------------------------- */}
-
-                  {/* Message Bubble */}
-                  <div
-                    className={`rounded p-3 text-sm leading-relaxed whitespace-pre-wrap font-mono relative group ${msg.role === 'user'
-                      ? 'bg-zinc-800 text-zinc-200 border border-zinc-700'
-                      : `text-cyan-100 border backdrop-blur-sm shadow-lg ${msg.npc ? COLOR_MAP[msg.npc.color] : 'bg-zinc-900/50 border-zinc-800'
-                      }`
-                      }`}
-                  >
-                    {msg.content}
-                    {msg.role === 'assistant' && isStreaming && idx === messages.length - 1 && (
-                      <span className="inline-block w-2 h-4 bg-current ml-1 animate-pulse align-middle opacity-50" />
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-            <div ref={bottomRef} />
-          </div>
-
-          {/* Input Area - GATED */}
-          <div className="p-4 border-t border-zinc-800 bg-zinc-950/50">
-            <form onSubmit={handleSubmit} className="relative group">
-              {hasSkill('syntax_highlighter') ? (
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }}
-                  disabled={isStreaming}
-                  placeholder="Paste code or ask a question..."
-                  className="w-full bg-zinc-900/80 border border-zinc-700 rounded-lg p-3 pr-16 text-sm focus:outline-none focus:border-banana-400 focus:ring-1 focus:ring-banana-400/20 resize-none h-24 font-mono transition-all placeholder:text-zinc-700 text-zinc-100"
-                />
-              ) : (
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e); } }}
-                  disabled={isStreaming}
-                  placeholder="// RAW MODE: Syntax Highlighting Offline. Unlock 'Optical Enhancer' in Cybernetics Lab."
-                  className="w-full bg-zinc-900/80 border border-zinc-700 rounded-lg p-3 pr-16 text-sm focus:outline-none focus:border-zinc-600 resize-none h-24 font-mono transition-all placeholder:text-zinc-500 text-zinc-500"
-                />
-              )}
-
-              <button
-                type="submit"
-                disabled={!input.trim() || isStreaming}
-                className="absolute bottom-3 right-3 text-[10px] font-bold bg-zinc-800 hover:bg-banana-500 hover:text-black text-zinc-400 px-3 py-1.5 rounded transition-all border border-zinc-700 disabled:opacity-0"
-              >
-                RUN_CMD
-              </button>
-            </form>
-          </div>
-        </>
+        </div>
       )}
     </div>
   );

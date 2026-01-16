@@ -447,11 +447,12 @@ from arcade_app.routers import (
     routes_boss_runs as boss_runs,
     routes_boss as boss,
     project_codex,
-    routes_boss_codex as boss_codex
+    routes_boss_codex as boss_codex,
+    routes_quests_runtime as quests_runtime
 )
 
-app.include_router(auth.router)
 app.include_router(avatars.router)
+app.include_router(quests_runtime.router)
 app.include_router(quests.router)
 app.include_router(universe.router)
 app.include_router(boss.router)

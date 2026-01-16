@@ -71,3 +71,36 @@ async def get_my_profile(
     
     # 4. Return Profile (minimal or full, leveraging SQLModel)
     return profile
+
+@router.get("/progress")
+async def get_progress(
+    request: Request,
+    db: AsyncSession = Depends(get_session),
+):
+    user_dict = await get_current_user(request)
+    if not user_dict:
+        # Dev fallback if needed, or consistent 401
+        # For now, mimic get_my_profile behavior
+        raise HTTPException(status_code=401, detail="Not authenticated")
+        
+    user_id = user_dict["id"]
+    from arcade_app.progress_models import QuestProgressV2
+    
+    # Query progress
+    rows = (await db.execute(select(QuestProgressV2).where(QuestProgressV2.user_id == user_id))).scalars().all()
+    
+    return {
+        "user_id": user_id,
+        "quests": [
+            {
+                "quest_id": r.quest_id,
+                "status": r.status,
+                "best_xp": r.best_xp,
+                "last_xp": r.last_xp,
+                "attempts_count": r.attempts_count,
+                "runs_count": r.runs_count,
+                "hint_tier_unlocked": r.hint_tier_unlocked,
+                "completed_at": r.completed_at,
+            } for r in rows
+        ]
+    }

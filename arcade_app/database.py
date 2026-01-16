@@ -13,6 +13,7 @@ from arcade_app.models import (
     BossDefinition, BossRun, BossProgress, QuestDefinition, QuestProgress,
     SkillNode, UserSkill, AvatarDefinition, ChatSession, TrackDefinition
 )
+from arcade_app.progress_models import QuestAttempt, QuestProgressV2, QuestHintUnlock
 
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 
