@@ -14,12 +14,14 @@ interface GameState {
     xp: number;
     level: number;
     activeQuestId: string | null;
+    highlightedQuestId: string | null;
     integrity: number;
     bossesUnlocked: string[];
 
     // --- Interface ---
     layout: LayoutId;
     setLayout: (layout: LayoutId) => void;
+    setHighlightedQuestId: (id: string | null) => void;
 
     // --- Active State ---
     activeTrack: ActiveTrack | null;
@@ -39,6 +41,7 @@ export const useGameStore = create<GameState>()(
             xp: 0,
             level: 1,
             activeQuestId: null,
+            highlightedQuestId: null,
             layout: 'cyberdeck',
             integrity: 100,
             bossesUnlocked: [],
@@ -58,6 +61,9 @@ export const useGameStore = create<GameState>()(
             damageIntegrity: (amount) => set((state) => ({
                 integrity: Math.max(0, state.integrity - amount)
             })),
+
+            // Interface
+            setHighlightedQuestId: (id) => set({ highlightedQuestId: id }),
 
             restoreIntegrity: () => set({ integrity: 100 }),
 

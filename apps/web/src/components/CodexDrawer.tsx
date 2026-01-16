@@ -173,8 +173,8 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
     const filteredEntries = index.filter(entry => {
         if (activeTopTab === 'system') {
             if (entry.source === 'project') return false;
-            if (selectedWorld !== 'All' && entry.world !== selectedWorld && entry.world !== 'general') return false;
-            return true;
+            if (selectedWorld === 'All') return true;
+            return entry.world === selectedWorld;
         }
         return false;
     });
@@ -230,7 +230,7 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
 
     return (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-zinc-950 border border-zinc-800 rounded-xl w-full max-w-4xl h-[85vh] shadow-2xl overflow-hidden flex flex-col">
+            <div className="bg-zinc-950 border border-white/10 rounded-xl w-full max-w-4xl h-[85vh] shadow-2xl overflow-hidden flex flex-col">
 
                 {/* Header */}
                 <div className="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
@@ -248,7 +248,7 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                             setActiveTopTab('system');
                             setSelectedEntry(null);
                         }}
-                        className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${activeTopTab === 'system' ? 'text-cyan-400 border-b-2 border-cyan-500' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${activeTopTab === 'system' ? 'text-cyan-300 border-b-2 border-cyan-400' : 'text-zinc-400 hover:text-zinc-200'}`}
                     >
                         System Codex
                     </button>
@@ -283,13 +283,13 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                                 <div>
                                     {/* World Filter */}
                                     <div className="mb-4 flex gap-2 flex-wrap">
-                                        {['All', 'world-python', 'world-js', 'world-sql', 'world-git', 'world-infra'].map((w) => (
+                                        {['All', 'general', 'world-python', 'world-js', 'world-sql', 'world-git', 'world-infra'].map((w) => (
                                             <button
                                                 key={w}
                                                 onClick={() => setSelectedWorld(w)}
                                                 className={`px-3 py-1 rounded text-xs uppercase tracking-wider transition-colors ${selectedWorld === w ? 'bg-cyan-900 text-cyan-100' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'}`}
                                             >
-                                                {w}
+                                                {w.replace("world-", "")}
                                             </button>
                                         ))}
                                     </div>
@@ -326,11 +326,21 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                                     </button>
 
                                     {/* Entry Content */}
-                                    <div className="prose prose-invert max-w-none">
+                                    <article className={[
+                                        "prose prose-invert max-w-none text-zinc-200",
+                                        "prose-p:text-zinc-200 prose-p:leading-7",
+                                        "prose-li:text-zinc-200",
+                                        "prose-headings:text-zinc-50 prose-headings:tracking-tight",
+                                        "prose-strong:text-zinc-50",
+                                        "prose-a:text-cyan-300 hover:prose-a:text-cyan-200",
+                                        "prose-hr:border-white/10",
+                                        "prose-blockquote:border-l-cyan-400 prose-blockquote:text-zinc-200",
+                                        "prose-code:text-zinc-100",
+                                    ].join(" ")}>
                                         <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
                                             {selectedEntry.content}
                                         </ReactMarkdown>
-                                    </div>
+                                    </article>
                                 </div>
                             )}
                         </>
@@ -417,11 +427,21 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                                                 const activeDoc = projectBundle.docs.find((d) => d.doc_type === activeTab);
                                                 if (activeDoc) {
                                                     return (
-                                                        <div className="prose prose-invert max-w-none text-xs leading-relaxed">
+                                                        <article className={[
+                                                            "prose prose-invert max-w-none text-xs leading-relaxed text-zinc-200",
+                                                            "prose-p:text-zinc-200 prose-p:leading-7",
+                                                            "prose-li:text-zinc-200",
+                                                            "prose-headings:text-zinc-50 prose-headings:tracking-tight",
+                                                            "prose-strong:text-zinc-50",
+                                                            "prose-a:text-cyan-300 hover:prose-a:text-cyan-200",
+                                                            "prose-hr:border-white/10",
+                                                            "prose-blockquote:border-l-cyan-400 prose-blockquote:text-zinc-200",
+                                                            "prose-code:text-zinc-100",
+                                                        ].join(" ")}>
                                                             <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
                                                                 {activeDoc.body_md}
                                                             </ReactMarkdown>
-                                                        </div>
+                                                        </article>
                                                     );
                                                 } else {
                                                     return (
@@ -480,11 +500,21 @@ export function CodexDrawer({ isOpen, onClose, currentWorldId }: Props) {
                                                 </div>
                                                 <div className="p-4">
                                                     {doc.unlocked ? (
-                                                        <div className="prose prose-invert max-w-none text-xs leading-relaxed">
+                                                        <article className={[
+                                                            "prose prose-invert max-w-none text-xs leading-relaxed",
+                                                            "prose-p:text-zinc-200 prose-p:leading-7",
+                                                            "prose-li:text-zinc-200",
+                                                            "prose-headings:text-zinc-50 prose-headings:tracking-tight",
+                                                            "prose-strong:text-zinc-50",
+                                                            "prose-a:text-cyan-300 hover:prose-a:text-cyan-200",
+                                                            "prose-hr:border-white/10",
+                                                            "prose-blockquote:border-l-cyan-400 prose-blockquote:text-zinc-200",
+                                                            "prose-code:text-zinc-100",
+                                                        ].join(" ")}>
                                                             <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
                                                                 {doc.body_md || ""}
                                                             </ReactMarkdown>
-                                                        </div>
+                                                        </article>
                                                     ) : (
                                                         <div className="text-xs text-zinc-500 flex items-center gap-2">
                                                             <span className="text-rose-400 font-mono">REDACTED.</span>

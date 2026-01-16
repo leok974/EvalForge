@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useGameSocket } from '../hooks/useGameSocket';
 
 export function GameToast() {
-  const event = useGameSocket();
+  const { lastEvent: event } = useGameSocket();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {

@@ -8,7 +8,7 @@
             "track_id": "prism-refraction",
             "slug": "type-guardian",
             "title": "Codex: Type Guardian of Refraction",
-            "file_path": "codex/world-typescript/track-refraction-boss-type-guardian.md",
+            "file_path": "data/codex/world-typescript/track-refraction-boss-type-guardian.md",
             "summary": "Lore and guidance for turning a loose JS auth module into a strict, well-typed TypeScript API.",
             "tags": [
                 "lore",
@@ -25,7 +25,7 @@
             "track_id": "prism-spectrum",
             "slug": "curator-generic-arsenal",
             "title": "Codex: Curator of the Generic Arsenal",
-            "file_path": "codex/world-typescript/track-spectrum-boss-curator-generic-arsenal.md",
+            "file_path": "data/codex/world-typescript/track-spectrum-boss-curator-generic-arsenal.md",
             "summary": "Lore and guidance for building a reusable generic collection toolkit.",
             "tags": [
                 "lore",

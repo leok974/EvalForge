@@ -1,19 +1,7 @@
-SENIOR_TRACK_IDS_BY_WORLD: dict[str, str] = {
-    "world-python": "foundry-senior-systems",
-    "world-ml": "synapse-senior-mlops",
-    "world-agents": "oracle-senior-orchestrator",
-    "world-git": "timeline-senior-release-architect",
-    "world-sql": "archives-senior-analytics-architect",
-    "world-infra": "grid-senior-sre-architect",
-    "world-java": "reactor-senior-runtime-architect",
-}
+# Constants for starter content
+STARTER_WORLD_SLUG = "world-python"
+STARTER_QUEST_ID = "py-ignition-q1-warmup-script"
 
-SENIOR_BOSS_IDS: set[str] = {
-    "boss-foundry-systems-architect",
-    "boss-synapse-mlops-sentinel",
-    "boss-oracle-orchestrator-prime",
-    "boss-timeline-release-arbiter",
-    "boss-archives-analytics-arbiter",
-    "boss-grid-resilience-warden",
-    "boss-reactor-runtime-arbiter",
-}
+# Senior Mode Constants (Placeholders)
+SENIOR_TRACK_IDS_BY_WORLD = {}
+SENIOR_BOSS_IDS = set()

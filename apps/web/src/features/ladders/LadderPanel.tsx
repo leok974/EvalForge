@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { LadderSpec } from "./types";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Lock, Unlock } from "lucide-react";
+import { useGameStore } from "@/store/gameStore";
+import { useNavigate } from "react-router-dom";
 
 interface LadderPanelProps {
     worldSlug: string;
@@ -12,6 +14,10 @@ export function LadderPanel({ worldSlug, className }: LadderPanelProps) {
     const [ladder, setLadder] = useState<LadderSpec | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const navigate = useNavigate();
+    const highlightedQuestId = useGameStore(s => s.highlightedQuestId);
+    const setHighlightedQuestId = useGameStore(s => s.setHighlightedQuestId);
 
     // Mock progress state for now (would come from store)
     // assuming stage 1 passed if bosses killed etc.
@@ -103,15 +109,31 @@ export function LadderPanel({ worldSlug, className }: LadderPanelProps) {
                                     <div className="flex flex-col gap-2 mt-2">
                                         {stage.nodes.map(node => {
                                             const isLegendary = node.kind === "legendary_boss" || (node as any).legendary_boss === true;
+                                            const isQuest = node.kind === "quest";
+                                            const isHighlighted = isQuest && node.id === highlightedQuestId;
+
                                             return (
                                                 <div
                                                     key={node.id}
                                                     data-testid={`ladder-node-${isLegendary ? 'legendary' : 'normal'}-${node.id}`}
+                                                    data-highlighted={isHighlighted ? "true" : "false"}
+                                                    onClick={() => {
+                                                        if (isLocked) return;
+                                                        if (isHighlighted) {
+                                                            setHighlightedQuestId(null);
+                                                        }
+                                                        if (node.kind === 'quest') {
+                                                            // Assume node.id is slug or we assume deep linking supports it
+                                                            navigate(`/quests/${node.id}`);
+                                                        }
+                                                    }}
                                                     className={cn(
-                                                        "rounded-md border px-3 py-2 text-xs transition flex items-center justify-between",
+                                                        "rounded-md border px-3 py-2 text-xs transition flex items-center justify-between cursor-pointer",
                                                         isLegendary
-                                                            ? "border-amber-400/80 bg-amber-950/50 shadow-[0_0_12px_rgba(251,191,36,0.45)]"
-                                                            : "border-emerald-500/20 bg-emerald-950/20"
+                                                            ? "border-amber-400/80 bg-amber-950/50 shadow-[0_0_12px_rgba(251,191,36,0.45)] hover:border-amber-300"
+                                                            : isHighlighted
+                                                                ? "border-emerald-500/60 bg-emerald-950/40 shadow-[0_0_8px_rgba(16,185,129,0.6)]" // Highlight style
+                                                                : "border-emerald-500/20 bg-emerald-950/20 hover:border-emerald-500/50 hover:bg-emerald-900/30"
                                                     )}
                                                 >
                                                     <div className="flex items-center gap-2">

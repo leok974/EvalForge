@@ -55,6 +55,43 @@ async def list_quests(
     return [quest_to_dict(q, progress_map.get(q.id)) for q in quests]
 
 
+@router.get("/{quest_slug}", response_model=Dict)
+async def get_quest(
+    quest_slug: str,
+    session: Session = Depends(get_session),
+    user_data: Dict = Depends(get_current_user),
+):
+    if not user_data:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+        
+    user_id = user_data["id"]
+    result = await session.exec(select(Profile).where(Profile.user_id == user_id))
+    profile = result.first()
+    if not profile:
+         # Implicit creation if missing, similar to list_quests? 
+         # Or just return 404? list_quests creates it. I'll create it to be safe.
+        profile = Profile(user_id=user_id)
+        session.add(profile)
+        await session.commit()
+        await session.refresh(profile)
+    
+    result = await session.exec(select(QuestDefinition).where(QuestDefinition.slug == quest_slug))
+    quest = result.first()
+    if not quest:
+        raise HTTPException(status_code=404, detail="Quest not found")
+        
+    # Fetch progress
+    result = await session.exec(
+        select(QuestProgress).where(
+            QuestProgress.user_id == user_id,
+            QuestProgress.quest_id == quest.id
+        )
+    )
+    qp = result.first()
+    
+    return quest_to_dict(quest, qp)
+
+
 @router.post("/{quest_slug}/accept", response_model=Dict)
 async def accept_quest(
     quest_slug: str,

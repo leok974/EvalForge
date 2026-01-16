@@ -6,8 +6,8 @@ export default defineConfig(({ mode }) => {
   // Load env vars (e.g. VITE_PROXY_TARGET)
   const env = loadEnv(mode, process.cwd(), '')
 
-  // Default to localhost:8092 if running outside docker, else use env var
-  const apiTarget = env.VITE_PROXY_TARGET || 'http://localhost:8092'
+  // Default to 127.0.0.1:8092 if running outside docker to avoid IPv6 issues
+  const apiTarget = env.VITE_PROXY_TARGET || 'http://127.0.0.1:8092'
 
   return {
     root: path.resolve(__dirname),

@@ -4,9 +4,17 @@
   "private": true,
   "description": "EvalForge - AI Trainer Arcade with multi-agent evaluation",
   "scripts": {
+    "dev:deps": "pwsh -File ./scripts/dev-deps.ps1",
+    "dev:api": "pwsh -File ./scripts/dev-api.ps1",
+    "dev:web": "pnpm -C apps/web dev",
+    "dev:seed": "pwsh -Command \"$env:DATABASE_URL='postgresql+asyncpg://evalforge_app:evalforge_dev@127.0.0.1:5435/evalforge'; $env:PYTHONPATH='D:\\EvalForge'; python ./scripts/seed_evalforge_universe.py; python ./scripts/ingest_codex.py\"",
+    "dev:init-db": "pwsh -Command \"$env:DATABASE_URL='postgresql+asyncpg://evalforge_app:evalforge_dev@127.0.0.1:5435/evalforge'; $env:PYTHONPATH='D:\\EvalForge'; python ./scripts/init_local_db.py\"",
+    "dev": "echo 'Run dev:deps first, then dev:api and dev:web in separate terminals'",
+    "dev:all": "concurrently \"pnpm dev:api\" \"pnpm dev:web\" --names \"API,WEB\" --prefix-colors \"cyan,magenta\"",
+    "test:smoke": "pwsh -File ./scripts/test-smoke.ps1",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:smoke": "cross-env BASE_URL=${BASE_URL:-http://127.0.0.1:19010} playwright test tests/e2e/devui-smoke.spec.ts",
+    "test:e2e:smoke": "cross-env BASE_URL=${BASE_URL:-http://127.0.0.1:19010} playwright test tests/e2e/devui-smoke.spec.ts",
     "test:web": "pnpm -C apps/web test -- --run",
     "test:api": "pytest",
     "test:ci": "pnpm test:web && pnpm test:api"
@@ -14,6 +22,7 @@
   "devDependencies": {
     "@playwright/test": "^1.48.0",
     "@types/node": "^22.0.0",
+    "concurrently": "^9.2.1",
     "cross-env": "^10.1.0"
   }
 }

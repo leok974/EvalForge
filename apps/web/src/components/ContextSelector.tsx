@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useUniverse } from '../hooks/useUniverse';
 import { StreamContext } from '../hooks/useArcadeStream';
 import { WorldIcon } from './WorldIcon';
 import { fxEnabled } from "@/lib/featureFlags";
@@ -28,15 +29,12 @@ interface Props {
     onOpenCodex?: () => void;
 }
 
-export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: Props) {
-    const [universe, setUniverse] = useState<UniverseData | null>(null);
+// ... (keep types if they are not imported)
 
-    useEffect(() => {
-        fetch('/api/universe')
-            .then(res => res.json())
-            .then(data => setUniverse(data))
-            .catch(err => console.error("Failed to load universe", err));
-    }, []);
+export function ContextSelector({ context, setContext, hasSkill, onOpenCodex }: Props) {
+    const { universe, loading } = useUniverse();
+
+    // useEffect fetch removed
 
     if (!universe) return <div className="text-xs text-zinc-600 animate-pulse">LOADING UNIVERSE...</div>;
 

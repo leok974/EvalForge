@@ -6,10 +6,17 @@ import { GameShellHeader } from '@/components/shell/GameShellHeader';
 import { RightRailBossPracticeColumn } from "@/components/layout/RightRailBossPracticeColumn";
 import { useEffect, useState } from 'react';
 import { refreshWorldProgress } from '@/features/progress/trackProgress';
+import { useUniverse } from '@/hooks/useUniverse';
+import { resolveSelectedProject } from '@/lib/projectValidation';
 
 export function OrionLayout() {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState<Error | null>(null);
+
+    const { universe } = useUniverse();
+    const activeTrack = useGameStore((s) => s.activeTrack);
+    const setActiveTrack = useGameStore((s) => s.setActiveTrack);
+    const navigate = useNavigate();
 
     useEffect(() => {
         refreshWorldProgress()
@@ -20,8 +27,8 @@ export function OrionLayout() {
             });
     }, []);
 
-    const navigate = useNavigate();
-    const activeTrack = useGameStore((s) => s.activeTrack);
+    // Stale Project Guard removed (moved to DevUI)
+    // useEffect(() => { ... }, []);
 
     const hasTrack = Boolean(activeTrack);
 

@@ -5,8 +5,8 @@ from sqlmodel import select
 from redis.asyncio import Redis
 from arcade_app.database import get_session
 from arcade_app.models import UserMetric, UserBadge, BadgeDefinition
+from arcade_app.config import REDIS_URL
 
-REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
 
 async def publish_badge_event(user_id: str, badge: BadgeDefinition):
     """

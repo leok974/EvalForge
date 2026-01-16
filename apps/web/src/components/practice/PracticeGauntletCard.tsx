@@ -289,7 +289,7 @@ export const PracticeGauntletCard: React.FC = () => {
                             const targetPath = getPracticeTargetPath(item);
 
                             return (
-                                <li key={item.id} className="rounded-2xl border border-slate-800/70 bg-slate-950/80 px-3 py-2">
+                                <li key={item.id} className="rounded-2xl border border-slate-800/70 bg-slate-950/80 px-3 py-2" data-testid="gauntlet-item">
                                     <button
                                         onClick={() => targetPath && navigate(targetPath)}
                                         className="w-full text-left flex items-start gap-3 group"

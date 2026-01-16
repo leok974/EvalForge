@@ -47,6 +47,14 @@ export async function fetchQuests(worldId?: string): Promise<QuestSummary[]> {
     return res.json();
 }
 
+export async function fetchQuest(slug: string): Promise<QuestSummary> {
+    const res = await fetch(`/api/quests/${encodeURIComponent(slug)}`);
+    if (!res.ok) {
+        throw new Error(`Failed to fetch quest ${slug}: ${res.status}`);
+    }
+    return res.json();
+}
+
 export async function acceptQuest(slug: string): Promise<QuestSummary> {
     const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/accept`, {
         method: "POST",

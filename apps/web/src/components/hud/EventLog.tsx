@@ -4,7 +4,7 @@ import { DeckPanel } from '../ui/DeckPanel';
 import { fxEnabled } from "@/lib/featureFlags";
 
 export function EventLog() {
-    const lastEvent = useGameSocket();
+    const { lastEvent } = useGameSocket();
     const [logs, setLogs] = useState<{ id: string, time: string, msg: string, color: string }[]>([]);
     const lastSeenRef = useRef<string | null>(null);
 

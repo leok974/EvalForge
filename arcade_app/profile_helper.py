@@ -30,6 +30,11 @@ async def get_profile(user_id: str) -> dict:
             session.add(profile)
             await session.commit()
             await session.refresh(profile)
+
+            # 2.5 Seed Starter Quest
+            from arcade_app.practice.starter import ensure_starter_unlocked
+            await ensure_starter_unlocked(session, profile)
+
         
         # 3. Return Dict (matching old API contract)
         return {

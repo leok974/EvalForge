@@ -2,10 +2,12 @@ import asyncio
 import json
 import random
 from arq import cron
+from arq.connections import RedisSettings
 from redis.asyncio import Redis
+from arcade_app.config import REDIS_URL
 
-# Connection settings matching docker-compose
-REDIS_SETTINGS = {'host': 'localhost', 'port': 6379}
+# Initialize Redis settings from centralized config
+redis_settings = RedisSettings.from_dsn(REDIS_URL)
 
 async def spawn_boss(ctx):
     """
@@ -21,7 +23,7 @@ async def spawn_boss(ctx):
         }
         
         # Publish to Redis Channel
-        redis = await Redis(**REDIS_SETTINGS)
+        redis = Redis.from_url(REDIS_URL)
         await redis.publish("game_events", json.dumps(event))
         await redis.close()
         print(f"🔥 Boss Spawned: {event['title']}")
@@ -31,4 +33,4 @@ class WorkerSettings:
     cron_jobs = [
         cron(spawn_boss, minute=None, second=0) # Run every minute at :00
     ]
-    redis_settings = REDIS_SETTINGS
+    redis_settings = redis_settings

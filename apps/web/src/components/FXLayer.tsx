@@ -18,7 +18,7 @@ export function FXLayer({ children }: Props) {
     const layout = useGameStore((s) => s.layout);
 
     const controls = useAnimation();
-    const lastEvent = useGameSocket();
+    const { lastEvent } = useGameSocket();
     const { play } = useSound();
     const startBoss = useBossStore((s) => s.startBoss);
 

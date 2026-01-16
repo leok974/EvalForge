@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useArcadeStream, StreamContext } from '../hooks/useArcadeStream';
 import { Scoreboard } from '../components/Scoreboard';
 import { ContextSelector } from '../components/ContextSelector';
-import { Terminal, ShieldAlert, BookOpen, Radio } from 'lucide-react';
+
 import { useAuth } from '../hooks/useAuth';
 import { useSkills } from '../hooks/useSkills';
 import { useBossStore } from '../store/bossStore';
@@ -20,8 +20,14 @@ import { LayoutSwitcher } from '../components/LayoutSwitcher';
 import { LayoutProvider, useCurrentLayout } from '../hooks/useCurrentLayout';
 import { WorkshopGuide } from '../features/workshop/WorkshopGuide';
 import { QuestBoard } from '../components/QuestBoard';
+import { QuestSummary, fetchQuest } from '../lib/questsApi';
 import { EventFeed } from '../components/EventFeed';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { GettingStartedDialog } from '../features/tutorial/GettingStartedDialog';
+import { STARTER_QUEST_ROUTE, TUTORIAL_STORAGE_KEY } from '../config/starter';
+import { Terminal, ShieldAlert, BookOpen, Radio, HelpCircle } from 'lucide-react';
+import { useUniverse } from '../hooks/useUniverse';
+import { resolveSelectedProject } from '../lib/projectValidation';
 
 // Map backend color names to Tailwind classes
 const COLOR_MAP: Record<string, string> = {
@@ -45,19 +51,59 @@ function DevUIContent() {
   const { status: bossStatus } = useBossStore();
   const { layout } = useCurrentLayout();
   const location = useLocation();
+  const navigate = useNavigate();
   const [input, setInput] = useState('');
   const [sid, setSid] = useState<string>('');
   const [isCodexOpen, setIsCodexOpen] = useState(false);
 
+  // Tutorial State
+  const [showTutorial, setShowTutorial] = useState(false);
+
+  useEffect(() => {
+    const seen = window.localStorage.getItem(TUTORIAL_STORAGE_KEY);
+    if (!seen) {
+      setShowTutorial(true);
+    }
+  }, []);
+
+  const handleTutorialOpenChange = (open: boolean) => {
+    if (!open) {
+      window.localStorage.setItem(TUTORIAL_STORAGE_KEY, "1");
+    }
+    setShowTutorial(open);
+  };
+
+  const handleStartStarterQuest = () => {
+    window.localStorage.setItem(TUTORIAL_STORAGE_KEY, "1");
+    setShowTutorial(false);
+    navigate(STARTER_QUEST_ROUTE);
+  };
+
   // View Mode for Workbench (Quest Board vs Terminal) - MUST be before early returns
   const [viewMode, setViewMode] = useState<'board' | 'terminal'>('board');
+  const [activeQuest, setActiveQuest] = useState<QuestSummary | null>(null);
 
   // Local Context State
   const [context, setContext] = useState<StreamContext>({
     mode: 'judge',
     world_id: 'world-python',
-    track_id: 'applylens-backend'
+    track_id: ''
   });
+
+  // Global Project Validation
+  const { universe } = useUniverse();
+  const activeTrack = useGameStore((s) => s.activeTrack);
+  const setActiveTrack = useGameStore((s) => s.setActiveTrack);
+
+  useEffect(() => {
+    if (universe && activeTrack) {
+      const valid = resolveSelectedProject(activeTrack, universe);
+      if (!valid) {
+        console.log("🧹 Clearing stale project state (Global Guard):", activeTrack);
+        setActiveTrack(null);
+      }
+    }
+  }, [universe, activeTrack, setActiveTrack]);
 
   // --- WARP LOGIC (New) ---
   useTrackWarp((track) => {
@@ -76,8 +122,28 @@ function DevUIContent() {
     }));
 
     // Optionally switch view to 'board' to see the quests
-    setViewMode('board');
+    // Only switch if we are NOT deep-linking to a quest (handled below)
   });
+
+  // --- DEEP LINK LOGIC ---
+  useEffect(() => {
+    // Check if URL contains /quests/:questId
+    const match = location.pathname.match(/\/quests\/([^\/]+)/);
+    if (match) {
+      const questId = match[1];
+      if (!activeQuest || activeQuest.slug !== questId) {
+        console.log("🔗 Deep Link Loop detected:", questId);
+        fetchQuest(questId).then(q => {
+          setActiveQuest(q);
+          setViewMode('terminal');
+          // Also ensure context matches quest world/track?
+          // Optionally sync context: setContext(...)
+        }).catch((err: unknown) => {
+          console.error("Failed to load deep-linked quest", err);
+        });
+      }
+    }
+  }, [location.pathname]);
 
   const {
     messages,
@@ -96,6 +162,14 @@ function DevUIContent() {
 
   useEffect(() => {
     if (user) {
+      // 1. Ensure Profile & Starter Quest (Idempotent)
+      fetch('/api/profile/me')
+        .then(r => {
+          if (!r.ok) console.error("Profile sync failed", r.status);
+        })
+        .catch(e => console.error("Profile sync error", e));
+
+      // 2. Restore Session
       fetch('/api/session/active')
         .then(r => r.json())
         .then(session => {
@@ -125,7 +199,19 @@ function DevUIContent() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  if (loading) {
+  // Force proceed after 5s to prevent infinite hanging
+  const [forceProceed, setForceProceed] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (loading) {
+        console.warn("⚠️ Initialization timed out - Force proceeding");
+        setForceProceed(true);
+      }
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  if (loading && !forceProceed) {
     return (
       <div className="h-full flex items-center justify-center bg-black text-zinc-500 font-mono text-sm animate-pulse">
         INITIALIZING LINK...
@@ -199,6 +285,7 @@ function DevUIContent() {
             worldId={context.world_id}
             onOpenQuest={(quest) => {
               // Switch to terminal view when a quest is opened
+              setActiveQuest(quest);
               setViewMode('terminal');
               // Optionally: We could also set context to match the quest's track/world if needed
               // setContext(prev => ({ ...prev, track_id: quest.track_id }));
@@ -207,6 +294,39 @@ function DevUIContent() {
         </div>
       ) : (
         <>
+          {/* Active Quest Context - Fixed Header in Terminal View */}
+          {activeQuest && (
+            <div className="shrink-0 p-4 border-b border-zinc-800 bg-zinc-900/40">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <p className="mb-1.5 text-[10px] font-mono uppercase tracking-[0.18em] text-emerald-400 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Active Quest
+                  </p>
+                  <h3 className="text-sm font-bold text-cyan-100 mb-1">{activeQuest.title}</h3>
+                  <p className="text-xs text-zinc-400 leading-relaxed mb-3 max-w-2xl">{activeQuest.short_description}</p>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 border border-zinc-800/80 bg-black/20 px-2 py-1 rounded-md">
+                      <span className="uppercase tracking-wider font-bold text-zinc-400">XP</span>
+                      <span className="text-emerald-400">{activeQuest.base_xp_reward}</span>
+                    </div>
+                    <span className="text-[10px] text-zinc-600 font-mono">
+                      // Instructions above, terminal below. Use this panel to run code.
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setViewMode('board')}
+                  className="text-[10px] font-bold text-zinc-500 hover:text-zinc-300 border border-zinc-800 hover:border-zinc-600 px-3 py-1.5 rounded bg-zinc-900/50 hover:bg-zinc-900 transition-colors uppercase tracking-wider"
+                >
+                  Back
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Chat History */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
             {messages.length === 0 && (
@@ -412,6 +532,17 @@ function DevUIContent() {
 
         {/* Workshop Guide (only shows if not dismissed) */}
         {layout === 'workshop' && <WorkshopGuide />}
+
+        {/* Tutorial Help Button */}
+        <button
+          onClick={() => setShowTutorial(true)}
+          data-testid="nav-getting-started"
+          className="rounded-full bg-slate-900/80 border border-slate-700 p-2 text-slate-400 hover:text-emerald-400 hover:border-emerald-500/50 transition-all shadow-lg backdrop-blur-sm"
+          title="Getting Started Guide"
+        >
+          <HelpCircle className="w-4 h-4" />
+        </button>
+
       </div>
     ),
     integrityDelta: lastResult?.integrity_delta,
@@ -482,6 +613,13 @@ function DevUIContent() {
   return (
     <>
       {layoutContent}
+
+      {/* Tutorial Overlay */}
+      <GettingStartedDialog
+        open={showTutorial}
+        onOpenChange={handleTutorialOpenChange}
+        onStartStarterQuest={handleStartStarterQuest}
+      />
 
       {/* Codex Drawer (Overlay) */}
       <CodexDrawer

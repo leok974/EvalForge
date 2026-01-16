@@ -1,13 +1,28 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/branding/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EvalForge: Agentic Developer RPG</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/branding/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EvalForge: Agentic Developer RPG</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    // FIX: Silence "Invalid target origin 'null'" errors in dev
+    // This often happens with extensions or HMR when targetOrigin is lost
+    const originalPostMessage = window.postMessage;
+    window.postMessage = function (message, targetOrigin, transfer) {
+      if (targetOrigin === null) {
+        console.warn("Patched postMessage with null targetOrigin to '*'");
+        targetOrigin = '*';
+      }
+      return originalPostMessage.call(this, message, targetOrigin, transfer);
+    };
+  </script>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

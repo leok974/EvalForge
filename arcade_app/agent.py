@@ -340,7 +340,42 @@ AGENTS: Dict[str, BaseAgent] = {}
 
 # --- 4. FastAPI App ---
 
-app = FastAPI(title="EvalForge Arcade", version="0.4.0")
+from contextlib import asynccontextmanager
+from arcade_app.config import AUTO_INIT_DB
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Lifespan context manager for startup/shutdown logic.
+    Handles:
+    - Auto-init DB (if AUTO_INIT_DB=1 or dev mode)
+    - Load universe data
+    """
+    print("🚀 EvalForge starting up...", file=sys.stderr, flush=True)
+    
+    # Load universe data (worlds, tracks)
+    load_universe_data()
+    _log_vertex_config()
+    
+    # Auto-init database if configured
+    if AUTO_INIT_DB:
+        print("🔧 AUTO_INIT_DB enabled - initializing database schema...", file=sys.stderr, flush=True)
+        try:
+            from arcade_app.database import init_db
+            await asyncio.wait_for(init_db(), timeout=30.0)
+            print("✅ Database initialization complete", file=sys.stderr, flush=True)
+        except asyncio.TimeoutError:
+            print("⚠️ Database init timed out (30s) - schema may already exist", file=sys.stderr, flush=True)
+        except Exception as e:
+            print(f"⚠️ Database init warning: {e}", file=sys.stderr, flush=True)
+            print("   (This is usually fine if schema already exists)", file=sys.stderr, flush=True)
+    
+    yield  # App runs here
+    
+    # Shutdown
+    print("🛑 EvalForge shutting down...", file=sys.stderr, flush=True)
+
+app = FastAPI(title="EvalForge Arcade", version="0.4.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

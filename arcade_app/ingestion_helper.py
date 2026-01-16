@@ -14,9 +14,10 @@ from arcade_app.models import Project, ProjectCodexDoc
 from arcade_app.codex_scanner import RepoScanner
 from arcade_app.codex_candidate_selector import CandidateSelector
 from arcade_app.codex_generator import CodexDocGenerator
+from arcade_app.config import REDIS_URL
 
-# Redis Config (match your docker-compose/env)
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6380/0")
+# Redis Config (centralized)
+# REDIS_URL is now imported from config
 
 # File extensions we care about for code analysis
 ALLOWED_EXTENSIONS = {

@@ -4,7 +4,7 @@
             "id": "boss-oracle-invocation-summoner",
             "world_slug": "world-agents",
             "track_id": "oracle-invocation-circuit",
-            "path": "codex/world-agents/boss_oracle_invocation_summoner.md",
+            "path": "data/codex/world-agents/boss_oracle_invocation_summoner.md",
             "title": "Boss Codex – Oracle Invocation Summoner"
         }
     ]

@@ -32,7 +32,7 @@ export function ProjectsPanel({ user, isOpen, onClose }: Props) {
     const [isSyncing, setIsSyncing] = useState(false);
 
     // Listen to socket for live updates
-    const lastEvent = useGameSocket();
+    const { lastEvent } = useGameSocket();
     const [progressMap, setProgressMap] = useState<Record<string, { msg: string; pct: number; eta?: number }>>({});
 
     // Load Projects when opened

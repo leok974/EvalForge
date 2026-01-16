@@ -8,7 +8,7 @@
             "track_id": "grid-containment",
             "slug": "sandbox-warden",
             "title": "Boss Codex – Grid Sandbox Warden",
-            "file_path": "codex/world-infra/boss_grid_sandbox_warden.md",
+            "file_path": "data/codex/world-infra/boss_grid_sandbox_warden.md",
             "summary": "Lore, attacks, and strategy for the Grid Sandbox Warden boss fight (Linux/Infra debugging).",
             "tags": [
                 "lore",

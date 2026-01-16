@@ -4,6 +4,7 @@ import { PracticeGauntletCard } from "../components/practice/PracticeGauntletCar
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuestStore, QuestState } from "../store/questStore";
 import { NeonPanel } from "../components/workshop/NeonPanel";
+import { useGameStore } from "../store/gameStore";
 import { cn } from "../lib/utils";
 import { EyeIcon } from "lucide-react";
 
@@ -69,6 +70,7 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
     const setActiveWorld = useQuestStore((s: QuestState) => s.setActiveWorldSlug);
     const setActiveTrack = useQuestStore((s: QuestState) => s.setActiveTrackId);
     const setActiveBoss = useQuestStore((s: QuestState) => s.setActiveBossSlug);
+    const activeTrack = useGameStore((s) => s.activeTrack);
 
     useEffect(() => {
         const worldSlug = params.worldSlug || searchParams.get('world');
@@ -125,7 +127,7 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
 
     return (
         <main
-            className="min-h-screen bg-workshop-bg text-workshop-text overflow-x-hidden flex flex-col font-sans"
+            className="h-screen bg-workshop-bg text-workshop-text overflow-hidden flex flex-col font-sans"
             data-testid="layout-workshop"
         >
             {/* Ambient Background */}
@@ -153,10 +155,17 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                     {/* Right Group: Project + Extras */}
                     <div className="flex flex-wrap items-center gap-3">
                         <div className="hidden md:flex items-center gap-3">
-                            <div className="rounded-full bg-workshop-panel border border-white/10 px-4 py-1.5 text-xs font-medium text-workshop-text shadow-workshop-violet flex items-center gap-2">
-                                <span className="text-workshop-subtle">Project:</span>
-                                <span className="text-workshop-violet">ApplyLens – Backend</span>
-                            </div>
+                            {activeTrack ? (
+                                <div className="rounded-full bg-workshop-panel border border-white/10 px-4 py-1.5 text-xs font-medium text-workshop-text shadow-workshop-violet flex items-center gap-2">
+                                    <span className="text-workshop-subtle">Project:</span>
+                                    <span className="text-workshop-violet">{activeTrack.label || activeTrack.trackSlug}</span>
+                                </div>
+                            ) : (
+                                <div className="rounded-full bg-workshop-panel border border-white/10 px-4 py-1.5 text-xs font-medium text-workshop-text shadow-workshop-violet flex items-center gap-2 opacity-50">
+                                    <span className="text-workshop-subtle">Project:</span>
+                                    <span className="italic">None Selected</span>
+                                </div>
+                            )}
                         </div>
                         {extraTopRight}
                     </div>

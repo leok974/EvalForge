@@ -4,6 +4,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
+from arcade_app.config import DATABASE_URL
 
 # Import all models to ensure they're registered in SQLModel.metadata
 # This must happen before init_db() is called
@@ -13,12 +14,7 @@ from arcade_app.models import (
     SkillNode, UserSkill, AvatarDefinition, ChatSession, TrackDefinition
 )
 
-# Default to localhost if running outside docker, else use docker service name
-# Note: For local dev (outside docker), you might need to change 'db' to 'localhost' in the URL
-# or map 127.0.0.1 to db in hosts file.
-DB_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://evalforge:evalforge@localhost:5432/evalforge")
-
-engine = create_async_engine(DB_URL, echo=True, future=True)
+engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 
 import logging
 

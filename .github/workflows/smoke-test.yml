@@ -1,0 +1,86 @@
+name: Smoke Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  smoke-test:
+    name: API Smoke Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: evalforge_app
+          POSTGRES_PASSWORD: evalforge_dev
+          POSTGRES_DB: evalforge
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    env:
+      DATABASE_URL: postgresql+asyncpg://evalforge_app:evalforge_dev@localhost:5432/evalforge
+      PYTHONPATH: ${{ github.workspace }}
+      AUTO_INIT_DB: "0"  # We'll init manually in CI
+      ENV: test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio httpx
+      
+      - name: Wait for PostgreSQL
+        run: |
+          for i in {1..10}; do
+            if pg_isready -h localhost -p 5432 -U evalforge_app; then
+              echo "PostgreSQL is ready"
+              break
+            fi
+            echo "Waiting for PostgreSQL... attempt $i"
+            sleep 2
+          done
+      
+      - name: Initialize database schema
+        run: |
+          python scripts/init_local_db.py
+        timeout-minutes: 2
+      
+      - name: Seed universe data
+        run: |
+          python scripts/seed_evalforge_universe.py
+        timeout-minutes: 2
+      
+      - name: Run smoke tests
+        run: |
+          pytest tests/smoke/ -v --tb=short --maxfail=3
+        timeout-minutes: 3
+      
+      - name: Upload test results on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            pytest-results.xml
+            test-output.log
+          retention-days: 7

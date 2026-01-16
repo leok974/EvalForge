@@ -24,7 +24,9 @@ services:
       - SECRET_KEY=${SECRET_KEY}
     volumes:
       - ./arcade_app:/app/arcade_app # Hot reload code
+      - ./docs:/app/docs             # Ladder specs & codex
       - ./data:/app/data             # Persist JSON for migration
+      - ./tests:/app/tests           # Test files
       - C:/Users/pierr/AppData/Roaming/gcloud/application_default_credentials.json:/app/credentials.json
     depends_on:
       - db
