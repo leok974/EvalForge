@@ -342,6 +342,11 @@ class QuestDefinition(SQLModel, table=True):
     objectives_json: List[Dict] = Field(default=[], sa_type=JSON)
     tiered_hints_json: Dict = Field(default={}, sa_type=JSON)
     runtime_rules_json: Dict = Field(default={}, sa_type=JSON)
+    language: Optional[str] = Field(default="python") # Added in Phase 5
+
+    # Multi-File Workspace Fields (Phase 6)
+    workspace_json: Dict = Field(default={}, sa_type=JSON) 
+    grading_json: Dict = Field(default={}, sa_type=JSON)
 
 class QuestProgress(SQLModel, table=True):
     """

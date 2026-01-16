@@ -1,0 +1,84 @@
+name: QuestPack Validation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'data/questpacks/**'
+      - 'scripts/questpack_*.py'
+      - 'arcade_app/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'data/questpacks/**'
+      - 'scripts/questpack_*.py'
+      - 'arcade_app/**'
+
+jobs:
+  validate-and-smoke:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: evalforge
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        # Install Docker runner dependencies if needed (though GH Actions has docker)
+        
+    - name: Initialize Database
+      env:
+        DATABASE_URL: postgresql+asyncpg://postgres:password@localhost:5432/evalforge
+      run: |
+        # Run Alembic migrations to set up schema
+        alembic upgrade head
+
+    - name: Validate Quest Packs (Schema)
+      run: |
+        python scripts/questpack_validate.py data/questpacks
+
+    - name: Seed Quest Packs (DB Upsert)
+      env:
+        DATABASE_URL: postgresql+asyncpg://postgres:password@localhost:5432/evalforge
+      run: |
+        # Seed all packs
+        for f in data/questpacks/*.json; do
+          python scripts/questpack_seed.py "$f"
+        done
+
+    - name: Smoke Test Quest Packs (Runtime)
+      # Execution requires Docker for TS quests
+      # GH actions runners support docker commands
+      env: 
+        DATABASE_URL: postgresql+asyncpg://postgres:password@localhost:5432/evalforge
+        EXECUTION_ENABLED: "1"
+        EXECUTION_BACKEND: "docker"
+      run: |
+        # Pull necessary images for smoke tests
+        docker pull python:3.12-slim
+        docker pull node:20-alpine
+        docker pull oven/bun:1
+        
+        # Run Smoke Tests on all packs
+        python scripts/questpack_smoke.py data/questpacks

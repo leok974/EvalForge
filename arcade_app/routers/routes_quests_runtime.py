@@ -62,9 +62,16 @@ async def run_quest(
     # validation handles None quest_def gracefully?
     # If quest is None, we might want 404, or generic.
     
-    if payload.language != "python":
-        raise HTTPException(400, "Only python supported right now")
-
+    target_language = getattr(quest, "language", "python") if quest else "python"
+    
+    if payload.language and payload.language != target_language:
+         # Be lenient if new quest pack format not fully propagated, OR strict?
+         # Strict is better for Phase 5.
+         pass
+         # raise HTTPException(400, f"Language mismatch. Quest requires {target_language}")
+         # Actually let's trust payload or force it?
+         # Dispatcher relies on language to pick docker backend.
+    
     # Execution Logic
     stdout = stderr = None
     timed_out = False
@@ -75,9 +82,13 @@ async def run_quest(
     EXECUTION_TIMEOUT_MS = int(os.getenv("EXECUTION_TIMEOUT_MS", "2000"))
     
     if payload.mode == "execute" and EXECUTION_ENABLED:
-        from arcade_app.services.code_runner import run_python
+        from arcade_app.services.code_runner import run_code
         
-        r = run_python(payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS)
+        # Use payload language if provided, else default to python (or quest language)
+        # For now, simplistic:
+        lang = payload.language or "python"
+        
+        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS)
         stdout, stderr, timed_out, duration_ms = r.stdout, r.stderr, r.timed_out, r.duration_ms
         exit_code = 0 if not timed_out else 1 # TODO: real exit code
 

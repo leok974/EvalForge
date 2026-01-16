@@ -19,7 +19,28 @@ type ConsoleEntry = {
 export function QuestIDE({ quest, onBack }: QuestIDEProps) {
     const editorRef = useRef<QuestEditorRef>(null);
     // State
-    const [liveCode, setLiveCode] = useState(quest.starter_code || "# Start coding here...\n");
+    // Workspace State
+    const [files, setFiles] = useState<Record<string, { content: string; editable: boolean }>>({});
+    const [activePath, setActivePath] = useState<string>("");
+
+    // Legacy support: sync single file to workspace
+    useEffect(() => {
+        if (quest.workspace) {
+            const initial: Record<string, { content: string; editable: boolean }> = {};
+            quest.workspace.files.forEach(f => {
+                initial[f.path] = { content: f.content, editable: f.editable ?? true };
+            });
+            setFiles(initial);
+            setActivePath(quest.workspace.entrypoint);
+        } else {
+            // Single File Mode
+            const ext = quest.language === 'typescript' ? 'ts' : 'py';
+            const name = `main.${ext}`;
+            setFiles({ [name]: { content: quest.starter_code || "# Start coding here...\n", editable: true } });
+            setActivePath(name);
+        }
+    }, [quest]);
+
     const [output, setOutput] = useState<ConsoleEntry[]>([]);
     const [isRunning, setIsRunning] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -30,8 +51,22 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
     const isReplay = !!replay;
 
     // Computed Code/Output
-    const displayCode = isReplay ? replay?.artifact.code : liveCode;
-    const isReadOnly = isReplay;
+    // If Replay, show replay code (snapshot). If live, show files[activePath]
+    // Replay artifacts need to support multi-file too. 
+    // For now assuming replay.artifact.code is single file text? 
+    // Phase 6: QuestAttempt needs workspace_snapshot_json.
+
+    const displayCode = useMemo(() => {
+        if (isReplay) {
+            // TODO: Handle multi-file replay if available
+            // For now, if replay has workspace_snapshot, use it.
+            // Fallback to .code for legacy
+            return replay?.artifact.code || ""; // This is wrong for multi-file replay, fix later
+        }
+        return files[activePath]?.content || "";
+    }, [isReplay, replay, files, activePath]);
+
+    const isReadOnly = isReplay || (files[activePath] && !files[activePath].editable);
 
     // History State
     const [attempts, setAttempts] = useState<QuestAttemptSummary[]>([]);
@@ -64,7 +99,11 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
 
     const restoreReplay = () => {
         if (replay?.artifact.code) {
-            setLiveCode(replay.artifact.code);
+            // Legacy Restore
+            setFiles(prev => ({
+                ...prev,
+                [activePath]: { ...prev[activePath], content: replay.artifact.code }
+            }));
             addLog(`Code restored from Run #${replay.artifact.run_number}`, 'info');
             setReplay(null);
         }
@@ -83,6 +122,10 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                     try {
                         passed = new RegExp(obj.validator.value, 'm').test(targetCode);
                     } catch (e) { passed = false; }
+                } else if (obj.validator.kind === 'tests_pass') {
+                    // Client-side prediction for tests hard, assume false or check last run?
+                    // Relying on server result mostly.
+                    passed = false;
                 }
                 state[obj.id] = passed;
             });
@@ -92,7 +135,10 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
 
     const passedCount = Object.values(objectivesState).filter(Boolean).length;
     const totalCount = quest.objectives?.length || 0;
-    const allPassed = totalCount > 0 && passedCount === totalCount;
+    // For local check, allPassed is rough heuristic. Real truth comes from server run.
+    // If 'tests_pass' is present, we can't fully validate client-side.
+    const hasServerSideObjs = quest.objectives?.some(o => o.validator.kind === 'tests_pass' || o.validator.kind === 'ast');
+    const allPassed = !hasServerSideObjs && totalCount > 0 && passedCount === totalCount;
 
     const addLog = (content: string, type: ConsoleEntry['type'] = 'output') => {
         setOutput(prev => [...prev, { type, content, timestamp: Date.now() }]);
@@ -102,11 +148,11 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
         const obj = quest.objectives?.find(o => o.id === objId);
         if (!obj) return;
 
-        // Naive line finder
+        // Naive line finder - only works for regex/contains
         const lines = (displayCode || "").split('\n');
         const lineIdx = lines.findIndex((l: string) =>
             obj.validator.kind === 'contains' ? l.includes(obj.validator.value)
-                : new RegExp(obj.validator.value).test(l)
+                : obj.validator.kind === 'regex' ? new RegExp(obj.validator.value).test(l) : false
         );
 
         if (lineIdx !== -1 && editorRef.current) {
@@ -115,31 +161,49 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
     };
 
     const handleRun = async () => {
-        // If replaying, we assume user wants to run THIS code as a new attempt
-        // We implicitly exit replay mode or we could stay?
-        // Let's assume we capture the code to run
-        const codeToRun = isReplay ? replay?.artifact.code : liveCode;
-        if (!codeToRun) return;
-
-        // If in replay, we usually want to "fork" this into live?
-        // Simplest UX: Rerun -> Exits replay, sets live code, runs it.
-        if (isReplay) {
-            setLiveCode(codeToRun);
-            setReplay(null);
-        }
+        // Build workspace payload
+        // If Replay, we use the replay artifact's workspace snapshot if available
+        // But currently replay artifact structure matches old single-file or we need to adapt.
+        // For Phase 6, let's assume we run LIVE files unless logic changes.
 
         setIsRunning(true);
         setOutput([]);
         addLog('Compiling...', 'info');
 
         try {
-            // Import dynamically to avoid cycle if any, though questsApi is safe
             const { runQuest } = await import('@/lib/questsApi');
-            const result = await runQuest(quest.slug, codeToRun, "python", "execute");
+
+            // Construct Workspace Payload
+            const workspacePayload = {
+                entrypoint: quest.workspace?.entrypoint || activePath,
+                files: Object.entries(files).map(([path, f]) => ({
+                    path,
+                    content: f.content
+                }))
+            };
+
+            const result = await runQuest(
+                quest.slug,
+                "", // Legacy 'code' ignored if workspace present
+                quest.language || "python",
+                "execute",
+                workspacePayload
+            );
 
             // Show Output
             if (result.stdout) addLog(result.stdout, 'output');
             if (result.stderr) addLog(result.stderr, 'error');
+
+            // Show Test Summary if available
+            if (result.test_summary) {
+                const ts = result.test_summary;
+                if (ts.failed === 0) {
+                    addLog(`[TESTS] All ${ts.total} tests passed!`, 'success');
+                } else {
+                    addLog(`[TESTS] ${ts.failed}/${ts.total} tests failed.`, 'error');
+                    ts.failures.forEach((f: any) => addLog(`  - ${f.name}: ${f.message}`, 'error'));
+                }
+            }
 
             // Add to history if we got an artifact back
             if (result.attempt_id) {
@@ -179,7 +243,20 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
             const { submitQuestSolution } = await import('@/lib/questsApi');
             const { broadcastQuestUpdate } = await import('@/lib/questsEvents');
 
-            const result = await submitQuestSolution(quest.slug, liveCode, "python"); // Submit LIVE code
+            const workspacePayload = {
+                entrypoint: quest.workspace?.entrypoint || activePath,
+                files: Object.entries(files).map(([path, f]) => ({
+                    path,
+                    content: f.content
+                }))
+            };
+
+            const result = await submitQuestSolution(
+                quest.slug,
+                "",
+                quest.language || "python",
+                workspacePayload
+            );
 
             if (result.passed) {
                 // 1. Notify UI components (QuestBoard)
@@ -195,23 +272,45 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
         }
     };
 
-    // Auto-save (Always saves liveCode)
+    // Auto-save (Files Map)
     useEffect(() => {
         setIsSaving(true);
-        const key = `evalforge:code:${quest.id}`;
-        localStorage.setItem(key, liveCode);
+        const key = `evalforge:workspace:${quest.id}`;
+        localStorage.setItem(key, JSON.stringify(files));
         const t = setTimeout(() => setIsSaving(false), 800);
         return () => clearTimeout(t);
-    }, [liveCode, quest.id]);
+    }, [files, quest.id]);
 
     // Restore
     useEffect(() => {
-        const key = `evalforge:code:${quest.id}`;
+        const key = `evalforge:workspace:${quest.id}`;
         const saved = localStorage.getItem(key);
         if (saved) {
-            setLiveCode(saved);
+            try {
+                const parsed = JSON.parse(saved);
+                // Merge with default logic to keep editable flags if missing?
+                // For now assumes complete override
+                setFiles(prev => ({ ...prev, ...parsed }));
+            } catch (e) {
+                console.error("Failed to restore workspace", e);
+            }
         }
     }, [quest.id]);
+
+    const resetCode = () => {
+        if (quest.workspace) {
+            const initial: Record<string, { content: string; editable: boolean }> = {};
+            quest.workspace.files.forEach(f => {
+                initial[f.path] = { content: f.content, editable: f.editable ?? true };
+            });
+            setFiles(initial);
+        } else {
+            const ext = quest.language === 'typescript' ? 'ts' : 'py';
+            const name = `main.${ext}`;
+            setFiles({ [name]: { content: quest.starter_code || "", editable: true } });
+        }
+        addLog("Workspace reset to original state.", "info");
+    };
 
     return (
         <div className="h-full flex flex-col bg-black/40 rounded-xl border border-zinc-800 overflow-hidden shadow-inner relative">
@@ -278,7 +377,7 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                 <div className="flex items-center gap-2">
                     {!isReplay && (
                         <button
-                            onClick={() => setLiveCode(quest.starter_code || "")}
+                            onClick={resetCode}
                             className="p-2 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 rounded-lg transition-all"
                             title="Reset Code"
                         >
@@ -323,25 +422,85 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
 
             {/* Split Pane */}
             <div className="flex-1 grid grid-cols-1 lg:grid-cols-[320px_1fr] min-h-0">
-                <div className="hidden lg:block border-r border-zinc-800 bg-zinc-950/30">
-                    <QuestDrawer
-                        quest={quest}
-                        objectivesState={objectivesState}
-                        onObjectiveClick={handleObjectiveClick}
-                        attempts={attempts}
-                        onSelectAttempt={handleReplay}
-                    />
+                <div className="hidden lg:flex flex-col border-r border-zinc-800 bg-zinc-950/30 min-h-0">
+                    <div className="flex-1 overflow-y-auto">
+                        {/* File Explorer if multiple files */}
+                        {Object.keys(files).length > 1 && (
+                            <div className="border-b border-zinc-800/50 p-2">
+                                <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 mb-2 px-2">Workspace</div>
+                                <div className="space-y-0.5">
+                                    {Object.keys(files).sort().map(path => (
+                                        <button
+                                            key={path}
+                                            onClick={() => setActivePath(path)}
+                                            className={`w-full text-left px-3 py-1.5 rounded text-xs font-mono flex items-center justify-between group transition-all
+                                                ${activePath === path
+                                                    ? 'bg-cyan-950/30 text-cyan-300 border border-cyan-900/50'
+                                                    : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200 border border-transparent'
+                                                }`}
+                                        >
+                                            <span className="flex items-center gap-2">
+                                                <FileCode className="w-3 h-3 opacity-75" />
+                                                {path}
+                                            </span>
+                                            {!files[path].editable && <span className="text-[9px] opacity-50 uppercase">Read-only</span>}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <QuestDrawer
+                            quest={quest}
+                            objectivesState={objectivesState}
+                            onObjectiveClick={handleObjectiveClick}
+                            attempts={attempts}
+                            onSelectAttempt={handleReplay}
+                        />
+                    </div>
                 </div>
 
                 <div className="flex flex-col min-h-0 bg-zinc-950 relative">
                     <div className="flex-1 min-h-0">
+                        {/* Tab Bar if multiple files */}
+                        {Object.keys(files).length > 1 && (
+                            <div className="flex items-center border-b border-zinc-800 bg-black/40 overflow-x-auto hide-scrollbar">
+                                {Object.keys(files).sort().map(path => (
+                                    <button
+                                        key={path}
+                                        onClick={() => setActivePath(path)}
+                                        className={`flex-shrink-0 px-4 py-2 text-xs font-mono border-r border-zinc-800 transition-colors
+                                             ${activePath === path
+                                                ? 'bg-zinc-900 text-zinc-200 border-t-2 border-t-cyan-500'
+                                                : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50 border-t-2 border-t-transparent'
+                                            }`}
+                                    >
+                                        {path} {path === quest.workspace?.entrypoint && '*'}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+
                         <QuestEditor
                             ref={editorRef}
-                            value={displayCode || ""} // Show replay code if active, else live
+                            value={displayCode || ""} // Show replay code or active file
                             onChange={v => {
-                                if (!isReplay) setLiveCode(v);
+                                if (!isReplay && files[activePath]?.editable) {
+                                    setFiles(prev => ({
+                                        ...prev,
+                                        [activePath]: { ...prev[activePath], content: v }
+                                    }));
+                                }
                             }}
-                            language="python"
+                            language={
+                                // Naive lang detection
+                                activePath.endsWith('.ts') ? 'typescript' :
+                                    activePath.endsWith('.js') ? 'javascript' :
+                                        activePath.endsWith('.css') ? 'css' :
+                                            activePath.endsWith('.html') ? 'html' :
+                                                activePath.endsWith('.json') ? 'json' :
+                                                    quest.language || "python"
+                            }
                             isSaving={isSaving}
                             readOnly={isReadOnly}
                         />

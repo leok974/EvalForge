@@ -5,7 +5,7 @@ import time
 import tempfile
 import subprocess
 from dataclasses import dataclass
-from arcade_app.services.code_runner_docker import run_python_docker
+
 
 @dataclass
 class ExecResult:
@@ -28,16 +28,12 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000) -> Exec
         with open(path, "w", encoding="utf-8") as f:
             f.write(code)
 
-        # Use current sys.executable to ensure we use the same python environment/version
-        # if possible, or just "python" if we want generic. 
         # Using sys.executable is safer for local dev if venv is active.
         cmd = [sys.executable, "-I", "-B", path]
 
         env = {
             "PYTHONIOENCODING": "utf-8",
             "PYTHONDONTWRITEBYTECODE": "1",
-            # keep env minimal, but inherit PATH maybe?
-            # Ideally minimal to prevent leaking secrets
         }
 
         try:
@@ -72,8 +68,24 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000) -> Exec
                 timed_out=True,
             )
 
-def run_python(code: str, stdin: str = "", timeout_ms: int = 2000) -> ExecResult:
+from typing import Optional, Dict, Any
+
+def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, mode: str = "run") -> ExecResult:
+    """
+    Dispatcher for code execution.
+    - Python: Supports 'local' (dev) or 'docker'.
+    - Other (TS): Requires 'docker'.
+    """
     backend = os.getenv("EXECUTION_BACKEND", "local")
-    if backend == "docker":
-        return run_python_docker(code, stdin=stdin, timeout_ms=timeout_ms)
+    
+    # Force docker for non-python or if explicitly set OR if workspace is present
+    use_docker = (backend == "docker") or (language != "python") or (workspace is not None)
+
+    if use_docker:
+        from arcade_app.services.code_runner_docker import run_code_docker
+        return run_code_docker(language, code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, mode=mode)
+        
     return run_python_local(code, stdin=stdin, timeout_ms=timeout_ms)
+
+# Alias for backward compatibility if needed, but we should switch callers
+run_python = lambda c, s="", t=2000: run_code("python", c, s, t)

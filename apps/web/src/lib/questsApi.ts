@@ -18,15 +18,27 @@ export interface QuestSummary {
     unlocks_layout_id?: string | null;
     base_xp_reward: number;
     mastery_xp_bonus: number;
+    language?: string;
     // New Interactive Fields
     briefing_md?: string;
     lore_md?: string;
     starter_code?: string;
+
+    // Phase 6: Multi-File
+    workspace?: {
+        entrypoint: string;
+        files: { path: string; content: string; editable?: boolean }[];
+    };
+    grading?: {
+        mode: "run" | "tests";
+        // Hidden tests not leaked to client
+    };
+
     objectives?: {
         id: string;
         text: string;
         why?: string; // New: Explains the learning outcome
-        validator: { kind: "regex" | "ast" | "contains"; value: string };
+        validator: { kind: "regex" | "ast" | "contains" | "tests_pass"; value: string };
     }[];
     hints?: {
         id: string;
@@ -88,7 +100,8 @@ export async function acceptQuest(slug: string): Promise<QuestSummary> {
 export async function submitQuestSolution(
     slug: string,
     code: string,
-    language?: string
+    language?: string,
+    workspace?: { entrypoint: string; files: { path: string; content: string }[] }
 ): Promise<QuestSubmitResult> {
     const res = await fetch(
         `/api/quests/${encodeURIComponent(slug)}/submit`,
@@ -97,7 +110,7 @@ export async function submitQuestSolution(
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ code, language }),
+            body: JSON.stringify({ code, language, workspace }),
         }
     );
     if (!res.ok) {
@@ -131,18 +144,20 @@ export interface RunResult {
     duration_ms?: number;
     exit_code?: number;
     timed_out?: boolean;
+    test_summary?: any;
 }
 
 export async function runQuest(
     slug: string,
     code: string,
     language: string = "python",
-    mode: "validate" | "execute" = "execute"
+    mode: "validate" | "execute" = "execute",
+    workspace?: { entrypoint: string; files: { path: string; content: string }[] }
 ): Promise<RunResult> {
     const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/run`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, language, mode }),
+        body: JSON.stringify({ code, language, mode, workspace }),
     });
     if (!res.ok) throw new Error(`Failed to run quest: ${res.status}`);
     return res.json();

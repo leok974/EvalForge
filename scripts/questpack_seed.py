@@ -28,6 +28,10 @@ async def seed_quest_pack(file_path):
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS objectives_json JSONB"))
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS tiered_hints_json JSONB"))
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS runtime_rules_json JSONB"))
+            await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS language VARCHAR DEFAULT 'python'"))
+            # Phase 6: Multi-File
+            await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS workspace_json JSONB DEFAULT '{}'"))
+            await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS grading_json JSONB DEFAULT '{}'"))
             await session.commit()
             print("  ✅ Schema columns verified/added.")
         except Exception as e:
@@ -59,12 +63,20 @@ async def seed_quest_pack(file_path):
             
             # Update Config Fields
             existing.starter_code = quest_data.get("starter_code")
-            existing.objectives_json = quest_data.get("objectives", [])
-            existing.tiered_hints_json = quest_data.get("tiered_hints", {})
-            existing.runtime_rules_json = quest_data.get("runtime", {})
-            existing.base_xp_reward = quest_data.get("xp_base", 50)
+            # JSON pack uses "objectives_json" to match DB model, or "objectives" as alias
+            existing.objectives_json = quest_data.get("objectives_json") or quest_data.get("objectives") or []
+            existing.tiered_hints_json = quest_data.get("tiered_hints_json") or quest_data.get("tiered_hints") or {}
+            existing.runtime_rules_json = quest_data.get("runtime_rules_json") or quest_data.get("runtime") or {}
+            existing.base_xp_reward = quest_data.get("base_xp_reward") or quest_data.get("xp_base") or 50
+            existing.language = quest_data.get("language", "python")
             
-            if "description" in quest_data:
+            # Phase 6
+            existing.workspace_json = quest_data.get("workspace") or {}
+            existing.grading_json = quest_data.get("grading") or {}
+
+            if "detailed_description" in quest_data:
+                existing.detailed_description = quest_data["detailed_description"]
+            elif "description" in quest_data:
                 existing.detailed_description = quest_data["description"]
             
             session.add(existing)

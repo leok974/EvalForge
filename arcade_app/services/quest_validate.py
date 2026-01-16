@@ -72,11 +72,13 @@ def validate_quest_attempt(
         res = ObjResult(id=oid, ok=False, detail=title)
 
         # Skip logic checks if syntax error exists (unless it's a syntax checking objective?)
-        if syntax_error and kind not in ["stderr_empty"]:
-             res.detail = f"SyntaxError: {syntax_error.msg}"
-             res.line = syntax_error.lineno
-             results.append(res)
-             continue
+        # For non-Python languages, syntax_error will be populated if treated as Python, so we ignore it here
+        # and checking explicitly in AST block.
+        # if syntax_error and kind not in ["stderr_empty"]:
+        #      res.detail = f"SyntaxError: {syntax_error.msg}"
+        #      res.line = syntax_error.lineno
+        #      results.append(res)
+        #      continue
 
         # Skip logic checks if runtime failed (and rule implies runtime dependency)
         # For now, regex/stdout checks imply runtime success
@@ -86,8 +88,27 @@ def validate_quest_attempt(
             continue
             
         try:
-            if kind == "ast":
-                if "must_define_function" in rule:
+            if kind == "source_regex":
+                # Language Agnostic: Regex on source code
+                pattern = rule.get("pattern", "")
+                if not pattern:
+                    res.detail = "Invalid regex rule (empty)"
+                else:
+                    try:
+                        if re.search(pattern, code, re.MULTILINE):
+                            res.ok = True
+                            res.detail = "Source code matches pattern"
+                        else:
+                            res.detail = "Source code missing required pattern"
+                    except re.error as e:
+                        res.detail = f"Invalid regex pattern: {str(e)}"
+
+            elif kind == "ast":
+                if not tree:
+                    # AST parse failed or not attempted (non-python?)
+                    res.detail = "AST checks require valid Python syntax" if syntax_error else "AST not supported for this language"
+                    res.ok = False
+                elif "must_define_function" in rule:
                     fn_name = rule["must_define_function"]
                     found = False
                     for n in ast.walk(tree):
@@ -126,6 +147,45 @@ def validate_quest_attempt(
             elif kind == "not_timed_out":
                 res.ok = not timed_out
                 res.detail = "Timely execution"
+            
+            elif kind == "tests_pass":
+                import json
+                
+                # Check if we have valid test output
+                if not stdout:
+                     res.detail = "No test output received"
+                     res.ok = False
+                else:
+                    summary = None
+                    try:
+                        # Try parsing full stdout first
+                        summary = json.loads(stdout)
+                    except json.JSONDecodeError:
+                        # Try finding JSON blob in last line
+                        lines = stdout.strip().split('\n')
+                        if lines:
+                            try:
+                                summary = json.loads(lines[-1])
+                            except:
+                                pass
+                    
+                    if not summary or "passed" not in summary:
+                        res.detail = "Could not parse test results"
+                        res.ok = False
+                    else:
+                        failed_count = summary.get("failed", 0)
+                        res.ok = (failed_count == 0)
+                        
+                        if res.ok:
+                            res.detail = f"All {summary.get('total', 0)} tests passed"
+                        else:
+                            # Extract failure details
+                            failures = summary.get("failures", [])
+                            # Simple summary for now, maybe filtered by 'hidden' later
+                            fail_names = [f.get("name", "Unknown") for f in failures]
+                            res.detail = f"Tests failed: {', '.join(fail_names[:3])}"
+                            if len(fail_names) > 3:
+                                res.detail += f" and {len(fail_names)-3} more"
                 
         except Exception as e:
             res.detail = f"Validation Error: {str(e)}"

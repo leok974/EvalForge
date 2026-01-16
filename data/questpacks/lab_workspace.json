@@ -1,0 +1,47 @@
+[
+    {
+        "slug": "quest-py-workspace",
+        "world_id": "world-python",
+        "track_id": "python-fundamentals",
+        "title": "Workspace Logic",
+        "language": "python",
+        "short_description": "Fix the helper module.",
+        "workspace": {
+            "entrypoint": "main.py",
+            "files": [
+                {
+                    "path": "main.py",
+                    "content": "import helper\nprint(f'Result: {helper.calculate()}')",
+                    "editable": false
+                },
+                {
+                    "path": "helper.py",
+                    "content": "def calculate():\n    return 0",
+                    "editable": true
+                }
+            ]
+        },
+        "objectives_json": [
+            {
+                "id": "output_42",
+                "kind": "stdout_regex",
+                "title": "Output matches 'Result: 42'",
+                "rule": {
+                    "pattern": "Result: 42"
+                }
+            }
+        ],
+        "runtime": {
+            "timeout_ms": 30000
+        },
+        "smoke": {
+            "expect_starter_pass": false,
+            "solution_workspace_files": [
+                {
+                    "path": "helper.py",
+                    "content": "def calculate():\n    return 42"
+                }
+            ]
+        }
+    }
+]

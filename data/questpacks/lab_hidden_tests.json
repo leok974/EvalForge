@@ -1,0 +1,59 @@
+[
+    {
+        "slug": "quest-py-hidden",
+        "world_id": "world-python",
+        "track_id": "python-fundamentals",
+        "title": "Hidden Tests Verification",
+        "language": "python",
+        "short_description": "Pass the hidden tests.",
+        "workspace": {
+            "entrypoint": "main.py",
+            "files": [
+                {
+                    "path": "main.py",
+                    "content": "def secret_value():\n    return 0",
+                    "editable": true
+                },
+                {
+                    "path": "test_public.py",
+                    "content": "import unittest\nfrom main import secret_value\nclass TestPublic(unittest.TestCase):\n    def test_basic(self):\n        self.assertGreaterEqual(secret_value(), 0)",
+                    "editable": false
+                },
+                {
+                    "path": "test_hidden.py",
+                    "content": "import unittest\nfrom main import secret_value\nclass TestHidden(unittest.TestCase):\n    def test_specific(self):\n        self.assertEqual(secret_value(), 42)",
+                    "editable": false
+                }
+            ]
+        },
+        "grading": {
+            "mode": "tests",
+            "public_tests": [
+                "test_public.py"
+            ],
+            "hidden_tests": [
+                "test_hidden.py"
+            ]
+        },
+        "objectives_json": [
+            {
+                "id": "pass_tests",
+                "kind": "tests_pass",
+                "title": "Pass all tests",
+                "rule": {}
+            }
+        ],
+        "runtime": {
+            "timeout_ms": 30000
+        },
+        "smoke": {
+            "expect_starter_pass": false,
+            "solution_workspace_files": [
+                {
+                    "path": "main.py",
+                    "content": "def secret_value():\n    return 42"
+                }
+            ]
+        }
+    }
+]

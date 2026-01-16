@@ -1,81 +1,172 @@
 
 import asyncio
-import httpx
 import sys
 import os
 import json
+import importlib
 
 # Add root to pythonpath
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-BASE_URL = "http://localhost:8000"
-HEADERS = {"x-dev-user": "smoke-tester"}
+# Internal Service Imports
+# Must set env vars first if needed
+os.environ["EXECUTION_ENABLED"] = "1"
+# Ensure we can import app modules
+try:
+    from arcade_app.services.runner_registry import RunnerRegistry
+    from arcade_app.services.code_runner import run_code
+    from arcade_app.services.quest_validate import validate_quest_attempt
+    from arcade_app.models import QuestDefinition
+except ImportError as e:
+    print(f"❌ Failed to import internal services: {e}")
+    sys.exit(1)
 
-async def smoke_test_quest(quest_id):
-    print(f"🔥 Smoking quest: {quest_id}...")
-    
-    # 1. Get Quest (Verify it exists + config loaded)
-    async with httpx.AsyncClient(base_url=BASE_URL, timeout=10.0) as client:
-        res = await client.get(f"/api/quests/{quest_id}", headers=HEADERS)
-        if res.status_code != 200:
-            print(f"  ❌ Failed to fetch quest: {res.status_code}")
-            return False
-            
-        quest_data = res.json()
-        print(f"  ✅ Quest loaded: {quest_data['title']}")
-        
-        # Check if config present in response (optional, depending on API exposure)
-        # Assuming we just rely on running it.
+async def smoke_test_pack(file_path):
+    print(f"\n🚬 Smoking Pack: {file_path}")
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception as e:
+        print(f"❌ Failed to load JSON: {e}")
+        return False
 
-        # 2. Run Starter Code (Expect Fail usually, unless designed to pass)
-        print("  Running starter code...")
-        starter_code = quest_data.get("starter_code", "")
-        if not starter_code:
-             print("  ⚠️ No starter_code in API response (did seed run?)")
-             # Try to infer or skip
-             return False
+    all_pass = True
 
-        res = await client.post(
-            f"/api/quests/{quest_id}/run",
-            json={"code": starter_code, "language": "python", "mode": "execute"},
-            headers=HEADERS
-        )
+    for q in data:
+        slug = q.get("slug")
+        title = q.get("title")
+        lang = q.get("language", "python")
+        print(f"  🔹 Quest: {slug} ({lang})")
+
+        # Mock Quest Definition for Validator
+        # effectively explicitly typing dict to what validator expects (attr access? or dict access?)
+        # validate_quest_attempt expects an object with attributes usually (SQLModel), 
+        # but let's check implementation.
+        # It uses getattr(quest_def, "objectives_json", ...).
+        # So we need a class or object with these attributes.
         
-        if res.status_code != 200:
-            print(f"  ❌ Run failed: {res.text}")
-            return False
-            
-        run_data = res.json()
-        print(f"  Run Result: Passed={run_data['passed']}")
+        class MockQuest:
+            def __init__(self, data):
+                self.slug = data["slug"]
+                self.language = data.get("language", "python")
+                # Handle keys alias
+                self.objectives_json = data.get("objectives_json") or data.get("objectives") or []
+                self.tiered_hints_json = data.get("tiered_hints_json") or data.get("tiered_hints") or {}
+                self.runtime_rules_json = data.get("runtime_rules_json") or data.get("runtime") or {}
+                self.grading_json = data.get("grading") or {}
+                self.workspace_json = data.get("workspace") or {}
         
-        # Verify objectives are being checked
-        objs = run_data.get("objective_results", [])
-        if not objs:
-             print("  ❌ No objective results returned (validator not wired?)")
-             return False
+        quest_def = MockQuest(q)
+        smoke_cfg = q.get("smoke", {})
         
-        print(f"  Objectives: {[o['id'] for o in objs]}")
+        # 1. Run Starter Code
+        starter = q.get("starter_code", "")
+        workspace_def = q.get("workspace")
+        expect_pass = smoke_cfg.get("expect_starter_pass", False)
         
-        # 3. Verify 'Generic' Validator is Working
-        # If we see ids from our JSON config, it works.
-        # e.g., 'tminus', 'liftoff'
-        json_ids = {'main', 'tminus', 'liftoff', 'var_msg', 'print_msg'} # heuristic
-        found_ids = {o['id'] for o in objs}
+        print(f"    Running Starter ({'Expect PASS' if expect_pass else 'Expect FAIL'})...")
+        res_starter = await internal_run_and_validate(starter, lang, quest_def, workspace=workspace_def)
         
-        overlap = json_ids.intersection(found_ids)
-        if not overlap and len(json_ids) > 0:
-             print(f"  ⚠️ Warning: Returned objectives {found_ids} don't match expected set {json_ids}")
+        if res_starter["passed"] != expect_pass:
+             print(f"    ❌ Starter outcome mismatch! Got Passed={res_starter['passed']}, Expected={expect_pass}")
+             all_pass = False
         else:
-             print(f"  ✅ Validator returned expected objectives: {overlap}")
+             print(f"    ✅ Starter behavior correct.")
 
-        return True
+        # 2. Run Solution Code
+        solution = smoke_cfg.get("solution_code")
+        solution_files = smoke_cfg.get("solution_workspace_files")
+        
+        if solution or solution_files:
+            print(f"    Running Solution (Expect PASS)...")
+            
+            # Merge workspace if needed
+            run_workspace = None
+            if workspace_def:
+                import copy
+                run_workspace = copy.deepcopy(workspace_def)
+                if solution_files:
+                    for sf in solution_files:
+                        found = False
+                        for f in run_workspace["files"]:
+                            if f["path"] == sf["path"]:
+                                f["content"] = sf["content"]
+                                found = True
+                                break
+                        if not found:
+                            run_workspace["files"].append(sf)
+            
+            res_sol = await internal_run_and_validate(solution, lang, quest_def, workspace=run_workspace)
+            
+            if not res_sol["passed"]:
+                print(f"    ❌ Solution FAILED! Reasons: {[r['detail'] for r in res_sol['objective_results'] if not r['ok']]}")
+                if res_sol.get("stderr"):
+                    print(f"      Stderr: {res_sol['stderr'][:200]}...")
+                all_pass = False
+            else:
+                print(f"    ✅ Solution PASSED.")
+        else:
+            print("    ⚠️ No solution_code provided in smoke config.")
+
+    return all_pass
+
+async def internal_run_and_validate(code, language, quest_def, workspace=None):
+    timeout = quest_def.runtime_rules_json.get("timeout_ms", 2000)
+    mode = quest_def.grading_json.get("mode", "run")
+    
+    try:
+        exec_res = run_code(language, code, timeout_ms=timeout, workspace=workspace, mode=mode)
+        stdout = exec_res.stdout
+        stderr = exec_res.stderr
+        exit_code = exec_res.exit_code or 0
+        timed_out = exec_res.timed_out
+    except Exception as e:
+        stdout = ""
+        stderr = str(e)
+        exit_code = 1
+        timed_out = False
+
+    # 2. Validate
+    results = validate_quest_attempt(
+        code=code or "", # Legacy code might be None
+        stdout=stdout,
+        stderr=stderr,
+        exit_code=exit_code,
+        timed_out=timed_out,
+        quest_def=quest_def
+    )
+    
+    passed = all(r["ok"] for r in results) if results else True
+    
+    return {
+        "passed": passed,
+        "objective_results": results,
+        "stdout": stdout,
+        "stderr": stderr
+    }
 
 if __name__ == "__main__":
     import argparse
+    import glob
+    
     parser = argparse.ArgumentParser()
-    parser.add_argument("--quest_id", required=True)
-    parser.add_argument("--base_url", default="http://localhost:8000")
+    parser.add_argument("path", help="File or directory of questpacks")
     args = parser.parse_args()
     
-    BASE_URL = args.base_url
-    asyncio.run(smoke_test_quest(args.quest_id))
+    target_files = []
+    if os.path.isdir(args.path):
+        target_files = glob.glob(os.path.join(args.path, "*.json"))
+    else:
+        target_files = [args.path]
+        
+    print(f"Found {len(target_files)} file(s) to smoke test.")
+    
+    success = True
+    for f in target_files:
+        if not asyncio.run(smoke_test_pack(f)):
+            success = False
+            
+    if not success:
+        sys.exit(1)
+        
+    print("\n✅ All smoke tests passed.")

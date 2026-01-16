@@ -28,6 +28,10 @@ class QuestAttempt(SQLModel, table=True):
     objective_results: List[Dict[str, Any]] = Field(default=[], sa_type=JSON) 
     meta: Dict[str, Any] = Field(default={}, sa_type=JSON)
 
+    # Phase 6: Multi-File Persistence
+    workspace_snapshot_json: Dict[str, Any] = Field(default={}, sa_type=JSON)
+    test_summary_json: Dict[str, Any] = Field(default={}, sa_type=JSON)
+
 
 class QuestProgressV2(SQLModel, table=True):
     """
