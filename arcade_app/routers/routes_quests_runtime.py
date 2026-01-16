@@ -53,19 +53,44 @@ async def run_quest(
     objective_results = validate_first_sparks_python(payload.code)
     passed = all(o.get("ok") for o in objective_results if o["id"] != "syntax")
 
+    # Execution Logic
+    stdout = stderr = None
+    timed_out = False
+    duration_ms = 0
+    # Read env vars dynamically to support runtime config/tests
+    EXECUTION_ENABLED = os.getenv("EXECUTION_ENABLED", "0") == "1"
+    EXECUTION_TIMEOUT_MS = int(os.getenv("EXECUTION_TIMEOUT_MS", "2000"))
+    
+    if payload.mode == "execute" and EXECUTION_ENABLED:
+        from arcade_app.services.code_runner import run_python
+        # Future: handle stdin from payload if needed
+        r = run_python(payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS)
+        stdout, stderr, timed_out, duration_ms = r.stdout, r.stderr, r.timed_out, r.duration_ms
+        
+        # Optional: Fail if timed out? Or just report it?
+        # For now, let's say passed=False if timed_out
+        if timed_out:
+            passed = False
+            # Add timeout error to results?
+            objective_results.append({
+                "id": "timeout", 
+                "ok": False, 
+                "detail": f"Execution timed out (> {EXECUTION_TIMEOUT_MS}ms)"
+            })
+
     # Persist attempt + progress
     attempt = QuestAttempt(
         user_id=user_id,
         quest_id=quest_id,
         is_submit=False,
         passed=passed,
-        duration_ms=0,
+        duration_ms=duration_ms,
         code=payload.code,
         code_hash=sha(payload.code),
-        stdout=None,
-        stderr=None,
+        stdout=stdout,
+        stderr=stderr,
         objective_results=objective_results,
-        meta={"mode": "validate"},
+        meta={"mode": "validate" if payload.mode != "execute" else "execute", "timed_out": timed_out},
     )
     db.add(attempt)
 
@@ -79,9 +104,9 @@ async def run_quest(
     return {
         "passed": passed,
         "objective_results": objective_results,
-        "stdout": None,
-        "stderr": None,
-        "ready_to_submit": passed,
+        "stdout": stdout,
+        "stderr": stderr,
+        "ready_to_submit": passed and not timed_out,
     }
 
 @router.post("/{quest_id}/submit", response_model=dict)

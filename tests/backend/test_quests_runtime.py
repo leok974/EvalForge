@@ -33,6 +33,32 @@ async def test_run_quest_python(client, db_session):
     assert row.runs_count == 1
     assert row.status == "in_progress"
 
+async def test_run_quest_with_execution(client, db_session, monkeypatch):
+    # Enable execution env var
+    monkeypatch.setenv("EXECUTION_ENABLED", "1")
+    
+    payload = {
+        "code": "def main():\n    for i in range(3):\n        print('liftoff')\n    print('Code Execution Works')\n\nif __name__ == '__main__':\n    main()",
+        "language": "python",
+        "mode": "execute"
+    }
+    headers = {"X-Dev-User": "test-user-exec"}
+    
+    # Run
+    resp = await client.post("/api/quests/foundry-ignition/run", json=payload, headers=headers)
+    assert resp.status_code == 200
+    data = resp.json()
+    
+    # Check stdout capture
+    assert "Code Execution Works" in (data["stdout"] or "")
+    assert data["ready_to_submit"] == True # Basic validation passes too (no objectives)
+    
+    # Check DB persistence of stdout
+    q = await db_session.execute(select(QuestProgressV2).where(QuestProgressV2.user_id == "test-user-exec"))
+    # (Just verifying progress exists, stdout is in Attempt)
+    row = q.scalar_one()
+    assert row.runs_count == 1
+
 async def test_submit_quest_success(client, db_session):
     payload = {
         "code": "def main():\n    for i in range(3):\n        print('liftoff')\n",
