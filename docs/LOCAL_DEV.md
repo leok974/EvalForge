@@ -143,6 +143,13 @@ docker ps | Select-String "evalforge-db"
 pnpm dev:deps
 ```
 
+### "RemoteProtocolError" during API tests
+This usually happens when `uvicorn` reloads mid-request due to code changes.
+**Fix:** Run the server in **stable mode** (no reload) for automated verification:
+```powershell
+python -m uvicorn arcade_app.agent:app --host 127.0.0.1 --port 8092
+```
+
 ### "Redis connection failed"
 
 **Check if Redis is running:**
