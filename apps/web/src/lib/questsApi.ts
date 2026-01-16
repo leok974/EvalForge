@@ -55,6 +55,7 @@ export interface QuestSubmitResult {
 
 export async function fetchQuests(worldId?: string): Promise<QuestSummary[]> {
     const params = worldId ? `?world_id=${encodeURIComponent(worldId)}` : "";
+    // Note: Backend router expects trailing slash for list endpoint
     const res = await fetch(`/api/quests/${params}`);
     if (!res.ok) {
         throw new Error(`Failed to fetch quests: ${res.status}`);
@@ -111,6 +112,8 @@ export async function submitQuestSolution(
     return res.json();
 }
 
+// ... (previous code)
+
 export interface RunResult {
     passed: boolean;
     objective_results: {
@@ -122,22 +125,65 @@ export interface RunResult {
     stdout?: string;
     stderr?: string;
     ready_to_submit: boolean;
+    // New Artifact fields
+    attempt_id?: string;
+    run_number?: number;
+    duration_ms?: number;
+    exit_code?: number;
+    timed_out?: boolean;
 }
 
 export async function runQuest(
     slug: string,
     code: string,
-    language: string = "python"
+    language: string = "python",
+    mode: "validate" | "execute" = "execute"
 ): Promise<RunResult> {
     const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/run`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, language }),
+        body: JSON.stringify({ code, language, mode }),
     });
     if (!res.ok) throw new Error(`Failed to run quest: ${res.status}`);
     return res.json();
 }
 
+export interface QuestAttemptSummary {
+    id: string;
+    created_at: string;
+    run_number: number;
+    passed: boolean;
+    is_submit: boolean;
+    duration_ms: number;
+    timed_out: boolean;
+    exit_code: number;
+}
+
+export interface QuestAttemptDetail extends QuestAttemptSummary {
+    code: string;
+    stdout?: string;
+    stderr?: string;
+    objective_results: {
+        id: string;
+        ok: boolean;
+        detail?: string;
+        line?: number;
+    }[];
+}
+
+export async function fetchQuestAttempts(slug: string, limit: number = 25): Promise<QuestAttemptSummary[]> {
+    const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/attempts?limit=${limit}`);
+    if (!res.ok) throw new Error(`Failed to fetch attempts: ${res.status}`);
+    return res.json();
+}
+
+export async function fetchQuestAttempt(slug: string, attemptId: string): Promise<QuestAttemptDetail> {
+    const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/attempts/${encodeURIComponent(attemptId)}`);
+    if (!res.ok) throw new Error(`Failed to fetch attempt detail: ${res.status}`);
+    return res.json();
+}
+
+// ... (existing code for unlockHint, etc.)
 export async function unlockHint(
     slug: string,
     tier: number
@@ -148,6 +194,8 @@ export async function unlockHint(
     if (!res.ok) throw new Error(`Failed to unlock hint: ${res.status}`);
     return res.json();
 }
+
+// ... (rest of file)
 
 export interface QuestProgressV2 {
     quest_id: string;

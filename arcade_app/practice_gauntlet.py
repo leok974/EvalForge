@@ -100,8 +100,9 @@ async def get_daily_completion_stats(
 
     logger = logging.getLogger(__name__)
 
-    now = datetime.now(timezone.utc)
-    start_of_day = datetime.combine(now.date(), time.min, tzinfo=timezone.utc)
+    # Use naive UTC to match SQLModel/AsyncPG default behavior for now
+    now = datetime.utcnow()
+    start_of_day = datetime.combine(now.date(), time.min)
     end_of_day = start_of_day + timedelta(days=1)
 
     quests_completed_today = 0

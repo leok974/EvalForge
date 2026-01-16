@@ -337,6 +337,12 @@ class QuestDefinition(SQLModel, table=True):
 
     is_repeatable: bool = Field(default=False)
 
+    # Config-Driven Quest Fields (Phase 4)
+    starter_code: Optional[str] = None
+    objectives_json: List[Dict] = Field(default=[], sa_type=JSON)
+    tiered_hints_json: Dict = Field(default={}, sa_type=JSON)
+    runtime_rules_json: Dict = Field(default={}, sa_type=JSON)
+
 class QuestProgress(SQLModel, table=True):
     """
     Per-user progress state machine for a quest.

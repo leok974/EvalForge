@@ -130,21 +130,24 @@ async def get_current_user(request: Request) -> Dict:
     """
     # 1. Mock Fallback
     if AUTH_MODE == "mock":
-        # (Same mock logic as before for dev safety)
+        # Check for dev header override
+        dev_user_id = request.headers.get("x-dev-user")
+        target_user_id = dev_user_id or "leo"
+
         async for session in get_session():
-            user = await session.get(User, "leo")
+            user = await session.get(User, target_user_id)
             if not user:
                 # Ensure existence (Case B fix)
                 await ensure_default_avatar(session)
                 user = User(
-                    id="leo", 
-                    name="Leo", 
+                    id=target_user_id, 
+                    name=target_user_id.capitalize(), 
                     avatar_url="https://avatars.githubusercontent.com/u/1?v=4",
                     current_avatar_id="default_user"
                 )
                 session.add(user)
                 # Ensure profile
-                profile = Profile(user_id="leo", world_progress={})
+                profile = Profile(user_id=target_user_id, world_progress={})
                 session.add(profile)
                 
                 await session.commit()

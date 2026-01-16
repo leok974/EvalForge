@@ -252,7 +252,13 @@ async def record_quest_submission(
 
 
 def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[str, Any]:
-    ps = state.state if state else QuestState.LOCKED
+    ps_val = QuestState.LOCKED.value
+    if state:
+        # Compatibility: state.state might be Enum or String (if V2 wrapper)
+        if hasattr(state, "state"):
+            s = state.state
+            ps_val = s.value if hasattr(s, "value") else str(s)
+        
     return {
         "id": q.id,
         "slug": q.slug,
@@ -261,13 +267,18 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         "order_index": q.order_index,
         "title": q.title,
         "short_description": q.short_description,
-        "state": ps.value,
+        "state": ps_val,
         "best_score": state.best_score if state else None,
         "attempts": state.attempts if state else 0,
         "unlocks_boss_id": q.unlocks_boss_id,
         "unlocks_layout_id": q.unlocks_layout_id,
         "base_xp_reward": q.base_xp_reward,
         "mastery_xp_bonus": q.mastery_xp_bonus,
+        # Config-Driven Fields
+        "starter_code": q.starter_code,
+        "objectives": q.objectives_json or [],
+        "tiered_hints": q.tiered_hints_json or {},
+        "runtime": q.runtime_rules_json or {},
     }
 
 def _ensure_flags_dict(user: Profile):

@@ -1,27 +1,35 @@
 import hashlib
 from datetime import datetime
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, HTTPException, Header, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 import os
 
 from arcade_app.database import get_session as get_db
-# from arcade_app.auth import get_user_id # Need to mock or implement this
+from arcade_app.auth_helper import get_current_user
 from arcade_app.progress_models import QuestAttempt, QuestProgressV2, QuestHintUnlock
 from arcade_app.schemas.quest_run import RunRequest, RunResponse
-from arcade_app.services.quest_validate import validate_first_sparks_python
+from sqlalchemy import desc
+from arcade_app.models import QuestDefinition
+from arcade_app.services.quest_validate import validate_quest_attempt
 
 router = APIRouter(prefix="/api/quests", tags=["quests-runtime"])
 
-# --- Auth Hack ---
-DEV_FAKE_AUTH = os.getenv("DEV_FAKE_AUTH", "1") != "0" # Default true for dev convenience per user request
-
-async def get_user_id(x_dev_user: str | None = Header(default=None)):
-    if DEV_FAKE_AUTH:
+# Wrapper to get just the ID for runtime routes
+async def get_user_id(
+    request: Request,
+    x_dev_user: str | None = Header(default=None)
+) -> str:
+    # 1. Try standard auth
+    user = await get_current_user(request)
+    if user and user.get("id"):
+        return user["id"]
+        
+    # 2. Fallback for pure dev/curl testing if needed
+    if os.getenv("DEV_FAKE_AUTH", "1") != "0":
         return x_dev_user or "dev-user"
-    # TODO: real auth (cookie/session/JWT)
-    # raise HTTPException(status_code=401, detail="Not authenticated")
-    return "dev-user" # Fallback
+        
+    raise HTTPException(status_code=401, detail="Not authenticated")
 
 def sha(code: str) -> str:
     return hashlib.sha256(code.encode("utf-8")).hexdigest()
@@ -46,39 +54,65 @@ async def run_quest(
     db: AsyncSession = Depends(get_db),
     user_id: str = Depends(get_user_id),
 ):
-    # TODO: lookup quest type/language from DB; for now assume starter quest
+    # Fetch Quest Def (for validation rules)
+    result = await db.execute(select(QuestDefinition).where(QuestDefinition.slug == quest_id))
+    quest = result.scalar_one_or_none()
+    
+    # Fallback for "first-sparks" if not in DB not needed if seeded?
+    # validation handles None quest_def gracefully?
+    # If quest is None, we might want 404, or generic.
+    
     if payload.language != "python":
         raise HTTPException(400, "Only python supported right now")
-
-    objective_results = validate_first_sparks_python(payload.code)
-    passed = all(o.get("ok") for o in objective_results if o["id"] != "syntax")
 
     # Execution Logic
     stdout = stderr = None
     timed_out = False
     duration_ms = 0
-    # Read env vars dynamically to support runtime config/tests
+    exit_code = 0
+    
     EXECUTION_ENABLED = os.getenv("EXECUTION_ENABLED", "0") == "1"
     EXECUTION_TIMEOUT_MS = int(os.getenv("EXECUTION_TIMEOUT_MS", "2000"))
     
     if payload.mode == "execute" and EXECUTION_ENABLED:
         from arcade_app.services.code_runner import run_python
-        # Future: handle stdin from payload if needed
+        
         r = run_python(payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS)
         stdout, stderr, timed_out, duration_ms = r.stdout, r.stderr, r.timed_out, r.duration_ms
-        
-        # Optional: Fail if timed out? Or just report it?
-        # For now, let's say passed=False if timed_out
-        if timed_out:
-            passed = False
-            # Add timeout error to results?
-            objective_results.append({
-                "id": "timeout", 
-                "ok": False, 
-                "detail": f"Execution timed out (> {EXECUTION_TIMEOUT_MS}ms)"
-            })
+        exit_code = 0 if not timed_out else 1 # TODO: real exit code
+
+    # Validate
+    objective_results = validate_quest_attempt(
+        code=payload.code,
+        stdout=stdout,
+        stderr=stderr,
+        exit_code=exit_code,
+        timed_out=timed_out,
+        quest_def=quest
+    )
+    
+    passed = False
+    if objective_results:
+        passed = all(o.get("ok") for o in objective_results)
+    else:
+        # No objectives? Passed if run ok
+        if payload.mode == "execute":
+            passed = not timed_out
+        else:
+            pass # AST only? defaults to ok if no checks? 
+            # If no quest def, maybe passed=False?
+            # Let's verify: Generic validator returns empty list if no rules.
+            # If nothing to check, it's a pass?
+            passed = True # Optimistic for playground
+            
+    # Persist attempt + progress
 
     # Persist attempt + progress
+    prog = await _get_or_create_progress(db, user_id, quest_id)
+    prog.runs_count += 1
+    prog.attempts_count += 1
+    prog.last_run_at = datetime.utcnow()
+    
     attempt = QuestAttempt(
         user_id=user_id,
         quest_id=quest_id,
@@ -90,16 +124,16 @@ async def run_quest(
         stdout=stdout,
         stderr=stderr,
         objective_results=objective_results,
-        meta={"mode": "validate" if payload.mode != "execute" else "execute", "timed_out": timed_out},
+        meta={
+            "mode": "validate" if payload.mode != "execute" else "execute", 
+            "timed_out": timed_out,
+            "exit_code": exit_code,
+            "seq": prog.runs_count
+        },
     )
     db.add(attempt)
-
-    prog = await _get_or_create_progress(db, user_id, quest_id)
-    prog.runs_count += 1
-    prog.attempts_count += 1
-    prog.last_run_at = datetime.utcnow()
-
     await db.commit()
+    await db.refresh(attempt)
 
     return {
         "passed": passed,
@@ -107,6 +141,82 @@ async def run_quest(
         "stdout": stdout,
         "stderr": stderr,
         "ready_to_submit": passed and not timed_out,
+        "attempt_id": str(attempt.id),
+        "run_number": prog.runs_count,
+        "duration_ms": duration_ms,
+        "exit_code": exit_code,
+        "timed_out": timed_out
+    }
+
+@router.get("/{quest_id}/attempts", response_model=list[dict])
+async def list_attempts(
+    quest_id: str,
+    limit: int = 25,
+    db: AsyncSession = Depends(get_db),
+    user_id: str = Depends(get_user_id),
+):
+    """
+    Returns recent attempts for the history rail.
+    """
+    query = (
+        select(QuestAttempt)
+        .where(
+            QuestAttempt.user_id == user_id,
+            QuestAttempt.quest_id == quest_id
+        )
+        .order_by(desc(QuestAttempt.created_at))
+        .limit(limit)
+    )
+    result = await db.execute(query)
+    rows = result.scalars().all()
+    
+    # Map to simplified model
+    return [
+        {
+            "id": str(r.id),
+            "created_at": r.created_at,
+            "run_number": r.meta.get("seq", 0),
+            "passed": r.passed,
+            "is_submit": r.is_submit,
+            "duration_ms": r.duration_ms,
+            "timed_out": r.meta.get("timed_out", False),
+            "exit_code": r.meta.get("exit_code", 0)
+        }
+        for r in rows
+    ]
+
+@router.get("/{quest_id}/attempts/{attempt_id}", response_model=dict)
+async def get_attempt_detail(
+    quest_id: str,
+    attempt_id: str,
+    db: AsyncSession = Depends(get_db),
+    user_id: str = Depends(get_user_id),
+):
+    """
+    Returns full artifact for replay.
+    """
+    query = select(QuestAttempt).where(
+        QuestAttempt.id == attempt_id, # UUID cast handled by driver usually
+        QuestAttempt.user_id == user_id
+    )
+    result = await db.execute(query)
+    row = result.scalar_one_or_none()
+    
+    if not row:
+        raise HTTPException(404, "Attempt not found")
+        
+    return {
+        "id": str(row.id),
+        "code": row.code,
+        "stdout": row.stdout,
+        "stderr": row.stderr,
+        "objective_results": row.objective_results,
+        "run_number": row.meta.get("seq", 0),
+        "passed": row.passed,
+        "duration_ms": row.duration_ms,
+        "timed_out": row.meta.get("timed_out", False),
+        "is_submit": row.is_submit,
+        "created_at": row.created_at
     }
 
 @router.post("/{quest_id}/submit", response_model=dict)

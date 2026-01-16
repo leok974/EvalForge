@@ -11,6 +11,7 @@ interface QuestEditorProps {
     value: string;
     onChange: (v: string) => void;
     isSaving?: boolean;
+    readOnly?: boolean;
 }
 
 export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
@@ -18,6 +19,7 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
     value,
     onChange,
     isSaving = false,
+    readOnly = false,
 }, ref) => {
     const editorRef = useRef<any>(null);
     const decorationsRef = useRef<string[]>([]);
@@ -81,6 +83,7 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
                         // "Enhancer" features toggled via options could go here
                         guides: { indentation: enhancedMode },
                         folding: enhancedMode,
+                        readOnly: readOnly,
                     }}
                 />
             </div>

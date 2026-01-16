@@ -18,3 +18,10 @@ class RunResponse(BaseModel):
     stdout: Optional[str] = None
     stderr: Optional[str] = None
     ready_to_submit: bool
+    
+    # Artifact / History Fields
+    attempt_id: str
+    run_number: int
+    duration_ms: int
+    exit_code: Optional[int] = None
+    timed_out: bool = False

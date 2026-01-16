@@ -9,6 +9,7 @@ $env:REDIS_URL = "redis://127.0.0.1:6379/0"
 $env:PYTHONPATH = "D:\EvalForge"
 $env:ENV = "development"
 $env:AUTO_INIT_DB = "0"  # Set to 1 if you want auto-init on startup
+$env:EXECUTION_ENABLED = "1" # Enable real code execution (Phase 2)
 
 Write-Host "📍 DATABASE_URL: $env:DATABASE_URL" -ForegroundColor Gray
 Write-Host "📍 REDIS_URL: $env:REDIS_URL" -ForegroundColor Gray

@@ -1,40 +1,36 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, Lock } from 'lucide-react';
-import { QuestSummary } from '@/lib/questsApi';
+import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, Lock, History, Check, X, Clock } from 'lucide-react';
+import { QuestSummary, QuestAttemptSummary } from '@/lib/questsApi';
 import ReactMarkdown from 'react-markdown';
 
 interface QuestDrawerProps {
     quest: QuestSummary;
     objectivesState: Record<string, boolean>; // id -> ok
     onObjectiveClick: (objectiveId: string) => void;
+    // New History Props
+    attempts?: QuestAttemptSummary[];
+    onSelectAttempt?: (attemptId: string) => void;
 }
 
-type Tab = 'briefing' | 'objectives' | 'lore' | 'hints';
+type Tab = 'briefing' | 'objectives' | 'lore' | 'hints' | 'history';
 
-export function QuestDrawer({ quest, objectivesState, onObjectiveClick }: QuestDrawerProps) {
+export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts = [], onSelectAttempt }: QuestDrawerProps) {
     const [activeTab, setActiveTab] = useState<Tab>('briefing');
+
+    // Switch to history tab if attempts change and we just ran? 
+    // Maybe not, usually user stays context. 
+    // But we might want to default to history if we are replaying?
 
     // Simple verification for "Unlockable" hints (mocked for now)
     const [unlockedHints, setUnlockedHints] = useState<Record<string, boolean>>({});
 
     const toggleHint = async (id: string, type: 'concept' | 'snippet' | 'solution') => {
-        // If already unlocked locally, just toggle visibility (mock logic implied toggle meant "unlock")
-        // But UI structure assumes toggle = expand. 
-        // Let's assume click = "Unlock and Expand".
-
-        if (unlockedHints[id]) {
-            // If already unlocked, maybe we just want to toggle visibility? 
-            // The current UI just renders content if unlockedHints[id] is true.
-            // So "toggle" essentially means "toggle unlock status" in the mock.
-            // In real app, once unlocked, it stays unlocked.
-            return;
-        }
+        // ... (existing hint logic)
+        if (unlockedHints[id]) return;
 
         try {
             const { unlockHint } = await import('@/lib/questsApi');
-            // Map type to tier? 
-            // concept=1, snippet=2, solution=3
             const tierMap = { concept: 1, snippet: 2, solution: 3 };
             const tier = tierMap[type];
 
@@ -42,7 +38,6 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick }: QuestD
             if (res.ok) {
                 setUnlockedHints(prev => ({ ...prev, [id]: true }));
             } else {
-                // Show error toast or shake? For now console warn
                 console.warn("Hint unlock failed:", res.reason);
                 alert(`Locked: ${res.reason}`);
             }
@@ -55,19 +50,20 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick }: QuestD
         { id: 'briefing', label: 'Briefing', icon: FileText },
         { id: 'objectives', label: 'Objectives', icon: ListChecks },
         { id: 'hints', label: 'Hints', icon: HelpCircle },
+        { id: 'history', label: 'History', icon: History },
         { id: 'lore', label: 'Lore', icon: Scroll },
     ];
 
     return (
         <div className="h-full flex flex-col bg-zinc-950/50">
             {/* Tabs Header */}
-            <div className="flex items-center border-b border-zinc-800 bg-zinc-900/40">
+            <div className="flex items-center border-b border-zinc-800 bg-zinc-900/40 overflow-x-auto scrollbar-hide">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         className={cn(
-                            "flex-1 flex items-center justify-center gap-2 py-3 text-[10px] font-bold uppercase tracking-wider transition-all border-b-2",
+                            "flex-1 flex items-center justify-center gap-2 py-3 px-2 text-[10px] font-bold uppercase tracking-wider transition-all border-b-2 min-w-[80px]",
                             activeTab === tab.id
                                 ? "text-cyan-400 border-cyan-500 bg-cyan-950/10"
                                 : "text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900"
@@ -107,9 +103,7 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick }: QuestD
                                             : "bg-zinc-950/40 border-zinc-800 hover:border-zinc-700"
                                     )}
                                 >
-                                    {/* Pulse effect on hover */}
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-
                                     <div className="flex items-start gap-3 relative z-10">
                                         <div className={cn(
                                             "mt-0.5 w-4 h-4 rounded-full border flex items-center justify-center shrink-0 transition-colors",
@@ -142,9 +136,54 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick }: QuestD
                     </div>
                 )}
 
+                {/* HISTORY TAB */}
+                {activeTab === 'history' && (
+                    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Run History</h4>
+                        <div className="space-y-2">
+                            {attempts.map((attempt) => (
+                                <button
+                                    key={attempt.id}
+                                    onClick={() => onSelectAttempt?.(attempt.id)}
+                                    className="w-full text-left p-3 rounded-lg border border-zinc-800 bg-zinc-900/20 hover:bg-zinc-800/40 hover:border-zinc-700 transition-all group"
+                                >
+                                    <div className="flex items-center justify-between mb-1">
+                                        <span className={cn(
+                                            "text-xs font-bold uppercase tracking-wide",
+                                            attempt.passed ? "text-emerald-400" : "text-amber-400"
+                                        )}>
+                                            Run #{attempt.run_number}
+                                        </span>
+                                        <span className="text-[10px] text-zinc-600 font-mono">
+                                            {new Date(attempt.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-[10px] text-zinc-500">
+                                        <span className="flex items-center gap-1">
+                                            {attempt.passed ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                                            {attempt.passed ? "Passed" : "Failed"}
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            <Clock className="w-3 h-3" />
+                                            {attempt.duration_ms}ms
+                                        </span>
+                                        {attempt.is_submit && <span className="text-cyan-500 font-bold ml-auto">SUBMIT</span>}
+                                    </div>
+                                </button>
+                            ))}
+                            {!attempts.length && (
+                                <div className="text-zinc-500 italic text-xs text-center py-8">
+                                    No runs recorded yet.
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
                 {/* HINTS TAB */}
                 {activeTab === 'hints' && (
                     <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        {/* ... existing hints content ... */}
                         <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Field Manual</h4>
 
                         <div className="space-y-3">

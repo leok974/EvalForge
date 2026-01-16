@@ -4,7 +4,9 @@ from typing import List, Dict
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
 
-from arcade_app.models import QuestDefinition, QuestProgress, QuestState, TrackDefinition
+# Use V2 progress model
+from arcade_app.progress_models import QuestProgressV2
+from arcade_app.models import QuestDefinition, TrackDefinition
 
 class TrackProgressRow(dict):
     """Simple dict row for JSON output."""
@@ -23,25 +25,23 @@ async def compute_track_progress_for_user(
     track_defs = (await db.exec(select(TrackDefinition))).all()
     track_labels = {t.id: t.name for t in track_defs}
 
-    # 3. Fetch all completed/mastered quest progress for this user
-    # Note: State is Enum.
+    # 3. Fetch all completed/mastered quest progress (V2) for this user
+    # QuestProgressV2 stores 'quest_id' as the generic slug.
+    # status is string: 'completed', 'mastered' (lowercase)
     completed_runs = (
         await db.exec(
-            select(QuestProgress).where(
-                QuestProgress.user_id == user_id,
-                QuestProgress.state.in_([QuestState.COMPLETED, QuestState.MASTERED])
+            select(QuestProgressV2).where(
+                QuestProgressV2.user_id == user_id,
+                QuestProgressV2.status.in_(["completed", "mastered"])
             )
         )
     ).all()
 
-    completed_quest_ids = {run.quest_id for run in completed_runs}
+    completed_slugs = {run.quest_id for run in completed_runs}
 
     # 4. Group quests by (world_id, track_id)
     total_by_track: Dict[tuple[str, str], int] = defaultdict(int)
     completed_by_track: Dict[tuple[str, str], int] = defaultdict(int)
-    
-    # We also need to know which tracks exist even if they have 0 quests (though rare)
-    # But usually we iterate quests to find populated tracks.
     
     known_tracks = set()
 
@@ -50,7 +50,8 @@ async def compute_track_progress_for_user(
         total_by_track[key] += 1
         known_tracks.add(key)
 
-        if q.id in completed_quest_ids:
+        # Match by slug
+        if q.slug in completed_slugs:
             completed_by_track[key] += 1
 
     # 5. Build rows

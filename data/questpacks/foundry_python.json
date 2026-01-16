@@ -1,0 +1,111 @@
+[
+    {
+        "id": "quest-first-sparks",
+        "world_id": "world-python",
+        "track_id": "python-fundamentals",
+        "slug": "first-sparks",
+        "title": "First Sparks",
+        "short_description": "Ignite the Foundry core.",
+        "summary": "Ignite the Foundry core.",
+        "description": "Initialize the Python runtime by printing the launch sequence.",
+        "lore": "The core is cold. We need a spark to get the systems online.",
+        "language": "python",
+        "xp_base": 50,
+        "starter_code": "def main():\n    # TODO: Print T-minus 3, 2, 1...\n    pass\n\nif __name__ == '__main__':\n    main()\n",
+        "objectives": [
+            {
+                "id": "main",
+                "title": "Define main()",
+                "why": "Entry point discipline",
+                "kind": "ast",
+                "rule": {
+                    "must_define_function": "main"
+                }
+            },
+            {
+                "id": "tminus",
+                "title": "Print T-minus",
+                "why": "Loop + output",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "(?i)t-?minus"
+                }
+            },
+            {
+                "id": "liftoff",
+                "title": "Confirm Liftoff",
+                "why": "Mission completion cue",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "(?i)liftoff"
+                }
+            }
+        ],
+        "tiered_hints": {
+            "concept": "Think about main() and printing output.",
+            "guided": "Add a loop that prints T-minus lines then Liftoff.",
+            "full_solution": "def main():\n    for i in range(3, 0, -1):\n        print(f'T-minus {i}')\n    print('Liftoff!')\n\nif __name__ == '__main__':\n    main()"
+        },
+        "runtime": {
+            "enabled": true,
+            "timeout_ms": 2500,
+            "require_exit_code_zero": true,
+            "require_no_timeout": true,
+            "max_output_chars": 16000
+        }
+    },
+    {
+        "id": "quest-hello-variable",
+        "world_id": "world-python",
+        "track_id": "python-fundamentals",
+        "slug": "hello-variable",
+        "title": "Hello Variable",
+        "short_description": "Store data in memory.",
+        "summary": "Learn to store data in variables.",
+        "description": "Create a variable named `message` and assign it the string 'System Online'.",
+        "lore": "Memory banks are ready. Initialize the status protocol.",
+        "language": "python",
+        "xp_base": 50,
+        "starter_code": "def main():\n    # Create your variable here\n    pass\n\nif __name__ == '__main__':\n    main()\n",
+        "objectives": [
+            {
+                "id": "main",
+                "title": "Define main()",
+                "why": "Entry point discipline",
+                "kind": "ast",
+                "rule": {
+                    "must_define_function": "main"
+                }
+            },
+            {
+                "id": "var_msg",
+                "title": "Define variable",
+                "why": "Memory assignment",
+                "kind": "ast",
+                "rule": {
+                    "must_assign_variable": "message"
+                }
+            },
+            {
+                "id": "print_msg",
+                "title": "Print Variable",
+                "why": "Output check",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "(?i)system online"
+                }
+            }
+        ],
+        "tiered_hints": {
+            "concept": "Use the = operator to assign values.",
+            "guided": "metric = 'System Online'\nprint(metric)",
+            "full_solution": "def main():\n    message = 'System Online'\n    print(message)\n\nif __name__ == '__main__':\n    main()"
+        },
+        "runtime": {
+            "enabled": true,
+            "timeout_ms": 2000,
+            "require_exit_code_zero": true,
+            "require_no_timeout": true
+        }
+    }
+]
