@@ -270,6 +270,7 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         "state": ps_val,
         "best_score": state.best_score if state else None,
         "attempts": state.attempts if state else 0,
+        "hint_tier_unlocked": (getattr(state, "hint_tier_unlocked", 0) or 0) if state else 0,
         "unlocks_boss_id": q.unlocks_boss_id,
         "unlocks_layout_id": q.unlocks_layout_id,
         "base_xp_reward": q.base_xp_reward,
@@ -278,8 +279,22 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         "starter_code": q.starter_code,
         "objectives": q.objectives_json or [],
         "tiered_hints": q.tiered_hints_json or {},
+        "hints": _transform_hints(q.tiered_hints_json or {}),
         "runtime": q.runtime_rules_json or {},
     }
+
+def _transform_hints(tiered: Dict[str, str]) -> list[Dict[str, str]]:
+    """Converts tiered_hints dict to frontend hints array."""
+    out = []
+    # Ordering: concept -> 1, guided -> 2, full_solution -> 3
+    # Mapped to types: concept, snippet, solution
+    if "concept" in tiered:
+        out.append({"id": "hint-concept", "text": tiered["concept"], "type": "concept", "tier": 1})
+    if "guided" in tiered:
+        out.append({"id": "hint-guided", "text": tiered["guided"], "type": "snippet", "tier": 2})
+    if "full_solution" in tiered:
+        out.append({"id": "hint-solution", "text": tiered["full_solution"], "type": "solution", "tier": 3})
+    return out
 
 def _ensure_flags_dict(user: Profile):
   if user.flags is None:

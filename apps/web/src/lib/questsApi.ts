@@ -1,4 +1,5 @@
 import { refreshWorldProgress } from '@/features/progress/trackProgress';
+import { safeJson } from '@/lib/safeFetch';
 
 export type QuestState = "locked" | "available" | "in_progress" | "completed" | "mastered";
 
@@ -53,6 +54,28 @@ export interface QuestUnlockEvent {
     label?: string;
 }
 
+export interface Diagnostic {
+    path: string;
+    line: number;
+    column: number;
+    severity: "error" | "warning";
+    kind: "syntax" | "runtime" | "test";
+    message: string;
+}
+
+export interface DebriefData {
+    title: string;
+    passed_objectives: string[];
+    objective_titles: { id: string; title: string }[];
+    tests?: { passed: number; failed: number; mode: string };
+    learning_points: string[];
+    next?: {
+        quest_id: string; // Slug
+        title: string;
+        why: string;
+    } | null;
+}
+
 export interface QuestSubmitResult {
     quest: QuestSummary;
     score: number;
@@ -63,69 +86,14 @@ export interface QuestSubmitResult {
         xp?: number;
         flags?: Record<string, unknown>;
     };
+    coach?: any; // CoachData
+    debrief?: DebriefData;
+    diagnostics?: Diagnostic[];
 }
 
-export async function fetchQuests(worldId?: string): Promise<QuestSummary[]> {
-    const params = worldId ? `?world_id=${encodeURIComponent(worldId)}` : "";
-    // Note: Backend router expects trailing slash for list endpoint
-    const res = await fetch(`/api/quests/${params}`);
-    if (!res.ok) {
-        throw new Error(`Failed to fetch quests: ${res.status}`);
-    }
-    return res.json();
-}
+// ... (fetch endpoints)
 
-export async function fetchQuest(slug: string): Promise<QuestSummary> {
-    const res = await fetch(`/api/quests/${encodeURIComponent(slug)}`);
-    if (!res.ok) {
-        throw new Error(`Failed to fetch quest ${slug}: ${res.status}`);
-    }
-    return res.json();
-}
-
-export async function acceptQuest(slug: string): Promise<QuestSummary> {
-    const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/accept`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    if (!res.ok) {
-        throw new Error(`Failed to accept quest ${slug}: ${res.status}`);
-    }
-    return res.json();
-}
-
-
-export async function submitQuestSolution(
-    slug: string,
-    code: string,
-    language?: string,
-    workspace?: { entrypoint: string; files: { path: string; content: string }[] }
-): Promise<QuestSubmitResult> {
-    const res = await fetch(
-        `/api/quests/${encodeURIComponent(slug)}/submit`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ code, language, workspace }),
-        }
-    );
-    if (!res.ok) {
-        throw new Error(`Failed to submit quest ${slug}: ${res.status}`);
-    }
-
-    // Fire off a progress refresh without blocking
-    refreshWorldProgress().catch((err) => {
-        console.warn('World progress refresh failed after quest completion', err);
-    });
-
-    return res.json();
-}
-
-// ... (previous code)
+// ...
 
 export interface RunResult {
     passed: boolean;
@@ -145,6 +113,89 @@ export interface RunResult {
     exit_code?: number;
     timed_out?: boolean;
     test_summary?: any;
+    coach?: any;
+    debrief?: DebriefData;
+    diagnostics?: Diagnostic[];
+}
+
+// ...
+
+export interface QuestAttemptDetail extends QuestAttemptSummary {
+    code: string;
+    stdout?: string;
+    stderr?: string;
+    objective_results: {
+        id: string;
+        ok: boolean;
+        detail?: string;
+        line?: number;
+    }[];
+    debrief_json?: DebriefData;
+    diagnostics_json?: Diagnostic[];
+}
+
+export async function fetchQuests(worldId?: string): Promise<QuestSummary[]> {
+    const params = worldId ? `?world_id=${encodeURIComponent(worldId)}` : "";
+    // Note: Backend router expects trailing slash for list endpoint
+    const res = await fetch(`/api/quests/${params}`);
+    const { ok, data, raw } = await safeJson<QuestSummary[]>(res);
+    if (!ok) {
+        throw new Error(`Failed to fetch quests: ${res.status} ${raw?.substring(0, 100)}`);
+    }
+    return data!;
+}
+
+export async function fetchQuest(slug: string): Promise<QuestSummary> {
+    const res = await fetch(`/api/quests/${encodeURIComponent(slug)}`);
+    const { ok, data, raw } = await safeJson<QuestSummary>(res);
+    if (!ok) {
+        throw new Error(`Failed to fetch quest ${slug}: ${res.status} ${raw?.substring(0, 100)}`);
+    }
+    return data!;
+}
+
+export async function acceptQuest(slug: string): Promise<QuestSummary> {
+    const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/accept`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const { ok, data, raw } = await safeJson<QuestSummary>(res);
+    if (!ok) {
+        throw new Error(`Failed to accept quest ${slug}: ${res.status} ${raw?.substring(0, 100)}`);
+    }
+    return data!;
+}
+
+
+export async function submitQuestSolution(
+    slug: string,
+    code: string,
+    language?: string,
+    workspace?: { entrypoint: string; files: { path: string; content: string }[] }
+): Promise<QuestSubmitResult> {
+    const res = await fetch(
+        `/api/quests/${encodeURIComponent(slug)}/submit`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ code, language, workspace }),
+        }
+    );
+    const { ok, data, raw } = await safeJson<QuestSubmitResult>(res);
+    if (!ok) {
+        throw new Error(`Failed to submit quest ${slug}: ${res.status} ${raw?.substring(0, 100)}`);
+    }
+
+    // Fire off a progress refresh without blocking
+    refreshWorldProgress().catch((err) => {
+        console.warn('World progress refresh failed after quest completion', err);
+    });
+
+    return data!;
 }
 
 export async function runQuest(
@@ -152,15 +203,22 @@ export async function runQuest(
     code: string,
     language: string = "python",
     mode: "validate" | "execute" = "execute",
-    workspace?: { entrypoint: string; files: { path: string; content: string }[] }
+    workspaceConfig?: { entrypoint: string; files: { path: string; content: string }[] }
 ): Promise<RunResult> {
+    const payload: any = { code, language, mode };
+    if (workspaceConfig) {
+        payload.entrypoint = workspaceConfig.entrypoint;
+        payload.workspace = workspaceConfig.files;
+    }
+
     const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/run`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, language, mode, workspace }),
+        body: JSON.stringify(payload),
     });
-    if (!res.ok) throw new Error(`Failed to run quest: ${res.status}`);
-    return res.json();
+    const { ok, data, raw } = await safeJson<RunResult>(res);
+    if (!ok) throw new Error(`Failed to run quest: ${res.status} ${raw?.substring(0, 100)}`);
+    return data!;
 }
 
 export interface QuestAttemptSummary {
@@ -174,17 +232,8 @@ export interface QuestAttemptSummary {
     exit_code: number;
 }
 
-export interface QuestAttemptDetail extends QuestAttemptSummary {
-    code: string;
-    stdout?: string;
-    stderr?: string;
-    objective_results: {
-        id: string;
-        ok: boolean;
-        detail?: string;
-        line?: number;
-    }[];
-}
+
+
 
 export async function fetchQuestAttempts(slug: string, limit: number = 25): Promise<QuestAttemptSummary[]> {
     const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/attempts?limit=${limit}`);

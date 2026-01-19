@@ -6,12 +6,16 @@ import "./styles.css";
 import { ThemeProvider } from "@/lib/theme";
 import { ToastProvider } from "@/lib/toast";
 
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+
 const root = createRoot(document.getElementById("root")!);
 root.render(
   <ThemeProvider>
     <ToastProvider>
       <BrowserRouter>
-        <App />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </BrowserRouter>
     </ToastProvider>
   </ThemeProvider>

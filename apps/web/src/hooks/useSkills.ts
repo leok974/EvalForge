@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { isGodModeEnabledFromEnv } from '@/config/devFlags';
+import { safeJson } from '@/lib/safeFetch';
 
 export type SkillNode = {
     id: string;
@@ -28,18 +29,23 @@ export function useSkills(user: any) {
         setLoading(true);
         setError(null);
         fetch('/api/skills')
-            .then(r => {
-                if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                return r.json();
-            })
-            .then(data => {
-                let nodes = data.nodes || [];
+            .then(r => safeJson(r))
+            .then(({ ok, data, raw, status }) => {
+                if (!ok) {
+                    console.error(`Skills fetch failed (${status})`, raw);
+                    setError(`Failed to load skills (${status})`);
+                    setLoading(false);
+                    return;
+                }
+
+                const responseData = data as any;
+                let nodes = responseData.nodes || [];
                 // GOD MODE: Visually unlock everything in the tree
                 if (godMode) {
                     nodes = nodes.map((n: any) => ({ ...n, is_unlocked: true, can_unlock: false }));
                 }
                 setSkills(nodes);
-                setSkillPoints(data.skill_points || 0);
+                setSkillPoints(responseData.skill_points || 0);
                 setLoading(false);
             })
             .catch(e => {
@@ -63,13 +69,13 @@ export function useSkills(user: any) {
                 body: JSON.stringify({ skill_id: skillId })
             });
 
-            const data = await res.json();
+            const { ok, data } = await safeJson(res);
 
-            if (res.ok) {
+            if (ok) {
                 refreshSkills(); // Reload state to update dependency graph
                 return { success: true };
             } else {
-                return { success: false, error: data.detail || "Failed to unlock" };
+                return { success: false, error: (data as any)?.detail || "Failed to unlock" };
             }
         } catch (e) {
             return { success: false, error: "Network Error" };

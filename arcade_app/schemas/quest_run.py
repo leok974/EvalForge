@@ -5,12 +5,25 @@ class RunRequest(BaseModel):
     code: str
     language: str = "python"
     mode: str = "validate"  # validate|execute (execute later)
+    entrypoint: Optional[str] = None
+    workspace: Optional[List[Any]] = None # List of {path, content}
 
 class ObjectiveResult(BaseModel):
     id: str
     ok: bool
     detail: Optional[str] = None
     line: Optional[int] = None
+
+    # Phase 7.1.2: Success Debrief
+    debrief: Optional[dict] = None
+
+class Diagnostic(BaseModel):
+    path: str
+    line: int
+    column: int = 1
+    severity: str = "error"
+    kind: str = "runtime" # syntax, runtime, test
+    message: str
 
 class RunResponse(BaseModel):
     passed: bool
@@ -25,3 +38,12 @@ class RunResponse(BaseModel):
     duration_ms: int
     exit_code: Optional[int] = None
     timed_out: bool = False
+    
+    # Stuck Detector
+    coach: Optional[dict] = None
+    
+    # Phase 7.1.2: Success Debrief
+    debrief: Optional[dict] = None
+    
+    # Phase 7.1.3: Inline Diagnostics
+    diagnostics: List[Diagnostic] = []

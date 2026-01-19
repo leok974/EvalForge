@@ -31,6 +31,10 @@ class QuestAttempt(SQLModel, table=True):
     # Phase 6: Multi-File Persistence
     workspace_snapshot_json: Dict[str, Any] = Field(default={}, sa_type=JSON)
     test_summary_json: Dict[str, Any] = Field(default={}, sa_type=JSON)
+    
+    # Phase 7.1.2: Success Debrief
+    debrief_json: Dict[str, Any] = Field(default={}, sa_type=JSON)
+    diagnostics_json: List[Dict[str, Any]] = Field(default=[], sa_type=JSON)
 
 
 class QuestProgressV2(SQLModel, table=True):
@@ -107,7 +111,15 @@ class QuestProgressV2(SQLModel, table=True):
     best_xp: int = Field(default=0)
     last_xp: int = Field(default=0)
 
-    hint_tier_unlocked: int = Field(default=0)
+    hint_tier_unlocked: Optional[int] = Field(default=0)
+
+    # Stuck Detector (Phase 7.1.1)
+    fail_streak_runs: Optional[int] = Field(default=0)
+    fail_streak_submits: Optional[int] = Field(default=0)
+    repeat_failure_count: Optional[int] = Field(default=0)
+    last_primary_failure: Optional[str] = Field(default=None)
+    last_success_at: Optional[datetime] = Field(default=None)
+    stuck_level: Optional[int] = Field(default=0)
 
 
 class QuestHintUnlock(SQLModel, table=True):

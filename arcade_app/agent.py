@@ -14,7 +14,7 @@ from arcade_app.database import init_db, get_session
 from sqlmodel import Session
 from fastapi import FastAPI, Request, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse, FileResponse
+from fastapi.responses import RedirectResponse, FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sse_starlette.sse import EventSourceResponse
 from pydantic import BaseModel
@@ -490,6 +490,21 @@ def version_check():
         "environment": "production" if os.getenv("K_SERVICE") else "development"
     }
 
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """
+    Global handler to ensure all 500 errors return JSON.
+    """
+    logging.error(f"Global Exception: {exc}", exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": "server_error", 
+            "message": "Internal Server Error",
+            "detail": str(exc) if os.getenv("ENV") != "production" else "Check server logs"
+        }
+    )
+
 @app.get("/api/ready")
 async def readiness_check():
     """
@@ -516,7 +531,8 @@ async def readiness_check():
     status["redis"] = "ok" # Placeholder until redis client is exposed globally
 
     if not is_ready:
-        raise HTTPException(status_code=503, detail=status)
+        # Return 503 so healthchecks fail fast
+        return JSONResponse(status_code=503, content={"status": "degraded", "components": status})
         
     return {"status": "ready", "components": status}
 

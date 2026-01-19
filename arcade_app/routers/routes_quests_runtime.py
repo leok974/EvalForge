@@ -12,6 +12,8 @@ from arcade_app.schemas.quest_run import RunRequest, RunResponse
 from sqlalchemy import desc
 from arcade_app.models import QuestDefinition
 from arcade_app.services.quest_validate import validate_quest_attempt
+from arcade_app.services.security import sanitize_logs
+from arcade_app.services.utils import build_effective_workspace
 
 router = APIRouter(prefix="/api/quests", tags=["quests-runtime"])
 
@@ -81,15 +83,28 @@ async def run_quest(
     EXECUTION_ENABLED = os.getenv("EXECUTION_ENABLED", "0") == "1"
     EXECUTION_TIMEOUT_MS = int(os.getenv("EXECUTION_TIMEOUT_MS", "2000"))
     
-    if payload.mode == "execute" and EXECUTION_ENABLED:
+    if (payload.mode in ["execute", "tests"]) and EXECUTION_ENABLED:
         from arcade_app.services.code_runner import run_code
         
+        # Construct effective workspace if needed
+        run_workspace = None
+        workspace_def = getattr(quest, "workspace_json", None)
+        
+        if workspace_def:
+             # Merge overlay
+             user_overlay = payload.workspace or []
+             run_workspace = build_effective_workspace(workspace_def, user_overlay)
+        
         # Use payload language if provided, else default to python (or quest language)
-        # For now, simplistic:
         lang = payload.language or "python"
         
-        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS)
-        stdout, stderr, timed_out, duration_ms = r.stdout, r.stderr, r.timed_out, r.duration_ms
+        # Pass workspace to runner
+        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=payload.mode if payload.mode == "tests" else "run")
+        
+        # Sanitize logs
+        stdout = sanitize_logs(r.stdout)
+        stderr = sanitize_logs(r.stderr)
+        timed_out, duration_ms = r.timed_out, r.duration_ms
         exit_code = 0 if not timed_out else 1 # TODO: real exit code
 
     # Validate
@@ -119,10 +134,30 @@ async def run_quest(
     # Persist attempt + progress
 
     # Persist attempt + progress
+    # Persist attempt + progress
     prog = await _get_or_create_progress(db, user_id, quest_id)
     prog.runs_count += 1
     prog.attempts_count += 1
     prog.last_run_at = datetime.utcnow()
+    
+    # Stuck Detector Integration
+    from arcade_app.services.stuck_detector import update_stuck_progress, generate_coach_response
+    
+    # Analyze failure
+    failure_summary = {}
+    if not passed:
+        # Simple heuristic for now - assuming phase 7.1 not fully present yet
+        # If timed_out -> timeout
+        # If exit_code != 0 -> runtime_exception
+        # Else -> output_mismatch
+        primary = "output_mismatch"
+        if timed_out: primary = "timeout"
+        elif exit_code != 0: primary = "runtime_exception"
+        
+        failure_summary = {"primary": primary}
+        
+    update_stuck_progress(prog, passed, is_submit=False, failure_summary=failure_summary)
+    coach_data = generate_coach_response(prog, failure_summary)
     
     attempt = QuestAttempt(
         user_id=user_id,
@@ -141,8 +176,42 @@ async def run_quest(
             "exit_code": exit_code,
             "seq": prog.runs_count
         },
+        workspace_snapshot_json=[f for f in run_workspace.get("files", []) if f.get("editable", True)] if run_workspace else None,
     )
+    debrief_data = None
+    diagnostics_data = []
+    
+    # Phase 7.1.3: Inline Diagnostics
+    # Parse diagnostics if failed (or even if passed, for warnings?)
+    # Usually only relevant if exit_code != 0 or generic error
+    if exit_code != 0 or (stderr and len(stderr) > 0):
+       from arcade_app.services.diagnostics_parser import parse_diagnostics
+       # Gather workspace files from payload or quest def? 
+       # payload.workspace has files.
+       workspace_paths = []
+       if run_workspace and "files" in run_workspace:
+           workspace_paths = [f["path"] for f in run_workspace["files"]]
+       
+       # Also include active files if singular?
+       # The parser handles cleaning paths.
+       
+       diagnostics_data = parse_diagnostics(
+           stderr or "", 
+           payload.language, 
+           workspace_paths
+       )
+       
+    attempt.diagnostics_json = diagnostics_data
+
+    if passed:
+        from arcade_app.services.debrief_generator import generate_debrief
+        # ... existing ...
+        
+        debrief_data = await generate_debrief(db, quest, attempt, prog)
+        attempt.debrief_json = debrief_data
+        
     db.add(attempt)
+    db.add(prog) # Ensure prog update is staged
     await db.commit()
     await db.refresh(attempt)
 
@@ -156,7 +225,10 @@ async def run_quest(
         "run_number": prog.runs_count,
         "duration_ms": duration_ms,
         "exit_code": exit_code,
-        "timed_out": timed_out
+        "timed_out": timed_out,
+        "coach": coach_data,
+        "debrief": debrief_data,
+        "diagnostics": diagnostics_data
     }
 
 @router.get("/{quest_id}/attempts", response_model=list[dict])

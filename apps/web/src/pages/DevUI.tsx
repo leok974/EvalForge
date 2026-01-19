@@ -286,7 +286,7 @@ function DevUIContent() {
             worldId={context.world_id}
             onOpenQuest={(quest) => {
               // MOCK DATA INJECTION for Starter Quest
-              if (quest.id === 1 || quest.slug === 'warmup-script-first-sparks') {
+              if (quest.id === 1 || quest.slug === 'first-sparks') {
                 quest.starter_code = `# IGNITION SEQUENCE\n# -----------------\ndef main():\n    print("Ignition sequence started...")\n    for i in range(3, 0, -1):\n        print(f"T-minus {i}")\n    print("Liftoff!")\n\nif __name__ == "__main__":\n    main()\n`;
                 quest.briefing_md = `### SIGNAL INTERCEPTED
 **Source**: Foundry Ignition Console

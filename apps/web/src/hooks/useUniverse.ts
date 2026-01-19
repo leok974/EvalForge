@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { safeJson } from '@/lib/safeFetch';
 
 export type Track = {
     id: string;
@@ -23,9 +24,14 @@ export function useUniverse() {
 
     useEffect(() => {
         fetch('/api/universe')
-            .then(res => res.json())
-            .then(data => {
-                setUniverse(data);
+            .then(res => safeJson(res))
+            .then(({ ok, data, raw }) => {
+                if (!ok) {
+                    console.error("Universe fetch failed", raw);
+                    setLoading(false);
+                    return;
+                }
+                setUniverse(data as UniverseData);
                 setLoading(false);
             })
             .catch(err => {

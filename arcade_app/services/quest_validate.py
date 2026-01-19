@@ -180,12 +180,41 @@ def validate_quest_attempt(
                             res.detail = f"All {summary.get('total', 0)} tests passed"
                         else:
                             # Extract failure details
+                            # Extract failure details
                             failures = summary.get("failures", [])
-                            # Simple summary for now, maybe filtered by 'hidden' later
-                            fail_names = [f.get("name", "Unknown") for f in failures]
-                            res.detail = f"Tests failed: {', '.join(fail_names[:3])}"
-                            if len(fail_names) > 3:
-                                res.detail += f" and {len(fail_names)-3} more"
+                            
+                            # Redact hidden tests
+                            grading = getattr(quest_def, "grading_json", {}) or {}
+                            hidden_files = grading.get("hidden_tests", [])
+                            # Normalize hidden files keys (e.g. "test_hidden.py" -> "test_hidden")
+                            hidden_modules = [f.replace('.py', '') for f in hidden_files]
+                            reveal = grading.get("reveal_hidden_failures", False)
+                            
+                            cleaned_failures = []
+                            for f in failures:
+                                name = f.get("name", "Unknown")
+                                is_hidden = any(h in name for h in hidden_modules)
+                                
+                                if is_hidden and not reveal:
+                                    cleaned_failures.append({"name": "Hidden Test", "message": "Failure details hidden."})
+                                else:
+                                    cleaned_failures.append(f)
+                                    
+                            # Re-summarize
+                            fail_names = [f.get("name", "Unknown") for f in cleaned_failures]
+                            # De-dupe "Hidden Test"
+                            if "Hidden Test" in fail_names:
+                                visible_fails = [n for n in fail_names if n != "Hidden Test"]
+                                hidden_count = fail_names.count("Hidden Test")
+                                fail_msg = f"Tests failed: {', '.join(visible_fails[:3])}"
+                                if visible_fails: 
+                                    fail_msg += ", "
+                                fail_msg += f"{hidden_count} hidden test(s) failed."
+                                res.detail = fail_msg
+                            else:
+                                res.detail = f"Tests failed: {', '.join(fail_names[:3])}"
+                                if len(fail_names) > 3:
+                                    res.detail += f" and {len(fail_names)-3} more"
                 
         except Exception as e:
             res.detail = f"Validation Error: {str(e)}"

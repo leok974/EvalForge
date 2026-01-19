@@ -68,6 +68,11 @@ services:
       - db_data:/var/lib/postgresql/data
     networks:
       - evalforge
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U evalforge -d evalforge"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
 
   # 4. The Nervous System (Redis)
   redis:
@@ -79,6 +84,11 @@ services:
       - redis_data:/data
     networks:
       - evalforge
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
 
 volumes:
   db_data:

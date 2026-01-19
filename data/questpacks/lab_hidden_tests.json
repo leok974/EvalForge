@@ -44,7 +44,7 @@
             }
         ],
         "runtime": {
-            "timeout_ms": 30000
+            "timeout_ms": 60000
         },
         "smoke": {
             "expect_starter_pass": false,

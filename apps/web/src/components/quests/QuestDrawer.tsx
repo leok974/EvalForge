@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, Lock, History, Check, X, Clock } from 'lucide-react';
 import { QuestSummary, QuestAttemptSummary } from '@/lib/questsApi';
@@ -11,19 +11,46 @@ interface QuestDrawerProps {
     // New History Props
     attempts?: QuestAttemptSummary[];
     onSelectAttempt?: (attemptId: string) => void;
+    // Tab Control
+    controlTab?: Tab; // 'briefing' | 'objectives' | 'lore' | 'hints' | 'history'
+    onTabChange?: (tab: Tab) => void;
 }
 
 type Tab = 'briefing' | 'objectives' | 'lore' | 'hints' | 'history';
 
-export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts = [], onSelectAttempt }: QuestDrawerProps) {
+export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts = [], onSelectAttempt, controlTab, onTabChange }: QuestDrawerProps) {
     const [activeTab, setActiveTab] = useState<Tab>('briefing');
 
-    // Switch to history tab if attempts change and we just ran? 
-    // Maybe not, usually user stays context. 
-    // But we might want to default to history if we are replaying?
+    // Sync external control
+    useEffect(() => {
+        if (controlTab) {
+            setActiveTab(controlTab);
+        }
+    }, [controlTab]);
+
+    // Internal handler to notify parent
+    const handleTabClick = (tab: Tab) => {
+        setActiveTab(tab);
+        onTabChange?.(tab);
+    };
 
     // Simple verification for "Unlockable" hints (mocked for now)
     const [unlockedHints, setUnlockedHints] = useState<Record<string, boolean>>({});
+
+    // Init unlocked hints from quest prop if available (Backend 7.1)
+    useEffect(() => {
+        if ((quest as any).hint_tier_unlocked > 0) {
+            const tier = (quest as any).hint_tier_unlocked;
+            // Map tier to unlock map
+            const map: Record<string, boolean> = {};
+            quest.hints?.forEach(h => {
+                // Heuristic: map type to tier
+                const hTier = h.type === 'concept' ? 1 : h.type === 'snippet' ? 2 : 3;
+                if (hTier <= tier) map[h.id] = true;
+            });
+            setUnlockedHints(prev => ({ ...prev, ...map }));
+        }
+    }, [quest]);
 
     const toggleHint = async (id: string, type: 'concept' | 'snippet' | 'solution') => {
         // ... (existing hint logic)
@@ -61,7 +88,7 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
+                        onClick={() => handleTabClick(tab.id)}
                         className={cn(
                             "flex-1 flex items-center justify-center gap-2 py-3 px-2 text-[10px] font-bold uppercase tracking-wider transition-all border-b-2 min-w-[80px]",
                             activeTab === tab.id

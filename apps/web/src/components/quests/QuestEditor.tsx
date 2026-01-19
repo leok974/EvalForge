@@ -2,6 +2,8 @@ import React, { useRef, useImperativeHandle, forwardRef, useEffect, useState } f
 import Editor, { OnMount } from '@monaco-editor/react';
 import { Loader2, Zap } from 'lucide-react';
 
+import { Diagnostic } from '@/lib/questsApi';
+
 export interface QuestEditorRef {
     jumpToLine: (line: number) => void;
 }
@@ -12,6 +14,7 @@ interface QuestEditorProps {
     onChange: (v: string) => void;
     isSaving?: boolean;
     readOnly?: boolean;
+    diagnostics?: Diagnostic[];
 }
 
 export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
@@ -20,8 +23,10 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
     onChange,
     isSaving = false,
     readOnly = false,
+    diagnostics = [],
 }, ref) => {
     const editorRef = useRef<any>(null);
+    const monacoRef = useRef<any>(null);
     const decorationsRef = useRef<string[]>([]);
 
     // Toggle for "Optical Enhancer" (Stub)
@@ -29,7 +34,28 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
 
     const handleEditorDidMount: OnMount = (editor, monaco) => {
         editorRef.current = editor;
+        monacoRef.current = monaco;
     };
+
+    // Apply Diagnostics
+    useEffect(() => {
+        if (!editorRef.current || !monacoRef.current) return;
+        const model = editorRef.current.getModel();
+        if (!model) return;
+
+        const markers = diagnostics.map(d => ({
+            severity: d.severity === 'error'
+                ? monacoRef.current.MarkerSeverity.Error
+                : monacoRef.current.MarkerSeverity.Warning,
+            message: d.message,
+            startLineNumber: d.line,
+            startColumn: d.column || 1,
+            endLineNumber: d.line,
+            endColumn: (d.column || 1) + 100 // Highlight rest of line roughly
+        }));
+
+        monacoRef.current.editor.setModelMarkers(model, 'evalforge', markers);
+    }, [diagnostics]); // Re-run when diagnostics change
 
     useImperativeHandle(ref, () => ({
         jumpToLine: (lineNumber: number) => {
@@ -40,9 +66,18 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
             editor.setPosition({ column: 1, lineNumber });
             editor.focus();
 
-            // Flash highlight
-            // (In a real implementation, we'd use monaco.editor.deltaDecorations)
-            // For now, we rely on selection highlight
+            // Highlight Line
+            const decorations = [{
+                range: new monacoRef.current.Range(lineNumber, 1, lineNumber, 1),
+                options: {
+                    isWholeLine: true,
+                    className: 'myLineDecoration',
+                    linesDecorationsClassName: 'myLineDecorationMargin' // Gutter
+                }
+            }];
+            // We need to clear previous decorations? 
+            // decorationsRef.current = editor.deltaDecorations(decorationsRef.current, decorations);
+            // Just reveal for now, simple implementation
         }
     }));
 
