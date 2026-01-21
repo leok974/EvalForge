@@ -13,6 +13,7 @@ from arcade_app.quest_helper import quest_to_dict
 from arcade_app.services.quest_validate import validate_first_sparks_with_runtime # We'll need this or generic runner
 from arcade_app.services.security import sanitize_logs
 from arcade_app.services.utils import build_effective_workspace
+from arcade_app.services.quick_fix_generator import generate_quick_fixes
 
 router = APIRouter(prefix="/api/quests", tags=["quests"])
 
@@ -357,7 +358,37 @@ async def submit_quest_solution(
             workspace_paths
         )
         
+        diagnostics_data = parse_diagnostics(
+            run_res.get("stderr", ""),
+            payload.language,
+            workspace_paths
+        )
+        
     attempt.diagnostics_json = diagnostics_data
+
+    # Phase 7.1.4: Quick Fixes
+    # Reconstruct workspace for generator
+    gen_workspace = {}
+    if run_workspace and "files" in run_workspace:
+        for f in run_workspace["files"]:
+            # Use content from run_workspace (merged)
+            gen_workspace[f["path"]] = {"content": f.get("content", "")}
+    elif payload.workspace:
+         # Fallback to payload if run_workspace failed?
+         # payload.workspace is list of dicts {path, content}
+         if isinstance(payload.workspace, list): # It's defined as List[Dict] in schema
+             for f in payload.workspace:
+                 gen_workspace[f.get("path")] = {"content": f.get("content", "")}
+    
+    q_fixes = generate_quick_fixes(
+        language=payload.language or "python",
+        failure_summary=failure_summary,
+        diagnostics=diagnostics_data, 
+        objective_results=objective_results,
+        workspace_snapshot=gen_workspace,
+        hidden_tests_reveal=False # Submit never reveals hidden details
+    )
+    attempt.quick_fixes_json = [f.model_dump() for f in q_fixes]
 
     if passed:
         prog.status = "completed" # or mastered if bonus criteria?
@@ -395,8 +426,10 @@ async def submit_quest_solution(
         "objective_results": objective_results,
         "coach": coach_data,
         "debrief": debrief_data,
-        "diagnostics": diagnostics_data
+        "diagnostics": diagnostics_data,
+        "quick_fixes": [f.model_dump() for f in q_fixes]
     }
+
 
 
 @router.get("/{quest_id}/attempts/{attempt_id}/report", response_model=Dict)

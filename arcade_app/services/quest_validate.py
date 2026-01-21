@@ -61,6 +61,10 @@ def validate_quest_attempt(
     # 3. Process Objectives
     objectives = getattr(quest_def, "objectives_json", []) or []
     
+    if not objectives and not getattr(quest_def, "sandbox", False) and not getattr(quest_def, "is_sandbox", False):
+         # If no objectives and not a sandbox, this is likely a configuration error
+         return [ObjResult(id="config", ok=False, detail="Quest has no objectives configured").__dict__]
+    
     stdout_clean = (stdout or "").lower()
 
     for obj in objectives:

@@ -72,6 +72,18 @@ def _parse_python_traceback(lines: List[str], valid_files: set) -> List[Dict]:
                     "line": line_num,
                     "index": i
                 })
+            else:
+                 # Fallback: Try basename match (for temp executions of main.py)
+                 # This handles /tmp/evalforge-run-xyz/main.py matching main.py
+                 import os
+                 base = os.path.basename(clean_path)
+                 if base in valid_files:
+                    line_num = int(match.group('line'))
+                    frames.append({
+                        "path": base, # Map to the workspace path
+                        "line": line_num,
+                        "index": i
+                    })
         
         # Check for exception type at end (e.g. "NameError: ...")
         # Usually valid python exception lines start with `NameError:` or `ZeroDivisionError:` etc.

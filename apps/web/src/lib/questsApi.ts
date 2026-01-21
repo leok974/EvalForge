@@ -3,8 +3,8 @@ import { safeJson } from '@/lib/safeFetch';
 
 export type QuestState = "locked" | "available" | "in_progress" | "completed" | "mastered";
 
+// ... types
 export interface QuestSummary {
-    // ... existing types ...
     id: number;
     slug: string;
     world_id: string;
@@ -38,7 +38,7 @@ export interface QuestSummary {
     objectives?: {
         id: string;
         text: string;
-        why?: string; // New: Explains the learning outcome
+        why?: string;
         validator: { kind: "regex" | "ast" | "contains" | "tests_pass"; value: string };
     }[];
     hints?: {
@@ -76,62 +76,76 @@ export interface DebriefData {
     } | null;
 }
 
-export interface QuestSubmitResult {
-    quest: QuestSummary;
-    score: number;
-    passed: boolean;
-    xp_awarded?: number;
-    unlock_events?: QuestUnlockEvent[];
-    profile?: {
-        xp?: number;
-        flags?: Record<string, unknown>;
-    };
-    coach?: any; // CoachData
-    debrief?: DebriefData;
-    diagnostics?: Diagnostic[];
+export interface ObjectiveResult {
+    id: string;
+    ok: boolean;
+    detail?: string;
+    line?: number;
 }
 
-// ... (fetch endpoints)
-
-// ...
+export interface QuickFix {
+    id: string;
+    kind: "apply_patch" | "copy_snippet" | "navigate";
+    title: string;
+    why: string;
+    severity: "safe" | "suggestion";
+    locator?: {
+        path: string;
+        line: number;
+        column: number;
+    };
+    patch?: {
+        path: string;
+        replacement_full_content: string;
+    };
+    snippet?: string;
+}
 
 export interface RunResult {
     passed: boolean;
-    objective_results: {
-        id: string;
-        ok: boolean;
-        detail?: string;
-        line?: number;
-    }[];
-    stdout?: string;
-    stderr?: string;
+    objective_results: ObjectiveResult[];
+    stdout?: string | null;
+    stderr?: string | null;
     ready_to_submit: boolean;
-    // New Artifact fields
-    attempt_id?: string;
-    run_number?: number;
-    duration_ms?: number;
-    exit_code?: number;
-    timed_out?: boolean;
+    attempt_id: string;
+    run_number: number;
+    duration_ms: number;
+    exit_code?: number | null;
+    timed_out: boolean;
     test_summary?: any;
-    coach?: any;
+    coach?: object;
     debrief?: DebriefData;
     diagnostics?: Diagnostic[];
+    quick_fixes?: QuickFix[];
 }
 
-// ...
+export interface QuestSubmitResult {
+    ok: boolean;
+    quest_id: string;
+    xp_awarded: number;
+    mastery_awarded: number;
+    objective_results: ObjectiveResult[];
+    status: string;
+    debrief?: DebriefData;
+    diagnostics?: Diagnostic[];
+    quick_fixes?: QuickFix[];
+}
 
-export interface QuestAttemptDetail extends QuestAttemptSummary {
+export interface QuestAttemptDetail {
+    id: string;
     code: string;
     stdout?: string;
     stderr?: string;
-    objective_results: {
-        id: string;
-        ok: boolean;
-        detail?: string;
-        line?: number;
-    }[];
-    debrief_json?: DebriefData;
-    diagnostics_json?: Diagnostic[];
+    objective_results: ObjectiveResult[];
+    run_number: number;
+    passed: boolean;
+    duration_ms: number;
+    timed_out: boolean;
+    is_submit: boolean;
+    created_at: string;
+    debrief?: DebriefData;
+    diagnostics?: Diagnostic[];
+    quick_fixes?: QuickFix[];
 }
 
 export async function fetchQuests(worldId?: string): Promise<QuestSummary[]> {

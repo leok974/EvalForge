@@ -14,6 +14,7 @@ from arcade_app.models import QuestDefinition
 from arcade_app.services.quest_validate import validate_quest_attempt
 from arcade_app.services.security import sanitize_logs
 from arcade_app.services.utils import build_effective_workspace
+from arcade_app.services.quick_fix_generator import generate_quick_fixes
 
 router = APIRouter(prefix="/api/quests", tags=["quests-runtime"])
 
@@ -83,17 +84,21 @@ async def run_quest(
     EXECUTION_ENABLED = os.getenv("EXECUTION_ENABLED", "0") == "1"
     EXECUTION_TIMEOUT_MS = int(os.getenv("EXECUTION_TIMEOUT_MS", "2000"))
     
+    run_workspace = None
+
     if (payload.mode in ["execute", "tests"]) and EXECUTION_ENABLED:
         from arcade_app.services.code_runner import run_code
         
         # Construct effective workspace if needed
-        run_workspace = None
         workspace_def = getattr(quest, "workspace_json", None)
         
         if workspace_def:
              # Merge overlay
              user_overlay = payload.workspace or []
              run_workspace = build_effective_workspace(workspace_def, user_overlay)
+        elif payload.workspace:
+             # Fallback: Use payload workspace directly if no quest workspace defined
+             run_workspace = {"files": payload.workspace}
         
         # Use payload language if provided, else default to python (or quest language)
         lang = payload.language or "python"
@@ -105,11 +110,44 @@ async def run_quest(
         stdout = sanitize_logs(r.stdout)
         stderr = sanitize_logs(r.stderr)
         timed_out, duration_ms = r.timed_out, r.duration_ms
-        exit_code = 0 if not timed_out else 1 # TODO: real exit code
+        exit_code = r.exit_code if r.exit_code is not None else (1 if timed_out else 0)
+
+    # Resolve source code for static analysis (AST/Regex)
+    # If payload.code is empty (workspace mode), use the entrypoint file content
+    validation_code = payload.code
+    # Resolve source code for static analysis (AST/Regex)
+    # If payload.code is empty (workspace mode), use the entrypoint file content
+    validation_code = payload.code
+    
+    if not validation_code:
+        # 1. Try effective workspace (execution mode)
+        target_files = []
+        if run_workspace and "files" in run_workspace:
+            target_files = run_workspace["files"]
+        # 2. Fallback to payload workspace (validate mode)
+        elif payload.workspace:
+             # payload.workspace is a list of dicts (or objects)
+             target_files = payload.workspace
+
+        if target_files:
+            # Determine entrypoint
+            entry_file = getattr(payload, "entrypoint", None)
+            if not entry_file and getattr(quest, "workspace", None):
+                entry_file = quest.workspace.get("entrypoint")
+            if not entry_file:
+                entry_file = "main.py" # Default
+            
+            # Find content
+            for f in target_files:
+                # Handle both dict and Pydantic object
+                f_path = f.get("path") if isinstance(f, dict) else getattr(f, "path", None)
+                if f_path == entry_file:
+                    validation_code = f.get("content") if isinstance(f, dict) else getattr(f, "content", "")
+                    break
 
     # Validate
     objective_results = validate_quest_attempt(
-        code=payload.code,
+        code=validation_code,
         stdout=stdout,
         stderr=stderr,
         exit_code=exit_code,
@@ -191,6 +229,13 @@ async def run_quest(
        workspace_paths = []
        if run_workspace and "files" in run_workspace:
            workspace_paths = [f["path"] for f in run_workspace["files"]]
+        
+       if not workspace_paths and payload.code:
+            # Fallback for single file execution
+            fname = "main.py"
+            if payload.language == "javascript": fname = "main.js"
+            elif payload.language == "typescript": fname = "main.ts"
+            workspace_paths.append(fname)
        
        # Also include active files if singular?
        # The parser handles cleaning paths.
@@ -202,6 +247,47 @@ async def run_quest(
        )
        
     attempt.diagnostics_json = diagnostics_data
+
+    # Phase 7.1.4: Quick Fixes
+    # Reconstruct workspace for generator (run_workspace has the effective structure)
+    # But run_workspace format is dict with "files": [list]. 
+    # Generator expects workspace_snapshot dict {path: {content}}.
+    
+    gen_workspace = {}
+    if run_workspace and "files" in run_workspace:
+        # We want user's editable content. 
+        # Typically run_workspace merges user overlay.
+        # So we can just map it.
+        for f in run_workspace["files"]:
+            gen_workspace[f["path"]] = {"content": f.get("content", "")}
+    
+    # Or just fallback to payload.
+    if not gen_workspace and payload.workspace:
+         gen_workspace = {f["path"]: {"content": f.get("content", "")} for f in payload.workspace}
+    elif not gen_workspace and payload.code:
+         # Legacy single file mode - default to main.py (or main.ts etc)
+         # We need to guess the filename or defaults. Python -> main.py
+         fname = "main.py" 
+         if payload.language == "javascript": fname = "main.js"
+         elif payload.language == "typescript": fname = "main.ts"
+         
+         gen_workspace = {fname: {"content": payload.code}}
+
+    # Helper to handle mixed dict/Pydantic models safely
+    def normalize_obj(x):
+        if hasattr(x, "model_dump"):
+            return x.model_dump()
+        return x
+
+    q_fixes = generate_quick_fixes(
+        language=payload.language or "python",
+        failure_summary=failure_summary,
+        diagnostics=diagnostics_data, 
+        objective_results=[normalize_obj(r) for r in (objective_results or [])],
+        workspace_snapshot=gen_workspace,
+        hidden_tests_reveal=True # /run is visible
+    )
+    attempt.quick_fixes_json = [f.model_dump() for f in q_fixes]
 
     if passed:
         from arcade_app.services.debrief_generator import generate_debrief
@@ -228,7 +314,8 @@ async def run_quest(
         "timed_out": timed_out,
         "coach": coach_data,
         "debrief": debrief_data,
-        "diagnostics": diagnostics_data
+        "diagnostics": diagnostics_data,
+        "quick_fixes": q_fixes
     }
 
 @router.get("/{quest_id}/attempts", response_model=list[dict])

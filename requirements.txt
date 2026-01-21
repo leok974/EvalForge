@@ -6,6 +6,7 @@ python-dotenv
 sse-starlette
 httpx
 python-jose[cryptography]
+pytest
 
 # --- Database (Phase 13) ---
 sqlmodel

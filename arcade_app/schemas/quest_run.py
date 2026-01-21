@@ -25,6 +25,19 @@ class Diagnostic(BaseModel):
     kind: str = "runtime" # syntax, runtime, test
     message: str
 
+    kind: str = "runtime" # syntax, runtime, test
+    message: str
+
+class QuickFix(BaseModel):
+    id: str
+    kind: str  # apply_patch | copy_snippet | navigate
+    title: str
+    why: str
+    severity: str = "safe" # safe | suggestion
+    locator: Optional[dict] = None # {path, line, column}
+    patch: Optional[dict] = None # {path, replacement_full_content} - keeping it simple for now
+    snippet: Optional[str] = None # for copy_snippet
+
 class RunResponse(BaseModel):
     passed: bool
     objective_results: List[ObjectiveResult]
@@ -47,3 +60,6 @@ class RunResponse(BaseModel):
     
     # Phase 7.1.3: Inline Diagnostics
     diagnostics: List[Diagnostic] = []
+
+    # Phase 7.1.4: Quick Fixes
+    quick_fixes: List[QuickFix] = []

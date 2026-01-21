@@ -1,10 +1,10 @@
 # Stage 1: Build Frontend
-FROM node:18-alpine as frontend-build
+FROM node:22-alpine as frontend-build
 WORKDIR /app/web
 # Copy package files from apps/web
 COPY apps/web/package*.json ./
 COPY bust_cache.txt* ./
-RUN npm ci
+RUN npm install
 # Copy source code
 COPY apps/web/ ./
 RUN npm run build
@@ -33,10 +33,10 @@ COPY docs /app/docs
 COPY --from=frontend-build /app/web/dist /app/static
 
 # Env vars for production
-ENV PORT=8080
+ENV PORT=8092
 ENV EVALFORGE_MOCK_GRADING=1
 ENV WEB_DIST=/app/static
 ENV EVALFORGE_ENV=prod
 
 # Run command
-CMD ["python", "-m", "uvicorn", "arcade_app.agent:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["python", "-m", "uvicorn", "arcade_app.agent:app", "--host", "0.0.0.0", "--port", "8092"]

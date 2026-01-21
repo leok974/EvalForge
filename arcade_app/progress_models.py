@@ -35,6 +35,9 @@ class QuestAttempt(SQLModel, table=True):
     # Phase 7.1.2: Success Debrief
     debrief_json: Dict[str, Any] = Field(default={}, sa_type=JSON)
     diagnostics_json: List[Dict[str, Any]] = Field(default=[], sa_type=JSON)
+    
+    # Phase 7.1.4: Quick Fixes
+    quick_fixes_json: List[Dict[str, Any]] = Field(default=[], sa_type=JSON)
 
 
 class QuestProgressV2(SQLModel, table=True):

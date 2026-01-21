@@ -7,7 +7,8 @@ import { QuestSuccessOverlay } from './QuestSuccessOverlay';
 import { CoachBanner, CoachData } from './CoachBanner';
 import { DebriefData } from './DebriefPanel';
 import { ProblemsPanel } from './ProblemsPanel'; // Import
-import { Diagnostic } from '@/lib/questsApi';
+import { Diagnostic, QuickFix } from '@/lib/questsApi';
+import { QuickFixBar } from './QuickFixBar';
 import { AnimatePresence } from 'framer-motion';
 import { Play, RotateCcw, CheckCircle2, Terminal as TerminalIcon, Copy, Info, AlertTriangle, Check, FileCode, History as HistoryIcon, Split, Download, X, Lock } from 'lucide-react';
 import { DiffEditor } from '@monaco-editor/react';
@@ -31,6 +32,7 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
     const [coachData, setCoachData] = useState<CoachData | null>(null);
     const [debriefData, setDebriefData] = useState<DebriefData | undefined>(undefined);
     const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
+    const [quickFixes, setQuickFixes] = useState<QuickFix[]>([]);
     const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | undefined>(undefined);
 
     // State
@@ -106,9 +108,9 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
 
             // Set console to replay output
             setOutput([
-                { type: 'info', content: `Playback: Run #${detail.run_number || '?'}` },
-                { type: 'output', content: detail.stdout || "" },
-                { type: detail.passed ? 'success' : 'error', content: detail.passed ? "Attempt Passed" : "Attempt Failed" }
+                { type: 'info', content: `Playback: Run #${detail.run_number || '?'}`, timestamp: Date.now() },
+                { type: 'output', content: detail.stdout || "", timestamp: Date.now() },
+                { type: detail.passed ? 'success' : 'error', content: detail.passed ? "Attempt Passed" : "Attempt Failed", timestamp: Date.now() }
             ]);
 
             // Set Debrief from replay if available
@@ -122,6 +124,11 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                 setDiagnostics((detail as any).diagnostics_json);
             } else {
                 setDiagnostics([]);
+            }
+            if ((detail as any).quick_fixes_json) {
+                setQuickFixes((detail as any).quick_fixes_json);
+            } else {
+                setQuickFixes([]);
             }
 
 
@@ -342,21 +349,89 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
         }
     };
 
+    const handleApplyFix = (fix: QuickFix) => {
+        if (isReplay || !fix.patch) return;
+
+        const { path, replacement_full_content } = fix.patch;
+
+        // Verify file exists
+        if (!files[path]) {
+            addLog(`Failed to apply fix: File ${path} not found`, 'error');
+            return;
+        }
+
+        // Verify file is editable
+        if (files[path].editable === false) { // Could be undefined (true)
+            addLog(`Failed to apply fix: File ${path} is read-only`, 'error');
+            return;
+        }
+
+        try {
+            setFiles(prev => ({
+                ...prev,
+                [path]: { ...prev[path], content: replacement_full_content, editable: prev[path]?.editable ?? true }
+            }));
+
+            // If file not active, switch to it?
+            if (path !== activePath) setActivePath(path);
+
+            setAutosaveStatus('unsaved');
+            addLog(`Applied fix: ${fix.title}`, 'success');
+
+            // Only remove on success
+            setQuickFixes(prev => prev.filter(f => f.id !== fix.id));
+        } catch (e: any) {
+            addLog(`Error applying fix: ${e.message}`, 'error');
+        }
+    };
+
+    const handleNavigateFix = (fix: QuickFix) => {
+        if (fix.locator) {
+            setActivePath(fix.locator.path);
+            setTimeout(() => {
+                editorRef.current?.jumpToLine(fix.locator!.line);
+            }, 50);
+        }
+    };
+
     const handleRun = async () => {
+        console.warn(">>> handleRun CALLED");
         setIsRunning(true);
         addLog('--- Starting Execution ---', 'info');
         setCoachData(null); // Reset coach
 
         try {
-            const { runQuest } = await import('@/lib/questsApi'); // Ensure import if not at top-level, or rely on top level
+            const { runQuest } = await import('@/lib/questsApi');
+
+            // Helper to get fresh content from Monaco models to preserve Tabs / exact state
+            const getFreshContent = (filePath: string, fallback: string) => {
+                const monaco = editorRef.current?.getMonaco();
+                if (!monaco) {
+                    console.warn("[monaco models] NO MONACO INSTANCE");
+                    return fallback;
+                }
+
+                const models = monaco.editor.getModels();
+                console.warn("[monaco models]", models.map((m: any) => ({
+                    uri: m.uri.toString(),
+                    path: m.uri.path,
+                    hasTab: m.getValue().includes("\t")
+                })));
+
+                // Find model ending with path (handle / vs \ maybe? usually uri uses /)
+                const model = models.find((m: any) => m.uri.path.endsWith(filePath) || m.uri.path.endsWith('/' + filePath));
+                return model ? model.getValue() : fallback;
+            };
 
             const workspacePayload = {
                 entrypoint: quest.workspace?.entrypoint || activePath,
                 files: Object.entries(files).map(([path, f]) => ({
                     path,
-                    content: f.content
+                    content: getFreshContent(path, f.content)
                 }))
             };
+
+            console.debug("[RUN payload]", workspacePayload);
 
             const result = await runQuest(
                 quest.slug,
@@ -389,6 +464,9 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                 setDebriefData((result as any).debrief);
             }
             setDiagnostics(result.diagnostics || []);
+            // Safe fallback for various payload shapes
+            const fixes = result.quick_fixes || (result as any).quick_fixes_json || (result as any).attempt?.quick_fixes_json || [];
+            setQuickFixes(fixes);
 
             // Add to history if we got an artifact back
             if (result.attempt_id) {
@@ -429,11 +507,21 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
             const { submitQuestSolution } = await import('@/lib/questsApi');
             const { broadcastQuestUpdate } = await import('@/lib/questsEvents');
 
+            // Helper to get fresh content from Monaco models to preserve Tabs / exact state
+            const getFreshContent = (filePath: string, fallback: string) => {
+                const monaco = editorRef.current?.getMonaco();
+                if (!monaco) return fallback;
+
+                const models = monaco.editor.getModels();
+                const model = models.find((m: any) => m.uri.path.endsWith(filePath) || m.uri.path.endsWith('/' + filePath));
+                return model ? model.getValue() : fallback;
+            };
+
             const workspacePayload = {
                 entrypoint: quest.workspace?.entrypoint || activePath,
                 files: Object.entries(files).map(([path, f]) => ({
                     path,
-                    content: f.content
+                    content: getFreshContent(path, f.content)
                 }))
             };
 
@@ -444,17 +532,22 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                 workspacePayload
             );
 
-            if (result.coach) {
-                setCoachData(result.coach);
+            if ((result as any).coach) {
+                setCoachData((result as any).coach);
             }
             if (result.debrief) {
                 setDebriefData(result.debrief);
             }
             setDiagnostics(result.diagnostics || []);
+            const fixes = result.quick_fixes || (result as any).quick_fixes_json || (result as any).attempt?.quick_fixes_json || [];
+            setQuickFixes(fixes);
 
-            if (result.passed) {
+            if (result.ok) {
                 // 1. Notify UI components (QuestBoard)
-                broadcastQuestUpdate(result.quest);
+                // broadcastQuestUpdate(result.quest); // Result doesn't have quest?
+                // Actually broadcastQuestUpdate expects QuestSummary.
+                // We might need to fetch it or construct it? 
+                // Or just refresh world progress.
 
                 // 2. Success Overlay
                 setShowSuccess(true);
@@ -771,6 +864,7 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                             <QuestEditor
                                 ref={editorRef}
                                 value={displayCode || ""} // Show replay code or active file
+                                path={activePath}
                                 onChange={v => {
                                     if (!isReplay && files[activePath]?.editable) {
                                         setFiles(prev => ({
@@ -817,6 +911,13 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                             </AnimatePresence>
                         </div>
                     </div>
+
+                    <QuickFixBar
+                        fixes={quickFixes}
+                        onApplyPatch={handleApplyFix}
+                        onNavigate={handleNavigateFix}
+                        readOnly={isReadOnly}
+                    />
 
                     {/* Rich Console */}
                     <div className="h-48 border-t border-zinc-800 bg-[#09090b] flex flex-col shrink-0 font-mono">

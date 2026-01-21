@@ -6,10 +6,12 @@ import { Diagnostic } from '@/lib/questsApi';
 
 export interface QuestEditorRef {
     jumpToLine: (line: number) => void;
+    getMonaco: () => any;
 }
 
 interface QuestEditorProps {
     language?: string;
+    path?: string;
     value: string;
     onChange: (v: string) => void;
     isSaving?: boolean;
@@ -19,6 +21,7 @@ interface QuestEditorProps {
 
 export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
     language = "python",
+    path,
     value,
     onChange,
     isSaving = false,
@@ -78,6 +81,9 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
             // We need to clear previous decorations? 
             // decorationsRef.current = editor.deltaDecorations(decorationsRef.current, decorations);
             // Just reveal for now, simple implementation
+        },
+        getMonaco: () => {
+            return monacoRef.current;
         }
     }));
 
@@ -100,6 +106,7 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
             <div className="flex-1 min-h-0">
                 <Editor
                     height="100%"
+                    path={path}
                     defaultLanguage={language}
                     value={value}
                     onChange={(v) => onChange(v ?? "")}
