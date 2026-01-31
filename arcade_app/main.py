@@ -8,7 +8,6 @@ from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
 
 from arcade_app.database import init_db
-from arcade_app.agent import router as agent_router
 from arcade_app.routers import routes_quests_runtime
 from arcade_app.routers import routes_qa
 
@@ -45,7 +44,6 @@ app.add_middleware(
 )
 
 # Mount Routers
-app.include_router(agent_router)
 app.include_router(routes_quests_runtime.router)
 app.include_router(routes_qa.router)
 # app.include_router(routes_boss.router)

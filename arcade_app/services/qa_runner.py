@@ -10,7 +10,7 @@ import copy
 
 from sqlmodel import select
 from arcade_app.models import QaRun, QuestDefinition
-from arcade_app.config import get_async_session
+from arcade_app.database import get_session
 from arcade_app.services.code_runner import run_code
 from arcade_app.services.quest_validate import validate_quest_attempt
 
@@ -26,7 +26,7 @@ async def execute_qa_run(quest_slug: str, variant: str) -> str:
     """
     run_id = f"qarun_{uuid.uuid4().hex[:12]}"
     
-    async with get_async_session() as session:
+    async for session in get_session():
         # Fetch quest definition
         quest_result = await session.exec(
             select(QuestDefinition).where(QuestDefinition.slug == quest_slug)
@@ -68,7 +68,7 @@ async def _execute_run_logic(run_id: str, quest: QuestDefinition, variant: str):
     """Internal logic to execute the run and update the record."""
     start_time = time.time()
     
-    async with get_async_session() as session:
+    async for session in get_session():
         # Update to running
         run_result = await session.exec(select(QaRun).where(QaRun.id == run_id))
         qa_run = run_result.first()
@@ -92,7 +92,7 @@ async def _execute_run_logic(run_id: str, quest: QuestDefinition, variant: str):
         duration_ms = int((time.time() - start_time) * 1000)
         
         # Update run record with results
-        async with get_async_session() as session:
+        async for session in get_session():
             run_result = await session.exec(select(QaRun).where(QaRun.id == run_id))
             qa_run = run_result.first()
             if qa_run:
@@ -106,7 +106,7 @@ async def _execute_run_logic(run_id: str, quest: QuestDefinition, variant: str):
     
     except Exception as e:
         # Mark as failed
-        async with get_async_session() as session:
+        async for session in get_session():
             run_result = await session.exec(select(QaRun).where(QaRun.id == run_id))
             qa_run = run_result.first()
             if qa_run:

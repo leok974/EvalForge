@@ -5,7 +5,7 @@ import json
 
 from sqlmodel import select
 from arcade_app.models import QaRun, QuestDefinition
-from arcade_app.config import get_async_session
+from arcade_app.database import get_session
 
 router = APIRouter(prefix="/api/qa", tags=["qa"])
 
@@ -21,7 +21,7 @@ async def get_qa_summary():
     Returns global health metrics + per-track breakdown.
     Sources: DB (latest QaRun per quest) + artifact files.
     """
-    async with get_async_session() as session:
+    async for session in get_session():
         # Get all quests
         quests_result = await session.exec(select(QuestDefinition))
         quests = list(quests_result)
@@ -101,7 +101,7 @@ async def get_qa_quests(
     Returns list of quests with health status and filters.
     Query params: world_id, track_id, language, status, q (search).
     """
-    async with get_async_session() as session:
+    async for session in get_session():
         query = select(QuestDefinition)
         
         if world_id:
@@ -183,10 +183,17 @@ async def get_qa_artifact(filename: str):
         raise HTTPException(status_code=500, detail=f"Failed to read artifact: {str(e)}")
 
 
+# Request Models
+from pydantic import BaseModel
+
+class QARunRequest(BaseModel):
+    quest_id: str
+    variant: str = "integrity"
+
+
 @router.post("/run")
 async def create_qa_run(
-    quest_id: str,
-    variant: str = "integrity",
+    request: QARunRequest,
     background_tasks: BackgroundTasks = None
 ):
     """
@@ -197,11 +204,11 @@ async def create_qa_run(
     """
     from arcade_app.services.qa_runner import execute_qa_run
     
-    if variant not in ["starter", "solution", "integrity"]:
+    if request.variant not in ["starter", "solution", "integrity"]:
         raise HTTPException(status_code=400, detail="Invalid variant. Must be starter, solution, or integrity")
     
     try:
-        run_id = await execute_qa_run(quest_id, variant)
+        run_id = await execute_qa_run(request.quest_id, request.variant)
         return {"run_id": run_id, "status": "queued"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create QA run: {str(e)}")
@@ -213,7 +220,7 @@ async def get_qa_run(run_id: str):
     Get the status and results of a QA run.
     Polling endpoint for frontend.
     """
-    async with get_async_session() as session:
+    async for session in get_session():
         run_result = await session.exec(select(QaRun).where(QaRun.id == run_id))
         qa_run = run_result.first()
         
