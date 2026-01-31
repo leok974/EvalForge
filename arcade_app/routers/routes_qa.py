@@ -6,6 +6,8 @@ import json
 from sqlmodel import select
 from arcade_app.models import QaRun, QuestDefinition
 from arcade_app.database import get_session
+from arcade_app.auth_helper import require_admin
+from fastapi import Depends
 
 router = APIRouter(prefix="/api/qa", tags=["qa"])
 
@@ -16,7 +18,7 @@ ALLOWED_ARTIFACTS = {
 }
 
 @router.get("/summary")
-async def get_qa_summary():
+async def get_qa_summary(current_user: Dict = Depends(require_admin)):
     """
     Returns global health metrics + per-track breakdown.
     Sources: DB (latest QaRun per quest) + artifact files.
@@ -95,7 +97,8 @@ async def get_qa_quests(
     track_id: Optional[str] = Query(None),
     language: Optional[str] = Query(None),
     status: Optional[str] = Query(None),
-    q: Optional[str] = Query(None)
+    q: Optional[str] = Query(None),
+    current_user: Dict = Depends(require_admin)
 ):
     """
     Returns list of quests with health status and filters.
@@ -158,7 +161,7 @@ async def get_qa_quests(
 
 
 @router.get("/artifacts/{filename}")
-async def get_qa_artifact(filename: str):
+async def get_qa_artifact(filename: str, current_user: Dict = Depends(require_admin)):
     """
     Serves allowlisted artifact files (smoke-content-failures.json/md).
     Strict allowlist to prevent path traversal.
@@ -194,7 +197,8 @@ class QARunRequest(BaseModel):
 @router.post("/run")
 async def create_qa_run(
     request: QARunRequest,
-    background_tasks: BackgroundTasks = None
+    background_tasks: BackgroundTasks = None,
+    current_user: Dict =Depends(require_admin)
 ):
     """
     Trigger an on-demand QA run for a quest.
@@ -203,19 +207,42 @@ async def create_qa_run(
     Returns: { "run_id": "qarun_123", "status": "queued" }
     """
     from arcade_app.services.qa_runner import execute_qa_run
+    from arcade_app.services.qa_limits import qa_limiter
+    
+    user_id = current_user.get("id", "anonymous")
+    
+    # Check rate limits
+    if not await qa_limiter.can_start_run(user_id):
+        active_count = await qa_limiter.get_active_count(user_id)
+        raise HTTPException(
+            status_code=429,
+            detail={
+                "error": "rate_limit_exceeded",
+                "message": "Too many concurrent QA runs. Please wait for existing runs to complete.",
+                "limits": {
+                    "global": qa_limiter.global_limit,
+                    "per_user": qa_limiter.per_user_limit
+                },
+                "current": {
+                    "user_active_runs": active_count
+                }
+            }
+        )
     
     if request.variant not in ["starter", "solution", "integrity"]:
         raise HTTPException(status_code=400, detail="Invalid variant. Must be starter, solution, or integrity")
     
     try:
         run_id = await execute_qa_run(request.quest_id, request.variant)
+        # Register run in limiter
+        await qa_limiter.register_run(run_id, user_id)
         return {"run_id": run_id, "status": "queued"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create QA run: {str(e)}")
 
 
 @router.get("/runs/{run_id}")
-async def get_qa_run(run_id: str):
+async def get_qa_run(run_id: str, current_user: Dict = Depends(require_admin)):
     """
     Get the status and results of a QA run.
     Polling endpoint for frontend.

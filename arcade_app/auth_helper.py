@@ -210,6 +210,38 @@ def get_dev_profile_for_boss_qa(current_user: dict = Depends(get_current_user)):
     }
 
 
+def require_admin(current_user: Dict = Depends(get_current_user)):
+    """
+    Dependency to require admin role for endpoint access.
+    
+    Usage:
+        @router.get("/admin/endpoint")
+        async def admin_only(user: Dict = Depends(require_admin)):
+            # Only admins can reach here
+    
+    In mock mode: All authenticated users are treated as admin
+    In production: Checks user.role == "admin"
+    """
+    from fastapi import HTTPException
+    
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # In mock mode, all users are admin (for local dev)
+    if AUTH_MODE == "mock":
+        return current_user
+    
+    # In production, check role
+    user_role = current_user.get("role", "user")
+    if user_role != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Admin access required for this operation"
+        )
+    
+    return current_user
+
+
 # --- Avatar Helper ---
 
 async def ensure_default_avatar(session):
