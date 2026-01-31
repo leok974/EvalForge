@@ -291,6 +291,34 @@ class BossCodexProgress(SQLModel, table=True):
 
     profile: "Profile" = Relationship(back_populates="boss_codex_progress")
 
+# --- QA MODELS ---
+
+class QaRun(SQLModel, table=True):
+    """
+    Records from on-demand QA test runs (starter/solution/integrity checks).
+    Used by the QA Dashboard to show health status and historical runs.
+    """
+    __tablename__ = "qa_runs"
+    
+    id: str = Field(primary_key=True)  # qarun_{uuid}
+    created_at: datetime = Field(default_factory=datetime.utcnow, index=True)
+    
+    quest_slug: str = Field(index=True)  # Reference to QuestDefinition.slug
+    variant: str  # "starter" | "solution" | "integrity"
+    
+    status: str = Field(default="queued")  # "queued" | "running" | "finished" | "failed"
+    duration_ms: Optional[int] = None
+    
+    # Results (JSONB)
+    result_json: Dict = Field(default={}, sa_type=JSON)
+    logs_sanitized: Optional[str] = None
+    diagnostics_json: Dict = Field(default={}, sa_type=JSON)
+    test_summary_json: Dict = Field(default={}, sa_type=JSON)
+    
+    # Optional tracking
+    engine_version: Optional[str] = None  # e.g. "phase-8.0"
+    content_hash: Optional[str] = None    # MD5 of quest content fordetecting drift
+
 # --- QUEST MODELS (System 2.0) ---
 
 class QuestState(str, Enum):

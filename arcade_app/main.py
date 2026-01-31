@@ -10,6 +10,7 @@ from contextlib import asynccontextmanager
 from arcade_app.database import init_db
 from arcade_app.agent import router as agent_router
 from arcade_app.routers import routes_quests_runtime
+from arcade_app.routers import routes_qa
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -46,6 +47,7 @@ app.add_middleware(
 # Mount Routers
 app.include_router(agent_router)
 app.include_router(routes_quests_runtime.router)
+app.include_router(routes_qa.router)
 # app.include_router(routes_boss.router)
 # app.include_router(routes_dev.router)
 # app.include_router(routes_boss_codex.router)
