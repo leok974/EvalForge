@@ -7,13 +7,16 @@ from arcade_app.gamification import process_quest_completion
 # Mark all async tests
 pytestmark = pytest.mark.asyncio
 
-@pytest.fixture
+import pytest_asyncio
+
+@pytest_asyncio.fixture
 async def achievement_setup(db_session):
     """Seeds the DB with badge definitions."""
     badges = [
         BadgeDefinition(id="hello_world", name="Hello", description="1 Quest", rarity="common", xp_bonus=50),
         BadgeDefinition(id="bug_hunter_bronze", name="Hunter", description="5 Quests", rarity="common", xp_bonus=100),
-        BadgeDefinition(id="perfectionist", name="Perfect", description="100% Score", rarity="epic", xp_bonus=500)
+        BadgeDefinition(id="perfectionist", name="Perfect", description="100% Score", rarity="epic", xp_bonus=500),
+        BadgeDefinition(id="python_novice", name="Python Novice", description="5 Python Quests", rarity="common", xp_bonus=100)
     ]
     for b in badges:
         db_session.add(b)
@@ -47,8 +50,9 @@ async def test_progressive_unlocks(db_session, achievement_setup):
         await process_quest_completion("player1", "world-python", 80)
         
         badges = (await db_session.exec(select(UserBadge).where(UserBadge.user_id == "player1"))).all()
-        assert len(badges) == 2
+        assert len(badges) == 3
         assert any(b.badge_id == "bug_hunter_bronze" for b in badges)
+        assert any(b.badge_id == "python_novice" for b in badges)
 
 async def test_perfect_score_logic(db_session, achievement_setup):
     """Verify specific conditions (score >= 100) trigger specific badges."""
@@ -58,15 +62,20 @@ async def test_perfect_score_logic(db_session, achievement_setup):
         await process_quest_completion("player1", "world-python", 90)
         
         # Check Metrics
-        metric = await db_session.get(UserMetric, "player1")
-        assert metric.perfect_scores == 0
+        # Check Metrics
+        from sqlmodel import select
+        stmt = select(UserMetric).where(UserMetric.user_id == "player1", UserMetric.metric_key == "perfect_scores")
+        metric = (await db_session.exec(stmt)).scalar_one_or_none()
+        val = metric.value if metric else 0
+        assert val == 0
         
         # 2. Submit Perfect Code (Score 100)
         await process_quest_completion("player1", "world-python", 100)
         
         # Verify Metric & Badge
-        await db_session.refresh(metric)
-        assert metric.perfect_scores == 1
+        metric = (await db_session.exec(stmt)).scalar_one_or_none() # Re-fetch
+        val = metric.value if metric else 0
+        assert val == 1
         
         badges = (await db_session.exec(select(UserBadge).where(UserBadge.user_id == "player1"))).all()
         assert any(b.badge_id == "perfectionist" for b in badges)

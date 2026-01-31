@@ -25,43 +25,45 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
     t0 = time.time()
     with tempfile.TemporaryDirectory(prefix="evalforge-run-") as td:
         # Write workspace files if present
+        has_main = False
         if workspace and "files" in workspace:
              for f in workspace["files"]:
                  f_path = f.get("path")
                  f_content = f.get("content", "")
                  if f_path:
+                     # Check if this is main.py (normalize path separation just in case)
+                     if os.path.normpath(f_path) == "main.py":
+                         has_main = True
+                         
                      full_path = os.path.join(td, f_path)
                      # Ensure dirs exist
                      os.makedirs(os.path.dirname(full_path), exist_ok=True)
                      with open(full_path, "w", encoding="utf-8") as fw:
                          fw.write(f_content)
                          
-             # Determine entrypoint logic? standard is "python main.py" or passed file.
-             # We assume main.py exists or code arg is used.
-             
-        # Fallback/Primary: write 'code' to main.py if not in workspace?
-        # Or if code is provided, overwrite/create main.py
-        if code:
+        # Fallback/Primary: write 'code' to main.py ONLY if not already provided by workspace
+        if code and not has_main:
             path = os.path.join(td, "main.py")
             with open(path, "w", encoding="utf-8") as f:
                 f.write(code)
         
         # Determine target file
         target_file = "main.py"
-        # If workspace has entrypoint? usually passed as arg but here we rely on conventions
+        if workspace and workspace.get("entrypoint"):
+            target_file = workspace["entrypoint"]
         
         path = os.path.join(td, target_file)
-        if not os.path.exists(path):
-             # Try to find any py file?
-             pass 
-
+        # If target file doesn't exist (e.g. wrong entrypoint or empty workspace), we might fail.
+        # But we let subprocess handle the error or check here?
+        # The original code had a check, let's keep basic sanity check or just run it.
+        
         # Using sys.executable is safer for local dev if venv is active.
-        cmd = [sys.executable, "-I", "-B", path]
+        cmd = [sys.executable, "-B", path]
 
         env = {
             "PYTHONIOENCODING": "utf-8",
             "PYTHONDONTWRITEBYTECODE": "1",
-            # "PYTHONPATH": td # explicitly add cwd to path? python adds script dir by default.
+            "PYTHONPATH": td # explicitly add cwd to path? python adds script dir by default.
         }
 
         try:
@@ -109,7 +111,8 @@ def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, 
     
     # Force docker for non-python or if explicitly set.
     # Workspace support now added to local runner for Python.
-    use_docker = (backend == "docker") or (language != "python")
+    # CRITICAL: mode='tests' requires Docker because local runner cannot inject the test harness (run_unittest_json.py).
+    use_docker = (backend == "docker") or (language != "python") or (mode == "tests")
 
     if use_docker:
         from arcade_app.services.code_runner_docker import run_code_docker

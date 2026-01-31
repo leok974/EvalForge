@@ -3,7 +3,7 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import Session, select
 
-from arcade_app.main import app
+from arcade_app.agent import app
 from arcade_app.database import get_session
 from arcade_app.models import QuestDefinition, QuestProgress, QuestState, Profile, User
 from arcade_app.quest_helper import get_or_create_progress

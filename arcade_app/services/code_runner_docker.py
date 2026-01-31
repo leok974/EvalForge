@@ -68,24 +68,39 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             main_file = os.path.join(td, spec.file_name)
             with open(main_file, "w", encoding="utf-8") as f:
                 f.write(code)
+            
+            # 3. Permissions fix for Docker (since we run as non-root user)
+            # Ensure the temp dir and all files are world-readable AND writable (for reports)
+            os.chmod(td, 0o777)
+            for root, dirs, files in os.walk(td):
+                for d in dirs:
+                    os.chmod(os.path.join(root, d), 0o777)
+                for f in files:
+                    os.chmod(os.path.join(root, f), 0o666)
 
-        # Windows path note: Docker Desktop can mount temp dirs; keep it simple.
-        mount_arg = f"{td}:/workspace:ro"
-
-        cmd = [
-            "docker", "run", "--rm",
+        # 3. Docker-in-Docker safe execution: Create -> CP -> Start
+        # We cannot use volume mounts (-v) because the host daemon does not see our internal paths.
+        import uuid
+        container_name = f"runner-{uuid.uuid4()}"
+        
+        # Base Create Command
+        create_cmd = [
+            "docker", "create",
+            "--name", container_name,
             "--network", "none",
             "--cpus", "1",
             "--memory", "256m",
             "--pids-limit", "64",
-            "--read-only",
+            # "--read-only", # CP might fail if read-only root? Workspace should be writable during setup?
+            # We'll rely on user non-root for safety, and maybe ro flag isn't strictly needed for ephemeral
             "--tmpfs", "/tmp:rw,noexec,nosuid,size=64m",
             "--cap-drop", "ALL",
             "--security-opt", "no-new-privileges",
             "--user", "65534:65534",
-            "-v", mount_arg,
             "-w", "/workspace",
-            # Inject env vars from spec
+            # Env vars
+            *sum([["-e", f"{k}={v}"] for k, v in spec.env.items()], []),
+            # Env vars
             *sum([["-e", f"{k}={v}"] for k, v in spec.env.items()], []),
             "-e", "PYTHONDONTWRITEBYTECODE=1",
             "-e", "PYTHONIOENCODING=utf-8",
@@ -94,31 +109,105 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
         ]
 
         try:
-            p = subprocess.run(
-                cmd,
-                input=stdin.encode("utf-8") if stdin else None,
+            # A) Create
+            subprocess.check_call(create_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            
+            # B) Copy files
+            # Ensure workspace exists (some images might not have it) -> CP creates it if logical
+            # We verify permissions of the local dir first (already done in previous step/default)
+            # Docker CP syntax: src_path/. dest_container:dest_path
+            cp_cmd = ["docker", "cp", f"{td}/.", f"{container_name}:/workspace/"]
+            subprocess.check_call(cp_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            
+            # C) Start (Detached)
+            # We use detached start + wait + logs for reliable capture
+            subprocess.check_call(["docker", "start", container_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            
+            # D) Wait
+            # We enforce timeout here manually by polling or using docker wait with subprocess timeout
+            wait_cmd = ["docker", "wait", container_name]
+            try:
+                subprocess.run(wait_cmd, timeout=max(0.1, (timeout_ms + 1000) / 1000.0), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            except subprocess.TimeoutExpired:
+                 # Timeout logic handled below
+                 pass
+            
+            # E) Logs
+            # Capture stdout/stderr
+            logs_p = subprocess.run(
+                ["docker", "logs", container_name],
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=max(0.1, (timeout_ms + 1000) / 1000.0), # Add buffer for docker overhead
+                stderr=subprocess.PIPE
             )
+            
+            stdout_str = logs_p.stdout.decode("utf-8", errors="replace")
+            stderr_str = logs_p.stderr.decode("utf-8", errors="replace")
+            
+            # Fallback: If stdout is empty or doesn't look like JSON, try to copy report file
+            # This handles cases where stdout capture fails or is empty
+            if not stdout_str.strip() or (mode == "tests" and not stdout_str.strip().startswith("{")):
+                try:
+                    # Try to copy report file
+                    report_dest = os.path.join(td, "test_results_fallback.json")
+                    subprocess.check_call(
+                        ["docker", "cp", f"{container_name}:/workspace/.evalforge/test_results.json", report_dest],
+                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+                    )
+                    with open(report_dest, "r", encoding="utf-8") as f:
+                        fallback_json = f.read()
+                        if fallback_json:
+                            # Use fallback content if valid
+                             stdout_str = fallback_json
+                except Exception:
+                    # Ignore cp failure (file might not exist)
+                    pass
+
+            # F) Inspect Exit Code
+            inspect_p = subprocess.run(
+                ["docker", "inspect", container_name, "--format", "{{.State.ExitCode}}"],
+                stdout=subprocess.PIPE
+            )
+            exit_code = int(inspect_p.stdout.decode().strip() or "0")
+            
             dt = int((time.time() - t0) * 1000)
+            
             return ExecResult(
-                ok=(p.returncode == 0),
-                exit_code=p.returncode,
+                ok=(exit_code == 0),
+                exit_code=exit_code,
                 duration_ms=dt,
-                stdout=p.stdout.decode("utf-8", errors="replace"),
-                stderr=p.stderr.decode("utf-8", errors="replace"),
+                stdout=stdout_str,
+                stderr=stderr_str,
                 timed_out=False,
             )
-        except subprocess.TimeoutExpired as e:
+
+        except subprocess.TimeoutExpired:
+             # Kill container
+            subprocess.run(["docker", "kill", container_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            
+            # Try to grab logs even if timed out
+            logs_p = subprocess.run(["docker", "logs", container_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            out = logs_p.stdout.decode("utf-8", errors="replace")
+            err = logs_p.stderr.decode("utf-8", errors="replace")
+            
             dt = int((time.time() - t0) * 1000)
-            out = (e.stdout or b"").decode("utf-8", errors="replace")
-            err = (e.stderr or b"").decode("utf-8", errors="replace")
             return ExecResult(
                 ok=False,
                 exit_code=None,
                 duration_ms=dt,
                 stdout=out,
-                stderr=err + ("\n[Timed out]" if err else "[Timed out]"),
+                stderr=err + "\n[Timed out]",
                 timed_out=True,
             )
+        except Exception as e:
+             # Fallback error
+             return ExecResult(
+                ok=False,
+                exit_code=-1,
+                duration_ms=0,
+                stdout="",
+                stderr=str(e),
+                timed_out=False
+             )
+        finally:
+            # D) Cleanup
+            subprocess.run(["docker", "rm", "-f", container_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

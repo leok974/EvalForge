@@ -2,6 +2,13 @@ import { defineConfig } from "vitest/config";
 import { loadEnv } from "vite";
 import path from "node:path";
 
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import tsconfigPaths from "vite-tsconfig-paths";
+
 export default defineConfig(({ mode }) => {
   // Load env vars (e.g. VITE_PROXY_TARGET)
   const env = loadEnv(mode, process.cwd(), '')
@@ -10,6 +17,7 @@ export default defineConfig(({ mode }) => {
   const apiTarget = env.VITE_PROXY_TARGET || 'http://127.0.0.1:8092'
 
   return {
+    plugins: [tsconfigPaths()],
     root: path.resolve(__dirname),
     build: {
       outDir: "dist",

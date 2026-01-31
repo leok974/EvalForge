@@ -24,12 +24,16 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - EXECUTION_BACKEND=local
       - EXECUTION_ENABLED=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - ./arcade_app:/app/arcade_app # Hot reload code
       - ./docs:/app/docs             # Ladder specs & codex
       - ./data:/app/data             # Persist JSON for migration
       - ./tests:/app/tests           # Test files
+      - ./scripts:/app/scripts       # Scripts
+      - ./seed:/app/seed             # Seed data
       - C:/Users/pierr/AppData/Roaming/gcloud/application_default_credentials.json:/app/credentials.json
+      - //var/run/docker.sock:/var/run/docker.sock # Allow spawning runners
     depends_on:
       - db
       - redis

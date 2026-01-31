@@ -23,7 +23,7 @@ def map_status_to_state(status: str) -> str:
     # QuestState: same values mostly
     return status
 
-@router.get("/", response_model=List[Dict])
+@router.get("", response_model=List[Dict])
 async def list_quests(
     world_id: Optional[str] = None,
     session: Session = Depends(get_session),

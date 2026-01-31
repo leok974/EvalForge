@@ -3,7 +3,7 @@ Centralized configuration for EvalForge.
 Handles environment-aware defaults for local dev vs Docker vs production.
 """
 import os
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -14,8 +14,7 @@ class Settings(BaseSettings):
     antigravity_base_url: str | None = None
     antigravity_api_token: str | None = None
 
-    class Config:
-        env_prefix = "EVALFORGE_"
+    model_config = SettingsConfigDict(env_prefix="EVALFORGE_")
 
 
 settings = Settings()

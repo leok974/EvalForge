@@ -34,3 +34,20 @@ apps/web/build/
 tasteos/
 
 cloud_run_deploy/
+
+# Backup & Large Files
+backup_docker/
+*.vhdx
+*.tar
+*.gz
+
+# Temporary Logs
+*_log.txt
+*_log_*.txt
+test_output*.log
+test_result*.log
+backend_logs_tail.txt
+debug_failure.txt
+pytest_*.txt
+test_results.txt
+tests/data_temp/

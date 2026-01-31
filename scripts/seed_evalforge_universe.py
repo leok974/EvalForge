@@ -18,7 +18,7 @@ from arcade_app.models import (
     # We will just seed tracks/quests which carry the world_id.
 )
 
-BASE_DOCS = Path("d:/EvalForge/docs")
+BASE_DOCS = Path(__file__).parent.parent / "docs"
 
 # List of Track Spec Files to Seed
 TRACK_SPECS = [
@@ -96,7 +96,7 @@ async def upsert_track(session, world_slug, track_data):
         existing.order_index = track_data.get("order_index", 0)
         session.add(existing)
 
-async def upsert_quest(session, world_slug, track_id, quest_data):
+async def upsert_quest(session, world_slug, track_id, quest_data, seeded_slugs=None):
     # Allow quest_id to drive the slug if explicit slug is missing
     quest_db_id = quest_data.get("quest_id")
     quest_slug = quest_data.get("slug")
@@ -114,6 +114,8 @@ async def upsert_quest(session, world_slug, track_id, quest_data):
         quest_db_id = f"{track_id}-{quest_slug}"
     
     print(f"    - ⚔️ Quest: {quest_db_id}")
+    if seeded_slugs is not None:
+        seeded_slugs.add(quest_db_id)
     
     stmt = select(QuestDefinition).where(QuestDefinition.slug == quest_db_id)
     existing = (await session.execute(stmt)).scalar_one_or_none()
@@ -172,6 +174,7 @@ async def upsert_boss(session, boss_data):
 
 async def seed_universe():
     print("🌌 Seeding EvalForge Universe...")
+    seeded_slugs = set()
     
     async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
     
@@ -202,7 +205,7 @@ async def seed_universe():
                             await upsert_track(session, world_slug, track)
                             for q in track["tracks"] if "tracks" in track else track["quests"]: # confusion in old key naming?
                                 # old spec: tracks -> list of track inputs. track input has "quests" list.
-                                await upsert_quest(session, world_slug, track["track_id"], q)
+                                await upsert_quest(session, world_slug, track["track_id"], q, seeded_slugs=seeded_slugs)
                                 
                             if "boss" in track:
                                 # Old embedded boss format -> convert to flat boss def?
@@ -226,7 +229,7 @@ async def seed_universe():
                 await upsert_track(session, world_slug, track_data)
                 
                 for q in data["quests"]:
-                    await upsert_quest(session, world_slug, track_data["track_id"], q)
+                    await upsert_quest(session, world_slug, track_data["track_id"], q, seeded_slugs=seeded_slugs)
                     
                 # Boss Stubs in Track Spec?
                 if "boss_stub" in data:
@@ -243,7 +246,7 @@ async def seed_universe():
                         await upsert_track(session, world_slug, track)
                         
                         for q in track.get("quests", []):
-                            await upsert_quest(session, world_slug, track["track_id"], q)
+                            await upsert_quest(session, world_slug, track["track_id"], q, seeded_slugs=seeded_slugs)
                             
                         for boss in track.get("bosses", []):
                              # Need to make sure title -> name mapping is handled or assumes corrected key
@@ -271,6 +274,13 @@ async def seed_universe():
 
         await session.commit()
         print("✅ Universe Seeded Successfully.")
+        return seeded_slugs
+
+if __name__ == "__main__":
+    # Ensure env allows import
+    import sys
+    sys.path.append("d:/EvalForge")
+    asyncio.run(seed_universe())
 
 if __name__ == "__main__":
     # Ensure env allows import

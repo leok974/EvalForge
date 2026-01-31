@@ -1,0 +1,67 @@
+
+name: Content Integrity
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate-content:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Ensure docker is avail (runner normally has it)
+        
+    - name: Runner Preflight
+      run: python scripts/runner_preflight.py
+      env:
+        EXECUTION_BACKEND: local 
+        # In CI, we might lack full DinD or it's complex. 
+        # User said "runner_preflight.py ensures docker execution is available".
+        # If GitHub Actions runner has docker, we can use it.
+        
+    - name: Seed Content (Validation Mode)
+      run: python scripts/seed_all.py
+      # We need a DB? 
+      # seed_all connects to DB.
+      # Need postgres service in job.
+      
+    - name: Audit Content Structure
+      run: python scripts/content_audit.py
+      
+    - name: Smoke Test Content
+      run: python scripts/questpack_smoke.py --all
+      env:
+        EXECUTION_BACKEND: docker
+        # Requires Docker service
+        
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: evalforge
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: evalforge
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
+      # How to get DinD? standard actions runner has docker.
+      # Check if we need dind service or just mapped sock.

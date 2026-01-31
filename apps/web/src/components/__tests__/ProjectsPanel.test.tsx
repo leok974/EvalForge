@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { ProjectsPanel } from '../ProjectsPanel';
+import { makeProject } from '../../test/fixtures/project';
 
 global.fetch = vi.fn();
 
@@ -11,19 +12,18 @@ const mockUser = {
     auth_mode: 'mock'
 };
 
-const mockProject = {
+const mockProject = makeProject({
     id: 'p1',
     name: 'my-repo',
     repo_url: 'http://github.com/u/my-repo',
     sync_status: 'ok',
     last_sync_at: '2025-01-01',
     summary_data: { stack: ['react'] }
-};
+});
 
 // Mock the socket hook to avoid connection attempts
-// Mock the socket hook to avoid connection attempts
 vi.mock('../../hooks/useGameSocket', () => ({
-    useGameSocket: vi.fn(),
+    useGameSocket: () => ({ lastEvent: null }),
 }));
 
 describe('ProjectsPanel', () => {

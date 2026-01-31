@@ -51,40 +51,61 @@ async def add_xp(user_id: str, world_id: str, amount: int) -> dict:
         "next_level_xp": 1000
     }
 
+async def get_or_create_metric(session, user_id: str, key: str) -> UserMetric:
+    statement = select(UserMetric).where(UserMetric.user_id == user_id, UserMetric.metric_key == key)
+    result = await session.execute(statement)
+    metric = result.scalar_one_or_none()
+    if not metric:
+        metric = UserMetric(user_id=user_id, metric_key=key, value=0)
+        session.add(metric)
+    return metric
+
 async def process_quest_completion(user_id: str, world_id: str, score: float):
     """
     Updates stats and checks for new badges.
     Call this after a successful Judge evaluation.
     """
+    # Need implicit session handling if not passed? 
+    # The original used 'async for session in get_session():' which creates a NEW session.
+    # Tests inject mock dependencies usually?
+    # But usually service functions should accept session or generic iterator.
+    # The original implementation looped over get_session().
+    
     async for session in get_session():
-        # 1. Fetch or Create Metrics
-        metric = await session.get(UserMetric, user_id)
-        if not metric:
-            metric = UserMetric(user_id=user_id, progress_stats={})
-            session.add(metric)
+        # 1. Update Global Counters
+        q_metric = await get_or_create_metric(session, user_id, "quests_completed")
+        q_metric.value += 1
+        session.add(q_metric)
+        quests_completed_count = q_metric.value # Snapshot for rules
         
-        # 2. Update Counters
-        metric.quests_completed += 1
+        perfect_scores_count = 0
         if score >= 100:
-            metric.perfect_scores += 1
-            
-        # Update Granular Stats (World specific)
-        stats = dict(metric.progress_stats) if metric.progress_stats else {}
-        w_stat = stats.get(world_id, {"quests": 0})
-        w_stat["quests"] = w_stat.get("quests", 0) + 1
-        stats[world_id] = w_stat
-        metric.progress_stats = stats
-        
-        session.add(metric)
+            p_metric = await get_or_create_metric(session, user_id, "perfect_scores")
+            p_metric.value += 1
+            session.add(p_metric)
+            perfect_scores_count = p_metric.value
+        else:
+            # Need to fetch it for rules checking if not updated
+            p_metric = await get_or_create_metric(session, user_id, "perfect_scores")
+            perfect_scores_count = p_metric.value
+
+        # 2. Update World Stats
+        w_key = f"world_{world_id}_quests"
+        w_metric = await get_or_create_metric(session, user_id, w_key)
+        w_metric.value += 1
+        session.add(w_metric)
+        world_quests_count = w_metric.value
         
         # 3. Rules Engine
-        # Define the Logic Table here
+        # Define the Logic Table here - map keys to conditions
+        # We need to query strict values or pass them.
+        
         checks = [
-            ("hello_world", metric.quests_completed >= 1),
-            ("bug_hunter_bronze", metric.quests_completed >= 5),
-            ("perfectionist", metric.perfect_scores >= 1), # Changed to 1 for easy testing
-            ("python_novice", stats.get("world-python", {}).get("quests", 0) >= 5),
-            ("infra_architect", stats.get("world-infra", {}).get("quests", 0) >= 5),
+            ("hello_world", quests_completed_count >= 1),
+            ("bug_hunter_bronze", quests_completed_count >= 5),
+            ("perfectionist", perfect_scores_count >= 1), # Changed to 1 for easy testing
+            ("python_novice", world_quests_count >= 5 if "python" in world_id else False),
+            ("infra_architect", world_quests_count >= 5 if "infra" in world_id else False),
         ]
 
         new_unlocks = []
@@ -99,21 +120,17 @@ async def process_quest_completion(user_id: str, world_id: str, score: float):
                 existing = result.scalars().first()
                 if not existing:
                     # AWARD IT!
-                    # 1. Record in DB
                     ub = UserBadge(user_id=user_id, badge_id=badge_id)
                     session.add(ub)
                     
-                    # 2. Get Badge Metadata for Toast
+                    # Get Badge Metadata
                     badge_def = await session.get(BadgeDefinition, badge_id)
                     if badge_def:
                         new_unlocks.append(badge_def)
-                        
-                        # 3. Award Bonus XP (Optional, needs profile helper loop)
-                        # For now, just logging it.
                         print(f"🏆 Awarded {badge_def.name} to {user_id}")
 
         await session.commit()
 
-        # 4. Trigger Notifications (Outside DB transaction)
+        # 4. Trigger Notifications
         for badge in new_unlocks:
             await publish_badge_event(user_id, badge)

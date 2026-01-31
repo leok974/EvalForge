@@ -2,7 +2,7 @@ import { renderWithRouter } from '@/test/testUtils';
 import { WorkshopLayout } from '../WorkshopLayout';
 import { screen, waitFor } from '@testing-library/react';
 import { vi, test, expect } from 'vitest';
-import * as useGameStoreModule from '@/hooks/useGameStore';
+import * as useGameStoreModule from '../../hooks/useGameStore.ts';
 
 // Mock API
 vi.stubGlobal('fetch', vi.fn((url: string) => {
@@ -45,8 +45,16 @@ test('renders Java Quest in Workshop', async () => {
     });
 
     renderWithRouter(
-        <WorkshopLayout />,
-        { route: '/worlds/world-java/quests/java-core-q1-first-spark' }
+        <WorkshopLayout
+            // @ts-ignore - Mocking slot props for test
+            bossHud={<div />}
+            worldSelector={<div />}
+            questPanel={<div />}
+            projectPanel={<div />}
+            codexPanel={<div />}
+            activityFeed={<div />}
+        />,
+        { initialEntries: ['/worlds/world-java/quests/java-core-q1-first-spark'] }
     );
 
     await waitFor(() => {

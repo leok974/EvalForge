@@ -1,7 +1,10 @@
 // Test setup file for Vitest + Testing Library
 import '@testing-library/jest-dom/vitest';
-import { afterEach } from 'vitest';
+import { afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
+
+// Shim Jest for legacy tests
+(globalThis as any).jest = vi;
 
 // 🔒 Force-disable all unlock/god mode flags for tests
 // This MUST run before any test imports useSkills or other hooks that read env

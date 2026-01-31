@@ -370,4 +370,5 @@ class QuestProgress(SQLModel, table=True):
     quest: "QuestDefinition" = Relationship()
 
 # Deprecated but kept for migration safety if needed (or remove if bold)
-# class UserQuest(SQLModel, table=True): ...
+# Deprecated but kept for migration safety if needed (or remove if bold)
+UserQuest = QuestProgress

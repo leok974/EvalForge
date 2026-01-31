@@ -1,0 +1,75 @@
+[
+    {
+        "id": "quest-js-debounce-b",
+        "slug": "quest-js-debounce-b",
+        "world_id": "world-js",
+        "track_id": "fundamentals",
+        "title": "Debounce B",
+        "concept": "js.debounce",
+        "tier": "B",
+        "time_limit_sec": 900,
+        "recipe": "utility_impl",
+        "rubric": {
+            "correctness": 6,
+            "timing": 2,
+            "ergonomics": 1,
+            "clarity": 1
+        },
+        "visuals": [
+            "event_loop"
+        ],
+        "tests": {
+            "runner": "vitest",
+            "command": "scripts/run_vitest.sh debounce",
+            "artifacts": [
+                "exercises/js/coverage/coverage-final.json"
+            ]
+        }
+    },
+    {
+        "id": "quest-js-retry-i",
+        "slug": "quest-js-retry-i",
+        "world_id": "world-js",
+        "track_id": "fundamentals",
+        "title": "Retry I",
+        "concept": "js.retry",
+        "tier": "I",
+        "time_limit_sec": 600,
+        "recipe": "utility_impl",
+        "rubric": {
+            "correctness": 5,
+            "robustness": 5
+        },
+        "visuals": [
+            "time_series"
+        ],
+        "tests": {
+            "runner": "vitest",
+            "command": "scripts/run_vitest.sh retry",
+            "artifacts": [
+                "exercises/js/coverage/coverage-final.json"
+            ]
+        }
+    },
+    {
+        "id": "quest-ops-csp-i",
+        "slug": "quest-ops-csp-i",
+        "world_id": "world-infra",
+        "track_id": "containment",
+        "title": "CSP Impl",
+        "concept": "ops.csp",
+        "tier": "I",
+        "time_limit_sec": 1200,
+        "recipe": "config_audit",
+        "rubric": {
+            "security": 8,
+            "compat": 2
+        },
+        "visuals": [],
+        "tests": {
+            "runner": "pytest",
+            "command": "scripts/run_pytest.sh csp",
+            "artifacts": []
+        }
+    }
+]

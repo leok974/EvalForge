@@ -29,7 +29,7 @@ if __name__ == "__main__":
     # Discover and run
     loader = unittest.TestLoader()
     start_dir = '/workspace'
-    suite = loader.discover(start_dir, pattern='*_test.py')
+    suite = loader.discover(start_dir, pattern='test*.py')
 
     result = JsonTestResult()
     suite.run(result)
@@ -40,6 +40,15 @@ if __name__ == "__main__":
         "total": result.testsRun,
         "failures": result.failures_list + result.errors_list
     }
+
+    # Write to file for robust extraction (Docker CP friendly)
+    report_path = os.path.join(start_dir, ".evalforge", "test_results.json")
+    try:
+        os.makedirs(os.path.dirname(report_path), exist_ok=True)
+        with open(report_path, "w", encoding="utf-8") as f:
+            json.dump(summary, f)
+    except Exception as e:
+        print(f"WARN: Failed to write test report: {e}", file=sys.stderr)
 
     # Print JSON result to stdout
     print(json.dumps(summary))

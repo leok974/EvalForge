@@ -4,17 +4,17 @@ from arcade_app.models import BossProgress, User, BossDefinition
 from arcade_app.bosses.boss_progress_helper import update_boss_progress
 
 @pytest.mark.asyncio
-async def test_boss_progress_flow(async_session):
+async def test_boss_progress_flow(db_session):
     # 1. Setup Data
     user = User(id="test_user_progress", name="Test User")
     boss = BossDefinition(id="boss-test", name="Test Boss")
-    async_session.add(user)
-    async_session.add(boss)
-    await async_session.commit()
+    db_session.add(user)
+    db_session.add(boss)
+    await db_session.commit()
 
     # 2. First Failure
     res1 = await update_boss_progress(
-        async_session, 
+        db_session, 
         user_id="test_user_progress", 
         boss_id="boss-test", 
         outcome="fail"
@@ -29,7 +29,7 @@ async def test_boss_progress_flow(async_session):
     BOSS_HINT_MAP["boss-test"] = "hint-test-codex"
 
     res2 = await update_boss_progress(
-        async_session, 
+        db_session, 
         user_id="test_user_progress", 
         boss_id="boss-test", 
         outcome="fail"
@@ -40,13 +40,13 @@ async def test_boss_progress_flow(async_session):
 
     # 4. Verify DB State
     stmt = select(BossProgress).where(BossProgress.user_id == "test_user_progress")
-    progress = (await async_session.execute(stmt)).scalar_one()
+    progress = (await db_session.execute(stmt)).scalar_one()
     assert progress.fail_streak == 2
     assert progress.highest_hint_level == 1
 
     # 5. Success (Should Reset Streak)
     res3 = await update_boss_progress(
-        async_session, 
+        db_session, 
         user_id="test_user_progress", 
         boss_id="boss-test", 
         outcome="win"
@@ -54,6 +54,6 @@ async def test_boss_progress_flow(async_session):
     assert res3["fail_streak"] == 0
     
     # Verify DB State after win
-    await async_session.refresh(progress)
+    await db_session.refresh(progress)
     assert progress.fail_streak == 0
     assert progress.last_result == "win"

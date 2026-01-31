@@ -151,7 +151,7 @@ export interface QuestAttemptDetail {
 export async function fetchQuests(worldId?: string): Promise<QuestSummary[]> {
     const params = worldId ? `?world_id=${encodeURIComponent(worldId)}` : "";
     // Note: Backend router expects trailing slash for list endpoint
-    const res = await fetch(`/api/quests/${params}`);
+    const res = await fetch(`/api/quests${params}`);
     const { ok, data, raw } = await safeJson<QuestSummary[]>(res);
     if (!ok) {
         throw new Error(`Failed to fetch quests: ${res.status} ${raw?.substring(0, 100)}`);

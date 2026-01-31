@@ -56,5 +56,19 @@ async def sync_my_project(user_id: str, project_name_or_id: str):
     except Exception as e:
         return f"❌ Sync failed: {str(e)}"
 
+@tool
+async def retrieve_docs(query: str):
+    """
+    Retrieves relevant documentation chunks using vector search.
+    Useful when the user asks technical questions about the codebase.
+    """
+    try:
+        results = await search_knowledge(query)
+        if not results:
+            return "No relevant documentation found."
+        return "\n\n---\n\n".join(results)
+    except Exception as e:
+        return f"Error retrieving docs: {str(e)}"
+
 # Export list for Graph binding
-REGISTRY_TOOLS = [list_my_projects, add_my_project, sync_my_project]
+REGISTRY_TOOLS = [list_my_projects, add_my_project, sync_my_project, retrieve_docs]

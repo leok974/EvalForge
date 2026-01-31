@@ -65,7 +65,13 @@ def validate_quest_attempt(
          # If no objectives and not a sandbox, this is likely a configuration error
          return [ObjResult(id="config", ok=False, detail="Quest has no objectives configured").__dict__]
     
-    stdout_clean = (stdout or "").lower()
+    def normalize_stdout(text: str) -> str:
+        if not text: return ""
+        text = text.replace("\r\n", "\n")
+        return text.rstrip()
+
+    stdout_clean = normalize_stdout(stdout).lower()
+    stdout_normalized = normalize_stdout(stdout) # For case-sensitive checks if needed
 
     for obj in objectives:
         oid = obj.get("id")

@@ -1,0 +1,133 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "EvalForge Quest Definition",
+    "type": "object",
+    "required": [
+        "slug",
+        "title",
+        "world_id",
+        "track_id",
+        "objectives"
+    ],
+    "properties": {
+        "slug": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string"
+        },
+        "world_id": {
+            "type": "string"
+        },
+        "track_id": {
+            "type": "string"
+        },
+        "order_index": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "language": {
+            "type": "string",
+            "enum": [
+                "python",
+                "typescript",
+                "java",
+                "sql"
+            ]
+        },
+        "short_description": {
+            "type": "string"
+        },
+        "detailed_description": {
+            "type": "string",
+            "description": "Markdown content"
+        },
+        "grading": {
+            "type": "object",
+            "properties": {
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "run",
+                        "tests",
+                        "ai"
+                    ]
+                }
+            }
+        },
+        "workspace": {
+            "type": "object",
+            "properties": {
+                "entrypoint": {
+                    "type": "string"
+                },
+                "files_from": {
+                    "type": "string",
+                    "description": "Relative path to hydrate files from"
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "path",
+                            "content"
+                        ],
+                        "properties": {
+                            "path": {
+                                "type": "string"
+                            },
+                            "content": {
+                                "type": "string"
+                            },
+                            "editable": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "smoke": {
+            "type": "object",
+            "properties": {
+                "solution_code": {
+                    "type": "string"
+                },
+                "expect_starter_pass": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "objectives": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "description"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "output_match",
+                            "test_pass",
+                            "ai_check",
+                            "manual"
+                        ]
+                    },
+                    "matcher": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

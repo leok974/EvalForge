@@ -1,0 +1,30 @@
+# Dockerfile.backend
+# Python Backend Only (Dev Mode - no frontend assets)
+FROM python:3.11-slim
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy backend code
+COPY arcade_app /app/arcade_app
+COPY data /app/data
+
+# Create empty static dir to prevent startup errors
+RUN mkdir -p /app/static/assets
+
+# Env vars for production/dev
+ENV PORT=8080
+ENV EVALFORGE_MOCK_GRADING=1
+# Point to empty static dir
+ENV WEB_DIST=/app/static
+ENV EVALFORGE_ENV=prod
+
+# Run command
+CMD ["python", "-m", "uvicorn", "arcade_app.main:app", "--host", "0.0.0.0", "--port", "8092"]

@@ -22,13 +22,13 @@ class RunnerRegistry:
                 return RunnerSpec(
                     docker_image="python:3.12-slim",
                     file_name=entrypoint,
-                    command=["python", "-I", "-B", "/workspace/.evalforge/run_unittest_json.py"]
+                    command=["python", "-u", "-I", "-B", "/workspace/.evalforge/run_unittest_json.py"]
                 )
             
             return RunnerSpec(
                 docker_image="python:3.12-slim",
                 file_name=entrypoint,
-                command=["python", "-I", "-B", entry_path]
+                command=["python", "-u", "-I", "-B", entry_path]
             )
             
         elif language == "typescript":

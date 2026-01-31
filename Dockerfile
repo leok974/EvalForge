@@ -16,6 +16,8 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
+    docker.io \
+    docker-cli \
     && rm -rf /var/lib/apt/lists/*
 
 # Install python dependencies

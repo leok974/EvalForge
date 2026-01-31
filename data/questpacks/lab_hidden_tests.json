@@ -16,7 +16,7 @@
                 },
                 {
                     "path": "test_public.py",
-                    "content": "import unittest\nfrom main import secret_value\nclass TestPublic(unittest.TestCase):\n    def test_basic(self):\n        self.assertGreaterEqual(secret_value(), 0)",
+                    "content": "import unittest\nfrom main import secret_value\nclass TestPublic(unittest.TestCase):\n    def test_basic(self):\n        self.assertGreater(secret_value(), 0)",
                     "editable": false
                 },
                 {

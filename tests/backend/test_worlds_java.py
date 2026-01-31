@@ -1,5 +1,5 @@
 import pytest
-from arcade_app.main import app
+from arcade_app.agent import app
 
 @pytest.mark.asyncio
 async def test_world_java_is_playable(client):

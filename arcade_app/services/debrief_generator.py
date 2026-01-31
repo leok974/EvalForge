@@ -4,6 +4,38 @@ from sqlalchemy import func
 from arcade_app.models import QuestDefinition, QuestState, TrackDefinition
 from arcade_app.progress_models import QuestAttempt, QuestProgressV2
 
+async def get_track_status(
+    session: Session, 
+    user_id: str, 
+    world_id: str, 
+    track_id: str
+) -> Dict[str, Any]:
+    """
+    Calculates completion status for a track.
+    """
+    # 1. Total Quests in Track
+    stmt = select(func.count(QuestDefinition.id)).where(QuestDefinition.track_id == track_id)
+    total_n = (await session.exec(stmt)).one() or 0
+    
+    # 2. Completed Quests by User in Track
+    # Join Progress -> Definition on slug
+    stmt2 = (
+        select(func.count(QuestProgressV2.id))
+        .join(QuestDefinition, QuestProgressV2.quest_id == QuestDefinition.slug)
+        .where(
+            QuestProgressV2.user_id == user_id,
+            QuestProgressV2.status == "completed",
+            QuestDefinition.track_id == track_id
+        )
+    )
+    completed_n = (await session.exec(stmt2)).one() or 0
+    
+    return {
+        "total_n": total_n,
+        "completed_n": completed_n,
+        "is_complete": (total_n > 0 and completed_n >= total_n)
+    }
+
 async def generate_debrief(
     session: Session,
     quest: QuestDefinition,
