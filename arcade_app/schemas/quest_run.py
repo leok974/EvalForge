@@ -7,6 +7,7 @@ class RunRequest(BaseModel):
     mode: str = "validate"  # validate|execute (execute later)
     entrypoint: Optional[str] = None
     workspace: Optional[List[Any]] = None # List of {path, content}
+    idempotency_key: Optional[str] = None  # Phase 8.x PR 3: Idempotency
 
 class ObjectiveResult(BaseModel):
     id: str

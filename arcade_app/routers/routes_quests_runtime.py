@@ -15,8 +15,34 @@ from arcade_app.services.quest_validate import validate_quest_attempt
 from arcade_app.services.security import sanitize_logs
 from arcade_app.services.utils import build_effective_workspace
 from arcade_app.services.quick_fix_generator import generate_quick_fixes
+from sqlalchemy.exc import IntegrityError
 
 router = APIRouter(prefix="/api/quests", tags=["quests-runtime"])
+
+# Phase 8.x PR 3: Idempotency helper
+async def get_existing_attempt_by_idempotency(
+    db: AsyncSession,
+    user_id: str,
+    quest_id: str,
+    is_submit: bool,
+    idempotency_key: str
+) -> QuestAttempt | None:
+    """
+    Check for existing attempt with same idempotency key.
+    Returns None if not found or if key is None.
+    """
+    if not idempotency_key:
+        return None
+    
+    result = await db.execute(
+        select(QuestAttempt).where(
+            QuestAttempt.user_id == user_id,
+            QuestAttempt.quest_id == quest_id,
+            QuestAttempt.is_submit == is_submit,
+            QuestAttempt.idempotency_key == idempotency_key
+        ).order_by(desc(QuestAttempt.created_at))
+    )
+    return result.scalar_one_or_none()
 
 # Wrapper to get just the ID for runtime routes
 async def get_user_id(
@@ -57,6 +83,30 @@ async def run_quest(
     db: AsyncSession = Depends(get_db),
     user_id: str = Depends(get_user_id),
 ):
+    # Phase 8.x PR 3: Check for existing attempt with same idempotency key
+    existing = await get_existing_attempt_by_idempotency(
+        db, user_id, quest_id, is_submit=False, idempotency_key=payload.idempotency_key
+    )
+    if existing:
+        # Return existing result (idempotent - don't re-execute)
+        prog = await _get_or_create_progress(db, user_id, quest_id)
+        return {
+            "passed": existing.passed,
+            "objective_results": existing.objective_results,
+            "stdout": existing.stdout,
+            "stderr": existing.stderr,
+            "ready_to_submit": existing.passed and not existing.meta.get("timed_out", False),
+            "attempt_id": str(existing.id),
+            "run_number": existing.meta.get("seq", prog.runs_count),
+            "duration_ms": existing.duration_ms,
+            "exit_code": existing.meta.get("exit_code", 0),
+            "timed_out": existing.meta.get("timed_out", False),
+            "coach": existing.meta.get("coach"),  # May be None
+            "debrief": existing.debrief_json if existing.debrief_json else None,
+            "diagnostics": existing.diagnostics_json if existing.diagnostics_json else [],
+            "quick_fixes": existing.quick_fixes_json if existing.quick_fixes_json else []
+        }
+    
     # Fetch Quest Def (for validation rules)
     result = await db.execute(select(QuestDefinition).where(QuestDefinition.slug == quest_id))
     quest = result.scalar_one_or_none()
@@ -197,6 +247,24 @@ async def run_quest(
     update_stuck_progress(prog, passed, is_submit=False, failure_summary=failure_summary)
     coach_data = generate_coach_response(prog, failure_summary)
     
+    # Phase 8.x PR 4: Compute workspace hash + execution context
+    from arcade_app.services.workspace_hash import hash_workspace_snapshot, build_execution_context
+    
+    workspace_hash = hash_workspace_snapshot({
+        "entrypoint": getattr(payload, "entrypoint", None) or "main.py",
+        "files": run_workspace.get("files", []) if run_workspace else []
+    })
+    
+    execution_context = build_execution_context(
+        language=payload.language or "python",
+        mode=payload.mode,
+        duration_ms=duration_ms,
+        exit_code=exit_code,
+        stdout=stdout,
+        stderr=stderr,
+        timed_out=timed_out
+    )
+    
     attempt = QuestAttempt(
         user_id=user_id,
         quest_id=quest_id,
@@ -215,6 +283,9 @@ async def run_quest(
             "seq": prog.runs_count
         },
         workspace_snapshot_json=[f for f in run_workspace.get("files", []) if f.get("editable", True)] if run_workspace else None,
+        idempotency_key=payload.idempotency_key,  # Phase 8.x PR 3
+        workspace_hash=workspace_hash,  # Phase 8.x PR 4
+        execution_context_json=execution_context,  # Phase 8.x PR 4
     )
     debrief_data = None
     diagnostics_data = []
@@ -295,11 +366,52 @@ async def run_quest(
         
         debrief_data = await generate_debrief(db, quest, attempt, prog)
         attempt.debrief_json = debrief_data
+    
+    # Phase 8.x PR 4: Extract LLM metadata if present
+    # Priority: quick_fixes > debrief (quick fixes are closer to error context)
+    if attempt.quick_fixes_json and isinstance(attempt.quick_fixes_json, list) and len(attempt.quick_fixes_json) > 0:
+        first_fix = attempt.quick_fixes_json[0]
+        if isinstance(first_fix, dict) and "meta" in first_fix:
+            attempt.model_id = first_fix["meta"].get("model_id")
+            attempt.prompt_version = first_fix["meta"].get("prompt_version")
+    elif attempt.debrief_json and isinstance(attempt.debrief_json, dict) and "meta" in attempt.debrief_json:
+        attempt.model_id = attempt.debrief_json["meta"].get("model_id")
+        attempt.prompt_version = attempt.debrief_json["meta"].get("prompt_version")
         
     db.add(attempt)
     db.add(prog) # Ensure prog update is staged
-    await db.commit()
-    await db.refresh(attempt)
+    
+    # Phase 8.x PR 3: Handle race conditions on idempotency_key
+    try:
+        await db.commit()
+        await db.refresh(attempt)
+    except IntegrityError:
+        # Race condition: another request with same key won
+        await db.rollback()
+        existing = await get_existing_attempt_by_idempotency(
+            db, user_id, quest_id, is_submit=False, idempotency_key=payload.idempotency_key
+        )
+        if existing:
+            # Return the other request's result
+            prog = await _get_or_create_progress(db, user_id, quest_id)
+            return {
+                "passed": existing.passed,
+                "objective_results": existing.objective_results,
+                "stdout": existing.stdout,
+                "stderr": existing.stderr,
+                "ready_to_submit": existing.passed and not existing.meta.get("timed_out", False),
+                "attempt_id": str(existing.id),
+                "run_number": existing.meta.get("seq", prog.runs_count),
+                "duration_ms": existing.duration_ms,
+                "exit_code": existing.meta.get("exit_code", 0),
+                "timed_out": existing.meta.get("timed_out", False),
+                "coach": existing.meta.get("coach"),
+                "debrief": existing.debrief_json if existing.debrief_json else None,
+                "diagnostics": existing.diagnostics_json if existing.diagnostics_json else [],
+                "quick_fixes": existing.quick_fixes_json if existing.quick_fixes_json else []
+            }
+        # Unexpected: integrity error but no existing record
+        raise
 
     return {
         "passed": passed,
@@ -396,6 +508,21 @@ async def submit_quest(
     db: AsyncSession = Depends(get_db),
     user_id: str = Depends(get_user_id),
 ):
+    # Phase 8.x PR 3: Check for existing submit with same idempotency key
+    existing = await get_existing_attempt_by_idempotency(
+        db, user_id, quest_id, is_submit=True, idempotency_key=payload.idempotency_key
+    )
+    if existing:
+        # Return existing result
+        return {
+            "ok": True,
+            "quest_id": quest_id,
+            "xp_awarded": existing.meta.get("xp", 0),
+            "mastery_awarded": 0,
+            "objective_results": existing.objective_results,
+            "status": "completed",
+        }
+    
     objective_results = validate_first_sparks_python(payload.code)
     passed = all(o.get("ok") for o in objective_results if o["id"] != "syntax")
     if not passed:
@@ -404,6 +531,28 @@ async def submit_quest(
     # award XP (simple for now)
     xp_awarded = 50
     mastery_awarded = 0
+    
+    # Phase 8.x PR 4: Compute workspace hash + execution context for submit
+    from arcade_app.services.workspace_hash import hash_workspace_snapshot, build_execution_context
+    
+    # For submit, workspace is typically from payload
+    workspace_for_hash = None
+    if payload.workspace:
+        workspace_for_hash = {
+            "entrypoint": getattr(payload, "entrypoint", None) or "main.py",
+            "files": payload.workspace
+        }
+    
+    workspace_hash = hash_workspace_snapshot(workspace_for_hash)
+    execution_context = build_execution_context(
+        language=payload.language or "python",
+        mode="submit",
+        duration_ms=0,  # Submit doesn't execute
+        exit_code=0,
+        stdout=None,
+        stderr=None,
+        timed_out=False
+    )
 
     attempt = QuestAttempt(
         user_id=user_id,
@@ -417,6 +566,9 @@ async def submit_quest(
         stderr=None,
         objective_results=objective_results,
         meta={"mode": "submit", "xp": xp_awarded},
+        idempotency_key=payload.idempotency_key,  # Phase 8.x PR 3
+        workspace_hash=workspace_hash,  # Phase 8.x PR 4
+        execution_context_json=execution_context,  # Phase 8.x PR 4
     )
     db.add(attempt)
 
@@ -427,7 +579,25 @@ async def submit_quest(
     prog.last_xp = xp_awarded
     prog.best_xp = max(prog.best_xp, xp_awarded)
 
-    await db.commit()
+    # Phase 8.x PR 3: Handle race conditions
+    try:
+        await db.commit()
+    except IntegrityError:
+        # Race condition: another request with same key won
+        await db.rollback()
+        existing = await get_existing_attempt_by_idempotency(
+            db, user_id, quest_id, is_submit=True, idempotency_key=payload.idempotency_key
+        )
+        if existing:
+            return {
+                "ok": True,
+                "quest_id": quest_id,
+                "xp_awarded": existing.meta.get("xp", 0),
+                "mastery_awarded": 0,
+                "objective_results": existing.objective_results,
+                "status": "completed",
+            }
+        raise
 
     return {
         "ok": True,

@@ -189,6 +189,9 @@ export async function submitQuestSolution(
     language?: string,
     workspace?: { entrypoint: string; files: { path: string; content: string }[] }
 ): Promise<QuestSubmitResult> {
+    // Phase 8.x PR 3: Generate idempotency key
+    const idempotency_key = crypto.randomUUID();
+
     const res = await fetch(
         `/api/quests/${encodeURIComponent(slug)}/submit`,
         {
@@ -196,7 +199,7 @@ export async function submitQuestSolution(
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ code, language, workspace }),
+            body: JSON.stringify({ code, language, workspace, idempotency_key }),
         }
     );
     const { ok, data, raw } = await safeJson<QuestSubmitResult>(res);
@@ -224,6 +227,9 @@ export async function runQuest(
         payload.entrypoint = workspaceConfig.entrypoint;
         payload.workspace = workspaceConfig.files;
     }
+
+    // Phase 8.x PR 3: Generate idempotency key
+    payload.idempotency_key = crypto.randomUUID();
 
     const res = await fetch(`/api/quests/${encodeURIComponent(slug)}/run`, {
         method: "POST",

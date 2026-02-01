@@ -38,6 +38,15 @@ class QuestAttempt(SQLModel, table=True):
     
     # Phase 7.1.4: Quick Fixes
     quick_fixes_json: List[Dict[str, Any]] = Field(default=[], sa_type=JSON)
+    
+    # Phase 8.x PR 3: Idempotency
+    idempotency_key: Optional[str] = Field(default=None)
+    
+    # Phase 8.x PR 4: Workspace Hash + Metadata
+    workspace_hash: Optional[str] = Field(default=None)
+    execution_context_json: Dict[str, Any] = Field(default={}, sa_type=JSON)
+    model_id: Optional[str] = Field(default=None)
+    prompt_version: Optional[str] = Field(default=None)
 
 
 class QuestProgressV2(SQLModel, table=True):
