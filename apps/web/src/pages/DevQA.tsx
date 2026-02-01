@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Play, CheckCircle, XCircle, Loader } from 'lucide-react';
-import { getQASummary, getQAQuests, QASummary, QuestHealth, runQATest, pollQARun, QARunResponse } from '../lib/qaApi';
+import { Search, Play, CheckCircle, XCircle, Loader, PlayCircle } from 'lucide-react';
+import {
+    getQASummary, getQAQuests, QASummary, QuestHealth,
+    runQATest, pollQARun, QARunResponse,
+    runBatchQATest, pollBatchQARun, getBatchQuestResults, QABatchRun
+} from '../lib/qaApi';
 
 export default function DevQA() {
     const [summary, setSummary] = useState<QASummary | null>(null);
@@ -12,6 +16,11 @@ export default function DevQA() {
     const [selectedQuest, setSelectedQuest] = useState<QuestHealth | null>(null);
     const [activeRun, setActiveRun] = useState<QARunResponse | null>(null);
     const [runningQuests, setRunningQuests] = useState<Set<string>>(new Set());
+
+    // Batch run state (Phase 8.1)
+    const [batchRun, setBatchRun] = useState<QABatchRun | null>(null);
+    const [showBatchModal, setShowBatchModal] = useState(false);
+    const [batchResults, setBatchResults] = useState<any>(null);
 
     // Filters
     const [searchQuery, setSearchQuery] = useState('');
@@ -72,6 +81,37 @@ export default function DevQA() {
                 next.delete(quest.slug);
                 return next;
             });
+        }
+    }
+
+    async function handleRunTrack() {
+        if (!worldFilter) {
+            setError('Please select a world to run batch tests');
+            return;
+        }
+
+        try {
+            setError(null);
+            const batch = await runBatchQATest(worldFilter, undefined, 'integrity');
+            setBatchRun(batch);
+            setShowBatchModal(true);
+            setBatchResults(null);
+
+            // Poll for progress
+            await pollBatchQARun(batch.batch_id, (updatedBatch) => {
+                setBatchRun(updatedBatch);
+            });
+
+            // Fetch detailed results
+            const results = await getBatchQuestResults(batch.batch_id);
+            setBatchResults(results);
+
+            // Refresh quest list after completion
+            await loadData();
+        } catch (err) {
+            console.error('Batch run error:', err);
+            setError(err instanceof Error ? err.message : 'Failed to run batch test');
+            setShowBatchModal(false);
         }
     }
 
@@ -184,7 +224,112 @@ export default function DevQA() {
                     <option value="unhealthy">Unhealthy</option>
                     <option value="unknown">Unknown</option>
                 </select>
+
+                {/* Run Track Button */}
+                <button
+                    onClick={handleRunTrack}
+                    disabled={!worldFilter || showBatchModal}
+                    className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded flex items-center gap-2 transition"
+                    title={!worldFilter ? 'Select a world first' : 'Run integrity check on all quests in world'}
+                >
+                    <PlayCircle className="w-4 h-4" />
+                    Run World
+                </button>
             </div>
+
+            {/* Batch Progress Modal */}
+            {showBatchModal && batchRun && (
+                <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+                    <div className="bg-gray-900 border border-gray-700 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-auto">
+                        <div className="p-6">
+                            <h3 className="text-xl font-bold mb-4">World Integrity Check</h3>
+                            <p className="text-gray-400 mb-4">
+                                {batchRun.world_id} {batchRun.track_id && `/ ${batchRun.track_id}`}
+                            </p>
+
+                            {/* Progress Bar */}
+                            <div className="mb-6">
+                                <div className="flex justify-between text-sm text-gray-400 mb-2">
+                                    <span>{batchRun.completed_quests} / {batchRun.total_quests} complete</span>
+                                    <span>{batchRun.progress_percent}%</span>
+                                </div>
+                                <div className="w-full bg-gray-800 rounded-full h-4 overflow-hidden">
+                                    <div
+                                        className="bg-cyan-500 h-full transition-all duration-300"
+                                        style={{ width: `${batchRun.progress_percent}%` }}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Results Summary */}
+                            {batchRun.status === 'finished' && (
+                                <div className="space-y-4">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="bg-green-500/10 border border-green-500/30 rounded p-4">
+                                            <div className="text-green-400 text-2xl font-bold">{batchRun.passed_count}</div>
+                                            <div className="text-gray-400 text-sm">Passed</div>
+                                        </div>
+                                        <div className="bg-red-500/10 border border-red-500/30 rounded p-4">
+                                            <div className="text-red-400 text-2xl font-bold">{batchRun.failed_count}</div>
+                                            <div className="text-gray-400 text-sm">Failed</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Per-quest results */}
+                                    {batchResults && batchResults.quests.length > 0 && (
+                                        <div>
+                                            <h4 className="font-semibold mb-2">Quest Details:</h4>
+                                            <div className="space-y-2 max-h-60 overflow-y-auto">
+                                                {batchResults.quests.map((q: any) => (
+                                                    <div
+                                                        key={q.quest_slug}
+                                                        className={`p-3 rounded border ${q.passed
+                                                                ? 'bg-green-500/5 border-green-500/30'
+                                                                : 'bg-red-500/5 border-red-500/30'
+                                                            }`}
+                                                    >
+                                                        <div className="flex items-start gap-2">
+                                                            {q.passed ? <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" /> : <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />}
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="font-mono text-sm">{q.quest_slug}</div>
+                                                                {!q.passed && q.issues.length > 0 && (
+                                                                    <ul className="mt-2 space-y-1 text-xs text-red-300">
+                                                                        {q.issues.map((issue: string, i: number) => (
+                                                                            <li key={i}>• {issue}</li>
+                                                                        ))}
+                                                                    </ul>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Loading state */}
+                            {batchRun.status === 'running' && (
+                                <div className="text-center py-8">
+                                    <Loader className="w-8 h-8 text-cyan-500 animate-spin mx-auto mb-2" />
+                                    <p className="text-gray-400">Running tests...</p>
+                                </div>
+                            )}
+
+                            {/* Close button */}
+                            <div className="mt-6 flex justify-end">
+                                <button
+                                    onClick={() => setShowBatchModal(false)}
+                                    className="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded transition"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Quest Grid */}
             <div className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">

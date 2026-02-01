@@ -317,7 +317,43 @@ class QaRun(SQLModel, table=True):
     
     # Optional tracking
     engine_version: Optional[str] = None  # e.g. "phase-8.0"
-    content_hash: Optional[str] = None    # MD5 of quest content fordetecting drift
+    content_hash: Optional[str] = None    # MD5 of quest content for detecting drift
+    batch_id: Optional[str] = None        # Link to QaBatchRun.id (Phase 8.1)
+
+
+class QaBatchRun(SQLModel, table=True):
+    """
+    Batch QA run for multiple quests in a track (Phase 8.1).
+    Tracks progress and aggregates results across multiple QaRun records.
+    """
+    __tablename__ = "qa_batch_runs"
+    
+    id: str = Field(primary_key=True)  # qabatch_{uuid}
+    created_at: datetime = Field(default_factory=datetime.utcnow, index=True)
+    created_by: str  # user_id who triggered the batch
+    
+    # Batch scope
+    world_id: Optional[str] = None
+    track_id: Optional[str] = None
+    variant: str = "integrity"  # "starter" | "solution" | "integrity"
+    
+    # Progress tracking
+    status: str = "queued"  # "queued" | "running" | "finished" | "failed"
+    total_quests: int
+    completed_quests: int = 0
+    
+    # Results aggregation
+    passed_count: int = 0
+    failed_count: int = 0
+    
+    # Timing
+    started_at: Optional[datetime] = None
+    finished_at: Optional[datetime] = None
+    duration_ms: Optional[int] = None
+    
+    # Metadata
+    engine_version: str = "phase-8.1"
+
 
 # --- QUEST MODELS (System 2.0) ---
 

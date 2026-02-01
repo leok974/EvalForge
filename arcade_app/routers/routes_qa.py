@@ -267,3 +267,168 @@ async def get_qa_run(run_id: str, current_user: Dict = Depends(require_admin)):
             "created_at": qa_run.created_at.isoformat()
         }
 
+
+# ===== BATCH RUN ENDPOINTS (Phase 8.1) =====
+
+class QABatchRunRequest(BaseModel):
+    world_id: Optional[str] = None
+    track_id: Optional[str] = None
+    variant: str = "integrity"
+
+
+@router.post("/batch/run")
+async def create_batch_run(
+    request: QABatchRunRequest,
+    current_user: Dict = Depends(require_admin)
+):
+    """
+    Trigger batch integrity check for all quests in a track.
+    
+    Body: { "world_id": "world-python", "track_id": "basics", "variant": "integrity" }
+    Returns: { "batch_id": "qabatch_123", "status": "queued", "total_quests": 12 }
+    """
+    from arcade_app.services.qa_batch_runner import execute_batch_run
+    from arcade_app.models import QaBatchRun
+    
+    if request.variant not in ["starter", "solution", "integrity"]:
+        raise HTTPException(status_code=400, detail="Invalid variant")
+    
+    if not request.world_id and not request.track_id:
+        raise HTTPException(status_code=400, detail="Must specify at least world_id or track_id")
+    
+    user_id = current_user.get("id", "anonymous")
+    
+    try:
+        batch_id = await execute_batch_run(
+            world_id=request.world_id,
+            track_id=request.track_id,
+            variant=request.variant,
+            user_id=user_id
+        )
+        
+        # Fetch batch to return details
+        async for session in get_session():
+            batch_result = await session.exec(
+                select(QaBatchRun).where(QaBatchRun.id == batch_id)
+            )
+            batch = batch_result.first()
+            if batch:
+                return {
+                    "batch_id": batch.id,
+                    "status": batch.status,
+                    "total_quests": batch.total_quests,
+                    "world_id": batch.world_id,
+                    "track_id": batch.track_id
+                }
+            break
+        
+        raise HTTPException(status_code=500, detail="Batch created but not found")
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to create batch: {str(e)}")
+
+
+@router.get("/batch/runs/{batch_id}")
+async def get_batch_run(
+    batch_id: str,
+    current_user: Dict = Depends(require_admin)
+):
+    """
+    Get batch run status and progress.
+    
+    Returns: {
+        "batch_id": "qabatch_123",
+        "status": "running",
+        "total_quests": 12,
+        "completed_quests": 7,
+        "passed_count": 5,
+        "failed_count": 2,
+        "progress_percent": 58
+    }
+    """
+    from arcade_app.models import QaBatchRun
+    
+    async for session in get_session():
+        batch_result = await session.exec(
+            select(QaBatchRun).where(QaBatchRun.id == batch_id)
+        )
+        batch = batch_result.first()
+        
+        if not batch:
+            raise HTTPException(status_code=404, detail="Batch run not found")
+        
+        progress_percent = 0
+        if batch.total_quests > 0:
+            progress_percent = int((batch.completed_quests / batch.total_quests) * 100)
+        
+        return {
+            "batch_id": batch.id,
+            "status": batch.status,
+            "world_id": batch.world_id,
+            "track_id": batch.track_id,
+            "variant": batch.variant,
+            "total_quests": batch.total_quests,
+            "completed_quests": batch.completed_quests,
+            "passed_count": batch.passed_count,
+            "failed_count": batch.failed_count,
+            "progress_percent": progress_percent,
+            "duration_ms": batch.duration_ms,
+            "created_at": batch.created_at.isoformat() if batch.created_at else None,
+            "started_at": batch.started_at.isoformat() if batch.started_at else None,
+            "finished_at": batch.finished_at.isoformat() if batch.finished_at else None
+        }
+
+
+@router.get("/batch/runs/{batch_id}/quests")
+async def get_batch_quest_results(
+    batch_id: str,
+    current_user: Dict = Depends(require_admin)
+):
+    """
+    Get individual quest results for a batch run.
+    
+    Returns: {
+        "batch_id": "qabatch_123",
+        "quests": [
+            {
+                "quest_slug": "quest-py-hello",
+                "run_id": "qarun_456",
+                "status": "finished",
+                "passed": true
+            },
+            ...
+        ]
+    }
+    """
+    from arcade_app.models import QaBatchRun
+    
+    async for session in get_session():
+        # Verify batch exists
+        batch_result = await session.exec(
+            select(QaBatchRun).where(QaBatchRun.id == batch_id)
+        )
+        batch = batch_result.first()
+        if not batch:
+            raise HTTPException(status_code=404, detail="Batch run not found")
+        
+        # Get all runs for this batch
+        runs_result = await session.exec(
+            select(QaRun).where(QaRun.batch_id == batch_id)
+        )
+        runs = list(runs_result)
+        
+        quest_results = []
+        for run in runs:
+            quest_results.append({
+                "quest_slug": run.quest_slug,
+                "run_id": run.id,
+                "status": run.status,
+                "passed": run.result_json.get("passed", False) if run.result_json else False,
+                "duration_ms": run.duration_ms,
+                "issues": run.result_json.get("issues", []) if run.result_json else []
+            })
+        
+        return {
+            "batch_id": batch.id,
+            "quests": quest_results
+        }

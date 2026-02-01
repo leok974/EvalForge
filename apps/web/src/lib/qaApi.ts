@@ -133,3 +133,95 @@ export async function pollQARun(
         poll();
     });
 }
+
+
+// ===== BATCH RUN API (Phase 8.1) =====
+
+export interface QABatchRun {
+    batch_id: string;
+    status: 'queued' | 'running' | 'finished' | 'failed';
+    world_id?: string;
+    track_id?: string;
+    variant: string;
+    total_quests: number;
+    completed_quests: number;
+    passed_count: number;
+    failed_count: number;
+    progress_percent: number;
+    duration_ms?: number;
+    created_at?: string;
+    started_at?: string;
+    finished_at?: string;
+}
+
+export interface QABatchQuestResult {
+    quest_slug: string;
+    run_id: string;
+    status: string;
+    passed: boolean;
+    duration_ms?: number;
+    issues: string[];
+}
+
+export async function runBatchQATest(
+    worldId?: string,
+    trackId?: string,
+    variant: string = 'integrity'
+): Promise<QABatchRun> {
+    const response = await fetch(`${API_BASE}/batch/run`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ world_id: worldId, track_id: trackId, variant })
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || `Failed to run batch QA test: ${response.statusText}`);
+    }
+
+    return response.json();
+}
+
+export async function getBatchQARun(batchId: string): Promise<QABatchRun> {
+    const response = await fetch(`${API_BASE}/batch/runs/${batchId}`);
+    if (!response.ok) {
+        throw new Error(`Failed to get batch run: ${response.statusText}`);
+    }
+    return response.json();
+}
+
+export async function getBatchQuestResults(batchId: string): Promise<{
+    batch_id: string;
+    quests: QABatchQuestResult[];
+}> {
+    const response = await fetch(`${API_BASE}/batch/runs/${batchId}/quests`);
+    if (!response.ok) {
+        throw new Error(`Failed to get batch quest results: ${response.statusText}`);
+    }
+    return response.json();
+}
+
+export async function pollBatchQARun(
+    batchId: string,
+    onProgress: (batch: QABatchRun) => void,
+    intervalMs: number = 1000
+): Promise<QABatchRun> {
+    return new Promise((resolve, reject) => {
+        const poll = async () => {
+            try {
+                const batch = await getBatchQARun(batchId);
+                onProgress(batch);
+
+                if (batch.status === 'finished' || batch.status === 'failed') {
+                    resolve(batch);
+                } else {
+                    setTimeout(poll, intervalMs);
+                }
+            } catch (error) {
+                reject(error);
+            }
+        };
+
+        poll();
+    });
+}
