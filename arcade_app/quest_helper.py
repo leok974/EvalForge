@@ -281,6 +281,11 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         "tiered_hints": q.tiered_hints_json or {},
         "hints": _transform_hints(q.tiered_hints_json or {}),
         "runtime": q.runtime_rules_json or {},
+        # Phase 9.1: Tutorial System
+        "tutorial_md": q.tutorial_md,
+        "key_terms": q.key_terms or [],
+        "concept_tags": q.concept_tags or [],
+        "codex_references": q.codex_references or [],
     }
 
 def _transform_hints(tiered: Dict[str, str]) -> list[Dict[str, str]]:

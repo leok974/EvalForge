@@ -420,6 +420,13 @@ class QuestDefinition(SQLModel, table=True):
     # Multi-File Workspace Fields (Phase 6)
     workspace_json: Dict = Field(default={}, sa_type=JSON) 
     grading_json: Dict = Field(default={}, sa_type=JSON)
+    
+    # Phase 9.1: Tutorial System
+    tutorial_md: Optional[str] = Field(default=None)
+    key_terms: List[Dict[str, Any]] = Field(default=[], sa_type=JSON)
+    # Structure: [{"id": "python/function", "term": "Function", "one_liner": "...", "codex_ref": "..."}]
+    concept_tags: List[str] = Field(default=[], sa_type=JSON)
+    codex_references: List[str] = Field(default=[], sa_type=JSON)
 
 class QuestProgress(SQLModel, table=True):
     """
