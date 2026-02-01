@@ -1,0 +1,112 @@
+-- DRAFT ONLY — DO NOT APPLY IN PR2
+-- 004_quest_idempotency_metadata.sql.draft
+-- 
+-- Phase 8.x PR 3 + PR 4: Quest Idempotency Keys + Metadata Tracking
+-- 
+-- This migration adds:
+-- 1. Idempotency key support (PR 3)
+-- 2. Workspace hash for replay debugging (PR 4)
+-- 3. LLM metadata tracking (model_id, prompt_version)
+-- 4. Execution context JSON for diagnostics
+--
+-- APPLY ONLY AFTER PR 2 APPROVED
+
+BEGIN;
+
+-- ============================================================================
+-- Part 1: Idempotency (PR 3)
+-- ============================================================================
+
+-- Add idempotency_key column
+ALTER TABLE quest_attempts
+  ADD COLUMN IF NOT EXISTS idempotency_key TEXT;
+
+-- NOTE: is_submit column already exists (boolean)
+-- NO NEED to add action_kind - use existing is_submit:
+--   is_submit=false → run
+--   is_submit=true  → submit
+
+-- ============================================================================
+-- Part 2: Workspace Hash + Metadata (PR 4)
+-- ============================================================================
+
+-- Add workspace hash for canonical snapshot tracking
+ALTER TABLE quest_attempts
+  ADD COLUMN IF NOT EXISTS workspace_hash TEXT;
+
+-- Add execution context (runtime env, mode, timeout, etc.)
+ALTER TABLE quest_attempts
+  ADD COLUMN IF NOT EXISTS execution_context_json JSONB DEFAULT '{}'::jsonb;
+
+-- Add LLM metadata (only populated when debrief/quickfix used)
+ALTER TABLE quest_attempts
+  ADD COLUMN IF NOT EXISTS model_id TEXT,
+  ADD COLUMN IF NOT EXISTS prompt_version TEXT;
+
+-- ============================================================================
+-- Part 3: Indexes
+-- ============================================================================
+
+-- Performance: quest + created_at for recent attempts queries
+CREATE INDEX IF NOT EXISTS idx_quest_attempts_quest_created
+  ON quest_attempts (quest_id, created_at DESC);
+
+-- Debugging: workspace hash lookup
+CREATE INDEX IF NOT EXISTS idx_quest_attempts_workspace_hash
+  ON quest_attempts (workspace_hash);
+
+-- Analytics: model tracking
+CREATE INDEX IF NOT EXISTS idx_quest_attempts_model_id
+  ON quest_attempts (model_id)
+  WHERE model_id IS NOT NULL;
+
+-- ============================================================================
+-- Part 4: Idempotency Unique Constraint
+-- ============================================================================
+
+-- Partial unique index: prevent duplicate submissions
+-- Only enforced when idempotency_key IS NOT NULL
+-- Uniqueness: (user, quest, action_type, key)
+CREATE UNIQUE INDEX IF NOT EXISTS uq_quest_attempts_idempotency
+  ON quest_attempts (user_id, quest_id, is_submit, idempotency_key)
+  WHERE idempotency_key IS NOT NULL;
+
+-- ============================================================================
+-- Verification Queries (for post-migration smoke test)
+-- ============================================================================
+
+-- Check columns exist
+-- SELECT column_name, data_type, is_nullable
+-- FROM information_schema.columns
+-- WHERE table_name = 'quest_attempts'
+--   AND column_name IN ('idempotency_key', 'workspace_hash', 'execution_context_json', 'model_id', 'prompt_version')
+-- ORDER BY column_name;
+
+-- Check indexes exist
+-- SELECT indexname, indexdef
+-- FROM pg_indexes
+-- WHERE tablename = 'quest_attempts'
+--   AND indexname LIKE '%idempotency%' OR indexname LIKE '%workspace_hash%' OR indexname LIKE '%model_id%'
+-- ORDER BY indexname;
+
+COMMIT;
+
+-- ============================================================================
+-- Rollback Script (if needed)
+-- ============================================================================
+
+-- BEGIN;
+--
+-- DROP INDEX IF EXISTS uq_quest_attempts_idempotency;
+-- DROP INDEX IF EXISTS idx_quest_attempts_model_id;
+-- DROP INDEX IF EXISTS idx_quest_attempts_workspace_hash;
+-- DROP INDEX IF EXISTS idx_quest_attempts_quest_created;
+--
+-- ALTER TABLE quest_attempts
+--   DROP COLUMN IF EXISTS idempotency_key,
+--   DROP COLUMN IF EXISTS workspace_hash,
+--   DROP COLUMN IF EXISTS execution_context_json,
+--   DROP COLUMN IF EXISTS model_id,
+--   DROP COLUMN IF EXISTS prompt_version;
+--
+-- COMMIT;

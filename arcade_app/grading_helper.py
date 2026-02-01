@@ -179,6 +179,11 @@ async def grade_quest_submission(user: Any, quest: Any, code: str, language: str
     return score, passed
 
 
+# Phase 8.x Boss Judge Constants
+BOSS_JUDGE_PROMPT_VERSION = "boss-judge-v1"
+BOSS_JUDGE_MODEL_ID = os.getenv("EVALFORGE_MODEL_VERSION", "gemini-2.5-flash-001")
+
+
 async def judge_boss_with_rubric(
     boss, 
     run,
@@ -188,6 +193,9 @@ async def judge_boss_with_rubric(
     """
     Use ZERO + rubric JSON to evaluate a boss submission and compute
     score + grade + per-dimension breakdown.
+    
+    Phase 8.x: Now includes fail-closed schema validation.
+    Invalid judge responses → run marked as FAILED with E_JUDGE_SCHEMA.
     
     Args:
         boss: BossDefinition with rubric_id
@@ -200,6 +208,8 @@ async def judge_boss_with_rubric(
     """
     from .boss_rubric_helper import load_boss_rubric, score_boss_eval
     from .boss_rubric_models import BossEvalLLMChoice
+    from .services.hash_helper import hash_submission
+    from datetime import datetime
     
     rubric_id = boss.rubric
     rubric = load_boss_rubric(rubric_id)
@@ -220,6 +230,17 @@ async def judge_boss_with_rubric(
         "submission": submission_context,
     }
 
+    # Compute submission hash for replay debugging
+    submission_hash = hash_submission(submission_context)
+    
+    # Track metadata for this judge call
+    judge_metadata = {
+        "model_id": BOSS_JUDGE_MODEL_ID,
+        "prompt_version": BOSS_JUDGE_PROMPT_VERSION,
+        "submission_hash": submission_hash,
+        "judged_at": datetime.utcnow().isoformat()
+    }
+    
     # Call ZERO
     if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
         # Mock ZERO response for dev/testing
@@ -274,26 +295,89 @@ async def judge_boss_with_rubric(
             }
         choice = BossEvalLLMChoice.model_validate(choice_data)
     else:
-        # Real ZERO call via LLM
+        # Real ZERO call via LLM (Phase 8.x: with fail-closed validation)
         from .llm import call_zero_boss_judge
         
+        raw_response = None
+        schema_validation_failed = False
+        
         try:
+            # Get raw response from ZERO
             zero_resp = call_zero_boss_judge(rubric=rubric, payload=zero_payload)
-            choice = BossEvalLLMChoice.model_validate(zero_resp)
+            
+            # Store raw response for debugging (will be truncated when saved)
+            raw_response = json.dumps(zero_resp) if isinstance(zero_resp, dict) else str(zero_resp)
+            
+            # Validate schema (FAIL-CLOSED)
+            try:
+                choice = BossEvalLLMChoice.model_validate(zero_resp)
+                # Schema validation passed
+                run.judge_schema_valid = True
+                run.judge_error_code = None
+            except Exception as schema_error:
+                # FAIL-CLOSED: Schema validation failed
+                logger.error(f"Boss judge schema validation failed: {schema_error}")
+                logger.error(f"Raw response (truncated): {raw_response[:500]}")
+                
+                schema_validation_failed = True
+                run.judge_schema_valid = False
+                run.judge_error_code = "E_JUDGE_SCHEMA"
+                run.judge_raw_response_trunc = raw_response[:20000] if raw_response else None
+                
+                # Create fail-closed response
+                choice_data = {
+                    "dimensions": [
+                        {"key": dim.key, "level": 0, "rationale": "Judge schema validation failed"}
+                        for dim in rubric.dimensions
+                    ],
+                    "autofail_conditions_triggered": ["E_JUDGE_SCHEMA"],
+                    "summary": "Boss judge returned invalid schema. Please contact support.",
+                    "strengths": [],
+                    "improvements": [f"Internal error: {str(schema_error)[:100]}"]
+                }
+                choice = BossEvalLLMChoice.model_validate(choice_data)
+                
         except Exception as e:
-            logger.error(f"ZERO boss judge failed: {e}")
-            # Fallback to mid-range score
+            # General judge failure (network, timeout, etc.)
+            logger.error(f"ZERO boss judge call failed: {e}")
+            
+            schema_validation_failed = True
+            run.judge_schema_valid = False
+            run.judge_error_code = "E_JUDGE_CALL"
+            run.judge_raw_response_trunc = f"Call failed: {str(e)[:500]}"
+            
+            # Fallback error response
             choice_data = {
                 "dimensions": [
-                    {"key": dim.key, "level": 1, "rationale": f"Eval failed: {str(e)[:50]}"}
+                    {"key": dim.key, "level": 0, "rationale": f"Judge call failed: {str(e)[:50]}"}
                     for dim in rubric.dimensions
                 ],
-                "autofail_conditions_triggered": []
+                "autofail_conditions_triggered": ["E_JUDGE_CALL"]
             }
             choice = BossEvalLLMChoice.model_validate(choice_data)
+        
+        # Persist judge metadata (Phase 8.x)
+        run.judge_model_id = judge_metadata["model_id"]
+        run.judge_prompt_version = judge_metadata["prompt_version"]
+        run.submission_hash = judge_metadata["submission_hash"]
+        if not schema_validation_failed and raw_response:
+            # Only store successful responses (truncated)
+            run.judge_raw_response_trunc = raw_response[:1000]  # Keep small for successful cases
 
     # Score the evaluation
     eval_result = score_boss_eval(rubric, choice)
+    
+    # Store judge result as JSONB (Phase 8.x)
+    run.judge_result_json = {
+        "boss_slug": eval_result.boss_slug,
+        "rubric_id": eval_result.rubric_id,
+        "total_score": eval_result.total_score,
+        "grade": eval_result.grade,
+        "autofail_triggered": eval_result.autofail_triggered,
+        "dimensions": [d.dict() for d in eval_result.dimensions],
+        "summary": eval_result.summary,
+        "metadata": judge_metadata
+    }
 
     # Compute HP + Integrity deltas based on score
     boss_hp_before = run.hp_remaining if run.hp_remaining is not None and run.hp_remaining > 0 else boss.max_hp

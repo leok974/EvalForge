@@ -259,6 +259,15 @@ class BossRun(SQLModel, table=True):
     # Optional metadata for debugging / analytics
     judge_trace_id: Optional[str] = Field(default=None)
     notes: Optional[str] = Field(default=None)
+    
+    # Phase 8.x: Boss Judge Metadata (fail-closed validation)
+    judge_model_id: Optional[str] = Field(default=None)          # LLM model used for judging
+    judge_prompt_version: Optional[str] = Field(default=None)    # Prompt version (e.g. "boss-judge-v1")
+    judge_schema_valid: Optional[bool] = Field(default=None)     # True if schema validation passed
+    judge_error_code: Optional[str] = Field(default=None)        # Error code if validation failed (e.g. "E_JUDGE_SCHEMA")
+    judge_raw_response_trunc: Optional[str] = Field(default=None)  # Truncated raw LLM response for debugging (max 20KB)
+    judge_result_json: Dict = Field(default={}, sa_type=JSON)    # Validated structured result or fail-closed error payload
+    submission_hash: Optional[str] = Field(default=None)         # SHA256 hash of submission payload
 
 
 class BossProgress(SQLModel, table=True):
