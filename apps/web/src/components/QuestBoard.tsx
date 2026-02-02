@@ -310,20 +310,42 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                                         <h3 className="text-sm font-semibold text-slate-50">
                                             {q.title}
                                         </h3>
-                                        {/* Assuming boss logic derived from unlocks or similar, or just quest type */}
+                                        {/* Boss Badge */}
                                         {q.unlocks_boss_id && (
                                             <span className="rounded-full border border-emerald-400/70 px-2 text-[10px] font-semibold uppercase tracking-wide text-emerald-300">
                                                 Boss
                                             </span>
                                         )}
-                                        {/* We still keep QuestStateChip for visual polish if not redundant? 
-                                            User snippet removed it, but it adds value (locked/in_progress icons).
-                                            I'll keep it but make it subtle?
-                                            User snippet didn't include it. I'll omit it to strictly follow "De-congest".
-                                            Actually, User snippet had "Locked" text in button.
-                                            I'll follow User snippet: Button has state text.
-                                            I will REMOVE QuestStateChip to de-congest.
-                                        */}
+
+                                        {/* Codex Coverage Badge */}
+                                        {q.codex_coverage_score !== undefined && (
+                                            <span
+                                                className={`
+                                                    rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide
+                                                    ${q.codex_coverage_score >= 90
+                                                        ? 'border-emerald-400/70 bg-emerald-950/40 text-emerald-300'
+                                                        : q.codex_coverage_score >= 70
+                                                            ? 'border-blue-400/70 bg-blue-950/40 text-blue-300'
+                                                            : q.codex_coverage_score > 0
+                                                                ? 'border-amber-400/70 bg-amber-950/40 text-amber-300'
+                                                                : 'border-slate-500/70 bg-slate-900/40 text-slate-400'
+                                                    }
+                                                `}
+                                                title={`Codex coverage: ${q.codex_coverage_score}/100`}
+                                            >
+                                                📚 {q.codex_coverage_score}
+                                            </span>
+                                        )}
+
+                                        {/* Invalid Refs Warning */}
+                                        {q.codex_invalid_refs && q.codex_invalid_refs > 0 && (
+                                            <span
+                                                className="rounded-full border border-red-400/70 bg-red-950/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-300"
+                                                title={`${q.codex_invalid_refs} invalid Codex reference(s)`}
+                                            >
+                                                ⚠️ {q.codex_invalid_refs} Invalid
+                                            </span>
+                                        )}
                                     </div>
 
                                     <p className="text-xs text-slate-400">

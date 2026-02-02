@@ -37,6 +37,10 @@ export interface QuestSummary {
     concept_tags?: string[];
     codex_references?: string[];
 
+    // Codex Coverage Audit (from coverage tool)
+    codex_coverage_score?: number;  // 0-100 score
+    codex_invalid_refs?: number;     // Count of invalid refs
+
     // Phase 6: Multi-File
     workspace?: {
         entrypoint: string;
