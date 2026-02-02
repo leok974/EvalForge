@@ -1,0 +1,32 @@
+[
+    {
+        "quest_path": "docs/quests/js-ignition-q1-console-and-functions"
+    },
+    {
+        "quest_path": "docs/quests/js-vars-q1-let-const-var"
+    },
+    {
+        "quest_path": "docs/quests/js-control-q1-if-else-loops"
+    },
+    {
+        "quest_path": "docs/quests/js-arrays-q1-basics"
+    },
+    {
+        "quest_path": "docs/quests/js-arrays-q2-map-filter-reduce"
+    },
+    {
+        "quest_path": "docs/quests/js-objects-q1-properties-methods"
+    },
+    {
+        "quest_path": "docs/quests/js-functions-q1-arrow-vs-regular"
+    },
+    {
+        "quest_path": "docs/quests/js-async-q1-promises-basics"
+    },
+    {
+        "quest_path": "docs/quests/js-errors-q1-try-catch"
+    },
+    {
+        "quest_path": "docs/quests/js-modules-q1-import-export"
+    }
+]

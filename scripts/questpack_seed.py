@@ -10,7 +10,7 @@ from arcade_app.database import get_session
 from arcade_app.models import QuestDefinition
 
 # Add root to pythonpath
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.append(os.getcwd())
 
 def find_json_files(root_dir):
     """Recursively find all .json files in relevant directories."""

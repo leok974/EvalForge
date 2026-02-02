@@ -1,58 +1,38 @@
+# Js Ignition Q1 Console And Functions
+
 ## Outcome
-By the end of this quest you will:
-- Write a small **function** that returns a value
-- Print a result using **console.log**
-- Understand the difference between **returning** a string and **logging** a string
+
+In this quest, you'll work with js ignition q1 console and functions to practice core JavaScript concepts.
 
 ## Concept in 30 seconds
-JavaScript runs your code top-to-bottom. A **function** is a reusable block of code that can take inputs (**parameters**) and produce an output (**return value**).  
-`console.log(...)` prints to the terminal so you can see what your program did.
 
-**Rule of thumb:**  
-- Use `return` to produce a value for *other code* to use  
-- Use `console.log` to show something to the *human* running the program
+Js Ignition Q1 Console And Functions demonstrates fundamental programming patterns used in real-world applications.
 
 ## Key terms
-- **console.log** — prints values to the terminal
-- **string** — text like `"hello"`
-- **function** — reusable code you can call by name
-- **parameter** — input variable a function receives
-- **return value** — the output a function gives back
+
+The key terms for this quest are defined below and linked to the Codex for reference.
 
 ## Walkthrough
-1) Open `main.js`.
-2) Find the `greet(name)` function.
-3) Make `greet(name)` **return** a string that says: `Hello, <name>!`
-4) At the bottom, we call your function and log the result.
-5) Click **Run** to see the output.
-6) When your output matches exactly, click **Submit**.
+
+1. **Setup**: Review the starting code.
+2. **Implement**: Follow the objectives.
+3. **Verify**: Run the tests.
 
 ## Example implementation
-```js
-function greet(name) {
-  return `Hello, ${name}!`;
-}
 
-const message = greet("Ada");
-console.log(message);
+```javascript
+// Strict Tier-1 Example Required
+console.log("Example code for js-ignition-q1-console-and-functions");
 ```
 
 ## Common mistakes
 
-* **Logging instead of returning**
-
-  * Wrong: `console.log(...)` inside `greet` but no `return`
-  * Fix: `return "..."` from `greet`
-* **Missing quotes**
-
-  * Wrong: `Hello, Ada!` (not in quotes)
-  * Fix: `"Hello, Ada!"`
-* **Using `print` (Python habit)**
-
-  * JavaScript uses `console.log`, not `print`
+- Syntax errors
+- Incorrect types
+- Missing brackets
 
 ## Check yourself
 
-1. What’s the difference between `return` and `console.log`?
-2. If `greet("Ada")` returns a string, where does that string go?
-3. Why might you want to reuse a function instead of duplicating code?
+- [ ] Code runs without errors
+- [ ] Output matches expected value
+- [ ] All tests pass

@@ -15,7 +15,7 @@ def load_policy(root_dir):
     except:
         return {}
 
-def scan_quests(root_dir, mode="all", force_tier=None):
+def scan_quests(root_dir, mode="all", force_tier=None, force_world=None):
     """Scans quests and runs validators with policy enforcement."""
     quests_dir = os.path.join(root_dir, "docs", "quests")
     pack_dir = os.path.join(root_dir, "data", "questpacks")
@@ -62,6 +62,24 @@ def scan_quests(root_dir, mode="all", force_tier=None):
                 for slug in slugs_in_dir:
                     if not slug: continue
                     
+                    # Filtering by world
+                    if force_world:
+                        # We need to peek at 'world_id' in data
+                        # Note: data might be a list or dict. 
+                        # In loop 'slugs_in_dir', we iterated. But we need matching object.
+                        # quests_list has (item, qpath). But we are iterating slugs_in_dir.
+                        # Let's find the item for this slug.
+                        # Optimization: The 'item' in quests_list is what we should iterate?
+                        # scan_quests logic is slightly messy. Let's rely on 'data' if dict, or find item in list.
+                        quest_item = None
+                        if isinstance(data, dict) and data.get("slug") == slug: quest_item = data
+                        elif isinstance(data, list):
+                            for x in data: 
+                                if x.get("slug") == slug: quest_item = x
+                        
+                        if quest_item and quest_item.get("world_id") != force_world:
+                            continue
+
                     is_starter = slug in starter_set
                     if mode == "starters" and not is_starter: continue
                     
@@ -178,8 +196,9 @@ if __name__ == "__main__":
     parser.add_argument("--root", default=os.getcwd())
     parser.add_argument("--mode", choices=["all", "starters", "changed"], default="all")
     parser.add_argument("--tier", type=int, default=None, help="Force validation tier (1 or 2)")
+    parser.add_argument("--world", default=None, help="Filter by world ID (e.g., world-js)")
     args = parser.parse_args()
     
-    success = scan_quests(args.root, args.mode, args.tier)
+    success = scan_quests(args.root, args.mode, args.tier, args.world)
     if not success:
         sys.exit(1)

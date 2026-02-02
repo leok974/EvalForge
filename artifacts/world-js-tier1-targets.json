@@ -1,0 +1,16 @@
+{
+    "world_id": "world-js",
+    "tier": 1,
+    "slugs": [
+        "js-ignition-q1-console-and-functions",
+        "js-vars-q1-let-const-var",
+        "js-control-q1-if-else-loops",
+        "js-arrays-q1-basics",
+        "js-arrays-q2-map-filter-reduce",
+        "js-objects-q1-properties-methods",
+        "js-functions-q1-arrow-vs-regular",
+        "js-async-q1-promises-basics",
+        "js-errors-q1-try-catch",
+        "js-modules-q1-import-export"
+    ]
+}

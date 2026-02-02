@@ -82,6 +82,10 @@ jobs:
           
           echo "✅ PASS: No invalid refs or policy violations"
       
+      - name: Validate JS World (Tier 1)
+        run: |
+          python scripts/validate_tutorials.py --world world-js --tier 1
+      
       - name: Upload audit artifacts
         if: always()
         uses: actions/upload-artifact@v4

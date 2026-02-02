@@ -2,7 +2,7 @@
     "slug": "js-ignition-q1-console-and-functions",
     "title": "Prism Ignition: Console + Functions",
     "language": "javascript",
-    "world_id": "js",
+    "world_id": "world-js",
     "track_id": "js-fundamentals",
     "order_index": 1,
     "short_description": "A generated quest description.",
