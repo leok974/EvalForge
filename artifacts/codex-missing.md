@@ -1,13 +1,13 @@
 # Codex Coverage Audit Report
 
-**Generated:** 2026-02-02T19:25:16.831009+00:00
+**Generated:** 2026-02-02T20:29:27.557055+00:00
 
 ## Executive Summary
 
-- **Coverage:** 9.2% (11 refs across 119 quests)
-- **Average Coverage Score:** 2.5/ 100
-- **Quests with Full Coverage (≥90):** 3
-- **Quests with Zero Coverage:** 116 (97.5%)
+- **Coverage:** 333.3% (40 refs across 12 quests)
+- **Average Coverage Score:** 66.7/ 100
+- **Quests with Full Coverage (≥90):** 8
+- **Quests with Zero Coverage:** 4 (33.3%)
 - **Invalid Refs:** 0
 - **Missing Refs:** 0
 
@@ -17,32 +17,29 @@
 
 ### Top Issues
 
-1. **116 quests have NO tutorial**
-2. **116 quests have NO terms**
-3. **116 quests have NO codex refs**
+1. **4 quests have NO tutorial**
+2. **4 quests have NO terms**
+3. **4 quests have NO codex refs**
 
 ### Sample Uncovered Quests
 
 **No Tutorial:**
-- `quest-js-retry-i`
-- `quest-js-debounce-b`
-- `quest-ops-csp-i`
-- `agents-grounding`
-- `agents-invocation`
+- `first-sparks`
+- `quest-py-hidden`
+- `quest-py-workspace`
+- `hello-variable`
 
 **No Terms:**
-- `quest-js-retry-i`
-- `quest-js-debounce-b`
-- `quest-ops-csp-i`
-- `agents-grounding`
-- `agents-invocation`
+- `first-sparks`
+- `quest-py-hidden`
+- `quest-py-workspace`
+- `hello-variable`
 
 **No Codex Refs:**
-- `quest-js-retry-i`
-- `quest-js-debounce-b`
-- `quest-ops-csp-i`
-- `agents-grounding`
-- `agents-invocation`
+- `first-sparks`
+- `quest-py-hidden`
+- `quest-py-workspace`
+- `hello-variable`
 
 ---
 

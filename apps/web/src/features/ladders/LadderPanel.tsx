@@ -123,8 +123,7 @@ export function LadderPanel({ worldSlug, className }: LadderPanelProps) {
                                                             setHighlightedQuestId(null);
                                                         }
                                                         if (node.kind === 'quest') {
-                                                            // Assume node.id is slug or we assume deep linking supports it
-                                                            navigate(`/quests/${node.id}`);
+                                                            navigate(`worlds/${worldSlug}/quests/${node.id}`);
                                                         }
                                                     }}
                                                     className={cn(

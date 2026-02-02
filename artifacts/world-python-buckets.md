@@ -4,10 +4,10 @@
 
 ## Summary
 
-- **Bucket A (None):** 7 quests (score = 0)
+- **Bucket A (None):** 0 quests (score = 0)
 - **Bucket B (Partial):** 0 quests (0 < score < 70)
 - **Bucket C (Good):** 0 quests (70 ≤ score < 90)
-- **Bucket D (Excellent):** 1 quests (score ≥ 90)
+- **Bucket D (Excellent):** 8 quests (score ≥ 90)
 
 ---
 
@@ -17,13 +17,6 @@ These quests need immediate baseline coverage.
 
 | Slug | Tutorial | Terms | Codex Refs | Issue |
 |------|----------|-------|------------|-------|
-| `python-data-forge` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
-| `python-systems-service-boundaries` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
-| `python-systems-resilient-job-runner` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
-| `python-systems-observability-sli` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
-| `python-systems-performance-profile` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
-| `python-systems-platform-tooling` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
-| `python-loop` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
 
 
 ---
@@ -54,4 +47,11 @@ These quests demonstrate full coverage.
 
 | Slug | Score | Terms | Codex Refs |
 |------|-------|-------|------------|
+| `python-data-forge` | 100.0 | 5 | 5 |
+| `python-systems-service-boundaries` | 100.0 | 5 | 5 |
+| `python-systems-resilient-job-runner` | 100.0 | 5 | 5 |
+| `python-systems-observability-sli` | 100.0 | 5 | 5 |
+| `python-systems-performance-profile` | 100.0 | 5 | 5 |
+| `python-systems-platform-tooling` | 100.0 | 5 | 5 |
 | `python-ignition` | 100.0 | 5 | 5 |
+| `python-loop` | 100.0 | 5 | 5 |

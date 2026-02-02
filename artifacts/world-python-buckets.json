@@ -1,77 +1,76 @@
 {
-  "none": [
-    {
-      "slug": "python-data-forge",
-      "score": 0.0,
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "terms_total": 0,
-      "terms_with_ref": 0,
-      "codex_refs_total": 0
-    },
-    {
-      "slug": "python-systems-service-boundaries",
-      "score": 0.0,
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "terms_total": 0,
-      "terms_with_ref": 0,
-      "codex_refs_total": 0
-    },
-    {
-      "slug": "python-systems-resilient-job-runner",
-      "score": 0.0,
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "terms_total": 0,
-      "terms_with_ref": 0,
-      "codex_refs_total": 0
-    },
-    {
-      "slug": "python-systems-observability-sli",
-      "score": 0.0,
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "terms_total": 0,
-      "terms_with_ref": 0,
-      "codex_refs_total": 0
-    },
-    {
-      "slug": "python-systems-performance-profile",
-      "score": 0.0,
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "terms_total": 0,
-      "terms_with_ref": 0,
-      "codex_refs_total": 0
-    },
-    {
-      "slug": "python-systems-platform-tooling",
-      "score": 0.0,
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "terms_total": 0,
-      "terms_with_ref": 0,
-      "codex_refs_total": 0
-    },
-    {
-      "slug": "python-loop",
-      "score": 0.0,
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "terms_total": 0,
-      "terms_with_ref": 0,
-      "codex_refs_total": 0
-    }
-  ],
+  "none": [],
   "partial": [],
   "good": [],
   "excellent": [
+    {
+      "slug": "python-data-forge",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 961,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "python-systems-service-boundaries",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 1009,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "python-systems-resilient-job-runner",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 1015,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "python-systems-observability-sli",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 1006,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "python-systems-performance-profile",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 1012,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "python-systems-platform-tooling",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 1003,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
     {
       "slug": "python-ignition",
       "score": 100.0,
       "has_tutorial": true,
       "tutorial_length": 1632,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "python-loop",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 943,
       "terms_total": 5,
       "terms_with_ref": 5,
       "codex_refs_total": 5

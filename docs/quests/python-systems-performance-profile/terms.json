@@ -1,0 +1,47 @@
+[
+  {
+    "term": "profiling",
+    "one_liner": "Measure where your code spends time and memory",
+    "codex_ref": "codex:glossary/python/systems/profiling",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "time complexity",
+    "one_liner": "How execution time scales with input size (Big-O notation)",
+    "codex_ref": "codex:glossary/python/systems/time-complexity",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "hot path",
+    "one_liner": "Code sections executed most frequently",
+    "codex_ref": "codex:glossary/python/systems/hot-path",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "bottleneck",
+    "one_liner": "The slowest part of your code that limits overall performance",
+    "codex_ref": "codex:glossary/python/systems/bottleneck",
+    "tags": [
+      "debugging",
+      "python"
+    ]
+  },
+  {
+    "term": "cProfile",
+    "one_liner": "Python's built-in profiling tool",
+    "codex_ref": "codex:glossary/python/systems/cprofile",
+    "tags": [
+      "runtime",
+      "python"
+    ]
+  }
+]

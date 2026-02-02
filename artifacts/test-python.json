@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-02-02T19:54:24.849436+00:00",
+  "counts": {
+    "quests_scanned": 0,
+    "total_refs": 0,
+    "unique_refs": 0,
+    "missing_unique_refs": 0,
+    "invalid_unique_refs": 0,
+    "quests_with_missing": 0
+  },
+  "coverage": {
+    "average_score": 0.0,
+    "quests_no_tutorial": 0,
+    "quests_empty_tutorial": 0,
+    "quests_no_terms": 0,
+    "quests_no_codex_refs": 0,
+    "quests_with_full_coverage": 0
+  },
+  "policy": {
+    "violations_count": 0,
+    "violations_by_quest": {},
+    "starters_scanned": 0,
+    "starters_compliant": 0
+  },
+  "coverage_by_quest": {},
+  "missing_by_ref": {},
+  "missing_by_quest": {},
+  "invalid_refs": {},
+  "gaps": {
+    "no_tutorial": [],
+    "no_terms": [],
+    "no_codex_refs": []
+  }
+}

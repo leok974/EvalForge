@@ -1,0 +1,47 @@
+[
+  {
+    "term": "virtual environment (venv)",
+    "one_liner": "Isolated Python environment with its own packages",
+    "codex_ref": "codex:glossary/python/systems/venv",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "dependency",
+    "one_liner": "External package or library your code requires",
+    "codex_ref": "codex:glossary/python/systems/dependency",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "package manager",
+    "one_liner": "Tool to install and manage dependencies (pip, poetry, etc.)",
+    "codex_ref": "codex:glossary/python/systems/package-manager",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "ImportError / ModuleNotFoundError",
+    "one_liner": "Exception when Python can't find a module to import",
+    "codex_ref": "codex:glossary/python/systems/module-not-found-error",
+    "tags": [
+      "debugging",
+      "python"
+    ]
+  },
+  {
+    "term": "pip",
+    "one_liner": "Python's default package installer",
+    "codex_ref": "codex:glossary/python/systems/pip",
+    "tags": [
+      "runtime",
+      "python"
+    ]
+  }
+]

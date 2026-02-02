@@ -1,0 +1,47 @@
+[
+  {
+    "term": "retry",
+    "one_liner": "Automatically re-attempt a failed operation",
+    "codex_ref": "codex:glossary/python/systems/retry",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "idempotency",
+    "one_liner": "An operation that produces the same result when repeated",
+    "codex_ref": "codex:glossary/python/systems/idempotency",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "timeout",
+    "one_liner": "Maximum time to wait before aborting an operation",
+    "codex_ref": "codex:glossary/python/systems/timeout",
+    "tags": [
+      "concept",
+      "python"
+    ]
+  },
+  {
+    "term": "exception handling (try/except)",
+    "one_liner": "Catch and handle errors gracefully",
+    "codex_ref": "codex:glossary/python/systems/exception-handling",
+    "tags": [
+      "debugging",
+      "python"
+    ]
+  },
+  {
+    "term": "queue / worker",
+    "one_liner": "Background jobs processed by worker threads or processes",
+    "codex_ref": "codex:glossary/python/systems/queue-worker",
+    "tags": [
+      "runtime",
+      "python"
+    ]
+  }
+]

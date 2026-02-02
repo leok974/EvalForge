@@ -149,45 +149,59 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             json_dir = os.path.dirname(os.path.abspath(file_path))
 
             # Helper to hydrate tutorial content
-            # Strategy: Check for tutorial.md and terms.json in files_from dir, then json_dir
+            # Strategy: 
+            # 1. Check docs/quests/{slug}/ FIRST (authoring overlay)
+            # 2. Then check files_from dir
+            # 3. Then json_dir
             def hydrate_tutorial(q_obj, base_dir, q_data):
-                # 1. Determine search directory
-                search_dirs = [base_dir]
+                slug = q_data.get("slug") or q_data.get("id")
+                
+                # Build search directories in priority order
+                search_dirs = []
+                
+                # 1. Priority: docs/quests/{slug}/ overlay (authoring source of truth)
+                root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+                overlay_dir = os.path.join(root_dir, "docs", "quests", slug)
+                if os.path.exists(overlay_dir):
+                    search_dirs.append(overlay_dir)
+                    print(f"    Checking overlay directory: {overlay_dir}")
+                
+                # 2. files_from directory (if specified)
                 ws = q_data.get("workspace") or {}
                 if "files_from" in ws:
-                    search_dirs.insert(0, os.path.join(base_dir, ws["files_from"]))
+                    files_from_dir = os.path.join(base_dir, ws["files_from"])
+                    if os.path.exists(files_from_dir):
+                        search_dirs.append(files_from_dir)
                 
-                # 2. Look for tutorial.md
+                # 3. JSON directory (fallback)
+                search_dirs.append(base_dir)
+                
+                # Look for tutorial.md
                 for d in search_dirs:
-                    if not os.path.exists(d): continue
-                    
                     tut_path = os.path.join(d, "tutorial.md")
                     if os.path.exists(tut_path):
-                        print(f"    Found tutorial.md in {d}")
+                        print(f"    ✅ Found tutorial.md in {d}")
                         try:
                             with open(tut_path, "r", encoding="utf-8") as f:
                                 q_obj.tutorial_md = f.read()
-                            # found, stop searching
-                            break
+                            break  # Stop after first match
                         except Exception as e:
                             print(f"    ⚠️ Failed to read tutorial {tut_path}: {e}")
 
-                # 3. Look for terms.json
+                # Look for terms.json
                 for d in search_dirs:
-                    if not os.path.exists(d): continue
-                    
                     terms_path = os.path.join(d, "terms.json")
                     if os.path.exists(terms_path):
-                        print(f"    Found terms.json in {d}")
+                        print(f"    ✅ Found terms.json in {d}")
                         try:
                             with open(terms_path, "r", encoding="utf-8") as f:
                                 terms_data = json.load(f)
                                 q_obj.key_terms = terms_data
-                                # Auto-derive refs if not explicitly set
-                                if not q_obj.codex_references:
-                                    derived = [t.get("codex_ref") for t in terms_data if t.get("codex_ref")]
-                                    q_obj.codex_references = list(set(derived)) # Unique
-                            break
+                                q_obj.key_terms = terms_data
+                                # Auto-derive refs
+                                derived = [t.get("codex_ref") for t in terms_data if t.get("codex_ref")]
+                                q_obj.codex_references = list(set(derived))  # Unique
+                            break  # Stop after first match
                         except Exception as e:
                             print(f"    ⚠️ Failed to read terms {terms_path}: {e}")
 
