@@ -1,0 +1,52 @@
+[
+  {
+    "id": "agents/system-prompt",
+    "term": "System Prompt",
+    "definition": "Top-level rules that guide the assistant’s behavior.",
+    "codex_ref": "codex:glossary/agents/system-prompt",
+    "tags": [
+      "agents",
+      "prompts"
+    ]
+  },
+  {
+    "id": "agents/user-prompt",
+    "term": "User Prompt",
+    "definition": "The task request and inputs provided by the user.",
+    "codex_ref": "codex:glossary/agents/user-prompt",
+    "tags": [
+      "agents",
+      "prompts"
+    ]
+  },
+  {
+    "id": "agents/instruction-hierarchy",
+    "term": "Instruction Hierarchy",
+    "definition": "A priority order for resolving conflicting instructions (System > User).",
+    "codex_ref": "codex:glossary/agents/instruction-hierarchy",
+    "tags": [
+      "agents",
+      "safety"
+    ]
+  },
+  {
+    "id": "agents/output-schema",
+    "term": "Output Schema",
+    "definition": "A structured shape (often JSON) the response must follow.",
+    "codex_ref": "codex:glossary/agents/output-schema",
+    "tags": [
+      "agents",
+      "reliability"
+    ]
+  },
+  {
+    "id": "agents/determinism",
+    "term": "Determinism",
+    "definition": "Reducing randomness so repeated runs behave consistently.",
+    "codex_ref": "codex:glossary/agents/determinism",
+    "tags": [
+      "agents",
+      "reliability"
+    ]
+  }
+]

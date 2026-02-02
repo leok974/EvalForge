@@ -1,0 +1,52 @@
+[
+  {
+    "id": "git/repository",
+    "term": "Repository",
+    "definition": "The Git database that stores project history.",
+    "codex_ref": "codex:glossary/git/repository",
+    "tags": [
+      "git",
+      "basics"
+    ]
+  },
+  {
+    "id": "git/working-tree",
+    "term": "Working Tree",
+    "definition": "Your current files on disk (what you’re editing).",
+    "codex_ref": "codex:glossary/git/working-tree",
+    "tags": [
+      "git",
+      "basics"
+    ]
+  },
+  {
+    "id": "git/staging-area",
+    "term": "Staging Area",
+    "definition": "A selection area for changes you intend to commit.",
+    "codex_ref": "codex:glossary/git/staging-area",
+    "tags": [
+      "git",
+      "basics"
+    ]
+  },
+  {
+    "id": "git/commit",
+    "term": "Commit",
+    "definition": "A saved snapshot of staged changes in the repo history.",
+    "codex_ref": "codex:glossary/git/commit",
+    "tags": [
+      "git",
+      "basics"
+    ]
+  },
+  {
+    "id": "git/commit-message",
+    "term": "Commit Message",
+    "definition": "A short explanation of what changed and why.",
+    "codex_ref": "codex:glossary/git/commit-message",
+    "tags": [
+      "git",
+      "habits"
+    ]
+  }
+]

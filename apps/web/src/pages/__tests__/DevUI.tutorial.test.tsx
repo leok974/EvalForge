@@ -34,7 +34,7 @@ vi.mock("@/store/gameStore", () => ({ useGameStore: () => ({}) }));
 vi.mock("@/components/Scoreboard", () => ({ Scoreboard: () => <div>Scoreboard</div> }));
 vi.mock("@/components/ContextSelector", () => ({ ContextSelector: () => <div>ContextSelector</div> }));
 vi.mock("@/components/BossPanel", () => ({ BossPanel: () => <div>BossPanel</div> }));
-vi.mock("@/components/CodexDrawer", () => ({ CodexDrawer: () => <div>CodexDrawer</div> }));
+vi.mock("@/components/codex/CodexDrawer", () => ({ CodexDrawer: () => <div>CodexDrawer</div> }));
 vi.mock("@/components/tracks/OracleTrackCard", () => ({ OracleTrackCard: () => <div>OracleTrackCard</div> }));
 vi.mock("@/components/devtools/IntentOracleEvalButton", () => ({ IntentOracleEvalButton: () => <div>EvalBtn</div> }));
 vi.mock("@/components/BossHud", () => ({ BossHud: () => <div>BossHud</div> }));

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, Lock, History, Check, X, Clock } from 'lucide-react';
+import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, Lock, History, Check, X, Clock, GraduationCap } from 'lucide-react';
 import { QuestSummary, QuestAttemptSummary } from '@/lib/questsApi';
 import ReactMarkdown from 'react-markdown';
 
@@ -12,13 +12,17 @@ interface QuestDrawerProps {
     attempts?: QuestAttemptSummary[];
     onSelectAttempt?: (attemptId: string) => void;
     // Tab Control
-    controlTab?: Tab; // 'briefing' | 'objectives' | 'lore' | 'hints' | 'history'
+    controlTab?: Tab; // 'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial'
     onTabChange?: (tab: Tab) => void;
+    // Phase 9.1: Custom Panels (Tutorial)
+    customPanels?: {
+        tutorial?: React.ReactNode;
+    };
 }
 
-type Tab = 'briefing' | 'objectives' | 'lore' | 'hints' | 'history';
+type Tab = 'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial';
 
-export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts = [], onSelectAttempt, controlTab, onTabChange }: QuestDrawerProps) {
+export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts = [], onSelectAttempt, controlTab, onTabChange, customPanels }: QuestDrawerProps) {
     const [activeTab, setActiveTab] = useState<Tab>('briefing');
 
     // Sync external control
@@ -74,6 +78,8 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
     };
 
     const tabs: { id: Tab; label: string; icon: any }[] = [
+        // Phase 9.1: Tutorial Tab (First if available)
+        ...(customPanels?.tutorial ? [{ id: 'tutorial' as Tab, label: 'Tutorial', icon: GraduationCap }] : []),
         { id: 'briefing', label: 'Briefing', icon: FileText },
         { id: 'objectives', label: 'Objectives', icon: ListChecks },
         { id: 'hints', label: 'Hints', icon: HelpCircle },

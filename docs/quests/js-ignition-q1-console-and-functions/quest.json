@@ -1,0 +1,28 @@
+{
+    "slug": "js-ignition-q1-console-and-functions",
+    "title": "Prism Ignition: Console + Functions",
+    "language": "javascript",
+    "world_id": "js",
+    "track_id": "js-fundamentals",
+    "order_index": 1,
+    "short_description": "A generated quest description.",
+    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
+    "objectives": [
+        {
+            "id": "obj_1",
+            "description": "Implement the solution.",
+            "type": "test_pass",
+            "matcher": null
+        }
+    ],
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "main.js",
+        "files_from": "./starter"
+    },
+    "smoke": {
+        "solution_workspace_files": []
+    }
+}

@@ -24,6 +24,18 @@
         ]
     },
     {
+        "id": "ts-fundamentals",
+        "world_id": "world-ts",
+        "name": "TypeScript Core",
+        "source": "fundamentals",
+        "description": "Master the Crystal Spire: types, interfaces, and generics.",
+        "tags": [
+            "typescript",
+            "interfaces",
+            "generics"
+        ]
+    },
+    {
         "id": "sql-fundamentals",
         "world_id": "world-sql",
         "name": "SQL Tactics",

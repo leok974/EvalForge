@@ -1,0 +1,7 @@
+{
+    "strict_starters": true,
+    "strict_starters_min_terms": 2,
+    "strict_starters_require_example": true,
+    "codex_orphan_mode": "warn",
+    "enforce_changed_only_nonstarters": true
+}

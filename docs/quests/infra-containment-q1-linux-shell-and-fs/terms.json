@@ -1,0 +1,53 @@
+[
+  {
+    "id": "infra/shell",
+    "term": "Shell",
+    "definition": "A command-line program that runs your commands.",
+    "codex_ref": "codex:glossary/infra/shell",
+    "tags": [
+      "infra",
+      "linux"
+    ]
+  },
+  {
+    "id": "infra/filesystem",
+    "term": "Filesystem",
+    "definition": "A tree of directories and files stored on disk.",
+    "codex_ref": "codex:glossary/infra/filesystem",
+    "tags": [
+      "infra",
+      "linux"
+    ]
+  },
+  {
+    "id": "infra/path",
+    "term": "Path",
+    "definition": "An address to a file or directory (absolute or relative).",
+    "codex_ref": "codex:glossary/infra/path",
+    "tags": [
+      "infra",
+      "linux"
+    ]
+  },
+  {
+    "id": "infra/cwd",
+    "term": "Current Working Directory (CWD)",
+    "definition": "The directory your shell is currently “in”; relative paths start here.",
+    "codex_ref": "codex:glossary/infra/cwd",
+    "tags": [
+      "infra",
+      "linux"
+    ]
+  },
+  {
+    "id": "infra/permissions",
+    "term": "Permissions",
+    "definition": "Rules controlling read/write/execute access to files and directories.",
+    "codex_ref": "codex:glossary/infra/permissions",
+    "tags": [
+      "infra",
+      "linux",
+      "security"
+    ]
+  }
+]

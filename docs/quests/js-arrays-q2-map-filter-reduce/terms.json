@@ -1,0 +1,47 @@
+[
+  {
+    "term": "array",
+    "definition": "An ordered list of values in JavaScript, written with brackets like [1, 2, 3].",
+    "tags": [
+      "js-basics",
+      "data-structures"
+    ],
+    "codex_ref": "codex:glossary/js/array"
+  },
+  {
+    "term": "callback",
+    "definition": "A function you pass into another function so it can be called later (often once per element).",
+    "tags": [
+      "js-basics",
+      "functions"
+    ],
+    "codex_ref": "codex:glossary/js/callback"
+  },
+  {
+    "term": "map",
+    "definition": "Array method that transforms each element and returns a new array of the same length.",
+    "tags": [
+      "js-basics",
+      "arrays"
+    ],
+    "codex_ref": "codex:glossary/js/map"
+  },
+  {
+    "term": "filter",
+    "definition": "Array method that keeps elements that pass a condition and returns a (possibly smaller) new array.",
+    "tags": [
+      "js-basics",
+      "arrays"
+    ],
+    "codex_ref": "codex:glossary/js/filter"
+  },
+  {
+    "term": "reduce",
+    "definition": "Array method that combines all elements into one value using an accumulator (acc).",
+    "tags": [
+      "js-basics",
+      "arrays"
+    ],
+    "codex_ref": "codex:glossary/js/reduce"
+  }
+]

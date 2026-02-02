@@ -148,18 +148,86 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             # Context for relative paths
             json_dir = os.path.dirname(os.path.abspath(file_path))
 
-            # Update Config Fields
-            existing.starter_code = quest_data.get("starter_code")
-            existing.objectives_json = quest_data.get("objectives_json") or quest_data.get("objectives") or []
-            existing.tiered_hints_json = quest_data.get("tiered_hints_json") or quest_data.get("tiered_hints") or {}
-            existing.runtime_rules_json = quest_data.get("runtime_rules_json") or quest_data.get("runtime") or {}
-            existing.base_xp_reward = quest_data.get("base_xp_reward") or quest_data.get("xp_base") or 50
-            existing.language = quest_data.get("language", "python")
+            # Helper to hydrate tutorial content
+            # Strategy: Check for tutorial.md and terms.json in files_from dir, then json_dir
+            def hydrate_tutorial(q_obj, base_dir, q_data):
+                # 1. Determine search directory
+                search_dirs = [base_dir]
+                ws = q_data.get("workspace") or {}
+                if "files_from" in ws:
+                    search_dirs.insert(0, os.path.join(base_dir, ws["files_from"]))
+                
+                # 2. Look for tutorial.md
+                for d in search_dirs:
+                    if not os.path.exists(d): continue
+                    
+                    tut_path = os.path.join(d, "tutorial.md")
+                    if os.path.exists(tut_path):
+                        print(f"    Found tutorial.md in {d}")
+                        try:
+                            with open(tut_path, "r", encoding="utf-8") as f:
+                                q_obj.tutorial_md = f.read()
+                            # found, stop searching
+                            break
+                        except Exception as e:
+                            print(f"    ⚠️ Failed to read tutorial {tut_path}: {e}")
+
+                # 3. Look for terms.json
+                for d in search_dirs:
+                    if not os.path.exists(d): continue
+                    
+                    terms_path = os.path.join(d, "terms.json")
+                    if os.path.exists(terms_path):
+                        print(f"    Found terms.json in {d}")
+                        try:
+                            with open(terms_path, "r", encoding="utf-8") as f:
+                                terms_data = json.load(f)
+                                q_obj.key_terms = terms_data
+                                # Auto-derive refs if not explicitly set
+                                if not q_obj.codex_references:
+                                    derived = [t.get("codex_ref") for t in terms_data if t.get("codex_ref")]
+                                    q_obj.codex_references = list(set(derived)) # Unique
+                            break
+                        except Exception as e:
+                            print(f"    ⚠️ Failed to read terms {terms_path}: {e}")
+
+            # Hydrate files
+            if "tutorial.md" not in quest_data: # Only hydrate if not in JSON
+                 hydrate_tutorial(existing, json_dir, quest_data)
+
+            # Update Config Fields (Partial Update Support)
+            if "starter_code" in quest_data:
+                existing.starter_code = quest_data["starter_code"]
             
-            raw_ws = quest_data.get("workspace") or {}
-            existing.workspace_json = hydrate_workspace(raw_ws, json_dir)
+            if "objectives_json" in quest_data:
+                existing.objectives_json = quest_data["objectives_json"]
+            elif "objectives" in quest_data:
+                existing.objectives_json = quest_data["objectives"]
+                
+            if "tiered_hints_json" in quest_data:
+                existing.tiered_hints_json = quest_data["tiered_hints_json"]
+            elif "tiered_hints" in quest_data:
+                existing.tiered_hints_json = quest_data["tiered_hints"]
+                
+            if "runtime_rules_json" in quest_data:
+                existing.runtime_rules_json = quest_data["runtime_rules_json"]
+            elif "runtime" in quest_data:
+                existing.runtime_rules_json = quest_data["runtime"]
+                
+            if "base_xp_reward" in quest_data:
+                existing.base_xp_reward = quest_data["base_xp_reward"]
+            elif "xp_base" in quest_data:
+                existing.base_xp_reward = quest_data["xp_base"]
+                
+            if "language" in quest_data:
+                existing.language = quest_data["language"]
             
-            existing.grading_json = quest_data.get("grading") or {}
+            if "workspace" in quest_data:
+                raw_ws = quest_data["workspace"]
+                existing.workspace_json = hydrate_workspace(raw_ws, json_dir)
+            
+            if "grading" in quest_data:
+                existing.grading_json = quest_data["grading"]
 
             if "detailed_description" in quest_data:
                 existing.detailed_description = quest_data["detailed_description"]

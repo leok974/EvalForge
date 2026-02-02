@@ -25,6 +25,18 @@ export interface QuestSummary {
     lore_md?: string;
     starter_code?: string;
 
+    // Phase 9.1: Tutorial Fields
+    tutorial_md?: string;
+    key_terms?: {
+        id: string;
+        term: string;
+        one_liner?: string;
+        codex_ref?: string;
+        tags?: string[];
+    }[];
+    concept_tags?: string[];
+    codex_references?: string[];
+
     // Phase 6: Multi-File
     workspace?: {
         entrypoint: string;

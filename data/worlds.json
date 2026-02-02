@@ -78,7 +78,9 @@
         "name": "TypeScript World",
         "icon": "gem",
         "description": "Typed Frontend. Theme: The Crystal Spire.",
-        "default_tracks": [],
+        "default_tracks": [
+            "ts-fundamentals"
+        ],
         "tags": [
             "typescript"
         ],

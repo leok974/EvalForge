@@ -1,0 +1,28 @@
+{
+    "slug": "infra-containment-q1-linux-shell-and-fs",
+    "title": "Q1 \u2013 Map of the Machine",
+    "language": "python",
+    "world_id": "world-infra",
+    "track_id": "grid-containment",
+    "order_index": 1,
+    "short_description": "A generated quest description.",
+    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
+    "objectives": [
+        {
+            "id": "obj_1",
+            "description": "Implement the solution.",
+            "type": "test_pass",
+            "matcher": null
+        }
+    ],
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "main.py",
+        "files_from": "./starter"
+    },
+    "smoke": {
+        "solution_workspace_files": []
+    }
+}

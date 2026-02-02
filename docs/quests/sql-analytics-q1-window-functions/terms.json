@@ -1,0 +1,53 @@
+[
+  {
+    "id": "sql/window-function",
+    "term": "Window Function",
+    "definition": "Computes a value across related rows while keeping each row in the result.",
+    "codex_ref": "codex:glossary/sql/window-function",
+    "tags": [
+      "sql",
+      "analytics"
+    ]
+  },
+  {
+    "id": "sql/over",
+    "term": "OVER",
+    "definition": "Defines the window (partitioning and ordering) for a window function.",
+    "codex_ref": "codex:glossary/sql/over",
+    "tags": [
+      "sql",
+      "analytics"
+    ]
+  },
+  {
+    "id": "sql/partition-by",
+    "term": "PARTITION BY",
+    "definition": "Splits rows into groups so the window function runs per group.",
+    "codex_ref": "codex:glossary/sql/partition-by",
+    "tags": [
+      "sql",
+      "analytics"
+    ]
+  },
+  {
+    "id": "sql/order-by",
+    "term": "ORDER BY",
+    "definition": "Defines row order inside a window for ranking or running calculations.",
+    "codex_ref": "codex:glossary/sql/order-by",
+    "tags": [
+      "sql",
+      "basics",
+      "analytics"
+    ]
+  },
+  {
+    "id": "sql/row-number",
+    "term": "ROW_NUMBER",
+    "definition": "Assigns a unique sequential number to rows within each partition.",
+    "codex_ref": "codex:glossary/sql/row-number",
+    "tags": [
+      "sql",
+      "analytics"
+    ]
+  }
+]

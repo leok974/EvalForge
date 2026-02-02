@@ -39,6 +39,9 @@ def main():
     # 3. Content Audit
     run_step([sys.executable, "scripts/content_audit.py"], "Content Audit")
     
+    # 3.5 Tutorial Validation (Phase 9.2)
+    run_step([sys.executable, "scripts/validate_tutorials.py"], "Tutorial Validation")
+    
     # 4. Smoke Tests
     smoke_cmd = [sys.executable, "scripts/questpack_smoke.py", "--all"]
     if args.only_slug:

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ml/tensor",
+    "term": "Tensor / Array",
+    "definition": "An N-dimensional grid of numbers (NumPy array).",
+    "codex_ref": "codex:glossary/ml/tensor",
+    "tags": [
+      "ml",
+      "numpy"
+    ]
+  },
+  {
+    "id": "ml/shape",
+    "term": "Shape",
+    "definition": "A tuple describing the size of each array dimension.",
+    "codex_ref": "codex:glossary/ml/shape",
+    "tags": [
+      "ml",
+      "numpy"
+    ]
+  },
+  {
+    "id": "ml/axis",
+    "term": "Axis",
+    "definition": "A dimension index along which an operation is applied.",
+    "codex_ref": "codex:glossary/ml/axis",
+    "tags": [
+      "ml",
+      "numpy"
+    ]
+  },
+  {
+    "id": "ml/broadcasting",
+    "term": "Broadcasting",
+    "definition": "Rules that expand smaller shapes to match larger ones for elementwise ops.",
+    "codex_ref": "codex:glossary/ml/broadcasting",
+    "tags": [
+      "ml",
+      "numpy"
+    ]
+  },
+  {
+    "id": "ml/reshape",
+    "term": "Reshape",
+    "definition": "Changing an array’s shape without changing its data size.",
+    "codex_ref": "codex:glossary/ml/reshape",
+    "tags": [
+      "ml",
+      "numpy"
+    ]
+  }
+]

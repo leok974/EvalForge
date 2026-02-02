@@ -8,7 +8,7 @@ import { useSkills } from '../hooks/useSkills';
 import { useBossStore } from '../store/bossStore';
 import { useTrackWarp } from '../hooks/useTrackWarp';
 import { BossPanel } from '../components/BossPanel';
-import { CodexDrawer } from '../components/CodexDrawer';
+import { CodexDrawer } from '../components/codex/CodexDrawer';
 import { OracleTrackCard } from '../components/tracks/OracleTrackCard';
 import { IntentOracleEvalButton } from '../components/devtools/IntentOracleEvalButton';
 import { useGameStore } from '../store/gameStore';
@@ -56,6 +56,7 @@ function DevUIContent() {
   const [input, setInput] = useState('');
   const [sid, setSid] = useState<string>('');
   const [isCodexOpen, setIsCodexOpen] = useState(false);
+  const [codexRef, setCodexRef] = useState<string | null>(null);
 
   // Tutorial State
   const [showTutorial, setShowTutorial] = useState(false);
@@ -253,7 +254,7 @@ function DevUIContent() {
       context={context}
       setContext={setContext}
       hasSkill={hasSkill}
-      onOpenCodex={() => setIsCodexOpen(true)}
+      onOpenCodex={() => { setIsCodexOpen(true); setCodexRef('codex:home'); }}
     />
   );
 
@@ -279,7 +280,7 @@ function DevUIContent() {
       </div>
 
       {bossStatus === 'active' ? (
-        <BossPanel onOpenCodex={() => setIsCodexOpen(true)} />
+        <BossPanel onOpenCodex={() => { setIsCodexOpen(true); setCodexRef('codex:home'); }} />
       ) : viewMode === 'board' ? (
         <div className="p-4 h-full overflow-hidden">
           <QuestBoard
@@ -405,7 +406,7 @@ The automated ignition systems are offline. We need to manually override the lau
   const codexPanel = (
     <div className="text-zinc-500 text-xs p-4">
       {/* Placeholder for Codex Widget if we want it inline */}
-      <button onClick={() => setIsCodexOpen(true)} className="text-cyan-400 hover:underline">
+      <button onClick={() => { setIsCodexOpen(true); setCodexRef('codex:home'); }} className="text-cyan-400 hover:underline">
         Open Codex Drawer
       </button>
     </div>
@@ -534,7 +535,7 @@ The automated ignition systems are offline. We need to manually override the lau
       <CodexDrawer
         isOpen={isCodexOpen}
         onClose={() => setIsCodexOpen(false)}
-        currentWorldId={context.world_id || 'world-python'}
+        activeRef={codexRef || 'codex:home'}
       />
 
       {/* GOD MODE BANNER */}

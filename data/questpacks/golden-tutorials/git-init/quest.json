@@ -1,0 +1,7 @@
+{
+    "slug": "git-commit-q1-init-and-first-commit",
+    "world_id": "world-git",
+    "workspace": {
+        "files_from": "."
+    }
+}

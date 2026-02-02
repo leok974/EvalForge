@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { QuestSummary, QuestAttemptSummary, fetchQuestAttempts, fetchQuestAttempt, unlockHint } from '@/lib/questsApi';
 import { QuestEditor, QuestEditorRef } from './QuestEditor';
 import { QuestDrawer } from './QuestDrawer';
+import { TutorialPanel } from './TutorialPanel'; // Phase 9.1
+import { CodexDrawer } from '../codex/CodexDrawer'; // Phase 9.1
 import { QuestSuccessOverlay } from './QuestSuccessOverlay';
 import { CoachBanner, CoachData } from './CoachBanner';
 import { DebriefData } from './DebriefPanel';
@@ -33,7 +35,30 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
     const [debriefData, setDebriefData] = useState<DebriefData | undefined>(undefined);
     const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
     const [quickFixes, setQuickFixes] = useState<QuickFix[]>([]);
-    const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | undefined>(undefined);
+    const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | undefined>(undefined);
+
+    // Codex State (Phase 9.1)
+    const [codexOpen, setCodexOpen] = useState(false);
+    const [codexRef, setCodexRef] = useState<string | null>(null);
+
+    const handleOpenCodex = (ref: string) => {
+        setCodexRef(ref);
+        setCodexOpen(true);
+    };
+
+    // Default Tab Logic including Tutorial
+    useEffect(() => {
+        if (!drawerTab) {
+            // Priority: Tutorial (if exists) -> Briefing
+            if (quest.tutorial_md) {
+                // Check if user has seen tutorial? (Optional MVP enhancement)
+                // For now, always default to tutorial if present
+                setDrawerTab('tutorial');
+            } else {
+                setDrawerTab('briefing'); // Default to briefing if no tutorial
+            }
+        }
+    }, [quest.id, quest.tutorial_md]); // Run when quest changes
 
     // State
     // Workspace State
@@ -55,8 +80,14 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
             setActivePath(quest.workspace.entrypoint);
         } else {
             // Single File Mode
-            const ext = quest.language === 'typescript' ? 'ts' : 'py';
-            const name = `main.${ext}`;
+            const ext = quest.language || 'python'; // Use quest language logic in getSnapshot too
+            let name = 'main.py';
+            if (quest.language === 'typescript') name = 'main.ts';
+            if (quest.language === 'javascript') name = 'main.js';
+            if (quest.language === 'css') name = 'style.css';
+            if (quest.language === 'html') name = 'index.html';
+            // Fallback for python or unknown
+
             const content = quest.starter_code || "# Start coding here...\n";
             setFiles({ [name]: { content, editable: true } });
             setBaseFiles({ [name]: content });
@@ -466,7 +497,7 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
             setDiagnostics(result.diagnostics || []);
             // Safe fallback for various payload shapes
             const fixes = result.quick_fixes || (result as any).quick_fixes_json || (result as any).attempt?.quick_fixes_json || [];
-            setQuickFixes(fixes);
+            if (fixes.length > 0) setQuickFixes(fixes);
 
             // Add to history if we got an artifact back
             if (result.attempt_id) {
@@ -540,7 +571,7 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
             }
             setDiagnostics(result.diagnostics || []);
             const fixes = result.quick_fixes || (result as any).quick_fixes_json || (result as any).attempt?.quick_fixes_json || [];
-            setQuickFixes(fixes);
+            if (fixes.length > 0) setQuickFixes(fixes);
 
             if (result.ok) {
                 // 1. Notify UI components (QuestBoard)
@@ -594,9 +625,14 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
             });
             setFiles(initial);
         } else {
-            const ext = quest.language === 'typescript' ? 'ts' : 'py';
-            const name = `main.${ext}`;
-            setFiles({ [name]: { content: quest.starter_code || "", editable: true } });
+            // Re-run the initial logic
+            const ext = quest.language || 'python';
+            let name = 'main.py';
+            if (quest.language === 'typescript') name = 'main.ts';
+            if (quest.language === 'javascript') name = 'main.js';
+            // ... etc, actually reusing logic is better but copy for now
+            const content = quest.starter_code || "";
+            setFiles({ [name]: { content, editable: true } });
         }
         addLog("Workspace reset to original state.", "info");
     };
@@ -831,10 +867,21 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                             onSelectAttempt={handleReplay}
                             controlTab={drawerTab}
                             onTabChange={setDrawerTab}
+                            customPanels={{
+                                tutorial: quest.tutorial_md ? (
+                                    <TutorialPanel
+                                        tutorialMd={quest.tutorial_md}
+                                        keyTerms={quest.key_terms || []}
+                                        codexRefs={quest.codex_references || []}
+                                        onOpenCodexRef={handleOpenCodex}
+                                    />
+                                ) : null
+                            }}
                         />
                     </div>
                 </div>
 
+                {/* Editor Side */}
                 <div className="flex flex-col min-h-0 bg-zinc-950 relative">
                     <div className="flex-1 min-h-0 relative flex flex-col">
                         {/* Tab Bar if multiple files */}
@@ -953,7 +1000,15 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                         </div>
                     </div>
                 </div>
+
             </div>
-        </div >
+
+            {/* Codex Drawer (Phase 9.1) */}
+            <CodexDrawer
+                isOpen={codexOpen}
+                activeRef={codexRef}
+                onClose={() => setCodexOpen(false)}
+            />
+        </div>
     );
 }

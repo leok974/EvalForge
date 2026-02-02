@@ -1,0 +1,28 @@
+{
+    "slug": "ts-generics-q2-result-type",
+    "title": "Crystal Forge: Generics + Result<T,E>",
+    "language": "typescript",
+    "world_id": "ts",
+    "track_id": "ts-fundamentals",
+    "order_index": 1,
+    "short_description": "A generated quest description.",
+    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
+    "objectives": [
+        {
+            "id": "obj_1",
+            "description": "Implement the solution.",
+            "type": "test_pass",
+            "matcher": null
+        }
+    ],
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "main.ts",
+        "files_from": "./starter"
+    },
+    "smoke": {
+        "solution_workspace_files": []
+    }
+}

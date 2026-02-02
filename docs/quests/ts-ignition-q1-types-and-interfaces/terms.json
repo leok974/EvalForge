@@ -1,0 +1,47 @@
+[
+  {
+    "term": "type annotation",
+    "definition": "A way to declare what type a value should have, like `name: string` or `count: number`.",
+    "tags": [
+      "ts-basics",
+      "types"
+    ],
+    "codex_ref": "codex:glossary/ts/type-annotation"
+  },
+  {
+    "term": "interface",
+    "definition": "A named description of an object shape (which properties exist and their types).",
+    "tags": [
+      "ts-basics",
+      "types"
+    ],
+    "codex_ref": "codex:glossary/ts/interface"
+  },
+  {
+    "term": "type alias",
+    "definition": "A named type, often used to create unions or reusable type definitions (e.g., `type Id = string | number`).",
+    "tags": [
+      "ts-basics",
+      "types"
+    ],
+    "codex_ref": "codex:glossary/ts/type-alias"
+  },
+  {
+    "term": "union type",
+    "definition": "A type that allows one of multiple options, written with `|` like `string | number`.",
+    "tags": [
+      "ts-basics",
+      "types"
+    ],
+    "codex_ref": "codex:glossary/ts/union-type"
+  },
+  {
+    "term": "compiler",
+    "definition": "A tool that checks TypeScript types and reports errors before code runs as JavaScript.",
+    "tags": [
+      "ts-basics",
+      "tooling"
+    ],
+    "codex_ref": "codex:glossary/ts/compiler"
+  }
+]

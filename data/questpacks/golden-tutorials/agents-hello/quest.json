@@ -1,0 +1,7 @@
+{
+    "slug": "agents-invocation-q1-prompt-anatomy",
+    "world_id": "world-agents",
+    "workspace": {
+        "files_from": "."
+    }
+}

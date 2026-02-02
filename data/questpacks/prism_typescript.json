@@ -156,5 +156,14 @@
             "expect_starter_pass": false,
             "solution_code": "for(let i=3; i>0; i--) { console.log('T-minus ' + i); }\nconsole.log('Liftoff!');"
         }
+    },
+    {
+        "quest_path": "docs/quests/ts-ignition-q1-types-and-interfaces"
+    },
+    {
+        "quest_path": "docs/quests/ts-narrowing-q2-unions-and-guards"
+    },
+    {
+        "quest_path": "docs/quests/ts-generics-q2-result-type"
     }
 ]
