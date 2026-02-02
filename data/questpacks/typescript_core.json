@@ -1,0 +1,32 @@
+[
+    {
+        "quest_path": "docs/quests/ts-ignition"
+    },
+    {
+        "quest_path": "docs/quests/ts-vars"
+    },
+    {
+        "quest_path": "docs/quests/ts-types"
+    },
+    {
+        "quest_path": "docs/quests/ts-control"
+    },
+    {
+        "quest_path": "docs/quests/ts-arrays"
+    },
+    {
+        "quest_path": "docs/quests/ts-objects"
+    },
+    {
+        "quest_path": "docs/quests/ts-functions"
+    },
+    {
+        "quest_path": "docs/quests/ts-interfaces"
+    },
+    {
+        "quest_path": "docs/quests/ts-generics"
+    },
+    {
+        "quest_path": "docs/quests/ts-modules"
+    }
+]

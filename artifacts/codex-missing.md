@@ -1,13 +1,13 @@
 # Codex Coverage Audit Report
 
-**Generated:** 2026-02-02T22:25:12.261563+00:00
+**Generated:** 2026-02-02T22:38:44.094904+00:00
 
 ## Executive Summary
 
-- **Coverage:** 108.3% (13 refs across 12 quests)
-- **Average Coverage Score:** 83.3/ 100
+- **Coverage:** 30.0% (3 refs across 10 quests)
+- **Average Coverage Score:** 100.0/ 100
 - **Quests with Full Coverage (≥90):** 10
-- **Quests with Zero Coverage:** 2 (16.7%)
+- **Quests with Zero Coverage:** 0 (0.0%)
 - **Invalid Refs:** 0
 - **Missing Refs:** 0
 
@@ -17,23 +17,17 @@
 
 ### Top Issues
 
-1. **2 quests have NO tutorial**
-2. **2 quests have NO terms**
-3. **2 quests have NO codex refs**
+1. **0 quests have NO tutorial**
+2. **0 quests have NO terms**
+3. **0 quests have NO codex refs**
 
 ### Sample Uncovered Quests
 
 **No Tutorial:**
-- `js-refraction`
-- `js-light-source`
 
 **No Terms:**
-- `js-refraction`
-- `js-light-source`
 
 **No Codex Refs:**
-- `js-refraction`
-- `js-light-source`
 
 ---
 

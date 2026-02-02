@@ -86,7 +86,13 @@ jobs:
         run: |
           python scripts/validate_tutorials.py --world world-js --tier 1
       
-      - name: Upload audit artifacts
+      - name: Validate TS World (Tier 1)
+        run: |
+          python scripts/validate_tutorials.py --world world-typescript --tier 1
+          
+      - name: Audit Codex (Disk Mode)
+        run: |
+          python scripts/codex_audit_missing.py --source disk
         if: always()
         uses: actions/upload-artifact@v4
         with:

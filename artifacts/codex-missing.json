@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-02-02T22:25:12.261563+00:00",
+  "generated_at": "2026-02-02T22:38:44.094904+00:00",
   "counts": {
-    "quests_scanned": 12,
-    "total_refs": 13,
-    "unique_refs": 13,
+    "quests_scanned": 10,
+    "total_refs": 3,
+    "unique_refs": 3,
     "missing_unique_refs": 0,
     "invalid_unique_refs": 0,
     "quests_with_missing": 0
   },
   "coverage": {
-    "average_score": 83.3,
-    "quests_no_tutorial": 2,
+    "average_score": 100.0,
+    "quests_no_tutorial": 0,
     "quests_empty_tutorial": 0,
-    "quests_no_terms": 2,
-    "quests_no_codex_refs": 2,
+    "quests_no_terms": 0,
+    "quests_no_codex_refs": 0,
     "quests_with_full_coverage": 10
   },
   "policy": {
@@ -23,19 +23,9 @@
     "starters_compliant": 0
   },
   "coverage_by_quest": {
-    "js-refraction": {
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "has_terms": false,
-      "terms_total": 0,
-      "terms_with_codex_ref": 0,
-      "codex_refs_total": 0,
-      "unique_codex_refs": 0,
-      "coverage_score": 0.0
-    },
-    "js-errors-q1-try-catch": {
+    "ts-arrays": {
       "has_tutorial": true,
-      "tutorial_length": 807,
+      "tutorial_length": 755,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -43,9 +33,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-functions-q1-arrow-vs-regular": {
+    "ts-control": {
       "has_tutorial": true,
-      "tutorial_length": 847,
+      "tutorial_length": 759,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -53,9 +43,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-modules-q1-import-export": {
+    "ts-functions": {
       "has_tutorial": true,
-      "tutorial_length": 827,
+      "tutorial_length": 767,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -63,9 +53,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-arrays-q1-basics": {
+    "ts-generics": {
       "has_tutorial": true,
-      "tutorial_length": 795,
+      "tutorial_length": 763,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -73,9 +63,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-vars-q1-let-const-var": {
+    "ts-ignition": {
       "has_tutorial": true,
-      "tutorial_length": 815,
+      "tutorial_length": 763,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -83,9 +73,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-async-q1-promises-basics": {
+    "ts-interfaces": {
       "has_tutorial": true,
-      "tutorial_length": 827,
+      "tutorial_length": 771,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -93,9 +83,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-control-q1-if-else-loops": {
+    "ts-modules": {
       "has_tutorial": true,
-      "tutorial_length": 827,
+      "tutorial_length": 759,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -103,9 +93,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-objects-q1-properties-methods": {
+    "ts-objects": {
       "has_tutorial": true,
-      "tutorial_length": 847,
+      "tutorial_length": 759,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -113,34 +103,24 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-light-source": {
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "has_terms": false,
-      "terms_total": 0,
-      "terms_with_codex_ref": 0,
-      "codex_refs_total": 0,
-      "unique_codex_refs": 0,
-      "coverage_score": 0.0
-    },
-    "js-arrays-q2-map-filter-reduce": {
+    "ts-types": {
       "has_tutorial": true,
-      "tutorial_length": 839,
+      "tutorial_length": 751,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "js-ignition-q1-console-and-functions": {
+    "ts-vars": {
       "has_tutorial": true,
-      "tutorial_length": 863,
+      "tutorial_length": 747,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
       "coverage_score": 100.0
     }
   },
@@ -148,17 +128,8 @@
   "missing_by_quest": {},
   "invalid_refs": {},
   "gaps": {
-    "no_tutorial": [
-      "js-refraction",
-      "js-light-source"
-    ],
-    "no_terms": [
-      "js-refraction",
-      "js-light-source"
-    ],
-    "no_codex_refs": [
-      "js-refraction",
-      "js-light-source"
-    ]
+    "no_tutorial": [],
+    "no_terms": [],
+    "no_codex_refs": []
   }
 }

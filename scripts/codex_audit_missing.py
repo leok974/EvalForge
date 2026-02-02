@@ -165,6 +165,61 @@ class QuestAPIClient:
             return None
 
 
+# ==================== DISK CLIENT ====================
+
+class DiskClient:
+    def __init__(self, root_dir: str):
+        self.root_dir = root_dir
+        
+    def fetch_quests(self) -> List[Dict]:
+        """Scan docs/quests and data/questpacks (simulated API response)."""
+        quests = []
+        
+        # 1. Scan docs/quests (Authoring source of truth)
+        docs_dir = os.path.join(self.root_dir, "docs", "quests")
+        if os.path.exists(docs_dir):
+            for slug in os.listdir(docs_dir):
+                q_path = os.path.join(docs_dir, slug, "quest.json")
+                if os.path.exists(q_path):
+                    try:
+                        with open(q_path, "r", encoding="utf-8") as f:
+                            data = json.load(f)
+                            # Ensure slug is set
+                            if "slug" not in data: data["slug"] = slug
+                            quests.append(data)
+                    except: pass
+                    
+        return quests
+
+    def fetch_quest_detail(self, slug: str) -> Optional[Dict]:
+        """Load full quest details from disk."""
+        # 1. Try docs/quests/{slug}
+        q_dir = os.path.join(self.root_dir, "docs", "quests", slug)
+        q_json = os.path.join(q_dir, "quest.json")
+        
+        if not os.path.exists(q_json):
+            return None
+            
+        try:
+            with open(q_json, "r", encoding="utf-8") as f:
+                quest = json.load(f)
+        except:
+            return None
+            
+        # Hydrate text files
+        tut_path = os.path.join(q_dir, "tutorial.md")
+        if os.path.exists(tut_path):
+            with open(tut_path, "r", encoding="utf-8") as f:
+                quest["tutorial_md"] = f.read()
+                
+        terms_path = os.path.join(q_dir, "terms.json")
+        if os.path.exists(terms_path):
+             with open(terms_path, "r", encoding="utf-8") as f:
+                 quest["key_terms"] = json.load(f)
+                 
+        return quest
+
+
 # ==================== REFERENCE COLLECTOR ====================
 
 def extract_codex_refs(quest: Dict) -> Set[str]:
@@ -270,14 +325,20 @@ def validate_quest_policy(slug: str, quest: Dict, coverage: Dict) -> List[str]:
     return violations
 
 
-def audit_quests(base_url: str, world_id: Optional[str] = None) -> Dict:
+def audit_quests(base_url: str, world_id: Optional[str] = None, source: str = "api", root_dir: str = None) -> Dict:
     """Main audit logic.
     
     Args:
         base_url: API base URL
         world_id: Optional world ID to filter quests (e.g., 'world-python')
+        source: 'api' or 'disk'
     """
-    client = QuestAPIClient(base_url)
+    if source == "disk":
+        print(f"💾 Using Disk Client (Root: {root_dir})")
+        client = DiskClient(root_dir)
+    else:
+        print(f"🌐 Using API Client ({base_url})")
+        client = QuestAPIClient(base_url)
     
     print("📊 Fetching quest list...")
     quest_summaries = client.fetch_quests()
@@ -577,6 +638,12 @@ def main():
         help="Filter quests by world ID (e.g., 'world-python', 'world-typescript')"
     )
     parser.add_argument(
+        "--source",
+        choices=["api", "disk"],
+        default="api",
+        help="Source of truth (api=backend, disk=filesystem)"
+    )
+    parser.add_argument(
         "--out",
         help="Custom path for JSON output (default: artifacts/codex-missing.json)"
     )
@@ -595,8 +662,8 @@ def main():
     ARTIFACTS_DIR.mkdir(exist_ok=True)
     
     # Run audit
-    print(f"🚀 Starting Codex audit (API: {args.base_url})\n")
-    data = audit_quests(args.base_url, world_id=args.world)
+    print(f"🚀 Starting Codex audit (Source: {args.source})\n")
+    data = audit_quests(args.base_url, world_id=args.world, source=args.source, root_dir=os.getcwd())
     
     # Determine output paths
     json_out = args.out if args.out else ARTIFACTS_DIR / "codex-missing.json"

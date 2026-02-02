@@ -1,0 +1,16 @@
+{
+    "world_id": "world-typescript",
+    "tier": 1,
+    "slugs": [
+        "ts-ignition",
+        "ts-vars",
+        "ts-types",
+        "ts-control",
+        "ts-arrays",
+        "ts-objects",
+        "ts-functions",
+        "ts-interfaces",
+        "ts-generics",
+        "ts-modules"
+    ]
+}
