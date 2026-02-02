@@ -15,7 +15,7 @@ def load_policy(root_dir):
     except:
         return {}
 
-def scan_quests(root_dir, mode="all"):
+def scan_quests(root_dir, mode="all", force_tier=None):
     """Scans quests and runs validators with policy enforcement."""
     quests_dir = os.path.join(root_dir, "docs", "quests")
     pack_dir = os.path.join(root_dir, "data", "questpacks")
@@ -24,32 +24,27 @@ def scan_quests(root_dir, mode="all"):
     starters = get_starter_quests(root_dir)
     starter_set = set(starters)
     
-    print(f"Policy: Mode={mode}, Strict Starters={policy.get('strict_starters')}")
-    if mode == "starters":
-        print(f"Focusing on {len(starters)} starter quests.")
+    default_tier = policy.get("default_tier", 2)
+    tiers_config = policy.get("tiers", {})
+    
+    print(f"Policy: Mode={mode}, Default Tier={default_tier}, Force Tier={force_tier}")
 
     failures = 0
     all_refs = set()
     
-    # We need to find ALL quests (docs + packs)
-    # Reusing find logic or just walking?
-    # For validation, we need the directory on disk.
-    
+    # ... (Path collection logic remains same) ...
     search_paths = []
     if os.path.exists(quests_dir): search_paths.append(quests_dir)
     if os.path.exists(pack_dir): search_paths.append(pack_dir)
     
     quest_dirs = []
-    
-    # 1. Collect all quest directories
     for root, dirs, files in os.walk(root_dir):
         if "quest.json" in files:
-             # Basic check if it's a quest dir
              quest_dirs.append(root)
 
     print(f"Scanning {len(quest_dirs)} quest directories...")
     
-    quests_list = [] # Store tuple (data, path)
+    quests_list = [] 
     
     for qpath in quest_dirs:
         try:
@@ -57,17 +52,9 @@ def scan_quests(root_dir, mode="all"):
                 data = json.load(f)
                 quests_list.append((data, qpath))
                 
-                # Handle list-based packs (skip, or iterate if we can map back to dir?)
-                # If quest.json is a list, this directory is a pack root, ensuring we validating individual items?
-                # Actually, our structure is:
-                # - docs/quests/{slug}/quest.json (Dict)
-                # - data/questpacks/.../quest.json (List of Dicts OR Dict)
-                # If it is a list, we might have multiple quests sharing this directory (assets).
-                
                 slugs_in_dir = []
                 if isinstance(data, list):
                     slugs_in_dir = [x.get("slug") for x in data if x.get("slug")]
-                    # For missing check, we need to flatten
                     for item in data: quests_list.append((item, qpath))
                 elif isinstance(data, dict):
                      slugs_in_dir = [data.get("slug")]
@@ -76,50 +63,76 @@ def scan_quests(root_dir, mode="all"):
                     if not slug: continue
                     
                     is_starter = slug in starter_set
-                    
-                    # Filtering based on mode
                     if mode == "starters" and not is_starter: continue
                     
-                    # Collect Refs for Orphan check
-                    # Collect Refs for Orphan check
+                    # Resolve Tier
+                    # 1. Force tier if provided
+                    # 2. Tier 1 if starter
+                    # 3. Default tier otherwise
+                    current_tier = force_tier if force_tier else (1 if is_starter else default_tier)
+                    rules = tiers_config.get(str(current_tier), {})
+                    
+                    # Collect Refs
                     tpath = os.path.join(qpath, "terms.json")
                     if os.path.exists(tpath):
                         try:
                             with open(tpath, "r", encoding="utf-8") as tf:
                                 tdata = json.load(tf)
                                 for t in tdata:
-                                    if "codex_ref" in t: 
-                                        all_refs.add(t.get("codex_ref"))
-                                        # if "infra/shell" in t.get("codex_ref"):
-                                        #     print(f"DEBUG: Found infra/shell ref in {slug}")
-                        except Exception as e:
-                            print(f"DEBUG: Error loading terms {tpath}: {e}")
-                            pass
+                                    if "codex_ref" in t: all_refs.add(t.get("codex_ref"))
+                        except: pass
                     
                     # Validate
                     errors = []
                     
-                    if is_starter and policy.get("strict_starters"):
-                         errors = validate_tutorial_strict(qpath, 
-                                                           min_terms=policy.get("strict_starters_min_terms", 2),
-                                                           require_example=policy.get("strict_starters_require_example", True))
-                         # Add normal link validation too
-                         errors.extend(validate_codex_links(qpath, root_dir))
+                    # "Strict" validation based on tier rules
+                    # We utilize validate_tutorial_strict for checking terms count and snippet
+                    # even if it's not "Tier 1", we just adjust limits.
+                    
+                    # Check Tutorial
+                    tut_path = os.path.join(qpath, "tutorial.md")
+                    has_tutorial = os.path.exists(tut_path)
+                    
+                    if not has_tutorial:
+                        # Fail if tier 1, or if policy strictness requires it?
+                        # For now, let's assume all tiers require a tutorial file to exist
+                        errors.append("Missing tutorial.md")
                     else:
-                        # Non-starter (or lax mode)
-                        # Check existance only if present
-                        if os.path.exists(os.path.join(qpath, "tutorial.md")):
-                            errors.extend(validate_tutorial_structure(qpath))
-                        if os.path.exists(os.path.join(qpath, "terms.json")):
-                            errors.extend(validate_terms_schema(qpath))
-                            errors.extend(validate_codex_links(qpath, root_dir))
+                        errors.extend(validate_tutorial_strict(qpath, 
+                                                               min_terms=rules.get("min_terms", 0),
+                                                               require_example=rules.get("require_snippet", False),
+                                                               allow_placeholders=rules.get("allow_placeholders", True)))
+                        # Structure check
+                        errors.extend(validate_tutorial_structure(qpath))
+
+                    # Check Terms
+                    if os.path.exists(tpath):
+                        errors.extend(validate_terms_schema(qpath))
+                        # references check
+                        if rules.get("strict_codex_refs", True):
+                             errors.extend(validate_codex_links(qpath, root_dir))
 
                     if errors:
-                        print(f"❌ {slug}:")
-                        for e in errors: print(f"   - {e}")
-                        failures += 1
-                    elif mode == "starters" or (mode == "all" and is_starter):
-                        print(f"✅ {slug}")
+                        real_errors = [e for e in errors if not e.startswith("WARNING:")]
+                        warnings = [e for e in errors if e.startswith("WARNING:")]
+                        
+                        if real_errors:
+                             print(f"❌ {slug} (Tier {current_tier}):")
+                             for e in real_errors: print(f"   - {e}")
+                             failures += 1
+                        
+                        if warnings:
+                             # If no real errors, we might want to print green check with warning?
+                             if not real_errors:
+                                 print(f"✅ {slug} (Tier {current_tier}) [With Warnings]")
+                             for w in warnings: print(f"   - ⚠️  {w}")
+                             
+                    else:
+                        print(f"✅ {slug} (Tier {current_tier})")
+
+        except Exception as e:
+            # print(f"Skipping {qpath}: {e}")
+            pass
 
         except Exception as e:
             # print(f"Skipping {qpath}: {e}")
@@ -164,8 +177,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=os.getcwd())
     parser.add_argument("--mode", choices=["all", "starters", "changed"], default="all")
+    parser.add_argument("--tier", type=int, default=None, help="Force validation tier (1 or 2)")
     args = parser.parse_args()
     
-    success = scan_quests(args.root, args.mode)
+    success = scan_quests(args.root, args.mode, args.tier)
     if not success:
         sys.exit(1)

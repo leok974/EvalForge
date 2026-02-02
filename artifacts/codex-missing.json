@@ -1,170 +1,34 @@
 {
-  "generated_at": "2026-02-02T20:29:27.557055+00:00",
+  "generated_at": "2026-02-02T21:57:55.866707+00:00",
   "counts": {
-    "quests_scanned": 12,
-    "total_refs": 40,
-    "unique_refs": 40,
+    "quests_scanned": 0,
+    "total_refs": 0,
+    "unique_refs": 0,
     "missing_unique_refs": 0,
     "invalid_unique_refs": 0,
     "quests_with_missing": 0
   },
   "coverage": {
-    "average_score": 66.7,
-    "quests_no_tutorial": 4,
+    "average_score": 0.0,
+    "quests_no_tutorial": 0,
     "quests_empty_tutorial": 0,
-    "quests_no_terms": 4,
-    "quests_no_codex_refs": 4,
-    "quests_with_full_coverage": 8
+    "quests_no_terms": 0,
+    "quests_no_codex_refs": 0,
+    "quests_with_full_coverage": 0
   },
   "policy": {
     "violations_count": 0,
     "violations_by_quest": {},
-    "starters_scanned": 1,
-    "starters_compliant": 1
+    "starters_scanned": 0,
+    "starters_compliant": 0
   },
-  "coverage_by_quest": {
-    "python-data-forge": {
-      "has_tutorial": true,
-      "tutorial_length": 961,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "python-systems-service-boundaries": {
-      "has_tutorial": true,
-      "tutorial_length": 1009,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "python-systems-resilient-job-runner": {
-      "has_tutorial": true,
-      "tutorial_length": 1015,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "python-systems-observability-sli": {
-      "has_tutorial": true,
-      "tutorial_length": 1006,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "python-systems-performance-profile": {
-      "has_tutorial": true,
-      "tutorial_length": 1012,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "python-systems-platform-tooling": {
-      "has_tutorial": true,
-      "tutorial_length": 1003,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "python-ignition": {
-      "has_tutorial": true,
-      "tutorial_length": 1632,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "python-loop": {
-      "has_tutorial": true,
-      "tutorial_length": 943,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "first-sparks": {
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "has_terms": false,
-      "terms_total": 0,
-      "terms_with_codex_ref": 0,
-      "codex_refs_total": 0,
-      "unique_codex_refs": 0,
-      "coverage_score": 0.0
-    },
-    "quest-py-hidden": {
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "has_terms": false,
-      "terms_total": 0,
-      "terms_with_codex_ref": 0,
-      "codex_refs_total": 0,
-      "unique_codex_refs": 0,
-      "coverage_score": 0.0
-    },
-    "quest-py-workspace": {
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "has_terms": false,
-      "terms_total": 0,
-      "terms_with_codex_ref": 0,
-      "codex_refs_total": 0,
-      "unique_codex_refs": 0,
-      "coverage_score": 0.0
-    },
-    "hello-variable": {
-      "has_tutorial": false,
-      "tutorial_length": 0,
-      "has_terms": false,
-      "terms_total": 0,
-      "terms_with_codex_ref": 0,
-      "codex_refs_total": 0,
-      "unique_codex_refs": 0,
-      "coverage_score": 0.0
-    }
-  },
+  "coverage_by_quest": {},
   "missing_by_ref": {},
   "missing_by_quest": {},
   "invalid_refs": {},
   "gaps": {
-    "no_tutorial": [
-      "first-sparks",
-      "quest-py-hidden",
-      "quest-py-workspace",
-      "hello-variable"
-    ],
-    "no_terms": [
-      "first-sparks",
-      "quest-py-hidden",
-      "quest-py-workspace",
-      "hello-variable"
-    ],
-    "no_codex_refs": [
-      "first-sparks",
-      "quest-py-hidden",
-      "quest-py-workspace",
-      "hello-variable"
-    ]
+    "no_tutorial": [],
+    "no_terms": [],
+    "no_codex_refs": []
   }
 }

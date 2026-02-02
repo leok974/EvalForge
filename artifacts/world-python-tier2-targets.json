@@ -1,0 +1,10 @@
+{
+    "world_id": "world-python",
+    "tier": 2,
+    "slugs": [
+        "first-sparks",
+        "quest-py-hidden",
+        "quest-py-workspace",
+        "hello-variable"
+    ]
+}

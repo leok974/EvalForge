@@ -1,7 +1,19 @@
 {
-    "strict_starters": true,
-    "strict_starters_min_terms": 2,
-    "strict_starters_require_example": true,
+    "tiers": {
+        "1": {
+            "min_terms": 3,
+            "require_snippet": true,
+            "strict_codex_refs": true,
+            "allow_placeholders": false
+        },
+        "2": {
+            "min_terms": 2,
+            "require_snippet": true,
+            "strict_codex_refs": true,
+            "allow_placeholders": true
+        }
+    },
+    "default_tier": 2,
     "codex_orphan_mode": "warn",
     "enforce_changed_only_nonstarters": true
 }

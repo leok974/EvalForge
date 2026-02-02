@@ -100,7 +100,7 @@ def validate_codex_links(quest_path, root_dir):
             
     return errors
 
-def validate_tutorial_strict(quest_path, min_terms=2, require_example=True):
+def validate_tutorial_strict(quest_path, min_terms=2, require_example=True, allow_placeholders=False):
     """Strict validation for Starter Quests."""
     errors = validate_tutorial_structure(quest_path)
     if "Missing tutorial.md" in errors:
@@ -130,10 +130,10 @@ def validate_tutorial_strict(quest_path, min_terms=2, require_example=True):
                 
                 # Refinement Rubric Check (Warn on TODOs)
                 if "TODO" in content:
-                    # We'll prepend "WARNING:" so it doesn't fail strict mode yet (unless we want it to)
-                    # For now user requested warning. But validators usually return strict errors list.
-                    # We'll return it as an error string starting with WARNING
-                    errors.append("WARNING: Tutorial contains 'TODO' placeholder")
+                    if not allow_placeholders:
+                         errors.append("POLICY: Tutorial contains 'TODO' placeholder (Not allowed in Tier-1)")
+                    else:
+                         errors.append("WARNING: Tutorial contains 'TODO' placeholder")
 
     return errors
 

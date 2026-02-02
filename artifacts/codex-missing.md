@@ -1,13 +1,13 @@
 # Codex Coverage Audit Report
 
-**Generated:** 2026-02-02T20:29:27.557055+00:00
+**Generated:** 2026-02-02T21:57:55.866707+00:00
 
 ## Executive Summary
 
-- **Coverage:** 333.3% (40 refs across 12 quests)
-- **Average Coverage Score:** 66.7/ 100
-- **Quests with Full Coverage (≥90):** 8
-- **Quests with Zero Coverage:** 4 (33.3%)
+- **Coverage:** 0.0% (0 refs across 0 quests)
+- **Average Coverage Score:** 0.0/ 100
+- **Quests with Full Coverage (≥90):** 0
+- **Quests with Zero Coverage:** 0 (0.0%)
 - **Invalid Refs:** 0
 - **Missing Refs:** 0
 
@@ -17,35 +17,23 @@
 
 ### Top Issues
 
-1. **4 quests have NO tutorial**
-2. **4 quests have NO terms**
-3. **4 quests have NO codex refs**
+1. **0 quests have NO tutorial**
+2. **0 quests have NO terms**
+3. **0 quests have NO codex refs**
 
 ### Sample Uncovered Quests
 
 **No Tutorial:**
-- `first-sparks`
-- `quest-py-hidden`
-- `quest-py-workspace`
-- `hello-variable`
 
 **No Terms:**
-- `first-sparks`
-- `quest-py-hidden`
-- `quest-py-workspace`
-- `hello-variable`
 
 **No Codex Refs:**
-- `first-sparks`
-- `quest-py-hidden`
-- `quest-py-workspace`
-- `hello-variable`
 
 ---
 
 ## Policy Violations
 
-**Starter Quests:** 1 scanned, 1 compliant, 0 violations
+**Starter Quests:** 0 scanned, 0 compliant, 0 violations
 
 *All starter quests meet policy requirements!* ✅
 
