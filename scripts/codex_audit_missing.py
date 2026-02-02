@@ -270,13 +270,24 @@ def validate_quest_policy(slug: str, quest: Dict, coverage: Dict) -> List[str]:
     return violations
 
 
-def audit_quests(base_url: str) -> Dict:
-    """Main audit logic."""
+def audit_quests(base_url: str, world_id: Optional[str] = None) -> Dict:
+    """Main audit logic.
+    
+    Args:
+        base_url: API base URL
+        world_id: Optional world ID to filter quests (e.g., 'world-python')
+    """
     client = QuestAPIClient(base_url)
     
     print("📊 Fetching quest list...")
     quest_summaries = client.fetch_quests()
-    print(f"✅ Found {len(quest_summaries)} quests")
+    
+    # Filter by world if specified
+    if world_id:
+        quest_summaries = [q for q in quest_summaries if q.get("world_id") == world_id]
+        print(f"✅ Found {len(quest_summaries)} quests in {world_id}")
+    else:
+        print(f"✅ Found {len(quest_summaries)} quests")
     
     # Data structures
     all_refs = set()
@@ -555,12 +566,29 @@ world: {world}
 # ==================== CLI ====================
 
 def main():
-    parser = argparse.ArgumentParser(description="Audit Codex coverage across all quests")
-    parser.add_argument("--base-url", default="http://127.0.0.1:8092", help="API base URL")
-    parser.add_argument("--out", default="artifacts/codex-missing.json", help="Output JSON file")
-    parser.add_argument("--md", default="artifacts/codex-missing.md", help="Output Markdown file")
-    parser.add_argument("--write-stubs", action="store_true", help="Create stub files for missing refs")
-    
+    parser = argparse.ArgumentParser(description="Audit Codex coverage across quests")
+    parser.add_argument(
+        "--base-url",
+        default="http://127.0.0.1:8092",
+        help="Backend API base URL"
+    )
+    parser.add_argument(
+        "--world",
+        help="Filter quests by world ID (e.g., 'world-python', 'world-typescript')"
+    )
+    parser.add_argument(
+        "--out",
+        help="Custom path for JSON output (default: artifacts/codex-missing.json)"
+    )
+    parser.add_argument(
+        "--md",
+        help="Custom path for Markdown output (default: artifacts/codex-missing.md)"
+    )
+    parser.add_argument(
+        "--write-stubs",
+        action="store_true",
+        help="Automatically create stub Codex files for missing refs"
+    )
     args = parser.parse_args()
     
     # Ensure artifacts dir exists
@@ -568,24 +596,30 @@ def main():
     
     # Run audit
     print(f"🚀 Starting Codex audit (API: {args.base_url})\n")
-    data = audit_quests(args.base_url)
+    data = audit_quests(args.base_url, world_id=args.world)
+    
+    # Determine output paths
+    json_out = args.out if args.out else ARTIFACTS_DIR / "codex-missing.json"
+    md_out = args.md if args.md else ARTIFACTS_DIR / "codex-missing.md"
     
     # Write JSON
-    with open(args.out, "w", encoding="utf-8") as f:
+    print(f"\n📄 JSON report: {json_out}")
+    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+    with open(json_out, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
-    print(f"\n📄 JSON report: {args.out}")
     
     # Write Markdown
     md = generate_markdown_report(data)
-    with open(args.md, "w", encoding="utf-8") as f:
+    print(f"📄 Markdown report: {md_out}")
+    with open(md_out, "w", encoding="utf-8") as f:
         f.write(md)
-    print(f"📄 Markdown report: {args.md}")
     
     # Create stubs if requested
-    if args.write_stubs and data["missing_by_ref"]:
-        print(f"\n📝 Creating {len(data['missing_by_ref'])} stub files...")
-        for ref, info in data["missing_by_ref"].items():
-            write_stub_file(ref, info["path"])
+    if args.write_stubs and data["counts"]["missing_unique_refs"] > 0:
+        print(f"\n✍️ Creating stub Codex files for {data['counts']['missing_unique_refs']} missing refs...")
+        for ref in data.get("missing", []):
+            create_stub_codex_file(ref)
+        print("✅ Stubs created")
     
     # Summary
     counts = data["counts"]
