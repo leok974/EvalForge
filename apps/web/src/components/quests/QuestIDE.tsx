@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { QuestSummary, QuestAttemptSummary, fetchQuestAttempts, fetchQuestAttempt, unlockHint, fetchQuest } from '@/lib/questsApi';
 import { QuestEditor, QuestEditorRef } from './QuestEditor';
 import { QuestDrawer } from './QuestDrawer';
@@ -25,10 +25,10 @@ type ConsoleEntry = {
     content: string;
     timestamp: number;
 };
-
 export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const editorRef = useRef<QuestEditorRef>(null);
     const navigate = useNavigate();
+    const { worldSlug } = useParams<{ worldSlug: string }>();
 
     // Phase 9.5: Hydrate full quest details (tutorial_md, key_terms, etc.)
     const [quest, setQuest] = useState<QuestSummary>(initialQuest);
@@ -40,7 +40,12 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
         fetchQuest(initialQuest.slug)
             .then(fullQuest => {
                 setQuest(fullQuest);
-                console.log(`📖 Hydrated quest details for ${initialQuest.slug}: tutorial_len=${fullQuest.tutorial_md?.length || 0}, terms=${fullQuest.key_terms?.length || 0}`);
+                console.log(`📖 Hydrated quest details for ${initialQuest.slug}: tutorial_len=${fullQuest.tutorial_md?.length || 0}`);
+
+                // Auto-open tutorial if available
+                if (fullQuest.tutorial_md) {
+                    setDrawerTab('tutorial');
+                }
             })
             .catch(err => console.error('Failed to hydrate quest details:', err));
     }, [initialQuest.slug]);
@@ -681,7 +686,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     onNext={(slug) => {
                         setShowSuccess(false);
                         if (slug) {
-                            navigate(`/quests/${slug}`);
+                            navigate(`/arcade/worlds/${worldSlug}/quests/${slug}`);
                         } else {
                             onBack?.();
                         }
@@ -1055,5 +1060,57 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 onOpenCodex={handleOpenCodex}
             />
         </div>
+    );
+}
+
+export function QuestIDEPage() {
+    const { questId } = useParams<{ questId: string }>();
+    const navigate = useNavigate();
+    const [quest, setQuest] = useState<QuestSummary | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!questId) return;
+        setLoading(true);
+        fetchQuest(questId)
+            .then(setQuest)
+            .catch(err => setError(err.message))
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
+    }, [questId]);
+
+    if (loading) {
+        return (
+            <div className="h-full flex flex-col items-center justify-center gap-2 text-zinc-500">
+                <div className="w-4 h-4 rounded-full border-2 border-cyan-500 border-t-transparent animate-spin" />
+                <span className="text-xs font-mono">LOADING LINK...</span>
+            </div>
+        );
+    }
+
+    if (error || !quest) {
+        return (
+            <div className="h-full flex flex-col items-center justify-center gap-4 text-center">
+                <div className="flex flex-col items-center gap-2">
+                    <AlertTriangle className="w-8 h-8 text-amber-500/50" />
+                    <div className="text-amber-400 font-bold">UPLINK FAILED</div>
+                    <div className="text-xs text-white/50">{error || "Signal lost."}</div>
+                </div>
+                <button
+                    onClick={() => navigate('..')}
+                    className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 rounded border border-zinc-700"
+                >
+                    Return to Board
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <QuestIDE
+            quest={quest}
+            onBack={() => navigate('..')}
+        />
     );
 }

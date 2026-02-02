@@ -181,6 +181,30 @@ export async function fetchQuest(slug: string): Promise<QuestSummary> {
     if (!ok) {
         throw new Error(`Failed to fetch quest ${slug}: ${res.status} ${raw?.substring(0, 100)}`);
     }
+
+    // MOCK DATA INJECTION for Starter Quest
+    if (data && (data.id === 1 || data.slug === 'first-sparks')) {
+        data.starter_code = `# IGNITION SEQUENCE\n# -----------------\ndef main():\n    print("Ignition sequence started...")\n    for i in range(3, 0, -1):\n        print(f"T-minus {i}")\n    print("Liftoff!")\n\nif __name__ == "__main__":\n    main()\n`;
+        data.briefing_md = `### SIGNAL INTERCEPTED
+**Source**: Foundry Ignition Console
+**Priority**: CRITICAL
+
+The automated ignition systems are offline. We need to manually override the launch sequence to deploy the Agentic Core.
+
+**Your mission**: Write a script that initiates the countdown and confirms liftoff.`;
+        data.lore_md = `> *The Foundry was once the heart of the old web, before the stagnation. Now it's just cold iron and silence. Rekindling it requires more than just power; it requires intent.*`;
+        data.objectives = [
+            { id: 'def_main', text: 'Define a main() function', why: 'Entry point for the ignition script', validator: { kind: 'regex', value: 'def main' } },
+            { id: 'loop', text: 'Countdown loop (T-minus)', why: 'Iterates through the launch sequence', validator: { kind: 'contains', value: 'for' } },
+            { id: 'print', text: 'Confirm Liftoff', why: 'Signal the core is active', validator: { kind: 'contains', value: 'Liftoff' } }
+        ];
+        data.hints = [
+            { id: 'h1', type: 'concept', text: 'In Python, a standard entry point often looks like `if __name__ == "__main__":`' },
+            { id: 'h2', type: 'snippet', text: '```python\nfor i in range(3, 0, -1):\n    print(f"T-minus {i}")\n```' },
+            { id: 'h3', type: 'solution', text: 'Copy the starter code completely if you are stuck!' }
+        ];
+    }
+
     return data!;
 }
 

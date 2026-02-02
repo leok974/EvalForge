@@ -20,10 +20,10 @@ import { LayoutSwitcher } from '../components/LayoutSwitcher';
 import { LayoutProvider, useCurrentLayout } from '../hooks/useCurrentLayout';
 import { WorkshopGuide } from '../features/workshop/WorkshopGuide';
 import { QuestBoard } from '../components/QuestBoard';
-import { QuestIDE } from '../components/quests/QuestIDE'; // New IDE Import
+import { QuestIDE, QuestIDEPage } from '../components/quests/QuestIDE'; // New IDE Import
 import { QuestSummary, fetchQuest } from '../lib/questsApi';
 import { EventFeed } from '../components/EventFeed';
-import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { GettingStartedDialog } from '../features/tutorial/GettingStartedDialog';
 import { STARTER_QUEST_ROUTE, TUTORIAL_STORAGE_KEY } from '../config/starter';
 import { Terminal, ShieldAlert, BookOpen, Radio, HelpCircle } from 'lucide-react';
@@ -81,9 +81,9 @@ function DevUIContent() {
     navigate(STARTER_QUEST_ROUTE);
   };
 
-  // View Mode for Workbench (Quest Board vs Terminal) - MUST be before early returns
-  const [viewMode, setViewMode] = useState<'board' | 'terminal'>('board');
-  const [activeQuest, setActiveQuest] = useState<QuestSummary | null>(null);
+  // View Mode REMOVED - using Routes now
+  // const [viewMode, setViewMode] = useState<'board' | 'terminal'>('board');
+  // const [activeQuest, setActiveQuest] = useState<QuestSummary | null>(null);
 
   // Local Context State
   const [context, setContext] = useState<StreamContext>({
@@ -110,42 +110,20 @@ function DevUIContent() {
   // --- WARP LOGIC (New) ---
   useTrackWarp((track) => {
     // 1. Map worldSlug to context world_id
-    // If track.worldSlug is 'python', context usually expects 'world-python'.
     let targetWorldId = track.worldSlug;
     if (!targetWorldId.startsWith('world-')) {
       targetWorldId = `world-${targetWorldId}`;
     }
 
-    // 2. Map trackSlug directly (assuming context.track_id uses slugs like 'python-basics')
+    // 2. Map trackSlug directly
     setContext(prev => ({
       ...prev,
       world_id: targetWorldId,
-      track_id: track.trackSlug // Ensure QuestBoard respects this
+      track_id: track.trackSlug
     }));
-
-    // Optionally switch view to 'board' to see the quests
-    // Only switch if we are NOT deep-linking to a quest (handled below)
   });
 
-  // --- DEEP LINK LOGIC ---
-  useEffect(() => {
-    // Check if URL contains /quests/:questId
-    const match = location.pathname.match(/\/quests\/([^\/]+)/);
-    if (match) {
-      const questId = match[1];
-      if (!activeQuest || activeQuest.slug !== questId) {
-        console.log("🔗 Deep Link Loop detected:", questId);
-        fetchQuest(questId).then(q => {
-          setActiveQuest(q);
-          setViewMode('terminal');
-          // Also ensure context matches quest world/track?
-          // Optionally sync context: setContext(...)
-        }).catch((err: unknown) => {
-          console.error("Failed to load deep-linked quest", err);
-        });
-      }
-    }
-  }, [location.pathname]);
+  // --- DEEP LINK LOGIC REMOVED (Handled by Routes now) ---
 
   const {
     messages,
@@ -159,7 +137,7 @@ function DevUIContent() {
   // Fetch skills for the logged-in user (or null)
   const { hasSkill, godMode } = useSkills(user);
 
-  // Boss store data - MUST be before early returns
+  // Boss store data
   const lastResult = useBossStore(s => s.lastResult);
 
   useEffect(() => {
@@ -259,73 +237,14 @@ function DevUIContent() {
   );
 
 
+  // Render Outlet for routes to inject QuestBoard or QuestIDE
   const questPanel = (
     <div className="h-full flex flex-col bg-black/40 rounded-xl border border-zinc-800 overflow-hidden shadow-inner relative">
-      {/* View Switcher (Floating) */}
-      <div className="absolute top-2 right-2 z-10 flex gap-1 bg-black/60 p-1 rounded-lg border border-zinc-800 backdrop-blur-sm">
-        <button
-          onClick={() => setViewMode('board')}
-          className={`px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded ${viewMode === 'board' ? 'bg-cyan-900/50 text-cyan-400 border border-cyan-500/30' : 'text-zinc-500 hover:text-zinc-300'
-            }`}
-        >
-          Quests
-        </button>
-        <button
-          onClick={() => setViewMode('terminal')}
-          className={`px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded ${viewMode === 'terminal' ? 'bg-cyan-900/50 text-cyan-400 border border-cyan-500/30' : 'text-zinc-500 hover:text-zinc-300'
-            }`}
-        >
-          Terminal
-        </button>
-      </div>
-
       {bossStatus === 'active' ? (
         <BossPanel onOpenCodex={() => { setIsCodexOpen(true); setCodexRef('codex:home'); }} />
-      ) : viewMode === 'board' ? (
-        <div className="p-4 h-full overflow-hidden">
-          <QuestBoard
-            worldId={context.world_id}
-            onOpenQuest={(quest) => {
-              // MOCK DATA INJECTION for Starter Quest
-              if (quest.id === 1 || quest.slug === 'first-sparks') {
-                quest.starter_code = `# IGNITION SEQUENCE\n# -----------------\ndef main():\n    print("Ignition sequence started...")\n    for i in range(3, 0, -1):\n        print(f"T-minus {i}")\n    print("Liftoff!")\n\nif __name__ == "__main__":\n    main()\n`;
-                quest.briefing_md = `### SIGNAL INTERCEPTED
-**Source**: Foundry Ignition Console
-**Priority**: CRITICAL
-
-The automated ignition systems are offline. We need to manually override the launch sequence to deploy the Agentic Core.
-
-**Your mission**: Write a script that initiates the countdown and confirms liftoff.`;
-                quest.lore_md = `> *The Foundry was once the heart of the old web, before the stagnation. Now it's just cold iron and silence. Rekindling it requires more than just power; it requires intent.*`;
-                quest.objectives = [
-                  { id: 'def_main', text: 'Define a main() function', why: 'Entry point for the ignition script', validator: { kind: 'regex', value: 'def main' } },
-                  { id: 'loop', text: 'Countdown loop (T-minus)', why: 'Iterates through the launch sequence', validator: { kind: 'contains', value: 'for' } },
-                  { id: 'print', text: 'Confirm Liftoff', why: 'Signal the core is active', validator: { kind: 'contains', value: 'Liftoff' } }
-                ];
-                quest.hints = [
-                  { id: 'h1', type: 'concept', text: 'In Python, a standard entry point often looks like `if __name__ == "__main__":`' },
-                  { id: 'h2', type: 'snippet', text: '```python\nfor i in range(3, 0, -1):\n    print(f"T-minus {i}")\n```' },
-                  { id: 'h3', type: 'solution', text: 'Copy the starter code completely if you are stuck!' }
-                ];
-              }
-
-              setActiveQuest(quest);
-              setViewMode('terminal'); // 'terminal' now maps to QuestIDE
-            }}
-          />
-        </div>
       ) : (
         <div className="h-full">
-          {activeQuest ? (
-            <QuestIDE
-              quest={activeQuest}
-              onBack={() => setViewMode('board')}
-            />
-          ) : (
-            <div className="h-full flex items-center justify-center text-zinc-600">
-              No active quest loaded.
-            </div>
-          )}
+          <Outlet />
         </div>
       )}
     </div>
@@ -465,18 +384,16 @@ The automated ignition systems are offline. We need to manually override the lau
   // --- ROUTING ---
   // Replace manual layout switching with React Router
 
-
   const layoutContent = (
     <Routes>
-      {/* Default / Dashboard route -> Workshop or Cyberdeck? 
-          User requested: 
-            index → WorkshopLayout 
-            top-level workshop → WorkshopLayout
-            top-level orion → OrionLayout
-      */}
       <Route path="/" element={<Navigate to="workshop" replace />} />
 
-      <Route path="workshop" element={<WorkshopLayout {...commonProps} />} />
+      {/* Workshop Route - Main workspace with nested Quest Routing */}
+      <Route path="workshop" element={<WorkshopLayout {...commonProps} questPanel={<Outlet />} />}>
+        <Route index element={<QuestBoard worldId={context.world_id} />} />
+        <Route path="quests/:questId" element={<QuestIDEPage />} />
+      </Route>
+
       <Route path="orion" element={<OrionLayout />} />
 
       {/* Cyberdeck fallback or explicit route */}
@@ -510,11 +427,11 @@ The automated ignition systems are offline. We need to manually override the lau
         <Route index element={<OrionLayout />} />
 
         {/* Sub-routes: /worlds/foo/quests/bar -> Workshop */}
-        <Route path="quests/:questId" element={<WorkshopLayout {...commonProps} />} />
-        <Route path="bosses/:bossSlug" element={<WorkshopLayout {...commonProps} />} />
+        <Route path="quests/:questId" element={<WorkshopLayout {...commonProps} questPanel={<QuestIDEPage />} />} />
+        <Route path="bosses/:bossSlug" element={<WorkshopLayout {...commonProps} questPanel={<BossPanel onOpenCodex={() => { setIsCodexOpen(true); setCodexRef('codex:home'); }} />} />} />
       </Route>
 
-      {/* Projects Routing - Similar pattern if needed later, but keeping simple for now */}
+      {/* Projects Routing */}
       <Route path="projects/:projectSlug/*" element={<WorkshopLayout {...commonProps} />} />
 
     </Routes>

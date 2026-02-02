@@ -10,6 +10,8 @@ import {
 import { QUEST_UPDATED_EVENT } from "@/lib/questsEvents";
 import type { QuestUpdatedDetail } from "@/lib/questsEvents";
 
+import { useNavigate } from "react-router-dom";
+
 interface QuestBoardProps {
     worldId?: string;
     onOpenQuest?: (quest: QuestSummary) => void;
@@ -38,6 +40,7 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
     worldId,
     onOpenQuest,
 }) => {
+    const navigate = useNavigate();
     const [quests, setQuests] = useState<QuestSummary[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -153,13 +156,18 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
         // locked → do nothing for now
         if (quest.state === "locked") return;
 
-        // For in_progress/completed/mastered: just fire onOpenQuest
+        // For in_progress/completed/mastered: navigate
         if (quest.state !== "available") {
-            onOpenQuest?.(quest);
+            // Use callback if provided (legacy), otherwise navigate
+            if (onOpenQuest) {
+                onOpenQuest(quest);
+            } else {
+                navigate(`quests/${quest.slug}`);
+            }
             return;
         }
 
-        // available → accept, then open
+        // available → accept, then navigate
         try {
             setAcceptingSlug(quest.slug);
             const updated = await acceptQuest(quest.slug);
@@ -169,7 +177,11 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                 prev.map((q) => (q.slug === updated.slug ? updated : q))
             );
 
-            onOpenQuest?.(updated);
+            if (onOpenQuest) {
+                onOpenQuest(updated);
+            } else {
+                navigate(`quests/${updated.slug}`);
+            }
         } catch (err) {
             console.error("Failed to accept quest", err);
             // optional: surface toast via your global toast system
