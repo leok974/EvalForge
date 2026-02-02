@@ -802,6 +802,12 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                         <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest leading-none mb-1">Mission Control</div>
                         <div className="flex items-center gap-3">
                             <span className="text-sm font-bold text-cyan-100">{quest.title}</span>
+                            {(quest.state === 'completed' || quest.state === 'mastered') && (
+                                <div title="Previously completed" className="flex items-center gap-1.5 px-2 py-0.5 bg-cyan-950/30 border border-cyan-800/50 rounded-full">
+                                    <Check className="w-3 h-3 text-cyan-400" />
+                                    <span className="text-[9px] font-bold text-cyan-500 uppercase tracking-widest">Done</span>
+                                </div>
+                            )}
                             <div className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${allPassed ? 'bg-emerald-950/40 text-emerald-400 border-emerald-500/30' : 'bg-zinc-900 text-zinc-500 border-zinc-700'}`}>
                                 {passedCount}/{totalCount} Objectives
                             </div>
