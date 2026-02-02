@@ -159,6 +159,42 @@ def extract_codex_refs(quest: Dict) -> Set[str]:
 
 # ==================== AUDIT ENGINE ====================
 
+def calculate_coverage(quest: Dict, refs: Set[str]) -> Dict:
+    """Calculate coverage metrics for a single quest."""
+    tutorial_md = quest.get("tutorial_md", "")
+    key_terms = quest.get("key_terms", [])
+    codex_references = quest.get("codex_references", [])
+    
+    has_tutorial = bool(tutorial_md and len(tutorial_md.strip()) > 0)
+    tutorial_length = len(tutorial_md) if tutorial_md else 0
+    has_terms = len(key_terms) > 0
+    terms_total = len(key_terms)
+    terms_with_codex_ref = sum(1 for t in key_terms if t.get("codex_ref"))
+    codex_refs_total = len(refs)
+    unique_codex_refs = len(refs)
+    
+    # Calculate coverage score (0-100)
+    # Factors: has tutorial (30%), has terms (20%), term linkage (50%)
+    score = 0.0
+    if has_tutorial:
+        score += 30.0
+    if has_terms:
+        score += 20.0
+    if terms_total > 0:
+        score += 50.0 * (terms_with_codex_ref / terms_total)
+    
+    return {
+        "has_tutorial": has_tutorial,
+        "tutorial_length": tutorial_length,
+        "has_terms": has_terms,
+        "terms_total": terms_total,
+        "terms_with_codex_ref": terms_with_codex_ref,
+        "codex_refs_total": codex_refs_total,
+        "unique_codex_refs": unique_codex_refs,
+        "coverage_score": round(score, 1)
+    }
+
+
 def audit_quests(base_url: str) -> Dict:
     """Main audit logic."""
     client = QuestAPIClient(base_url)
@@ -174,6 +210,14 @@ def audit_quests(base_url: str) -> Dict:
     invalid_refs = defaultdict(list)
     quests_with_missing = set()
     
+    # Coverage tracking
+    coverage_by_quest = {}
+    quests_no_tutorial = []
+    quests_empty_tutorial = []
+    quests_no_terms = []
+    quests_no_codex_refs = []
+    total_coverage_score = 0.0
+    
     print("\n🔍 Scanning quests for codex references...")
     for summary in quest_summaries:
         slug = summary.get("slug")
@@ -188,6 +232,23 @@ def audit_quests(base_url: str) -> Dict:
         # Extract refs
         refs = extract_codex_refs(quest)
         all_refs.update(refs)
+        
+        # Calculate coverage
+        coverage = calculate_coverage(quest, refs)
+        coverage_by_quest[slug] = coverage
+        total_coverage_score += coverage["coverage_score"]
+        
+        # Track coverage gaps
+        if not coverage["has_tutorial"]:
+            quests_no_tutorial.append(slug)
+        elif coverage["tutorial_length"] == 0:
+            quests_empty_tutorial.append(slug)
+        
+        if not coverage["has_terms"]:
+            quests_no_terms.append(slug)
+        
+        if coverage["codex_refs_total"] == 0:
+            quests_no_codex_refs.append(slug)
         
         # Check each ref
         for ref in refs:
@@ -212,6 +273,7 @@ def audit_quests(base_url: str) -> Dict:
     unique_refs = len(all_refs)
     missing_unique_refs = len(missing_by_ref)
     invalid_unique_refs = len(invalid_refs)
+    avg_coverage = total_coverage_score / len(quest_summaries) if quest_summaries else 0.0
     
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -223,9 +285,23 @@ def audit_quests(base_url: str) -> Dict:
             "invalid_unique_refs": invalid_unique_refs,
             "quests_with_missing": len(quests_with_missing),
         },
+        "coverage": {
+            "average_score": round(avg_coverage, 1),
+            "quests_no_tutorial": len(quests_no_tutorial),
+            "quests_empty_tutorial": len(quests_empty_tutorial),
+            "quests_no_terms": len(quests_no_terms),
+            "quests_no_codex_refs": len(quests_no_codex_refs),
+            "quests_with_full_coverage": sum(1 for c in coverage_by_quest.values() if c["coverage_score"] >= 90),
+        },
+        "coverage_by_quest": coverage_by_quest,
         "missing_by_ref": dict(missing_by_ref),
         "missing_by_quest": {k: v for k, v in missing_by_quest.items() if v["missing"] or v["invalid"]},
         "invalid_refs": dict(invalid_refs),
+        "gaps": {
+            "no_tutorial": quests_no_tutorial[:10],  # Top 10
+            "no_terms": quests_no_terms[:10],
+            "no_codex_refs": quests_no_codex_refs[:10],
+        }
     }
 
 
@@ -234,6 +310,12 @@ def audit_quests(base_url: str) -> Dict:
 def generate_markdown_report(data: Dict) -> str:
     """Generate human-readable Markdown report."""
     counts = data["counts"]
+    coverage = data.get("coverage", {})
+    gaps = data.get("gaps", {})
+    
+    # Calculate coverage percentage
+    coverage_pct = (counts["unique_refs"] / counts["quests_scanned"] * 100) if counts["quests_scanned"] > 0 else 0
+    zero_coverage_pct = (coverage.get('quests_no_codex_refs', 0) / counts['quests_scanned'] * 100) if counts['quests_scanned'] > 0 else 0.0
     
     md = f"""# Codex Coverage Audit Report
 
@@ -241,18 +323,40 @@ def generate_markdown_report(data: Dict) -> str:
 
 ## Executive Summary
 
-- **Quests Scanned:** {counts['quests_scanned']}
-- **Total Codex References:** {counts['total_refs']}
-- **Unique References:** {counts['unique_refs']}
-- **Missing References:** {counts['missing_unique_refs']}
-- **Invalid References:** {counts['invalid_unique_refs']}
-- **Quests with Missing Refs:** {counts['quests_with_missing']}
+- **Coverage:** {coverage_pct:.1f}% ({counts['unique_refs']} refs across {counts['quests_scanned']} quests)
+- **Average Coverage Score:** {coverage.get('average_score', 0)}/ 100
+- **Quests with Full Coverage (≥90):** {coverage.get('quests_with_full_coverage', 0)}
+- **Quests with Zero Coverage:** {coverage.get('quests_no_codex_refs', 0)} ({zero_coverage_pct:.1f}%)
+- **Invalid Refs:** {counts['invalid_unique_refs']}
+- **Missing Refs:** {counts['missing_unique_refs']}
 
 ---
 
-## Top Missing References (by frequency)
+## Coverage Gaps
 
+### Top Issues
+
+1. **{coverage.get('quests_no_tutorial', 0)} quests have NO tutorial**
+2. **{coverage.get('quests_no_terms', 0)} quests have NO terms**
+3. **{coverage.get('quests_no_codex_refs', 0)} quests have NO codex refs**
+
+### Sample Uncovered Quests
+
+**No Tutorial:**
 """
+    
+    for quest in gaps.get("no_tutorial", [])[:5]:
+        md += f"- `{quest}`\n"
+    
+    md += "\n**No Terms:**\n"
+    for quest in gaps.get("no_terms", [])[:5]:
+        md += f"- `{quest}`\n"
+    
+    md += "\n**No Codex Refs:**\n"
+    for quest in gaps.get("no_codex_refs", [])[:5]:
+        md += f"- `{quest}`\n"
+    
+    md += "\n---\n\n## Top Missing References (by frequency)\n\n"
     
     # Sort by number of quests referencing
     missing_sorted = sorted(

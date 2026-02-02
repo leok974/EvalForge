@@ -1,34 +1,1252 @@
 {
-  "generated_at": "2026-02-02T19:02:15.180572+00:00",
+  "generated_at": "2026-02-02T19:20:20.301692+00:00",
   "counts": {
     "quests_scanned": 119,
     "total_refs": 11,
     "unique_refs": 11,
     "missing_unique_refs": 0,
-    "invalid_unique_refs": 2,
+    "invalid_unique_refs": 0,
     "quests_with_missing": 0
   },
-  "missing_by_ref": {},
-  "missing_by_quest": {
+  "coverage": {
+    "average_score": 2.5,
+    "quests_no_tutorial": 116,
+    "quests_empty_tutorial": 0,
+    "quests_no_terms": 116,
+    "quests_no_codex_refs": 116,
+    "quests_with_full_coverage": 3
+  },
+  "coverage_by_quest": {
+    "quest-js-retry-i": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "quest-js-debounce-b": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "quest-ops-csp-i": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-grounding": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-invocation": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
     "agents-invocation-q1-prompt-anatomy": {
-      "missing": [],
-      "invalid": [
-        "codex:glossary/agents/schema"
-      ]
+      "has_tutorial": true,
+      "tutorial_length": 1032,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-grounding-q1-rag-basics": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-grounding-q2-env-and-state": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-grounding-q3-multi-agent-orchestration": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-grounding-q4-guardrails-and-evals": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-invocation-q2-tool-contracts": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-invocation-q3-single-agent-loop": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-senior-task-decomposition": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-senior-tool-contracts": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-senior-evals": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-senior-guardrails": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "agents-senior-observability": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-branch": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-commit": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
     },
     "git-commit-q1-init-and-first-commit": {
-      "missing": [],
-      "invalid": [
-        "codex:glossary/git/stage"
-      ]
+      "has_tutorial": true,
+      "tutorial_length": 1010,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-branch-q1-branching-strategies": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-branch-q2-merge-and-rebase": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-branch-q3-conflicts-and-resolutions": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-branch-q4-pr-flows-and-reviews": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-commit-q2-history-and-diff": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-commit-q3-undo-and-recover": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-senior-release-strategy": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-senior-migration-branch": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-senior-monorepo": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-senior-audit-trails": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "git-senior-emergency-fix": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-service-link": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-containment": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-containment-q1-linux-shell-and-fs": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-containment-q2-processes-and-ports": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-containment-q3-services-and-logs": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-sre-sli-slo": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-sre-incident-drills": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-sre-capacity-planning": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-sre-multi-region": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-sre-security-baseline": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-service-q1-dockerize-and-compose": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-service-q2-nginx-routing-and-tls": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-service-q3-healthchecks-and-restarts": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "infra-service-q4-logs-and-metrics-pipeline": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-core-q1-first-spark": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-core-q2-flow-and-failsafes": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-core-q3-cores-and-shells": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-core-q4-circuits-and-collections": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-platform-bounded-contexts": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-platform-resilient-apis": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-platform-data-consistency": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-platform-observability": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-platform-upgrade-runbook": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-service-q1-reactor-buildfile": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-service-q2-fault-injection-tests": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-service-q3-signals-in-the-logs": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "java-service-q4-environment-channels": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "js-refraction": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "js-light-source": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-gradient": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-tensor": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "synapse-mlops-feature-lifecycle": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "synapse-mlops-ci-cd": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "synapse-mlops-monitoring-drift": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "synapse-mlops-governance": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "synapse-mlops-multi-model-strategy": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-tensor-q1-numpy-and-shapes": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-tensor-q2-vectorization": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-tensor-q3-linear-regression-from-scratch": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-gradient-q1-training-loop-and-metrics": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-gradient-q2-regularization-and-overfit": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-gradient-q3-model-selection-and-baselines": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ml-gradient-q4-serving-and-monitoring-basics": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "oracle-invocation": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "oracle-grounding": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "python-data-forge": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "python-systems-service-boundaries": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "python-systems-resilient-job-runner": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "python-systems-observability-sli": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "python-systems-performance-profile": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "python-systems-platform-tooling": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "python-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 1632,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "python-loop": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "quest-py-workspace": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "quest-py-hidden": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "first-sparks": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "hello-variable": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-analytics-q1-window-functions": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-analytics-q2-ctes-and-views": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-analytics-q3-normalization-and-indexes": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-analytics-q4-query-tuning-basics": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-retrieval-q1-select-from-basics": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-retrieval-q2-where-and-order": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-retrieval-q3-joins-and-keys": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-retrieval-q4-aggregate-and-group": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-governance-metrics-contracts": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-warehouse-modeling": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-cost-and-performance": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-quality-monitoring": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-analytics-selfservice": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-filter": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-retrieval": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-refraction-q1-align-the-beam": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-refraction-q2-shape-the-spectrum": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-refraction-q3-signal-splitter": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-refraction-q4-guard-rails": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-frontier-architecture": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-frontier-performance": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-frontier-design-systems": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-frontier-typed-api-client": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-frontier-dx-pipeline": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-spectrum-q1-typed-toolbox": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-spectrum-q2-record-forge": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-spectrum-q3-shape-shifter": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "ts-spectrum-q4-mirror-types": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "quest-ts-hello-console": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "quest-ts-loop-countdown": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "quest-ts-hello-variable": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
     }
   },
-  "invalid_refs": {
-    "codex:glossary/agents/schema": [
-      "agents-invocation-q1-prompt-anatomy"
+  "missing_by_ref": {},
+  "missing_by_quest": {},
+  "invalid_refs": {},
+  "gaps": {
+    "no_tutorial": [
+      "quest-js-retry-i",
+      "quest-js-debounce-b",
+      "quest-ops-csp-i",
+      "agents-grounding",
+      "agents-invocation",
+      "agents-grounding-q1-rag-basics",
+      "agents-grounding-q2-env-and-state",
+      "agents-grounding-q3-multi-agent-orchestration",
+      "agents-grounding-q4-guardrails-and-evals",
+      "agents-invocation-q2-tool-contracts"
     ],
-    "codex:glossary/git/stage": [
-      "git-commit-q1-init-and-first-commit"
+    "no_terms": [
+      "quest-js-retry-i",
+      "quest-js-debounce-b",
+      "quest-ops-csp-i",
+      "agents-grounding",
+      "agents-invocation",
+      "agents-grounding-q1-rag-basics",
+      "agents-grounding-q2-env-and-state",
+      "agents-grounding-q3-multi-agent-orchestration",
+      "agents-grounding-q4-guardrails-and-evals",
+      "agents-invocation-q2-tool-contracts"
+    ],
+    "no_codex_refs": [
+      "quest-js-retry-i",
+      "quest-js-debounce-b",
+      "quest-ops-csp-i",
+      "agents-grounding",
+      "agents-invocation",
+      "agents-grounding-q1-rag-basics",
+      "agents-grounding-q2-env-and-state",
+      "agents-grounding-q3-multi-agent-orchestration",
+      "agents-grounding-q4-guardrails-and-evals",
+      "agents-invocation-q2-tool-contracts"
     ]
   }
 }
