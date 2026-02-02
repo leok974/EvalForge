@@ -5,6 +5,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { remarkTermLinker } from '../../markdown/remark-term-linker';
+import { remarkCoachCallouts } from '../../markdown/remark-coach-callouts';
+import { TermLink } from '../markdown/TermLink';
+import { Callout } from '../markdown/Callout';
+import { CodeBlock } from '../markdown/CodeBlock';
 
 export interface KeyTerm {
     id: string;
@@ -19,37 +24,78 @@ export interface TutorialPanelProps {
     keyTerms: KeyTerm[];
     codexRefs: string[];
     onOpenCodexRef: (ref: string) => void;
+    onPasteCode?: (code: string) => void;
 }
 
 export function TutorialPanel({
     tutorialMd,
     keyTerms,
     codexRefs,
-    onOpenCodexRef
+    onOpenCodexRef,
+    onPasteCode
 }: TutorialPanelProps) {
+    // Memoize plugins to avoid re-creating on every render
+    const plugins = React.useMemo(() => {
+        return [
+            remarkGfm,
+            [remarkTermLinker, { keyTerms }],
+            remarkCoachCallouts
+        ];
+    }, [keyTerms]);
+
+    const components = React.useMemo(() => ({
+        // Custom Code Block (with Copy + optional Paste)
+        code({ node, inline, className, children, ...props }: any) {
+            if (inline) {
+                return (
+                    <code className={className} {...props}>
+                        {children}
+                    </code>
+                );
+            }
+            return (
+                <CodeBlock
+                    className={className}
+                    onPaste={onPasteCode ? () => onPasteCode(String(children).replace(/\n$/, '')) : undefined}
+                    canPaste={!!onPasteCode}
+                    {...props}
+                >
+                    {children}
+                </CodeBlock>
+            );
+        },
+        // Custom Term Links (from remark-term-linker)
+        termLink({ term, codexRef, children }: any) {
+            return (
+                <TermLink
+                    term={term}
+                    codexRef={codexRef}
+                    onOpenCodex={(ref) => {
+                        console.log('🔗 CLICKED TERM LINK:', ref);
+                        if (onOpenCodexRef) onOpenCodexRef(ref);
+                    }}
+                >
+                    {children}
+                </TermLink>
+            );
+        },
+        // Custom Callouts (from remark-coach-callouts)
+        callout({ variant, title, children }: any) {
+            return (
+                <Callout variant={variant} title={title}>
+                    {children}
+                </Callout>
+            );
+        }
+    }), [onPasteCode, onOpenCodexRef]);
+
     return (
         <div className="tutorial-panel overflow-y-auto p-6 max-w-4xl mx-auto">
             {/* Tutorial Markdown */}
             <div className="prose prose-sm max-w-none dark:prose-invert mb-8">
                 <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                        // Customize code blocks for better styling
-                        code({ node, inline, className, children, ...props }: any) {
-                            return inline ? (
-                                <code className={className} {...props}>
-                                    {children}
-                                </code>
-                            ) : (
-                                <code
-                                    className={`${className} block bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-x-auto`}
-                                    {...props}
-                                >
-                                    {children}
-                                </code>
-                            );
-                        },
-                    }}
+                    remarkPlugins={plugins as any}
+                    components={components as any}
                 >
                     {tutorialMd}
                 </ReactMarkdown>
@@ -77,7 +123,7 @@ export function TutorialPanel({
                                     <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 
                                    px-3 py-2 bg-gray-900 text-white text-xs rounded whitespace-nowrap
                                    opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none
-                                   max-w-xs">
+                                   max-w-xs z-50">
                                         {term.one_liner}
                                     </span>
                                 )}

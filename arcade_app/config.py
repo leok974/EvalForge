@@ -45,8 +45,8 @@ def get_database_url() -> str:
     port = 5432 if in_docker else 5435  # Local dev uses 5435
     
     # Default credentials (override via DATABASE_URL if needed)
-    user = "evalforge_app"
-    password = "evalforge_dev"
+    user = "evalforge"
+    password = "evalforge"
     dbname = "evalforge"
     
     return f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{dbname}"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { QuestSummary, QuestAttemptSummary, fetchQuestAttempts, fetchQuestAttempt, unlockHint } from '@/lib/questsApi';
+import { QuestSummary, QuestAttemptSummary, fetchQuestAttempts, fetchQuestAttempt, unlockHint, fetchQuest } from '@/lib/questsApi';
 import { QuestEditor, QuestEditorRef } from './QuestEditor';
 import { QuestDrawer } from './QuestDrawer';
 import { TutorialPanel } from './TutorialPanel'; // Phase 9.1
@@ -26,9 +26,24 @@ type ConsoleEntry = {
     timestamp: number;
 };
 
-export function QuestIDE({ quest, onBack }: QuestIDEProps) {
+export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const editorRef = useRef<QuestEditorRef>(null);
     const navigate = useNavigate();
+
+    // Phase 9.5: Hydrate full quest details (tutorial_md, key_terms, etc.)
+    const [quest, setQuest] = useState<QuestSummary>(initialQuest);
+
+    useEffect(() => {
+        // Always fetch full quest details to ensure we have tutorial_md, key_terms, etc.
+        console.log(`🔍 QuestIDE mounted for: ${initialQuest.slug}, initial tutorial_len=${initialQuest.tutorial_md?.length || 0}`);
+
+        fetchQuest(initialQuest.slug)
+            .then(fullQuest => {
+                setQuest(fullQuest);
+                console.log(`📖 Hydrated quest details for ${initialQuest.slug}: tutorial_len=${fullQuest.tutorial_md?.length || 0}, terms=${fullQuest.key_terms?.length || 0}`);
+            })
+            .catch(err => console.error('Failed to hydrate quest details:', err));
+    }, [initialQuest.slug]);
 
     // Coach & Drawer State
     const [coachData, setCoachData] = useState<CoachData | null>(null);
@@ -42,6 +57,7 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
     const [codexRef, setCodexRef] = useState<string | null>(null);
 
     const handleOpenCodex = (ref: string) => {
+        console.log('📖 OPENING CODEX:', ref);
         setCodexRef(ref);
         setCodexOpen(true);
     };
@@ -59,6 +75,23 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
             }
         }
     }, [quest.id, quest.tutorial_md]); // Run when quest changes
+
+    // Deep Link Handling (Phase 9.4)
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+
+        // ?tutorial=1
+        if (params.get('tutorial') === '1' && quest.tutorial_md) {
+            setDrawerTab('tutorial');
+        }
+
+        // ?codex=...
+        const codexLink = params.get('codex');
+        if (codexLink) {
+            setCodexRef(codexLink);
+            setCodexOpen(true);
+        }
+    }, [quest.id]);
 
     // State
     // Workspace State
@@ -874,6 +907,17 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                                         keyTerms={quest.key_terms || []}
                                         codexRefs={quest.codex_references || []}
                                         onOpenCodexRef={handleOpenCodex}
+                                        onPasteCode={Object.keys(files).length === 1 ? (code) => {
+                                            const path = Object.keys(files)[0];
+                                            if (!path) return;
+
+                                            setFiles(prev => ({
+                                                ...prev,
+                                                [path]: { ...prev[path], content: code }
+                                            }));
+                                            setAutosaveStatus('unsaved');
+                                            addLog(`Pasted code into ${path}`, 'info');
+                                        } : undefined}
                                     />
                                 ) : null
                             }}
@@ -1008,6 +1052,7 @@ export function QuestIDE({ quest, onBack }: QuestIDEProps) {
                 isOpen={codexOpen}
                 activeRef={codexRef}
                 onClose={() => setCodexOpen(false)}
+                onOpenCodex={handleOpenCodex}
             />
         </div>
     );

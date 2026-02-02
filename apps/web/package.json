@@ -14,6 +14,7 @@
     "@types/canvas-confetti": "^1.9.0",
     "@types/howler": "^2.2.12",
     "canvas-confetti": "^1.9.4",
+    "class-variance-authority": "^0.7.1",
     "framer-motion": "^12.23.24",
     "howler": "^2.2.4",
     "lucide-react": "^0.555.0",
@@ -24,6 +25,8 @@
     "react-router-dom": "^7.10.1",
     "react-syntax-highlighter": "^16.1.0",
     "remark-gfm": "^4.0.1",
+    "unist-builder": "^4.0.0",
+    "unist-util-visit": "^5.1.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
@@ -32,6 +35,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "autoprefixer": "^10.4.21",
     "clsx": "^2.1.1",
     "jsdom": "^27.2.0",

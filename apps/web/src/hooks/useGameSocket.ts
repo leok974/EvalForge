@@ -38,9 +38,13 @@ export function useGameSocket() {
   useEffect(() => {
     // Connect to WebSocket endpoint using relative path to allow proxying
     // This fixes the issue where it was resolving to localhost:5173 without proxy handling correctly
+    // Connect to WebSocket endpoint
+    // If we are on localhost, connect directly to backend port 8092 to avoid Vite proxy flaky behavior
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    // Use relative path so Vite proxy can handle it
-    const wsUrl = `${protocol}//${window.location.host}/ws/game_events`;
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const host = isLocal ? window.location.hostname + ':8092' : window.location.host;
+
+    const wsUrl = `${protocol}//${host}/ws/game_events`;
 
     console.log(`🔌 Connecting to Game Socket: ${wsUrl}`);
     const ws = new WebSocket(wsUrl);

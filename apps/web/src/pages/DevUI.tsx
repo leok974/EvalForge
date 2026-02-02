@@ -536,6 +536,7 @@ The automated ignition systems are offline. We need to manually override the lau
         isOpen={isCodexOpen}
         onClose={() => setIsCodexOpen(false)}
         activeRef={codexRef || 'codex:home'}
+        onOpenCodex={(ref) => { setIsCodexOpen(true); setCodexRef(ref); }}
       />
 
       {/* GOD MODE BANNER */}

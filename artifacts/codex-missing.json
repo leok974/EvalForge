@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-02-02T19:02:15.180572+00:00",
+  "counts": {
+    "quests_scanned": 119,
+    "total_refs": 11,
+    "unique_refs": 11,
+    "missing_unique_refs": 0,
+    "invalid_unique_refs": 2,
+    "quests_with_missing": 0
+  },
+  "missing_by_ref": {},
+  "missing_by_quest": {
+    "agents-invocation-q1-prompt-anatomy": {
+      "missing": [],
+      "invalid": [
+        "codex:glossary/agents/schema"
+      ]
+    },
+    "git-commit-q1-init-and-first-commit": {
+      "missing": [],
+      "invalid": [
+        "codex:glossary/git/stage"
+      ]
+    }
+  },
+  "invalid_refs": {
+    "codex:glossary/agents/schema": [
+      "agents-invocation-q1-prompt-anatomy"
+    ],
+    "codex:glossary/git/stage": [
+      "git-commit-q1-init-and-first-commit"
+    ]
+  }
+}

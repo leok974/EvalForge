@@ -27,19 +27,55 @@ def index_codex() -> List[Dict]:
                     
                     # Create summary entry
                     world = post.metadata.get("world", "general")
+                    
+                    # Calculate ID from relative path if not in frontmatter
+                    rel_path = os.path.relpath(path, CODEX_DIR)
+                    default_id = os.path.splitext(rel_path)[0].replace(os.path.sep, "/")
+                    
                     index.append({
-                        "id": post.metadata.get("id", file.replace(".md", "")),
+                        "id": post.metadata.get("id", default_id),
                         "title": post.metadata.get("title", "Untitled Entry"),
                         "world": world,
                         "world_id": world, # Alias for frontend consistency
                         "tags": post.metadata.get("tags", []),
                         "source": post.metadata.get("source", "core"),
+                        "section": rel_path.split(os.path.sep)[0] if os.path.sep in rel_path else "general"
                         # We don't send content here to keep the list lightweight
                     })
                 except Exception as e:
                     print(f"⚠️ Error parsing Codex entry {file}: {e}")
     
     return index
+
+def build_codex_index() -> Dict:
+    """
+    Builds a structured index for the Codex Library view.
+    Returns: { "sections": [ { "world":Str, "section":Str, "pages": [ ... ] } ] }
+    """
+    flat_index = index_codex()
+    
+    # Group by (world, section)
+    grouped = {}
+    
+    for entry in flat_index:
+        key = (entry.get("world", "general"), entry.get("section", "general"))
+        if key not in grouped:
+            grouped[key] = []
+        grouped[key].append(entry)
+        
+    # Format for frontend
+    sections = []
+    for (world, section), pages in grouped.items():
+        sections.append({
+            "world": world,
+            "section": section,
+            "pages": sorted(pages, key=lambda x: x["title"])
+        })
+        
+    # Sort sections by World then Section
+    sections.sort(key=lambda x: (x["world"], x["section"]))
+    
+    return {"sections": sections}
 
 def get_codex_entry(entry_id: str) -> Optional[Dict]:
     """
@@ -51,7 +87,11 @@ def get_codex_entry(entry_id: str) -> Optional[Dict]:
                 path = os.path.join(root, file)
                 try:
                     post = frontmatter.load(path)
-                    current_id = post.metadata.get("id", file.replace(".md", ""))
+                    
+                    rel_path = os.path.relpath(path, CODEX_DIR)
+                    default_id = os.path.splitext(rel_path)[0].replace(os.path.sep, "/")
+                    
+                    current_id = post.metadata.get("id", default_id)
                     
                     if current_id == entry_id:
                         return {

@@ -271,6 +271,13 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
                         </div>
                     </div>
                 )}
+
+                {/* TUTORIAL TAB (Phase 9.1) */}
+                {activeTab === 'tutorial' && customPanels?.tutorial && (
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        {customPanels.tutorial}
+                    </div>
+                )}
             </div>
         </div>
     );

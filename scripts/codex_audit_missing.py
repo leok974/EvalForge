@@ -1,0 +1,388 @@
+#!/usr/bin/env python3
+"""
+Codex Coverage Audit Tool
+
+Scans all quests and reports missing Codex glossary entries.
+"""
+
+import argparse
+import json
+import os
+import re
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Dict, List, Set, Optional, Tuple
+from collections import defaultdict
+
+import requests
+import frontmatter
+
+
+# ==================== CONFIGURATION ====================
+
+CODEX_DIR = Path("data/codex")
+ARTIFACTS_DIR = Path("artifacts")
+
+
+# ==================== REFERENCE RESOLVER ====================
+
+def codex_ref_to_path(ref: str) -> Optional[str]:
+    """
+    Resolve a codex reference to a file path.
+    
+    Supports:
+    - Path format: "glossary/python/interpreter" -> "data/codex/glossary/python/interpreter.md"
+    - Flat format: "glossary-python-interpreter" -> "data/codex/glossary-python-interpreter.md"
+    
+    Returns None if ref is invalid.
+    """
+    if not ref:
+        return None
+    
+    # Remove "codex:" prefix if present
+    if ref.startswith("codex:"):
+        ref = ref[6:]
+    
+    # Skip special refs
+    if ref in ["home", ""]:
+        return None
+    
+    # Validate characters (alphanumeric, /, -, _)
+    if not re.match(r'^[a-zA-Z0-9/_\-]+$', ref):
+        return None
+    
+    # Check for path format (contains /)
+    if "/" in ref:
+        path = CODEX_DIR / f"{ref}.md"
+        return str(path)
+    
+    # Check for flat format (contains -)
+    if "-" in ref:
+        path = CODEX_DIR / f"{ref}.md"
+        return str(path)
+    
+    # Single word ref
+    path = CODEX_DIR / f"{ref}.md"
+    return str(path)
+
+
+def find_codex_file_by_id(ref_id: str) -> Optional[str]:
+    """
+    Find a Codex file by checking frontmatter 'id' field.
+    This handles cases where files are named differently than their IDs.
+    """
+    ref_id_clean = ref_id.replace("codex:", "")
+    
+    for root, _, files in os.walk(CODEX_DIR):
+        for file in files:
+            if file.endswith(".md"):
+                path = os.path.join(root, file)
+                try:
+                    post = frontmatter.load(path)
+                    if post.metadata.get("id") == ref_id_clean:
+                        return path
+                except:
+                    continue
+    return None
+
+
+def check_ref_exists(ref: str) -> Tuple[bool, Optional[str]]:
+    """
+    Check if a codex reference exists.
+    Returns (exists: bool, resolved_path: Optional[str])
+    """
+    # Try direct path resolution
+    path = codex_ref_to_path(ref)
+    if path and os.path.exists(path):
+        return True, path
+    
+    # Try frontmatter ID lookup
+    path = find_codex_file_by_id(ref)
+    if path:
+        return True, path
+    
+    return False, path
+
+
+# ==================== API CLIENT ====================
+
+class QuestAPIClient:
+    def __init__(self, base_url: str):
+        self.base_url = base_url.rstrip("/")
+    
+    def fetch_quests(self) -> List[Dict]:
+        """Fetch all quests from /api/quests endpoint."""
+        try:
+            resp = requests.get(f"{self.base_url}/api/quests", timeout=60)
+            resp.raise_for_status()
+            return resp.json()
+        except Exception as e:
+            print(f"  ❌ Error fetching quests: {e}")
+            return []
+    
+    def fetch_quest_detail(self, slug: str) -> Optional[Dict]:
+        """Fetch full quest details from /api/quests/{slug}."""
+        try:
+            resp = requests.get(f"{self.base_url}/api/quests/{slug}", timeout=30)
+            resp.raise_for_status()
+            return resp.json()
+        except Exception as e:
+            print(f"  ⚠️  Error fetching quest {slug}: {e}")
+            return None
+
+
+# ==================== REFERENCE COLLECTOR ====================
+
+def extract_codex_refs(quest: Dict) -> Set[str]:
+    """Extract all codex references from a quest."""
+    refs = set()
+    
+    # key_terms[].codex_ref
+    for term in quest.get("key_terms", []):
+        if term.get("codex_ref"):
+            refs.add(term["codex_ref"])
+    
+    # codex_references[]
+    for ref in quest.get("codex_references", []):
+        if ref:
+            refs.add(ref)
+    
+    # tutorial_md inline refs (codex:...)
+    tutorial_md = quest.get("tutorial_md", "")
+    if tutorial_md:
+        matches = re.findall(r'codex:([a-zA-Z0-9/_\-]+)', tutorial_md)
+        for match in matches:
+            refs.add(f"codex:{match}")
+    
+    return refs
+
+
+# ==================== AUDIT ENGINE ====================
+
+def audit_quests(base_url: str) -> Dict:
+    """Main audit logic."""
+    client = QuestAPIClient(base_url)
+    
+    print("📊 Fetching quest list...")
+    quest_summaries = client.fetch_quests()
+    print(f"✅ Found {len(quest_summaries)} quests")
+    
+    # Data structures
+    all_refs = set()
+    missing_by_ref = defaultdict(lambda: {"path": None, "quests": []})
+    missing_by_quest = defaultdict(lambda: {"missing": [], "invalid": []})
+    invalid_refs = defaultdict(list)
+    quests_with_missing = set()
+    
+    print("\n🔍 Scanning quests for codex references...")
+    for summary in quest_summaries:
+        slug = summary.get("slug")
+        if not slug:
+            continue
+        
+        # Fetch full details
+        quest = client.fetch_quest_detail(slug)
+        if not quest:
+            continue
+        
+        # Extract refs
+        refs = extract_codex_refs(quest)
+        all_refs.update(refs)
+        
+        # Check each ref
+        for ref in refs:
+            exists, path = check_ref_exists(ref)
+            
+            if not path:
+                # Invalid ref (couldn't resolve)
+                invalid_refs[ref].append(slug)
+                missing_by_quest[slug]["invalid"].append(ref)
+                continue
+            
+            if not exists:
+                # Missing file
+                missing_by_ref[ref]["path"] = path
+                missing_by_ref[ref]["quests"].append(slug)
+                missing_by_quest[slug]["missing"].append(ref)
+                quests_with_missing.add(slug)
+    
+    print(f"✅ Scanned {len(quest_summaries)} quests")
+    
+    # Compute counts
+    unique_refs = len(all_refs)
+    missing_unique_refs = len(missing_by_ref)
+    invalid_unique_refs = len(invalid_refs)
+    
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "counts": {
+            "quests_scanned": len(quest_summaries),
+            "total_refs": len(all_refs),
+            "unique_refs": unique_refs,
+            "missing_unique_refs": missing_unique_refs,
+            "invalid_unique_refs": invalid_unique_refs,
+            "quests_with_missing": len(quests_with_missing),
+        },
+        "missing_by_ref": dict(missing_by_ref),
+        "missing_by_quest": {k: v for k, v in missing_by_quest.items() if v["missing"] or v["invalid"]},
+        "invalid_refs": dict(invalid_refs),
+    }
+
+
+# ==================== REPORT GENERATORS ====================
+
+def generate_markdown_report(data: Dict) -> str:
+    """Generate human-readable Markdown report."""
+    counts = data["counts"]
+    
+    md = f"""# Codex Coverage Audit Report
+
+**Generated:** {data['generated_at']}
+
+## Executive Summary
+
+- **Quests Scanned:** {counts['quests_scanned']}
+- **Total Codex References:** {counts['total_refs']}
+- **Unique References:** {counts['unique_refs']}
+- **Missing References:** {counts['missing_unique_refs']}
+- **Invalid References:** {counts['invalid_unique_refs']}
+- **Quests with Missing Refs:** {counts['quests_with_missing']}
+
+---
+
+## Top Missing References (by frequency)
+
+"""
+    
+    # Sort by number of quests referencing
+    missing_sorted = sorted(
+        data["missing_by_ref"].items(),
+        key=lambda x: len(x[1]["quests"]),
+        reverse=True
+    )
+    
+    if missing_sorted:
+        md += "| Reference | Path | Quests Affected |\n"
+        md += "|-----------|------|----------------|\n"
+        for ref, info in missing_sorted[:20]:  # Top 20
+            quests_str = ", ".join(info["quests"][:3])
+            if len(info["quests"]) > 3:
+                quests_str += f" (+{len(info['quests']) - 3} more)"
+            md += f"| `{ref}` | `{info['path']}` | {quests_str} |\n"
+    else:
+        md += "*No missing references found!* ✅\n"
+    
+    md += "\n---\n\n## Quests with Missing References\n\n"
+    
+    if data["missing_by_quest"]:
+        for quest_slug, info in sorted(data["missing_by_quest"].items()):
+            if info["missing"]:
+                md += f"### `{quest_slug}`\n\n"
+                md += "**Missing:**\n"
+                for ref in info["missing"]:
+                    md += f"- `{ref}`\n"
+                md += "\n"
+    else:
+        md += "*All quests have valid references!* ✅\n"
+    
+    md += "\n---\n\n## Invalid References\n\n"
+    
+    if data["invalid_refs"]:
+        md += "These references could not be resolved to a file path:\n\n"
+        for ref, quests in sorted(data["invalid_refs"].items()):
+            md += f"- `{ref}` (in {len(quests)} quest(s))\n"
+    else:
+        md += "*No invalid references found!* ✅\n"
+    
+    return md
+
+
+def write_stub_file(ref: str, path: str):
+    """Create a stub Codex markdown file for a missing reference."""
+    ref_clean = ref.replace("codex:", "")
+    title = ref_clean.split("/")[-1].replace("-", " ").title()
+    
+    # Extract world if possible
+    parts = ref_clean.split("/")
+    world = parts[1].title() if len(parts) > 1 else "General"
+    
+    content = f"""---
+id: {ref_clean}
+title: {title}
+section: Glossary
+world: {world}
+---
+
+# {title}
+
+**TODO:** Add content for this term.
+
+## Overview
+
+(Description needed)
+
+## Examples
+
+```python
+# Example code here
+```
+
+## Related Terms
+
+- (Add related terms)
+"""
+    
+    # Create directories if needed
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    
+    print(f"  ✅ Created stub: {path}")
+
+
+# ==================== CLI ====================
+
+def main():
+    parser = argparse.ArgumentParser(description="Audit Codex coverage across all quests")
+    parser.add_argument("--base-url", default="http://127.0.0.1:8092", help="API base URL")
+    parser.add_argument("--out", default="artifacts/codex-missing.json", help="Output JSON file")
+    parser.add_argument("--md", default="artifacts/codex-missing.md", help="Output Markdown file")
+    parser.add_argument("--write-stubs", action="store_true", help="Create stub files for missing refs")
+    
+    args = parser.parse_args()
+    
+    # Ensure artifacts dir exists
+    ARTIFACTS_DIR.mkdir(exist_ok=True)
+    
+    # Run audit
+    print(f"🚀 Starting Codex audit (API: {args.base_url})\n")
+    data = audit_quests(args.base_url)
+    
+    # Write JSON
+    with open(args.out, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+    print(f"\n📄 JSON report: {args.out}")
+    
+    # Write Markdown
+    md = generate_markdown_report(data)
+    with open(args.md, "w", encoding="utf-8") as f:
+        f.write(md)
+    print(f"📄 Markdown report: {args.md}")
+    
+    # Create stubs if requested
+    if args.write_stubs and data["missing_by_ref"]:
+        print(f"\n📝 Creating {len(data['missing_by_ref'])} stub files...")
+        for ref, info in data["missing_by_ref"].items():
+            write_stub_file(ref, info["path"])
+    
+    # Summary
+    counts = data["counts"]
+    print(f"\n✅ Audit complete!")
+    print(f"   - {counts['missing_unique_refs']} missing references")
+    print(f"   - {counts['invalid_unique_refs']} invalid references")
+    print(f"   - {counts['quests_with_missing']} quests affected")
+
+
+if __name__ == "__main__":
+    main()

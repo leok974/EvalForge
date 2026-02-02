@@ -65,7 +65,16 @@ async def list_codex_entries(
         
     return entries
 
-@router.get("/{entry_id}")
+@router.get("/index/structure")
+async def get_codex_structure():
+    """
+    Get the structured index of the entire Codex library.
+    Grouped by World and Section.
+    """
+    from arcade_app.codex_helper import build_codex_index
+    return build_codex_index()
+
+@router.get("/{entry_id:path}")
 async def get_codex_entry_detail(entry_id: str):
     """
     Get full content for a specific codex entry.
