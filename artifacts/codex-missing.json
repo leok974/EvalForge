@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-02T19:20:20.301692+00:00",
+  "generated_at": "2026-02-02T19:25:16.831009+00:00",
   "counts": {
     "quests_scanned": 119,
     "total_refs": 11,
@@ -15,6 +15,12 @@
     "quests_no_terms": 116,
     "quests_no_codex_refs": 116,
     "quests_with_full_coverage": 3
+  },
+  "policy": {
+    "violations_count": 0,
+    "violations_by_quest": {},
+    "starters_scanned": 1,
+    "starters_compliant": 1
   },
   "coverage_by_quest": {
     "quest-js-retry-i": {

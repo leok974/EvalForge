@@ -1,6 +1,6 @@
 # Codex Coverage Audit Report
 
-**Generated:** 2026-02-02T19:20:20.301692+00:00
+**Generated:** 2026-02-02T19:25:16.831009+00:00
 
 ## Executive Summary
 
@@ -43,6 +43,14 @@
 - `quest-ops-csp-i`
 - `agents-grounding`
 - `agents-invocation`
+
+---
+
+## Policy Violations
+
+**Starter Quests:** 1 scanned, 1 compliant, 0 violations
+
+*All starter quests meet policy requirements!* ✅
 
 ---
 

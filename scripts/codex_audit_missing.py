@@ -23,6 +23,24 @@ import frontmatter
 CODEX_DIR = Path("data/codex")
 ARTIFACTS_DIR = Path("artifacts")
 
+# Starter quests that must meet strict coverage requirements
+STARTER_QUESTS = [
+    "python-ignition",
+    "ts-first-contact",
+    "js-hello-prism",
+    "sql-select-basics",
+    "git-init-commit",
+]
+
+# Policy: Minimum requirements for starter quests
+STARTER_POLICY = {
+    "require_tutorial": True,
+    "min_tutorial_length": 100,
+    "min_terms": 2,
+    "require_all_terms_linked": True,
+    "min_coverage_score": 70,
+}
+
 
 # ==================== REFERENCE RESOLVER ====================
 
@@ -30,11 +48,27 @@ def codex_ref_to_path(ref: str) -> Optional[str]:
     """
     Resolve a codex reference to a file path.
     
-    Supports:
-    - Path format: "glossary/python/interpreter" -> "data/codex/glossary/python/interpreter.md"
-    - Flat format: "glossary-python-interpreter" -> "data/codex/glossary-python-interpreter.md"
+    Resolution Strategy:
+    1. **Path format (preferred)**: "glossary/python/interpreter"
+       Maps to: "data/codex/glossary/python/interpreter.md"
+       This mirrors the nested directory structure.
     
-    Returns None if ref is invalid.
+    2. **Flat format (legacy)**: "glossary-python-interpreter"
+       Maps to: "data/codex/glossary-python-interpreter.md"
+       Only supported if file exists at this exact path.
+    
+    3. **Frontmatter ID lookup**: If neither path exists, searches all
+       Codex files for a matching `id` field in YAML frontmatter.
+    
+    Args:
+        ref: Codex reference (with or without "codex:" prefix)
+    
+    Returns:
+        Resolved file path or None if invalid/unresolvable
+    
+    Warning:
+        Flat format is NOT recommended for new entries. Use path format
+        with explicit frontmatter `id` for flexibility.
     """
     if not ref:
         return None
@@ -195,6 +229,47 @@ def calculate_coverage(quest: Dict, refs: Set[str]) -> Dict:
     }
 
 
+def validate_quest_policy(slug: str, quest: Dict, coverage: Dict) -> List[str]:
+    """Validate quest against policy requirements.
+    
+    Args:
+        slug: Quest slug
+        quest: Quest data
+        coverage: Coverage metrics from calculate_coverage()
+    
+    Returns:
+        List of policy violation messages (empty if compliant)
+    """
+    violations = []
+    is_starter = slug in STARTER_QUESTS
+    
+    if not is_starter:
+        return violations  # Only enforce on starters for now
+    
+    policy = STARTER_POLICY
+    
+    # Check tutorial requirements
+    if policy["require_tutorial"] and not coverage["has_tutorial"]:
+        violations.append(f"Missing tutorial (required for starters)")
+    elif coverage["tutorial_length"] < policy["min_tutorial_length"]:
+        violations.append(f"Tutorial too short: {coverage['tutorial_length']} chars (min: {policy['min_tutorial_length']})")
+    
+    # Check terms requirements
+    if coverage["terms_total"] < policy["min_terms"]:
+        violations.append(f"Too few terms: {coverage['terms_total']} (min: {policy['min_terms']})")
+    
+    # Check term linkage
+    if policy["require_all_terms_linked"] and coverage["terms_total"] > 0:
+        if coverage["terms_with_codex_ref"] < coverage["terms_total"]:
+            violations.append(f"Not all terms linked: {coverage['terms_with_codex_ref']}/{coverage['terms_total']} have codex_ref")
+    
+    # Check coverage score
+    if coverage["coverage_score"] < policy["min_coverage_score"]:
+        violations.append(f"Coverage score too low: {coverage['coverage_score']}/100 (min: {policy['min_coverage_score']})")
+    
+    return violations
+
+
 def audit_quests(base_url: str) -> Dict:
     """Main audit logic."""
     client = QuestAPIClient(base_url)
@@ -217,6 +292,9 @@ def audit_quests(base_url: str) -> Dict:
     quests_no_terms = []
     quests_no_codex_refs = []
     total_coverage_score = 0.0
+    
+    # Policy violations
+    policy_violations = {}  # {slug: [violation messages]}
     
     print("\n🔍 Scanning quests for codex references...")
     for summary in quest_summaries:
@@ -249,6 +327,11 @@ def audit_quests(base_url: str) -> Dict:
         
         if coverage["codex_refs_total"] == 0:
             quests_no_codex_refs.append(slug)
+        
+        # Validate policy
+        violations = validate_quest_policy(slug, quest, coverage)
+        if violations:
+            policy_violations[slug] = violations
         
         # Check each ref
         for ref in refs:
@@ -292,6 +375,12 @@ def audit_quests(base_url: str) -> Dict:
             "quests_no_terms": len(quests_no_terms),
             "quests_no_codex_refs": len(quests_no_codex_refs),
             "quests_with_full_coverage": sum(1 for c in coverage_by_quest.values() if c["coverage_score"] >= 90),
+        },
+        "policy": {
+            "violations_count": len(policy_violations),
+            "violations_by_quest": policy_violations,
+            "starters_scanned": sum(1 for summary in quest_summaries if summary.get("slug") in STARTER_QUESTS),
+            "starters_compliant": sum(1 for summary in quest_summaries if summary.get("slug") in STARTER_QUESTS and summary.get("slug") not in policy_violations),
         },
         "coverage_by_quest": coverage_by_quest,
         "missing_by_ref": dict(missing_by_ref),
@@ -355,6 +444,24 @@ def generate_markdown_report(data: Dict) -> str:
     md += "\n**No Codex Refs:**\n"
     for quest in gaps.get("no_codex_refs", [])[:5]:
         md += f"- `{quest}`\n"
+    
+    md += "\n---\n\n## Policy Violations\n\n"
+    
+    policy = data.get("policy", {})
+    violations_by_quest = policy.get("violations_by_quest", {})
+    
+    md += f"**Starter Quests:** {policy.get('starters_scanned', 0)} scanned, "
+    md += f"{policy.get('starters_compliant', 0)} compliant, "
+    md += f"{policy.get('violations_count', 0)} violations\n\n"
+    
+    if violations_by_quest:
+        for quest_slug, violations in sorted(violations_by_quest.items()):
+            md += f"### ❌ `{quest_slug}` (Starter)\n\n"
+            for v in violations:
+                md += f"- {v}\n"
+            md += "\n"
+    else:
+        md += "*All starter quests meet policy requirements!* ✅\n"
     
     md += "\n---\n\n## Top Missing References (by frequency)\n\n"
     
