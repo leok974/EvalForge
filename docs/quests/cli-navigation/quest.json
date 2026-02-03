@@ -8,5 +8,12 @@
     "order_index": 2,
     "base_xp_reward": 50,
     "language": "bash",
-    "xp": 50
+    "xp": 50,
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "task.sh",
+        "files_from": "./starter"
+    }
 }
