@@ -1,0 +1,175 @@
+{
+    "freeze_version": "v1",
+    "freeze_date": "2026-02-02",
+    "freeze_type": "tier1-all-worlds",
+    "description": "Complete Tier-1 foundation freeze across all 8 development worlds with legacy quest archival",
+    "summary": {
+        "total_canonical_quests": 77,
+        "total_archived_quests": 164,
+        "total_worlds": 8,
+        "total_codex_pages": 67,
+        "ci_gates_enabled": 8,
+        "db_integrity_check": true
+    },
+    "worlds": {
+        "world-python": {
+            "tier": 2,
+            "quest_count": 11,
+            "targets_manifest": "artifacts/world-python-tier2-targets.json",
+            "core_questpack": "data/questpacks/python_systems.json",
+            "codex_folder": "data/codex/glossary/python",
+            "disk_mode_gates": {
+                "validate_tutorials": true,
+                "codex_audit": true,
+                "coverage_buckets": true
+            },
+            "ci_integration": true,
+            "db_integrity_check": true
+        },
+        "world-js": {
+            "tier": 1,
+            "quest_count": 10,
+            "targets_manifest": "artifacts/world-js-tier1-targets.json",
+            "core_questpack": "data/questpacks/javascript_core.json",
+            "codex_folder": "data/codex/glossary/javascript",
+            "disk_mode_gates": {
+                "validate_tutorials": true,
+                "codex_audit": true,
+                "coverage_buckets": true
+            },
+            "ci_integration": true,
+            "db_integrity_check": true
+        },
+        "world-typescript": {
+            "tier": 1,
+            "quest_count": 10,
+            "targets_manifest": "artifacts/world-typescript-tier1-targets.json",
+            "core_questpack": "data/questpacks/typescript_core.json",
+            "codex_folder": "data/codex/glossary/typescript",
+            "disk_mode_gates": {
+                "validate_tutorials": true,
+                "codex_audit": true,
+                "coverage_buckets": true
+            },
+            "ci_integration": true,
+            "db_integrity_check": true
+        },
+        "world-sql": {
+            "tier": 1,
+            "quest_count": 10,
+            "targets_manifest": "artifacts/world-sql-tier1-targets.json",
+            "core_questpack": "data/questpacks/sql_core.json",
+            "codex_folder": "data/codex/glossary/sql",
+            "disk_mode_gates": {
+                "validate_tutorials": true,
+                "codex_audit": true,
+                "coverage_buckets": true
+            },
+            "ci_integration": true,
+            "db_integrity_check": true
+        },
+        "world-git": {
+            "tier": 1,
+            "quest_count": 10,
+            "targets_manifest": "artifacts/world-git-tier1-targets.json",
+            "core_questpack": "data/questpacks/git_core.json",
+            "codex_folder": "data/codex/glossary/git",
+            "disk_mode_gates": {
+                "validate_tutorials": true,
+                "codex_audit": true,
+                "coverage_buckets": true
+            },
+            "ci_integration": true,
+            "db_integrity_check": true
+        },
+        "world-infra": {
+            "tier": 1,
+            "quest_count": 10,
+            "targets_manifest": "artifacts/world-infra-tier1-targets.json",
+            "core_questpack": "data/questpacks/infra_core.json",
+            "codex_folder": "data/codex/glossary/infra",
+            "disk_mode_gates": {
+                "validate_tutorials": true,
+                "codex_audit": true,
+                "coverage_buckets": true
+            },
+            "ci_integration": true,
+            "db_integrity_check": true
+        },
+        "world-ml": {
+            "tier": 1,
+            "quest_count": 10,
+            "targets_manifest": "artifacts/world-ml-tier1-targets.json",
+            "core_questpack": "data/questpacks/ml_core.json",
+            "codex_folder": "data/codex/glossary/ml",
+            "disk_mode_gates": {
+                "validate_tutorials": true,
+                "codex_audit": true,
+                "coverage_buckets": true
+            },
+            "ci_integration": true,
+            "db_integrity_check": true
+        },
+        "world-agents": {
+            "tier": 1,
+            "quest_count": 10,
+            "targets_manifest": "artifacts/world-agents-tier1-targets.json",
+            "core_questpack": "data/questpacks/agents_core.json",
+            "codex_folder": "data/codex/glossary/agents",
+            "disk_mode_gates": {
+                "validate_tutorials": true,
+                "codex_audit": true,
+                "coverage_buckets": true
+            },
+            "ci_integration": true,
+            "db_integrity_check": true
+        }
+    },
+    "infrastructure": {
+        "canonical_allowlist": "configs/questpacks_active.json",
+        "legacy_archival": {
+            "enabled": true,
+            "migration_script": "scripts/migrate_add_archive_columns.py",
+            "prune_script": "scripts/prune_legacy_quests.py",
+            "archived_count": 164,
+            "archival_date": "2026-02-02"
+        },
+        "seeder": {
+            "script": "scripts/questpack_seed.py",
+            "default_mode": "canonical_only",
+            "legacy_flag": "--include-legacy"
+        },
+        "validation": {
+            "disk_mode": {
+                "validate_tutorials": "scripts/validate_tutorials.py",
+                "codex_audit": "scripts/codex_audit_missing.py --source disk",
+                "coverage_buckets": "scripts/categorize_coverage_buckets.py"
+            },
+            "db_mode": {
+                "integrity_check": "scripts/verify_db_integrity.py",
+                "codex_audit": "scripts/codex_audit_missing.py --source api"
+            }
+        },
+        "ci_workflow": ".github/workflows/codex-audit.yml"
+    },
+    "validation_results": {
+        "disk_mode": {
+            "all_worlds_pass": true,
+            "missing_references": 0,
+            "invalid_references": 0,
+            "coverage_excellent": 77
+        },
+        "db_mode": {
+            "total_quests": 231,
+            "active_quests": 77,
+            "archived_quests": 154,
+            "missing_references": 0,
+            "invalid_references": 0
+        }
+    },
+    "git_context": {
+        "branch": "main",
+        "tag": "freeze-v1-tier1-all-worlds",
+        "commit_message": "feat: Freeze v1 - Complete Tier-1 foundation across all 8 worlds + legacy archival"
+    }
+}
