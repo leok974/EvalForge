@@ -8,11 +8,37 @@ def run_cmd(cmd):
     print(f"🚀 Running: {cmd}")
     env = os.environ.copy()
     env["PYTHONPATH"] = os.getcwd()
+    env["PYTHONIOENCODING"] = "utf-8"
     
     ret = subprocess.run(cmd, shell=True, env=env)
     if ret.returncode != 0:
         print(f"❌ Command failed: {cmd}")
         sys.exit(ret.returncode)
+
+def require_no_legacy_quests() -> None:
+    print("🛡️  Checking for DB Drift (Legacy Quests)...")
+    env = os.environ.copy()
+    env["PYTHONIOENCODING"] = "utf-8"
+    proc = subprocess.run(
+        [sys.executable, "scripts/legacy_quest_audit.py"],
+        capture_output=True,
+        text=True,
+        env=env, # Pass env with encoding
+        encoding='utf-8' # Force encoding for read
+    )
+    if proc.returncode == 0:
+        print("✅ DB is clean (no legacy quests)")
+        return
+
+    out = (proc.stdout or "").strip()
+    err = (proc.stderr or "").strip()
+    msg = "\n".join([x for x in [out, err] if x])
+
+    raise SystemExit(
+        "EF_INTEGRITY_LEGACY_FOUND: legacy quests detected in DB.\n"
+        "Fix: run `python scripts/questpack_seed.py --all --purge --i-understand-this-deletes-data`\n\n"
+        f"{msg}\n"
+    )
 
 def check_quest_count(world_id, min_count):
     print(f"🔍 Verifying quest count for {world_id} (via API, min: {min_count})...")
@@ -57,6 +83,9 @@ def check_web_tracks():
 
 def main():
     print("🛡️  Starting DB Integrity Check (Release Gate)...")
+    
+    # 0. Check Drift FIRST
+    require_no_legacy_quests()
     
     # 1. Seed DB
     run_cmd("python scripts/questpack_seed.py --all")

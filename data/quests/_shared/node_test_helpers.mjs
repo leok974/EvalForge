@@ -1,0 +1,52 @@
+
+import fs from "node:fs";
+import path from "node:path";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
+
+export const DEFAULT_TIMEOUT_MS = 5000;
+
+export function readText(wsDir, rel) {
+    return fs.readFileSync(path.join(wsDir, rel), "utf8").trimEnd();
+}
+
+export function writeText(wsDir, rel, txt) {
+    fs.mkdirSync(path.dirname(path.join(wsDir, rel)), { recursive: true });
+    fs.writeFileSync(path.join(wsDir, rel), txt, "utf8");
+}
+
+export async function runSh(wsDir, scriptRel = "task.sh", args = [], env = {}, timeoutMs = DEFAULT_TIMEOUT_MS) {
+    // Use bash on Windows/WSL environments if sh is missing, or default to sh
+    const shell = process.platform === "win32" ? "bash" : "sh";
+    return execFileAsync(shell, [scriptRel, ...args], {
+        cwd: wsDir,
+        timeout: timeoutMs,
+        env: { ...process.env, ...env },
+    });
+}
+
+export function listFiles(dir, suffix) {
+    if (!fs.existsSync(dir)) return [];
+    return fs.readdirSync(dir).filter((f) => f.endsWith(suffix)).map((f) => path.join(dir, f));
+}
+
+export async function withRestoredFile(wsDir, relPath, fn) {
+    const absPath = path.join(wsDir, relPath);
+    let original = null;
+    const exists = fs.existsSync(absPath);
+    if (exists) {
+        original = fs.readFileSync(absPath, "utf8");
+    }
+
+    try {
+        await fn();
+    } finally {
+        if (exists) {
+            fs.writeFileSync(absPath, original, "utf8");
+        } else {
+            if (fs.existsSync(absPath)) fs.unlinkSync(absPath);
+        }
+    }
+}
