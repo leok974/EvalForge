@@ -1,0 +1,17 @@
+{
+    "key_terms": [
+        "Promise",
+        "async/await",
+        "try/catch",
+        "unhandled rejection",
+        "error propagation"
+    ],
+    "concept_tags": [
+        "node",
+        "async"
+    ],
+    "codex_references": [
+        "codex:glossary/node/async-errors",
+        "codex:glossary/node/event-loop"
+    ]
+}

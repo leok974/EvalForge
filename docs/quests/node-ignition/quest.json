@@ -1,0 +1,12 @@
+{
+    "slug": "node-ignition",
+    "title": "Node Ignition: Run Code Like a Runtime",
+    "short_description": "Run Node scripts, understand the event loop at a beginner level, and print/debug safely.",
+    "description": "Run Node scripts, understand the event loop at a beginner level, and print/debug safely.",
+    "world_id": "world-node",
+    "track_id": "track-node-core",
+    "order_index": 1,
+    "base_xp_reward": 100,
+    "language": "javascript",
+    "xp": 100
+}

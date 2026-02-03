@@ -1,0 +1,16 @@
+{
+    "key_terms": [
+        "ES modules",
+        "CommonJS",
+        "import/export",
+        "require",
+        "module resolution"
+    ],
+    "concept_tags": [
+        "node",
+        "modules"
+    ],
+    "codex_references": [
+        "codex:glossary/node/modules-esm-cjs"
+    ]
+}

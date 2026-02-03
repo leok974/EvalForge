@@ -2,9 +2,11 @@
     "slug": "cli-scripting",
     "title": "Shell Scripting Basics",
     "short_description": "Write a tiny script that accepts args, handles failures, and behaves safely.",
+    "description": "Write a tiny script that accepts args, handles failures, and behaves safely.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
     "order_index": 10,
     "base_xp_reward": 50,
-    "language": "bash"
+    "language": "bash",
+    "xp": 50
 }

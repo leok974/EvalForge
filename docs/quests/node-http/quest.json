@@ -1,0 +1,12 @@
+{
+    "slug": "node-http",
+    "title": "HTTP Server: Routes and JSON",
+    "short_description": "Build a basic server with routing and JSON responses (with correct status codes).",
+    "description": "Build a basic server with routing and JSON responses (with correct status codes).",
+    "world_id": "world-node",
+    "track_id": "track-node-core",
+    "order_index": 7,
+    "base_xp_reward": 100,
+    "language": "javascript",
+    "xp": 100
+}

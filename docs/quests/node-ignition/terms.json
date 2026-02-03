@@ -1,0 +1,17 @@
+{
+    "key_terms": [
+        "node runtime",
+        "process",
+        "argv",
+        "stdout",
+        "event loop"
+    ],
+    "concept_tags": [
+        "node",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/node/runtime-and-process",
+        "codex:glossary/node/event-loop"
+    ]
+}

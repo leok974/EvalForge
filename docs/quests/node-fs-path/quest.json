@@ -1,0 +1,12 @@
+{
+    "slug": "node-fs-path",
+    "title": "Filesystem & Paths: Read/Write Without Pain",
+    "short_description": "Use `fs` and `path` safely, avoid path bugs, and handle missing files.",
+    "description": "Use `fs` and `path` safely, avoid path bugs, and handle missing files.",
+    "world_id": "world-node",
+    "track_id": "track-node-core",
+    "order_index": 6,
+    "base_xp_reward": 100,
+    "language": "javascript",
+    "xp": 100
+}

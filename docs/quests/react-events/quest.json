@@ -2,9 +2,11 @@
     "slug": "react-events",
     "title": "Events & Forms",
     "short_description": "Handle user input correctly with event handlers and controlled form fields.",
+    "description": "Handle user input correctly with event handlers and controlled form fields.",
     "world_id": "world-react",
     "track_id": "track-react-core",
     "order_index": 4,
     "base_xp_reward": 50,
-    "language": "typescript"
+    "language": "typescript",
+    "xp": 50
 }

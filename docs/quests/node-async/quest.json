@@ -1,0 +1,12 @@
+{
+    "slug": "node-async",
+    "title": "Async Patterns: Promises, async/await, Errors",
+    "short_description": "Write async code that handles failures predictably without unhandled rejections.",
+    "description": "Write async code that handles failures predictably without unhandled rejections.",
+    "world_id": "world-node",
+    "track_id": "track-node-core",
+    "order_index": 5,
+    "base_xp_reward": 100,
+    "language": "javascript",
+    "xp": 100
+}

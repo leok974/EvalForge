@@ -2,9 +2,11 @@
     "slug": "cli-processes",
     "title": "Processes and Signals",
     "short_description": "Inspect what\u2019s running, stop stuck tasks, and understand the basics of process control.",
+    "description": "Inspect what\u2019s running, stop stuck tasks, and understand the basics of process control.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
     "order_index": 9,
     "base_xp_reward": 50,
-    "language": "bash"
+    "language": "bash",
+    "xp": 50
 }

@@ -1,0 +1,12 @@
+{
+    "slug": "node-npm",
+    "title": "npm: Packages, Scripts, and Lockfiles",
+    "short_description": "Install deps, run scripts, and understand why lockfiles matter for reproducibility.",
+    "description": "Install deps, run scripts, and understand why lockfiles matter for reproducibility.",
+    "world_id": "world-node",
+    "track_id": "track-node-core",
+    "order_index": 3,
+    "base_xp_reward": 100,
+    "language": "javascript",
+    "xp": 100
+}

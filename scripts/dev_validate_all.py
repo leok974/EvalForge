@@ -48,6 +48,9 @@ def main():
     
     run_step([sys.executable, "scripts/validate_tutorials.py", "--world", "world-react", "--tier", "1"], "React Tier-1 Validation")
     run_step([sys.executable, "scripts/codex_audit_missing.py", "--world", "world-react", "--source", "disk"], "React Disk Audit")
+
+    run_step([sys.executable, "scripts/validate_tutorials.py", "--world", "world-node", "--tier", "1"], "Node Tier-1 Validation")
+    run_step([sys.executable, "scripts/codex_audit_missing.py", "--world", "world-node", "--source", "disk"], "Node Disk Audit")
     
     # 4. Smoke Tests
     smoke_cmd = [sys.executable, "scripts/questpack_smoke.py", "--all"]

@@ -2,9 +2,11 @@
     "slug": "react-props",
     "title": "Props: Data In, UI Out",
     "short_description": "Pass data into components and build reusable UI blocks.",
+    "description": "Pass data into components and build reusable UI blocks.",
     "world_id": "world-react",
     "track_id": "track-react-core",
     "order_index": 2,
     "base_xp_reward": 50,
-    "language": "typescript"
+    "language": "typescript",
+    "xp": 50
 }

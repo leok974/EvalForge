@@ -2,9 +2,11 @@
     "slug": "cli-redirection",
     "title": "Redirect and Append Output",
     "short_description": "Capture command output into files and logs without overwriting mistakes.",
+    "description": "Capture command output into files and logs without overwriting mistakes.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
     "order_index": 5,
     "base_xp_reward": 50,
-    "language": "bash"
+    "language": "bash",
+    "xp": 50
 }

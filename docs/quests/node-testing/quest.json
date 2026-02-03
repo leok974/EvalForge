@@ -1,0 +1,12 @@
+{
+    "slug": "node-testing",
+    "title": "Testing: Unit Tests and Integration Smoke",
+    "short_description": "Write a couple tests that catch regressions and prove the server works.",
+    "description": "Write a couple tests that catch regressions and prove the server works.",
+    "world_id": "world-node",
+    "track_id": "track-node-core",
+    "order_index": 9,
+    "base_xp_reward": 100,
+    "language": "javascript",
+    "xp": 100
+}

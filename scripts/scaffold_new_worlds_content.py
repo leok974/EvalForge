@@ -36,6 +36,71 @@ DESCRIPTIONS = {
     "react-context": "Avoid prop drilling and use context intentionally for app-level concerns.",
     "react-routing": "Build a simple multi-page app using routes and params.",
     "react-performance-basics": "Learn practical performance habits and when memoization helps (and hurts).",
+
+    # Node
+    "node-ignition": "Run Node scripts, understand the event loop at a beginner level, and print/debug safely.",
+    "node-modules": "Import/export correctly, understand `type: module`, and avoid module-resolution confusion.",
+    "node-npm": "Install deps, run scripts, and understand why lockfiles matter for reproducibility.",
+    "node-env-config": "Load config safely, validate required vars, and avoid leaking secrets.",
+    "node-async": "Write async code that handles failures predictably without unhandled rejections.",
+    "node-fs-path": "Use `fs` and `path` safely, avoid path bugs, and handle missing files.",
+    "node-http": "Build a basic server with routing and JSON responses (with correct status codes).",
+    "node-middleware": "Add a simple middleware pipeline for logs, request IDs, and error handling.",
+    "node-testing": "Write a couple tests that catch regressions and prove the server works.",
+    "node-deploy-basics": "Add `start` conventions, health endpoints, and production-ready defaults.",
+}
+
+TERMS_PAYLOADS = {
+    "node-ignition": {
+        "key_terms": ["node runtime", "process", "argv", "stdout", "event loop"],
+        "concept_tags": ["node", "foundations"],
+        "codex_references": ["codex:glossary/node/runtime-and-process", "codex:glossary/node/event-loop"]
+    },
+    "node-modules": {
+        "key_terms": ["ES modules", "CommonJS", "import/export", "require", "module resolution"],
+        "concept_tags": ["node", "modules"],
+        "codex_references": ["codex:glossary/node/modules-esm-cjs"]
+    },
+    "node-npm": {
+        "key_terms": ["package.json", "dependencies", "npm scripts", "devDependencies", "lockfile"],
+        "concept_tags": ["node", "tooling"],
+        "codex_references": ["codex:glossary/node/package-json", "codex:glossary/node/lockfiles"]
+    },
+    "node-env-config": {
+        "key_terms": ["process.env", ".env", "configuration", "secrets", "defaults"],
+        "concept_tags": ["node", "reliability"],
+        "codex_references": ["codex:glossary/node/env-and-config", "codex:glossary/node/runtime-and-process"]
+    },
+    "node-async": {
+        "key_terms": ["Promise", "async/await", "try/catch", "unhandled rejection", "error propagation"],
+        "concept_tags": ["node", "async"],
+        "codex_references": ["codex:glossary/node/async-errors", "codex:glossary/node/event-loop"]
+    },
+    "node-fs-path": {
+        "key_terms": ["filesystem", "path", "relative path", "absolute path", "encoding"],
+        "concept_tags": ["node", "fs"],
+        "codex_references": ["codex:glossary/node/fs-and-path"]
+    },
+    "node-http": {
+        "key_terms": ["HTTP", "request", "response", "status code", "JSON"],
+        "concept_tags": ["node", "server"],
+        "codex_references": ["codex:glossary/node/http-basics"]
+    },
+    "node-middleware": {
+        "key_terms": ["middleware", "request id", "error handler", "logging", "stack trace"],
+        "concept_tags": ["node", "server", "observability"],
+        "codex_references": ["codex:glossary/node/middleware", "codex:glossary/node/logging"]
+    },
+    "node-testing": {
+        "key_terms": ["unit test", "integration test", "test runner", "fixtures", "smoke test"],
+        "concept_tags": ["node", "testing"],
+        "codex_references": ["codex:glossary/node/testing-basics"]
+    },
+    "node-deploy-basics": {
+        "key_terms": ["start script", "PORT", "health check", "graceful shutdown", "production"],
+        "concept_tags": ["node", "deployment"],
+        "codex_references": ["codex:glossary/node/health-checks", "codex:glossary/node/env-and-config"]
+    },
 }
 
 TUTORIAL_SECTIONS = {
@@ -222,13 +287,111 @@ TUTORIAL_SECTIONS = {
         ("Common pitfalls", "memo everywhere, optimizing before measuring."),
         ("Check yourself", "When does memoization help? What’s the cost of overusing it?"),
     ],
+
+    # Node
+    "node-ignition": [
+        ("Outcome", "Run a Node script and explain what process/output means."),
+        ("Core concepts", "process, argv, stdout/stderr, event loop (light intro)."),
+        ("Mental model", "Node runs JS outside the browser; the OS process owns environment + IO."),
+        ("Walkthrough", "run `node index.js`, read args, print output, handle errors."),
+        ("Practice", "write a CLI script that prints “Hello <name>” from args."),
+        ("Common pitfalls", "running in wrong directory, confusing stdout vs stderr."),
+        ("Check yourself", "What is a process? Where do env vars come from?"),
+    ],
+    "node-modules": [
+        ("Outcome", "Use ESM imports and recognize CommonJS patterns."),
+        ("Core concepts", "`import`, `export`, `require`, `module.exports`, `type: module`."),
+        ("Mental model", "Module system decides how files are loaded and linked."),
+        ("Walkthrough", "convert one file from CJS to ESM (or vice versa)."),
+        ("Practice", "split helpers into modules and import them cleanly."),
+        ("Common pitfalls", "default export confusion, extension/resolution issues."),
+        ("Check yourself", "When does Node treat files as ESM?"),
+    ],
+    "node-npm": [
+        ("Outcome", "Install deps, run scripts, and understand lockfiles."),
+        ("Core concepts", "package.json, scripts, dependency types, lockfile purpose."),
+        ("Mental model", "package.json declares intent; lockfile pins reality."),
+        ("Walkthrough", "add a script, run it, add a dependency, observe lockfile."),
+        ("Practice", "create `dev`, `test`, `start` scripts."),
+        ("Common pitfalls", "deleting lockfile, mixing package managers."),
+        ("Check yourself", "Why do lockfiles matter in CI?"),
+    ],
+    "node-env-config": [
+        ("Outcome", "Use config safely with required checks and defaults."),
+        ("Core concepts", "`process.env`, `.env`, required vars, secrets."),
+        ("Mental model", "env vars are per-process; your app should validate at startup."),
+        ("Walkthrough", "load PORT, set fallback, validate required key."),
+        ("Practice", "implement `getEnv(name, { required, default })`."),
+        ("Common pitfalls", "committing secrets, assuming env var exists."),
+        ("Check yourself", "What’s the difference between config and secrets?"),
+    ],
+    "node-async": [
+        ("Outcome", "Write async code with correct error handling."),
+        ("Core concepts", "async/await, promise rejection, try/catch."),
+        ("Mental model", "errors must propagate as rejections; you must await or handle."),
+        ("Walkthrough", "read file async, fetch-like async, wrap in try/catch."),
+        ("Practice", "implement `run()` that returns non-zero on failure."),
+        ("Common pitfalls", "forgetting `await`, unhandled promise rejections."),
+        ("Check yourself", "Why can a promise fail “silently” if you don’t await?"),
+    ],
+    "node-fs-path": [
+        ("Outcome", "Read/write files using correct paths."),
+        ("Core concepts", "`fs`, `path.join`, cwd, encoding."),
+        ("Mental model", "always build paths intentionally; never assume cwd in prod."),
+        ("Walkthrough", "read JSON file, write output file, handle missing file."),
+        ("Practice", "implement a “copy template to output” task."),
+        ("Common pitfalls", "Windows path separators, relative path surprises."),
+        ("Check yourself", "What does `process.cwd()` represent?"),
+    ],
+    "node-http": [
+        ("Outcome", "Serve JSON with status codes and simple routing."),
+        ("Core concepts", "request/response, headers, status codes, JSON."),
+        ("Mental model", "server is a function from request → response."),
+        ("Walkthrough", "`/health`, `/hello`, 404 fallback."),
+        ("Practice", "implement `/echo` that returns parsed JSON safely."),
+        ("Common pitfalls", "not ending response, wrong content-type."),
+        ("Check yourself", "When should you return 400 vs 500?"),
+    ],
+    "node-middleware": [
+        ("Outcome", "Add logging + error handling + request IDs."),
+        ("Core concepts", "middleware pipeline, correlation ID, structured logs."),
+        ("Mental model", "middleware wraps your handler; errors funnel to one place."),
+        ("Walkthrough", "add request-id header + log start/end + error handler."),
+        ("Practice", "emit consistent JSON logs for each request."),
+        ("Common pitfalls", "logging secrets, losing stack traces."),
+        ("Check yourself", "Why do request IDs matter?"),
+    ],
+    "node-testing": [
+        ("Outcome", "Write unit + integration smoke tests."),
+        ("Core concepts", "test runner, assertions, fixtures, smoke tests."),
+        ("Mental model", "unit tests validate logic; integration validates wiring."),
+        ("Walkthrough", "test helper fn + test `/health` endpoint."),
+        ("Practice", "add one regression test for an error path."),
+        ("Common pitfalls", "flaky async tests, not closing servers."),
+        ("Check yourself", "What’s the minimum test that proves “server boots”?"),
+    ],
+    "node-deploy-basics": [
+        ("Outcome", "Make an app deploy-friendly with health and start conventions."),
+        ("Core concepts", "PORT, start script, graceful shutdown, health checks."),
+        ("Mental model", "production expects predictability (boot, listen, health, stop)."),
+        ("Walkthrough", "`start` script, `/health`, SIGTERM handling."),
+        ("Practice", "add shutdown hook that closes server cleanly."),
+        ("Common pitfalls", "hardcoded ports, ignoring SIGTERM."),
+        ("Check yourself", "Why is graceful shutdown important?"),
+    ],
 }
 
 def generate_quest_files(pack_path):
     pack = load_questpack(pack_path)
     world_id = pack['world_id']
     track_id = pack['track_id']
-    language = "bash" if "cli" in world_id else "typescript"
+    
+    if "cli" in world_id:
+        language = "bash"
+    elif "node" in world_id:
+        language = "javascript" # Node world technically JS
+    else:
+        language = "typescript"
     
     for quest in pack['quests']:
         slug = quest['slug']
@@ -243,11 +406,13 @@ def generate_quest_files(pack_path):
             "slug": slug,
             "title": title,
             "short_description": desc,
+            "description": desc,
             "world_id": world_id,
             "track_id": track_id,
             "order_index": order,
-            "base_xp_reward": 50,
-            "language": language
+            "base_xp_reward": 100 if "node" in world_id else 50, # Node gets V2 default
+            "language": language,
+            "xp": 100 if "node" in world_id else 50
         }
         
         q_dir = os.path.join("docs", "quests", slug)
@@ -260,9 +425,17 @@ def generate_quest_files(pack_path):
             
         write_file(os.path.join(q_dir, "tutorial.md"), md_content)
 
+        # 3. terms.json
+        if slug in TERMS_PAYLOADS:
+            write_file(os.path.join(q_dir, "terms.json"), json.dumps(TERMS_PAYLOADS[slug], indent=4))
+
 def main():
+    print("Starting content generation...")
     generate_quest_files("data/questpacks/cli_core.json")
     generate_quest_files("data/questpacks/react_core.json")
+    generate_quest_files("data/questpacks/node_core.json")
+    generate_quest_files("data/questpacks/react_core.json")
+    generate_quest_files("data/questpacks/node_core.json")
 
 if __name__ == "__main__":
     main()

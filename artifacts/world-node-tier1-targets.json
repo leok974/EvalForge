@@ -1,0 +1,17 @@
+{
+    "world_id": "world-node",
+    "tier": 1,
+    "track_id": "track-node-core",
+    "slugs": [
+        "node-ignition",
+        "node-modules",
+        "node-npm",
+        "node-env-config",
+        "node-async",
+        "node-fs-path",
+        "node-http",
+        "node-middleware",
+        "node-testing",
+        "node-deploy-basics"
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "key_terms": [
+        "filesystem",
+        "path",
+        "relative path",
+        "absolute path",
+        "encoding"
+    ],
+    "concept_tags": [
+        "node",
+        "fs"
+    ],
+    "codex_references": [
+        "codex:glossary/node/fs-and-path"
+    ]
+}

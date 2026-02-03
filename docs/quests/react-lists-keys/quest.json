@@ -2,9 +2,11 @@
     "slug": "react-lists-keys",
     "title": "Lists & Keys",
     "short_description": "Render collections without bugs by choosing stable keys and avoiding common list traps.",
+    "description": "Render collections without bugs by choosing stable keys and avoiding common list traps.",
     "world_id": "world-react",
     "track_id": "track-react-core",
     "order_index": 5,
     "base_xp_reward": 50,
-    "language": "typescript"
+    "language": "typescript",
+    "xp": 50
 }

@@ -2,9 +2,11 @@
     "slug": "react-state",
     "title": "State: Interactive UI",
     "short_description": "Add interactivity with state and understand why React re-renders.",
+    "description": "Add interactivity with state and understand why React re-renders.",
     "world_id": "world-react",
     "track_id": "track-react-core",
     "order_index": 3,
     "base_xp_reward": 50,
-    "language": "typescript"
+    "language": "typescript",
+    "xp": 50
 }

@@ -1,0 +1,16 @@
+{
+    "key_terms": [
+        "HTTP",
+        "request",
+        "response",
+        "status code",
+        "JSON"
+    ],
+    "concept_tags": [
+        "node",
+        "server"
+    ],
+    "codex_references": [
+        "codex:glossary/node/http-basics"
+    ]
+}

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-02-03T03:11:35.469977+00:00",
+  "generated_at": "2026-02-03T03:21:08.087460+00:00",
   "counts": {
     "quests_scanned": 10,
-    "total_refs": 12,
-    "unique_refs": 12,
+    "total_refs": 13,
+    "unique_refs": 13,
     "missing_unique_refs": 0,
     "invalid_unique_refs": 0,
     "quests_with_missing": 0
@@ -23,102 +23,102 @@
     "starters_compliant": 0
   },
   "coverage_by_quest": {
-    "react-context": {
+    "node-async": {
       "has_tutorial": true,
-      "tutorial_length": 490,
+      "tutorial_length": 533,
       "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
-      "codex_refs_total": 1,
-      "unique_codex_refs": 1,
-      "coverage_score": 100.0
-    },
-    "react-custom-hooks": {
-      "has_tutorial": true,
-      "tutorial_length": 437,
-      "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
-      "codex_refs_total": 1,
-      "unique_codex_refs": 1,
-      "coverage_score": 100.0
-    },
-    "react-effects": {
-      "has_tutorial": true,
-      "tutorial_length": 468,
-      "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
-      "codex_refs_total": 1,
-      "unique_codex_refs": 1,
-      "coverage_score": 100.0
-    },
-    "react-events": {
-      "has_tutorial": true,
-      "tutorial_length": 463,
-      "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
       "codex_refs_total": 2,
       "unique_codex_refs": 2,
       "coverage_score": 100.0
     },
-    "react-ignition": {
+    "node-deploy-basics": {
       "has_tutorial": true,
-      "tutorial_length": 493,
+      "tutorial_length": 515,
       "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
       "codex_refs_total": 2,
       "unique_codex_refs": 2,
       "coverage_score": 100.0
     },
-    "react-lists-keys": {
+    "node-env-config": {
       "has_tutorial": true,
-      "tutorial_length": 470,
+      "tutorial_length": 530,
       "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "node-fs-path": {
+      "has_tutorial": true,
+      "tutorial_length": 488,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "react-performance-basics": {
+    "node-http": {
       "has_tutorial": true,
-      "tutorial_length": 523,
+      "tutorial_length": 458,
       "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "react-props": {
+    "node-ignition": {
       "has_tutorial": true,
-      "tutorial_length": 431,
+      "tutorial_length": 571,
       "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "node-middleware": {
+      "has_tutorial": true,
+      "tutorial_length": 487,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "node-modules": {
+      "has_tutorial": true,
+      "tutorial_length": 511,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "react-routing": {
+    "node-npm": {
       "has_tutorial": true,
-      "tutorial_length": 444,
+      "tutorial_length": 500,
       "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
-      "codex_refs_total": 1,
-      "unique_codex_refs": 1,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
       "coverage_score": 100.0
     },
-    "react-state": {
+    "node-testing": {
       "has_tutorial": true,
-      "tutorial_length": 466,
+      "tutorial_length": 487,
       "has_terms": true,
-      "terms_total": 4,
-      "terms_with_codex_ref": 4,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0

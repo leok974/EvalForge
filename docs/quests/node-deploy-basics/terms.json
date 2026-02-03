@@ -1,0 +1,17 @@
+{
+    "key_terms": [
+        "start script",
+        "PORT",
+        "health check",
+        "graceful shutdown",
+        "production"
+    ],
+    "concept_tags": [
+        "node",
+        "deployment"
+    ],
+    "codex_references": [
+        "codex:glossary/node/health-checks",
+        "codex:glossary/node/env-and-config"
+    ]
+}

@@ -2,9 +2,11 @@
     "slug": "react-ignition",
     "title": "React Ignition: Components & JSX",
     "short_description": "Render your first component and understand JSX as a readable UI syntax.",
+    "description": "Render your first component and understand JSX as a readable UI syntax.",
     "world_id": "world-react",
     "track_id": "track-react-core",
     "order_index": 1,
     "base_xp_reward": 50,
-    "language": "typescript"
+    "language": "typescript",
+    "xp": 50
 }

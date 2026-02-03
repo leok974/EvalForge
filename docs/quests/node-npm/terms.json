@@ -1,0 +1,17 @@
+{
+    "key_terms": [
+        "package.json",
+        "dependencies",
+        "npm scripts",
+        "devDependencies",
+        "lockfile"
+    ],
+    "concept_tags": [
+        "node",
+        "tooling"
+    ],
+    "codex_references": [
+        "codex:glossary/node/package-json",
+        "codex:glossary/node/lockfiles"
+    ]
+}

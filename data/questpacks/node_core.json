@@ -1,0 +1,58 @@
+{
+    "questpack_id": "node_core",
+    "title": "Node.js Foundations",
+    "world_id": "world-node",
+    "track_id": "track-node-core",
+    "quests": [
+        {
+            "slug": "node-ignition",
+            "title": "Node Ignition: Run Code Like a Runtime",
+            "order": 1
+        },
+        {
+            "slug": "node-modules",
+            "title": "Modules: ESM vs CommonJS",
+            "order": 2
+        },
+        {
+            "slug": "node-npm",
+            "title": "npm: Packages, Scripts, and Lockfiles",
+            "order": 3
+        },
+        {
+            "slug": "node-env-config",
+            "title": "Environment & Config: .env, process.env, Defaults",
+            "order": 4
+        },
+        {
+            "slug": "node-async",
+            "title": "Async Patterns: Promises, async/await, Errors",
+            "order": 5
+        },
+        {
+            "slug": "node-fs-path",
+            "title": "Filesystem & Paths: Read/Write Without Pain",
+            "order": 6
+        },
+        {
+            "slug": "node-http",
+            "title": "HTTP Server: Routes and JSON",
+            "order": 7
+        },
+        {
+            "slug": "node-middleware",
+            "title": "Middleware: Logging, Errors, Request IDs",
+            "order": 8
+        },
+        {
+            "slug": "node-testing",
+            "title": "Testing: Unit Tests and Integration Smoke",
+            "order": 9
+        },
+        {
+            "slug": "node-deploy-basics",
+            "title": "Deploy Basics: Start Scripts and Health Checks",
+            "order": 10
+        }
+    ]
+}
