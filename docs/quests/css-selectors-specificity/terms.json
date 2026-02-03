@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "selector",
+        "specificity",
+        "id selector",
+        "class selector",
+        "pseudo-class"
+    ],
+    "concept_tags": [
+        "web",
+        "css",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/web/css/selectors",
+        "codex:glossary/web/css/specificity"
+    ]
+}

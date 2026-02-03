@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "nesting error",
+        "validator",
+        "closing tag",
+        "DOM",
+        "devtools"
+    ],
+    "concept_tags": [
+        "web",
+        "html",
+        "debugging"
+    ],
+    "codex_references": [
+        "codex:glossary/web/html/tags-and-elements",
+        "codex:glossary/web/html/document-skeleton"
+    ]
+}

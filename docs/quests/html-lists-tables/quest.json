@@ -1,0 +1,10 @@
+{
+    "slug": "html-lists-tables",
+    "title": "Lists & Tables: Organize Information",
+    "short_description": "Represent repeating items with lists and structured data with tables using the right semantic elements.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 4,
+    "base_xp_reward": 50,
+    "language": "html"
+}

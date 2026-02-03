@@ -1,0 +1,8 @@
+{
+  "key_terms": ["rem", "em", "percent", "line-height", "font-family"],
+  "concept_tags": ["web", "css", "typography"],
+  "codex_references": [
+    "codex:glossary/web/css/units",
+    "codex:glossary/web/css/typography"
+  ]
+}

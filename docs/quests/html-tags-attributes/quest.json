@@ -1,0 +1,10 @@
+{
+    "slug": "html-tags-attributes",
+    "title": "Tags & Attributes: Structure With Intent",
+    "short_description": "Learn how elements nest and how attributes add meaning (id, class, aria, src, href) without breaking structure.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 2,
+    "base_xp_reward": 50,
+    "language": "html"
+}

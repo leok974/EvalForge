@@ -1,0 +1,7 @@
+{
+  "key_terms": ["flex container", "flex item", "justify-content", "align-items", "gap"],
+  "concept_tags": ["web", "css", "layout"],
+  "codex_references": [
+    "codex:glossary/web/css/flexbox"
+  ]
+}

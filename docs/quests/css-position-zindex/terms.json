@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "position",
+        "relative",
+        "absolute",
+        "fixed",
+        "z-index",
+        "stacking context"
+    ],
+    "concept_tags": [
+        "web",
+        "css",
+        "layout"
+    ],
+    "codex_references": [
+        "codex:glossary/web/css/positioning"
+    ]
+}

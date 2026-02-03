@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "unordered list",
+        "ordered list",
+        "list item",
+        "table header",
+        "table row"
+    ],
+    "concept_tags": [
+        "web",
+        "html",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/web/html/lists",
+        "codex:glossary/web/html/tables"
+    ]
+}

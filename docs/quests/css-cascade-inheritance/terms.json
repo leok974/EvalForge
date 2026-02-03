@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "cascade",
+        "inheritance",
+        "source order",
+        "computed value",
+        "initial value"
+    ],
+    "concept_tags": [
+        "web",
+        "css",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/web/css/cascade",
+        "codex:glossary/web/css/inheritance"
+    ]
+}

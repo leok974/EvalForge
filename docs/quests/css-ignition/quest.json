@@ -1,0 +1,10 @@
+{
+    "slug": "css-ignition",
+    "title": "CSS Ignition: Your First Styles",
+    "short_description": "Attach a stylesheet and style a page using simple selectors, properties, and readable defaults.",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "order_index": 1,
+    "base_xp_reward": 50,
+    "language": "css"
+}

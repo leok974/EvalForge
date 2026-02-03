@@ -1,0 +1,10 @@
+{
+    "slug": "css-units-typography",
+    "title": "Units & Typography: Readable, Scalable Text",
+    "short_description": "Use rem/em/percent units and typography basics to make text responsive and comfortable to read.",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "order_index": 5,
+    "base_xp_reward": 50,
+    "language": "css"
+}

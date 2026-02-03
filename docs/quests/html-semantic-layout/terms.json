@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "semantic elements",
+        "landmarks",
+        "header",
+        "nav",
+        "main"
+    ],
+    "concept_tags": [
+        "web",
+        "html",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/web/html/semantic-elements",
+        "codex:glossary/web/html/accessibility-basics"
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "title tag",
+        "meta description",
+        "viewport",
+        "charset",
+        "open graph"
+    ],
+    "concept_tags": [
+        "web",
+        "html",
+        "seo"
+    ],
+    "codex_references": [
+        "codex:glossary/web/html/metadata-seo",
+        "codex:glossary/web/html/document-skeleton"
+    ]
+}

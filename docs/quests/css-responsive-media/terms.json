@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "media query",
+        "breakpoint",
+        "fluid layout",
+        "viewport",
+        "responsive typography"
+    ],
+    "concept_tags": [
+        "web",
+        "css",
+        "responsive"
+    ],
+    "codex_references": [
+        "codex:glossary/web/css/media-queries",
+        "codex:glossary/web/css/units"
+    ]
+}

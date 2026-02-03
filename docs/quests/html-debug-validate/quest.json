@@ -1,0 +1,10 @@
+{
+    "slug": "html-debug-validate",
+    "title": "Debug & Validate: Fix Broken Markup Fast",
+    "short_description": "Use quick validation tactics to catch nesting mistakes and structural issues before they snowball.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 10,
+    "base_xp_reward": 50,
+    "language": "html"
+}

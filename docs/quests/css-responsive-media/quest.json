@@ -1,0 +1,10 @@
+{
+    "slug": "css-responsive-media",
+    "title": "Responsive Design: Adapt to Any Screen",
+    "short_description": "Use media queries and fluid sizing to keep layouts readable on phones, tablets, and desktops.",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "order_index": 9,
+    "base_xp_reward": 50,
+    "language": "css"
+}

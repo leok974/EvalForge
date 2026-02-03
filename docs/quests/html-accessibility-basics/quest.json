@@ -1,0 +1,10 @@
+{
+    "slug": "html-accessibility-basics",
+    "title": "Accessibility Basics: Build for Everyone",
+    "short_description": "Apply the core accessibility habits (labels, alt text, landmarks, focus order) that prevent common pitfalls.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 7,
+    "base_xp_reward": 50,
+    "language": "html"
+}

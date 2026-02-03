@@ -1,0 +1,10 @@
+{
+    "slug": "html-forms-inputs",
+    "title": "Forms & Inputs: Collect User Data",
+    "short_description": "Build a simple form with labels and inputs that submits predictable, readable data.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 5,
+    "base_xp_reward": 50,
+    "language": "html"
+}

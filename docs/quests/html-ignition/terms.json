@@ -1,0 +1,17 @@
+{
+    "key_terms": [
+        "doctype",
+        "head",
+        "body",
+        "meta charset",
+        "viewport"
+    ],
+    "concept_tags": [
+        "web",
+        "html",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/web/html/document-skeleton"
+    ]
+}

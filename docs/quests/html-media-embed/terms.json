@@ -1,0 +1,17 @@
+{
+    "key_terms": [
+        "video",
+        "audio",
+        "iframe",
+        "controls attribute",
+        "fallback content"
+    ],
+    "concept_tags": [
+        "web",
+        "html",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/web/html/media-embed"
+    ]
+}

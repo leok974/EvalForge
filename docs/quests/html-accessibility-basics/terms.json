@@ -1,0 +1,8 @@
+{
+  "key_terms": ["alt text", "label association", "keyboard focus", "landmarks", "ARIA"],
+  "concept_tags": ["web", "html", "accessibility"],
+  "codex_references": [
+    "codex:glossary/web/html/accessibility-basics",
+    "codex:glossary/web/html/semantic-elements"
+  ]
+}

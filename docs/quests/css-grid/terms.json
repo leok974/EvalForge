@@ -1,0 +1,17 @@
+{
+    "key_terms": [
+        "grid container",
+        "grid template columns",
+        "fr unit",
+        "grid area",
+        "gap"
+    ],
+    "concept_tags": [
+        "web",
+        "css",
+        "layout"
+    ],
+    "codex_references": [
+        "codex:glossary/web/css/grid"
+    ]
+}

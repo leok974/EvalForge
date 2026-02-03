@@ -1,0 +1,10 @@
+{
+    "slug": "html-links-images",
+    "title": "Links & Images: Connect and Communicate",
+    "short_description": "Create reliable links and accessible images using correct URLs, alt text, and basic best practices.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 3,
+    "base_xp_reward": 50,
+    "language": "html"
+}

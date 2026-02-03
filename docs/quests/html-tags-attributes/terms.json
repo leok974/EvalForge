@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "element",
+        "attribute",
+        "nesting",
+        "id",
+        "class"
+    ],
+    "concept_tags": [
+        "web",
+        "html",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/web/html/tags-and-elements",
+        "codex:glossary/web/html/attributes"
+    ]
+}

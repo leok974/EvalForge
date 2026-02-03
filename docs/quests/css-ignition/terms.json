@@ -1,0 +1,18 @@
+{
+    "key_terms": [
+        "stylesheet",
+        "selector",
+        "property",
+        "declaration",
+        "class selector"
+    ],
+    "concept_tags": [
+        "web",
+        "css",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/web/css/selectors",
+        "codex:glossary/web/css/cascade"
+    ]
+}

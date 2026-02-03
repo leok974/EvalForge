@@ -1,0 +1,17 @@
+{
+    "key_terms": [
+        "content box",
+        "padding",
+        "border",
+        "margin",
+        "box-sizing"
+    ],
+    "concept_tags": [
+        "web",
+        "css",
+        "layout"
+    ],
+    "codex_references": [
+        "codex:glossary/web/css/box-model"
+    ]
+}
