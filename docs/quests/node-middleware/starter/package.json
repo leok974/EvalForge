@@ -1,0 +1,5 @@
+{
+    "name": "node-middleware",
+    "private": true,
+    "type": "module"
+}

@@ -8,5 +8,12 @@
     "order_index": 9,
     "base_xp_reward": 100,
     "language": "javascript",
-    "xp": 100
+    "xp": 100,
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "tests/math.test.js",
+        "files_from": "./starter"
+    }
 }
