@@ -25,7 +25,7 @@ async def get_qa_summary(current_user: Dict = Depends(require_admin)):
     """
     async for session in get_session():
         # Get all quests
-        quests_result = await session.exec(select(QuestDefinition))
+        quests_result = await session.exec(select(QuestDefinition).where(QuestDefinition.is_archived == False))
         quests = list(quests_result)
         
         # Get latest QA run for each quest
@@ -105,7 +105,7 @@ async def get_qa_quests(
     Query params: world_id, track_id, language, status, q (search).
     """
     async for session in get_session():
-        query = select(QuestDefinition)
+        query = select(QuestDefinition).where(QuestDefinition.is_archived == False)
         
         if world_id:
             query = query.where(QuestDefinition.world_id == world_id)

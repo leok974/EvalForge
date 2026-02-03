@@ -42,7 +42,7 @@ async def list_quests(
         await session.commit()
         await session.refresh(profile)
 
-    query = select(QuestDefinition)
+    query = select(QuestDefinition).where(QuestDefinition.is_archived == False)
     if world_id:
         query = query.where(QuestDefinition.world_id == world_id)
     
