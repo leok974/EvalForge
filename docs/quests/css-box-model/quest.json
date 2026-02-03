@@ -1,0 +1,10 @@
+{
+    "slug": "css-box-model",
+    "title": "The Box Model: Spacing Without Guesswork",
+    "short_description": "Control layout spacing with margin, border, padding, and sizing so elements align consistently.",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "order_index": 4,
+    "base_xp_reward": 50,
+    "language": "css"
+}

@@ -1,0 +1,10 @@
+{
+  "slug": "css-position-zindex",
+  "title": "Positioning & Z-Index: Layer With Confidence",
+  "short_description": "Use positioning modes and stacking rules to place elements intentionally without \"mystery overlays.\"",
+  "world_id": "world-web",
+  "track_id": "track-css",
+  "order_index": 10,
+  "base_xp_reward": 50,
+  "language": "css"
+}

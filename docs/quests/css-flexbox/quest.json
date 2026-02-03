@@ -1,0 +1,10 @@
+{
+    "slug": "css-flexbox",
+    "title": "Flexbox Layout: Align and Distribute",
+    "short_description": "Build a flexible row/column layout with proper alignment and spacing using modern flex patterns.",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "order_index": 7,
+    "base_xp_reward": 50,
+    "language": "css"
+}

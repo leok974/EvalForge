@@ -1,0 +1,58 @@
+{
+    "questpack_id": "web_html_core",
+    "title": "Web Foundations: HTML Core",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "quests": [
+        {
+            "slug": "html-ignition",
+            "title": "HTML Ignition: Page Skeleton",
+            "order": 1
+        },
+        {
+            "slug": "html-tags-attributes",
+            "title": "Tags & Attributes",
+            "order": 2
+        },
+        {
+            "slug": "html-links-images",
+            "title": "Links & Images",
+            "order": 3
+        },
+        {
+            "slug": "html-lists-tables",
+            "title": "Lists & Tables",
+            "order": 4
+        },
+        {
+            "slug": "html-forms-inputs",
+            "title": "Forms & Inputs",
+            "order": 5
+        },
+        {
+            "slug": "html-semantic-layout",
+            "title": "Semantic Layout",
+            "order": 6
+        },
+        {
+            "slug": "html-accessibility-basics",
+            "title": "Accessibility Basics",
+            "order": 7
+        },
+        {
+            "slug": "html-media-embed",
+            "title": "Media & Embeds",
+            "order": 8
+        },
+        {
+            "slug": "html-meta-seo",
+            "title": "Metadata & SEO Basics",
+            "order": 9
+        },
+        {
+            "slug": "html-debug-validate",
+            "title": "Debug & Validate HTML",
+            "order": 10
+        }
+    ]
+}

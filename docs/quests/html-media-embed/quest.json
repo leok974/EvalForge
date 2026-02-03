@@ -1,0 +1,10 @@
+{
+    "slug": "html-media-embed",
+    "title": "Media & Embeds: Bring Content to Life",
+    "short_description": "Embed video/audio and external content safely and accessibly with the right attributes and fallbacks.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 8,
+    "base_xp_reward": 50,
+    "language": "html"
+}

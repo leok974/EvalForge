@@ -1,0 +1,10 @@
+{
+    "slug": "css-colors-backgrounds",
+    "title": "Colors & Backgrounds: Visual Hierarchy",
+    "short_description": "Apply color and background techniques to create contrast, hierarchy, and a clean visual baseline.",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "order_index": 6,
+    "base_xp_reward": 50,
+    "language": "css"
+}

@@ -1,0 +1,27 @@
+[
+    {
+        "term": "unordered list",
+        "definition": "List where item order doesn't matter, rendered with bullets.",
+        "codex_ref": "codex:glossary/web/html/lists"
+    },
+    {
+        "term": "ordered list",
+        "definition": "Sequentially numbered list where order matters.",
+        "codex_ref": "codex:glossary/web/html/lists"
+    },
+    {
+        "term": "list item",
+        "definition": "Individual item within an ordered or un ordered list.",
+        "codex_ref": "codex:glossary/web/html/lists"
+    },
+    {
+        "term": "table header",
+        "definition": "Column or row header cell in a table, semantically identified.",
+        "codex_ref": "codex:glossary/web/html/tables"
+    },
+    {
+        "term": "table row",
+        "definition": "Horizontal row of table cells.",
+        "codex_ref": "codex:glossary/web/html/tables"
+    }
+]

@@ -1,0 +1,10 @@
+{
+    "slug": "html-semantic-layout",
+    "title": "Semantic Layout: Landmarks That Make Sense",
+    "short_description": "Structure a page with semantic layout elements so content is readable by humans and assistive tech.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 6,
+    "base_xp_reward": 50,
+    "language": "html"
+}

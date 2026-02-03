@@ -1,0 +1,27 @@
+[
+    {
+        "term": "grid container",
+        "definition": "Parent element with display grid enabling grid layout.",
+        "codex_ref": "codex:glossary/web/css/grid"
+    },
+    {
+        "term": "grid template columns",
+        "definition": "Defines column structure and sizes for grid.",
+        "codex_ref": "codex:glossary/web/css/grid"
+    },
+    {
+        "term": "fr unit",
+        "definition": "Fractional unit for flexible grid sizing.",
+        "codex_ref": "codex:glossary/web/css/grid"
+    },
+    {
+        "term": "grid area",
+        "definition": "Named region in grid template for item placement.",
+        "codex_ref": "codex:glossary/web/css/grid"
+    },
+    {
+        "term": "gap",
+        "definition": "Spacing between grid cells.",
+        "codex_ref": "codex:glossary/web/css/grid"
+    }
+]

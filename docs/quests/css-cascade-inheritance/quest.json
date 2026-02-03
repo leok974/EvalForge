@@ -1,0 +1,10 @@
+{
+    "slug": "css-cascade-inheritance",
+    "title": "Cascade & Inheritance: Predict Rule Outcomes",
+    "short_description": "Learn how CSS chooses final styles (cascade, inheritance, order) so changes don't feel random.",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "order_index": 3,
+    "base_xp_reward": 50,
+    "language": "css"
+}

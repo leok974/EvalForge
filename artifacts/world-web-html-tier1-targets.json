@@ -1,0 +1,17 @@
+{
+    "world_id": "world-web",
+    "tier": 1,
+    "track_id": "track-html",
+    "slugs": [
+        "html-ignition",
+        "html-tags-attributes",
+        "html-links-images",
+        "html-lists-tables",
+        "html-forms-inputs",
+        "html-semantic-layout",
+        "html-accessibility-basics",
+        "html-media-embed",
+        "html-meta-seo",
+        "html-debug-validate"
+    ]
+}

@@ -1,0 +1,27 @@
+[
+    {
+        "term": "cascade",
+        "definition": "Algorithm CSS uses to resolve conflicting rules.",
+        "codex_ref": "codex:glossary/web/css/cascade"
+    },
+    {
+        "term": "inheritance",
+        "definition": "Process where child elements inherit parent styles.",
+        "codex_ref": "codex:glossary/web/css/inheritance"
+    },
+    {
+        "term": "source order",
+        "definition": "Position of rules in stylesheet affects which wins.",
+        "codex_ref": "codex:glossary/web/css/cascade"
+    },
+    {
+        "term": "computed value",
+        "definition": "Final resolved value after cascade and inheritance.",
+        "codex_ref": "codex:glossary/web/css/inheritance"
+    },
+    {
+        "term": "initial value",
+        "definition": "Default value defined by CSS specification.",
+        "codex_ref": "codex:glossary/web/css/inheritance"
+    }
+]

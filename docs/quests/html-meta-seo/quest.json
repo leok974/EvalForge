@@ -1,0 +1,10 @@
+{
+    "slug": "html-meta-seo",
+    "title": "Metadata & SEO Basics: Be Discoverable",
+    "short_description": "Add essential head metadata (title, description, viewport) so your page behaves well on web and mobile.",
+    "world_id": "world-web",
+    "track_id": "track-html",
+    "order_index": 9,
+    "base_xp_reward": 50,
+    "language": "html"
+}

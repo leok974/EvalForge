@@ -1,0 +1,27 @@
+[
+  {
+    "term": "alt text",
+    "definition": "Alternative text description for images used by screen readers.",
+    "codex_ref": "codex:glossary/web/html/accessibility-basics"
+  },
+  {
+    "term": "label association",
+    "definition": "Explicit connection between label and form control via for/id.",
+    "codex_ref": "codex:glossary/web/html/accessibility-basics"
+  },
+  {
+    "term": "keyboard focus",
+    "definition": "Ability to navigate and activate UI elements using keyboard only.",
+    "codex_ref": "codex:glossary/web/html/accessibility-basics"
+  },
+  {
+    "term": "landmarks",
+    "definition": "Semantic regions that help screen reader navigation.",
+    "codex_ref": "codex:glossary/web/html/accessibility-basics"
+  },
+  {
+    "term": "ARIA",
+    "definition": "Accessible Rich Internet Applications - attributes for accessibility.",
+    "codex_ref": "codex:glossary/web/html/accessibility-basics"
+  }
+]

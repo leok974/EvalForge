@@ -1,0 +1,27 @@
+[
+    {
+        "term": "video",
+        "definition": "Element for embedding video content with controls.",
+        "codex_ref": "codex:glossary/web/html/media-embed"
+    },
+    {
+        "term": "audio",
+        "definition": "Element for embedding sound content.",
+        "codex_ref": "codex:glossary/web/html/media-embed"
+    },
+    {
+        "term": "iframe",
+        "definition": "Inline frame for embedding external content.",
+        "codex_ref": "codex:glossary/web/html/media-embed"
+    },
+    {
+        "term": "controls attribute",
+        "definition": "Displays playback controls for media elements.",
+        "codex_ref": "codex:glossary/web/html/media-embed"
+    },
+    {
+        "term": "fallback content",
+        "definition": "Content displayed if media cannot be loaded.",
+        "codex_ref": "codex:glossary/web/html/media-embed"
+    }
+]

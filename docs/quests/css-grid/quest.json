@@ -1,0 +1,10 @@
+{
+  "slug": "css-grid",
+  "title": "Grid Layout: Two-Dimensional Control",
+  "short_description": "Create a simple grid with columns/rows and place elements cleanly without brittle hacks.",
+  "world_id": "world-web",
+  "track_id": "track-css",
+  "order_index": 8,
+  "base_xp_reward": 50,
+  "language": "css"
+}

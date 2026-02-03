@@ -1,0 +1,27 @@
+[
+    {
+        "term": "selector",
+        "definition": "Pattern that determines which elements receive styles.",
+        "codex_ref": "codex:glossary/web/css/selectors"
+    },
+    {
+        "term": "specificity",
+        "definition": "Weight determining which CSS rule wins when multiple apply.",
+        "codex_ref": "codex:glossary/web/css/specificity"
+    },
+    {
+        "term": "id selector",
+        "definition": "High-specificity selector targeting elements by ID.",
+        "codex_ref": "codex:glossary/web/css/specificity"
+    },
+    {
+        "term": "class selector",
+        "definition": "Medium-specificity selector targeting by class attribute.",
+        "codex_ref": "codex:glossary/web/css/specificity"
+    },
+    {
+        "term": "pseudo-class",
+        "definition": "Selector for elements in specific states like hover or focus.",
+        "codex_ref": "codex:glossary/web/css/selectors"
+    }
+]
