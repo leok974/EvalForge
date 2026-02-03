@@ -1,12 +1,19 @@
 {
     "slug": "cli-exit-codes",
-    "title": "Exit Codes and Error Handling",
-    "short_description": "Make automation reliable by detecting failure and handling errors intentionally.",
-    "description": "Make automation reliable by detecting failure and handling errors intentionally.",
+    "title": "Exit Codes",
+    "short_description": "Understand exit codes (0 vs non-zero) and control flow based on success/failure.",
+    "description": "Understand exit codes (0 vs non-zero) and control flow based on success/failure.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
     "order_index": 8,
     "base_xp_reward": 50,
     "language": "bash",
-    "xp": 50
+    "xp": 50,
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "task.sh",
+        "files_from": "./starter"
+    }
 }

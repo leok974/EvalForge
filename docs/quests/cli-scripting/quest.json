@@ -1,12 +1,19 @@
 {
     "slug": "cli-scripting",
-    "title": "Shell Scripting Basics",
-    "short_description": "Write a tiny script that accepts args, handles failures, and behaves safely.",
-    "description": "Write a tiny script that accepts args, handles failures, and behaves safely.",
+    "title": "Bash Scripting Basics",
+    "short_description": "Write reusable scripts with arguments and error handling.",
+    "description": "Write reusable scripts with arguments and error handling.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
     "order_index": 10,
     "base_xp_reward": 50,
     "language": "bash",
-    "xp": 50
+    "xp": 50,
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "task.sh",
+        "files_from": "./starter"
+    }
 }

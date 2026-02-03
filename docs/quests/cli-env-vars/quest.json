@@ -1,12 +1,19 @@
 {
     "slug": "cli-env-vars",
-    "title": "Environment Variables and PATH",
-    "short_description": "Understand how tools and configs are discovered so your dev setup stops feeling magical.",
-    "description": "Understand how tools and configs are discovered so your dev setup stops feeling magical.",
+    "title": "Environment Variables",
+    "short_description": "Learn how to read and use environment variables in scripts.",
+    "description": "Learn how to read and use environment variables in scripts.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
     "order_index": 7,
     "base_xp_reward": 50,
     "language": "bash",
-    "xp": 50
+    "xp": 50,
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "task.sh",
+        "files_from": "./starter"
+    }
 }

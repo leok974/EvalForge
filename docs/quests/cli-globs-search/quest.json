@@ -1,12 +1,19 @@
 {
     "slug": "cli-globs-search",
-    "title": "Globs and Search",
-    "short_description": "Use wildcards and search tools to locate files and text quickly in real projects.",
-    "description": "Use wildcards and search tools to locate files and text quickly in real projects.",
+    "title": "Globs & Search",
+    "short_description": "Use grep and find to locate specific text patterns across multiple files.",
+    "description": "Use grep and find to locate specific text patterns across multiple files.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
     "order_index": 4,
     "base_xp_reward": 50,
     "language": "bash",
-    "xp": 50
+    "xp": 50,
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "task.sh",
+        "files_from": "./starter"
+    }
 }
