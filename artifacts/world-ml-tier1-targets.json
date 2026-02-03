@@ -1,0 +1,16 @@
+{
+    "world_id": "world-ml",
+    "tier": 1,
+    "slugs": [
+        "ml-ignition",
+        "ml-numpy-basics",
+        "ml-pandas-dataframes",
+        "ml-data-preprocessing",
+        "ml-train-test-split",
+        "ml-linear-regression",
+        "ml-classification-basics",
+        "ml-model-evaluation",
+        "ml-neural-networks-intro",
+        "ml-overfitting-regularization"
+    ]
+}

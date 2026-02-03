@@ -1,0 +1,115 @@
+{
+  "none": [],
+  "partial": [],
+  "good": [],
+  "excellent": [
+    {
+      "slug": "ml-classification-basics",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-data-preprocessing",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 803,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-gradient-q1-training-loop-and-metrics",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 2409,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "ml-ignition",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 763,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-linear-regression",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 799,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-model-evaluation",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 795,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-neural-networks-intro",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-numpy-basics",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 779,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-overfitting-regularization",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 835,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-pandas-dataframes",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 799,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-tensor-q1-numpy-and-shapes",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 2332,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "ml-train-test-split",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 795,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    }
+  ]
+}

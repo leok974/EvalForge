@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-03T01:04:50.552285+00:00",
+  "generated_at": "2026-02-03T01:10:12.599321+00:00",
   "counts": {
     "quests_scanned": 12,
     "total_refs": 13,
@@ -23,9 +23,9 @@
     "starters_compliant": 0
   },
   "coverage_by_quest": {
-    "infra-ci-cd-basics": {
+    "ml-classification-basics": {
       "has_tutorial": true,
-      "tutorial_length": 787,
+      "tutorial_length": 815,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -33,77 +33,7 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "infra-container-networking": {
-      "has_tutorial": true,
-      "tutorial_length": 819,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "infra-containment-q1-linux-shell-and-fs": {
-      "has_tutorial": true,
-      "tutorial_length": 2005,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 5,
-      "unique_codex_refs": 5,
-      "coverage_score": 100.0
-    },
-    "infra-deployment-strategies": {
-      "has_tutorial": true,
-      "tutorial_length": 823,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "infra-docker-basics": {
-      "has_tutorial": true,
-      "tutorial_length": 791,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "infra-docker-compose": {
-      "has_tutorial": true,
-      "tutorial_length": 795,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "infra-env-variables": {
-      "has_tutorial": true,
-      "tutorial_length": 791,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "infra-ignition": {
-      "has_tutorial": true,
-      "tutorial_length": 771,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "infra-kubernetes-intro": {
+    "ml-data-preprocessing": {
       "has_tutorial": true,
       "tutorial_length": 803,
       "has_terms": true,
@@ -113,19 +43,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "infra-monitoring-logging": {
+    "ml-gradient-q1-training-loop-and-metrics": {
       "has_tutorial": true,
-      "tutorial_length": 811,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "infra-service-q1-dockerize-and-compose": {
-      "has_tutorial": true,
-      "tutorial_length": 2237,
+      "tutorial_length": 2409,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -133,9 +53,89 @@
       "unique_codex_refs": 5,
       "coverage_score": 100.0
     },
-    "infra-volumes-persistence": {
+    "ml-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 763,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-linear-regression": {
+      "has_tutorial": true,
+      "tutorial_length": 799,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-model-evaluation": {
+      "has_tutorial": true,
+      "tutorial_length": 795,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-neural-networks-intro": {
       "has_tutorial": true,
       "tutorial_length": 815,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-numpy-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 779,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-overfitting-regularization": {
+      "has_tutorial": true,
+      "tutorial_length": 835,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-pandas-dataframes": {
+      "has_tutorial": true,
+      "tutorial_length": 799,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-tensor-q1-numpy-and-shapes": {
+      "has_tutorial": true,
+      "tutorial_length": 2332,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "ml-train-test-split": {
+      "has_tutorial": true,
+      "tutorial_length": 795,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,

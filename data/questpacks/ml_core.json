@@ -1,0 +1,32 @@
+[
+    {
+        "quest_path": "docs/quests/ml-ignition"
+    },
+    {
+        "quest_path": "docs/quests/ml-numpy-basics"
+    },
+    {
+        "quest_path": "docs/quests/ml-pandas-dataframes"
+    },
+    {
+        "quest_path": "docs/quests/ml-data-preprocessing"
+    },
+    {
+        "quest_path": "docs/quests/ml-train-test-split"
+    },
+    {
+        "quest_path": "docs/quests/ml-linear-regression"
+    },
+    {
+        "quest_path": "docs/quests/ml-classification-basics"
+    },
+    {
+        "quest_path": "docs/quests/ml-model-evaluation"
+    },
+    {
+        "quest_path": "docs/quests/ml-neural-networks-intro"
+    },
+    {
+        "quest_path": "docs/quests/ml-overfitting-regularization"
+    }
+]

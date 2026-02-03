@@ -1,0 +1,17 @@
+[
+  {
+    "term": "term-1",
+    "definition": "TODO: Add definition.",
+    "codex_ref": "codex:glossary/world-ml/term-1"
+  },
+  {
+    "term": "term-2",
+    "definition": "TODO: Add definition.",
+    "codex_ref": "codex:glossary/world-ml/term-2"
+  },
+  {
+    "term": "term-3",
+    "definition": "TODO: Add definition.",
+    "codex_ref": "codex:glossary/world-ml/term-3"
+  }
+]
