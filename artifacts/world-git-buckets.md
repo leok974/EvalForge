@@ -1,13 +1,13 @@
 # World-Git Coverage Buckets
 
-**Total Quests:** 11
+**Total Quests:** 0
 
 ## Summary
 
 - **Bucket A (None):** 0 quests (score = 0)
 - **Bucket B (Partial):** 0 quests (0 < score < 70)
 - **Bucket C (Good):** 0 quests (70 ≤ score < 90)
-- **Bucket D (Excellent):** 11 quests (score ≥ 90)
+- **Bucket D (Excellent):** 0 quests (score ≥ 90)
 
 ---
 
@@ -47,14 +47,3 @@ These quests demonstrate full coverage.
 
 | Slug | Score | Terms | Codex Refs |
 |------|-------|-------|------------|
-| `git-add-commit` | 100.0 | 3 | 3 |
-| `git-branch-checkout` | 100.0 | 3 | 3 |
-| `git-branch-q1-branching-strategies` | 100.0 | 5 | 5 |
-| `git-ignition` | 100.0 | 3 | 3 |
-| `git-init-clone` | 100.0 | 3 | 3 |
-| `git-merge-conflicts` | 100.0 | 3 | 3 |
-| `git-push-pull` | 100.0 | 3 | 3 |
-| `git-remote-origin` | 100.0 | 3 | 3 |
-| `git-reset-revert` | 100.0 | 3 | 3 |
-| `git-stash` | 100.0 | 3 | 3 |
-| `git-status-log` | 100.0 | 3 | 3 |

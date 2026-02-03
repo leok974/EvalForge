@@ -18,6 +18,8 @@ def generate_strict_tutorial(slug, tier, world):
         lang = "bash"  # Git commands are bash
     elif "infra" in world:
         lang = "bash"  # Infra uses Docker/K8s CLI
+    elif "agents" in world:
+        lang = "python"  # Agents use Python
         
     # Tier-1 Strict Template
     return f"""# {title}

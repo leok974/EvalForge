@@ -1,0 +1,32 @@
+[
+    {
+        "quest_path": "docs/quests/agents-ignition"
+    },
+    {
+        "quest_path": "docs/quests/agents-prompts-contracts"
+    },
+    {
+        "quest_path": "docs/quests/agents-tools-basics"
+    },
+    {
+        "quest_path": "docs/quests/agents-planner"
+    },
+    {
+        "quest_path": "docs/quests/agents-executor"
+    },
+    {
+        "quest_path": "docs/quests/agents-verifier"
+    },
+    {
+        "quest_path": "docs/quests/agents-approvals-diffs"
+    },
+    {
+        "quest_path": "docs/quests/agents-memory"
+    },
+    {
+        "quest_path": "docs/quests/agents-budgets"
+    },
+    {
+        "quest_path": "docs/quests/agents-observability"
+    }
+]

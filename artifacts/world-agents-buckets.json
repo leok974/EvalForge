@@ -1,0 +1,106 @@
+{
+  "none": [],
+  "partial": [],
+  "good": [],
+  "excellent": [
+    {
+      "slug": "agents-approvals-diffs",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-budgets",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 783,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-executor",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 787,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-grounding-q1-rag-basics",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 2959,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "agents-ignition",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 787,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-memory",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 779,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-observability",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 807,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-planner",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 783,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-prompts-contracts",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 823,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-tools-basics",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 803,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "agents-verifier",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 787,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    }
+  ]
+}

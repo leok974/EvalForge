@@ -1,0 +1,16 @@
+{
+    "world_id": "world-agents",
+    "tier": 1,
+    "slugs": [
+        "agents-ignition",
+        "agents-prompts-contracts",
+        "agents-tools-basics",
+        "agents-planner",
+        "agents-executor",
+        "agents-verifier",
+        "agents-approvals-diffs",
+        "agents-memory",
+        "agents-budgets",
+        "agents-observability"
+    ]
+}

@@ -1,5 +1,69 @@
 {
-  "none": [],
+  "none": [
+    {
+      "slug": "ml-gradient",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "ml-tensor",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "ml-tensor-q2-vectorization",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "ml-tensor-q3-linear-regression-from-scratch",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "ml-gradient-q2-regularization-and-overfit",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "ml-gradient-q3-model-selection-and-baselines",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "ml-gradient-q4-serving-and-monitoring-basics",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    }
+  ],
   "partial": [],
   "good": [],
   "excellent": [
@@ -11,24 +75,6 @@
       "terms_total": 3,
       "terms_with_ref": 3,
       "codex_refs_total": 3
-    },
-    {
-      "slug": "ml-data-preprocessing",
-      "score": 100.0,
-      "has_tutorial": true,
-      "tutorial_length": 803,
-      "terms_total": 3,
-      "terms_with_ref": 3,
-      "codex_refs_total": 3
-    },
-    {
-      "slug": "ml-gradient-q1-training-loop-and-metrics",
-      "score": 100.0,
-      "has_tutorial": true,
-      "tutorial_length": 2409,
-      "terms_total": 5,
-      "terms_with_ref": 5,
-      "codex_refs_total": 5
     },
     {
       "slug": "ml-ignition",
@@ -85,10 +131,28 @@
       "codex_refs_total": 3
     },
     {
+      "slug": "ml-train-test-split",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 795,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
       "slug": "ml-pandas-dataframes",
       "score": 100.0,
       "has_tutorial": true,
       "tutorial_length": 799,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "ml-data-preprocessing",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 803,
       "terms_total": 3,
       "terms_with_ref": 3,
       "codex_refs_total": 3
@@ -103,13 +167,13 @@
       "codex_refs_total": 5
     },
     {
-      "slug": "ml-train-test-split",
+      "slug": "ml-gradient-q1-training-loop-and-metrics",
       "score": 100.0,
       "has_tutorial": true,
-      "tutorial_length": 795,
-      "terms_total": 3,
-      "terms_with_ref": 3,
-      "codex_refs_total": 3
+      "tutorial_length": 2409,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
     }
   ]
 }

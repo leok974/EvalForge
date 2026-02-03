@@ -1,10 +1,10 @@
 # World-Ml Coverage Buckets
 
-**Total Quests:** 12
+**Total Quests:** 19
 
 ## Summary
 
-- **Bucket A (None):** 0 quests (score = 0)
+- **Bucket A (None):** 7 quests (score = 0)
 - **Bucket B (Partial):** 0 quests (0 < score < 70)
 - **Bucket C (Good):** 0 quests (70 ≤ score < 90)
 - **Bucket D (Excellent):** 12 quests (score ≥ 90)
@@ -17,6 +17,13 @@ These quests need immediate baseline coverage.
 
 | Slug | Tutorial | Terms | Codex Refs | Issue |
 |------|----------|-------|------------|-------|
+| `ml-gradient` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
+| `ml-tensor` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
+| `ml-tensor-q2-vectorization` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
+| `ml-tensor-q3-linear-regression-from-scratch` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
+| `ml-gradient-q2-regularization-and-overfit` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
+| `ml-gradient-q3-model-selection-and-baselines` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
+| `ml-gradient-q4-serving-and-monitoring-basics` | ❌ | 0 | 0 | No tutorial, No terms, No refs |
 
 
 ---
@@ -48,14 +55,14 @@ These quests demonstrate full coverage.
 | Slug | Score | Terms | Codex Refs |
 |------|-------|-------|------------|
 | `ml-classification-basics` | 100.0 | 3 | 3 |
-| `ml-data-preprocessing` | 100.0 | 3 | 3 |
-| `ml-gradient-q1-training-loop-and-metrics` | 100.0 | 5 | 5 |
 | `ml-ignition` | 100.0 | 3 | 3 |
 | `ml-linear-regression` | 100.0 | 3 | 3 |
 | `ml-model-evaluation` | 100.0 | 3 | 3 |
 | `ml-neural-networks-intro` | 100.0 | 3 | 3 |
 | `ml-numpy-basics` | 100.0 | 3 | 3 |
 | `ml-overfitting-regularization` | 100.0 | 3 | 3 |
-| `ml-pandas-dataframes` | 100.0 | 3 | 3 |
-| `ml-tensor-q1-numpy-and-shapes` | 100.0 | 5 | 5 |
 | `ml-train-test-split` | 100.0 | 3 | 3 |
+| `ml-pandas-dataframes` | 100.0 | 3 | 3 |
+| `ml-data-preprocessing` | 100.0 | 3 | 3 |
+| `ml-tensor-q1-numpy-and-shapes` | 100.0 | 5 | 5 |
+| `ml-gradient-q1-training-loop-and-metrics` | 100.0 | 5 | 5 |

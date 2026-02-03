@@ -44,9 +44,10 @@ def main():
     check_quest_count("world-git", 10)
     check_quest_count("world-infra", 10)
     check_quest_count("world-ml", 10)
+    check_quest_count("world-agents", 10)
     
     # 3. Audit Content Integrity
-    worlds = ["world-python", "world-js", "world-typescript", "world-sql", "world-git", "world-infra", "world-ml"]
+    worlds = ["world-python", "world-js", "world-typescript", "world-sql", "world-git", "world-infra", "world-ml", "world-agents"]
     for w in worlds:
         print(f"\n🌍 Verifying {w} content via API...")
         run_cmd(f"python scripts/codex_audit_missing.py --world {w} --source api")
