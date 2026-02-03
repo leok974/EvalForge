@@ -1,0 +1,5 @@
+{
+    "name": "node-async",
+    "private": true,
+    "type": "module"
+}

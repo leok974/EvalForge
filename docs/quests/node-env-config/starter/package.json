@@ -1,0 +1,5 @@
+{
+    "name": "node-env-config",
+    "private": true,
+    "type": "module"
+}
