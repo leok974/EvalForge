@@ -149,31 +149,27 @@ async def archive_legacy_quests(legacy_slugs):
         return
     
     async for session in get_session():
-        # Note: This requires the is_archived column to exist (DB migration needed)
-        # For now, we'll just report what would be archived
-        print(f"\n⚠️  DB Migration Required:")
-        print("    ALTER TABLE questdefinition ADD COLUMN is_archived BOOLEAN DEFAULT FALSE;")
-        print("    ALTER TABLE questdefinition ADD COLUMN archived_at TIMESTAMPTZ NULL;")
-        print("    ALTER TABLE questdefinition ADD COLUMN archived_reason TEXT NULL;")
-        print()
-        print(f"Would archive {len(legacy_slugs)} quests:")
-        for slug in sorted(legacy_slugs):
-            print(f"  - {slug}")
+        print(f"\n🗂️  Archiving {len(legacy_slugs)} legacy quests...")
         
-        # TODO: Uncomment after migration
-        # legacy_list = list(legacy_slugs)
-        # await session.execute(
-        #     text("""
-        #         UPDATE questdefinition
-        #         SET is_archived = TRUE,
-        #             archived_at = NOW(),
-        #             archived_reason = 'legacy prune: not in active questpacks'
-        #         WHERE slug = ANY(:slugs)
-        #     """),
-        #     {"slugs": legacy_list}
-        # )
-        # await session.commit()
-        # print(f"✅ Archived {len(legacy_slugs)} legacy quests")
+        legacy_list = list(legacy_slugs)
+        await session.execute(
+            text("""
+                UPDATE questdefinition
+                SET is_archived = TRUE,
+                    archived_at = NOW(),
+                    archived_reason = 'legacy prune: not in active questpacks'
+                WHERE slug = ANY(:slugs)
+            """),
+            {"slugs": legacy_list}
+        )
+        await session.commit()
+        
+        print(f"✅ Successfully archived {len(legacy_slugs)} legacy quests")
+        print("\nArchived quests will no longer appear in:")
+        print("  - Workshop quest list (default view)")
+        print("  - QA dashboard (default view)")
+        print("  - Coverage audits (unless --include-archived)")
+        print("\nQuest history and attempt data preserved.")
 
 
 async def main():
