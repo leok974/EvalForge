@@ -1,22 +1,93 @@
 # CSS Ignition: Your First Styles
 
-> Attach a stylesheet and style a page using simple selectors, properties, and readable defaults.
+## Outcome
 
-## Learning Objectives
+In this quest, you'll link a CSS stylesheet to HTML and apply basic styles using selectors, properties, and declarations—understanding how CSS transforms plain markup into visually styled content.
 
-- Link CSS to HTML properly
-- Write basic CSS selectors
-- Apply fundamental styling properties
-- Create a clean base stylesheet
+## Concept in 30 seconds
 
-## Tutorial
+CSS (Cascading Style Sheets) separates presentation from content. You link a `.css` file with `<link rel="stylesheet">`, then write rules: a **selector** targets elements, and **declarations** (property-value pairs) define their appearance.
 
-[Placeholder - Tutorial content will be backfilled]
+## Key terms
 
-## Challenge
+The key terms for this quest are defined in [terms.json](file:///d:/EvalForge/docs/quests/css-ignition/terms.json) and linked to the Codex:
 
-Create a stylesheet that:
-- Links properly to an HTML page
-- Uses element, class, and ID selectors
-- Applies readable typography and spacing
-- Demonstrates CSS fundamentals
+- **stylesheet** - External CSS file linked to HTML
+- **selector** - Pattern targeting HTML elements for styling
+- **property** - CSS attribute controlling style aspect
+- **declaration** - Property-value pair in a CSS rule
+- **class selector** - Selector targeting elements by class
+
+## Walkthrough
+
+1. **Create stylesheet**: Make a `styles.css` file
+2. **Link to HTML**: Add `<link rel="stylesheet" href="styles.css">` in `<head>`
+3. **Write a rule**: `selector { property: value; }`
+4. **Use element selectors**: `p { color: blue; }`
+5. **Apply classes**: `.highlight { background: yellow; }`
+6. **Verify in browser**: Refresh and see styles applied
+
+## Example implementation
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Styled Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1 class="page-title">Welcome</h1>
+  <p class="intro">This is a styled paragraph.</p>
+  <p>This is a normal paragraph.</p>
+</body>
+</html>
+```
+
+```css
+/* styles.css */
+
+/* Element selector */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 20px;
+}
+
+/* Class selector */
+.page-title {
+  color: #2c3e50;
+  font-size: 2em;
+  border-bottom: 2px solid #3498db;
+}
+
+.intro {
+  font-size: 1.2em;
+  color: #555;
+  background-color: #f4f4f4;
+  padding: 10px;
+}
+
+/* Element selector */
+p {
+  margin-bottom: 15px;
+}
+```
+
+## Common mistakes
+
+- **Wrong file path**: `href="style.css"` when file is `styles.css`
+- **Missing link tag**: CSS file exists but isn't linked to HTML
+- **Syntax errors**: Forgetting semicolons, braces, or colons
+- **Specificity confusion**: More specific selectors override general ones
+- **Inline styles**: Using `style=""` attribute instead of external CSS
+
+## Deep dive
+
+The cascade in CSS means rules flow down from general to specific. If you style `body { color: black; }` and `p { color: blue; }`, paragraphs inherit the body's styles except where overridden. Understanding this prevents redundant declarations.
+
+Class selectors (`.classname`) are reusable across multiple elements, while ID selectors (`#idname`) should only target one element. Classes are preferred for styling because they're flexible and maintainable.
+
+The browser's DevTools lets you see which styles apply to each element, which are overridden, and where they come from. Right-click an element → Inspect → Styles panel shows the computed styles and the cascade order. Struck-through rules were overridden by more specific selectors.
