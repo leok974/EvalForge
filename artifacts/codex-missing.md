@@ -1,12 +1,12 @@
 # Codex Coverage Audit Report
 
-**Generated:** 2026-02-03T01:22:02.064492+00:00
+**Generated:** 2026-02-03T02:19:42.094658+00:00
 
 ## Executive Summary
 
-- **Coverage:** 72.7% (8 refs across 11 quests)
+- **Coverage:** 130.0% (26 refs across 20 quests)
 - **Average Coverage Score:** 100.0/ 100
-- **Quests with Full Coverage (≥90):** 11
+- **Quests with Full Coverage (≥90):** 20
 - **Quests with Zero Coverage:** 0 (0.0%)
 - **Invalid Refs:** 0
 - **Missing Refs:** 0
