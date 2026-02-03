@@ -1,0 +1,16 @@
+{
+    "world_id": "world-sql",
+    "tier": 1,
+    "slugs": [
+        "sql-ignition",
+        "sql-select",
+        "sql-where",
+        "sql-order-limit",
+        "sql-aggregates",
+        "sql-groupby-having",
+        "sql-joins",
+        "sql-left-join-null",
+        "sql-cte-subquery",
+        "sql-insert-update-delete"
+    ]
+}

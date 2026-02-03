@@ -40,9 +40,10 @@ def main():
     check_quest_count("world-python", 8) # Tier-2 targets (might be more)
     check_quest_count("world-js", 10) 
     check_quest_count("world-typescript", 10)
+    check_quest_count("world-sql", 10)
     
     # 3. Audit Content Integrity
-    worlds = ["world-python", "world-js", "world-typescript"]
+    worlds = ["world-python", "world-js", "world-typescript", "world-sql"]
     for w in worlds:
         print(f"\n🌍 Verifying {w} content via API...")
         run_cmd(f"python scripts/codex_audit_missing.py --world {w} --source api")

@@ -23,33 +23,6 @@
   "good": [],
   "excellent": [
     {
-      "slug": "js-errors-q1-try-catch",
-      "score": 100.0,
-      "has_tutorial": true,
-      "tutorial_length": 807,
-      "terms_total": 3,
-      "terms_with_ref": 3,
-      "codex_refs_total": 3
-    },
-    {
-      "slug": "js-functions-q1-arrow-vs-regular",
-      "score": 100.0,
-      "has_tutorial": true,
-      "tutorial_length": 847,
-      "terms_total": 3,
-      "terms_with_ref": 3,
-      "codex_refs_total": 3
-    },
-    {
-      "slug": "js-modules-q1-import-export",
-      "score": 100.0,
-      "has_tutorial": true,
-      "tutorial_length": 827,
-      "terms_total": 3,
-      "terms_with_ref": 3,
-      "codex_refs_total": 3
-    },
-    {
       "slug": "js-arrays-q1-basics",
       "score": 100.0,
       "has_tutorial": true,
@@ -59,16 +32,7 @@
       "codex_refs_total": 3
     },
     {
-      "slug": "js-vars-q1-let-const-var",
-      "score": 100.0,
-      "has_tutorial": true,
-      "tutorial_length": 815,
-      "terms_total": 3,
-      "terms_with_ref": 3,
-      "codex_refs_total": 3
-    },
-    {
-      "slug": "js-async-q1-promises-basics",
+      "slug": "js-control-q1-if-else-loops",
       "score": 100.0,
       "has_tutorial": true,
       "tutorial_length": 827,
@@ -77,7 +41,16 @@
       "codex_refs_total": 3
     },
     {
-      "slug": "js-control-q1-if-else-loops",
+      "slug": "js-errors-q1-try-catch",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 807,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "js-async-q1-promises-basics",
       "score": 100.0,
       "has_tutorial": true,
       "tutorial_length": 827,
@@ -95,19 +68,46 @@
       "codex_refs_total": 3
     },
     {
-      "slug": "js-arrays-q2-map-filter-reduce",
+      "slug": "js-modules-q1-import-export",
       "score": 100.0,
       "has_tutorial": true,
-      "tutorial_length": 839,
-      "terms_total": 5,
-      "terms_with_ref": 5,
-      "codex_refs_total": 5
+      "tutorial_length": 827,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "js-vars-q1-let-const-var",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "js-functions-q1-arrow-vs-regular",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 847,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
     },
     {
       "slug": "js-ignition-q1-console-and-functions",
       "score": 100.0,
       "has_tutorial": true,
       "tutorial_length": 863,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "js-arrays-q2-map-filter-reduce",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 839,
       "terms_total": 5,
       "terms_with_ref": 5,
       "codex_refs_total": 5

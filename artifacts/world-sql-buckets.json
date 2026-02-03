@@ -1,0 +1,233 @@
+{
+  "none": [
+    {
+      "slug": "sql-analytics-q2-ctes-and-views",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-analytics-q3-normalization-and-indexes",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-analytics-q4-query-tuning-basics",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-retrieval-q2-where-and-order",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-retrieval-q3-joins-and-keys",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-retrieval-q4-aggregate-and-group",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-governance-metrics-contracts",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-warehouse-modeling",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-cost-and-performance",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-quality-monitoring",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-analytics-selfservice",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-filter",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    },
+    {
+      "slug": "sql-retrieval",
+      "score": 0.0,
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "terms_total": 0,
+      "terms_with_ref": 0,
+      "codex_refs_total": 0
+    }
+  ],
+  "partial": [],
+  "good": [],
+  "excellent": [
+    {
+      "slug": "sql-analytics-q1-window-functions",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 2231,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "sql-retrieval-q1-select-from-basics",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 1811,
+      "terms_total": 5,
+      "terms_with_ref": 5,
+      "codex_refs_total": 5
+    },
+    {
+      "slug": "sql-left-join-null",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 785,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-select",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 753,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-where",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 749,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-aggregates",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 769,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-groupby-having",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 785,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-ignition",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 761,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-insert-update-delete",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 809,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-joins",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 749,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-order-limit",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 773,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    },
+    {
+      "slug": "sql-cte-subquery",
+      "score": 100.0,
+      "has_tutorial": true,
+      "tutorial_length": 777,
+      "terms_total": 3,
+      "terms_with_ref": 3,
+      "codex_refs_total": 3
+    }
+  ]
+}

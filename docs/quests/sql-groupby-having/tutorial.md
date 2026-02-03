@@ -1,0 +1,38 @@
+# Sql Groupby Having
+
+## Outcome
+
+In this quest, you'll work with sql groupby having to practice core SQL concepts.
+
+## Concept in 30 seconds
+
+Sql Groupby Having demonstrates fundamental programming patterns used in real-world applications.
+
+## Key terms
+
+The key terms for this quest are defined below and linked to the Codex for reference.
+
+## Walkthrough
+
+1. **Setup**: Review the starting code.
+2. **Implement**: Follow the objectives.
+3. **Verify**: Run the tests.
+
+## Example implementation
+
+```sql
+-- Strict Tier-1 Example Required
+SELECT * FROM users; -- Example code for sql-groupby-having
+```
+
+## Common mistakes
+
+- Syntax errors
+- Incorrect types
+- Missing brackets
+
+## Check yourself
+
+- [ ] Code runs without errors
+- [ ] Output matches expected value
+- [ ] All tests pass

@@ -90,6 +90,10 @@ jobs:
         run: |
           python scripts/validate_tutorials.py --world world-typescript --tier 1
           
+      - name: Validate SQL World (Tier 1)
+        run: |
+          python scripts/validate_tutorials.py --world world-sql --tier 1
+
       - name: Audit Codex (Disk Mode)
         run: |
           python scripts/codex_audit_missing.py --source disk

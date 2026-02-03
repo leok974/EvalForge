@@ -1,16 +1,19 @@
+---
+title: SELECT
+id: sql/select
+---
 # SELECT
 
-## Definition
-`SELECT` chooses which columns (or expressions) to return in a query result. It defines the shape of each row in the output.
+Retrieves data from a database.
 
-## Tiny example
+## Syntax
 ```sql
-SELECT id, name
-FROM users;
+SELECT column1, column2 FROM table_name;
 ```
 
-## Common pitfall
-Using `SELECT *` is convenient but often undesirable in real systems: it can return unnecessary columns and break when schemas change. Prefer selecting explicit columns.
+## Gotchas
+- `SELECT *` can be inefficient on large tables.
+- Order is not guaranteed without `ORDER BY`.
 
-## Related
-FROM, WHERE
+## See Also
+- [FROM](codex:sql/from)

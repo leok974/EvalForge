@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-02-02T22:38:44.094904+00:00",
+  "generated_at": "2026-02-02T22:49:12.885804+00:00",
   "counts": {
-    "quests_scanned": 10,
-    "total_refs": 3,
-    "unique_refs": 3,
+    "quests_scanned": 25,
+    "total_refs": 12,
+    "unique_refs": 12,
     "missing_unique_refs": 0,
     "invalid_unique_refs": 0,
     "quests_with_missing": 0
   },
   "coverage": {
-    "average_score": 100.0,
-    "quests_no_tutorial": 0,
+    "average_score": 48.0,
+    "quests_no_tutorial": 13,
     "quests_empty_tutorial": 0,
-    "quests_no_terms": 0,
-    "quests_no_codex_refs": 0,
-    "quests_with_full_coverage": 10
+    "quests_no_terms": 13,
+    "quests_no_codex_refs": 13,
+    "quests_with_full_coverage": 12
   },
   "policy": {
     "violations_count": 0,
@@ -23,9 +23,149 @@
     "starters_compliant": 0
   },
   "coverage_by_quest": {
-    "ts-arrays": {
+    "sql-analytics-q1-window-functions": {
       "has_tutorial": true,
-      "tutorial_length": 755,
+      "tutorial_length": 2231,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "sql-analytics-q2-ctes-and-views": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-analytics-q3-normalization-and-indexes": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-analytics-q4-query-tuning-basics": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-retrieval-q1-select-from-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 1811,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "sql-retrieval-q2-where-and-order": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-retrieval-q3-joins-and-keys": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-retrieval-q4-aggregate-and-group": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-governance-metrics-contracts": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-warehouse-modeling": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-cost-and-performance": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-quality-monitoring": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-analytics-selfservice": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-filter": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
+    },
+    "sql-left-join-null": {
+      "has_tutorial": true,
+      "tutorial_length": 785,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -33,9 +173,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-control": {
+    "sql-select": {
       "has_tutorial": true,
-      "tutorial_length": 759,
+      "tutorial_length": 753,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -43,9 +183,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-functions": {
+    "sql-where": {
       "has_tutorial": true,
-      "tutorial_length": 767,
+      "tutorial_length": 749,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -53,9 +193,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-generics": {
+    "sql-aggregates": {
       "has_tutorial": true,
-      "tutorial_length": 763,
+      "tutorial_length": 769,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -63,9 +203,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-ignition": {
+    "sql-groupby-having": {
       "has_tutorial": true,
-      "tutorial_length": 763,
+      "tutorial_length": 785,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -73,9 +213,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-interfaces": {
+    "sql-ignition": {
       "has_tutorial": true,
-      "tutorial_length": 771,
+      "tutorial_length": 761,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -83,9 +223,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-modules": {
+    "sql-insert-update-delete": {
       "has_tutorial": true,
-      "tutorial_length": 759,
+      "tutorial_length": 809,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -93,9 +233,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-objects": {
+    "sql-joins": {
       "has_tutorial": true,
-      "tutorial_length": 759,
+      "tutorial_length": 749,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -103,9 +243,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-types": {
+    "sql-order-limit": {
       "has_tutorial": true,
-      "tutorial_length": 751,
+      "tutorial_length": 773,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -113,23 +253,66 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "ts-vars": {
+    "sql-cte-subquery": {
       "has_tutorial": true,
-      "tutorial_length": 747,
+      "tutorial_length": 777,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
       "codex_refs_total": 3,
       "unique_codex_refs": 3,
       "coverage_score": 100.0
+    },
+    "sql-retrieval": {
+      "has_tutorial": false,
+      "tutorial_length": 0,
+      "has_terms": false,
+      "terms_total": 0,
+      "terms_with_codex_ref": 0,
+      "codex_refs_total": 0,
+      "unique_codex_refs": 0,
+      "coverage_score": 0.0
     }
   },
   "missing_by_ref": {},
   "missing_by_quest": {},
   "invalid_refs": {},
   "gaps": {
-    "no_tutorial": [],
-    "no_terms": [],
-    "no_codex_refs": []
+    "no_tutorial": [
+      "sql-analytics-q2-ctes-and-views",
+      "sql-analytics-q3-normalization-and-indexes",
+      "sql-analytics-q4-query-tuning-basics",
+      "sql-retrieval-q2-where-and-order",
+      "sql-retrieval-q3-joins-and-keys",
+      "sql-retrieval-q4-aggregate-and-group",
+      "sql-governance-metrics-contracts",
+      "sql-warehouse-modeling",
+      "sql-cost-and-performance",
+      "sql-quality-monitoring"
+    ],
+    "no_terms": [
+      "sql-analytics-q2-ctes-and-views",
+      "sql-analytics-q3-normalization-and-indexes",
+      "sql-analytics-q4-query-tuning-basics",
+      "sql-retrieval-q2-where-and-order",
+      "sql-retrieval-q3-joins-and-keys",
+      "sql-retrieval-q4-aggregate-and-group",
+      "sql-governance-metrics-contracts",
+      "sql-warehouse-modeling",
+      "sql-cost-and-performance",
+      "sql-quality-monitoring"
+    ],
+    "no_codex_refs": [
+      "sql-analytics-q2-ctes-and-views",
+      "sql-analytics-q3-normalization-and-indexes",
+      "sql-analytics-q4-query-tuning-basics",
+      "sql-retrieval-q2-where-and-order",
+      "sql-retrieval-q3-joins-and-keys",
+      "sql-retrieval-q4-aggregate-and-group",
+      "sql-governance-metrics-contracts",
+      "sql-warehouse-modeling",
+      "sql-cost-and-performance",
+      "sql-quality-monitoring"
+    ]
   }
 }

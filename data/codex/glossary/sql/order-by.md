@@ -1,17 +1,19 @@
+---
+title: ORDER BY
+id: sql/order-by
+---
 # ORDER BY
 
-## Definition
-`ORDER BY` sorts the returned rows by one or more columns. Sorting happens after filtering and selection.
+Sorts the result set in ascending or descending order.
 
-## Tiny example
+## Syntax
 ```sql
-SELECT id, created_at
-FROM users
-ORDER BY created_at DESC;
+SELECT * FROM users ORDER BY name ASC;
 ```
 
-## Common pitfall
-Assuming results are “naturally ordered.” Without `ORDER BY`, the database can return rows in any order. Always specify ordering when order matters.
+## Options
+- `ASC`: Ascending (default)
+- `DESC`: Descending
 
-## Related
-LIMIT, Window Functions
+## Gotchas
+- Sorting by multiple columns: `ORDER BY col1, col2 DESC`.

@@ -1,17 +1,20 @@
+---
+title: WHERE
+id: sql/where
+---
 # WHERE
 
-## Definition
-`WHERE` filters rows based on conditions. Only rows where the condition evaluates to true are returned.
+Filters records that meet a specified condition.
 
-## Tiny example
+## Syntax
 ```sql
-SELECT id, name
-FROM users
-WHERE active = true;
+SELECT * FROM users WHERE age > 18;
 ```
 
-## Common pitfall
-Be careful with `NULL`. Comparisons like `= NULL` don’t work as you expect. Use `IS NULL` / `IS NOT NULL` for null checks.
+## Operators
+- `=`, `!=`, `>`, `<`, `>=`
+- `AND`, `OR`, `NOT`
+- `IN`, `BETWEEN`, `LIKE`
 
-## Related
-SELECT, ORDER BY
+## Gotchas
+- Case sensitivity depends on the database collation.

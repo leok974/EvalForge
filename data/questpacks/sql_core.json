@@ -1,0 +1,32 @@
+[
+    {
+        "quest_path": "docs/quests/sql-ignition"
+    },
+    {
+        "quest_path": "docs/quests/sql-select"
+    },
+    {
+        "quest_path": "docs/quests/sql-where"
+    },
+    {
+        "quest_path": "docs/quests/sql-order-limit"
+    },
+    {
+        "quest_path": "docs/quests/sql-aggregates"
+    },
+    {
+        "quest_path": "docs/quests/sql-groupby-having"
+    },
+    {
+        "quest_path": "docs/quests/sql-joins"
+    },
+    {
+        "quest_path": "docs/quests/sql-left-join-null"
+    },
+    {
+        "quest_path": "docs/quests/sql-cte-subquery"
+    },
+    {
+        "quest_path": "docs/quests/sql-insert-update-delete"
+    }
+]

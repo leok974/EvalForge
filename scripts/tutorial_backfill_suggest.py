@@ -4,15 +4,23 @@ import sys
 import json
 import argparse
 
-def generate_strict_tutorial(slug, tier):
+def generate_strict_tutorial(slug, tier, world):
     title = slug.replace("-", " ").title()
     
+    lang = "python"
+    if "js" in world or "javascript" in world:
+        lang = "javascript"
+    elif "ts" in world or "typescript" in world:
+        lang = "typescript"
+    elif "sql" in world:
+        lang = "sql"
+        
     # Tier-1 Strict Template
     return f"""# {title}
 
 ## Outcome
 
-In this quest, you'll work with {title.lower()} to practice core JavaScript concepts.
+In this quest, you'll work with {title.lower()} to practice core {lang.upper()} concepts.
 
 ## Concept in 30 seconds
 
@@ -30,9 +38,9 @@ The key terms for this quest are defined below and linked to the Codex for refer
 
 ## Example implementation
 
-```javascript
-// Strict Tier-1 Example Required
-console.log("Example code for {slug}");
+```{lang}
+-- Strict Tier-1 Example Required
+SELECT * FROM users; -- Example code for {slug}
 ```
 
 ## Common mistakes
@@ -76,7 +84,7 @@ def main():
         # But scaffolder created stubs. We want the STRICT content.
         # Scaffolder created generic stub. Let's overwrite with strict template.
         
-        content = generate_strict_tutorial(slug, args.tier)
+        content = generate_strict_tutorial(slug, args.tier, args.world)
         
         with open(tut_path, "w", encoding="utf-8") as f:
             f.write(content)
