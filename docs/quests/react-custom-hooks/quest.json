@@ -1,0 +1,10 @@
+{
+    "slug": "react-custom-hooks",
+    "title": "Custom Hooks: Reuse Logic",
+    "short_description": "Extract shared logic into hooks to keep components clean and composable.",
+    "world_id": "world-react",
+    "track_id": "track-react-core",
+    "order_index": 7,
+    "base_xp_reward": 50,
+    "language": "typescript"
+}

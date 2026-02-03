@@ -1,0 +1,15 @@
+{
+    "key_terms": [
+        "command",
+        "terminal",
+        "stdout",
+        "working directory"
+    ],
+    "concept_tags": [
+        "cli",
+        "foundations"
+    ],
+    "codex_references": [
+        "codex:glossary/cli/working-directory"
+    ]
+}

@@ -226,12 +226,21 @@ def extract_codex_refs(quest: Dict) -> Set[str]:
     """Extract all codex references from a quest."""
     refs = set()
     
-    # key_terms[].codex_ref
-    for term in quest.get("key_terms", []):
-        if term.get("codex_ref"):
-            refs.add(term["codex_ref"])
+    key_terms_data = quest.get("key_terms", [])
     
-    # codex_references[]
+    # Handle new dict format (Tier-1 friendly)
+    if isinstance(key_terms_data, dict):
+        # references in "codex_references"
+        for ref in key_terms_data.get("codex_references", []):
+            if ref: refs.add(ref)
+            
+    # Handle legacy list format
+    elif isinstance(key_terms_data, list):
+        for term in key_terms_data:
+            if isinstance(term, dict) and term.get("codex_ref"):
+                refs.add(term["codex_ref"])
+    
+    # codex_references[] (top-level field if from API or merged)
     for ref in quest.get("codex_references", []):
         if ref:
             refs.add(ref)
@@ -251,14 +260,30 @@ def extract_codex_refs(quest: Dict) -> Set[str]:
 def calculate_coverage(quest: Dict, refs: Set[str]) -> Dict:
     """Calculate coverage metrics for a single quest."""
     tutorial_md = quest.get("tutorial_md", "")
-    key_terms = quest.get("key_terms", [])
+    key_terms_data = quest.get("key_terms", [])
     codex_references = quest.get("codex_references", [])
     
     has_tutorial = bool(tutorial_md and len(tutorial_md.strip()) > 0)
     tutorial_length = len(tutorial_md) if tutorial_md else 0
-    has_terms = len(key_terms) > 0
-    terms_total = len(key_terms)
-    terms_with_codex_ref = sum(1 for t in key_terms if t.get("codex_ref"))
+    
+    # Normalize terms data
+    terms_list = []
+    has_terms = False
+    
+    if isinstance(key_terms_data, dict):
+        terms_list = key_terms_data.get("key_terms", [])
+        has_terms = len(terms_list) > 0
+        # For dict format, we consider "linked" if there are ANY codex refs 
+        # because the format decouples terms from specific refs
+        refs_count = len(key_terms_data.get("codex_references", []))
+        terms_with_codex_ref = len(terms_list) if refs_count > 0 else 0
+    else:
+        # Legacy list format
+        terms_list = key_terms_data
+        has_terms = len(terms_list) > 0
+        terms_with_codex_ref = sum(1 for t in terms_list if isinstance(t, dict) and t.get("codex_ref"))
+
+    terms_total = len(terms_list)
     codex_refs_total = len(refs)
     unique_codex_refs = len(refs)
     

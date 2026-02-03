@@ -1,0 +1,15 @@
+{
+    "key_terms": [
+        "script",
+        "arguments",
+        "quoting",
+        "safe defaults"
+    ],
+    "concept_tags": [
+        "cli",
+        "automation"
+    ],
+    "codex_references": [
+        "codex:glossary/cli/scripting-basics"
+    ]
+}

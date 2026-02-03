@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-02-03T02:44:08.584713+00:00",
+  "generated_at": "2026-02-03T03:11:35.469977+00:00",
   "counts": {
-    "quests_scanned": 20,
-    "total_refs": 26,
-    "unique_refs": 26,
+    "quests_scanned": 10,
+    "total_refs": 12,
+    "unique_refs": 12,
     "missing_unique_refs": 0,
     "invalid_unique_refs": 0,
     "quests_with_missing": 0
@@ -14,7 +14,7 @@
     "quests_empty_tutorial": 0,
     "quests_no_terms": 0,
     "quests_no_codex_refs": 0,
-    "quests_with_full_coverage": 20
+    "quests_with_full_coverage": 10
   },
   "policy": {
     "violations_count": 0,
@@ -23,204 +23,104 @@
     "starters_compliant": 0
   },
   "coverage_by_quest": {
-    "css-box-model": {
+    "react-context": {
       "has_tutorial": true,
-      "tutorial_length": 4103,
+      "tutorial_length": 490,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "css-cascade-inheritance": {
+    "react-custom-hooks": {
       "has_tutorial": true,
-      "tutorial_length": 4151,
+      "tutorial_length": 437,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "css-colors-backgrounds": {
-      "has_tutorial": true,
-      "tutorial_length": 4655,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "css-flexbox": {
-      "has_tutorial": true,
-      "tutorial_length": 4674,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "css-grid": {
+    "react-effects": {
       "has_tutorial": true,
-      "tutorial_length": 5185,
+      "tutorial_length": 468,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "css-ignition": {
+    "react-events": {
       "has_tutorial": true,
-      "tutorial_length": 3183,
+      "tutorial_length": 463,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "react-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 493,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "react-lists-keys": {
+      "has_tutorial": true,
+      "tutorial_length": 470,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "css-position-zindex": {
+    "react-performance-basics": {
       "has_tutorial": true,
-      "tutorial_length": 5539,
+      "tutorial_length": 523,
       "has_terms": true,
-      "terms_total": 6,
-      "terms_with_codex_ref": 6,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "css-responsive-media": {
+    "react-props": {
       "has_tutorial": true,
-      "tutorial_length": 4830,
+      "tutorial_length": 431,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "css-selectors-specificity": {
-      "has_tutorial": true,
-      "tutorial_length": 3664,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "css-units-typography": {
-      "has_tutorial": true,
-      "tutorial_length": 4359,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "html-accessibility-basics": {
-      "has_tutorial": true,
-      "tutorial_length": 4156,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "html-debug-validate": {
+    "react-routing": {
       "has_tutorial": true,
-      "tutorial_length": 4121,
+      "tutorial_length": 444,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "html-forms-inputs": {
-      "has_tutorial": true,
-      "tutorial_length": 3817,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
     },
-    "html-ignition": {
+    "react-state": {
       "has_tutorial": true,
-      "tutorial_length": 2722,
+      "tutorial_length": 466,
       "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "html-links-images": {
-      "has_tutorial": true,
-      "tutorial_length": 3411,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "html-lists-tables": {
-      "has_tutorial": true,
-      "tutorial_length": 3352,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "html-media-embed": {
-      "has_tutorial": true,
-      "tutorial_length": 4260,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
-      "coverage_score": 100.0
-    },
-    "html-meta-seo": {
-      "has_tutorial": true,
-      "tutorial_length": 4581,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
-      "coverage_score": 100.0
-    },
-    "html-semantic-layout": {
-      "has_tutorial": true,
-      "tutorial_length": 3981,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 1,
-      "unique_codex_refs": 1,
-      "coverage_score": 100.0
-    },
-    "html-tags-attributes": {
-      "has_tutorial": true,
-      "tutorial_length": 3030,
-      "has_terms": true,
-      "terms_total": 5,
-      "terms_with_codex_ref": 5,
-      "codex_refs_total": 2,
-      "unique_codex_refs": 2,
       "coverage_score": 100.0
     }
   },

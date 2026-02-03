@@ -1,0 +1,58 @@
+{
+    "questpack_id": "react_core",
+    "title": "React Foundations",
+    "world_id": "world-react",
+    "track_id": "track-react-core",
+    "quests": [
+        {
+            "slug": "react-ignition",
+            "title": "React Ignition: Components & JSX",
+            "order": 1
+        },
+        {
+            "slug": "react-props",
+            "title": "Props: Data In, UI Out",
+            "order": 2
+        },
+        {
+            "slug": "react-state",
+            "title": "State: Interactive UI",
+            "order": 3
+        },
+        {
+            "slug": "react-events",
+            "title": "Events & Forms",
+            "order": 4
+        },
+        {
+            "slug": "react-lists-keys",
+            "title": "Lists & Keys",
+            "order": 5
+        },
+        {
+            "slug": "react-effects",
+            "title": "Effects: Sync With the Outside World",
+            "order": 6
+        },
+        {
+            "slug": "react-custom-hooks",
+            "title": "Custom Hooks: Reuse Logic",
+            "order": 7
+        },
+        {
+            "slug": "react-context",
+            "title": "Context: Global State (Small Scale)",
+            "order": 8
+        },
+        {
+            "slug": "react-routing",
+            "title": "Routing Basics",
+            "order": 9
+        },
+        {
+            "slug": "react-performance-basics",
+            "title": "Performance Basics",
+            "order": 10
+        }
+    ]
+}

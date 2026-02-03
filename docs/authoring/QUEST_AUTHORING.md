@@ -180,3 +180,45 @@ If `dev_validate_all.py` is green 🟢:
 * **Small surface area:** 1 file unless multi-file is required.
 * **Clear expected output:** specify exact formatting if output-based.
 * **Avoid brittle regex:** prefer tests-based validation when possible.
+
+## 7) Terms & Codex (Glossary)
+
+Quests should define key terms to help learners connect concepts to the canonical Codex.
+
+### File: `terms.json`
+
+We support two formats. **New quests should use the Standard (Dict) format.**
+
+#### Standard Format (Dict) — **Preferred**
+Decouples the list of terms from the specific Codex references. This is "Tier-1 friendly" because it allows simple term lists without forcing a 1:1 mapping for every single term, while still enforcing that *some* references exist.
+
+```json
+{
+  "key_terms": [
+    "command",
+    "terminal",
+    "stdout"
+  ],
+  "codex_references": [
+    "codex:glossary/cli/working-directory",
+    "codex:glossary/cli/streams"
+  ]
+}
+```
+
+#### Legacy Format (List)
+Maps specific terms directly to Codex references. Supported for backward compatibility but more verbose.
+
+```json
+[
+  {
+    "term": "command",
+    "definition": "Instruction for the computer",
+    "codex_ref": "codex:glossary/cli/command"
+  }
+]
+```
+
+### Policy
+* **Tier 1 Quests**: Must have `terms.json` and valid Codex references.
+* **Codex Audit**: Run `python scripts/codex_audit_missing.py` to verify your references resolved to actual files.

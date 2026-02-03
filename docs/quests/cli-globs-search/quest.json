@@ -1,0 +1,10 @@
+{
+    "slug": "cli-globs-search",
+    "title": "Globs and Search",
+    "short_description": "Use wildcards and search tools to locate files and text quickly in real projects.",
+    "world_id": "world-cli",
+    "track_id": "track-cli-core",
+    "order_index": 4,
+    "base_xp_reward": 50,
+    "language": "bash"
+}

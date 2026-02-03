@@ -1,0 +1,15 @@
+{
+    "key_terms": [
+        "redirection",
+        "overwrite",
+        "append",
+        "stderr"
+    ],
+    "concept_tags": [
+        "cli",
+        "productivity"
+    ],
+    "codex_references": [
+        "codex:glossary/cli/redirection"
+    ]
+}

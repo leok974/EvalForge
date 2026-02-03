@@ -1,0 +1,17 @@
+{
+    "world_id": "world-react",
+    "tier": 1,
+    "track_id": "track-react-core",
+    "slugs": [
+        "react-ignition",
+        "react-props",
+        "react-state",
+        "react-events",
+        "react-lists-keys",
+        "react-effects",
+        "react-custom-hooks",
+        "react-context",
+        "react-routing",
+        "react-performance-basics"
+    ]
+}

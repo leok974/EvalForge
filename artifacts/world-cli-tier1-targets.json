@@ -1,0 +1,17 @@
+{
+    "world_id": "world-cli",
+    "tier": 1,
+    "track_id": "track-cli-core",
+    "slugs": [
+        "cli-ignition",
+        "cli-navigation",
+        "cli-files-folders",
+        "cli-globs-search",
+        "cli-redirection",
+        "cli-pipes",
+        "cli-env-vars",
+        "cli-exit-codes",
+        "cli-processes",
+        "cli-scripting"
+    ]
+}

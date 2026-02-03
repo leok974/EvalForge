@@ -42,6 +42,13 @@ def main():
     # 3.5 Tutorial Validation (Phase 9.2)
     run_step([sys.executable, "scripts/validate_tutorials.py"], "Tutorial Validation")
     
+    # 3.6 Explicit Tier-1 Checks (New Worlds)
+    run_step([sys.executable, "scripts/validate_tutorials.py", "--world", "world-cli", "--tier", "1"], "CLI Tier-1 Validation")
+    run_step([sys.executable, "scripts/codex_audit_missing.py", "--world", "world-cli", "--source", "disk"], "CLI Disk Audit")
+    
+    run_step([sys.executable, "scripts/validate_tutorials.py", "--world", "world-react", "--tier", "1"], "React Tier-1 Validation")
+    run_step([sys.executable, "scripts/codex_audit_missing.py", "--world", "world-react", "--source", "disk"], "React Disk Audit")
+    
     # 4. Smoke Tests
     smoke_cmd = [sys.executable, "scripts/questpack_smoke.py", "--all"]
     if args.only_slug:

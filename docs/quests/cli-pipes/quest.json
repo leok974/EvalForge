@@ -1,0 +1,10 @@
+{
+    "slug": "cli-pipes",
+    "title": "Pipes and Filters",
+    "short_description": "Chain commands together to transform and summarize output like a pro.",
+    "world_id": "world-cli",
+    "track_id": "track-cli-core",
+    "order_index": 6,
+    "base_xp_reward": 50,
+    "language": "bash"
+}

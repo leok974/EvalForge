@@ -1,0 +1,10 @@
+{
+    "slug": "react-routing",
+    "title": "Routing Basics",
+    "short_description": "Build a simple multi-page app using routes and params.",
+    "world_id": "world-react",
+    "track_id": "track-react-core",
+    "order_index": 9,
+    "base_xp_reward": 50,
+    "language": "typescript"
+}

@@ -1,0 +1,15 @@
+{
+    "key_terms": [
+        "custom hook",
+        "reuse",
+        "composition",
+        "abstraction"
+    ],
+    "concept_tags": [
+        "react",
+        "frontend"
+    ],
+    "codex_references": [
+        "codex:glossary/react/custom-hooks"
+    ]
+}

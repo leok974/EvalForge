@@ -1,0 +1,15 @@
+{
+    "key_terms": [
+        "exit code",
+        "success",
+        "failure",
+        "error handling"
+    ],
+    "concept_tags": [
+        "cli",
+        "reliability"
+    ],
+    "codex_references": [
+        "codex:glossary/cli/exit-codes"
+    ]
+}

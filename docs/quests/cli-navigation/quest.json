@@ -1,0 +1,10 @@
+{
+    "slug": "cli-navigation",
+    "title": "Navigate the Filesystem",
+    "short_description": "Move between folders and build path intuition so you never feel \u201clost\u201d in a repo again.",
+    "world_id": "world-cli",
+    "track_id": "track-cli-core",
+    "order_index": 2,
+    "base_xp_reward": 50,
+    "language": "bash"
+}

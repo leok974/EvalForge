@@ -1,0 +1,58 @@
+{
+    "questpack_id": "cli_core",
+    "title": "Command Line Foundations",
+    "world_id": "world-cli",
+    "track_id": "track-cli-core",
+    "quests": [
+        {
+            "slug": "cli-ignition",
+            "title": "CLI Ignition: Your First Commands",
+            "order": 1
+        },
+        {
+            "slug": "cli-navigation",
+            "title": "Navigate the Filesystem",
+            "order": 2
+        },
+        {
+            "slug": "cli-files-folders",
+            "title": "Create, Copy, Move, Delete Safely",
+            "order": 3
+        },
+        {
+            "slug": "cli-globs-search",
+            "title": "Globs and Search",
+            "order": 4
+        },
+        {
+            "slug": "cli-redirection",
+            "title": "Redirect and Append Output",
+            "order": 5
+        },
+        {
+            "slug": "cli-pipes",
+            "title": "Pipes and Filters",
+            "order": 6
+        },
+        {
+            "slug": "cli-env-vars",
+            "title": "Environment Variables and PATH",
+            "order": 7
+        },
+        {
+            "slug": "cli-exit-codes",
+            "title": "Exit Codes and Error Handling",
+            "order": 8
+        },
+        {
+            "slug": "cli-processes",
+            "title": "Processes and Signals",
+            "order": 9
+        },
+        {
+            "slug": "cli-scripting",
+            "title": "Shell Scripting Basics",
+            "order": 10
+        }
+    ]
+}

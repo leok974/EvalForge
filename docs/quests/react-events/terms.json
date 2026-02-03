@@ -1,0 +1,16 @@
+{
+    "key_terms": [
+        "event handler",
+        "controlled inputs",
+        "onChange",
+        "onSubmit"
+    ],
+    "concept_tags": [
+        "react",
+        "frontend"
+    ],
+    "codex_references": [
+        "codex:glossary/react/events",
+        "codex:glossary/react/controlled-inputs"
+    ]
+}

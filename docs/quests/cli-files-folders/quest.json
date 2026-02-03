@@ -1,0 +1,10 @@
+{
+    "slug": "cli-files-folders",
+    "title": "Create, Copy, Move, Delete Safely",
+    "short_description": "Manipulate files and directories using safe patterns that prevent accidental data loss.",
+    "world_id": "world-cli",
+    "track_id": "track-cli-core",
+    "order_index": 3,
+    "base_xp_reward": 50,
+    "language": "bash"
+}

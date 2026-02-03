@@ -1,0 +1,16 @@
+{
+    "key_terms": [
+        "environment variable",
+        "PATH",
+        "export",
+        "config"
+    ],
+    "concept_tags": [
+        "cli",
+        "systems"
+    ],
+    "codex_references": [
+        "codex:glossary/cli/env-vars",
+        "codex:glossary/cli/path"
+    ]
+}
