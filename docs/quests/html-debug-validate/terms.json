@@ -1,18 +1,27 @@
-{
-    "key_terms": [
-        "nesting error",
-        "validator",
-        "closing tag",
-        "DOM",
-        "devtools"
-    ],
-    "concept_tags": [
-        "web",
-        "html",
-        "debugging"
-    ],
-    "codex_references": [
-        "codex:glossary/web/html/tags-and-elements",
-        "codex:glossary/web/html/document-skeleton"
-    ]
-}
+[
+    {
+        "term": "nesting error",
+        "definition": "Incorrect element hierarchy or improperly closed tags.",
+        "codex_ref": "codex:glossary/web/html/tags-and-elements"
+    },
+    {
+        "term": "validator",
+        "definition": "Tool that checks HTML for syntax and structural errors.",
+        "codex_ref": "codex:glossary/web/html/debug-validate"
+    },
+    {
+        "term": "closing tag",
+        "definition": "Tag that marks the end of an element's content.",
+        "codex_ref": "codex:glossary/web/html/tags-and-elements"
+    },
+    {
+        "term": "DOM",
+        "definition": "Document Object Model - tree structure of parsed HTML.",
+        "codex_ref": "codex:glossary/web/html/debug-validate"
+    },
+    {
+        "term": "devtools",
+        "definition": "Browser developer tools for inspecting and debugging HTML.",
+        "codex_ref": "codex:glossary/web/html/debug-validate"
+    }
+]

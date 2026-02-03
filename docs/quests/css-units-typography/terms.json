@@ -1,8 +1,27 @@
-{
-  "key_terms": ["rem", "em", "percent", "line-height", "font-family"],
-  "concept_tags": ["web", "css", "typography"],
-  "codex_references": [
-    "codex:glossary/web/css/units",
-    "codex:glossary/web/css/typography"
-  ]
-}
+[
+  {
+    "term": "rem",
+    "definition": "Unit relative to root element font size, scalable.",
+    "codex_ref": "codex:glossary/web/css/units"
+  },
+  {
+    "term": "em",
+    "definition": "Unit relative to parent element font size.",
+    "codex_ref": "codex:glossary/web/css/units"
+  },
+  {
+    "term": "percent",
+    "definition": "Relative unit based on parent element dimension.",
+    "codex_ref": "codex:glossary/web/css/units"
+  },
+  {
+    "term": "line-height",
+    "definition": "Vertical spacing between lines of text.",
+    "codex_ref": "codex:glossary/web/css/typography"
+  },
+  {
+    "term": "font-family",
+    "definition": "Typeface or font stack for text rendering.",
+    "codex_ref": "codex:glossary/web/css/typography"
+  }
+]

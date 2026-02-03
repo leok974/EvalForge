@@ -1,18 +1,27 @@
-{
-    "key_terms": [
-        "anchor",
-        "href",
-        "relative URL",
-        "absolute URL",
-        "alt text"
-    ],
-    "concept_tags": [
-        "web",
-        "html",
-        "foundations"
-    ],
-    "codex_references": [
-        "codex:glossary/web/html/links",
-        "codex:glossary/web/html/images"
-    ]
-}
+[
+    {
+        "term": "anchor",
+        "definition": "The a element used to create hyperlinks.",
+        "codex_ref": "codex:glossary/web/html/links"
+    },
+    {
+        "term": "href",
+        "definition": "Attribute specifying the link destination URL.",
+        "codex_ref": "codex:glossary/web/html/links"
+    },
+    {
+        "term": "relative URL",
+        "definition": "URL path relative to the current page location.",
+        "codex_ref": "codex:glossary/web/html/links"
+    },
+    {
+        "term": "absolute URL",
+        "definition": "Complete URL including protocol and domain.",
+        "codex_ref": "codex:glossary/web/html/links"
+    },
+    {
+        "term": "alt text",
+        "definition": "Required descriptive text for images for accessibility.",
+        "codex_ref": "codex:glossary/web/html/images"
+    }
+]

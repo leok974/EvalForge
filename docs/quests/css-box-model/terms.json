@@ -1,17 +1,27 @@
-{
-    "key_terms": [
-        "content box",
-        "padding",
-        "border",
-        "margin",
-        "box-sizing"
-    ],
-    "concept_tags": [
-        "web",
-        "css",
-        "layout"
-    ],
-    "codex_references": [
-        "codex:glossary/web/css/box-model"
-    ]
-}
+[
+    {
+        "term": "content box",
+        "definition": "Innermost box containing actual content.",
+        "codex_ref": "codex:glossary/web/css/box-model"
+    },
+    {
+        "term": "padding",
+        "definition": "Space between content and border.",
+        "codex_ref": "codex:glossary/web/css/box-model"
+    },
+    {
+        "term": "border",
+        "definition": "Edge around padding, can have width and style.",
+        "codex_ref": "codex:glossary/web/css/box-model"
+    },
+    {
+        "term": "margin",
+        "definition": "Outer space separating element from others.",
+        "codex_ref": "codex:glossary/web/css/box-model"
+    },
+    {
+        "term": "box-sizing",
+        "definition": "Property controlling how width/height are calculated.",
+        "codex_ref": "codex:glossary/web/css/box-model"
+    }
+]

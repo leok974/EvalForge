@@ -1,18 +1,27 @@
-{
-    "key_terms": [
-        "element",
-        "attribute",
-        "nesting",
-        "id",
-        "class"
-    ],
-    "concept_tags": [
-        "web",
-        "html",
-        "foundations"
-    ],
-    "codex_references": [
-        "codex:glossary/web/html/tags-and-elements",
-        "codex:glossary/web/html/attributes"
-    ]
-}
+[
+    {
+        "term": "element",
+        "definition": "HTML structure composed of opening tag, content, and closing tag.",
+        "codex_ref": "codex:glossary/web/html/tags-and-elements"
+    },
+    {
+        "term": "attribute",
+        "definition": "Name-value pairs that add meaning or configuration to elements.",
+        "codex_ref": "codex:glossary/web/html/attributes"
+    },
+    {
+        "term": "nesting",
+        "definition": "Placing elements inside other elements following proper hierarchy rules.",
+        "codex_ref": "codex:glossary/web/html/tags-and-elements"
+    },
+    {
+        "term": "id",
+        "definition": "Unique identifier attribute for a single element.",
+        "codex_ref": "codex:glossary/web/html/attributes"
+    },
+    {
+        "term": "class",
+        "definition": "Attribute for grouping elements for styling or scripting.",
+        "codex_ref": "codex:glossary/web/html/attributes"
+    }
+]

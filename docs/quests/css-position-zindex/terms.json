@@ -1,18 +1,32 @@
-{
-    "key_terms": [
-        "position",
-        "relative",
-        "absolute",
-        "fixed",
-        "z-index",
-        "stacking context"
-    ],
-    "concept_tags": [
-        "web",
-        "css",
-        "layout"
-    ],
-    "codex_references": [
-        "codex:glossary/web/css/positioning"
-    ]
-}
+[
+    {
+        "term": "position",
+        "definition": "CSS property controlling element placement method.",
+        "codex_ref": "codex:glossary/web/css/positioning"
+    },
+    {
+        "term": "relative",
+        "definition": "Positioned relative to normal position, stays in flow.",
+        "codex_ref": "codex:glossary/web/css/positioning"
+    },
+    {
+        "term": "absolute",
+        "definition": "Positioned relative to nearest positioned ancestor.",
+        "codex_ref": "codex:glossary/web/css/positioning"
+    },
+    {
+        "term": "fixed",
+        "definition": "Positioned relative to viewport, stays during scroll.",
+        "codex_ref": "codex:glossary/web/css/positioning"
+    },
+    {
+        "term": "z-index",
+        "definition": "Controls stacking order of overlapping elements.",
+        "codex_ref": "codex:glossary/web/css/positioning"
+    },
+    {
+        "term": "stacking context",
+        "definition": "3D layer context created by positioned elements.",
+        "codex_ref": "codex:glossary/web/css/positioning"
+    }
+]

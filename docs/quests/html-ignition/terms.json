@@ -1,17 +1,27 @@
-{
-    "key_terms": [
-        "doctype",
-        "head",
-        "body",
-        "meta charset",
-        "viewport"
-    ],
-    "concept_tags": [
-        "web",
-        "html",
-        "foundations"
-    ],
-    "codex_references": [
-        "codex:glossary/web/html/document-skeleton"
-    ]
-}
+[
+    {
+        "term": "doctype",
+        "definition": "Declaration that defines the HTML version and helps browsers render correctly.",
+        "codex_ref": "codex:glossary/web/html/document-skeleton"
+    },
+    {
+        "term": "head",
+        "definition": "Container for metadata and page configuration.",
+        "codex_ref": "codex:glossary/web/html/document-skeleton"
+    },
+    {
+        "term": "body",
+        "definition": "Container for visible page content.",
+        "codex_ref": "codex:glossary/web/html/document-skeleton"
+    },
+    {
+        "term": "meta charset",
+        "definition": "Declares character encoding for the document.",
+        "codex_ref": "codex:glossary/web/html/document-skeleton"
+    },
+    {
+        "term": "viewport",
+        "definition": "Meta tag that controls layout on mobile browsers.",
+        "codex_ref": "codex:glossary/web/html/metadata-seo"
+    }
+]

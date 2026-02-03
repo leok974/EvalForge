@@ -1,18 +1,27 @@
-{
-    "key_terms": [
-        "media query",
-        "breakpoint",
-        "fluid layout",
-        "viewport",
-        "responsive typography"
-    ],
-    "concept_tags": [
-        "web",
-        "css",
-        "responsive"
-    ],
-    "codex_references": [
-        "codex:glossary/web/css/media-queries",
-        "codex:glossary/web/css/units"
-    ]
-}
+[
+    {
+        "term": "media query",
+        "definition": "CSS rule that applies styles based on device characteristics.",
+        "codex_ref": "codex:glossary/web/css/media-queries"
+    },
+    {
+        "term": "breakpoint",
+        "definition": "Screen width where layout changes for responsive design.",
+        "codex_ref": "codex:glossary/web/css/media-queries"
+    },
+    {
+        "term": "fluid layout",
+        "definition": "Layout using relative units that adapt to screen size.",
+        "codex_ref": "codex:glossary/web/css/media-queries"
+    },
+    {
+        "term": "viewport",
+        "definition": "Visible area of web page in browser window.",
+        "codex_ref": "codex:glossary/web/css/media-queries"
+    },
+    {
+        "term": "responsive typography",
+        "definition": "Text sizing that adapts to different screen sizes.",
+        "codex_ref": "codex:glossary/web/css/typography"
+    }
+]
