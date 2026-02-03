@@ -5,8 +5,11 @@
     "description": "Import/export correctly, understand `type: module`, and avoid module-resolution confusion.",
     "world_id": "world-node",
     "track_id": "track-node-core",
-    "order_index": 2,
-    "base_xp_reward": 100,
-    "language": "javascript",
-    "xp": 100
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "src/app.js",
+        "files_from": "./starter"
+    }
 }

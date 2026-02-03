@@ -1,0 +1,10 @@
+{
+    "name": "node-npm",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "test": "node --test tests/smoke.test.js",
+        "start": "node index.js",
+        "check-lockfile": "node scripts/check-lockfile.js"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "name": "node-npm",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "test": "echo TODO",
+        "start": "echo TODO",
+        "check-lockfile": "echo TODO"
+    }
+}

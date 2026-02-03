@@ -5,8 +5,11 @@
     "description": "Install deps, run scripts, and understand why lockfiles matter for reproducibility.",
     "world_id": "world-node",
     "track_id": "track-node-core",
-    "order_index": 3,
-    "base_xp_reward": 100,
-    "language": "javascript",
-    "xp": 100
+    "grading": {
+        "mode": "tests"
+    },
+    "workspace": {
+        "entrypoint": "index.js",
+        "files_from": "./starter"
+    }
 }
