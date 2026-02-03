@@ -1,0 +1,17 @@
+{
+    "world_id": "world-web",
+    "tier": 1,
+    "track_id": "track-css",
+    "slugs": [
+        "css-ignition",
+        "css-selectors-specificity",
+        "css-cascade-inheritance",
+        "css-box-model",
+        "css-units-typography",
+        "css-colors-backgrounds",
+        "css-flexbox",
+        "css-grid",
+        "css-responsive-media",
+        "css-position-zindex"
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "questpack_id": "web_css_core",
+    "title": "Web Foundations: CSS Core",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "quests": [
+        {
+            "slug": "css-ignition",
+            "title": "CSS Ignition: Your First Styles",
+            "order": 1
+        },
+        {
+            "slug": "css-selectors-specificity",
+            "title": "Selectors & Specificity",
+            "order": 2
+        },
+        {
+            "slug": "css-cascade-inheritance",
+            "title": "Cascade & Inheritance",
+            "order": 3
+        },
+        {
+            "slug": "css-box-model",
+            "title": "The Box Model",
+            "order": 4
+        },
+        {
+            "slug": "css-units-typography",
+            "title": "Units & Typography",
+            "order": 5
+        },
+        {
+            "slug": "css-colors-backgrounds",
+            "title": "Colors & Backgrounds",
+            "order": 6
+        },
+        {
+            "slug": "css-flexbox",
+            "title": "Flexbox Layout",
+            "order": 7
+        },
+        {
+            "slug": "css-grid",
+            "title": "Grid Layout",
+            "order": 8
+        },
+        {
+            "slug": "css-responsive-media",
+            "title": "Responsive Design & Media Queries",
+            "order": 9
+        },
+        {
+            "slug": "css-position-zindex",
+            "title": "Positioning & Z-Index",
+            "order": 10
+        }
+    ]
+}
