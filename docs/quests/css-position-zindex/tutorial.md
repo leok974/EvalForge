@@ -153,3 +153,12 @@ The `position: sticky` value is relative positioning until a scroll threshold is
 The transform `translate(-50%, -50%)` centering trick positions an element's top-left at 50% viewport, then shifts it back by half its own width/height, perfectly centering it regardless of size. Combine with `position: fixed` for modals.
 
 Z-index doesn't need huge numbers. A sensible scale: 0-9 for normal content, 10-99 for dropdowns/tooltips, 100-999 for modals/overlays, 1000+ for extreme cases like cookie banners. Document your z-index scale in comments.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

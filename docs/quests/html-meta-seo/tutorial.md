@@ -89,3 +89,12 @@ Meta descriptions don't directly affect search rankings, but they significantly 
 Open Graph tags were created by Facebook but are now used by LinkedIn, Discord, Slack, and many platforms. The `og:image` should be at least 1200×630 pixels for best quality. Without these tags, platforms generate previews from whatever content they find, often showing poor or misleading snippets.
 
 The canonical URL (`<link rel="canonical">`) tells search engines which version of a page is authoritative when the same content appears at multiple URLs (e.g., with/without www, http/https, with URL parameters). This prevents duplicate content penalties and consolidates SEO value to one URL.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

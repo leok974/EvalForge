@@ -96,3 +96,12 @@ The `:not()` pseudo-class has zero specificity itself, but its argument counts: 
 - Keep specificity low for easier overrides
 - Use BEM or similar methodology to avoid specificity wars
 - Reserve `!important` for utility classes like `.hidden { display: none !important; }`
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

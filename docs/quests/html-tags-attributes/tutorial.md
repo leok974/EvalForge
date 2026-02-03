@@ -59,3 +59,12 @@ The key terms for this quest are defined in [terms.json](file:///d:/EvalForge/do
 The DOM (Document Object Model) is built from your HTML element tree. When you write `<div><p>text</p></div>`, the browser creates a parent `div` node with a child `p` node. This parent-child relationship affects CSS inheritance, JavaScript traversal, and accessibility navigation.
 
 Attributes come in two flavors: **global attributes** work on any element (`id`, `class`, `title`, `aria-*`), while **element-specific attributes** only make sense on certain elements (`href` on `<a>`, `src` on `<img>`). Boolean attributes like `disabled` or `checked` don't need values—their presence alone activates the behavior.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

@@ -108,3 +108,12 @@ The `background` shorthand packs many properties: `background: color image posit
 Multiple backgrounds layer front-to-back: the first listed appears on top. This enables sophisticated effects like overlays on images: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/image.jpg')` darkens the image without editing the file.
 
 `background-size: cover` scales the image to cover the entire area (may crop), while `contain` scales to fit entirely within (may show empty space). For responsive hero images, `cover` is usually correct.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

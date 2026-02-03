@@ -99,3 +99,12 @@ The `for` attribute on `<label>` must match the `id` of its input. This creates 
 Input types like `type="email"` provide three benefits: (1) mobile browsers show optimized keyboards with @ symbol, (2) browsers provide built-in format validation, and (3) screen readers announce "email field" to set expectations. The `autocomplete` attribute helps browsers and password managers fill forms correctly.
 
 HTML5 validation (`required`, `pattern`, `min`, `max`) happens before form submission, preventing unnecessary server requests. However, never trust client-side validation alone—always validate on the server as well, since users can bypass HTML validation via browser dev tools.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

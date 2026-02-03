@@ -91,3 +91,12 @@ The cascade in CSS means rules flow down from general to specific. If you style 
 Class selectors (`.classname`) are reusable across multiple elements, while ID selectors (`#idname`) should only target one element. Classes are preferred for styling because they're flexible and maintainable.
 
 The browser's DevTools lets you see which styles apply to each element, which are overridden, and where they come from. Right-click an element → Inspect → Styles panel shows the computed styles and the cascade order. Struck-through rules were overridden by more specific selectors.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

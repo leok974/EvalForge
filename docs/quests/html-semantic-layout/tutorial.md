@@ -97,3 +97,12 @@ Screen readers provide landmark navigation via keyboard shortcuts. Users can pre
 The `<article>` element represents self-contained, independently distributable content. Ask: "Could this stand alone in an RSS feed or on another site?" If yes, use `<article>`. A blog post is an `<article>`; so is each product in a catalog or each comment in a thread.
 
 The `<section>` element groups related content thematically. Unlike `<div>` (no semantic meaning), `<section>` indicates "this content belongs together." Sections typically have a heading. If you can't describe the section's purpose with a heading, you probably want `<div>` instead.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

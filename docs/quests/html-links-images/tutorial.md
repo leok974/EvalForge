@@ -70,3 +70,12 @@ The `alt` attribute serves three critical purposes: it appears when images fail 
 The `rel="noopener noreferrer"` on `target="_blank"` links prevents the new page from accessing your page's `window.opener` object—a security measure against reverse tabnabbing attacks. Modern browsers add this automatically, but it's still good practice to include explicitly.
 
 Relative URLs like `href="about.html"` are resolved from the current page's location, while `href="/about.html"` is resolved from the domain root. Understanding this difference prevents broken links when you move pages or deploy to subfolders.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

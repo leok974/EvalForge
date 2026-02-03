@@ -103,3 +103,12 @@ Setting `box-sizing: border-box` makes `width` include padding and border, so `w
 **Margin collapse** is a quirk where vertical margins between elements merge to the larger value. Two `<p>` elements with `margin: 20px 0` have 20px between them, not 40px. Horizontal margins never collapse. To prevent collapse, use padding, flexbox/grid gap, or add `display: flow-root`.
 
 Padding picks up the element's background color/image, while margins are always transparent, showing the parent's background through. This matters for visual design—use padding when you want background to extend, margin when you don't.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

@@ -89,3 +89,12 @@ ARIA (Accessible Rich Internet Applications) fills gaps when HTML doesn't provid
 The `aria-label` attribute provides a label read by screen readers but invisible on screen. Use it when visual context is obvious but screen readers need explicit text: `<button aria-label="Close dialog">X</button>`. The `aria-describedby` attribute links an element to descriptive text elsewhere in the DOM, useful for form help text or error messages.
 
 Keyboard accessibility requires that every interactive element is reachable via Tab/Shift+Tab and activatable via Enter or Space. Test by unplugging your mouse and navigating your entire site. If you get stuck, keyboard users will too. Custom widgets like dropdowns, modals, and carousels need  careful focus management—JavaScript must move focus appropriately when content changes.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

@@ -131,3 +131,12 @@ The gap property is superior to margins for flex spacing because it only adds sp
 Flexbox's main axis follows `flex-direction`: horizontal for `row`, vertical for `column`. The cross axis is perpendicular. `justify-content` always aligns along the main axis, `align-items` along the cross axis. Switching to `flex-direction: column` rotates this entire coordinate system.
 
 The `align-self` property overrides the container's `align-items` for individual items. Use it when one item needs different cross-axis alignment than its siblings, like a callout button aligned to the bottom while text is centered.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

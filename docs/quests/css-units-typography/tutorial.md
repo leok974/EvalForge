@@ -110,3 +110,12 @@ The `clamp()` function creates fluid typography: `clamp(min, preferred, max)`. F
 Font stacks provide fallbacks: `font-family: 'Preferred', Fallback1, Fallback2, generic-family`. The browser uses the first available font. System font stacks like `-apple-system, BlinkMacSystemFont, 'Segoe UI'...` give native OS appearance and load instantly.
 
 The `ch` unit equals the width of the "0" character in the current font. `max-width: 65ch` limits line length to about 65 characters, improving readability without hardcoding pixel values.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

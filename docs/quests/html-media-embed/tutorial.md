@@ -93,3 +93,12 @@ The `<track>` element links WebVTT (Web Video Text Tracks) caption files to vide
 The `poster` attribute on `<video>` displays an image before playback starts, improving perceived performance and giving users context about video content. Without it, browsers show the first frame, which might be black or mid-motion.
 
 Iframe security requires careful attention. The sandbox attribute restricts what embedded content can do: `sandbox="allow-scripts allow-same-origin"` enables JavaScript and same-origin access,while omitting it blocks scripts, forms, popups, and more. For untrusted content, use restrictive sandboxing. The `loading="lazy"` attribute defers loading offscreen iframes, significantly improving initial page load performance.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

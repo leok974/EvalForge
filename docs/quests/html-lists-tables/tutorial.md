@@ -88,3 +88,12 @@ List semantics matter for assistive technology. When a screen reader encounters 
 
 The `scope` attribute on `<th>` tells screen readers whether a header applies to a column (`scope="col"`) or row (`scope="row"`). Without this, screen readers reading cell "892" might not know it's "Widget B's Units Sold." For complex tables with multi-level headers, use `headers` and `id` attributes to explicitly associate cells with headers.
 
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

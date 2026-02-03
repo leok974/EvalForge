@@ -131,3 +131,12 @@ Grid's auto-placement algorithm fills tracks sequentially unless you specify `gr
 Placing items using line numbers counts from track lines, not cells: `grid-column: 1 / 3` spans from the first line to the third, covering two cells. Negative numbers count from the end: `grid-column: 1 / -1` spans the full width.
 
 Grid and Flexbox aren't rivals—they complement each other. Use Grid for page-level structure (multi-dimensional), Flexbox for component layout (one-dimensional). It's common to have a Grid page layout with Flexbox navigation bars and card interiors.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

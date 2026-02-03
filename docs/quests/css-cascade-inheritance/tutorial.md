@@ -106,3 +106,12 @@ The `inherit`, `initial`, `unset`, and `revert` keywords give fine control:
 - `revert` - Roll back to user agent stylesheet
 
 Understanding cascade and inheritance prevents specificity battles and makes CSS predictable. When in doubt, check DevTools' Computed tab to see the final value and which rule provided it.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

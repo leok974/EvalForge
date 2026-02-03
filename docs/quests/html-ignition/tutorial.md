@@ -56,3 +56,12 @@ The key terms for this quest are defined in [terms.json](file:///d:/EvalForge/do
 The `<!DOCTYPE html>` declaration isn't technically an HTML tag—it's an instruction to the browser about which HTML version to expect. HTML5 simplified this dramatically from earlier versions that required long, complex DOCTYPE strings. The `lang="en"` attribute on the `<html>` element helps screen readers pronounce content correctly and assists search engines with language detection.
 
 The viewport meta tag was introduced for mobile browsers. Without it, mobile browsers assume pages are designed for desktop (typically 980px wide) and shrink everything down. The `width=device-width, initial-scale=1.0` setting tells mobile browsers to match the screen width and not apply zoom.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

@@ -150,3 +150,12 @@ Breakpoints shouldn't target specific devices (iPhone 12, iPad Pro, etc.)—you'
 The `clamp()` function creates fluid typography without media queries: `clamp(min, preferred, max)`. For example, `font-size: clamp(1rem, 2vw + 0.5rem, 2rem)` scales smoothly between 16px and 32px based on viewport width plus a fixed offset.
 
 Preference media queries respect user settings: `prefers-color-scheme` for dark mode, `prefers-reduced-motion` for users who disabled animations (often for accessibility or motion sensitivity). Always honor these—they're explicit user preferences.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

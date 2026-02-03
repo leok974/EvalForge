@@ -25,9 +25,34 @@ def check_quest_count(world_id, min_count):
             print(f"❌ Verification Failed: {world_id} has {count} quests, expected >= {min_count}")
             sys.exit(1)
         print(f"✅ Pass: {world_id} has {count} quests")
+        return quests  # Return for further checks
     except Exception as e:
         print(f"❌ API Check Failed: {e}")
         # warning only if api is down? No, this is integrity check, fail hard.
+        sys.exit(1)
+
+def check_web_tracks():
+    """Ensure Web world has balanced HTML and CSS tracks (10+10 minimum)."""
+    print(f"🔍 Verifying Web world track balance...")
+    try:
+        resp = requests.get(f"http://127.0.0.1:8092/api/quests?world=world-web", timeout=5)
+        resp.raise_for_status()
+        quests = resp.json()
+        
+        html_count = sum(1 for q in quests if q.get('slug', '').startswith('html-'))
+        css_count = sum(1 for q in quests if q.get('slug', '').startswith('css-'))
+        
+        if html_count < 10:
+            print(f"❌ HTML Track incomplete: {html_count}/10 quests")
+            sys.exit(1)
+        
+        if css_count < 10:
+            print(f"❌ CSS Track incomplete: {css_count}/10 quests")
+            sys.exit(1)
+        
+        print(f"✅ Pass: HTML Track has {html_count} quests, CSS Track has {css_count} quests")
+    except Exception as e:
+        print(f"❌ Track verification failed: {e}")
         sys.exit(1)
 
 def main():
@@ -46,6 +71,9 @@ def main():
     check_quest_count("world-ml", 10)
     check_quest_count("world-agents", 10)
     check_quest_count("world-web", 20)
+    
+    # 2.5. Check Web world track balance (10 HTML + 10 CSS)
+    check_web_tracks()
     
     # 3. Audit Content Integrity
     worlds = ["world-python", "world-js", "world-typescript", "world-sql", "world-git", "world-infra", "world-ml", "world-agents", "world-web"]

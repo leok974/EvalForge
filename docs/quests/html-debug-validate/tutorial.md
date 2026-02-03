@@ -86,3 +86,12 @@ HTML error recovery varies by browser. While modern browsers handle broken HTML 
 6. Fix one error at a time and re-validate
 
 The DOM tree in DevTools is interactive—hover over elements to highlight them on the page, edit HTML live to test fixes, and use the "Search" function to find elements by selector or text content.
+
+## Check yourself
+
+Before moving on, verify you can:
+- Explain the core concepts covered in this quest
+- Identify common mistakes and how to avoid them
+- Apply the techniques in your own projects
+- Debug issues when things don't work as expected
+

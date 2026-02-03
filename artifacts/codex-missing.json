@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-03T02:19:42.094658+00:00",
+  "generated_at": "2026-02-03T02:44:08.584713+00:00",
   "counts": {
     "quests_scanned": 20,
     "total_refs": 26,
@@ -25,7 +25,7 @@
   "coverage_by_quest": {
     "css-box-model": {
       "has_tutorial": true,
-      "tutorial_length": 590,
+      "tutorial_length": 4103,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -35,7 +35,7 @@
     },
     "css-cascade-inheritance": {
       "has_tutorial": true,
-      "tutorial_length": 544,
+      "tutorial_length": 4151,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -45,7 +45,7 @@
     },
     "css-colors-backgrounds": {
       "has_tutorial": true,
-      "tutorial_length": 573,
+      "tutorial_length": 4655,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -55,7 +55,7 @@
     },
     "css-flexbox": {
       "has_tutorial": true,
-      "tutorial_length": 486,
+      "tutorial_length": 4674,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -65,7 +65,7 @@
     },
     "css-grid": {
       "has_tutorial": true,
-      "tutorial_length": 484,
+      "tutorial_length": 5185,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -75,7 +75,7 @@
     },
     "css-ignition": {
       "has_tutorial": true,
-      "tutorial_length": 540,
+      "tutorial_length": 3183,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -85,7 +85,7 @@
     },
     "css-position-zindex": {
       "has_tutorial": true,
-      "tutorial_length": 593,
+      "tutorial_length": 5539,
       "has_terms": true,
       "terms_total": 6,
       "terms_with_codex_ref": 6,
@@ -95,7 +95,7 @@
     },
     "css-responsive-media": {
       "has_tutorial": true,
-      "tutorial_length": 549,
+      "tutorial_length": 4830,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -105,7 +105,7 @@
     },
     "css-selectors-specificity": {
       "has_tutorial": true,
-      "tutorial_length": 548,
+      "tutorial_length": 3664,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -115,7 +115,7 @@
     },
     "css-units-typography": {
       "has_tutorial": true,
-      "tutorial_length": 539,
+      "tutorial_length": 4359,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -125,7 +125,7 @@
     },
     "html-accessibility-basics": {
       "has_tutorial": true,
-      "tutorial_length": 545,
+      "tutorial_length": 4156,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -135,7 +135,7 @@
     },
     "html-debug-validate": {
       "has_tutorial": true,
-      "tutorial_length": 513,
+      "tutorial_length": 4121,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -145,7 +145,7 @@
     },
     "html-forms-inputs": {
       "has_tutorial": true,
-      "tutorial_length": 496,
+      "tutorial_length": 3817,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -155,7 +155,7 @@
     },
     "html-ignition": {
       "has_tutorial": true,
-      "tutorial_length": 610,
+      "tutorial_length": 2722,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -165,7 +165,7 @@
     },
     "html-links-images": {
       "has_tutorial": true,
-      "tutorial_length": 560,
+      "tutorial_length": 3411,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -175,7 +175,7 @@
     },
     "html-lists-tables": {
       "has_tutorial": true,
-      "tutorial_length": 584,
+      "tutorial_length": 3352,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -185,7 +185,7 @@
     },
     "html-media-embed": {
       "has_tutorial": true,
-      "tutorial_length": 529,
+      "tutorial_length": 4260,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -195,7 +195,7 @@
     },
     "html-meta-seo": {
       "has_tutorial": true,
-      "tutorial_length": 563,
+      "tutorial_length": 4581,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -205,7 +205,7 @@
     },
     "html-semantic-layout": {
       "has_tutorial": true,
-      "tutorial_length": 545,
+      "tutorial_length": 3981,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -215,7 +215,7 @@
     },
     "html-tags-attributes": {
       "has_tutorial": true,
-      "tutorial_length": 599,
+      "tutorial_length": 3030,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
