@@ -14,6 +14,8 @@ def generate_strict_tutorial(slug, tier, world):
         lang = "typescript"
     elif "sql" in world:
         lang = "sql"
+    elif "git" in world:
+        lang = "bash"  # Git commands are bash
         
     # Tier-1 Strict Template
     return f"""# {title}

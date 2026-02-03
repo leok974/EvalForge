@@ -1,13 +1,13 @@
 # Codex Coverage Audit Report
 
-**Generated:** 2026-02-02T22:49:12.885804+00:00
+**Generated:** 2026-02-03T01:00:46.976032+00:00
 
 ## Executive Summary
 
-- **Coverage:** 48.0% (12 refs across 25 quests)
-- **Average Coverage Score:** 48.0/ 100
-- **Quests with Full Coverage (≥90):** 12
-- **Quests with Zero Coverage:** 13 (52.0%)
+- **Coverage:** 72.7% (8 refs across 11 quests)
+- **Average Coverage Score:** 100.0/ 100
+- **Quests with Full Coverage (≥90):** 11
+- **Quests with Zero Coverage:** 0 (0.0%)
 - **Invalid Refs:** 0
 - **Missing Refs:** 0
 
@@ -17,32 +17,17 @@
 
 ### Top Issues
 
-1. **13 quests have NO tutorial**
-2. **13 quests have NO terms**
-3. **13 quests have NO codex refs**
+1. **0 quests have NO tutorial**
+2. **0 quests have NO terms**
+3. **0 quests have NO codex refs**
 
 ### Sample Uncovered Quests
 
 **No Tutorial:**
-- `sql-analytics-q2-ctes-and-views`
-- `sql-analytics-q3-normalization-and-indexes`
-- `sql-analytics-q4-query-tuning-basics`
-- `sql-retrieval-q2-where-and-order`
-- `sql-retrieval-q3-joins-and-keys`
 
 **No Terms:**
-- `sql-analytics-q2-ctes-and-views`
-- `sql-analytics-q3-normalization-and-indexes`
-- `sql-analytics-q4-query-tuning-basics`
-- `sql-retrieval-q2-where-and-order`
-- `sql-retrieval-q3-joins-and-keys`
 
 **No Codex Refs:**
-- `sql-analytics-q2-ctes-and-views`
-- `sql-analytics-q3-normalization-and-indexes`
-- `sql-analytics-q4-query-tuning-basics`
-- `sql-retrieval-q2-where-and-order`
-- `sql-retrieval-q3-joins-and-keys`
 
 ---
 

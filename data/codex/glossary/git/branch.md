@@ -1,13 +1,18 @@
-# Branch
+---
+title: git branch
+id: git/branch
+---
+# git branch
 
-## Definition
-A **branch** is a movable label pointing to a commit. When you create new commits while on a branch, that branch pointer advances.
+Lists, creates, or deletes branches.
 
-## Tiny example
-`git switch -c feature/x` creates a new branch and checks it out. Commits now move `feature/x` forward.
+## Usage
+```bash
+git branch              # List branches
+git branch feature-x    # Create branch
+git branch -d old-feature  # Delete branch
+```
 
-## Common pitfall
-People treat branches like folders. Branches don’t “contain files” — they point to commits that *describe* file states. Switching branches changes your working tree to match the commit the branch points to.
-
-## Related
-HEAD, Merge
+## See Also
+- [git checkout](codex:git/checkout)
+- [git merge](codex:git/merge)

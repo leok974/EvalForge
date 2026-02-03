@@ -1,0 +1,16 @@
+{
+    "world_id": "world-git",
+    "tier": 1,
+    "slugs": [
+        "git-ignition",
+        "git-init-clone",
+        "git-add-commit",
+        "git-status-log",
+        "git-branch-checkout",
+        "git-merge-conflicts",
+        "git-push-pull",
+        "git-reset-revert",
+        "git-stash",
+        "git-remote-origin"
+    ]
+}

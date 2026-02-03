@@ -1,0 +1,32 @@
+[
+    {
+        "quest_path": "docs/quests/git-ignition"
+    },
+    {
+        "quest_path": "docs/quests/git-init-clone"
+    },
+    {
+        "quest_path": "docs/quests/git-add-commit"
+    },
+    {
+        "quest_path": "docs/quests/git-status-log"
+    },
+    {
+        "quest_path": "docs/quests/git-branch-checkout"
+    },
+    {
+        "quest_path": "docs/quests/git-merge-conflicts"
+    },
+    {
+        "quest_path": "docs/quests/git-push-pull"
+    },
+    {
+        "quest_path": "docs/quests/git-reset-revert"
+    },
+    {
+        "quest_path": "docs/quests/git-stash"
+    },
+    {
+        "quest_path": "docs/quests/git-remote-origin"
+    }
+]
