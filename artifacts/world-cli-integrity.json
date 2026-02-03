@@ -1,0 +1,211 @@
+{
+  "world": "world-cli",
+  "includeHidden": true,
+  "onlyQuest": null,
+  "total": 10,
+  "pass": 10,
+  "fail": 0,
+  "ok": true,
+  "results": [
+    {
+      "slug": "cli-ignition",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-ignition\\grading\\hidden\\cli-ignition.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: FILES is computed (not hardcoded)\nok 1 - FILES is computed (not hardcoded)\n  ---\n  duration_ms: 81.5885\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 132.2106\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-ignition\\grading\\public\\cli-ignition.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: prints exactly CWD, FILES, OK\nok 1 - prints exactly CWD, FILES, OK\n  ---\n  duration_ms: 80.4414\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 132.5179\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-navigation",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-navigation\\grading\\hidden\\cli-navigation.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: pages.txt is dynamic (not hardcoded)\nok 1 - pages.txt is dynamic (not hardcoded)\n  ---\n  duration_ms: 80.4492\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 133.8696\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-navigation\\grading\\public\\cli-navigation.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: creates outputs files with correct navigation evidence\nok 1 - creates outputs files with correct navigation evidence\n  ---\n  duration_ms: 75.2055\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 130.4964\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-files-folders",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-files-folders\\grading\\hidden\\cli-files-folders.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: copy is real (not hardcoded) and fixtures remain\nok 1 - copy is real (not hardcoded) and fixtures remain\n  ---\n  duration_ms: 112.5649\n  type: 'test'\n  ...\n# Subtest: dynamic: handles changed invoice content\nok 2 - dynamic: handles changed invoice content\n  ---\n  duration_ms: 110.6433\n  type: 'test'\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 276.4204\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-files-folders\\grading\\public\\cli-files-folders.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: creates required structure and preserves fixtures\nok 1 - creates required structure and preserves fixtures\n  ---\n  duration_ms: 143.0167\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 204.8887\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-globs-search",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-globs-search\\grading\\hidden\\cli-globs-search.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: dynamic: respects new ERROR lines\nok 1 - dynamic: respects new ERROR lines\n  ---\n  duration_ms: 227.2866\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 284.1408\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-globs-search\\grading\\public\\cli-globs-search.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: writes correct error counts and file list\nok 1 - writes correct error counts and file list\n  ---\n  duration_ms: 166.2076\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 221.6266\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-redirection",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-redirection\\grading\\hidden\\cli-redirection.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: dynamic: uses data.txt contents (not hardcoded)\nok 1 - dynamic: uses data.txt contents (not hardcoded)\n  ---\n  duration_ms: 86.2578\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 145.4829\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-redirection\\grading\\public\\cli-redirection.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: report contains header + data + footer\nok 1 - report contains header + data + footer\n  ---\n  duration_ms: 79.9748\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 136.3127\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-pipes",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-pipes\\grading\\hidden\\cli-pipes.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: dynamic: respects new frequencies\nok 1 - dynamic: respects new frequencies\n  ---\n  duration_ms: 157.1802\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 214.4516\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-pipes\\grading\\public\\cli-pipes.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: top.txt contains top 2 names with counts\nok 1 - top.txt contains top 2 names with counts\n  ---\n  duration_ms: 164.0056\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 221.0397\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-env-vars",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-env-vars\\grading\\hidden\\cli-env-vars.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: handles empty strings by falling back to defaults\nok 1 - handles empty strings by falling back to defaults\n  ---\n  duration_ms: 61.4656\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 116.3791\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-env-vars\\grading\\public\\cli-env-vars.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: defaults to dev/3000 when vars missing\nok 1 - defaults to dev/3000 when vars missing\n  ---\n  duration_ms: 58.7379\n  type: 'test'\n  ...\n# Subtest: uses env vars when provided\nok 2 - uses env vars when provided\n  ---\n  duration_ms: 55.266\n  type: 'test'\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 168.1885\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-exit-codes",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-exit-codes\\grading\\hidden\\cli-exit-codes.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: matches FAIL as whole word only\nok 1 - matches FAIL as whole word only\n  ---\n  duration_ms: 61.3699\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 114.4908\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-exit-codes\\grading\\public\\cli-exit-codes.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: prints BAD to stderr and exits 5 when FAIL present\nok 1 - prints BAD to stderr and exits 5 when FAIL present\n  ---\n  duration_ms: 62.3427\n  type: 'test'\n  ...\n# Subtest: prints OK and exits 0 when FAIL absent\nok 2 - prints OK and exits 0 when FAIL absent\n  ---\n  duration_ms: 58.4393\n  type: 'test'\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 175.7724\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-processes",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-processes\\grading\\hidden\\cli-processes.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: dynamic: handles different top process\nok 1 - dynamic: handles different top process\n  ---\n  duration_ms: 107.4604\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 163.0568\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-processes\\grading\\public\\cli-processes.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: writes the highest-CPU process line\nok 1 - writes the highest-CPU process line\n  ---\n  duration_ms: 89.2238\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 143.0179\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "slug": "cli-scripting",
+      "ok": true,
+      "tests": [
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-scripting\\grading\\hidden\\cli-scripting.hidden.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: creates destination directories if needed\nok 1 - creates destination directories if needed\n  ---\n  duration_ms: 89.9834\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 142.3604\n",
+          "stderr_tail": ""
+        },
+        {
+          "file": "D:\\EvalForge\\docs\\quests\\cli-scripting\\grading\\public\\cli-scripting.public.test.mjs",
+          "ok": true,
+          "code": 0,
+          "stdout_tail": "TAP version 13\n# Subtest: copies src to dst when args provided\nok 1 - copies src to dst when args provided\n  ---\n  duration_ms: 86.9709\n  type: 'test'\n  ...\n# Subtest: prints usage and exits 2 when missing args\nok 2 - prints usage and exits 2 when missing args\n  ---\n  duration_ms: 34.5894\n  type: 'test'\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 173.8251\n",
+          "stderr_tail": ""
+        }
+      ]
+    }
+  ]
+}

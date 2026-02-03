@@ -1,0 +1,20 @@
+services:
+  api:
+    image: node:20-alpine
+    working_dir: /app
+    command: ["node", "server.js"]
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/app
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=app
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

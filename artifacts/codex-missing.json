@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-02-03T03:21:08.087460+00:00",
+  "generated_at": "2026-02-03T17:33:11.026113+00:00",
   "counts": {
-    "quests_scanned": 10,
-    "total_refs": 13,
-    "unique_refs": 13,
-    "missing_unique_refs": 0,
+    "quests_scanned": 135,
+    "total_refs": 150,
+    "unique_refs": 150,
+    "missing_unique_refs": 122,
     "invalid_unique_refs": 0,
-    "quests_with_missing": 0
+    "quests_with_missing": 114
   },
   "coverage": {
     "average_score": 100.0,
@@ -14,7 +14,7 @@
     "quests_empty_tutorial": 0,
     "quests_no_terms": 0,
     "quests_no_codex_refs": 0,
-    "quests_with_full_coverage": 10
+    "quests_with_full_coverage": 135
   },
   "policy": {
     "violations_count": 0,
@@ -23,6 +23,886 @@
     "starters_compliant": 0
   },
   "coverage_by_quest": {
+    "agents-approvals-diffs": {
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-budgets": {
+      "has_tutorial": true,
+      "tutorial_length": 783,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-executor": {
+      "has_tutorial": true,
+      "tutorial_length": 787,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-grounding-q1-rag-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 2959,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "agents-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 787,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-memory": {
+      "has_tutorial": true,
+      "tutorial_length": 779,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-observability": {
+      "has_tutorial": true,
+      "tutorial_length": 807,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-planner": {
+      "has_tutorial": true,
+      "tutorial_length": 783,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-prompts-contracts": {
+      "has_tutorial": true,
+      "tutorial_length": 823,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-tools-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 803,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "agents-verifier": {
+      "has_tutorial": true,
+      "tutorial_length": 787,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "cli-env-vars": {
+      "has_tutorial": true,
+      "tutorial_length": 567,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "cli-exit-codes": {
+      "has_tutorial": true,
+      "tutorial_length": 535,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "cli-files-folders": {
+      "has_tutorial": true,
+      "tutorial_length": 555,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "cli-globs-search": {
+      "has_tutorial": true,
+      "tutorial_length": 549,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "cli-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 578,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "cli-navigation": {
+      "has_tutorial": true,
+      "tutorial_length": 543,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "cli-pipes": {
+      "has_tutorial": true,
+      "tutorial_length": 507,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "cli-processes": {
+      "has_tutorial": true,
+      "tutorial_length": 503,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "cli-redirection": {
+      "has_tutorial": true,
+      "tutorial_length": 559,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "cli-scripting": {
+      "has_tutorial": true,
+      "tutorial_length": 547,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "css-box-model": {
+      "has_tutorial": true,
+      "tutorial_length": 4351,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "css-cascade-inheritance": {
+      "has_tutorial": true,
+      "tutorial_length": 4399,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "css-colors-backgrounds": {
+      "has_tutorial": true,
+      "tutorial_length": 4903,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "css-flexbox": {
+      "has_tutorial": true,
+      "tutorial_length": 4922,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "css-grid": {
+      "has_tutorial": true,
+      "tutorial_length": 5433,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "css-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 3431,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "css-position-zindex": {
+      "has_tutorial": true,
+      "tutorial_length": 5787,
+      "has_terms": true,
+      "terms_total": 6,
+      "terms_with_codex_ref": 6,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "css-responsive-media": {
+      "has_tutorial": true,
+      "tutorial_length": 5078,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "css-selectors-specificity": {
+      "has_tutorial": true,
+      "tutorial_length": 3912,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "css-units-typography": {
+      "has_tutorial": true,
+      "tutorial_length": 4607,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "first-sparks": {
+      "has_tutorial": true,
+      "tutorial_length": 341,
+      "has_terms": true,
+      "terms_total": 2,
+      "terms_with_codex_ref": 2,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "git-add-commit": {
+      "has_tutorial": true,
+      "tutorial_length": 771,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-branch-checkout": {
+      "has_tutorial": true,
+      "tutorial_length": 791,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-branch-q1-branching-strategies": {
+      "has_tutorial": true,
+      "tutorial_length": 2195,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "git-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 763,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-init-clone": {
+      "has_tutorial": true,
+      "tutorial_length": 771,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-merge-conflicts": {
+      "has_tutorial": true,
+      "tutorial_length": 791,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-push-pull": {
+      "has_tutorial": true,
+      "tutorial_length": 767,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-remote-origin": {
+      "has_tutorial": true,
+      "tutorial_length": 783,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-reset-revert": {
+      "has_tutorial": true,
+      "tutorial_length": 779,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-stash": {
+      "has_tutorial": true,
+      "tutorial_length": 751,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "git-status-log": {
+      "has_tutorial": true,
+      "tutorial_length": 771,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "hello-variable": {
+      "has_tutorial": true,
+      "tutorial_length": 343,
+      "has_terms": true,
+      "terms_total": 2,
+      "terms_with_codex_ref": 2,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "html-accessibility-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 4404,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "html-debug-validate": {
+      "has_tutorial": true,
+      "tutorial_length": 4369,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "html-forms-inputs": {
+      "has_tutorial": true,
+      "tutorial_length": 4065,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "html-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 2970,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "html-links-images": {
+      "has_tutorial": true,
+      "tutorial_length": 3659,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "html-lists-tables": {
+      "has_tutorial": true,
+      "tutorial_length": 3600,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "html-media-embed": {
+      "has_tutorial": true,
+      "tutorial_length": 4508,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "html-meta-seo": {
+      "has_tutorial": true,
+      "tutorial_length": 4829,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "html-semantic-layout": {
+      "has_tutorial": true,
+      "tutorial_length": 4229,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "html-tags-attributes": {
+      "has_tutorial": true,
+      "tutorial_length": 3278,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "infra-ci-cd-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 787,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-container-networking": {
+      "has_tutorial": true,
+      "tutorial_length": 819,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-containment-q1-linux-shell-and-fs": {
+      "has_tutorial": true,
+      "tutorial_length": 2005,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "infra-deployment-strategies": {
+      "has_tutorial": true,
+      "tutorial_length": 823,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-docker-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 791,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-docker-compose": {
+      "has_tutorial": true,
+      "tutorial_length": 795,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-env-variables": {
+      "has_tutorial": true,
+      "tutorial_length": 791,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 771,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-kubernetes-intro": {
+      "has_tutorial": true,
+      "tutorial_length": 803,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-monitoring-logging": {
+      "has_tutorial": true,
+      "tutorial_length": 811,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-service-q1-dockerize-and-compose": {
+      "has_tutorial": true,
+      "tutorial_length": 2237,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "infra-volumes-persistence": {
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "js-arrays-q1-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 795,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "js-arrays-q2-map-filter-reduce": {
+      "has_tutorial": true,
+      "tutorial_length": 839,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "js-async-q1-promises-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 827,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "js-control-q1-if-else-loops": {
+      "has_tutorial": true,
+      "tutorial_length": 827,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "js-errors-q1-try-catch": {
+      "has_tutorial": true,
+      "tutorial_length": 807,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "js-functions-q1-arrow-vs-regular": {
+      "has_tutorial": true,
+      "tutorial_length": 847,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "js-ignition-q1-console-and-functions": {
+      "has_tutorial": true,
+      "tutorial_length": 863,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "js-modules-q1-import-export": {
+      "has_tutorial": true,
+      "tutorial_length": 827,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "js-objects-q1-properties-methods": {
+      "has_tutorial": true,
+      "tutorial_length": 847,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "js-vars-q1-let-const-var": {
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-classification-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-data-preprocessing": {
+      "has_tutorial": true,
+      "tutorial_length": 803,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-gradient-q1-training-loop-and-metrics": {
+      "has_tutorial": true,
+      "tutorial_length": 2409,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "ml-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 763,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-linear-regression": {
+      "has_tutorial": true,
+      "tutorial_length": 799,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-model-evaluation": {
+      "has_tutorial": true,
+      "tutorial_length": 795,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-neural-networks-intro": {
+      "has_tutorial": true,
+      "tutorial_length": 815,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-numpy-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 779,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-overfitting-regularization": {
+      "has_tutorial": true,
+      "tutorial_length": 835,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-pandas-dataframes": {
+      "has_tutorial": true,
+      "tutorial_length": 799,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ml-tensor-q1-numpy-and-shapes": {
+      "has_tutorial": true,
+      "tutorial_length": 2332,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "ml-train-test-split": {
+      "has_tutorial": true,
+      "tutorial_length": 795,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
     "node-async": {
       "has_tutorial": true,
       "tutorial_length": 533,
@@ -122,10 +1002,2200 @@
       "codex_refs_total": 1,
       "unique_codex_refs": 1,
       "coverage_score": 100.0
+    },
+    "quest-py-hidden": {
+      "has_tutorial": true,
+      "tutorial_length": 344,
+      "has_terms": true,
+      "terms_total": 2,
+      "terms_with_codex_ref": 2,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "quest-py-workspace": {
+      "has_tutorial": true,
+      "tutorial_length": 347,
+      "has_terms": true,
+      "terms_total": 2,
+      "terms_with_codex_ref": 2,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "react-context": {
+      "has_tutorial": true,
+      "tutorial_length": 490,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "react-custom-hooks": {
+      "has_tutorial": true,
+      "tutorial_length": 437,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "react-effects": {
+      "has_tutorial": true,
+      "tutorial_length": 468,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "react-events": {
+      "has_tutorial": true,
+      "tutorial_length": 463,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "react-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 493,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 2,
+      "unique_codex_refs": 2,
+      "coverage_score": 100.0
+    },
+    "react-lists-keys": {
+      "has_tutorial": true,
+      "tutorial_length": 470,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "react-performance-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 523,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "react-props": {
+      "has_tutorial": true,
+      "tutorial_length": 431,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "react-routing": {
+      "has_tutorial": true,
+      "tutorial_length": 444,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "react-state": {
+      "has_tutorial": true,
+      "tutorial_length": 466,
+      "has_terms": true,
+      "terms_total": 4,
+      "terms_with_codex_ref": 4,
+      "codex_refs_total": 1,
+      "unique_codex_refs": 1,
+      "coverage_score": 100.0
+    },
+    "sql-aggregates": {
+      "has_tutorial": true,
+      "tutorial_length": 769,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-analytics-q1-window-functions": {
+      "has_tutorial": true,
+      "tutorial_length": 2231,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "sql-cte-subquery": {
+      "has_tutorial": true,
+      "tutorial_length": 777,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-groupby-having": {
+      "has_tutorial": true,
+      "tutorial_length": 785,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 761,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-insert-update-delete": {
+      "has_tutorial": true,
+      "tutorial_length": 809,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-joins": {
+      "has_tutorial": true,
+      "tutorial_length": 749,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-left-join-null": {
+      "has_tutorial": true,
+      "tutorial_length": 785,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-order-limit": {
+      "has_tutorial": true,
+      "tutorial_length": 773,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-retrieval-q1-select-from-basics": {
+      "has_tutorial": true,
+      "tutorial_length": 1811,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "sql-select": {
+      "has_tutorial": true,
+      "tutorial_length": 753,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "sql-where": {
+      "has_tutorial": true,
+      "tutorial_length": 749,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-arrays": {
+      "has_tutorial": true,
+      "tutorial_length": 755,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-control": {
+      "has_tutorial": true,
+      "tutorial_length": 759,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-functions": {
+      "has_tutorial": true,
+      "tutorial_length": 767,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-generics": {
+      "has_tutorial": true,
+      "tutorial_length": 763,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-generics-q2-result-type": {
+      "has_tutorial": true,
+      "tutorial_length": 2827,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "ts-ignition": {
+      "has_tutorial": true,
+      "tutorial_length": 763,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-ignition-q1-types-and-interfaces": {
+      "has_tutorial": true,
+      "tutorial_length": 1987,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "ts-interfaces": {
+      "has_tutorial": true,
+      "tutorial_length": 771,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-modules": {
+      "has_tutorial": true,
+      "tutorial_length": 759,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-narrowing-q2-unions-and-guards": {
+      "has_tutorial": true,
+      "tutorial_length": 3182,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "ts-objects": {
+      "has_tutorial": true,
+      "tutorial_length": 759,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-types": {
+      "has_tutorial": true,
+      "tutorial_length": 751,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "ts-vars": {
+      "has_tutorial": true,
+      "tutorial_length": 747,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
     }
   },
-  "missing_by_ref": {},
-  "missing_by_quest": {},
+  "missing_by_ref": {
+    "codex:glossary/world-agents/term-2": {
+      "path": "docs\\codex\\world-agents\\term-2.md",
+      "quests": [
+        "agents-approvals-diffs",
+        "agents-budgets",
+        "agents-executor",
+        "agents-ignition",
+        "agents-memory",
+        "agents-observability",
+        "agents-planner",
+        "agents-prompts-contracts",
+        "agents-tools-basics",
+        "agents-verifier"
+      ]
+    },
+    "codex:glossary/world-agents/term-1": {
+      "path": "docs\\codex\\world-agents\\term-1.md",
+      "quests": [
+        "agents-approvals-diffs",
+        "agents-budgets",
+        "agents-executor",
+        "agents-ignition",
+        "agents-memory",
+        "agents-observability",
+        "agents-planner",
+        "agents-prompts-contracts",
+        "agents-tools-basics",
+        "agents-verifier"
+      ]
+    },
+    "codex:glossary/world-agents/term-3": {
+      "path": "docs\\codex\\world-agents\\term-3.md",
+      "quests": [
+        "agents-approvals-diffs",
+        "agents-budgets",
+        "agents-executor",
+        "agents-ignition",
+        "agents-memory",
+        "agents-observability",
+        "agents-planner",
+        "agents-prompts-contracts",
+        "agents-tools-basics",
+        "agents-verifier"
+      ]
+    },
+    "codex:glossary/agents/chunk": {
+      "path": "docs\\codex\\world-agents\\chunk.md",
+      "quests": [
+        "agents-grounding-q1-rag-basics"
+      ]
+    },
+    "codex:glossary/agents/grounding": {
+      "path": "docs\\codex\\world-agents\\grounding.md",
+      "quests": [
+        "agents-grounding-q1-rag-basics"
+      ]
+    },
+    "codex:glossary/agents/citation": {
+      "path": "docs\\codex\\world-agents\\citation.md",
+      "quests": [
+        "agents-grounding-q1-rag-basics"
+      ]
+    },
+    "codex:glossary/agents/retrieval": {
+      "path": "docs\\codex\\world-agents\\retrieval.md",
+      "quests": [
+        "agents-grounding-q1-rag-basics"
+      ]
+    },
+    "codex:glossary/agents/rag": {
+      "path": "docs\\codex\\world-agents\\rag.md",
+      "quests": [
+        "agents-grounding-q1-rag-basics"
+      ]
+    },
+    "codex:glossary/web/css/box-model": {
+      "path": "docs\\codex\\world-web\\css\\box-model.md",
+      "quests": [
+        "css-box-model"
+      ]
+    },
+    "codex:glossary/web/css/inheritance": {
+      "path": "docs\\codex\\world-web\\css\\inheritance.md",
+      "quests": [
+        "css-cascade-inheritance"
+      ]
+    },
+    "codex:glossary/web/css/cascade": {
+      "path": "docs\\codex\\world-web\\css\\cascade.md",
+      "quests": [
+        "css-cascade-inheritance"
+      ]
+    },
+    "codex:glossary/web/css/backgrounds": {
+      "path": "docs\\codex\\world-web\\css\\backgrounds.md",
+      "quests": [
+        "css-colors-backgrounds"
+      ]
+    },
+    "codex:glossary/web/css/colors": {
+      "path": "docs\\codex\\world-web\\css\\colors.md",
+      "quests": [
+        "css-colors-backgrounds"
+      ]
+    },
+    "codex:glossary/web/css/flexbox": {
+      "path": "docs\\codex\\world-web\\css\\flexbox.md",
+      "quests": [
+        "css-flexbox"
+      ]
+    },
+    "codex:glossary/web/css/grid": {
+      "path": "docs\\codex\\world-web\\css\\grid.md",
+      "quests": [
+        "css-grid"
+      ]
+    },
+    "codex:glossary/web/css/selectors": {
+      "path": "docs\\codex\\world-web\\css\\selectors.md",
+      "quests": [
+        "css-ignition",
+        "css-selectors-specificity"
+      ]
+    },
+    "codex:glossary/web/css/positioning": {
+      "path": "docs\\codex\\world-web\\css\\positioning.md",
+      "quests": [
+        "css-position-zindex"
+      ]
+    },
+    "codex:glossary/web/css/typography": {
+      "path": "docs\\codex\\world-web\\css\\typography.md",
+      "quests": [
+        "css-responsive-media",
+        "css-units-typography"
+      ]
+    },
+    "codex:glossary/web/css/media-queries": {
+      "path": "docs\\codex\\world-web\\css\\media-queries.md",
+      "quests": [
+        "css-responsive-media"
+      ]
+    },
+    "codex:glossary/web/css/specificity": {
+      "path": "docs\\codex\\world-web\\css\\specificity.md",
+      "quests": [
+        "css-selectors-specificity"
+      ]
+    },
+    "codex:glossary/web/css/units": {
+      "path": "docs\\codex\\world-web\\css\\units.md",
+      "quests": [
+        "css-units-typography"
+      ]
+    },
+    "codex:glossary/world-python/term-2": {
+      "path": "docs\\codex\\world-python\\term-2.md",
+      "quests": [
+        "first-sparks",
+        "hello-variable",
+        "quest-py-hidden",
+        "quest-py-workspace"
+      ]
+    },
+    "codex:glossary/world-python/term-1": {
+      "path": "docs\\codex\\world-python\\term-1.md",
+      "quests": [
+        "first-sparks",
+        "hello-variable",
+        "quest-py-hidden",
+        "quest-py-workspace"
+      ]
+    },
+    "codex:glossary/world-git/term-2": {
+      "path": "docs\\codex\\world-git\\term-2.md",
+      "quests": [
+        "git-add-commit",
+        "git-branch-checkout",
+        "git-ignition",
+        "git-init-clone",
+        "git-merge-conflicts",
+        "git-push-pull",
+        "git-remote-origin",
+        "git-reset-revert",
+        "git-stash",
+        "git-status-log"
+      ]
+    },
+    "codex:glossary/world-git/term-3": {
+      "path": "docs\\codex\\world-git\\term-3.md",
+      "quests": [
+        "git-add-commit",
+        "git-branch-checkout",
+        "git-ignition",
+        "git-init-clone",
+        "git-merge-conflicts",
+        "git-push-pull",
+        "git-remote-origin",
+        "git-reset-revert",
+        "git-stash",
+        "git-status-log"
+      ]
+    },
+    "codex:glossary/world-git/term-1": {
+      "path": "docs\\codex\\world-git\\term-1.md",
+      "quests": [
+        "git-add-commit",
+        "git-branch-checkout",
+        "git-ignition",
+        "git-init-clone",
+        "git-merge-conflicts",
+        "git-push-pull",
+        "git-remote-origin",
+        "git-reset-revert",
+        "git-stash",
+        "git-status-log"
+      ]
+    },
+    "codex:glossary/git/switch": {
+      "path": "docs\\codex\\world-git\\switch.md",
+      "quests": [
+        "git-branch-q1-branching-strategies"
+      ]
+    },
+    "codex:glossary/git/branch": {
+      "path": "docs\\codex\\world-git\\branch.md",
+      "quests": [
+        "git-branch-q1-branching-strategies"
+      ]
+    },
+    "codex:glossary/git/main-branch": {
+      "path": "docs\\codex\\world-git\\main-branch.md",
+      "quests": [
+        "git-branch-q1-branching-strategies"
+      ]
+    },
+    "codex:glossary/git/head": {
+      "path": "docs\\codex\\world-git\\head.md",
+      "quests": [
+        "git-branch-q1-branching-strategies"
+      ]
+    },
+    "codex:glossary/web/html/accessibility-basics": {
+      "path": "docs\\codex\\world-web\\html\\accessibility-basics.md",
+      "quests": [
+        "html-accessibility-basics"
+      ]
+    },
+    "codex:glossary/web/html/tags-and-elements": {
+      "path": "docs\\codex\\world-web\\html\\tags-and-elements.md",
+      "quests": [
+        "html-debug-validate",
+        "html-tags-attributes"
+      ]
+    },
+    "codex:glossary/web/html/debug-validate": {
+      "path": "docs\\codex\\world-web\\html\\debug-validate.md",
+      "quests": [
+        "html-debug-validate"
+      ]
+    },
+    "codex:glossary/web/html/forms": {
+      "path": "docs\\codex\\world-web\\html\\forms.md",
+      "quests": [
+        "html-forms-inputs"
+      ]
+    },
+    "codex:glossary/web/html/metadata-seo": {
+      "path": "docs\\codex\\world-web\\html\\metadata-seo.md",
+      "quests": [
+        "html-ignition",
+        "html-meta-seo"
+      ]
+    },
+    "codex:glossary/web/html/document-skeleton": {
+      "path": "docs\\codex\\world-web\\html\\document-skeleton.md",
+      "quests": [
+        "html-ignition",
+        "html-meta-seo"
+      ]
+    },
+    "codex:glossary/web/html/links": {
+      "path": "docs\\codex\\world-web\\html\\links.md",
+      "quests": [
+        "html-links-images"
+      ]
+    },
+    "codex:glossary/web/html/images": {
+      "path": "docs\\codex\\world-web\\html\\images.md",
+      "quests": [
+        "html-links-images"
+      ]
+    },
+    "codex:glossary/web/html/tables": {
+      "path": "docs\\codex\\world-web\\html\\tables.md",
+      "quests": [
+        "html-lists-tables"
+      ]
+    },
+    "codex:glossary/web/html/lists": {
+      "path": "docs\\codex\\world-web\\html\\lists.md",
+      "quests": [
+        "html-lists-tables"
+      ]
+    },
+    "codex:glossary/web/html/media-embed": {
+      "path": "docs\\codex\\world-web\\html\\media-embed.md",
+      "quests": [
+        "html-media-embed"
+      ]
+    },
+    "codex:glossary/web/html/semantic-elements": {
+      "path": "docs\\codex\\world-web\\html\\semantic-elements.md",
+      "quests": [
+        "html-semantic-layout"
+      ]
+    },
+    "codex:glossary/web/html/attributes": {
+      "path": "docs\\codex\\world-web\\html\\attributes.md",
+      "quests": [
+        "html-tags-attributes"
+      ]
+    },
+    "codex:glossary/world-infra/term-2": {
+      "path": "docs\\codex\\world-infra\\term-2.md",
+      "quests": [
+        "infra-ci-cd-basics",
+        "infra-container-networking",
+        "infra-deployment-strategies",
+        "infra-docker-basics",
+        "infra-docker-compose",
+        "infra-env-variables",
+        "infra-ignition",
+        "infra-kubernetes-intro",
+        "infra-monitoring-logging",
+        "infra-volumes-persistence"
+      ]
+    },
+    "codex:glossary/world-infra/term-3": {
+      "path": "docs\\codex\\world-infra\\term-3.md",
+      "quests": [
+        "infra-ci-cd-basics",
+        "infra-container-networking",
+        "infra-deployment-strategies",
+        "infra-docker-basics",
+        "infra-docker-compose",
+        "infra-env-variables",
+        "infra-ignition",
+        "infra-kubernetes-intro",
+        "infra-monitoring-logging",
+        "infra-volumes-persistence"
+      ]
+    },
+    "codex:glossary/world-infra/term-1": {
+      "path": "docs\\codex\\world-infra\\term-1.md",
+      "quests": [
+        "infra-ci-cd-basics",
+        "infra-container-networking",
+        "infra-deployment-strategies",
+        "infra-docker-basics",
+        "infra-docker-compose",
+        "infra-env-variables",
+        "infra-ignition",
+        "infra-kubernetes-intro",
+        "infra-monitoring-logging",
+        "infra-volumes-persistence"
+      ]
+    },
+    "codex:glossary/infra/shell": {
+      "path": "docs\\codex\\world-infra\\shell.md",
+      "quests": [
+        "infra-containment-q1-linux-shell-and-fs"
+      ]
+    },
+    "codex:glossary/infra/filesystem": {
+      "path": "docs\\codex\\world-infra\\filesystem.md",
+      "quests": [
+        "infra-containment-q1-linux-shell-and-fs"
+      ]
+    },
+    "codex:glossary/infra/cwd": {
+      "path": "docs\\codex\\world-infra\\cwd.md",
+      "quests": [
+        "infra-containment-q1-linux-shell-and-fs"
+      ]
+    },
+    "codex:glossary/infra/path": {
+      "path": "docs\\codex\\world-infra\\path.md",
+      "quests": [
+        "infra-containment-q1-linux-shell-and-fs"
+      ]
+    },
+    "codex:glossary/infra/permissions": {
+      "path": "docs\\codex\\world-infra\\permissions.md",
+      "quests": [
+        "infra-containment-q1-linux-shell-and-fs"
+      ]
+    },
+    "codex:glossary/infra/image": {
+      "path": "docs\\codex\\world-infra\\image.md",
+      "quests": [
+        "infra-service-q1-dockerize-and-compose"
+      ]
+    },
+    "codex:glossary/infra/dockerfile": {
+      "path": "docs\\codex\\world-infra\\dockerfile.md",
+      "quests": [
+        "infra-service-q1-dockerize-and-compose"
+      ]
+    },
+    "codex:glossary/infra/docker-compose": {
+      "path": "docs\\codex\\world-infra\\docker-compose.md",
+      "quests": [
+        "infra-service-q1-dockerize-and-compose"
+      ]
+    },
+    "codex:glossary/infra/container": {
+      "path": "docs\\codex\\world-infra\\container.md",
+      "quests": [
+        "infra-service-q1-dockerize-and-compose"
+      ]
+    },
+    "codex:glossary/infra/port-mapping": {
+      "path": "docs\\codex\\world-infra\\port-mapping.md",
+      "quests": [
+        "infra-service-q1-dockerize-and-compose"
+      ]
+    },
+    "codex:glossary/world-js/term-3": {
+      "path": "docs\\codex\\world-js\\term-3.md",
+      "quests": [
+        "js-arrays-q1-basics",
+        "js-async-q1-promises-basics",
+        "js-control-q1-if-else-loops",
+        "js-errors-q1-try-catch",
+        "js-functions-q1-arrow-vs-regular",
+        "js-modules-q1-import-export",
+        "js-objects-q1-properties-methods",
+        "js-vars-q1-let-const-var"
+      ]
+    },
+    "codex:glossary/world-js/term-1": {
+      "path": "docs\\codex\\world-js\\term-1.md",
+      "quests": [
+        "js-arrays-q1-basics",
+        "js-async-q1-promises-basics",
+        "js-control-q1-if-else-loops",
+        "js-errors-q1-try-catch",
+        "js-functions-q1-arrow-vs-regular",
+        "js-modules-q1-import-export",
+        "js-objects-q1-properties-methods",
+        "js-vars-q1-let-const-var"
+      ]
+    },
+    "codex:glossary/world-js/term-2": {
+      "path": "docs\\codex\\world-js\\term-2.md",
+      "quests": [
+        "js-arrays-q1-basics",
+        "js-async-q1-promises-basics",
+        "js-control-q1-if-else-loops",
+        "js-errors-q1-try-catch",
+        "js-functions-q1-arrow-vs-regular",
+        "js-modules-q1-import-export",
+        "js-objects-q1-properties-methods",
+        "js-vars-q1-let-const-var"
+      ]
+    },
+    "codex:glossary/js/filter": {
+      "path": "docs\\codex\\world-js\\filter.md",
+      "quests": [
+        "js-arrays-q2-map-filter-reduce"
+      ]
+    },
+    "codex:glossary/js/map": {
+      "path": "docs\\codex\\world-js\\map.md",
+      "quests": [
+        "js-arrays-q2-map-filter-reduce"
+      ]
+    },
+    "codex:glossary/js/callback": {
+      "path": "docs\\codex\\world-js\\callback.md",
+      "quests": [
+        "js-arrays-q2-map-filter-reduce"
+      ]
+    },
+    "codex:glossary/js/array": {
+      "path": "docs\\codex\\world-js\\array.md",
+      "quests": [
+        "js-arrays-q2-map-filter-reduce"
+      ]
+    },
+    "codex:glossary/js/reduce": {
+      "path": "docs\\codex\\world-js\\reduce.md",
+      "quests": [
+        "js-arrays-q2-map-filter-reduce"
+      ]
+    },
+    "codex:glossary/js/parameter": {
+      "path": "docs\\codex\\world-js\\parameter.md",
+      "quests": [
+        "js-ignition-q1-console-and-functions"
+      ]
+    },
+    "codex:glossary/js/return-value": {
+      "path": "docs\\codex\\world-js\\return-value.md",
+      "quests": [
+        "js-ignition-q1-console-and-functions"
+      ]
+    },
+    "codex:glossary/js/function": {
+      "path": "docs\\codex\\world-js\\function.md",
+      "quests": [
+        "js-ignition-q1-console-and-functions"
+      ]
+    },
+    "codex:glossary/js/console-log": {
+      "path": "docs\\codex\\world-js\\console-log.md",
+      "quests": [
+        "js-ignition-q1-console-and-functions"
+      ]
+    },
+    "codex:glossary/js/string": {
+      "path": "docs\\codex\\world-js\\string.md",
+      "quests": [
+        "js-ignition-q1-console-and-functions"
+      ]
+    },
+    "codex:glossary/world-ml/term-3": {
+      "path": "docs\\codex\\world-ml\\term-3.md",
+      "quests": [
+        "ml-classification-basics",
+        "ml-data-preprocessing",
+        "ml-ignition",
+        "ml-linear-regression",
+        "ml-model-evaluation",
+        "ml-neural-networks-intro",
+        "ml-numpy-basics",
+        "ml-overfitting-regularization",
+        "ml-pandas-dataframes",
+        "ml-train-test-split"
+      ]
+    },
+    "codex:glossary/world-ml/term-1": {
+      "path": "docs\\codex\\world-ml\\term-1.md",
+      "quests": [
+        "ml-classification-basics",
+        "ml-data-preprocessing",
+        "ml-ignition",
+        "ml-linear-regression",
+        "ml-model-evaluation",
+        "ml-neural-networks-intro",
+        "ml-numpy-basics",
+        "ml-overfitting-regularization",
+        "ml-pandas-dataframes",
+        "ml-train-test-split"
+      ]
+    },
+    "codex:glossary/world-ml/term-2": {
+      "path": "docs\\codex\\world-ml\\term-2.md",
+      "quests": [
+        "ml-classification-basics",
+        "ml-data-preprocessing",
+        "ml-ignition",
+        "ml-linear-regression",
+        "ml-model-evaluation",
+        "ml-neural-networks-intro",
+        "ml-numpy-basics",
+        "ml-overfitting-regularization",
+        "ml-pandas-dataframes",
+        "ml-train-test-split"
+      ]
+    },
+    "codex:glossary/ml/epoch": {
+      "path": "docs\\codex\\world-ml\\epoch.md",
+      "quests": [
+        "ml-gradient-q1-training-loop-and-metrics"
+      ]
+    },
+    "codex:glossary/ml/loss": {
+      "path": "docs\\codex\\world-ml\\loss.md",
+      "quests": [
+        "ml-gradient-q1-training-loop-and-metrics"
+      ]
+    },
+    "codex:glossary/ml/learning-rate": {
+      "path": "docs\\codex\\world-ml\\learning-rate.md",
+      "quests": [
+        "ml-gradient-q1-training-loop-and-metrics"
+      ]
+    },
+    "codex:glossary/ml/metric": {
+      "path": "docs\\codex\\world-ml\\metric.md",
+      "quests": [
+        "ml-gradient-q1-training-loop-and-metrics"
+      ]
+    },
+    "codex:glossary/ml/gradient": {
+      "path": "docs\\codex\\world-ml\\gradient.md",
+      "quests": [
+        "ml-gradient-q1-training-loop-and-metrics"
+      ]
+    },
+    "codex:glossary/ml/shape": {
+      "path": "docs\\codex\\world-ml\\shape.md",
+      "quests": [
+        "ml-tensor-q1-numpy-and-shapes"
+      ]
+    },
+    "codex:glossary/ml/tensor": {
+      "path": "docs\\codex\\world-ml\\tensor.md",
+      "quests": [
+        "ml-tensor-q1-numpy-and-shapes"
+      ]
+    },
+    "codex:glossary/ml/reshape": {
+      "path": "docs\\codex\\world-ml\\reshape.md",
+      "quests": [
+        "ml-tensor-q1-numpy-and-shapes"
+      ]
+    },
+    "codex:glossary/ml/axis": {
+      "path": "docs\\codex\\world-ml\\axis.md",
+      "quests": [
+        "ml-tensor-q1-numpy-and-shapes"
+      ]
+    },
+    "codex:glossary/ml/broadcasting": {
+      "path": "docs\\codex\\world-ml\\broadcasting.md",
+      "quests": [
+        "ml-tensor-q1-numpy-and-shapes"
+      ]
+    },
+    "codex:glossary/node/async-errors": {
+      "path": "docs\\codex\\world-node\\async-errors.md",
+      "quests": [
+        "node-async"
+      ]
+    },
+    "codex:glossary/node/health-checks": {
+      "path": "docs\\codex\\world-node\\health-checks.md",
+      "quests": [
+        "node-deploy-basics"
+      ]
+    },
+    "codex:glossary/node/env-and-config": {
+      "path": "docs\\codex\\world-node\\env-and-config.md",
+      "quests": [
+        "node-deploy-basics",
+        "node-env-config"
+      ]
+    },
+    "codex:glossary/node/runtime-and-process": {
+      "path": "docs\\codex\\world-node\\runtime-and-process.md",
+      "quests": [
+        "node-env-config",
+        "node-ignition"
+      ]
+    },
+    "codex:glossary/node/fs-and-path": {
+      "path": "docs\\codex\\world-node\\fs-and-path.md",
+      "quests": [
+        "node-fs-path"
+      ]
+    },
+    "codex:glossary/node/logging": {
+      "path": "docs\\codex\\world-node\\logging.md",
+      "quests": [
+        "node-middleware"
+      ]
+    },
+    "codex:glossary/node/modules-esm-cjs": {
+      "path": "docs\\codex\\world-node\\modules-esm-cjs.md",
+      "quests": [
+        "node-modules"
+      ]
+    },
+    "codex:glossary/node/lockfiles": {
+      "path": "docs\\codex\\world-node\\lockfiles.md",
+      "quests": [
+        "node-npm"
+      ]
+    },
+    "codex:glossary/node/package-json": {
+      "path": "docs\\codex\\world-node\\package-json.md",
+      "quests": [
+        "node-npm"
+      ]
+    },
+    "codex:glossary/node/testing-basics": {
+      "path": "docs\\codex\\world-node\\testing-basics.md",
+      "quests": [
+        "node-testing"
+      ]
+    },
+    "codex:glossary/world-sql/term-2": {
+      "path": "docs\\codex\\world-sql\\term-2.md",
+      "quests": [
+        "sql-aggregates",
+        "sql-cte-subquery",
+        "sql-groupby-having",
+        "sql-ignition",
+        "sql-insert-update-delete",
+        "sql-joins",
+        "sql-left-join-null",
+        "sql-order-limit",
+        "sql-select",
+        "sql-where"
+      ]
+    },
+    "codex:glossary/world-sql/term-3": {
+      "path": "docs\\codex\\world-sql\\term-3.md",
+      "quests": [
+        "sql-aggregates",
+        "sql-cte-subquery",
+        "sql-groupby-having",
+        "sql-ignition",
+        "sql-insert-update-delete",
+        "sql-joins",
+        "sql-left-join-null",
+        "sql-order-limit",
+        "sql-select",
+        "sql-where"
+      ]
+    },
+    "codex:glossary/world-sql/term-1": {
+      "path": "docs\\codex\\world-sql\\term-1.md",
+      "quests": [
+        "sql-aggregates",
+        "sql-cte-subquery",
+        "sql-groupby-having",
+        "sql-ignition",
+        "sql-insert-update-delete",
+        "sql-joins",
+        "sql-left-join-null",
+        "sql-order-limit",
+        "sql-select",
+        "sql-where"
+      ]
+    },
+    "codex:glossary/sql/partition-by": {
+      "path": "docs\\codex\\world-sql\\partition-by.md",
+      "quests": [
+        "sql-analytics-q1-window-functions"
+      ]
+    },
+    "codex:glossary/sql/window-function": {
+      "path": "docs\\codex\\world-sql\\window-function.md",
+      "quests": [
+        "sql-analytics-q1-window-functions"
+      ]
+    },
+    "codex:glossary/sql/over": {
+      "path": "docs\\codex\\world-sql\\over.md",
+      "quests": [
+        "sql-analytics-q1-window-functions"
+      ]
+    },
+    "codex:glossary/sql/order-by": {
+      "path": "docs\\codex\\world-sql\\order-by.md",
+      "quests": [
+        "sql-analytics-q1-window-functions",
+        "sql-retrieval-q1-select-from-basics"
+      ]
+    },
+    "codex:glossary/sql/row-number": {
+      "path": "docs\\codex\\world-sql\\row-number.md",
+      "quests": [
+        "sql-analytics-q1-window-functions"
+      ]
+    },
+    "codex:glossary/sql/where": {
+      "path": "docs\\codex\\world-sql\\where.md",
+      "quests": [
+        "sql-retrieval-q1-select-from-basics"
+      ]
+    },
+    "codex:glossary/sql/from": {
+      "path": "docs\\codex\\world-sql\\from.md",
+      "quests": [
+        "sql-retrieval-q1-select-from-basics"
+      ]
+    },
+    "codex:glossary/sql/limit": {
+      "path": "docs\\codex\\world-sql\\limit.md",
+      "quests": [
+        "sql-retrieval-q1-select-from-basics"
+      ]
+    },
+    "codex:glossary/sql/select": {
+      "path": "docs\\codex\\world-sql\\select.md",
+      "quests": [
+        "sql-retrieval-q1-select-from-basics"
+      ]
+    },
+    "codex:glossary/world-typescript/term-2": {
+      "path": "docs\\codex\\world-typescript\\term-2.md",
+      "quests": [
+        "ts-arrays",
+        "ts-control",
+        "ts-functions",
+        "ts-generics",
+        "ts-ignition",
+        "ts-interfaces",
+        "ts-modules",
+        "ts-objects",
+        "ts-types",
+        "ts-vars"
+      ]
+    },
+    "codex:glossary/world-typescript/term-1": {
+      "path": "docs\\codex\\world-typescript\\term-1.md",
+      "quests": [
+        "ts-arrays",
+        "ts-control",
+        "ts-functions",
+        "ts-generics",
+        "ts-ignition",
+        "ts-interfaces",
+        "ts-modules",
+        "ts-objects",
+        "ts-types",
+        "ts-vars"
+      ]
+    },
+    "codex:glossary/world-typescript/term-3": {
+      "path": "docs\\codex\\world-typescript\\term-3.md",
+      "quests": [
+        "ts-arrays",
+        "ts-control",
+        "ts-functions",
+        "ts-generics",
+        "ts-ignition",
+        "ts-interfaces",
+        "ts-modules",
+        "ts-objects",
+        "ts-types",
+        "ts-vars"
+      ]
+    },
+    "codex:glossary/ts/type-parameter": {
+      "path": "docs\\codex\\world-ts\\type-parameter.md",
+      "quests": [
+        "ts-generics-q2-result-type"
+      ]
+    },
+    "codex:glossary/ts/never": {
+      "path": "docs\\codex\\world-ts\\never.md",
+      "quests": [
+        "ts-generics-q2-result-type"
+      ]
+    },
+    "codex:glossary/ts/type-inference": {
+      "path": "docs\\codex\\world-ts\\type-inference.md",
+      "quests": [
+        "ts-generics-q2-result-type"
+      ]
+    },
+    "codex:glossary/ts/generic": {
+      "path": "docs\\codex\\world-ts\\generic.md",
+      "quests": [
+        "ts-generics-q2-result-type"
+      ]
+    },
+    "codex:glossary/ts/result-type": {
+      "path": "docs\\codex\\world-ts\\result-type.md",
+      "quests": [
+        "ts-generics-q2-result-type"
+      ]
+    },
+    "codex:glossary/ts/interface": {
+      "path": "docs\\codex\\world-ts\\interface.md",
+      "quests": [
+        "ts-ignition-q1-types-and-interfaces"
+      ]
+    },
+    "codex:glossary/ts/type-annotation": {
+      "path": "docs\\codex\\world-ts\\type-annotation.md",
+      "quests": [
+        "ts-ignition-q1-types-and-interfaces"
+      ]
+    },
+    "codex:glossary/ts/type-alias": {
+      "path": "docs\\codex\\world-ts\\type-alias.md",
+      "quests": [
+        "ts-ignition-q1-types-and-interfaces"
+      ]
+    },
+    "codex:glossary/ts/union-type": {
+      "path": "docs\\codex\\world-ts\\union-type.md",
+      "quests": [
+        "ts-ignition-q1-types-and-interfaces"
+      ]
+    },
+    "codex:glossary/ts/compiler": {
+      "path": "docs\\codex\\world-ts\\compiler.md",
+      "quests": [
+        "ts-ignition-q1-types-and-interfaces"
+      ]
+    },
+    "codex:glossary/ts/typeof": {
+      "path": "docs\\codex\\world-ts\\typeof.md",
+      "quests": [
+        "ts-narrowing-q2-unions-and-guards"
+      ]
+    },
+    "codex:glossary/ts/type-guard": {
+      "path": "docs\\codex\\world-ts\\type-guard.md",
+      "quests": [
+        "ts-narrowing-q2-unions-and-guards"
+      ]
+    },
+    "codex:glossary/ts/in-operator": {
+      "path": "docs\\codex\\world-ts\\in-operator.md",
+      "quests": [
+        "ts-narrowing-q2-unions-and-guards"
+      ]
+    },
+    "codex:glossary/ts/discriminated-union": {
+      "path": "docs\\codex\\world-ts\\discriminated-union.md",
+      "quests": [
+        "ts-narrowing-q2-unions-and-guards"
+      ]
+    },
+    "codex:glossary/ts/type-narrowing": {
+      "path": "docs\\codex\\world-ts\\type-narrowing.md",
+      "quests": [
+        "ts-narrowing-q2-unions-and-guards"
+      ]
+    }
+  },
+  "missing_by_quest": {
+    "agents-approvals-diffs": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-budgets": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-executor": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-grounding-q1-rag-basics": {
+      "missing": [
+        "codex:glossary/agents/chunk",
+        "codex:glossary/agents/grounding",
+        "codex:glossary/agents/citation",
+        "codex:glossary/agents/retrieval",
+        "codex:glossary/agents/rag"
+      ],
+      "invalid": []
+    },
+    "agents-ignition": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-memory": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-observability": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-planner": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-prompts-contracts": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-tools-basics": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "agents-verifier": {
+      "missing": [
+        "codex:glossary/world-agents/term-2",
+        "codex:glossary/world-agents/term-1",
+        "codex:glossary/world-agents/term-3"
+      ],
+      "invalid": []
+    },
+    "css-box-model": {
+      "missing": [
+        "codex:glossary/web/css/box-model"
+      ],
+      "invalid": []
+    },
+    "css-cascade-inheritance": {
+      "missing": [
+        "codex:glossary/web/css/inheritance",
+        "codex:glossary/web/css/cascade"
+      ],
+      "invalid": []
+    },
+    "css-colors-backgrounds": {
+      "missing": [
+        "codex:glossary/web/css/backgrounds",
+        "codex:glossary/web/css/colors"
+      ],
+      "invalid": []
+    },
+    "css-flexbox": {
+      "missing": [
+        "codex:glossary/web/css/flexbox"
+      ],
+      "invalid": []
+    },
+    "css-grid": {
+      "missing": [
+        "codex:glossary/web/css/grid"
+      ],
+      "invalid": []
+    },
+    "css-ignition": {
+      "missing": [
+        "codex:glossary/web/css/selectors"
+      ],
+      "invalid": []
+    },
+    "css-position-zindex": {
+      "missing": [
+        "codex:glossary/web/css/positioning"
+      ],
+      "invalid": []
+    },
+    "css-responsive-media": {
+      "missing": [
+        "codex:glossary/web/css/typography",
+        "codex:glossary/web/css/media-queries"
+      ],
+      "invalid": []
+    },
+    "css-selectors-specificity": {
+      "missing": [
+        "codex:glossary/web/css/specificity",
+        "codex:glossary/web/css/selectors"
+      ],
+      "invalid": []
+    },
+    "css-units-typography": {
+      "missing": [
+        "codex:glossary/web/css/typography",
+        "codex:glossary/web/css/units"
+      ],
+      "invalid": []
+    },
+    "first-sparks": {
+      "missing": [
+        "codex:glossary/world-python/term-2",
+        "codex:glossary/world-python/term-1"
+      ],
+      "invalid": []
+    },
+    "git-add-commit": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-branch-checkout": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-branch-q1-branching-strategies": {
+      "missing": [
+        "codex:glossary/git/switch",
+        "codex:glossary/git/branch",
+        "codex:glossary/git/main-branch",
+        "codex:glossary/git/head"
+      ],
+      "invalid": []
+    },
+    "git-ignition": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-init-clone": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-merge-conflicts": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-push-pull": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-remote-origin": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-reset-revert": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-stash": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "git-status-log": {
+      "missing": [
+        "codex:glossary/world-git/term-2",
+        "codex:glossary/world-git/term-3",
+        "codex:glossary/world-git/term-1"
+      ],
+      "invalid": []
+    },
+    "hello-variable": {
+      "missing": [
+        "codex:glossary/world-python/term-2",
+        "codex:glossary/world-python/term-1"
+      ],
+      "invalid": []
+    },
+    "html-accessibility-basics": {
+      "missing": [
+        "codex:glossary/web/html/accessibility-basics"
+      ],
+      "invalid": []
+    },
+    "html-debug-validate": {
+      "missing": [
+        "codex:glossary/web/html/tags-and-elements",
+        "codex:glossary/web/html/debug-validate"
+      ],
+      "invalid": []
+    },
+    "html-forms-inputs": {
+      "missing": [
+        "codex:glossary/web/html/forms"
+      ],
+      "invalid": []
+    },
+    "html-ignition": {
+      "missing": [
+        "codex:glossary/web/html/metadata-seo",
+        "codex:glossary/web/html/document-skeleton"
+      ],
+      "invalid": []
+    },
+    "html-links-images": {
+      "missing": [
+        "codex:glossary/web/html/links",
+        "codex:glossary/web/html/images"
+      ],
+      "invalid": []
+    },
+    "html-lists-tables": {
+      "missing": [
+        "codex:glossary/web/html/tables",
+        "codex:glossary/web/html/lists"
+      ],
+      "invalid": []
+    },
+    "html-media-embed": {
+      "missing": [
+        "codex:glossary/web/html/media-embed"
+      ],
+      "invalid": []
+    },
+    "html-meta-seo": {
+      "missing": [
+        "codex:glossary/web/html/metadata-seo",
+        "codex:glossary/web/html/document-skeleton"
+      ],
+      "invalid": []
+    },
+    "html-semantic-layout": {
+      "missing": [
+        "codex:glossary/web/html/semantic-elements"
+      ],
+      "invalid": []
+    },
+    "html-tags-attributes": {
+      "missing": [
+        "codex:glossary/web/html/tags-and-elements",
+        "codex:glossary/web/html/attributes"
+      ],
+      "invalid": []
+    },
+    "infra-ci-cd-basics": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-container-networking": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-containment-q1-linux-shell-and-fs": {
+      "missing": [
+        "codex:glossary/infra/shell",
+        "codex:glossary/infra/filesystem",
+        "codex:glossary/infra/cwd",
+        "codex:glossary/infra/path",
+        "codex:glossary/infra/permissions"
+      ],
+      "invalid": []
+    },
+    "infra-deployment-strategies": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-docker-basics": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-docker-compose": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-env-variables": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-ignition": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-kubernetes-intro": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-monitoring-logging": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "infra-service-q1-dockerize-and-compose": {
+      "missing": [
+        "codex:glossary/infra/image",
+        "codex:glossary/infra/dockerfile",
+        "codex:glossary/infra/docker-compose",
+        "codex:glossary/infra/container",
+        "codex:glossary/infra/port-mapping"
+      ],
+      "invalid": []
+    },
+    "infra-volumes-persistence": {
+      "missing": [
+        "codex:glossary/world-infra/term-2",
+        "codex:glossary/world-infra/term-3",
+        "codex:glossary/world-infra/term-1"
+      ],
+      "invalid": []
+    },
+    "js-arrays-q1-basics": {
+      "missing": [
+        "codex:glossary/world-js/term-3",
+        "codex:glossary/world-js/term-1",
+        "codex:glossary/world-js/term-2"
+      ],
+      "invalid": []
+    },
+    "js-arrays-q2-map-filter-reduce": {
+      "missing": [
+        "codex:glossary/js/filter",
+        "codex:glossary/js/map",
+        "codex:glossary/js/callback",
+        "codex:glossary/js/array",
+        "codex:glossary/js/reduce"
+      ],
+      "invalid": []
+    },
+    "js-async-q1-promises-basics": {
+      "missing": [
+        "codex:glossary/world-js/term-3",
+        "codex:glossary/world-js/term-1",
+        "codex:glossary/world-js/term-2"
+      ],
+      "invalid": []
+    },
+    "js-control-q1-if-else-loops": {
+      "missing": [
+        "codex:glossary/world-js/term-3",
+        "codex:glossary/world-js/term-1",
+        "codex:glossary/world-js/term-2"
+      ],
+      "invalid": []
+    },
+    "js-errors-q1-try-catch": {
+      "missing": [
+        "codex:glossary/world-js/term-3",
+        "codex:glossary/world-js/term-1",
+        "codex:glossary/world-js/term-2"
+      ],
+      "invalid": []
+    },
+    "js-functions-q1-arrow-vs-regular": {
+      "missing": [
+        "codex:glossary/world-js/term-3",
+        "codex:glossary/world-js/term-1",
+        "codex:glossary/world-js/term-2"
+      ],
+      "invalid": []
+    },
+    "js-ignition-q1-console-and-functions": {
+      "missing": [
+        "codex:glossary/js/parameter",
+        "codex:glossary/js/return-value",
+        "codex:glossary/js/function",
+        "codex:glossary/js/console-log",
+        "codex:glossary/js/string"
+      ],
+      "invalid": []
+    },
+    "js-modules-q1-import-export": {
+      "missing": [
+        "codex:glossary/world-js/term-3",
+        "codex:glossary/world-js/term-1",
+        "codex:glossary/world-js/term-2"
+      ],
+      "invalid": []
+    },
+    "js-objects-q1-properties-methods": {
+      "missing": [
+        "codex:glossary/world-js/term-3",
+        "codex:glossary/world-js/term-1",
+        "codex:glossary/world-js/term-2"
+      ],
+      "invalid": []
+    },
+    "js-vars-q1-let-const-var": {
+      "missing": [
+        "codex:glossary/world-js/term-3",
+        "codex:glossary/world-js/term-1",
+        "codex:glossary/world-js/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-classification-basics": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-data-preprocessing": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-gradient-q1-training-loop-and-metrics": {
+      "missing": [
+        "codex:glossary/ml/epoch",
+        "codex:glossary/ml/loss",
+        "codex:glossary/ml/learning-rate",
+        "codex:glossary/ml/metric",
+        "codex:glossary/ml/gradient"
+      ],
+      "invalid": []
+    },
+    "ml-ignition": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-linear-regression": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-model-evaluation": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-neural-networks-intro": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-numpy-basics": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-overfitting-regularization": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-pandas-dataframes": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "ml-tensor-q1-numpy-and-shapes": {
+      "missing": [
+        "codex:glossary/ml/shape",
+        "codex:glossary/ml/tensor",
+        "codex:glossary/ml/reshape",
+        "codex:glossary/ml/axis",
+        "codex:glossary/ml/broadcasting"
+      ],
+      "invalid": []
+    },
+    "ml-train-test-split": {
+      "missing": [
+        "codex:glossary/world-ml/term-3",
+        "codex:glossary/world-ml/term-1",
+        "codex:glossary/world-ml/term-2"
+      ],
+      "invalid": []
+    },
+    "node-async": {
+      "missing": [
+        "codex:glossary/node/async-errors"
+      ],
+      "invalid": []
+    },
+    "node-deploy-basics": {
+      "missing": [
+        "codex:glossary/node/health-checks",
+        "codex:glossary/node/env-and-config"
+      ],
+      "invalid": []
+    },
+    "node-env-config": {
+      "missing": [
+        "codex:glossary/node/env-and-config",
+        "codex:glossary/node/runtime-and-process"
+      ],
+      "invalid": []
+    },
+    "node-fs-path": {
+      "missing": [
+        "codex:glossary/node/fs-and-path"
+      ],
+      "invalid": []
+    },
+    "node-ignition": {
+      "missing": [
+        "codex:glossary/node/runtime-and-process"
+      ],
+      "invalid": []
+    },
+    "node-middleware": {
+      "missing": [
+        "codex:glossary/node/logging"
+      ],
+      "invalid": []
+    },
+    "node-modules": {
+      "missing": [
+        "codex:glossary/node/modules-esm-cjs"
+      ],
+      "invalid": []
+    },
+    "node-npm": {
+      "missing": [
+        "codex:glossary/node/lockfiles",
+        "codex:glossary/node/package-json"
+      ],
+      "invalid": []
+    },
+    "node-testing": {
+      "missing": [
+        "codex:glossary/node/testing-basics"
+      ],
+      "invalid": []
+    },
+    "quest-py-hidden": {
+      "missing": [
+        "codex:glossary/world-python/term-2",
+        "codex:glossary/world-python/term-1"
+      ],
+      "invalid": []
+    },
+    "quest-py-workspace": {
+      "missing": [
+        "codex:glossary/world-python/term-2",
+        "codex:glossary/world-python/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-aggregates": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-analytics-q1-window-functions": {
+      "missing": [
+        "codex:glossary/sql/partition-by",
+        "codex:glossary/sql/window-function",
+        "codex:glossary/sql/over",
+        "codex:glossary/sql/order-by",
+        "codex:glossary/sql/row-number"
+      ],
+      "invalid": []
+    },
+    "sql-cte-subquery": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-groupby-having": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-ignition": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-insert-update-delete": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-joins": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-left-join-null": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-order-limit": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-retrieval-q1-select-from-basics": {
+      "missing": [
+        "codex:glossary/sql/where",
+        "codex:glossary/sql/from",
+        "codex:glossary/sql/order-by",
+        "codex:glossary/sql/limit",
+        "codex:glossary/sql/select"
+      ],
+      "invalid": []
+    },
+    "sql-select": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "sql-where": {
+      "missing": [
+        "codex:glossary/world-sql/term-2",
+        "codex:glossary/world-sql/term-3",
+        "codex:glossary/world-sql/term-1"
+      ],
+      "invalid": []
+    },
+    "ts-arrays": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-control": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-functions": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-generics": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-generics-q2-result-type": {
+      "missing": [
+        "codex:glossary/ts/type-parameter",
+        "codex:glossary/ts/never",
+        "codex:glossary/ts/type-inference",
+        "codex:glossary/ts/generic",
+        "codex:glossary/ts/result-type"
+      ],
+      "invalid": []
+    },
+    "ts-ignition": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-ignition-q1-types-and-interfaces": {
+      "missing": [
+        "codex:glossary/ts/interface",
+        "codex:glossary/ts/type-annotation",
+        "codex:glossary/ts/type-alias",
+        "codex:glossary/ts/union-type",
+        "codex:glossary/ts/compiler"
+      ],
+      "invalid": []
+    },
+    "ts-interfaces": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-modules": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-narrowing-q2-unions-and-guards": {
+      "missing": [
+        "codex:glossary/ts/typeof",
+        "codex:glossary/ts/type-guard",
+        "codex:glossary/ts/in-operator",
+        "codex:glossary/ts/discriminated-union",
+        "codex:glossary/ts/type-narrowing"
+      ],
+      "invalid": []
+    },
+    "ts-objects": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-types": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    },
+    "ts-vars": {
+      "missing": [
+        "codex:glossary/world-typescript/term-2",
+        "codex:glossary/world-typescript/term-1",
+        "codex:glossary/world-typescript/term-3"
+      ],
+      "invalid": []
+    }
+  },
   "invalid_refs": {},
   "gaps": {
     "no_tutorial": [],

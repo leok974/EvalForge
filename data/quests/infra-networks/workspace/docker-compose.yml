@@ -1,0 +1,6 @@
+services:
+  api:
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@localhost:5432/app
+  db:
+    image: postgres:16-alpine

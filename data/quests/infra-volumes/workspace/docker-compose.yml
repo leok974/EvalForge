@@ -1,0 +1,4 @@
+services:
+  db:
+    image: postgres:16-alpine
+    # TODO: add volume mount for persistence

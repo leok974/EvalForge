@@ -1,0 +1,13 @@
+services:
+  api:
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/app
+    networks:
+      - app_net
+  db:
+    image: postgres:16-alpine
+    networks:
+      - app_net
+
+networks:
+  app_net:

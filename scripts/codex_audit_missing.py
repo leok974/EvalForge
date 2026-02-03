@@ -18,9 +18,13 @@ import requests
 import frontmatter
 
 
+
 # ==================== CONFIGURATION ====================
 
-CODEX_DIR = Path("data/codex")
+from lib.codex_root import detect_codex_root
+
+# Will be set in main() via argparse
+CODEX_DIR = None 
 ARTIFACTS_DIR = Path("artifacts")
 
 # Starter quests that must meet strict coverage requirements
@@ -44,60 +48,23 @@ STARTER_POLICY = {
 
 # ==================== REFERENCE RESOLVER ====================
 
+from lib.codex_root import detect_codex_root, resolve_codex_ref
+
+# ==================== REFERENCE RESOLVER ====================
+
 def codex_ref_to_path(ref: str) -> Optional[str]:
     """
-    Resolve a codex reference to a file path.
-    
-    Resolution Strategy:
-    1. **Path format (preferred)**: "glossary/python/interpreter"
-       Maps to: "data/codex/glossary/python/interpreter.md"
-       This mirrors the nested directory structure.
-    
-    2. **Flat format (legacy)**: "glossary-python-interpreter"
-       Maps to: "data/codex/glossary-python-interpreter.md"
-       Only supported if file exists at this exact path.
-    
-    3. **Frontmatter ID lookup**: If neither path exists, searches all
-       Codex files for a matching `id` field in YAML frontmatter.
-    
-    Args:
-        ref: Codex reference (with or without "codex:" prefix)
-    
-    Returns:
-        Resolved file path or None if invalid/unresolvable
-    
-    Warning:
-        Flat format is NOT recommended for new entries. Use path format
-        with explicit frontmatter `id` for flexibility.
+    Resolve a codex reference to a file path using centralized logic.
     """
-    if not ref:
-        return None
+    # resolve_codex_ref handles "codex:" prefix requirement. 
+    # But this function might receive raw strings depending on caller legacy.
+    # Let's normalize.
     
-    # Remove "codex:" prefix if present
-    if ref.startswith("codex:"):
-        ref = ref[6:]
-    
-    # Skip special refs
-    if ref in ["home", ""]:
-        return None
-    
-    # Validate characters (alphanumeric, /, -, _)
-    if not re.match(r'^[a-zA-Z0-9/_\-]+$', ref):
-        return None
-    
-    # Check for path format (contains /)
-    if "/" in ref:
-        path = CODEX_DIR / f"{ref}.md"
-        return str(path)
-    
-    # Check for flat format (contains -)
-    if "-" in ref:
-        path = CODEX_DIR / f"{ref}.md"
-        return str(path)
-    
-    # Single word ref
-    path = CODEX_DIR / f"{ref}.md"
-    return str(path)
+    normalized_ref = ref
+    if not ref.startswith("codex:") and not ref == "":
+        normalized_ref = f"codex:{ref}"
+        
+    return resolve_codex_ref(normalized_ref, CODEX_DIR)
 
 
 def find_codex_file_by_id(ref_id: str) -> Optional[str]:
@@ -105,6 +72,9 @@ def find_codex_file_by_id(ref_id: str) -> Optional[str]:
     Find a Codex file by checking frontmatter 'id' field.
     This handles cases where files are named differently than their IDs.
     """
+    if not CODEX_DIR or not CODEX_DIR.exists():
+        return None
+
     ref_id_clean = ref_id.replace("codex:", "")
     
     for root, _, files in os.walk(CODEX_DIR):
@@ -113,29 +83,31 @@ def find_codex_file_by_id(ref_id: str) -> Optional[str]:
                 path = os.path.join(root, file)
                 try:
                     post = frontmatter.load(path)
+                    # Check both exact ID and legacy ID formats if needed
                     if post.metadata.get("id") == ref_id_clean:
                         return path
                 except:
                     continue
     return None
 
-
 def check_ref_exists(ref: str) -> Tuple[bool, Optional[str]]:
     """
     Check if a codex reference exists.
     Returns (exists: bool, resolved_path: Optional[str])
     """
-    # Try direct path resolution
+    # Try direct path resolution / mapping
     path = codex_ref_to_path(ref)
     if path and os.path.exists(path):
         return True, path
     
     # Try frontmatter ID lookup
-    path = find_codex_file_by_id(ref)
-    if path:
-        return True, path
+    path_id = find_codex_file_by_id(ref)
+    if path_id:
+        return True, path_id
     
+    # Return the inferred path even if it doesn't exist (for reporting "missing at X")
     return False, path
+
 
 
 # ==================== API CLIENT ====================
@@ -681,8 +653,18 @@ def main():
         action="store_true",
         help="Automatically create stub Codex files for missing refs"
     )
+    parser.add_argument(
+        "--codex-root",
+        default=None,
+        help="Path to codex root (default: autodetect via configs/codex_config.json, env EF_CODEX_ROOT, or standard paths)"
+    )
     args = parser.parse_args()
     
+    # Initialize Global CODEX_DIR
+    global CODEX_DIR
+    CODEX_DIR = detect_codex_root(args.codex_root)
+    print(f"📚 Codex Root: {CODEX_DIR}")
+
     # Ensure artifacts dir exists
     ARTIFACTS_DIR.mkdir(exist_ok=True)
     

@@ -66,6 +66,10 @@ def validate_terms_schema(quest_path):
              
     return errors
 
+
+
+from lib.codex_root import detect_codex_root, resolve_codex_ref
+
 def validate_codex_links(quest_path, root_dir):
     """Checks if Codex references in terms.json point to real files."""
     terms_path = os.path.join(quest_path, "terms.json")
@@ -79,24 +83,36 @@ def validate_codex_links(quest_path, root_dir):
         return []
 
     errors = []
+    
+    # Resolve Codex Root
+    try:
+        codex_root = detect_codex_root()
+    except:
+        codex_root = os.path.join(root_dir, "docs", "codex")
+        
     for idx, item in enumerate(data):
         ref = item.get("codex_ref", "")
-        if not ref.startswith("codex:glossary/"): 
-            continue
-            
-        # Ref format: codex:glossary/{world}/{term}
-        # File path: data/codex/glossary/{world}/{term}.md
+        # Resolve using centralized logic
+        abs_path = resolve_codex_ref(ref, Path(codex_root))
         
-        parts = ref.replace("codex:glossary/", "").split("/")
-        if len(parts) < 2:
-            errors.append(f"Invalid reference format: {ref}")
-            continue
-            
-        rel_path = os.path.join("data", "codex", "glossary", *parts) + ".md"
-        abs_path = os.path.join(root_dir, rel_path)
-        
+        if not abs_path:
+             continue # Invalid format or empty, maybe caught by schema check
+
         if not os.path.exists(abs_path):
-            errors.append(f"Broken Codex Link: {ref} -> {rel_path} not found")
+            # Try to be helpful: check if it exists as a directory (hub)
+            if os.path.isdir(abs_path.replace(".md", "")):
+                 # Maybe they meant the hub?
+                 hub_path = os.path.join(abs_path.replace(".md", ""), "README.md")
+                 if os.path.exists(hub_path):
+                     continue # Valid reference to a hub
+            
+            # For display, show relative path
+            try:
+                rel_disp = os.path.relpath(abs_path, root_dir)
+            except:
+                rel_disp = abs_path
+                
+            errors.append(f"Broken Codex Link: {ref} -> {rel_disp} not found")
             
     return errors
 
@@ -139,20 +155,42 @@ def validate_tutorial_strict(quest_path, min_terms=2, require_example=True, allo
 
 def find_codex_orphans(root_dir, active_refs):
     """Finds Codex pages not referenced by any quest."""
-    codex_root = os.path.join(root_dir, "data", "codex", "glossary")
+    try:
+        codex_root = detect_codex_root()
+    except:
+        return []
+
     all_pages = []
     
     if not os.path.exists(codex_root):
         return []
 
+    # Re-implementing orphan logic efficiently:
+    # 1. Resolve all active_refs to physical paths (relative to codex_root)
+    # 2. Collect all physical paths in codex_root
+    # 3. Diff
+    
+    resolved_active_paths = set()
+    for ref in active_refs:
+        if not ref.startswith("codex:"): continue
+        clean_ref = ref.replace("codex:", "")
+        target = ""
+        if clean_ref.startswith("glossary/"):
+             parts = clean_ref.replace("glossary/", "").split("/")
+             if len(parts) >= 1:
+                 target = os.path.join(f"world-{parts[0]}", *parts[1:]) + ".md"
+        else:
+             target = clean_ref + ".md" if not clean_ref.endswith(".md") else clean_ref
+        
+        # Normalize
+        resolved_active_paths.add(target.replace("/", os.sep))
+        
+    physical_files = set()
     for r, _, files in os.walk(codex_root):
         for f in files:
-            if f.endswith(".md"):
-                # Use os.sep to handle windows backslashes correctly
-                rel = os.path.relpath(os.path.join(r, f), codex_root)
-                slug = rel.replace(os.sep, "/").replace(".md", "")
-                ref = f"codex:glossary/{slug}"
-                all_pages.append(ref)
-                
-    orphans = set(all_pages) - set(active_refs)
-    return list(orphans)
+             if f.endswith(".md"):
+                 rel = os.path.relpath(os.path.join(r, f), codex_root)
+                 physical_files.add(rel)
+                 
+    orphans = list(physical_files - resolved_active_paths)
+    return orphans
