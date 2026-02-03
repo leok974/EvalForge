@@ -1,0 +1,13 @@
+{
+    "description": "Canonical questpacks that should be actively seeded and maintained. Legacy packs should be moved to data/questpacks/_legacy/ or excluded from this list.",
+    "active_questpacks": [
+        "data/questpacks/python_systems.json",
+        "data/questpacks/javascript_core.json",
+        "data/questpacks/typescript_core.json",
+        "data/questpacks/sql_core.json",
+        "data/questpacks/git_core.json",
+        "data/questpacks/infra_core.json",
+        "data/questpacks/ml_core.json",
+        "data/questpacks/agents_core.json"
+    ]
+}

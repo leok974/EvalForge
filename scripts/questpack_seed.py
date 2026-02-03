@@ -261,18 +261,53 @@ async def seed_all(root_dir):
         await seed_quest_pack(f, seeded_slugs=seeded_slugs)
     return seeded_slugs
 
-if __name__ == "__main__":
+async def main():
     import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("path", nargs="?", help="Specific file to seed")
-    parser.add_argument("--all", action="store_true", help="Seed all found in known dirs")
-    parser.add_argument("--root", default=os.getcwd(), help="Root directory to search from")
-    
+    parser = argparse.ArgumentParser(description='Seed quest definitions into database')
+    parser.add_argument('path', nargs='?', help='Path to a questpack JSON file or quest directory')
+    parser.add_argument('--all', action='store_true', help='Seed all active questpacks from allowlist')
+    parser.add_argument('--include-legacy', action='store_true', help='Include legacy questpacks when using --all')
     args = parser.parse_args()
-    
+
     if args.all:
-        asyncio.run(seed_all(args.root))
+        # Load canonical questpacks from allowlist
+        allowlist_path = os.path.join(os.getcwd(), "configs", "questpacks_active.json")
+        
+        if os.path.exists(allowlist_path) and not args.include_legacy:
+            print(f"Loading canonical questpacks from {allowlist_path}...")
+            try:
+                with open(allowlist_path, "r", encoding="utf-8") as f:
+                    allowlist_data = json.load(f)
+                canonical_packs = allowlist_data.get("active_questpacks", [])
+                
+                if canonical_packs:
+                    print(f"Found {len(canonical_packs)} canonical questpacks")
+                    success_count = 0
+                    for pack_path in canonical_packs:
+                        full_path = os.path.join(os.getcwd(), pack_path)
+                        if os.path.exists(full_path):
+                            if await seed_quest_pack(full_path):
+                                success_count += 1
+                        else:
+                            print(f"⚠️  Questpack not found: {full_path}")
+                    
+                    print(f"\n✅ Seeded {success_count}/{len(canonical_packs)} canonical questpacks")
+                    return
+                else:
+                    print("⚠️  No canonical questpacks defined in allowlist, falling back to all questpacks")
+            except Exception as e:
+                print(f"⚠️  Failed to load allowlist: {e}, falling back to all questpacks")
+        elif args.include_legacy:
+            print("🔓 Including legacy questpacks (--include-legacy flag set)")
+        
+        # Fallback or legacy mode: seed all discovered questpacks
+        await seed_all(os.getcwd())
     elif args.path:
-        asyncio.run(seed_quest_pack(args.path))
+        await seed_quest_pack(args.path)
     else:
         print("Usage: python questpack_seed.py <path> OR python questpack_seed.py --all")
+        print("  --all                Seed all active questpacks from allowlist")
+        print("  --include-legacy     Include legacy questpacks when using --all")
+
+if __name__ == "__main__":
+    asyncio.run(main())
