@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-02-03T01:00:46.976032+00:00",
+  "generated_at": "2026-02-03T01:04:50.552285+00:00",
   "counts": {
-    "quests_scanned": 11,
-    "total_refs": 8,
-    "unique_refs": 8,
+    "quests_scanned": 12,
+    "total_refs": 13,
+    "unique_refs": 13,
     "missing_unique_refs": 0,
     "invalid_unique_refs": 0,
     "quests_with_missing": 0
@@ -14,7 +14,7 @@
     "quests_empty_tutorial": 0,
     "quests_no_terms": 0,
     "quests_no_codex_refs": 0,
-    "quests_with_full_coverage": 11
+    "quests_with_full_coverage": 12
   },
   "policy": {
     "violations_count": 0,
@@ -23,9 +23,9 @@
     "starters_compliant": 0
   },
   "coverage_by_quest": {
-    "git-add-commit": {
+    "infra-ci-cd-basics": {
       "has_tutorial": true,
-      "tutorial_length": 771,
+      "tutorial_length": 787,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -33,9 +33,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "git-branch-checkout": {
+    "infra-container-networking": {
       "has_tutorial": true,
-      "tutorial_length": 791,
+      "tutorial_length": 819,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -43,9 +43,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "git-branch-q1-branching-strategies": {
+    "infra-containment-q1-linux-shell-and-fs": {
       "has_tutorial": true,
-      "tutorial_length": 2195,
+      "tutorial_length": 2005,
       "has_terms": true,
       "terms_total": 5,
       "terms_with_codex_ref": 5,
@@ -53,9 +53,9 @@
       "unique_codex_refs": 5,
       "coverage_score": 100.0
     },
-    "git-ignition": {
+    "infra-deployment-strategies": {
       "has_tutorial": true,
-      "tutorial_length": 763,
+      "tutorial_length": 823,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -63,17 +63,7 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "git-init-clone": {
-      "has_tutorial": true,
-      "tutorial_length": 771,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "git-merge-conflicts": {
+    "infra-docker-basics": {
       "has_tutorial": true,
       "tutorial_length": 791,
       "has_terms": true,
@@ -83,9 +73,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "git-push-pull": {
+    "infra-docker-compose": {
       "has_tutorial": true,
-      "tutorial_length": 767,
+      "tutorial_length": 795,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -93,9 +83,9 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "git-remote-origin": {
+    "infra-env-variables": {
       "has_tutorial": true,
-      "tutorial_length": 783,
+      "tutorial_length": 791,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,
@@ -103,29 +93,49 @@
       "unique_codex_refs": 3,
       "coverage_score": 100.0
     },
-    "git-reset-revert": {
-      "has_tutorial": true,
-      "tutorial_length": 779,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "git-stash": {
-      "has_tutorial": true,
-      "tutorial_length": 751,
-      "has_terms": true,
-      "terms_total": 3,
-      "terms_with_codex_ref": 3,
-      "codex_refs_total": 3,
-      "unique_codex_refs": 3,
-      "coverage_score": 100.0
-    },
-    "git-status-log": {
+    "infra-ignition": {
       "has_tutorial": true,
       "tutorial_length": 771,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-kubernetes-intro": {
+      "has_tutorial": true,
+      "tutorial_length": 803,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-monitoring-logging": {
+      "has_tutorial": true,
+      "tutorial_length": 811,
+      "has_terms": true,
+      "terms_total": 3,
+      "terms_with_codex_ref": 3,
+      "codex_refs_total": 3,
+      "unique_codex_refs": 3,
+      "coverage_score": 100.0
+    },
+    "infra-service-q1-dockerize-and-compose": {
+      "has_tutorial": true,
+      "tutorial_length": 2237,
+      "has_terms": true,
+      "terms_total": 5,
+      "terms_with_codex_ref": 5,
+      "codex_refs_total": 5,
+      "unique_codex_refs": 5,
+      "coverage_score": 100.0
+    },
+    "infra-volumes-persistence": {
+      "has_tutorial": true,
+      "tutorial_length": 815,
       "has_terms": true,
       "terms_total": 3,
       "terms_with_codex_ref": 3,

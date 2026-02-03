@@ -1,18 +1,24 @@
+---
+title: Dockerfile
+id: infra/dockerfile
+---
 # Dockerfile
 
-## Definition
-A **Dockerfile** is a script-like file that describes how to build a Docker image: base image, copied files, installed dependencies, and the default command.
+Text file containing instructions to build a Docker image.
 
-## Tiny example
-A typical pattern:
-- set `WORKDIR`
-- copy dependency files
-- install dependencies
-- copy source
-- set `CMD`
+## Common Instructions
+- `FROM`: Base image
+- `COPY`: Copy files
+- `RUN`: Execute commands
+- `CMD`: Default command
+- `EXPOSE`: Document ports
 
-## Common pitfall
-Copying the entire source before installing dependencies can make builds slow because caching breaks. Copy dependency files first (like `requirements.txt`) so Docker can cache installs.
-
-## Related
-Image, Container
+## Example
+```dockerfile
+FROM node:18
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD ["npm", "start"]
+```

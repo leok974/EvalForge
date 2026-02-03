@@ -1,0 +1,16 @@
+{
+    "world_id": "world-infra",
+    "tier": 1,
+    "slugs": [
+        "infra-ignition",
+        "infra-docker-basics",
+        "infra-docker-compose",
+        "infra-env-variables",
+        "infra-container-networking",
+        "infra-volumes-persistence",
+        "infra-ci-cd-basics",
+        "infra-deployment-strategies",
+        "infra-monitoring-logging",
+        "infra-kubernetes-intro"
+    ]
+}

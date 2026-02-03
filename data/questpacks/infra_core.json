@@ -1,0 +1,32 @@
+[
+    {
+        "quest_path": "docs/quests/infra-ignition"
+    },
+    {
+        "quest_path": "docs/quests/infra-docker-basics"
+    },
+    {
+        "quest_path": "docs/quests/infra-docker-compose"
+    },
+    {
+        "quest_path": "docs/quests/infra-env-variables"
+    },
+    {
+        "quest_path": "docs/quests/infra-container-networking"
+    },
+    {
+        "quest_path": "docs/quests/infra-volumes-persistence"
+    },
+    {
+        "quest_path": "docs/quests/infra-ci-cd-basics"
+    },
+    {
+        "quest_path": "docs/quests/infra-deployment-strategies"
+    },
+    {
+        "quest_path": "docs/quests/infra-monitoring-logging"
+    },
+    {
+        "quest_path": "docs/quests/infra-kubernetes-intro"
+    }
+]
