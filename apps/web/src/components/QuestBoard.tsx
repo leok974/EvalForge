@@ -263,28 +263,19 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
 
                 {/* Progress meter */}
                 <div className="flex items-center justify-between gap-2 text-[10px]">
-                    <div className="flex flex-wrap items-center gap-1.5 text-slate-400">
-                        <span>
-                            Completed:{" "}
-                            <span className="text-emerald-200">
-                                {progress.completed}/{progress.total}
-                            </span>{" "}
-                            ({progress.percentCompleted}%)
+                    <div className="flex items-center gap-2">
+                        <span className="rounded-full bg-emerald-950/50 border border-emerald-500/30 px-2 py-0.5 text-emerald-400 font-mono uppercase tracking-wider text-[9px]">
+                            Showing: Active Quests
                         </span>
-                        <span>|</span>
-                        <span>
-                            Mastered:{" "}
-                            <span className="text-purple-200">
-                                {progress.mastered}/{progress.total}
-                            </span>{" "}
-                            ({progress.percentMastered}%)
-                        </span>
-                    </div>
-                    <div className="hidden h-1.5 flex-1 overflow-hidden rounded-full bg-slate-800 sm:block">
-                        <div
-                            className="h-full bg-emerald-500/80"
-                            style={{ width: `${progress.percentCompleted}%` }}
-                        />
+                        <div className="flex flex-wrap items-center gap-1.5 text-slate-400">
+                            <span>
+                                Completed:{" "}
+                                <span className="text-emerald-200">
+                                    {progress.completed}/{progress.total}
+                                </span>{" "}
+                                ({progress.percentCompleted}%)
+                            </span>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -322,6 +313,19 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                                         <h3 className="text-sm font-semibold text-slate-50">
                                             {q.title}
                                         </h3>
+
+                                        {/* METADATA BADGES */}
+                                        <div className="flex gap-1 items-center opacity-60 hover:opacity-100 transition-opacity">
+                                            {/* World Badge */}
+                                            <span className="text-[9px] text-zinc-500 font-mono border border-zinc-800 rounded px-1">{q.world_id}</span>
+                                            {/* Track Badge */}
+                                            <span className="text-[9px] text-zinc-500 font-mono border border-zinc-800 rounded px-1">{q.track_id}</span>
+                                            {/* Pack Badge */}
+                                            {q.questpack && (
+                                                <span className="text-[9px] text-zinc-500 font-mono border border-zinc-800 rounded px-1" title="Source Questpack">{q.questpack}</span>
+                                            )}
+                                        </div>
+
                                         {/* Boss Badge */}
                                         {q.unlocks_boss_id && (
                                             <span className="rounded-full border border-emerald-400/70 px-2 text-[10px] font-semibold uppercase tracking-wide text-emerald-300">

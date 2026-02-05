@@ -8,6 +8,7 @@ from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
 
 from arcade_app.database import init_db
+from arcade_app.routers import routes_quests
 from arcade_app.routers import routes_quests_runtime
 from arcade_app.routers import routes_qa
 from arcade_app.routers import routes_codex  # Phase 9.1: Tutorial System
@@ -45,6 +46,7 @@ app.add_middleware(
 )
 
 # Mount Routers
+app.include_router(routes_quests.router)
 app.include_router(routes_quests_runtime.router)
 app.include_router(routes_qa.router)
 app.include_router(routes_codex.router)  # Phase 9.1: Codex API

@@ -23,9 +23,12 @@ def map_status_to_state(status: str) -> str:
     # QuestState: same values mostly
     return status
 
+from arcade_app.services.quest_visibility import get_active_quest_config
+
 @router.get("", response_model=List[Dict])
 async def list_quests(
     world_id: Optional[str] = None,
+    include_inactive: bool = False,
     session: Session = Depends(get_session),
     user_data: Dict = Depends(get_current_user),
 ):
@@ -42,9 +45,24 @@ async def list_quests(
         await session.commit()
         await session.refresh(profile)
 
-    query = select(QuestDefinition).where(QuestDefinition.is_archived == False)
+    # Resolve active set
+    active_slugs, slug_to_pack = get_active_quest_config()
+    
+    query = select(QuestDefinition)
     if world_id:
         query = query.where(QuestDefinition.world_id == world_id)
+    
+    # Filter by output of config unless admin override
+    # Also exclude explicitly "internal" visibility if we assume DB has that column? 
+    # DB doesn't have 'visibility' column yet (checked schema in mind). 
+    # relying on the Config set is safer for now.
+    
+    if not include_inactive:
+        if not active_slugs:
+            # Fallback if config is broken/empty? Or verify strictly?
+            # If empty, we show nothing. Correct.
+            pass
+        query = query.where(QuestDefinition.slug.in_(active_slugs))
     
     query = query.order_by(
         QuestDefinition.world_id,
@@ -57,6 +75,7 @@ async def list_quests(
     
     # Fetch progress V2 using slugs
     quest_slugs = [q.slug for q in quests]
+
     progress_stmt = select(QuestProgressV2).where(
         QuestProgressV2.user_id == user_id,
         QuestProgressV2.quest_id.in_(quest_slugs)
@@ -125,7 +144,13 @@ async def list_quests(
                 state=calculated_states[q.slug]
              )
         
-        results.append(quest_to_dict(q, qp_wrapper))
+        q_dict = quest_to_dict(q, qp_wrapper)
+        
+        # Inject UI Metadata
+        q_dict["questpack"] = slug_to_pack.get(q.slug, "unknown")
+        q_dict["is_active"] = q.slug in active_slugs
+        
+        results.append(q_dict)
 
     return results
 

@@ -20,6 +20,10 @@ export interface QuestSummary {
     base_xp_reward: number;
     mastery_xp_bonus: number;
     language?: string;
+    // Quest Visibility Metadata
+    questpack?: string;
+    is_active?: boolean;
+
     // New Interactive Fields
     briefing_md?: string;
     lore_md?: string;

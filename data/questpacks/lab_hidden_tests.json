@@ -3,8 +3,9 @@
         "slug": "quest-py-hidden",
         "world_id": "world-python",
         "track_id": "python-fundamentals",
+        "visibility": "internal",
         "title": "Hidden Tests Verification",
-        "language": "python",
+        "language": "txt",
         "short_description": "Pass the hidden tests.",
         "workspace": {
             "entrypoint": "main.py",
@@ -24,7 +25,8 @@
                     "content": "import unittest\nfrom main import secret_value\nclass TestHidden(unittest.TestCase):\n    def test_specific(self):\n        self.assertEqual(secret_value(), 42)",
                     "editable": false
                 }
-            ]
+            ],
+            "files_from": "../quests/quest-py-hidden/workspace"
         },
         "grading": {
             "mode": "tests",
@@ -54,6 +56,22 @@
                     "content": "def secret_value():\n    return 42"
                 }
             ]
-        }
+        },
+        "briefing_md": "# Mission: Hidden Tests Verification\n\n**Objective:** Hidden Tests Verification.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "objectives": [
+            {
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
+            }
+        ],
+        "lore_md": "## Holocron Entry: Hidden Tests Verification\n\n> *Accessing archival records...*\n>\n> Subject: Hidden Tests Verification\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "tiered_hints": {
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **term-1** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+        },
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     }
 ]
