@@ -1,15 +1,15 @@
 # Codex Coverage Audit Report
 
-**Generated:** 2026-02-03T17:33:11.026113+00:00
+**Generated:** 2026-02-05T20:13:14.054591+00:00
 
 ## Executive Summary
 
-- **Coverage:** 111.1% (150 refs across 135 quests)
-- **Average Coverage Score:** 100.0/ 100
-- **Quests with Full Coverage (≥90):** 135
-- **Quests with Zero Coverage:** 0 (0.0%)
+- **Coverage:** 94.6% (122 refs across 129 quests)
+- **Average Coverage Score:** 89.5/ 100
+- **Quests with Full Coverage (≥90):** 113
+- **Quests with Zero Coverage:** 16 (12.4%)
 - **Invalid Refs:** 0
-- **Missing Refs:** 122
+- **Missing Refs:** 104
 
 ---
 
@@ -17,17 +17,32 @@
 
 ### Top Issues
 
-1. **0 quests have NO tutorial**
-2. **0 quests have NO terms**
-3. **0 quests have NO codex refs**
+1. **8 quests have NO tutorial**
+2. **16 quests have NO terms**
+3. **16 quests have NO codex refs**
 
 ### Sample Uncovered Quests
 
 **No Tutorial:**
+- `infra-env-config`
+- `infra-logs-metrics`
+- `infra-cors-cookies`
+- `infra-debug-playbook`
+- `infra-healthchecks`
 
 **No Terms:**
+- `infra-env-config`
+- `infra-logs-metrics`
+- `infra-cors-cookies`
+- `infra-debug-playbook`
+- `infra-healthchecks`
 
 **No Codex Refs:**
+- `infra-env-config`
+- `infra-logs-metrics`
+- `infra-cors-cookies`
+- `infra-debug-playbook`
+- `infra-healthchecks`
 
 ---
 
@@ -43,26 +58,26 @@
 
 | Reference | Path | Quests Affected |
 |-----------|------|----------------|
-| `codex:glossary/world-agents/term-2` | `docs\codex\world-agents\term-2.md` | agents-approvals-diffs, agents-budgets, agents-executor (+7 more) |
-| `codex:glossary/world-agents/term-1` | `docs\codex\world-agents\term-1.md` | agents-approvals-diffs, agents-budgets, agents-executor (+7 more) |
-| `codex:glossary/world-agents/term-3` | `docs\codex\world-agents\term-3.md` | agents-approvals-diffs, agents-budgets, agents-executor (+7 more) |
-| `codex:glossary/world-git/term-2` | `docs\codex\world-git\term-2.md` | git-add-commit, git-branch-checkout, git-ignition (+7 more) |
-| `codex:glossary/world-git/term-3` | `docs\codex\world-git\term-3.md` | git-add-commit, git-branch-checkout, git-ignition (+7 more) |
-| `codex:glossary/world-git/term-1` | `docs\codex\world-git\term-1.md` | git-add-commit, git-branch-checkout, git-ignition (+7 more) |
-| `codex:glossary/world-infra/term-2` | `docs\codex\world-infra\term-2.md` | infra-ci-cd-basics, infra-container-networking, infra-deployment-strategies (+7 more) |
-| `codex:glossary/world-infra/term-3` | `docs\codex\world-infra\term-3.md` | infra-ci-cd-basics, infra-container-networking, infra-deployment-strategies (+7 more) |
-| `codex:glossary/world-infra/term-1` | `docs\codex\world-infra\term-1.md` | infra-ci-cd-basics, infra-container-networking, infra-deployment-strategies (+7 more) |
-| `codex:glossary/world-ml/term-3` | `docs\codex\world-ml\term-3.md` | ml-classification-basics, ml-data-preprocessing, ml-ignition (+7 more) |
-| `codex:glossary/world-ml/term-1` | `docs\codex\world-ml\term-1.md` | ml-classification-basics, ml-data-preprocessing, ml-ignition (+7 more) |
-| `codex:glossary/world-ml/term-2` | `docs\codex\world-ml\term-2.md` | ml-classification-basics, ml-data-preprocessing, ml-ignition (+7 more) |
-| `codex:glossary/world-sql/term-2` | `docs\codex\world-sql\term-2.md` | sql-aggregates, sql-cte-subquery, sql-groupby-having (+7 more) |
-| `codex:glossary/world-sql/term-3` | `docs\codex\world-sql\term-3.md` | sql-aggregates, sql-cte-subquery, sql-groupby-having (+7 more) |
-| `codex:glossary/world-sql/term-1` | `docs\codex\world-sql\term-1.md` | sql-aggregates, sql-cte-subquery, sql-groupby-having (+7 more) |
-| `codex:glossary/world-typescript/term-2` | `docs\codex\world-typescript\term-2.md` | ts-arrays, ts-control, ts-functions (+7 more) |
-| `codex:glossary/world-typescript/term-1` | `docs\codex\world-typescript\term-1.md` | ts-arrays, ts-control, ts-functions (+7 more) |
-| `codex:glossary/world-typescript/term-3` | `docs\codex\world-typescript\term-3.md` | ts-arrays, ts-control, ts-functions (+7 more) |
-| `codex:glossary/world-js/term-3` | `docs\codex\world-js\term-3.md` | js-arrays-q1-basics, js-async-q1-promises-basics, js-control-q1-if-else-loops (+5 more) |
-| `codex:glossary/world-js/term-1` | `docs\codex\world-js\term-1.md` | js-arrays-q1-basics, js-async-q1-promises-basics, js-control-q1-if-else-loops (+5 more) |
+| `codex:glossary/world-agents/term-3` | `docs\codex\world-agents\term-3.md` | agents-ignition, agents-tools-basics, agents-approvals-diffs (+7 more) |
+| `codex:glossary/world-agents/term-1` | `docs\codex\world-agents\term-1.md` | agents-ignition, agents-tools-basics, agents-approvals-diffs (+7 more) |
+| `codex:glossary/world-agents/term-2` | `docs\codex\world-agents\term-2.md` | agents-ignition, agents-tools-basics, agents-approvals-diffs (+7 more) |
+| `codex:glossary/world-git/term-2` | `docs\codex\world-git\term-2.md` | git-branch-checkout, git-merge-conflicts, git-remote-origin (+7 more) |
+| `codex:glossary/world-git/term-1` | `docs\codex\world-git\term-1.md` | git-branch-checkout, git-merge-conflicts, git-remote-origin (+7 more) |
+| `codex:glossary/world-git/term-3` | `docs\codex\world-git\term-3.md` | git-branch-checkout, git-merge-conflicts, git-remote-origin (+7 more) |
+| `codex:glossary/world-ml/term-3` | `docs\codex\world-ml\term-3.md` | ml-model-evaluation, ml-overfitting-regularization, ml-neural-networks-intro (+7 more) |
+| `codex:glossary/world-ml/term-1` | `docs\codex\world-ml\term-1.md` | ml-model-evaluation, ml-overfitting-regularization, ml-neural-networks-intro (+7 more) |
+| `codex:glossary/world-ml/term-2` | `docs\codex\world-ml\term-2.md` | ml-model-evaluation, ml-overfitting-regularization, ml-neural-networks-intro (+7 more) |
+| `codex:glossary/world-sql/term-3` | `docs\codex\world-sql\term-3.md` | sql-order-limit, sql-insert-update-delete, sql-select (+7 more) |
+| `codex:glossary/world-sql/term-1` | `docs\codex\world-sql\term-1.md` | sql-order-limit, sql-insert-update-delete, sql-select (+7 more) |
+| `codex:glossary/world-sql/term-2` | `docs\codex\world-sql\term-2.md` | sql-order-limit, sql-insert-update-delete, sql-select (+7 more) |
+| `codex:glossary/world-typescript/term-2` | `docs\codex\world-typescript\term-2.md` | ts-ignition, ts-control, ts-functions (+7 more) |
+| `codex:glossary/world-typescript/term-3` | `docs\codex\world-typescript\term-3.md` | ts-ignition, ts-control, ts-functions (+7 more) |
+| `codex:glossary/world-typescript/term-1` | `docs\codex\world-typescript\term-1.md` | ts-ignition, ts-control, ts-functions (+7 more) |
+| `codex:glossary/world-js/term-1` | `docs\codex\world-js\term-1.md` | js-functions-q1-arrow-vs-regular, js-control-q1-if-else-loops, js-errors-q1-try-catch (+5 more) |
+| `codex:glossary/world-js/term-3` | `docs\codex\world-js\term-3.md` | js-functions-q1-arrow-vs-regular, js-control-q1-if-else-loops, js-errors-q1-try-catch (+5 more) |
+| `codex:glossary/world-js/term-2` | `docs\codex\world-js\term-2.md` | js-functions-q1-arrow-vs-regular, js-control-q1-if-else-loops, js-errors-q1-try-catch (+5 more) |
+| `codex:glossary/world-infra/term-2` | `docs\codex\world-infra\term-2.md` | infra-ignition, infra-docker-compose |
+| `codex:glossary/world-infra/term-3` | `docs\codex\world-infra\term-3.md` | infra-ignition, infra-docker-compose |
 
 ---
 
@@ -71,81 +86,72 @@
 ### `agents-approvals-diffs`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-budgets`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-executor`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
-
-### `agents-grounding-q1-rag-basics`
-
-**Missing:**
-- `codex:glossary/agents/chunk`
-- `codex:glossary/agents/grounding`
-- `codex:glossary/agents/citation`
-- `codex:glossary/agents/retrieval`
-- `codex:glossary/agents/rag`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-ignition`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-memory`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-observability`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-planner`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-prompts-contracts`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-tools-basics`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `agents-verifier`
 
 **Missing:**
-- `codex:glossary/world-agents/term-2`
-- `codex:glossary/world-agents/term-1`
 - `codex:glossary/world-agents/term-3`
+- `codex:glossary/world-agents/term-1`
+- `codex:glossary/world-agents/term-2`
 
 ### `css-box-model`
 
@@ -161,8 +167,8 @@
 ### `css-colors-backgrounds`
 
 **Missing:**
-- `codex:glossary/web/css/backgrounds`
 - `codex:glossary/web/css/colors`
+- `codex:glossary/web/css/backgrounds`
 
 ### `css-flexbox`
 
@@ -187,8 +193,8 @@
 ### `css-responsive-media`
 
 **Missing:**
-- `codex:glossary/web/css/typography`
 - `codex:glossary/web/css/media-queries`
+- `codex:glossary/web/css/typography`
 
 ### `css-selectors-specificity`
 
@@ -199,8 +205,8 @@
 ### `css-units-typography`
 
 **Missing:**
-- `codex:glossary/web/css/typography`
 - `codex:glossary/web/css/units`
+- `codex:glossary/web/css/typography`
 
 ### `first-sparks`
 
@@ -212,79 +218,71 @@
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `git-branch-checkout`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
-
-### `git-branch-q1-branching-strategies`
-
-**Missing:**
-- `codex:glossary/git/switch`
-- `codex:glossary/git/branch`
-- `codex:glossary/git/main-branch`
-- `codex:glossary/git/head`
+- `codex:glossary/world-git/term-3`
 
 ### `git-ignition`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `git-init-clone`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `git-merge-conflicts`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `git-push-pull`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `git-remote-origin`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `git-reset-revert`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `git-stash`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `git-status-log`
 
 **Missing:**
 - `codex:glossary/world-git/term-2`
-- `codex:glossary/world-git/term-3`
 - `codex:glossary/world-git/term-1`
+- `codex:glossary/world-git/term-3`
 
 ### `hello-variable`
 
@@ -300,8 +298,8 @@
 ### `html-debug-validate`
 
 **Missing:**
-- `codex:glossary/web/html/tags-and-elements`
 - `codex:glossary/web/html/debug-validate`
+- `codex:glossary/web/html/tags-and-elements`
 
 ### `html-forms-inputs`
 
@@ -317,14 +315,14 @@
 ### `html-links-images`
 
 **Missing:**
-- `codex:glossary/web/html/links`
 - `codex:glossary/web/html/images`
+- `codex:glossary/web/html/links`
 
 ### `html-lists-tables`
 
 **Missing:**
-- `codex:glossary/web/html/tables`
 - `codex:glossary/web/html/lists`
+- `codex:glossary/web/html/tables`
 
 ### `html-media-embed`
 
@@ -345,54 +343,10 @@
 ### `html-tags-attributes`
 
 **Missing:**
-- `codex:glossary/web/html/tags-and-elements`
 - `codex:glossary/web/html/attributes`
-
-### `infra-ci-cd-basics`
-
-**Missing:**
-- `codex:glossary/world-infra/term-2`
-- `codex:glossary/world-infra/term-3`
-- `codex:glossary/world-infra/term-1`
-
-### `infra-container-networking`
-
-**Missing:**
-- `codex:glossary/world-infra/term-2`
-- `codex:glossary/world-infra/term-3`
-- `codex:glossary/world-infra/term-1`
-
-### `infra-containment-q1-linux-shell-and-fs`
-
-**Missing:**
-- `codex:glossary/infra/shell`
-- `codex:glossary/infra/filesystem`
-- `codex:glossary/infra/cwd`
-- `codex:glossary/infra/path`
-- `codex:glossary/infra/permissions`
-
-### `infra-deployment-strategies`
-
-**Missing:**
-- `codex:glossary/world-infra/term-2`
-- `codex:glossary/world-infra/term-3`
-- `codex:glossary/world-infra/term-1`
-
-### `infra-docker-basics`
-
-**Missing:**
-- `codex:glossary/world-infra/term-2`
-- `codex:glossary/world-infra/term-3`
-- `codex:glossary/world-infra/term-1`
+- `codex:glossary/web/html/tags-and-elements`
 
 ### `infra-docker-compose`
-
-**Missing:**
-- `codex:glossary/world-infra/term-2`
-- `codex:glossary/world-infra/term-3`
-- `codex:glossary/world-infra/term-1`
-
-### `infra-env-variables`
 
 **Missing:**
 - `codex:glossary/world-infra/term-2`
@@ -406,108 +360,78 @@
 - `codex:glossary/world-infra/term-3`
 - `codex:glossary/world-infra/term-1`
 
-### `infra-kubernetes-intro`
-
-**Missing:**
-- `codex:glossary/world-infra/term-2`
-- `codex:glossary/world-infra/term-3`
-- `codex:glossary/world-infra/term-1`
-
-### `infra-monitoring-logging`
-
-**Missing:**
-- `codex:glossary/world-infra/term-2`
-- `codex:glossary/world-infra/term-3`
-- `codex:glossary/world-infra/term-1`
-
-### `infra-service-q1-dockerize-and-compose`
-
-**Missing:**
-- `codex:glossary/infra/image`
-- `codex:glossary/infra/dockerfile`
-- `codex:glossary/infra/docker-compose`
-- `codex:glossary/infra/container`
-- `codex:glossary/infra/port-mapping`
-
-### `infra-volumes-persistence`
-
-**Missing:**
-- `codex:glossary/world-infra/term-2`
-- `codex:glossary/world-infra/term-3`
-- `codex:glossary/world-infra/term-1`
-
 ### `js-arrays-q1-basics`
 
 **Missing:**
-- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-1`
+- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-2`
 
 ### `js-arrays-q2-map-filter-reduce`
 
 **Missing:**
-- `codex:glossary/js/filter`
-- `codex:glossary/js/map`
 - `codex:glossary/js/callback`
-- `codex:glossary/js/array`
+- `codex:glossary/js/map`
+- `codex:glossary/js/filter`
 - `codex:glossary/js/reduce`
+- `codex:glossary/js/array`
 
 ### `js-async-q1-promises-basics`
 
 **Missing:**
-- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-1`
+- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-2`
 
 ### `js-control-q1-if-else-loops`
 
 **Missing:**
-- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-1`
+- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-2`
 
 ### `js-errors-q1-try-catch`
 
 **Missing:**
-- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-1`
+- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-2`
 
 ### `js-functions-q1-arrow-vs-regular`
 
 **Missing:**
-- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-1`
+- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-2`
 
 ### `js-ignition-q1-console-and-functions`
 
 **Missing:**
-- `codex:glossary/js/parameter`
-- `codex:glossary/js/return-value`
-- `codex:glossary/js/function`
-- `codex:glossary/js/console-log`
 - `codex:glossary/js/string`
+- `codex:glossary/js/function`
+- `codex:glossary/js/return-value`
+- `codex:glossary/js/console-log`
+- `codex:glossary/js/parameter`
 
 ### `js-modules-q1-import-export`
 
 **Missing:**
-- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-1`
+- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-2`
 
 ### `js-objects-q1-properties-methods`
 
 **Missing:**
-- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-1`
+- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-2`
 
 ### `js-vars-q1-let-const-var`
 
 **Missing:**
-- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-1`
+- `codex:glossary/world-js/term-3`
 - `codex:glossary/world-js/term-2`
 
 ### `ml-classification-basics`
@@ -523,15 +447,6 @@
 - `codex:glossary/world-ml/term-3`
 - `codex:glossary/world-ml/term-1`
 - `codex:glossary/world-ml/term-2`
-
-### `ml-gradient-q1-training-loop-and-metrics`
-
-**Missing:**
-- `codex:glossary/ml/epoch`
-- `codex:glossary/ml/loss`
-- `codex:glossary/ml/learning-rate`
-- `codex:glossary/ml/metric`
-- `codex:glossary/ml/gradient`
 
 ### `ml-ignition`
 
@@ -581,15 +496,6 @@
 - `codex:glossary/world-ml/term-3`
 - `codex:glossary/world-ml/term-1`
 - `codex:glossary/world-ml/term-2`
-
-### `ml-tensor-q1-numpy-and-shapes`
-
-**Missing:**
-- `codex:glossary/ml/shape`
-- `codex:glossary/ml/tensor`
-- `codex:glossary/ml/reshape`
-- `codex:glossary/ml/axis`
-- `codex:glossary/ml/broadcasting`
 
 ### `ml-train-test-split`
 
@@ -646,202 +552,208 @@
 **Missing:**
 - `codex:glossary/node/testing-basics`
 
-### `quest-py-hidden`
+### `python-data-forge`
 
 **Missing:**
-- `codex:glossary/world-python/term-2`
-- `codex:glossary/world-python/term-1`
+- `codex:glossary/python/csv`
+- `codex:glossary/python/data-pipeline`
+- `codex:glossary/python/keyerror`
+- `codex:glossary/python/dictionary`
+- `codex:glossary/python/parse`
 
-### `quest-py-workspace`
+### `python-loop`
 
 **Missing:**
-- `codex:glossary/world-python/term-2`
-- `codex:glossary/world-python/term-1`
+- `codex:glossary/python/infinite-loop`
+- `codex:glossary/python/range`
+- `codex:glossary/python/for-loop`
+- `codex:glossary/python/break-continue`
+- `codex:glossary/python/iteration`
+
+### `python-systems-observability-sli`
+
+**Missing:**
+- `codex:glossary/python/systems/correlation-id`
+- `codex:glossary/python/systems/observability`
+- `codex:glossary/python/systems/sli`
+- `codex:glossary/python/systems/structured-logging`
+- `codex:glossary/python/systems/slo`
+
+### `python-systems-performance-profile`
+
+**Missing:**
+- `codex:glossary/python/systems/hot-path`
+- `codex:glossary/python/systems/time-complexity`
+- `codex:glossary/python/systems/cprofile`
+- `codex:glossary/python/systems/profiling`
+- `codex:glossary/python/systems/bottleneck`
+
+### `python-systems-platform-tooling`
+
+**Missing:**
+- `codex:glossary/python/systems/venv`
+- `codex:glossary/python/systems/dependency`
+- `codex:glossary/python/systems/module-not-found-error`
+- `codex:glossary/python/systems/package-manager`
+- `codex:glossary/python/systems/pip`
+
+### `python-systems-resilient-job-runner`
+
+**Missing:**
+- `codex:glossary/python/systems/queue-worker`
+- `codex:glossary/python/systems/timeout`
+- `codex:glossary/python/systems/exception-handling`
+- `codex:glossary/python/systems/retry`
+- `codex:glossary/python/systems/idempotency`
+
+### `python-systems-service-boundaries`
+
+**Missing:**
+- `codex:glossary/python/systems/configuration-env-vars`
+- `codex:glossary/python/systems/side-effect`
+- `codex:glossary/python/systems/dependency-injection`
+- `codex:glossary/python/systems/interface`
+- `codex:glossary/python/systems/separation-of-concerns`
 
 ### `sql-aggregates`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
-
-### `sql-analytics-q1-window-functions`
-
-**Missing:**
-- `codex:glossary/sql/partition-by`
-- `codex:glossary/sql/window-function`
-- `codex:glossary/sql/over`
-- `codex:glossary/sql/order-by`
-- `codex:glossary/sql/row-number`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-cte-subquery`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-groupby-having`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-ignition`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-insert-update-delete`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-joins`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-left-join-null`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-order-limit`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
-
-### `sql-retrieval-q1-select-from-basics`
-
-**Missing:**
-- `codex:glossary/sql/where`
-- `codex:glossary/sql/from`
-- `codex:glossary/sql/order-by`
-- `codex:glossary/sql/limit`
-- `codex:glossary/sql/select`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-select`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
+- `codex:glossary/world-sql/term-2`
 
 ### `sql-where`
 
 **Missing:**
-- `codex:glossary/world-sql/term-2`
 - `codex:glossary/world-sql/term-3`
 - `codex:glossary/world-sql/term-1`
+- `codex:glossary/world-sql/term-2`
 
 ### `ts-arrays`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-control`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-functions`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-generics`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
-
-### `ts-generics-q2-result-type`
-
-**Missing:**
-- `codex:glossary/ts/type-parameter`
-- `codex:glossary/ts/never`
-- `codex:glossary/ts/type-inference`
-- `codex:glossary/ts/generic`
-- `codex:glossary/ts/result-type`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-ignition`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
-
-### `ts-ignition-q1-types-and-interfaces`
-
-**Missing:**
-- `codex:glossary/ts/interface`
-- `codex:glossary/ts/type-annotation`
-- `codex:glossary/ts/type-alias`
-- `codex:glossary/ts/union-type`
-- `codex:glossary/ts/compiler`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-interfaces`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-modules`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
-
-### `ts-narrowing-q2-unions-and-guards`
-
-**Missing:**
-- `codex:glossary/ts/typeof`
-- `codex:glossary/ts/type-guard`
-- `codex:glossary/ts/in-operator`
-- `codex:glossary/ts/discriminated-union`
-- `codex:glossary/ts/type-narrowing`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-objects`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-types`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
+- `codex:glossary/world-typescript/term-1`
 
 ### `ts-vars`
 
 **Missing:**
 - `codex:glossary/world-typescript/term-2`
-- `codex:glossary/world-typescript/term-1`
 - `codex:glossary/world-typescript/term-3`
+- `codex:glossary/world-typescript/term-1`
 
 
 ---

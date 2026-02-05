@@ -1,3 +1,9 @@
+---
+id: glossary/cli/exit-codes
+title: Exit Codes
+world: cli
+---
+
 # Exit Codes
 
 An **exit code** (or return code) is a number a program returns when it finishes, indicating success or failure.

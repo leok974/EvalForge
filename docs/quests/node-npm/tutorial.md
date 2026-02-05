@@ -1,30 +1,60 @@
-# npm: Packages, Scripts, and Lockfiles
+## Node Npm
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node npm concepts in a real-world scenario.
 
-Install deps, run scripts, and understand lockfiles.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node npm to practice core concepts.
 
-package.json, scripts, dependency types, lockfile purpose.
+## 2) The Concept in 30 Seconds
+Node Npm demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-package.json declares intent; lockfile pins reality.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-add a script, run it, add a dependency, observe lockfile.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-create `dev`, `test`, `start` scripts.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-deleting lockfile, mixing package managers.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-Why do lockfiles matter in CI?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

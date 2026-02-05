@@ -1,30 +1,60 @@
-# Globs and Search
+## Cli Globs Search
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice cli globs search concepts in a real-world scenario.
 
-Find files and grep/search text quickly.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with cli globs search to practice core concepts.
 
-glob patterns `* ? []`, search tools, match vs no match.
+## 2) The Concept in 30 Seconds
+Cli Globs Search demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“globs match filenames; search matches file contents.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-`ls *.md`, search for a string in a repo (tooling-agnostic).
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-find all `.json`, find where a slug appears, confirm hits.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-quoting globs, searching huge dirs, case sensitivity.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What does `*` match? What’s the difference between file search and text search?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

@@ -1,30 +1,60 @@
-# Deploy Basics: Start Scripts and Health Checks
+## Node Deploy Basics
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node deploy basics concepts in a real-world scenario.
 
-Make an app deploy-friendly with health and start conventions.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node deploy basics to practice core concepts.
 
-PORT, start script, graceful shutdown, health checks.
+## 2) The Concept in 30 Seconds
+Node Deploy Basics demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-production expects predictability (boot, listen, health, stop).
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-`start` script, `/health`, SIGTERM handling.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-add shutdown hook that closes server cleanly.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-hardcoded ports, ignoring SIGTERM.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-Why is graceful shutdown important?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

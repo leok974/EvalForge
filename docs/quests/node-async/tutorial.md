@@ -1,30 +1,60 @@
-# Async Patterns: Promises, async/await, Errors
+## Node Async
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node async concepts in a real-world scenario.
 
-Write async code with correct error handling.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node async to practice core concepts.
 
-async/await, promise rejection, try/catch.
+## 2) The Concept in 30 Seconds
+Node Async demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-errors must propagate as rejections; you must await or handle.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-read file async, fetch-like async, wrap in try/catch.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-implement `run()` that returns non-zero on failure.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-forgetting `await`, unhandled promise rejections.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-Why can a promise fail “silently” if you don’t await?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

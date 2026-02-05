@@ -1,0 +1,216 @@
+{
+  "cli-env-vars": {
+    "codex:glossary/cli/env-vars": "terms.json",
+    "codex:glossary/cli/path": "terms.json"
+  },
+  "cli-exit-codes": {
+    "codex:glossary/cli/exit-codes": "terms.json"
+  },
+  "cli-files-folders": {
+    "codex:glossary/cli/paths": "terms.json"
+  },
+  "cli-globs-search": {
+    "codex:glossary/cli/globs": "terms.json",
+    "codex:glossary/cli/search": "terms.json"
+  },
+  "cli-ignition": {
+    "codex:glossary/cli/working-directory": "terms.json"
+  },
+  "cli-navigation": {
+    "codex:glossary/cli/paths": "terms.json"
+  },
+  "cli-pipes": {
+    "codex:glossary/cli/pipes": "terms.json"
+  },
+  "cli-processes": {
+    "codex:glossary/cli/processes": "terms.json",
+    "codex:glossary/cli/signals": "terms.json"
+  },
+  "cli-redirection": {
+    "codex:glossary/cli/redirection": "terms.json"
+  },
+  "cli-scripting": {
+    "codex:glossary/cli/scripting-basics": "terms.json"
+  },
+  "css-box-model": {
+    "codex:glossary/web/css/box-model": "terms.json"
+  },
+  "css-cascade-inheritance": {
+    "codex:glossary/web/css/cascade": "terms.json",
+    "codex:glossary/web/css/inheritance": "terms.json"
+  },
+  "css-colors-backgrounds": {
+    "codex:glossary/web/css/colors": "terms.json",
+    "codex:glossary/web/css/backgrounds": "terms.json"
+  },
+  "css-flexbox": {
+    "codex:glossary/web/css/flexbox": "terms.json"
+  },
+  "css-grid": {
+    "codex:glossary/web/css/grid": "terms.json"
+  },
+  "css-ignition": {
+    "codex:glossary/web/css/selectors": "terms.json"
+  },
+  "css-position-zindex": {
+    "codex:glossary/web/css/positioning": "terms.json"
+  },
+  "css-responsive-media": {
+    "codex:glossary/web/css/media-queries": "terms.json",
+    "codex:glossary/web/css/typography": "terms.json"
+  },
+  "css-selectors-specificity": {
+    "codex:glossary/web/css/selectors": "terms.json",
+    "codex:glossary/web/css/specificity": "terms.json"
+  },
+  "css-units-typography": {
+    "codex:glossary/web/css/units": "terms.json",
+    "codex:glossary/web/css/typography": "terms.json"
+  },
+  "first-sparks": {
+    "codex:glossary/world-python/term-1": "terms.json",
+    "codex:glossary/world-python/term-2": "terms.json"
+  },
+  "hello-variable": {
+    "codex:glossary/world-python/term-1": "terms.json",
+    "codex:glossary/world-python/term-2": "terms.json"
+  },
+  "html-accessibility-basics": {
+    "codex:glossary/web/html/accessibility-basics": "terms.json"
+  },
+  "html-debug-validate": {
+    "codex:glossary/web/html/tags-and-elements": "terms.json",
+    "codex:glossary/web/html/debug-validate": "terms.json"
+  },
+  "html-forms-inputs": {
+    "codex:glossary/web/html/forms": "terms.json"
+  },
+  "html-ignition": {
+    "codex:glossary/web/html/document-skeleton": "terms.json",
+    "codex:glossary/web/html/metadata-seo": "terms.json"
+  },
+  "html-links-images": {
+    "codex:glossary/web/html/links": "terms.json",
+    "codex:glossary/web/html/images": "terms.json"
+  },
+  "html-lists-tables": {
+    "codex:glossary/web/html/lists": "terms.json",
+    "codex:glossary/web/html/tables": "terms.json"
+  },
+  "html-media-embed": {
+    "codex:glossary/web/html/media-embed": "terms.json"
+  },
+  "html-meta-seo": {
+    "codex:glossary/web/html/metadata-seo": "terms.json",
+    "codex:glossary/web/html/document-skeleton": "terms.json"
+  },
+  "html-semantic-layout": {
+    "codex:glossary/web/html/semantic-elements": "terms.json"
+  },
+  "html-tags-attributes": {
+    "codex:glossary/web/html/tags-and-elements": "terms.json",
+    "codex:glossary/web/html/attributes": "terms.json"
+  },
+  "infra-docker-compose": {
+    "codex:glossary/world-infra/term-1": "terms.json",
+    "codex:glossary/world-infra/term-2": "terms.json",
+    "codex:glossary/world-infra/term-3": "terms.json"
+  },
+  "infra-ignition": {
+    "codex:glossary/world-infra/term-1": "terms.json",
+    "codex:glossary/world-infra/term-2": "terms.json",
+    "codex:glossary/world-infra/term-3": "terms.json"
+  },
+  "node-async": {
+    "codex:glossary/node/async-errors": "terms.json",
+    "codex:glossary/node/event-loop": "terms.json"
+  },
+  "node-deploy-basics": {
+    "codex:glossary/node/health-checks": "terms.json",
+    "codex:glossary/node/env-and-config": "terms.json"
+  },
+  "node-env-config": {
+    "codex:glossary/node/env-and-config": "terms.json",
+    "codex:glossary/node/runtime-and-process": "terms.json"
+  },
+  "node-fs-path": {
+    "codex:glossary/node/fs-and-path": "terms.json"
+  },
+  "node-http": {
+    "codex:glossary/node/http-basics": "terms.json"
+  },
+  "node-ignition": {
+    "codex:glossary/node/runtime-and-process": "terms.json",
+    "codex:glossary/node/event-loop": "terms.json"
+  },
+  "node-middleware": {
+    "codex:glossary/node/middleware": "terms.json",
+    "codex:glossary/node/logging": "terms.json"
+  },
+  "node-modules": {
+    "codex:glossary/node/modules-esm-cjs": "terms.json"
+  },
+  "node-npm": {
+    "codex:glossary/node/package-json": "terms.json",
+    "codex:glossary/node/lockfiles": "terms.json"
+  },
+  "node-testing": {
+    "codex:glossary/node/testing-basics": "terms.json"
+  },
+  "python-data-forge": {
+    "codex:glossary/python/data-pipeline": "terms.json",
+    "codex:glossary/python/parse": "terms.json",
+    "codex:glossary/python/dictionary": "terms.json",
+    "codex:glossary/python/keyerror": "terms.json",
+    "codex:glossary/python/csv": "terms.json"
+  },
+  "python-loop": {
+    "codex:glossary/python/for-loop": "terms.json",
+    "codex:glossary/python/iteration": "terms.json",
+    "codex:glossary/python/range": "terms.json",
+    "codex:glossary/python/infinite-loop": "terms.json",
+    "codex:glossary/python/break-continue": "terms.json"
+  },
+  "python-systems-observability-sli": {
+    "codex:glossary/python/systems/observability": "terms.json",
+    "codex:glossary/python/systems/sli": "terms.json",
+    "codex:glossary/python/systems/slo": "terms.json",
+    "codex:glossary/python/systems/correlation-id": "terms.json",
+    "codex:glossary/python/systems/structured-logging": "terms.json"
+  },
+  "python-systems-performance-profile": {
+    "codex:glossary/python/systems/profiling": "terms.json",
+    "codex:glossary/python/systems/time-complexity": "terms.json",
+    "codex:glossary/python/systems/hot-path": "terms.json",
+    "codex:glossary/python/systems/bottleneck": "terms.json",
+    "codex:glossary/python/systems/cprofile": "terms.json"
+  },
+  "python-systems-platform-tooling": {
+    "codex:glossary/python/systems/venv": "terms.json",
+    "codex:glossary/python/systems/dependency": "terms.json",
+    "codex:glossary/python/systems/package-manager": "terms.json",
+    "codex:glossary/python/systems/module-not-found-error": "terms.json",
+    "codex:glossary/python/systems/pip": "terms.json"
+  },
+  "python-systems-resilient-job-runner": {
+    "codex:glossary/python/systems/retry": "terms.json",
+    "codex:glossary/python/systems/idempotency": "terms.json",
+    "codex:glossary/python/systems/timeout": "terms.json",
+    "codex:glossary/python/systems/exception-handling": "terms.json",
+    "codex:glossary/python/systems/queue-worker": "terms.json"
+  },
+  "python-systems-service-boundaries": {
+    "codex:glossary/python/systems/separation-of-concerns": "terms.json",
+    "codex:glossary/python/systems/interface": "terms.json",
+    "codex:glossary/python/systems/dependency-injection": "terms.json",
+    "codex:glossary/python/systems/side-effect": "terms.json",
+    "codex:glossary/python/systems/configuration-env-vars": "terms.json"
+  },
+  "react-ignition": {
+    "codex:glossary/react/jsx": "terms.json",
+    "codex:glossary/react/components": "terms.json"
+  },
+  "react-props": {
+    "codex:glossary/react/props": "terms.json"
+  }
+}

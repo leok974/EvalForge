@@ -398,6 +398,10 @@ class QuestDefinition(SQLModel, table=True):
     title: str
     short_description: str
     detailed_description: Optional[str] = None
+    
+    # Phase 9.8: Content Parity
+    briefing_md: Optional[str] = None
+    lore_md: Optional[str] = None
 
     rubric_id: Optional[str] = None
     starting_code_path: Optional[str] = None

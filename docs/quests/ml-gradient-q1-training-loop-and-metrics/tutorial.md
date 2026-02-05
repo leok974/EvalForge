@@ -1,67 +1,60 @@
-## Outcome
-You will learn how a basic training loop works (forward pass → loss → gradients → update) and how metrics help you tell whether learning is improving.
+## Ml Gradient Q1 Training Loop And Metrics
 
-## Concept in 30 seconds
-Training is iterative improvement. You start with parameters (weights), make predictions, measure how wrong you are using a **loss**, compute **gradients** (which direction reduces loss), and update weights using a **learning rate**. Metrics like loss over time tell you if training is actually working.
+> [!NOTE]
+> **What you'll build:** Practice ml gradient q1 training loop and metrics concepts in a real-world scenario.
 
-## Key terms
-- **Loss**: A number measuring how wrong predictions are.
-- **Gradient**: The direction to change weights to reduce loss.
-- **Learning Rate**: How big each update step is.
-- **Epoch**: One full pass through the training data.
-- **Metric**: A tracked value that measures training progress.
+---
 
-## Walkthrough
-1) Initialize weights (often zeros or small random values).
-2) For each epoch:
-   - predict outputs (forward pass)
-   - compute loss
-   - compute gradient of loss w.r.t. weights
-   - update weights with learning rate
-3) Track loss every epoch (or every few epochs).
-4) Click **Run** to confirm loss decreases over epochs.
-5) Use **Submit** when your loop updates weights correctly and metrics behave as expected.
+## 1) What You'll Build
+In this quest, you'll work with ml gradient q1 training loop and metrics to practice core concepts.
 
-## Example implementation
-A tiny linear regression training loop using NumPy (no deep learning frameworks required):
+## 2) The Concept in 30 Seconds
+Ml Gradient Q1 Training Loop And Metrics demonstrates fundamental programming patterns used in real-world applications.
 
-```py
-import numpy as np
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-# Toy data: y ≈ 2x + 1
-x = np.array([0.0, 1.0, 2.0, 3.0])
-y = np.array([1.0, 3.0, 5.0, 7.0])
+---
 
-w = 0.0
-b = 0.0
-lr = 0.1
-epochs = 50
+## 4) Step-by-Step Walkthrough
 
-for epoch in range(epochs):
-    y_hat = w * x + b
-    error = y_hat - y
-    loss = np.mean(error ** 2)
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-    # Gradients for MSE
-    dw = 2 * np.mean(error * x)
-    db = 2 * np.mean(error)
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-    # Update
-    w -= lr * dw
-    b -= lr * db
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-    if epoch % 10 == 0:
-        print(f"epoch={epoch} loss={loss:.4f} w={w:.3f} b={b:.3f}")
+---
+
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
 ```
 
-## Common mistakes
-- **Updating weights in the wrong direction** (using += instead of -=).
-- **Learning rate too large** (loss explodes) or too small (loss barely changes).
-- **Forgetting to average gradients** (scale becomes too large with bigger datasets).
-- **Mixing up loss vs metric** (loss is a metric, but you may also track accuracy, etc.).
-- **Printing every step** (hard to read); sample metrics periodically.
+---
 
-## Check yourself
-- What role does the learning rate play?
-- What does a gradient tell you?
-- If loss increases every epoch, what are two likely causes?
+## 6) Common Pitfalls
+
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

@@ -16,8 +16,8 @@ export interface CodexEntry {
  * @returns Codex entry with markdown content
  */
 export async function fetchCodex(ref: string): Promise<CodexEntry> {
-    // Strip 'codex:' prefix if present
-    const id = ref.startsWith('codex:') ? ref.replace('codex:', '') : ref;
+    // Strip 'codex:' prefix (handling duplicates like 'codex:codex:...')
+    const id = ref.replace(/^(codex:)+/, '');
 
     // Call detail endpoint (now supports slashes via backend fix)
     const response = await fetch(`/api/codex/${id}`);

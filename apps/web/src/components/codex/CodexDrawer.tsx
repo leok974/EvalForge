@@ -16,9 +16,10 @@ export interface CodexDrawerProps {
     activeRef: string | null;
     onClose: () => void;
     onOpenCodex?: (ref: string) => void;
+    questSlug?: string;
 }
 
-export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex }: CodexDrawerProps) {
+export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex, questSlug }: CodexDrawerProps) {
     const [content, setContent] = useState<CodexEntry | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -26,12 +27,64 @@ export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex }: CodexDr
     const [activeTab, setActiveTab] = useState<string>('foundry'); // Default world
     const [searchQuery, setSearchQuery] = useState('');
 
+    // UX Refs
+    const drawerRef = React.useRef<HTMLDivElement>(null);
+    const scrollRef = React.useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         if (isOpen) {
             loadCodex();
             loadIndex();
+
+            // Lock body scroll
+            document.body.style.overflow = 'hidden';
+
+            // Restore scroll position
+            if (questSlug && scrollRef.current) {
+                const key = `codex_scroll_${questSlug}`;
+                const saved = localStorage.getItem(key);
+                if (saved) {
+                    // Small timeout to allow content render
+                    setTimeout(() => {
+                        if (scrollRef.current) scrollRef.current.scrollTop = parseInt(saved, 10);
+                    }, 50);
+                }
+            }
+        } else {
+            document.body.style.overflow = '';
         }
-    }, [isOpen, activeRef]);
+
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen, activeRef, questSlug]);
+
+    // Save scroll position on close or unmount
+    useEffect(() => {
+        return () => {
+            if (isOpen && questSlug && scrollRef.current) {
+                const key = `codex_scroll_${questSlug}`;
+                localStorage.setItem(key, scrollRef.current.scrollTop.toString());
+            }
+        };
+    }, [isOpen, questSlug]);
+
+    // Also save periodically or on scroll? On close is safer for now. 
+    // Actually, if they close via prop change, the cleanup above runs. UseEffect cleanup runs before re-run.
+
+    // ESC Key Handler
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, onClose]);
 
     const loadIndex = async () => {
         if (index) return;
@@ -100,12 +153,23 @@ export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex }: CodexDr
             {/* Blur overlay */}
             <div
                 className="fixed inset-0 z-[80] bg-black/40 backdrop-blur-sm transition-opacity"
-                onClick={onClose}
+                onClick={() => {
+                    if (questSlug && scrollRef.current) {
+                        const key = `codex_scroll_${questSlug}`;
+                        localStorage.setItem(key, scrollRef.current.scrollTop.toString());
+                    }
+                    onClose();
+                }}
                 aria-hidden="true"
             />
 
             {/* Drawer panel */}
-            <div className="fixed right-0 top-0 z-[90] h-dvh w-[520px] max-w-[90vw] bg-slate-950/90 border-l border-slate-800 flex flex-col shadow-2xl">
+            <div
+                ref={drawerRef}
+                className="fixed right-0 top-0 z-[90] h-dvh w-[520px] max-w-[90vw] bg-slate-950/90 border-l border-slate-800 flex flex-col shadow-2xl"
+                role="dialog"
+                aria-modal="true"
+            >
 
                 {/* Header: never scrolls */}
                 <div className="shrink-0 px-6 py-4 border-b border-slate-700 flex items-center justify-between">
@@ -122,7 +186,13 @@ export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex }: CodexDr
                             </button>
                         )}
                         <button
-                            onClick={onClose}
+                            onClick={() => {
+                                if (questSlug && scrollRef.current) {
+                                    const key = `codex_scroll_${questSlug}`;
+                                    localStorage.setItem(key, scrollRef.current.scrollTop.toString());
+                                }
+                                onClose();
+                            }}
                             className="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-slate-100"
                             aria-label="Close"
                         >
@@ -134,7 +204,10 @@ export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex }: CodexDr
                 </div>
 
                 {/* Body: MUST scroll */}
-                <div className="flex-1 min-h-0 overflow-y-auto px-6 py-6">
+                <div
+                    ref={scrollRef}
+                    className="flex-1 min-h-0 overflow-y-auto px-6 py-6"
+                >
                     {loading && (
                         <div className="flex items-center justify-center py-12">
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -153,6 +226,7 @@ export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex }: CodexDr
                                         className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-md text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         value={searchQuery}
                                         onChange={e => setSearchQuery(e.target.value)}
+                                        autoFocus
                                     />
 
                                     {/* World Tabs */}
@@ -162,8 +236,8 @@ export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex }: CodexDr
                                                 key={w}
                                                 onClick={() => setActiveTab(w)}
                                                 className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${activeTab === w
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
                                                     }`}
                                             >
                                                 {w.charAt(0).toUpperCase() + w.slice(1)}

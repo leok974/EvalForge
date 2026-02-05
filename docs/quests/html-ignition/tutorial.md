@@ -1,67 +1,60 @@
-# HTML Ignition: Your First Page
+## Html Ignition
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice html ignition concepts in a real-world scenario.
 
-In this quest, you'll build your first valid HTML5 page from scratch, understanding the essential structure every web page needs. You'll confirm it renders correctly in a browser and validates without errors.
+---
 
-## Concept in 30 seconds
+## 1) What You'll Build
+In this quest, you'll work with html ignition to practice core concepts.
 
-Every HTML document follows the same foundational pattern: a DOCTYPE declaration, a `<html>` container, a `<head>` section for metadata, and a `<body>` section for visible content. This skeleton structure ensures browsers render your page correctly and search engines can index it properly.
+## 2) The Concept in 30 Seconds
+Html Ignition demonstrates fundamental programming patterns used in real-world applications.
 
-## Key terms
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-The key terms for this quest are defined in [terms.json](file:///d:/EvalForge/docs/quests/html-ignition/terms.json) and linked to the Codex:
+---
 
-- **doctype** - Declaration that defines the HTML version
-- **head** - Container for metadata and page configuration  
-- **body** - Container for visible page content
-- **meta charset** - Character encoding declaration
-- **viewport** - Meta tag controlling mobile layout
+## 4) Step-by-Step Walkthrough
 
-## Walkthrough
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-1. **Create the DOCTYPE**: Start with `<!DOCTYPE html>` to declare HTML5
-2. **Add html element**: Wrap everything in `<html lang="en">`
-3. **Build the head**: Include `<meta charset="UTF-8">` and viewport meta tag
-4. **Add a title**: `<title>` text appears in browser tab
-5. **Create the body**: Add visible content inside `<body>`
-6. **Validate**: Open in browser and check for errors
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-## Example implementation
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My First Page</title>
-</head>
-<body>
-  <h1>Hello, World!</h1>
-  <p>This is my first valid HTML page.</p>
-</body>
-</html>
+---
+
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
 ```
 
-## Common mistakes
+---
 
-- **Missing DOCTYPE**: Browser enters quirks mode, rendering inconsistently
-- **No viewport meta tag**: Page doesn't scale correctly on mobile devices  
-- **Forgot charset**: Special characters display as gibberish
-- **Empty title**: Browser tab shows file path instead of meaningful title
+## 6) Common Pitfalls
 
-## Deep dive
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
 
-The `<!DOCTYPE html>` declaration isn't technically an HTML tag—it's an instruction to the browser about which HTML version to expect. HTML5 simplified this dramatically from earlier versions that required long, complex DOCTYPE strings. The `lang="en"` attribute on the `<html>` element helps screen readers pronounce content correctly and assists search engines with language detection.
+---
 
-The viewport meta tag was introduced for mobile browsers. Without it, mobile browsers assume pages are designed for desktop (typically 980px wide) and shrink everything down. The `width=device-width, initial-scale=1.0` setting tells mobile browsers to match the screen width and not apply zoom.
+## 7) Check Yourself
 
-## Check yourself
-
-Before moving on, verify you can:
-- Explain the core concepts covered in this quest
-- Identify common mistakes and how to avoid them
-- Apply the techniques in your own projects
-- Debug issues when things don't work as expected
-
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

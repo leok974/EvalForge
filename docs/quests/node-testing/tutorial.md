@@ -1,30 +1,60 @@
-# Testing: Unit Tests and Integration Smoke
+## Node Testing
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node testing concepts in a real-world scenario.
 
-Write unit + integration smoke tests.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node testing to practice core concepts.
 
-test runner, assertions, fixtures, smoke tests.
+## 2) The Concept in 30 Seconds
+Node Testing demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-unit tests validate logic; integration validates wiring.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-test helper fn + test `/health` endpoint.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-add one regression test for an error path.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-flaky async tests, not closing servers.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What’s the minimum test that proves “server boots”?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

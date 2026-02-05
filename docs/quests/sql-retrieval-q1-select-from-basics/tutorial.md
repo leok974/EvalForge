@@ -1,50 +1,60 @@
-## Outcome
-You will learn how to write a basic SELECT query to retrieve columns from a table and shape results using filters, ordering, and limits.
+## Sql Retrieval Q1 Select From Basics
 
-## Concept in 30 seconds
-A SQL query asks the database for rows. `SELECT` chooses which columns to return, and `FROM` chooses the table. You can narrow results with `WHERE`, sort them with `ORDER BY`, and cap the output with `LIMIT`. The mental model: “Start broad, then filter, then sort, then limit.”
+> [!NOTE]
+> **What you'll build:** Practice sql retrieval q1 select from basics concepts in a real-world scenario.
 
-## Key terms
-- **SELECT**: Chooses which columns to return.
-- **FROM**: Chooses which table to read from.
-- **WHERE**: Filters rows based on conditions.
-- **ORDER BY**: Sorts rows by one or more columns.
-- **LIMIT**: Restricts how many rows are returned.
+---
 
-## Walkthrough
-1) Identify the table you need and the columns you care about.
-2) Write `SELECT ... FROM ...` first and run it to confirm the base shape.
-3) Add `WHERE` to filter down to the right rows.
-4) Add `ORDER BY` so results are in the intended order.
-5) Add `LIMIT` if the quest expects only top N rows.
-6) Use **Run** to iterate; use **Submit** when the query matches the expected output.
+## 1) What You'll Build
+In this quest, you'll work with sql retrieval q1 select from basics to practice core concepts.
 
-## Example implementation
-Basic retrieval:
+## 2) The Concept in 30 Seconds
+Sql Retrieval Q1 Select From Basics demonstrates fundamental programming patterns used in real-world applications.
 
-```sql
-SELECT id, name
-FROM users;
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
+
+---
+
+## 4) Step-by-Step Walkthrough
+
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
+
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
+
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
+
+---
+
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
 ```
 
-Filter + sort + limit:
+---
 
-```sql
-SELECT id, name, created_at
-FROM users
-WHERE active = true
-ORDER BY created_at DESC
-LIMIT 10;
-```
+## 6) Common Pitfalls
 
-## Common mistakes
-- **Selecting `*`** when you should return only specific columns.
-- **Forgetting the `WHERE` clause** and returning too many rows.
-- **Sorting ascending vs descending incorrectly**.
-- **Using single quotes for column names** (single quotes are for string values).
-- **Writing `ORDER BY` before `WHERE`** (SQL clause order matters).
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
 
-## Check yourself
-- What does SELECT control vs FROM?
-- When should you use WHERE?
-- Why might LIMIT be useful in analytics or debugging?
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

@@ -1,91 +1,60 @@
-## Outcome
-By the end of this quest you will:
-- Define a generic **Result<T, E>** type for safe error handling
-- Create `ok(...)` and `err(...)` helper functions
-- Implement `mapResult(...)` to transform successful values without losing error types
-- Understand what a **type parameter** is and why generics reduce duplication
+## Ts Generics Q2 Result Type
 
-## Concept in 30 seconds
-Throwing errors can be messy. A `Result<T, E>` makes success/failure explicit:
+> [!NOTE]
+> **What you'll build:** Practice ts generics q2 result type concepts in a real-world scenario.
 
-- Success: `{ ok: true, value: T }`
-- Failure: `{ ok: false, error: E }`
+---
 
-Generics (`<T, E>`) let you reuse the same pattern for different value types (numbers, strings, objects) without rewriting everything.
+## 1) What You'll Build
+In this quest, you'll work with ts generics q2 result type to practice core concepts.
 
-**Mental model:**  
-Result is a typed “either”:
-- either a value (T)
-- or an error (E)
+## 2) The Concept in 30 Seconds
+Ts Generics Q2 Result Type demonstrates fundamental programming patterns used in real-world applications.
 
-## Key terms
-- **generic** — reusable type/function parameterized by types
-- **type parameter** — the `T` and `E` in `Result<T, E>`
-- **Result type** — explicit success/failure container
-- **type inference** — TypeScript figures out types from usage
-- **never** — a type meaning “this can’t happen” (useful for helpers)
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-## Walkthrough
-1) Open `main.ts`.
-2) Implement `Result<T, E>` as a discriminated union.
-3) Implement helpers:
-   - `ok(value)` returns a success Result
-   - `err(error)` returns a failure Result
-4) Implement `parseIntStrict(input)`:
-   - Trim input
-   - Parse base 10 integer
-   - Return `ok(n)` or `err("invalid integer")`
-5) Implement `mapResult(res, fn)`:
-   - If res is ok, apply fn to value and return ok(newValue)
-   - If res is err, return the same error
-6) Run and confirm demo output.
-7) Submit when tests pass.
+---
 
-## Example implementation
-```ts
-export type Result<T, E> =
-  | { ok: true; value: T }
-  | { ok: false; error: E };
+## 4) Step-by-Step Walkthrough
 
-export function ok<T>(value: T): Result<T, never> {
-  return { ok: true, value };
-}
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-export function err<E>(error: E): Result<never, E> {
-  return { ok: false, error };
-}
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-export function parseIntStrict(input: string): Result<number, string> {
-  const trimmed = input.trim();
-  const n = Number.parseInt(trimmed, 10);
-  return Number.isNaN(n) ? err("invalid integer") : ok(n);
-}
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-export function mapResult<T, U, E>(
-  res: Result<T, E>,
-  fn: (value: T) => U
-): Result<U, E> {
-  return res.ok ? ok(fn(res.value)) : res;
-}
+---
+
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
 ```
 
-## Common mistakes
+---
 
-* **Returning mixed shapes**
+## 6) Common Pitfalls
 
-  * Result variants must be consistent: ok has `value`, err has `error`.
-* **Forgetting base 10 parsing**
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
 
-  * Always pass `10` to `parseInt` unless you intentionally want different bases.
-* **Throwing instead of returning Result**
+---
 
-  * This quest is about explicit success/failure values, not exceptions.
-* **Losing the error type in mapResult**
+## 7) Check Yourself
 
-  * `mapResult` should preserve the original `E`.
-
-## Check yourself
-
-1. Why is `Result<T, E>` safer than returning `null`?
-2. What do `T` and `E` represent?
-3. What should `mapResult` do when `res.ok` is false?
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

@@ -1,30 +1,60 @@
-# Exit Codes and Error Handling
+## Cli Exit Codes
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice cli exit codes concepts in a real-world scenario.
 
-Detect success/failure and branch behavior.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with cli exit codes to practice core concepts.
 
-exit code 0/non-zero, short-circuit operators, failure modes.
+## 2) The Concept in 30 Seconds
+Cli Exit Codes demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“programs report success with a number, not with text.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-run a command that fails, inspect code, handle conditionally.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-write a tiny “check then run” sequence.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-relying on printed text, swallowing errors.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What does exit code 0 mean? Why is “no output” not necessarily success?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

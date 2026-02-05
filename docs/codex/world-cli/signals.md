@@ -1,3 +1,9 @@
+---
+id: glossary/cli/signals
+title: Signals
+world: cli
+---
+
 # Signals
 
 **Signals** are notifications sent to processes to trigger specific actions (pause, resume, terminate, etc.).

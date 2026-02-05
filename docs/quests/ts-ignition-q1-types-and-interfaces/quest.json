@@ -10,9 +10,18 @@
     "objectives": [
         {
             "id": "obj_1",
-            "description": "Implement the solution.",
-            "type": "test_pass",
-            "matcher": null
+            "text": "Implement the solution in the provided starter file.",
+            "why": "Specification requirement"
+        },
+        {
+            "id": "obj_2",
+            "text": "Ensure usage of standard library features where appropriate.",
+            "why": "Specification requirement"
+        },
+        {
+            "id": "obj_3",
+            "text": "Verify output matches expected format.",
+            "why": "Specification requirement"
         }
     ],
     "grading": {
@@ -20,9 +29,11 @@
     },
     "workspace": {
         "entrypoint": "main.ts",
-        "files_from": "./starter"
+        "files_from": "../quests/ts-ignition-q1-types-and-interfaces/workspace"
     },
     "smoke": {
         "solution_workspace_files": []
-    }
+    },
+    "briefing_md": "# Mission: Crystal Ignition: Types + Interfaces\n\n# Crystal Ignition: Types + Interfaces\n        \nRequirements:\n1. Implement the solution in the provided starter file.\n2. Ensure usage of standard library features where appropriate.\n3. Verify output matches expected format.\n\n",
+    "lore_md": "## System Log: Crystal Ignition: Types + Interfaces\n\n> *Establishing secure uplink...*\n>\n> Target: Crystal Ignition: Types + Interfaces\n> Status: Pending Authorization\n> User ID: **AUTH_REQUIRED**\n\nThe mission parameters are set. \nInitialize the workspace to begin the assignment.\n"
 }

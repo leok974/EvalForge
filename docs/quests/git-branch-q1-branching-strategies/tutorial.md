@@ -1,56 +1,60 @@
-## Outcome
-You will learn what branches are and how to use them to work on changes safely without disrupting your main line of development.
+## Git Branch Q1 Branching Strategies
 
-## Concept in 30 seconds
-A branch is a movable label pointing to a commit. It lets you try changes in isolation. **HEAD** is “where you are right now.” When you create a branch and switch to it, new commits move that branch forward. Branching is how teams work on features and fixes without stepping on each other.
+> [!NOTE]
+> **What you'll build:** Practice git branch q1 branching strategies concepts in a real-world scenario.
 
-## Key terms
-- **Branch**: A movable label pointing to a commit.
-- **HEAD**: The current checkout (where your working tree is based).
-- **Switch/Checkout**: Changing which branch/commit your working tree uses.
-- **Merge**: Combining changes from one branch into another.
-- **Main Branch**: The primary baseline branch (often named `main`).
+---
 
-## Walkthrough
-1) Confirm your current state (`git status`) and current branch (`git branch`).
-2) Create a new branch for your work.
-3) Switch to that branch and make a small change.
-4) Commit the change on the feature branch.
-5) Switch back to the main branch and merge the feature branch.
-6) Use **Run** to practice the sequence; **Submit** when your repo history reflects the required branch/merge state.
+## 1) What You'll Build
+In this quest, you'll work with git branch q1 branching strategies to practice core concepts.
 
-## Example implementation
-A safe feature branch flow:
+## 2) The Concept in 30 Seconds
+Git Branch Q1 Branching Strategies demonstrates fundamental programming patterns used in real-world applications.
 
-```bash
-# See current branches (* marks current)
-git branch
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-# Create and switch to a new branch
-git switch -c feature/readme-update
+---
 
-# Make a change
-echo "Notes" >> README.md
+## 4) Step-by-Step Walkthrough
 
-# Stage + commit on the feature branch
-git add README.md
-git commit -m "Update README with notes"
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-# Switch back to main
-git switch main
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-# Merge the feature branch
-git merge feature/readme-update
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
+
+---
+
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
 ```
 
-## Common mistakes
-- **Forgetting to switch branches before editing** (you accidentally commit on main).
-- **Creating a branch but not committing anything on it** (nothing to merge).
-- **Confusing HEAD with a branch name** (HEAD points to your current checkout).
-- **Trying to merge with uncommitted changes** (stash/commit first).
-- **Deleting a branch before its work is merged** (you can lose the pointer).
+---
 
-## Check yourself
-- What does a branch point to?
-- What does HEAD represent?
-- Why is a feature branch safer than committing directly to main?
+## 6) Common Pitfalls
+
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

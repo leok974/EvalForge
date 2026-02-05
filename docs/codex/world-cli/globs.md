@@ -1,3 +1,9 @@
+---
+id: glossary/cli/globs
+title: Globs
+world: cli
+---
+
 # Globs
 
 **Globs** (or wildcards) are pattern-matching shortcuts for selecting multiple files at once.

@@ -31,7 +31,8 @@ export function remarkTermLinker(options: Options) {
                 parent.type === 'linkReference' ||
                 parent.type === 'code' ||
                 parent.type === 'inlineCode' ||
-                parent.type === 'termLink' // Don't nest
+                parent.type === 'termLink' || // Don't nest
+                parent.type === 'heading' // Don't link in headings (Phase 9.4-C)
             ) {
                 return;
             }
@@ -40,22 +41,13 @@ export function remarkTermLinker(options: Options) {
             if (!value) return;
 
             // Find first matching term
-            // We process one match per text node to avoid complexity, 
-            // relying on re-visiting if we wanted exhaustiveness, but simple replacement is safer.
-            // Actually, to handle multiple terms in one text node, we need to split the node.
-
             let bestMatch: { term: KeyTerm; index: number } | null = null;
 
             for (const termObj of sortedTerms) {
-                // Simple case-insensitive match with boundary checks
-                // We want to match "Term" or "terms" (plural)
                 const escaped = termObj.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                // Bound by non-word chars or start/end of string
                 const regex = new RegExp(`\\b${escaped}(s?)\\b`, 'i');
-
                 const match = regex.exec(value);
                 if (match) {
-                    // If we found a match earlier in the string than current best, or same pos but longer
                     if (!bestMatch || match.index < bestMatch.index) {
                         bestMatch = { term: termObj, index: match.index };
                     }
@@ -66,9 +58,9 @@ export function remarkTermLinker(options: Options) {
                 const termObj = bestMatch.term;
                 const escaped = termObj.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 const regex = new RegExp(`\\b${escaped}(s?)\\b`, 'i');
-                const match = regex.exec(value); // Re-exec to get details
+                const match = regex.exec(value);
 
-                if (!match) return; // Should not happen
+                if (!match) return;
 
                 const startIndex = match.index;
                 const endIndex = startIndex + match[0].length;
@@ -86,19 +78,21 @@ export function remarkTermLinker(options: Options) {
                 newNodes.push(u('termLink', {
                     term: termObj.term,
                     codexRef: termObj.codex_ref,
-                    children: [u('text', matchedText)] // Keep original casing/plurality
+                    children: [u('text', matchedText)]
                 }));
 
                 if (after) {
                     newNodes.push(u('text', after));
                 }
 
-                // Replace current node with new nodes
                 parent.children.splice(index, 1, ...newNodes);
 
-                // Return index + newNodes.length to skip over the nodes we just added
-                // (wrapping the matched term prevents infinite recursion on it)
-                return index + newNodes.length;
+                // Resume visitation at the 'after' node (or next node if no after)
+                // If we inserted [before, link, after], after is at index + 2.
+                // If we inserted [link, after], after is at index + 1.
+                // Generally, after is at index + newNodes.length - 1.
+                // If we return this index, visitor visits it next.
+                return index + newNodes.length - (after ? 1 : 0);
             }
         });
     };

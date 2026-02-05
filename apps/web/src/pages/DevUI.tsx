@@ -23,12 +23,13 @@ import { QuestBoard } from '../components/QuestBoard';
 import { QuestIDE, QuestIDEPage } from '../components/quests/QuestIDE'; // New IDE Import
 import { QuestSummary, fetchQuest } from '../lib/questsApi';
 import { EventFeed } from '../components/EventFeed';
-import { Routes, Route, Navigate, useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate, Outlet, useSearchParams } from 'react-router-dom';
 import { GettingStartedDialog } from '../features/tutorial/GettingStartedDialog';
 import { STARTER_QUEST_ROUTE, TUTORIAL_STORAGE_KEY } from '../config/starter';
 import { Terminal, ShieldAlert, BookOpen, Radio, HelpCircle } from 'lucide-react';
 import { useUniverse } from '../hooks/useUniverse';
 import { resolveSelectedProject } from '../lib/projectValidation';
+import { PanelId } from '../features/workshop/workshopPanels';
 
 // Map backend color names to Tailwind classes
 const COLOR_MAP: Record<string, string> = {
@@ -53,6 +54,7 @@ function DevUIContent() {
   const { layout } = useCurrentLayout();
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams(); // ADDED
   const [input, setInput] = useState('');
   const [sid, setSid] = useState<string>('');
   const [isCodexOpen, setIsCodexOpen] = useState(false);
@@ -91,6 +93,19 @@ function DevUIContent() {
     world_id: 'world-python',
     track_id: ''
   });
+
+  // --- URL PANEL SYNC (NEW) ---
+  useEffect(() => {
+    const panel = searchParams.get('panel');
+    // Only map known panels, ignore mapped legacy modes if needed
+    if (panel && ['judge', 'explain', 'debug', 'codex'].includes(panel)) {
+      // Only update if different to avoid loops
+      if (context.mode !== panel) {
+        setContext(prev => ({ ...prev, mode: panel as any }));
+      }
+    }
+  }, [searchParams, context.mode]);
+
 
   // Global Project Validation
   const { universe } = useUniverse();
@@ -280,44 +295,7 @@ function DevUIContent() {
           <IntentOracleEvalButton />
         )}
 
-        {/* Agent Mode Switcher - GATED (Hidden in Workshop/Orion as they have their own HUDs) */}
-        {layout !== 'workshop' && layout !== 'orion' && !location.pathname.includes('/workshop') && !location.pathname.includes('/orion') && (
-          <div className="flex gap-2">
-            <button
-              onClick={() => setContext(prev => ({ ...prev, mode: 'judge' }))}
-              className={`flex-1 py-2 text-xs font-bold tracking-widest border transition-all ${context.mode === 'judge'
-                ? 'bg-red-950/40 border-red-500 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]'
-                : 'bg-black border-zinc-800 text-zinc-600 hover:border-zinc-700'
-                }`}
-            >
-              JUDGE
-            </button>
-            <button
-              onClick={() => hasSkill('agent_explain') && setContext(prev => ({ ...prev, mode: 'explain' }))}
-              disabled={!hasSkill('agent_explain')}
-              className={`flex-1 py-2 text-xs font-bold tracking-widest border transition-all ${context.mode === 'explain'
-                ? 'bg-amber-950/40 border-amber-500 text-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
-                : !hasSkill('agent_explain')
-                  ? 'bg-black border-zinc-900 text-zinc-800 cursor-not-allowed opacity-50'
-                  : 'bg-black border-zinc-800 text-zinc-600 hover:border-zinc-700'
-                }`}
-            >
-              EXPLAIN {!hasSkill('agent_explain') && '🔒'}
-            </button>
-            <button
-              onClick={() => hasSkill('agent_debug') && setContext(prev => ({ ...prev, mode: 'debug' }))}
-              disabled={!hasSkill('agent_debug')}
-              className={`flex-1 py-2 text-xs font-bold tracking-widest border transition-all ${context.mode === 'debug'
-                ? 'bg-emerald-950/40 border-emerald-500 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
-                : !hasSkill('agent_debug')
-                  ? 'bg-black border-zinc-900 text-zinc-800 cursor-not-allowed opacity-50'
-                  : 'bg-black border-zinc-800 text-zinc-600 hover:border-zinc-700'
-                }`}
-            >
-              DEBUG {!hasSkill('agent_debug') && '🔒'}
-            </button>
-          </div>
-        )}
+        {/* Agent Mode Switcher - REMOVED (Moved to WorkshopToolsPanel) */}
       </div>
     </div>
   );
@@ -377,7 +355,18 @@ function DevUIContent() {
     integrityDelta: lastResult?.integrity_delta,
     bossHpDelta: lastResult?.boss_hp_delta,
     currentMode: context.mode as WorkshopMode,
-    onModeChange: (mode: WorkshopMode) => setContext(prev => ({ ...prev, mode })),
+    onModeChange: (mode: WorkshopMode) => {
+      // Sync context AND URL
+      setContext(prev => ({ ...prev, mode }));
+      // Only update URL if it's a panel mode (not 'quest')
+      if (['judge', 'explain', 'debug', 'codex'].includes(mode)) {
+        setSearchParams(prev => {
+          const copy = new URLSearchParams(prev);
+          copy.set('panel', mode);
+          return copy;
+        });
+      }
+    },
     hasSkill: hasSkill,
   };
 
@@ -466,10 +455,14 @@ function DevUIContent() {
   );
 }
 
+import { WorkshopCatalogProvider } from '../features/workshop/WorkshopCatalogContext';
+
 export default function DevUI() {
   return (
     <LayoutProvider>
-      <DevUIContent />
+      <WorkshopCatalogProvider>
+        <DevUIContent />
+      </WorkshopCatalogProvider>
     </LayoutProvider>
   );
 }

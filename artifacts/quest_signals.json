@@ -1,0 +1,3242 @@
+{
+  "python-data-forge": {
+    "slug": "python-data-forge",
+    "title": "Data Forge",
+    "world_id": "world-python",
+    "track_id": "boss-prep",
+    "language": "python",
+    "workspace_files": [
+      "README.md",
+      "task.py"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "data pipeline",
+      "parse",
+      "dictionary (dict)",
+      "KeyError",
+      "CSV"
+    ],
+    "codex_refs": [
+      "codex:glossary/python/data-pipeline",
+      "codex:glossary/python/parse",
+      "codex:glossary/python/dictionary",
+      "codex:glossary/python/keyerror",
+      "codex:glossary/python/csv"
+    ],
+    "_quality": "Unknown"
+  },
+  "python-loop": {
+    "slug": "python-loop",
+    "title": "Loop",
+    "world_id": "world-python",
+    "track_id": "fundamentals",
+    "language": "python",
+    "workspace_files": [
+      "README.md",
+      "task.py"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "for loop",
+      "iteration",
+      "range()",
+      "infinite loop",
+      "break / continue"
+    ],
+    "codex_refs": [
+      "codex:glossary/python/for-loop",
+      "codex:glossary/python/iteration",
+      "codex:glossary/python/range",
+      "codex:glossary/python/infinite-loop",
+      "codex:glossary/python/break-continue"
+    ],
+    "_quality": "Unknown"
+  },
+  "python-systems-service-boundaries": {
+    "slug": "python-systems-service-boundaries",
+    "title": "Service Boundaries & Contracts",
+    "world_id": "world-python",
+    "track_id": "foundry-senior-systems",
+    "language": "python",
+    "workspace_files": [
+      "README.md",
+      "task.py"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "separation of concerns",
+      "interface",
+      "dependency injection",
+      "side effect",
+      "configuration (env vars)"
+    ],
+    "codex_refs": [
+      "codex:glossary/python/systems/separation-of-concerns",
+      "codex:glossary/python/systems/interface",
+      "codex:glossary/python/systems/dependency-injection",
+      "codex:glossary/python/systems/side-effect",
+      "codex:glossary/python/systems/configuration-env-vars"
+    ],
+    "_quality": "Unknown"
+  },
+  "python-systems-resilient-job-runner": {
+    "slug": "python-systems-resilient-job-runner",
+    "title": "Resilient Job Runner",
+    "world_id": "world-python",
+    "track_id": "foundry-senior-systems",
+    "language": "python",
+    "workspace_files": [
+      "README.md",
+      "task.py"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "retry",
+      "idempotency",
+      "timeout",
+      "exception handling (try/except)",
+      "queue / worker"
+    ],
+    "codex_refs": [
+      "codex:glossary/python/systems/retry",
+      "codex:glossary/python/systems/idempotency",
+      "codex:glossary/python/systems/timeout",
+      "codex:glossary/python/systems/exception-handling",
+      "codex:glossary/python/systems/queue-worker"
+    ],
+    "_quality": "Unknown"
+  },
+  "python-systems-observability-sli": {
+    "slug": "python-systems-observability-sli",
+    "title": "Observability & SLIs",
+    "world_id": "world-python",
+    "track_id": "foundry-senior-systems",
+    "language": "python",
+    "workspace_files": [
+      "README.md",
+      "task.py"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "observability",
+      "SLI",
+      "SLO",
+      "correlation id",
+      "structured logging"
+    ],
+    "codex_refs": [
+      "codex:glossary/python/systems/observability",
+      "codex:glossary/python/systems/sli",
+      "codex:glossary/python/systems/slo",
+      "codex:glossary/python/systems/correlation-id",
+      "codex:glossary/python/systems/structured-logging"
+    ],
+    "_quality": "Unknown"
+  },
+  "python-systems-performance-profile": {
+    "slug": "python-systems-performance-profile",
+    "title": "Performance & Profiling",
+    "world_id": "world-python",
+    "track_id": "foundry-senior-systems",
+    "language": "python",
+    "workspace_files": [
+      "README.md",
+      "task.py"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "profiling",
+      "time complexity",
+      "hot path",
+      "bottleneck",
+      "cProfile"
+    ],
+    "codex_refs": [
+      "codex:glossary/python/systems/profiling",
+      "codex:glossary/python/systems/time-complexity",
+      "codex:glossary/python/systems/hot-path",
+      "codex:glossary/python/systems/bottleneck",
+      "codex:glossary/python/systems/cprofile"
+    ],
+    "_quality": "Unknown"
+  },
+  "python-systems-platform-tooling": {
+    "slug": "python-systems-platform-tooling",
+    "title": "Internal Tooling & DX",
+    "world_id": "world-python",
+    "track_id": "foundry-senior-systems",
+    "language": "python",
+    "workspace_files": [
+      "README.md",
+      "task.py"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "virtual environment (venv)",
+      "dependency",
+      "package manager",
+      "ImportError / ModuleNotFoundError",
+      "pip"
+    ],
+    "codex_refs": [
+      "codex:glossary/python/systems/venv",
+      "codex:glossary/python/systems/dependency",
+      "codex:glossary/python/systems/package-manager",
+      "codex:glossary/python/systems/module-not-found-error",
+      "codex:glossary/python/systems/pip"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-ignition-q1-console-and-functions": {
+    "slug": "js-ignition-q1-console-and-functions",
+    "title": "Prism Ignition: Console + Functions",
+    "world_id": "world-js",
+    "track_id": "js-fundamentals",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "console.log",
+      "string",
+      "function",
+      "parameter",
+      "return value"
+    ],
+    "codex_refs": [
+      "codex:glossary/js/console-log",
+      "codex:glossary/js/string",
+      "codex:glossary/js/function",
+      "codex:glossary/js/parameter",
+      "codex:glossary/js/return-value"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-vars-q1-let-const-var": {
+    "slug": "js-vars-q1-let-const-var",
+    "title": "js-vars-q1-let-const-var",
+    "world_id": "world-js",
+    "track_id": "core",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-js/term-1",
+      "codex:glossary/world-js/term-2",
+      "codex:glossary/world-js/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-control-q1-if-else-loops": {
+    "slug": "js-control-q1-if-else-loops",
+    "title": "js-control-q1-if-else-loops",
+    "world_id": "world-js",
+    "track_id": "core",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-js/term-1",
+      "codex:glossary/world-js/term-2",
+      "codex:glossary/world-js/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-arrays-q1-basics": {
+    "slug": "js-arrays-q1-basics",
+    "title": "js-arrays-q1-basics",
+    "world_id": "world-js",
+    "track_id": "core",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-js/term-1",
+      "codex:glossary/world-js/term-2",
+      "codex:glossary/world-js/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-arrays-q2-map-filter-reduce": {
+    "slug": "js-arrays-q2-map-filter-reduce",
+    "title": "Prism Lens: map / filter / reduce",
+    "world_id": "world-js",
+    "track_id": "js-fundamentals",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "array",
+      "callback",
+      "map",
+      "filter",
+      "reduce"
+    ],
+    "codex_refs": [
+      "codex:glossary/js/array",
+      "codex:glossary/js/callback",
+      "codex:glossary/js/map",
+      "codex:glossary/js/filter",
+      "codex:glossary/js/reduce"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-objects-q1-properties-methods": {
+    "slug": "js-objects-q1-properties-methods",
+    "title": "js-objects-q1-properties-methods",
+    "world_id": "world-js",
+    "track_id": "core",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-js/term-1",
+      "codex:glossary/world-js/term-2",
+      "codex:glossary/world-js/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-functions-q1-arrow-vs-regular": {
+    "slug": "js-functions-q1-arrow-vs-regular",
+    "title": "js-functions-q1-arrow-vs-regular",
+    "world_id": "world-js",
+    "track_id": "core",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-js/term-1",
+      "codex:glossary/world-js/term-2",
+      "codex:glossary/world-js/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-async-q1-promises-basics": {
+    "slug": "js-async-q1-promises-basics",
+    "title": "js-async-q1-promises-basics",
+    "world_id": "world-js",
+    "track_id": "core",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-js/term-1",
+      "codex:glossary/world-js/term-2",
+      "codex:glossary/world-js/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-errors-q1-try-catch": {
+    "slug": "js-errors-q1-try-catch",
+    "title": "js-errors-q1-try-catch",
+    "world_id": "world-js",
+    "track_id": "core",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-js/term-1",
+      "codex:glossary/world-js/term-2",
+      "codex:glossary/world-js/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "js-modules-q1-import-export": {
+    "slug": "js-modules-q1-import-export",
+    "title": "js-modules-q1-import-export",
+    "world_id": "world-js",
+    "track_id": "core",
+    "language": "javascript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-js/term-1",
+      "codex:glossary/world-js/term-2",
+      "codex:glossary/world-js/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-ignition": {
+    "slug": "ts-ignition",
+    "title": "ts-ignition",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-vars": {
+    "slug": "ts-vars",
+    "title": "ts-vars",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-types": {
+    "slug": "ts-types",
+    "title": "ts-types",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-control": {
+    "slug": "ts-control",
+    "title": "ts-control",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-arrays": {
+    "slug": "ts-arrays",
+    "title": "ts-arrays",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-objects": {
+    "slug": "ts-objects",
+    "title": "ts-objects",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-functions": {
+    "slug": "ts-functions",
+    "title": "ts-functions",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-interfaces": {
+    "slug": "ts-interfaces",
+    "title": "ts-interfaces",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-generics": {
+    "slug": "ts-generics",
+    "title": "ts-generics",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ts-modules": {
+    "slug": "ts-modules",
+    "title": "ts-modules",
+    "world_id": "world-typescript",
+    "track_id": "core",
+    "language": "typescript",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-typescript/term-1",
+      "codex:glossary/world-typescript/term-2",
+      "codex:glossary/world-typescript/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-ignition": {
+    "slug": "sql-ignition",
+    "title": "sql-ignition",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-select": {
+    "slug": "sql-select",
+    "title": "sql-select",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-where": {
+    "slug": "sql-where",
+    "title": "sql-where",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-order-limit": {
+    "slug": "sql-order-limit",
+    "title": "sql-order-limit",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-aggregates": {
+    "slug": "sql-aggregates",
+    "title": "sql-aggregates",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-groupby-having": {
+    "slug": "sql-groupby-having",
+    "title": "sql-groupby-having",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-joins": {
+    "slug": "sql-joins",
+    "title": "sql-joins",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-left-join-null": {
+    "slug": "sql-left-join-null",
+    "title": "sql-left-join-null",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-cte-subquery": {
+    "slug": "sql-cte-subquery",
+    "title": "sql-cte-subquery",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "sql-insert-update-delete": {
+    "slug": "sql-insert-update-delete",
+    "title": "sql-insert-update-delete",
+    "world_id": "world-sql",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-sql/term-1",
+      "codex:glossary/world-sql/term-2",
+      "codex:glossary/world-sql/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-ignition": {
+    "slug": "git-ignition",
+    "title": "Protocol Zero",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "python",
+    "workspace_files": [
+      "main.py",
+      "test_public.py"
+    ],
+    "entry_files": [
+      "main.py"
+    ],
+    "starter_symbols": [
+      "solution"
+    ],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-init-clone": {
+    "slug": "git-init-clone",
+    "title": "git-init-clone",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-add-commit": {
+    "slug": "git-add-commit",
+    "title": "git-add-commit",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-status-log": {
+    "slug": "git-status-log",
+    "title": "git-status-log",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-branch-checkout": {
+    "slug": "git-branch-checkout",
+    "title": "git-branch-checkout",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-merge-conflicts": {
+    "slug": "git-merge-conflicts",
+    "title": "git-merge-conflicts",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-push-pull": {
+    "slug": "git-push-pull",
+    "title": "git-push-pull",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-reset-revert": {
+    "slug": "git-reset-revert",
+    "title": "git-reset-revert",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-stash": {
+    "slug": "git-stash",
+    "title": "git-stash",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "git-remote-origin": {
+    "slug": "git-remote-origin",
+    "title": "git-remote-origin",
+    "world_id": "world-git",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-git/term-1",
+      "codex:glossary/world-git/term-2",
+      "codex:glossary/world-git/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "infra-ignition": {
+    "slug": "infra-ignition",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\tools.txt",
+      "fixtures\\which.txt",
+      "outputs\\preflight.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "fails preflight when a required tool is missing",
+        "file": "infra-ignition.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-infra/term-1",
+      "codex:glossary/world-infra/term-2",
+      "codex:glossary/world-infra/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "infra-ports-and-localhost": {
+    "slug": "infra-ports-and-localhost",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\netstat.txt",
+      "outputs\\localhost_ports.txt",
+      "outputs\\public_ports.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "splits 0.0.0.0 vs 127.0.0.1 bindings",
+        "file": "infra-ports-and-localhost.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "infra-env-config": {
+    "slug": "infra-env-config",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\app.env",
+      "outputs\\runtime.env"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "uses file values + defaults when env missing",
+        "file": "infra-env-config.public.test.mjs",
+        "type": "unit"
+      },
+      {
+        "name": "env vars override file",
+        "file": "infra-env-config.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "infra-healthchecks": {
+    "slug": "infra-healthchecks",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "server.js",
+      "task.sh",
+      "fixtures\\health.txt",
+      "outputs\\health_score.txt",
+      "outputs\\health_status.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "computes degraded status, failures, slowest, and score",
+        "file": "infra-healthchecks.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "infra-logs-metrics": {
+    "slug": "infra-logs-metrics",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\app.log",
+      "outputs\\metrics.prom",
+      "outputs\\top_error.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "computes log counters and top error",
+        "file": "infra-logs-metrics.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "infra-docker-compose": {
+    "slug": "infra-docker-compose",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\docker-compose.yml",
+      "outputs\\services.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "extracts services from compose file",
+        "file": "infra-docker-compose.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-infra/term-1",
+      "codex:glossary/world-infra/term-2",
+      "codex:glossary/world-infra/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "infra-networking-dns": {
+    "slug": "infra-networking-dns",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\hosts.txt",
+      "fixtures\\requests.txt",
+      "outputs\\resolved.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "resolves using hosts mapping and prints NXDOMAIN otherwise",
+        "file": "infra-networking-dns.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "infra-reverse-proxy": {
+    "slug": "infra-reverse-proxy",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "nginx.conf",
+      "README.md",
+      "task.sh",
+      "fixtures\\nginx.conf",
+      "outputs\\routes.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "extracts location -> proxy_pass in order",
+        "file": "infra-reverse-proxy.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "infra-cors-cookies": {
+    "slug": "infra-cors-cookies",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\request_origin.txt",
+      "fixtures\\response_headers.txt",
+      "outputs\\security_report.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "computes CORS and cookie security flags",
+        "file": "infra-cors-cookies.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "infra-debug-playbook": {
+    "slug": "infra-debug-playbook",
+    "title": null,
+    "world_id": "world-infra",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\diag.txt",
+      "outputs\\next_steps.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "502 produces reverse-proxy oriented next steps",
+        "file": "infra-debug-playbook.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "ml-ignition": {
+    "slug": "ml-ignition",
+    "title": "ml-ignition",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-numpy-basics": {
+    "slug": "ml-numpy-basics",
+    "title": "ml-numpy-basics",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-pandas-dataframes": {
+    "slug": "ml-pandas-dataframes",
+    "title": "ml-pandas-dataframes",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-data-preprocessing": {
+    "slug": "ml-data-preprocessing",
+    "title": "ml-data-preprocessing",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-train-test-split": {
+    "slug": "ml-train-test-split",
+    "title": "ml-train-test-split",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-linear-regression": {
+    "slug": "ml-linear-regression",
+    "title": "ml-linear-regression",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-classification-basics": {
+    "slug": "ml-classification-basics",
+    "title": "ml-classification-basics",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-model-evaluation": {
+    "slug": "ml-model-evaluation",
+    "title": "ml-model-evaluation",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-neural-networks-intro": {
+    "slug": "ml-neural-networks-intro",
+    "title": "ml-neural-networks-intro",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "ml-overfitting-regularization": {
+    "slug": "ml-overfitting-regularization",
+    "title": "ml-overfitting-regularization",
+    "world_id": "world-ml",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-ml/term-1",
+      "codex:glossary/world-ml/term-2",
+      "codex:glossary/world-ml/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-ignition": {
+    "slug": "agents-ignition",
+    "title": "agents-ignition",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-prompts-contracts": {
+    "slug": "agents-prompts-contracts",
+    "title": "agents-prompts-contracts",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-tools-basics": {
+    "slug": "agents-tools-basics",
+    "title": "agents-tools-basics",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-planner": {
+    "slug": "agents-planner",
+    "title": "agents-planner",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-executor": {
+    "slug": "agents-executor",
+    "title": "agents-executor",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-verifier": {
+    "slug": "agents-verifier",
+    "title": "agents-verifier",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-approvals-diffs": {
+    "slug": "agents-approvals-diffs",
+    "title": "agents-approvals-diffs",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-memory": {
+    "slug": "agents-memory",
+    "title": "agents-memory",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-budgets": {
+    "slug": "agents-budgets",
+    "title": "agents-budgets",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "agents-observability": {
+    "slug": "agents-observability",
+    "title": "agents-observability",
+    "world_id": "world-agents",
+    "track_id": "core",
+    "language": "txt",
+    "workspace_files": [],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2",
+      "term-3"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-agents/term-1",
+      "codex:glossary/world-agents/term-2",
+      "codex:glossary/world-agents/term-3"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-ignition": {
+    "slug": "html-ignition",
+    "title": "HTML Ignition: Page Skeleton",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "doctype",
+      "head",
+      "body",
+      "meta charset",
+      "viewport"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/document-skeleton",
+      "codex:glossary/web/html/document-skeleton",
+      "codex:glossary/web/html/document-skeleton",
+      "codex:glossary/web/html/document-skeleton",
+      "codex:glossary/web/html/metadata-seo"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-tags-attributes": {
+    "slug": "html-tags-attributes",
+    "title": "Tags & Attributes",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "element",
+      "attribute",
+      "nesting",
+      "id",
+      "class"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/tags-and-elements",
+      "codex:glossary/web/html/attributes",
+      "codex:glossary/web/html/tags-and-elements",
+      "codex:glossary/web/html/attributes",
+      "codex:glossary/web/html/attributes"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-links-images": {
+    "slug": "html-links-images",
+    "title": "Links & Images",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "anchor",
+      "href",
+      "relative URL",
+      "absolute URL",
+      "alt text"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/links",
+      "codex:glossary/web/html/links",
+      "codex:glossary/web/html/links",
+      "codex:glossary/web/html/links",
+      "codex:glossary/web/html/images"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-lists-tables": {
+    "slug": "html-lists-tables",
+    "title": "Lists & Tables",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "unordered list",
+      "ordered list",
+      "list item",
+      "table header",
+      "table row"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/lists",
+      "codex:glossary/web/html/lists",
+      "codex:glossary/web/html/lists",
+      "codex:glossary/web/html/tables",
+      "codex:glossary/web/html/tables"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-forms-inputs": {
+    "slug": "html-forms-inputs",
+    "title": "Forms & Inputs",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "form",
+      "input",
+      "label",
+      "name attribute",
+      "validation"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/forms",
+      "codex:glossary/web/html/forms",
+      "codex:glossary/web/html/forms",
+      "codex:glossary/web/html/forms",
+      "codex:glossary/web/html/forms"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-semantic-layout": {
+    "slug": "html-semantic-layout",
+    "title": "Semantic Layout",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "semantic elements",
+      "landmarks",
+      "header",
+      "nav",
+      "main"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/semantic-elements",
+      "codex:glossary/web/html/semantic-elements",
+      "codex:glossary/web/html/semantic-elements",
+      "codex:glossary/web/html/semantic-elements",
+      "codex:glossary/web/html/semantic-elements"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-accessibility-basics": {
+    "slug": "html-accessibility-basics",
+    "title": "Accessibility Basics",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "alt text",
+      "label association",
+      "keyboard focus",
+      "landmarks",
+      "ARIA"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/accessibility-basics",
+      "codex:glossary/web/html/accessibility-basics",
+      "codex:glossary/web/html/accessibility-basics",
+      "codex:glossary/web/html/accessibility-basics",
+      "codex:glossary/web/html/accessibility-basics"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-media-embed": {
+    "slug": "html-media-embed",
+    "title": "Media & Embeds",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "video",
+      "audio",
+      "iframe",
+      "controls attribute",
+      "fallback content"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/media-embed",
+      "codex:glossary/web/html/media-embed",
+      "codex:glossary/web/html/media-embed",
+      "codex:glossary/web/html/media-embed",
+      "codex:glossary/web/html/media-embed"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-meta-seo": {
+    "slug": "html-meta-seo",
+    "title": "Metadata & SEO Basics",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "title tag",
+      "meta description",
+      "viewport",
+      "charset",
+      "open graph"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/metadata-seo",
+      "codex:glossary/web/html/metadata-seo",
+      "codex:glossary/web/html/metadata-seo",
+      "codex:glossary/web/html/document-skeleton",
+      "codex:glossary/web/html/metadata-seo"
+    ],
+    "_quality": "Unknown"
+  },
+  "html-debug-validate": {
+    "slug": "html-debug-validate",
+    "title": "Debug & Validate HTML",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "html",
+    "workspace_files": [
+      "index.html",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "nesting error",
+      "validator",
+      "closing tag",
+      "DOM",
+      "devtools"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/html/tags-and-elements",
+      "codex:glossary/web/html/debug-validate",
+      "codex:glossary/web/html/tags-and-elements",
+      "codex:glossary/web/html/debug-validate",
+      "codex:glossary/web/html/debug-validate"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-ignition": {
+    "slug": "css-ignition",
+    "title": "CSS Ignition: Your First Styles",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "stylesheet",
+      "selector",
+      "property",
+      "declaration",
+      "class selector"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/selectors",
+      "codex:glossary/web/css/selectors",
+      "codex:glossary/web/css/selectors",
+      "codex:glossary/web/css/selectors",
+      "codex:glossary/web/css/selectors"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-selectors-specificity": {
+    "slug": "css-selectors-specificity",
+    "title": "Selectors & Specificity",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "selector",
+      "specificity",
+      "id selector",
+      "class selector",
+      "pseudo-class"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/selectors",
+      "codex:glossary/web/css/specificity",
+      "codex:glossary/web/css/specificity",
+      "codex:glossary/web/css/specificity",
+      "codex:glossary/web/css/selectors"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-cascade-inheritance": {
+    "slug": "css-cascade-inheritance",
+    "title": "Cascade & Inheritance",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "cascade",
+      "inheritance",
+      "source order",
+      "computed value",
+      "initial value"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/cascade",
+      "codex:glossary/web/css/inheritance",
+      "codex:glossary/web/css/cascade",
+      "codex:glossary/web/css/inheritance",
+      "codex:glossary/web/css/inheritance"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-box-model": {
+    "slug": "css-box-model",
+    "title": "The Box Model",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "content box",
+      "padding",
+      "border",
+      "margin",
+      "box-sizing"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/box-model",
+      "codex:glossary/web/css/box-model",
+      "codex:glossary/web/css/box-model",
+      "codex:glossary/web/css/box-model",
+      "codex:glossary/web/css/box-model"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-units-typography": {
+    "slug": "css-units-typography",
+    "title": "Units & Typography",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "rem",
+      "em",
+      "percent",
+      "line-height",
+      "font-family"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/units",
+      "codex:glossary/web/css/units",
+      "codex:glossary/web/css/units",
+      "codex:glossary/web/css/typography",
+      "codex:glossary/web/css/typography"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-colors-backgrounds": {
+    "slug": "css-colors-backgrounds",
+    "title": "Colors & Backgrounds",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "hex color",
+      "rgb",
+      "contrast",
+      "background-image",
+      "background-size"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/colors",
+      "codex:glossary/web/css/colors",
+      "codex:glossary/web/css/colors",
+      "codex:glossary/web/css/backgrounds",
+      "codex:glossary/web/css/backgrounds"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-flexbox": {
+    "slug": "css-flexbox",
+    "title": "Flexbox Layout",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "flex container",
+      "flex item",
+      "justify-content",
+      "align-items",
+      "gap"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/flexbox",
+      "codex:glossary/web/css/flexbox",
+      "codex:glossary/web/css/flexbox",
+      "codex:glossary/web/css/flexbox",
+      "codex:glossary/web/css/flexbox"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-grid": {
+    "slug": "css-grid",
+    "title": "Grid Layout",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "grid container",
+      "grid template columns",
+      "fr unit",
+      "grid area",
+      "gap"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/grid",
+      "codex:glossary/web/css/grid",
+      "codex:glossary/web/css/grid",
+      "codex:glossary/web/css/grid",
+      "codex:glossary/web/css/grid"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-responsive-media": {
+    "slug": "css-responsive-media",
+    "title": "Responsive Design & Media Queries",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "media query",
+      "breakpoint",
+      "fluid layout",
+      "viewport",
+      "responsive typography"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/media-queries",
+      "codex:glossary/web/css/media-queries",
+      "codex:glossary/web/css/media-queries",
+      "codex:glossary/web/css/media-queries",
+      "codex:glossary/web/css/typography"
+    ],
+    "_quality": "Unknown"
+  },
+  "css-position-zindex": {
+    "slug": "css-position-zindex",
+    "title": "Positioning & Z-Index",
+    "world_id": "world-web",
+    "track_id": null,
+    "language": "css",
+    "workspace_files": [
+      "README.md",
+      "style.css"
+    ],
+    "entry_files": [
+      "style.css"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "position",
+      "relative",
+      "absolute",
+      "fixed",
+      "z-index",
+      "stacking context"
+    ],
+    "codex_refs": [
+      "codex:glossary/web/css/positioning",
+      "codex:glossary/web/css/positioning",
+      "codex:glossary/web/css/positioning",
+      "codex:glossary/web/css/positioning",
+      "codex:glossary/web/css/positioning",
+      "codex:glossary/web/css/positioning"
+    ],
+    "_quality": "Unknown"
+  },
+  "first-sparks": {
+    "slug": "first-sparks",
+    "title": "First Sparks",
+    "world_id": "world-python",
+    "track_id": "python-fundamentals",
+    "language": "txt",
+    "workspace_files": [
+      "README.md",
+      "task.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-python/term-1",
+      "codex:glossary/world-python/term-2"
+    ],
+    "_quality": "Unknown"
+  },
+  "hello-variable": {
+    "slug": "hello-variable",
+    "title": "Hello Variable",
+    "world_id": "world-python",
+    "track_id": "python-fundamentals",
+    "language": "python",
+    "workspace_files": [
+      "README.md",
+      "task.py"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-python/term-1",
+      "codex:glossary/world-python/term-2"
+    ],
+    "_quality": "Unknown"
+  },
+  "cli-ignition": {
+    "slug": "cli-ignition",
+    "title": "CLI Ignition: Your First Commands",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\a.txt",
+      "fixtures\\b.txt",
+      "fixtures\\note.md",
+      "fixtures\\subdir\\keep.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "task.sh prints directory basename and file count",
+        "file": "cli-ignition.public.test.js",
+        "type": "unit"
+      },
+      {
+        "name": "prints exactly CWD, FILES, OK",
+        "file": "cli-ignition.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-navigation": {
+    "slug": "cli-navigation",
+    "title": "Navigate the Filesystem",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "outputs\\back.txt",
+      "outputs\\location.txt",
+      "outputs\\pages.txt",
+      "fixtures\\site\\pages\\about.html",
+      "fixtures\\site\\pages\\contact.html",
+      "fixtures\\site\\pages\\index.html"
+    ],
+    "entry_files": [
+      "fixtures\\site\\pages\\index.html"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "task.sh navigates to correct directory",
+        "file": "cli-navigation.public.test.js",
+        "type": "unit"
+      },
+      {
+        "name": "creates outputs files with correct navigation evidence",
+        "file": "cli-navigation.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-files-folders": {
+    "slug": "cli-files-folders",
+    "title": "Create, Copy, Move, Delete Safely",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\invoice.txt",
+      "fixtures\\readme.md",
+      "sandbox\\README.md",
+      "sandbox\\archive\\2026\\invoice.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "creates required structure and preserves fixtures",
+        "file": "cli-files-folders.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-globs-search": {
+    "slug": "cli-globs-search",
+    "title": "Globs and Search",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "outputs\\error_count.txt",
+      "outputs\\error_files.txt",
+      "fixtures\\logs\\app.log",
+      "fixtures\\logs\\db.log",
+      "fixtures\\logs\\empty.log"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "writes correct error counts and file list",
+        "file": "cli-globs-search.public.test.mjs",
+        "type": "unit"
+      },
+      {
+        "name": "\\n",
+        "file": "cli-globs-search.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-redirection": {
+    "slug": "cli-redirection",
+    "title": "Redirect and Append Output",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\data.txt",
+      "outputs\\report.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "report contains header + data + footer",
+        "file": "cli-redirection.public.test.mjs",
+        "type": "unit"
+      },
+      {
+        "name": "\\n",
+        "file": "cli-redirection.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-pipes": {
+    "slug": "cli-pipes",
+    "title": "Pipes and Filters",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "txt",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "task.txt",
+      "fixtures\\names.txt",
+      "outputs\\top.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "top.txt contains top 2 names with counts",
+        "file": "cli-pipes.public.test.mjs",
+        "type": "unit"
+      },
+      {
+        "name": "\\n",
+        "file": "cli-pipes.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-env-vars": {
+    "slug": "cli-env-vars",
+    "title": "Environment Variables and PATH",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "txt",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "task.txt",
+      "outputs\\config.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "defaults to dev/3000 when vars missing",
+        "file": "cli-env-vars.public.test.mjs",
+        "type": "unit"
+      },
+      {
+        "name": "uses env vars when provided",
+        "file": "cli-env-vars.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-exit-codes": {
+    "slug": "cli-exit-codes",
+    "title": "Exit Codes and Error Handling",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "txt",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "task.txt",
+      "fixtures\\input.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "prints BAD to stderr and exits 5 when FAIL present",
+        "file": "cli-exit-codes.public.test.mjs",
+        "type": "unit"
+      },
+      {
+        "name": "prints OK and exits 0 when FAIL absent",
+        "file": "cli-exit-codes.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-processes": {
+    "slug": "cli-processes",
+    "title": "Processes and Signals",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "txt",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "task.txt",
+      "fixtures\\ps.txt",
+      "outputs\\top_cpu.txt",
+      "outputs\\top_process.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "writes the highest-CPU process line",
+        "file": "cli-processes.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "cli-scripting": {
+    "slug": "cli-scripting",
+    "title": "Shell Scripting Basics",
+    "world_id": "world-cli",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.sh",
+      "fixtures\\hello.txt",
+      "outputs\\copied.txt",
+      "outputs\\nested\\dir\\copied.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "copies src to dst when args provided",
+        "file": "cli-scripting.public.test.mjs",
+        "type": "unit"
+      },
+      {
+        "name": "prints usage and exits 2 when missing args",
+        "file": "cli-scripting.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-ignition": {
+    "slug": "react-ignition",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "renders welcome div with correct text",
+        "file": "react-ignition.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-components": {
+    "slug": "react-components",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "Card renders CardBody",
+        "file": "react-components.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-props": {
+    "slug": "react-props",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "renders prop name",
+        "file": "react-props.public.test.mjs",
+        "type": "unit"
+      },
+      {
+        "name": "renders default stranger",
+        "file": "react-props.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-conditional-render": {
+    "slug": "react-conditional-render",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "renders title and content when visible",
+        "file": "react-conditional-render.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-lists": {
+    "slug": "react-lists",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs",
+      "fixtures\\users.json"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "renders list items with keys",
+        "file": "react-lists.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-state-counter": {
+    "slug": "react-state-counter",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "increments counter",
+        "file": "react-state-counter.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-state-toggle": {
+    "slug": "react-state-toggle",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "toggles between ON and OFF",
+        "file": "react-state-toggle.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-effects-mount": {
+    "slug": "react-effects-mount",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "calls onMount but not onUnmount initially",
+        "file": "react-effects-mount.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-context-theme": {
+    "slug": "react-context-theme",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "button consumes theme from provider",
+        "file": "react-context-theme.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "react-reducer-cart": {
+    "slug": "react-reducer-cart",
+    "title": null,
+    "world_id": "world-react",
+    "track_id": null,
+    "language": "unknown",
+    "workspace_files": [
+      "README.md",
+      "task.mjs"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [
+      {
+        "name": "adds values to total",
+        "file": "react-reducer-cart.public.test.mjs",
+        "type": "unit"
+      }
+    ],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-ignition": {
+    "slug": "node-ignition",
+    "title": "Node Ignition: Run Code Like a Runtime",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-modules": {
+    "slug": "node-modules",
+    "title": "Modules: ESM vs CommonJS",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-npm": {
+    "slug": "node-npm",
+    "title": "npm: Packages, Scripts, and Lockfiles",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-env-config": {
+    "slug": "node-env-config",
+    "title": "Environment & Config: .env, process.env, Defaults",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-async": {
+    "slug": "node-async",
+    "title": "Async Patterns: Promises, async/await, Errors",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-fs-path": {
+    "slug": "node-fs-path",
+    "title": "Filesystem & Paths: Read/Write Without Pain",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-http": {
+    "slug": "node-http",
+    "title": "HTTP Server: Routes and JSON",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-middleware": {
+    "slug": "node-middleware",
+    "title": "Middleware: Logging, Errors, Request IDs",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-testing": {
+    "slug": "node-testing",
+    "title": "Testing: Unit Tests and Integration Smoke",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "node-deploy-basics": {
+    "slug": "node-deploy-basics",
+    "title": "Deploy Basics: Start Scripts and Health Checks",
+    "world_id": "world-node",
+    "track_id": null,
+    "language": "javascript",
+    "workspace_files": [
+      "index.js",
+      "README.md"
+    ],
+    "entry_files": [
+      "index.js"
+    ],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [],
+    "codex_refs": [],
+    "_quality": "Unknown"
+  },
+  "quest-py-hidden": {
+    "slug": "quest-py-hidden",
+    "title": "Hidden Tests Verification",
+    "world_id": "world-python",
+    "track_id": "python-fundamentals",
+    "language": "txt",
+    "workspace_files": [
+      "README.md",
+      "task.txt"
+    ],
+    "entry_files": [],
+    "starter_symbols": [],
+    "public_test_cases": [],
+    "terms": [
+      "term-1",
+      "term-2"
+    ],
+    "codex_refs": [
+      "codex:glossary/world-python/term-1",
+      "codex:glossary/world-python/term-2"
+    ],
+    "_quality": "Unknown"
+  }
+}

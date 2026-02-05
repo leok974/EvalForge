@@ -1,23 +1,60 @@
-# Mission Briefing
-Welcome to quest-py-workspace.
+## Quest Py Workspace
 
-## 1. The Concept
-Explain the core concept here.
+> [!NOTE]
+> **What you'll build:** Practice quest py workspace concepts in a real-world scenario.
 
-## 2. Key Term: [Term]
-Define the most important term.
+---
 
-## 3. The Details
-Deep dive into the mechanics.
+## 1) What You'll Build
+In this quest, you'll work with quest py workspace to practice core concepts.
 
-## 4. The Challenge
-What does the user need to do?
+## 2) The Concept in 30 Seconds
+Quest Py Workspace demonstrates fundamental programming patterns used in real-world applications.
 
-## 5. Pro Tip
-Give a helpful tip.
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
+---
 
-### Example
+## 4) Step-by-Step Walkthrough
+
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
+
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
+
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
+
+---
+
+## 5) Example Implementation
 ```python
-# TODO: Add tier-2 example
+# Example logic
+def example():
+    pass
 ```
+
+---
+
+## 6) Common Pitfalls
+
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

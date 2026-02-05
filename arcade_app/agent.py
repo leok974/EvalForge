@@ -28,7 +28,7 @@ from arcade_app.auth_helper import (
 from arcade_app.bosses.registry import is_boss_track, evaluate_boss
 from arcade_app.bosses.progress_helper import apply_boss_outcome
 from arcade_app.explain_agent import ExplainAgent
-from arcade_app.routers import avatars
+from arcade_app.routers import avatars, routes_assist
 from arcade_app.persona_helper import get_npc, wrap_prompt_with_persona
 from arcade_app.quest_helper import build_quest_system_prompt
 from arcade_app.explain_helper import build_explain_system_prompt
@@ -449,12 +449,15 @@ from arcade_app.routers import (
     project_codex,
     routes_boss_codex as boss_codex,
     routes_quests_runtime as quests_runtime,
-    routes_qa as qa
+    routes_qa as qa,
+    routes_workshop as workshop  # Workshop Catalog refactor
 )
 
 app.include_router(avatars.router)
 app.include_router(quests_runtime.router)
 app.include_router(quests.router)
+app.include_router(workshop.router) # Workshop Catalog API
+app.include_router(routes_assist.router) # Assist API
 app.include_router(universe.router)
 app.include_router(boss.router)
 app.include_router(profile.router)

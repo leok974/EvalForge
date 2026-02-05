@@ -1,30 +1,60 @@
-# Create, Copy, Move, Delete Safely
+## Cli Files Folders
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice cli files folders concepts in a real-world scenario.
 
-Create/copy/move/delete with safe verification steps.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with cli files folders to practice core concepts.
 
-mkdir, touch/new file, cp, mv, rm, recursive.
+## 2) The Concept in 30 Seconds
+Cli Files Folders demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“copy makes two, move relocates, delete is permanent.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-create a folder, create file, copy it, rename it, remove safely.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-make `sandbox/`, copy files, rename, delete only inside sandbox.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-`rm -rf` muscle memory, deleting wrong directory.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-When does `mv` rename vs move? What makes deletes dangerous?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

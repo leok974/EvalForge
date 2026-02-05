@@ -286,6 +286,9 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         "key_terms": q.key_terms or [],
         "concept_tags": q.concept_tags or [],
         "codex_references": q.codex_references or [],
+        # Phase 9.8 Parity
+        "briefing_md": q.briefing_md,
+        "lore_md": q.lore_md,
     }
 
 def _transform_hints(tiered: Dict[str, str]) -> list[Dict[str, str]]:

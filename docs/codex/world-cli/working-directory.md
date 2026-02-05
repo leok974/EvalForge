@@ -1,3 +1,9 @@
+---
+id: glossary/cli/working-directory
+title: Working Directory
+world: cli
+---
+
 # Working Directory
 
 The **working directory** (also called the **current directory**) is the folder your terminal is "in" right now.

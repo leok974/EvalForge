@@ -1,3 +1,9 @@
+---
+id: glossary/cli/env-vars
+title: Env Vars
+world: cli
+---
+
 # Environment Variables
 
 **Environment variables** are key-value pairs that configure how programs behave.

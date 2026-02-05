@@ -73,9 +73,16 @@ for (const slug of slugs) {
     }
 
     const questDir = path.join(root, "data", "quests", slug);
-    const workspaceTask = path.join(questDir, "workspace", "task.sh");
-    const solutionTask = path.join(questDir, "grading", "solutions", "task.sh");
-    const backupTask = path.join(questDir, "workspace", "task.sh.bak");
+
+    // Detect task file extension (.sh or .mjs)
+    let taskFilename = "task.sh";
+    if (fs.existsSync(path.join(questDir, "workspace", "task.mjs"))) {
+        taskFilename = "task.mjs";
+    }
+
+    const workspaceTask = path.join(questDir, "workspace", taskFilename);
+    const solutionTask = path.join(questDir, "grading", "solutions", taskFilename);
+    const backupTask = path.join(questDir, "workspace", taskFilename + ".bak");
 
     let swapped = false;
     if (mode === "solution") {

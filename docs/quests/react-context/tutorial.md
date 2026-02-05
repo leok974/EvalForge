@@ -1,30 +1,60 @@
-# Context: Global State (Small Scale)
+## React Context
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice react context concepts in a real-world scenario.
 
-Share small global state via context.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with react context to practice core concepts.
 
-provider, consumer, value identity.
+## 2) The Concept in 30 Seconds
+React Context demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“context is implicit props for a subtree.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-theme context or auth-lite context, consuming in children.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-toggle theme and persist in state.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-overusing context, rerender storms, missing memoization.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-When is context appropriate vs props? What causes rerenders?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

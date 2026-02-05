@@ -1,30 +1,60 @@
-# State: Interactive UI
+## React State
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice react state concepts in a real-world scenario.
 
-Add state-driven interactivity.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with react state to practice core concepts.
 
-state, setter, rerender, immutability.
+## 2) The Concept in 30 Seconds
+React State demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“setState schedules a rerender with new values.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-toggle, counter, derived display text.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-build a small “expand/collapse” panel.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-direct mutation, stale reads, async mental model mistakes.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-Why must state updates be immutable? What triggers rerenders?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

@@ -1,30 +1,60 @@
-# Props: Data In, UI Out
+## React Props
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice react props concepts in a real-world scenario.
 
-Pass props and render dynamic UI.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with react props to practice core concepts.
 
-props, children, composition.
+## 2) The Concept in 30 Seconds
+React Props demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“props are read-only inputs.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-`UserCard({ name, role })`, `children` slot.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-create a `Button` with `variant` prop and reuse it.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-mutating props, too many props vs composition.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-When do you use `children` vs a custom prop?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

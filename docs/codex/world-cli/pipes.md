@@ -1,3 +1,9 @@
+---
+id: glossary/cli/pipes
+title: Pipes
+world: cli
+---
+
 # Pipes
 
 A **pipe** (`|`) connects the output of one command to the input of another.

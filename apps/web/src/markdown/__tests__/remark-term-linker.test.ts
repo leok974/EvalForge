@@ -52,4 +52,24 @@ describe('remark-term-linker', () => {
         const matches = await compileAndFind('`foo` and foo', terms);
         expect(matches).toHaveLength(1);
     });
+
+    it('links multiple terms in same node', async () => {
+        const terms = [
+            { id: '1', term: 'foo', codex_ref: 'mod/foo' },
+            { id: '2', term: 'bar', codex_ref: 'mod/bar' }
+        ];
+        const matches = await compileAndFind('hello foo and bar here', terms);
+        expect(matches).toHaveLength(2);
+        expect(matches[0].term).toBe('foo');
+        expect(matches[1].term).toBe('bar');
+    });
+
+    it('ignores inside headings', async () => {
+        const terms = [{ id: '1', term: 'foo', codex_ref: 'mod/foo' }];
+        const matches = await compileAndFind('# Header with foo\n\nBody with foo', terms);
+        expect(matches).toHaveLength(1);
+        // Should catch the one in body, but not header
+        // Note: compileAndFind flattens matches. We rely on length check. 
+        // Logic: # Header -> Heading(Text(foo)) -> Skip. Body -> Paragraph(Text(foo)) -> Link.
+    });
 });

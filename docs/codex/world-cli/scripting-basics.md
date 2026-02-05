@@ -1,3 +1,9 @@
+---
+id: glossary/cli/scripting-basics
+title: Scripting Basics
+world: cli
+---
+
 # Scripting Basics
 
 **Shell scripts** automate command sequences and add logic (conditions, loops, etc.).

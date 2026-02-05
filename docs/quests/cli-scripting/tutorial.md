@@ -1,30 +1,60 @@
-# Shell Scripting Basics
+## Cli Scripting
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice cli scripting concepts in a real-world scenario.
 
-Write a tiny script with args and safe defaults.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with cli scripting to practice core concepts.
 
-shebang (optional), args, quoting, exit codes, `set -e` style safety.
+## 2) The Concept in 30 Seconds
+Cli Scripting demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“scripts are just commands saved in a file.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-script that takes a filename, checks it, prints a summary.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-add an option flag, handle missing arg, return proper exit code.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-unquoted variables, spaces in paths, ignoring failures.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-Why do quotes matter? How do you signal failure to CI?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

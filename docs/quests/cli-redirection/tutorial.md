@@ -1,30 +1,60 @@
-# Redirect and Append Output
+## Cli Redirection
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice cli redirection concepts in a real-world scenario.
 
-Save output to files and logs correctly.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with cli redirection to practice core concepts.
 
-`>`, `>>`, stderr redirection, “overwrite vs append.”
+## 2) The Concept in 30 Seconds
+Cli Redirection demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“a command prints; redirection routes that print somewhere else.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-write output to `out.txt`, append additional lines, capture errors.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-generate a log, append timestamps, confirm file contents.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-overwriting accidentally, forgetting stderr exists.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What does `>` do vs `>>`? Why might stderr not appear in your file?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

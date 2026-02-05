@@ -12,8 +12,9 @@ import { ProblemsPanel } from './ProblemsPanel'; // Import
 import { Diagnostic, QuickFix } from '@/lib/questsApi';
 import { QuickFixBar } from './QuickFixBar';
 import { AnimatePresence } from 'framer-motion';
-import { Play, RotateCcw, CheckCircle2, Terminal as TerminalIcon, Copy, Info, AlertTriangle, Check, FileCode, History as HistoryIcon, Split, Download, X, Lock } from 'lucide-react';
+import { Play, RotateCcw, CheckCircle2, Terminal as TerminalIcon, Copy, Info, AlertTriangle, Check, FileCode, History as HistoryIcon, Split, Download, X, Lock, Maximize2, Minimize2 } from 'lucide-react';
 import { DiffEditor } from '@monaco-editor/react';
+import { useQuestStore } from '@/store/questStore';
 
 interface QuestIDEProps {
     quest: QuestSummary;
@@ -29,6 +30,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const editorRef = useRef<QuestEditorRef>(null);
     const navigate = useNavigate();
     const { worldSlug } = useParams<{ worldSlug: string }>();
+    const { focusMode, toggleFocusMode } = useQuestStore();
 
     // Phase 9.5: Hydrate full quest details (tutorial_md, key_terms, etc.)
     const [quest, setQuest] = useState<QuestSummary>(initialQuest);
@@ -97,6 +99,43 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             setCodexOpen(true);
         }
     }, [quest.id]);
+
+    // Sync state to URL (Deep Linking Phase 9.4)
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        let changed = false;
+
+        // Sync Codex
+        if (codexOpen && codexRef) {
+            if (params.get('codex') !== codexRef) {
+                params.set('codex', codexRef);
+                changed = true;
+            }
+        } else {
+            if (params.has('codex')) {
+                params.delete('codex');
+                changed = true;
+            }
+        }
+
+        // Sync Tutorial
+        if (drawerTab === 'tutorial') {
+            if (params.get('tutorial') !== '1') {
+                params.set('tutorial', '1');
+                changed = true;
+            }
+        } else {
+            if (params.has('tutorial')) {
+                params.delete('tutorial');
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            const newUrl = `${window.location.pathname}?${params.toString()}`;
+            window.history.replaceState(null, '', newUrl);
+        }
+    }, [codexOpen, codexRef, drawerTab]);
 
     // State
     // Workspace State
@@ -464,7 +503,6 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     };
 
     const handleRun = async () => {
-        console.warn(">>> handleRun CALLED");
         setIsRunning(true);
         addLog('--- Starting Execution ---', 'info');
         setCoachData(null); // Reset coach
@@ -476,17 +514,10 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             const getFreshContent = (filePath: string, fallback: string) => {
                 const monaco = editorRef.current?.getMonaco();
                 if (!monaco) {
-                    console.warn("[monaco models] NO MONACO INSTANCE");
                     return fallback;
                 }
 
                 const models = monaco.editor.getModels();
-                console.warn("[monaco models]", models.map((m: any) => ({
-                    uri: m.uri.toString(),
-                    path: m.uri.path,
-                    hasTab: m.getValue().includes("\t")
-                })));
-
                 // Find model ending with path (handle / vs \ maybe? usually uri uses /)
                 const model = models.find((m: any) => m.uri.path.endsWith(filePath) || m.uri.path.endsWith('/' + filePath));
                 return model ? model.getValue() : fallback;
@@ -499,8 +530,6 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     content: getFreshContent(path, f.content)
                 }))
             };
-
-            console.debug("[RUN payload]", workspacePayload);
 
             const result = await runQuest(
                 quest.slug,
@@ -816,6 +845,14 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 </div>
 
                 <div className="flex items-center gap-2">
+                    <button
+                        onClick={toggleFocusMode}
+                        className={`p-2 rounded-lg transition-all border ${focusMode ? 'text-cyan-400 bg-cyan-950/30 border-cyan-800/50' : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 border-transparent'}`}
+                        title={focusMode ? "Exit Focus Mode" : "Enter Focus Mode"}
+                    >
+                        {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                    </button>
+
                     {!isReplay && (
                         <div className="flex items-center gap-2">
                             <span className={`text-[10px] uppercase tracking-wider font-bold transition-colors ${autosaveStatus === 'saving' ? 'text-amber-500' :
@@ -937,8 +974,8 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 </div>
 
                 {/* Editor Side */}
-                <div className="flex flex-col min-h-0 bg-zinc-950 relative">
-                    <div className="flex-1 min-h-0 relative flex flex-col">
+                <div className="h-full min-h-0 grid grid-rows-[minmax(0,1fr)_minmax(320px,1fr)] gap-2 bg-zinc-950 relative">
+                    <div className="min-h-0 relative flex flex-col">
                         {/* Tab Bar if multiple files */}
                         {Object.keys(files).length > 1 && (
                             <div className="flex items-center border-b border-zinc-800 bg-black/40 overflow-x-auto hide-scrollbar shrink-0">
@@ -1014,44 +1051,46 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                         </div>
                     </div>
 
-                    <QuickFixBar
-                        fixes={quickFixes}
-                        onApplyPatch={handleApplyFix}
-                        onNavigate={handleNavigateFix}
-                        readOnly={isReadOnly}
-                    />
+                    <div className="flex flex-col min-h-0">
+                        <QuickFixBar
+                            fixes={quickFixes}
+                            onApplyPatch={handleApplyFix}
+                            onNavigate={handleNavigateFix}
+                            readOnly={isReadOnly}
+                        />
 
-                    {/* Rich Console */}
-                    <div className="h-48 border-t border-zinc-800 bg-[#09090b] flex flex-col shrink-0 font-mono">
-                        <div className="px-3 py-1.5 border-b border-zinc-800/50 flex justify-between items-center bg-black/20">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
-                                <TerminalIcon className="w-3 h-3" /> Terminal Output
-                            </span>
-                            <div className="flex gap-2">
-                                <button title="Copy Output" onClick={() => navigator.clipboard.writeText(output.map(o => o.content).join('\n'))} className="text-zinc-600 hover:text-zinc-400 p-1 hover:bg-zinc-800 rounded"><Copy className="w-3 h-3" /></button>
-                                <button onClick={() => setOutput([])} className="text-zinc-600 hover:text-zinc-400 text-[10px] uppercase p-1 hover:bg-zinc-800 rounded">Clear</button>
-                            </div>
-                        </div>
-                        <div className="flex-1 overflow-auto p-3 space-y-1">
-                            {!output.length && <div className="text-zinc-700 italic text-xs">// Ready to run...</div>}
-                            {output.map((entry, i) => (
-                                <div key={i} className="flex gap-2 text-xs items-start animate-in fade-in slide-in-from-left-1 duration-200">
-                                    <span className="text-zinc-700 shrink-0 select-none">
-                                        {new Date(entry.timestamp).toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-                                    </span>
-                                    <div className="flex-1 break-all whitespace-pre-wrap">
-                                        {entry.type === 'info' && <span className="text-cyan-500 font-bold mr-2">INFO</span>}
-                                        {entry.type === 'success' && <span className="text-emerald-500 font-bold mr-2">SUCCESS</span>}
-                                        {entry.type === 'error' && <span className="text-amber-500 font-bold mr-2">WARN</span>}
-                                        <span className={
-                                            entry.type === 'success' ? 'text-emerald-200' :
-                                                entry.type === 'error' ? 'text-amber-200' :
-                                                    entry.type === 'info' ? 'text-cyan-200' :
-                                                        'text-zinc-300'
-                                        }>{entry.content}</span>
-                                    </div>
+                        {/* Rich Console */}
+                        <div className="flex-1 border-t border-zinc-800 bg-[#09090b] flex flex-col shrink-0 font-mono min-h-0">
+                            <div className="px-3 py-1.5 border-b border-zinc-800/50 flex justify-between items-center bg-black/20 shrink-0">
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+                                    <TerminalIcon className="w-3 h-3" /> Terminal Output
+                                </span>
+                                <div className="flex gap-2">
+                                    <button title="Copy Output" onClick={() => navigator.clipboard.writeText(output.map(o => o.content).join('\n'))} className="text-zinc-600 hover:text-zinc-400 p-1 hover:bg-zinc-800 rounded"><Copy className="w-3 h-3" /></button>
+                                    <button onClick={() => setOutput([])} className="text-zinc-600 hover:text-zinc-400 text-[10px] uppercase p-1 hover:bg-zinc-800 rounded">Clear</button>
                                 </div>
-                            ))}
+                            </div>
+                            <div className="flex-1 overflow-auto p-3 space-y-1">
+                                {!output.length && <div className="text-zinc-700 italic text-xs">// Ready to run...</div>}
+                                {output.map((entry, i) => (
+                                    <div key={i} className="flex gap-2 text-xs items-start animate-in fade-in slide-in-from-left-1 duration-200">
+                                        <span className="text-zinc-700 shrink-0 select-none">
+                                            {new Date(entry.timestamp).toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                                        </span>
+                                        <div className="flex-1 break-all whitespace-pre-wrap">
+                                            {entry.type === 'info' && <span className="text-cyan-500 font-bold mr-2">INFO</span>}
+                                            {entry.type === 'success' && <span className="text-emerald-500 font-bold mr-2">SUCCESS</span>}
+                                            {entry.type === 'error' && <span className="text-amber-500 font-bold mr-2">WARN</span>}
+                                            <span className={
+                                                entry.type === 'success' ? 'text-emerald-200' :
+                                                    entry.type === 'error' ? 'text-amber-200' :
+                                                        entry.type === 'info' ? 'text-cyan-200' :
+                                                            'text-zinc-300'
+                                            }>{entry.content}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1064,6 +1103,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 activeRef={codexRef}
                 onClose={() => setCodexOpen(false)}
                 onOpenCodex={handleOpenCodex}
+                questSlug={quest.slug}
             />
         </div>
     );

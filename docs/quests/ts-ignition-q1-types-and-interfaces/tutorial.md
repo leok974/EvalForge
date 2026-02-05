@@ -1,63 +1,60 @@
-## Outcome
-By the end of this quest you will:
-- Define an **interface** to describe an object shape
-- Use a **type alias** (including a **union type**)
-- Write a function that accepts a typed object and returns a typed value
+## Ts Ignition Q1 Types And Interfaces
 
-## Concept in 30 seconds
-TypeScript is JavaScript with **types**. Types help you catch mistakes *before* running the program.  
-Important: types do not run at runtime — TypeScript checks your code, then your program runs as JavaScript.
+> [!NOTE]
+> **What you'll build:** Practice ts ignition q1 types and interfaces concepts in a real-world scenario.
 
-**Mental model:**  
-Types are like labels on boxes. They don’t change the box, but they help you avoid putting the wrong thing inside.
+---
 
-## Key terms
-- **type annotation** — attaching a type to a value (e.g., `name: string`)
-- **interface** — a named object “shape”
-- **type alias** — a named type, often used for unions
-- **union type** — “either A or B” (e.g., `string | number`)
-- **compiler** — checks types and reports errors
+## 1) What You'll Build
+In this quest, you'll work with ts ignition q1 types and interfaces to practice core concepts.
 
-## Walkthrough
-1) Open `main.ts`.
-2) Create a type alias `Id` that can be a `string` or a `number`.
-3) Create an interface `User` with:
-   - `id: Id`
-   - `name: string`
-4) Implement `formatUser(user: User): string` that returns: `<id>: <name>`
-5) Run the file and confirm the printed output.
-6) Submit when it passes.
+## 2) The Concept in 30 Seconds
+Ts Ignition Q1 Types And Interfaces demonstrates fundamental programming patterns used in real-world applications.
 
-## Example implementation
-```ts
-type Id = string | number;
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-interface User {
-  id: Id;
-  name: string;
-}
+---
 
-function formatUser(user: User): string {
-  return `${user.id}: ${user.name}`;
-}
+## 4) Step-by-Step Walkthrough
 
-console.log(formatUser({ id: 1, name: "Ada" }));
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
+
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
+
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
+
+---
+
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
 ```
 
-## Common mistakes
+---
 
-* **Using `String` instead of `string`**
+## 6) Common Pitfalls
 
-  * Prefer primitives: `string`, `number`, `boolean`
-* **Forgetting the union**
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
 
-  * If `id` should allow both, write `string | number`
-* **Assuming types run at runtime**
+---
 
-  * TypeScript won’t “convert” values for you. If you need runtime checks, write code like `typeof user.id === "string"`.
+## 7) Check Yourself
 
-## Check yourself
-
-1. Why might you use `string | number` instead of only `number`?
-2. What does an interface describe?
-3. Do TypeScript types exist when your program runs?
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

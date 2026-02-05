@@ -1,30 +1,60 @@
-# HTTP Server: Routes and JSON
+## Node Http
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node http concepts in a real-world scenario.
 
-Serve JSON with status codes and simple routing.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node http to practice core concepts.
 
-request/response, headers, status codes, JSON.
+## 2) The Concept in 30 Seconds
+Node Http demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-server is a function from request → response.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-`/health`, `/hello`, 404 fallback.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-implement `/echo` that returns parsed JSON safely.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-not ending response, wrong content-type.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-When should you return 400 vs 500?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

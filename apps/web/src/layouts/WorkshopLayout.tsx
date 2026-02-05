@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { openWorkshopGuide } from "../features/workshop/useWorkshopTips";
 import { PracticeGauntletCard } from "../components/practice/PracticeGauntletCard";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuestStore, QuestState } from "../store/questStore";
-import { NeonPanel } from "../components/workshop/NeonPanel";
 import { useGameStore } from "../store/gameStore";
 import { cn } from "../lib/utils";
 import { EyeIcon } from "lucide-react";
+import { WorkshopToolsPanel } from "../components/workshop/WorkshopToolsPanel";
+import { PanelId } from "../features/workshop/workshopPanels";
 
-export type WorkshopMode = 'judge' | 'quest' | 'explain' | 'debug' | 'codex';
+// Re-export type for compatibility, though we use PanelId internally now
+export type WorkshopMode = PanelId | 'quest'; // 'quest' is legacy default, mapped to a panel or ignored
 
 interface WorkshopLayoutProps {
     bossHud: React.ReactNode;
@@ -24,7 +26,7 @@ interface WorkshopLayoutProps {
     /** Latest boss HP delta from combat (negative = boss took damage). */
     bossHpDelta?: number | null;
 
-    // Mode Control
+    // Mode Control (Now Panel Control)
     currentMode?: WorkshopMode;
     onModeChange?: (mode: WorkshopMode) => void;
     hasSkill?: (skill: string) => boolean;
@@ -58,10 +60,15 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
     extraTopRight,
     integrityDelta,
     bossHpDelta,
-    currentMode = 'quest',
+    currentMode = 'judge',
     onModeChange,
-    hasSkill,
+    hasSkill = () => false,
 }) => {
+    // DEBUG: Verify component reload
+    useEffect(() => {
+        console.log("🛠️ WorkshopLayout Refactored: Tools Panel Active");
+    }, []);
+
     // Routing Integration
     const params = useParams<{ worldSlug?: string; questId?: string; bossSlug?: string }>();
     const [searchParams] = useSearchParams();
@@ -120,10 +127,8 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                     ? "ring-2 ring-purple-400/80 shadow-[0_0_38px_rgba(168,85,247,0.8)]"
                     : "";
 
-    const activityHitClass =
-        activityHit === "tick"
-            ? "ring-1 ring-emerald-300/70 shadow-[0_0_20px_rgba(52,211,153,0.6)]"
-            : "";
+    // Map currentMode to PanelId safely
+    const activePanel: PanelId = (currentMode === 'quest' ? 'judge' : currentMode) as PanelId;
 
     return (
         <main
@@ -137,7 +142,7 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                 <div className="orion-starfield-layer opacity-40 mix-blend-screen" />
             </div>
 
-            {/* Top HUD - Two-row Layout */}
+            {/* Top HUD - Single Row Now */}
             <header className="relative z-20 px-6 pt-4 pb-2 bg-workshop-bg/50 backdrop-blur-sm border-b border-white/5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     {/* Left Group */}
@@ -170,44 +175,12 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                         {extraTopRight}
                     </div>
                 </div>
-
-                {/* Second Row: Mode Tabs */}
-                <div className="mt-3 flex flex-wrap gap-2 pb-2">
-                    <nav className="inline-flex flex-wrap gap-1 rounded-full bg-slate-900/80 p-1">
-                        {['JUDGE', 'QUEST', 'EXPLAIN', 'DEBUG', 'CODEX'].map((tab) => {
-                            const tabKey = tab.toLowerCase();
-                            const isActive = currentMode === tabKey;
-                            // Determine lock status based on skill
-                            let isLocked = false;
-                            if (tabKey === 'explain' && hasSkill && !hasSkill('agent_explain')) isLocked = true;
-                            if (tabKey === 'debug' && hasSkill && !hasSkill('agent_debug')) isLocked = true;
-
-                            return (
-                                <button
-                                    key={tab}
-                                    type="button"
-                                    disabled={isLocked}
-                                    className={cn(
-                                        'relative px-4 py-1.5 text-[10px] font-bold tracking-widest rounded-full transition-all duration-200 flex items-center gap-1',
-                                        isActive
-                                            ? 'bg-workshop-panel border border-workshop-cyan/80 text-workshop-cyan shadow-workshop-neon'
-                                            : isLocked
-                                                ? 'bg-transparent border border-transparent text-workshop-subtle/50 cursor-not-allowed'
-                                                : 'bg-transparent border border-white/5 text-workshop-subtle hover:border-workshop-cyan/40 hover:text-workshop-text'
-                                    )}
-                                    onClick={() => !isLocked && onModeChange?.(tabKey as WorkshopMode)}
-                                >
-                                    {tab} {isLocked && '🔒'}
-                                </button>
-                            );
-                        })}
-                    </nav>
-                </div>
+                {/* Header Modes REMOVED */}
             </header>
 
             {/* Main Grid */}
             <section className="relative z-10 flex-1 px-6 pb-6 pt-2 overflow-hidden">
-                <div className="grid h-full gap-6 grid-cols-1 lg:grid-cols-[2fr_1fr]">
+                <div className={cn("grid h-full gap-6 grid-cols-1", useQuestStore(s => s.focusMode) ? "" : "lg:grid-cols-[2fr_1fr]")}>
 
                     {/* LEFT COLUMN: Workbench – scrolls */}
                     <section
@@ -221,61 +194,44 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                             {/* Quest Panel sits directly here */}
                             {questPanel}
                         </div>
-
-                        {/* Activity Feed at bottom of column? Or separate? 
-                            User snippet didn't explicitly show activity feed. 
-                            I'll keep it as a small section below or integrated.
-                            The previous code had it in a NeonPanel at bottom.
-                            I'll put it in a small card at the bottom.
-                        */}
-                        <div className={cn("mt-4 h-32 shrink-0 rounded-2xl border border-slate-800/70 bg-slate-950/60 p-0 overflow-hidden", activityHitClass)} data-testid="workshop-activity-strip">
-                            <div className="w-full h-full overflow-auto bg-black/20 p-2">
-                                {activityFeed}
-                            </div>
-                        </div>
                     </section>
 
-                    {/* RIGHT COLUMN: Project Bench + Practice – fixed */}
-                    <aside
-                        className="hidden lg:flex flex-col gap-3 h-full min-w-[320px] overflow-y-auto pr-1 pb-2 scrollbar-thin scrollbar-thumb-workshop-subtle/20"
-                        data-testid="workshop-project-bench"
-                    >
-                        {/* 1. Status Panel (Intent Oracle) */}
-                        <section className="rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3 shrink-0">
-                            <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
-                                <div className="flex items-center gap-2">
-                                    <EyeIcon className="w-4 h-4 text-workshop-violet" />
-                                    <span className="text-xs font-bold text-slate-200">Intent Oracle</span>
+                    {/* RIGHT COLUMN: Tools Panel */}
+                    {!useQuestStore(s => s.focusMode) && (
+                        <aside
+                            className="hidden lg:flex flex-col gap-3 h-full min-w-[320px] overflow-hidden"
+                            data-testid="workshop-tools-panel"
+                        >
+                            {/* 1. Status Panel (Intent Oracle) - Kept outside Tools Panel for visibility */}
+                            <section className="rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3 shrink-0">
+                                <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <EyeIcon className="w-4 h-4 text-workshop-violet" />
+                                        <span className="text-xs font-bold text-slate-200">Intent Oracle</span>
+                                    </div>
+                                    <span className="text-[10px] text-emerald-400 font-mono">ONLINE</span>
                                 </div>
-                                <span className="text-[10px] text-emerald-400 font-mono">ONLINE</span>
-                            </div>
-                            {/* Boss HUD (mini) or Status checks */}
-                            {bossHud}
-                        </section>
+                                {bossHud}
+                            </section>
 
-                        {/* 2. Project Panel Content (Judge/Scoreboard) */}
-                        <section className="rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3 shrink-0">
-                            {projectPanel}
-                        </section>
-
-                        {/* 3. Assignments (Practice Gauntlet) */}
-                        <section className="flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3">
-                            {/* Header provided by PracticeGauntletCard or here? User snippet for AssignmentsPanel had header INSIDE.
-                                 But PracticeGauntletCard has its own header.
-                                 I'll let PracticeGauntletCard handle the layout inside this flex container.
-                                 I need to make sure PracticeGauntletCard takes full height as well.
-                             */}
-                            <PracticeGauntletCard />
-                        </section>
-
-                        {/* 4. Codex Shelf (if needed) */}
-                        <section className="rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3 shrink-0 min-h-[100px]" data-testid="workshop-codex-shelf">
-                            <div className="text-[10px] uppercase tracking-wider text-workshop-subtle mb-2">Codex Shelf</div>
-                            <div className="max-h-32 overflow-auto">
-                                {codexPanel}
-                            </div>
-                        </section>
-                    </aside>
+                            {/* 2. Unified Tools Panel */}
+                            <section className="flex-1 min-h-0 rounded-xl overflow-hidden shadow-workshop-panel">
+                                <WorkshopToolsPanel
+                                    activePanel={activePanel}
+                                    onPanelChange={(p) => onModeChange?.(p)}
+                                    // Mapping content to panels
+                                    resultsContent={
+                                        <div className="space-y-4">
+                                            {projectPanel}
+                                            <PracticeGauntletCard />
+                                        </div>
+                                    }
+                                    codexContent={codexPanel}
+                                    hasSkill={hasSkill}
+                                />
+                            </section>
+                        </aside>
+                    )}
                 </div>
             </section>
         </main>

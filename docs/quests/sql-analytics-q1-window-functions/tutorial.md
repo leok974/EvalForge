@@ -1,64 +1,60 @@
-## Outcome
-You will learn how SQL window functions compute values across related rows without collapsing your result set, enabling rankings and running totals.
+## Sql Analytics Q1 Window Functions
 
-## Concept in 30 seconds
-A window function is like doing an aggregate calculation (rank, sum, avg) but keeping every row. The “window” is defined by `OVER (...)`. Use `PARTITION BY` to group rows (like per user), and `ORDER BY` to define the row order for rankings or running calculations.
+> [!NOTE]
+> **What you'll build:** Practice sql analytics q1 window functions concepts in a real-world scenario.
 
-## Key terms
-- **Window Function**: A function that computes over a window of rows while keeping each row.
-- **OVER**: The clause that defines the window.
-- **PARTITION BY**: Splits rows into groups for separate windows.
-- **ORDER BY**: Defines row order inside each partition.
-- **ROW_NUMBER**: Assigns a unique rank order per partition.
+---
 
-## Walkthrough
-1) Start with a base query selecting the columns you need.
-2) Add a window function with `OVER (PARTITION BY ... ORDER BY ...)`.
-3) Verify that your query still returns one row per original record.
-4) Use **Run** to inspect results and confirm ranks/totals match expectations.
-5) Use **Submit** when the computed window columns match the quest’s required output.
+## 1) What You'll Build
+In this quest, you'll work with sql analytics q1 window functions to practice core concepts.
 
-## Example implementation
-Ranking purchases per customer by most recent date:
+## 2) The Concept in 30 Seconds
+Sql Analytics Q1 Window Functions demonstrates fundamental programming patterns used in real-world applications.
 
-```sql
-SELECT
-  customer_id,
-  order_id,
-  order_date,
-  amount,
-  ROW_NUMBER() OVER (
-    PARTITION BY customer_id
-    ORDER BY order_date DESC
-  ) AS rn
-FROM orders
-ORDER BY customer_id, rn;
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
+
+---
+
+## 4) Step-by-Step Walkthrough
+
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
+
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
+
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
+
+---
+
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
 ```
 
-A running total per customer:
+---
 
-```sql
-SELECT
-  customer_id,
-  order_id,
-  order_date,
-  amount,
-  SUM(amount) OVER (
-    PARTITION BY customer_id
-    ORDER BY order_date
-  ) AS running_total
-FROM orders
-ORDER BY customer_id, order_date;
-```
+## 6) Common Pitfalls
 
-## Common mistakes
-- **Forgetting `OVER (...)`** (window functions require it).
-- **Using window functions when you meant `GROUP BY`** (GROUP BY collapses rows).
-- **Missing `ORDER BY`** when you need rankings or running totals.
-- **Partitioning incorrectly** (ranking across all rows instead of per group).
-- **Confusing `ROW_NUMBER` with `RANK`** (ties behave differently).
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
 
-## Check yourself
-- What does a window function let you do that GROUP BY does not?
-- What does PARTITION BY change?
-- Why is ORDER BY important for running totals?
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

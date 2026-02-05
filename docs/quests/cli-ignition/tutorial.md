@@ -1,30 +1,60 @@
-# CLI Ignition: Your First Commands
+## Cli Ignition
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice cli ignition concepts in a real-world scenario.
 
-Run basic safe commands and interpret their output.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with cli ignition to practice core concepts.
 
-terminal, command, stdout/stderr, working directory.
+## 2) The Concept in 30 Seconds
+Cli Ignition demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“Where am I?” + “What command am I running?” + “What did it print?”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-`pwd`, `ls`, `whoami` (or platform-safe equivalents) + reading output.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-list files, identify current folder, confirm a file exists.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-confusing output with errors, running commands in wrong folder.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What does `pwd` tell you? What’s stdout vs stderr?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

@@ -1,43 +1,60 @@
-# Python Systems Performance Profile
+## Python Systems Performance Profile
 
-## 1. What You'll Build
+> [!NOTE]
+> **What you'll build:** Practice python systems performance profile concepts in a real-world scenario.
 
-In this quest, you'll work with python systems performance profile to practice core Python concepts.
+---
 
-## 2. The Concept in 30 Seconds
+## 1) What You'll Build
+In this quest, you'll work with python systems performance profile to practice core concepts.
 
+## 2) The Concept in 30 Seconds
 Python Systems Performance Profile demonstrates fundamental programming patterns used in real-world applications.
 
-## 3. Key Terms
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-The key terms for this quest are defined below and linked to the Codex for reference.
+---
 
-## 4. Step-by-Step Walkthrough
+## 4) Step-by-Step Walkthrough
 
-### Setup
-Review the starting code and understand the structure.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-### Implementation
-Follow the objectives to complete the implementation.
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-### Testing
-Run your code to verify it works as expected.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## 5. Example Implementation
+---
 
+## 5) Example Implementation
 ```python
-# Example will be added based on quest objectives
-pass
+# Example logic
+def example():
+    pass
 ```
 
-## 6. Common Mistakes
+---
 
-- Not reading the error messages carefully
-- Forgetting to test edge cases
-- Missing import statements
+## 6) Common Pitfalls
 
-## 7. Check Yourself
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
 
-- Does your code run without errors?
-- Have you tested with different inputs?
-- Does it match the expected output?
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

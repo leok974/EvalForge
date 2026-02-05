@@ -1,38 +1,60 @@
-# Agents Executor
+## Agents Executor
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice agents executor concepts in a real-world scenario.
 
-In this quest, you'll work with agents executor to practice core TYPESCRIPT concepts.
+---
 
-## Concept in 30 seconds
+## 1) What You'll Build
+In this quest, you'll work with agents executor to practice core concepts.
 
+## 2) The Concept in 30 Seconds
 Agents Executor demonstrates fundamental programming patterns used in real-world applications.
 
-## Key terms
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-The key terms for this quest are defined below and linked to the Codex for reference.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-1. **Setup**: Review the starting code.
-2. **Implement**: Follow the objectives.
-3. **Verify**: Run the tests.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Example implementation
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-```typescript
--- Strict Tier-1 Example Required
-SELECT * FROM users; -- Example code for agents-executor
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
+
+---
+
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
 ```
 
-## Common mistakes
+---
 
-- Syntax errors
-- Incorrect types
-- Missing brackets
+## 6) Common Pitfalls
 
-## Check yourself
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
 
-- [ ] Code runs without errors
-- [ ] Output matches expected value
-- [ ] All tests pass
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

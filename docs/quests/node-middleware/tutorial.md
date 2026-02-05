@@ -1,30 +1,60 @@
-# Middleware: Logging, Errors, Request IDs
+## Node Middleware
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node middleware concepts in a real-world scenario.
 
-Add logging + error handling + request IDs.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node middleware to practice core concepts.
 
-middleware pipeline, correlation ID, structured logs.
+## 2) The Concept in 30 Seconds
+Node Middleware demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-middleware wraps your handler; errors funnel to one place.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-add request-id header + log start/end + error handler.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-emit consistent JSON logs for each request.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-logging secrets, losing stack traces.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-Why do request IDs matter?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

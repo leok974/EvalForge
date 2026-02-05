@@ -36,9 +36,17 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
 
     # Normalize data to a list of quest objects
     quests = []
+    
+    # Context from Pack
+    pack_world_id = None
+    pack_track_id = None
+    
     if isinstance(data, list):
         quests = data
     elif isinstance(data, dict):
+        pack_world_id = data.get("world_id")
+        pack_track_id = data.get("track_id")
+        
         if "packs" in data:
             quests.extend(data["packs"])
         elif "quests" in data:
@@ -65,6 +73,11 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS language VARCHAR DEFAULT 'python'"))
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS workspace_json JSONB DEFAULT '{}'"))
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS grading_json JSONB DEFAULT '{}'"))
+            
+            # Phase 9.8 Parity
+            await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS briefing_md TEXT"))
+            await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS lore_md TEXT"))
+            
             await session.commit()
         except Exception as e:
              await session.rollback()
@@ -90,8 +103,8 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             existing = (await session.exec(stmt)).first()
             
             # Defaults
-            world_id = quest_data.get("world_id") or "unknown"
-            track_id = quest_data.get("track_id") or "misc"
+            world_id = quest_data.get("world_id") or pack_world_id or "unknown"
+            track_id = quest_data.get("track_id") or pack_track_id or "misc"
             title = quest_data.get("title") or slug
             
             # Helper to hydrate files from disk if "files_from" is set
@@ -260,6 +273,12 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                 existing.detailed_description = quest_data["detailed_description"]
             elif "description" in quest_data:
                 existing.detailed_description = quest_data["description"]
+
+            if "briefing_md" in quest_data:
+                existing.briefing_md = quest_data["briefing_md"]
+                
+            if "lore_md" in quest_data:
+                existing.lore_md = quest_data["lore_md"]
             
             session.add(existing)
         

@@ -1,0 +1,1679 @@
+[
+  {
+    "slug": "python-data-forge",
+    "pack_path": "data/questpacks/python_systems.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/python_systems.json"
+  },
+  {
+    "slug": "python-loop",
+    "pack_path": "data/questpacks/python_systems.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/python_systems.json"
+  },
+  {
+    "slug": "python-systems-service-boundaries",
+    "pack_path": "data/questpacks/python_systems.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/python_systems.json"
+  },
+  {
+    "slug": "python-systems-resilient-job-runner",
+    "pack_path": "data/questpacks/python_systems.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/python_systems.json"
+  },
+  {
+    "slug": "python-systems-observability-sli",
+    "pack_path": "data/questpacks/python_systems.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/python_systems.json"
+  },
+  {
+    "slug": "python-systems-performance-profile",
+    "pack_path": "data/questpacks/python_systems.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/python_systems.json"
+  },
+  {
+    "slug": "python-systems-platform-tooling",
+    "pack_path": "data/questpacks/python_systems.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/python_systems.json"
+  },
+  {
+    "slug": "js-ignition-q1-console-and-functions",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-ignition-q1-console-and-functions/quest.json"
+  },
+  {
+    "slug": "js-vars-q1-let-const-var",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-vars-q1-let-const-var/quest.json"
+  },
+  {
+    "slug": "js-control-q1-if-else-loops",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-control-q1-if-else-loops/quest.json"
+  },
+  {
+    "slug": "js-arrays-q1-basics",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-arrays-q1-basics/quest.json"
+  },
+  {
+    "slug": "js-arrays-q2-map-filter-reduce",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-arrays-q2-map-filter-reduce/quest.json"
+  },
+  {
+    "slug": "js-objects-q1-properties-methods",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-objects-q1-properties-methods/quest.json"
+  },
+  {
+    "slug": "js-functions-q1-arrow-vs-regular",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-functions-q1-arrow-vs-regular/quest.json"
+  },
+  {
+    "slug": "js-async-q1-promises-basics",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-async-q1-promises-basics/quest.json"
+  },
+  {
+    "slug": "js-errors-q1-try-catch",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-errors-q1-try-catch/quest.json"
+  },
+  {
+    "slug": "js-modules-q1-import-export",
+    "pack_path": "data/questpacks/javascript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/js-modules-q1-import-export/quest.json"
+  },
+  {
+    "slug": "ts-ignition",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-ignition/quest.json"
+  },
+  {
+    "slug": "ts-vars",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-vars/quest.json"
+  },
+  {
+    "slug": "ts-types",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-types/quest.json"
+  },
+  {
+    "slug": "ts-control",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-control/quest.json"
+  },
+  {
+    "slug": "ts-arrays",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-arrays/quest.json"
+  },
+  {
+    "slug": "ts-objects",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-objects/quest.json"
+  },
+  {
+    "slug": "ts-functions",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-functions/quest.json"
+  },
+  {
+    "slug": "ts-interfaces",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-interfaces/quest.json"
+  },
+  {
+    "slug": "ts-generics",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-generics/quest.json"
+  },
+  {
+    "slug": "ts-modules",
+    "pack_path": "data/questpacks/typescript_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ts-modules/quest.json"
+  },
+  {
+    "slug": "sql-ignition",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-ignition/quest.json"
+  },
+  {
+    "slug": "sql-select",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-select/quest.json"
+  },
+  {
+    "slug": "sql-where",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-where/quest.json"
+  },
+  {
+    "slug": "sql-order-limit",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-order-limit/quest.json"
+  },
+  {
+    "slug": "sql-aggregates",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-aggregates/quest.json"
+  },
+  {
+    "slug": "sql-groupby-having",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-groupby-having/quest.json"
+  },
+  {
+    "slug": "sql-joins",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-joins/quest.json"
+  },
+  {
+    "slug": "sql-left-join-null",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-left-join-null/quest.json"
+  },
+  {
+    "slug": "sql-cte-subquery",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-cte-subquery/quest.json"
+  },
+  {
+    "slug": "sql-insert-update-delete",
+    "pack_path": "data/questpacks/sql_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/sql-insert-update-delete/quest.json"
+  },
+  {
+    "slug": "git-ignition",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-ignition/quest.json"
+  },
+  {
+    "slug": "git-init-clone",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-init-clone/quest.json"
+  },
+  {
+    "slug": "git-add-commit",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-add-commit/quest.json"
+  },
+  {
+    "slug": "git-status-log",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-status-log/quest.json"
+  },
+  {
+    "slug": "git-branch-checkout",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-branch-checkout/quest.json"
+  },
+  {
+    "slug": "git-merge-conflicts",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-merge-conflicts/quest.json"
+  },
+  {
+    "slug": "git-push-pull",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-push-pull/quest.json"
+  },
+  {
+    "slug": "git-reset-revert",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-reset-revert/quest.json"
+  },
+  {
+    "slug": "git-stash",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-stash/quest.json"
+  },
+  {
+    "slug": "git-remote-origin",
+    "pack_path": "data/questpacks/git_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/git-remote-origin/quest.json"
+  },
+  {
+    "slug": "infra-ignition",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-ports-and-localhost",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-env-config",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-healthchecks",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-logs-metrics",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-docker-compose",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-networking-dns",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-reverse-proxy",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-cors-cookies",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "infra-debug-playbook",
+    "pack_path": "data/questpacks/infra_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/infra_core.json"
+  },
+  {
+    "slug": "ml-ignition",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-ignition/quest.json"
+  },
+  {
+    "slug": "ml-numpy-basics",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-numpy-basics/quest.json"
+  },
+  {
+    "slug": "ml-pandas-dataframes",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-pandas-dataframes/quest.json"
+  },
+  {
+    "slug": "ml-data-preprocessing",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-data-preprocessing/quest.json"
+  },
+  {
+    "slug": "ml-train-test-split",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-train-test-split/quest.json"
+  },
+  {
+    "slug": "ml-linear-regression",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-linear-regression/quest.json"
+  },
+  {
+    "slug": "ml-classification-basics",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-classification-basics/quest.json"
+  },
+  {
+    "slug": "ml-model-evaluation",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-model-evaluation/quest.json"
+  },
+  {
+    "slug": "ml-neural-networks-intro",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-neural-networks-intro/quest.json"
+  },
+  {
+    "slug": "ml-overfitting-regularization",
+    "pack_path": "data/questpacks/ml_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/ml-overfitting-regularization/quest.json"
+  },
+  {
+    "slug": "agents-ignition",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-ignition/quest.json"
+  },
+  {
+    "slug": "agents-prompts-contracts",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-prompts-contracts/quest.json"
+  },
+  {
+    "slug": "agents-tools-basics",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-tools-basics/quest.json"
+  },
+  {
+    "slug": "agents-planner",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-planner/quest.json"
+  },
+  {
+    "slug": "agents-executor",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-executor/quest.json"
+  },
+  {
+    "slug": "agents-verifier",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-verifier/quest.json"
+  },
+  {
+    "slug": "agents-approvals-diffs",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-approvals-diffs/quest.json"
+  },
+  {
+    "slug": "agents-memory",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-memory/quest.json"
+  },
+  {
+    "slug": "agents-budgets",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-budgets/quest.json"
+  },
+  {
+    "slug": "agents-observability",
+    "pack_path": "data/questpacks/agents_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "docs/quests/agents-observability/quest.json"
+  },
+  {
+    "slug": "html-ignition",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-tags-attributes",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-links-images",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-lists-tables",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-forms-inputs",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-semantic-layout",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-accessibility-basics",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-media-embed",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-meta-seo",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "html-debug-validate",
+    "pack_path": "data/questpacks/web_html_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_html_core.json"
+  },
+  {
+    "slug": "css-ignition",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-selectors-specificity",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-cascade-inheritance",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-box-model",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-units-typography",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-colors-backgrounds",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-flexbox",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-grid",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-responsive-media",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "css-position-zindex",
+    "pack_path": "data/questpacks/web_css_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/web_css_core.json"
+  },
+  {
+    "slug": "first-sparks",
+    "pack_path": "data/questpacks/foundry_python.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/foundry_python.json"
+  },
+  {
+    "slug": "hello-variable",
+    "pack_path": "data/questpacks/foundry_python.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/foundry_python.json"
+  },
+  {
+    "slug": "cli-ignition",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-navigation",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-files-folders",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Default",
+      "lore": "Good"
+    },
+    "overall_quality": "Default",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-globs-search",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-redirection",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-pipes",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-env-vars",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-exit-codes",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-processes",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "cli-scripting",
+    "pack_path": "data/questpacks/cli_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/cli_core.json"
+  },
+  {
+    "slug": "react-ignition",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-components",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-props",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-conditional-render",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-lists",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-state-counter",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-state-toggle",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-effects-mount",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-context-theme",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "react-reducer-cart",
+    "pack_path": "data/questpacks/react_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/react_core.json"
+  },
+  {
+    "slug": "node-ignition",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-modules",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-npm",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-env-config",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-async",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-fs-path",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-http",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-middleware",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-testing",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  },
+  {
+    "slug": "node-deploy-basics",
+    "pack_path": "data/questpacks/node_core.json",
+    "missing_fields": [],
+    "quality_scores": {
+      "briefing": "Good",
+      "objectives": "Good",
+      "lore": "Good"
+    },
+    "overall_quality": "Good",
+    "status": "pass",
+    "source_file": "data/questpacks/node_core.json"
+  }
+]

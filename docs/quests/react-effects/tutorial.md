@@ -1,30 +1,60 @@
-# Effects: Sync With the Outside World
+## React Effects
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice react effects concepts in a real-world scenario.
 
-Fetch data and manage side effects safely.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with react effects to practice core concepts.
 
-`useEffect`, deps array, cleanup.
+## 2) The Concept in 30 Seconds
+React Effects demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“effects run after paint; deps control when.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-fetch on mount, loading/error states, cleanup pattern.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-refetch when a parameter changes.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-missing deps, infinite loops, stale closures.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What belongs in deps? When do you need cleanup?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

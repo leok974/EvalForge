@@ -1,30 +1,60 @@
-# Processes and Signals
+## Cli Processes
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice cli processes concepts in a real-world scenario.
 
-Inspect and stop running processes safely.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with cli processes to practice core concepts.
 
-PID, foreground/background, kill, signals.
+## 2) The Concept in 30 Seconds
+Cli Processes demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“processes are running programs; signals request behavior.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-start a long-running task, find it, stop it cleanly.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-identify a process by name and end it safely.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-killing the wrong PID, force-killing too early.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What’s the difference between a gentle stop and a forced kill?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

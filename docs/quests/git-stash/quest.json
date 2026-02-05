@@ -1,7 +1,7 @@
 {
     "slug": "git-stash",
     "title": "git-stash",
-    "language": "python",
+    "language": "txt",
     "world_id": "world-git",
     "track_id": "core",
     "order_index": 1,
@@ -9,10 +9,9 @@
     "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
     "objectives": [
         {
-            "id": "obj_1",
-            "description": "Implement the solution.",
-            "type": "test_pass",
-            "matcher": null
+            "id": "obj_default",
+            "text": "Complete the assignment as described in README.md",
+            "why": "Specification"
         }
     ],
     "grading": {
@@ -20,9 +19,18 @@
     },
     "workspace": {
         "entrypoint": "main.py",
-        "files_from": "./starter"
+        "files_from": "../quests/git-stash/workspace"
     },
     "smoke": {
         "solution_workspace_files": []
-    }
+    },
+    "briefing_md": "# Mission: git-stash\n\n**Objective:** git-stash.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+    "lore_md": "## Git Reflog: git-stash\n\n> *Checking out revision...*\n>\n> HEAD -> git-stash\n> State: Detached\n\nVersion control integrity compromised. Commit the correct changes to restore the timeline.",
+    "tiered_hints": {
+        "concept": "Review the workspace file structure.",
+        "guided": "Review the concept of **term-1** in the Codex.",
+        "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+    },
+    "content_source": "generated_v1",
+    "content_version": "9.9.0"
 }

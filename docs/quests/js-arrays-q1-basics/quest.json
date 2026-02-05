@@ -1,7 +1,7 @@
 {
     "slug": "js-arrays-q1-basics",
     "title": "js-arrays-q1-basics",
-    "language": "python",
+    "language": "javascript",
     "world_id": "world-js",
     "track_id": "core",
     "order_index": 1,
@@ -9,10 +9,9 @@
     "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
     "objectives": [
         {
-            "id": "obj_1",
-            "description": "Implement the solution.",
-            "type": "test_pass",
-            "matcher": null
+            "id": "obj_default",
+            "text": "Complete the assignment as described in README.md",
+            "why": "Specification"
         }
     ],
     "grading": {
@@ -20,9 +19,18 @@
     },
     "workspace": {
         "entrypoint": "main.py",
-        "files_from": "./starter"
+        "files_from": "../quests/js-arrays-q1-basics/workspace"
     },
     "smoke": {
         "solution_workspace_files": []
-    }
+    },
+    "briefing_md": "# Mission: js-arrays-q1-basics\n\n**Objective:** js-arrays-q1-basics.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+    "lore_md": "## Mission Log: js-arrays-q1-basics\n\nMission objectives downloaded. Proceed with implementation.",
+    "tiered_hints": {
+        "concept": "Review the workspace file structure.",
+        "guided": "Review the concept of **term-1** in the Codex.",
+        "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+    },
+    "content_source": "generated_v1",
+    "content_version": "9.9.0"
 }

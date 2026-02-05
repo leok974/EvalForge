@@ -1,30 +1,60 @@
-# Events & Forms
+## React Events
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice react events concepts in a real-world scenario.
 
-Handle events and build a controlled form.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with react events to practice core concepts.
 
-events, controlled input, onSubmit.
+## 2) The Concept in 30 Seconds
+React Events demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“input value lives in state; DOM reflects it.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-text input + checkbox + submit handler.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-validation message when input is empty.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-uncontrolled/controlled mismatch, forgetting `preventDefault`.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What makes an input “controlled”? Why preventDefault?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

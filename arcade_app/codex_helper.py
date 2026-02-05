@@ -4,7 +4,7 @@ from typing import List, Dict, Optional
 from sqlalchemy import select
 from arcade_app.models import KnowledgeChunk
 
-CODEX_DIR = "data/codex"
+CODEX_DIR = "docs/codex"
 
 def index_codex() -> List[Dict]:
     """
@@ -93,7 +93,13 @@ def get_codex_entry(entry_id: str) -> Optional[Dict]:
                     
                     current_id = post.metadata.get("id", default_id)
                     
-                    if current_id == entry_id:
+                    # Robust ID matching: Match if IDs are equal, or if they match after normalization (strip codex:)
+                    # This handles cases where frontmatter has "codex:foo" but request is for "foo"
+                    
+                    cid_norm = current_id.replace("codex:", "")
+                    eid_norm = entry_id.replace("codex:", "")
+                    
+                    if current_id == entry_id or cid_norm == eid_norm:
                         return {
                             "metadata": post.metadata,
                             "content": post.content

@@ -10,10 +10,10 @@ import re
 router = APIRouter(prefix="/api/codex", tags=["codex"])
 
 # Codex root directory
-CODEX_ROOT = Path("data/codex")
+CODEX_ROOT = Path("docs/codex")
 
 # Allowed root directories
-ALLOWED_ROOTS = {"glossary", "concepts", "patterns"}
+ALLOWED_ROOTS = {"glossary", "concepts", "patterns", "react", "world-agents", "world-cli", "world-git", "world-infra", "world-java", "world-ml", "world-node", "world-python", "world-react", "world-sql", "world-typescript"}
 
 # Safe path segment regex (alphanumeric, hyphens, underscores, slashes)
 SAFE_PATH_REGEX = re.compile(r"^[a-z0-9/_-]+$")

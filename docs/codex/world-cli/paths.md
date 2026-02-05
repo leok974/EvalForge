@@ -1,3 +1,9 @@
+---
+id: glossary/cli/paths
+title: Paths
+world: cli
+---
+
 # Paths
 
 A **path** is the address of a file or folder in your filesystem.

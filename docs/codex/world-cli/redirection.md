@@ -1,3 +1,9 @@
+---
+id: glossary/cli/redirection
+title: Redirection
+world: cli
+---
+
 # Redirection
 
 **Redirection** controls where command output goes and where input comes from.

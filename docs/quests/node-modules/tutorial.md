@@ -1,30 +1,60 @@
-# Modules: ESM vs CommonJS
+## Node Modules
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node modules concepts in a real-world scenario.
 
-Use ESM imports and recognize CommonJS patterns.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node modules to practice core concepts.
 
-`import`, `export`, `require`, `module.exports`, `type: module`.
+## 2) The Concept in 30 Seconds
+Node Modules demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-Module system decides how files are loaded and linked.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-convert one file from CJS to ESM (or vice versa).
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-split helpers into modules and import them cleanly.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-default export confusion, extension/resolution issues.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-When does Node treat files as ESM?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

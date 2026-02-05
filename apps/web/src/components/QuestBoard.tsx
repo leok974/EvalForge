@@ -11,6 +11,7 @@ import { QUEST_UPDATED_EVENT } from "@/lib/questsEvents";
 import type { QuestUpdatedDetail } from "@/lib/questsEvents";
 
 import { useNavigate } from "react-router-dom";
+import { useWorkshopCatalog } from "@/features/workshop/WorkshopCatalogContext";
 
 interface QuestBoardProps {
     worldId?: string;
@@ -41,6 +42,15 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
     onOpenQuest,
 }) => {
     const navigate = useNavigate();
+    const {
+        getTracksForWorld,
+        resolveTrackName,
+        resolveWorldName,
+        resolveCanonicalTrackId,
+        worlds,
+        tracks: allTracks
+    } = useWorkshopCatalog();
+
     const [quests, setQuests] = useState<QuestSummary[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -56,7 +66,14 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
         fetchQuests(worldId)
             .then((data) => {
                 if (!cancelled) {
-                    setQuests(data);
+                    // NORMALIZE TRACK IDs (Fundamentals -> Python Fundamentals)
+                    // This allows the frontend to group quests under the canonical track
+                    // even if the backend returns legacy IDs.
+                    const normalized = data.map(q => ({
+                        ...q,
+                        track_id: resolveCanonicalTrackId(q.track_id)
+                    }));
+                    setQuests(normalized);
                 }
             })
             .catch((err) => {
@@ -71,7 +88,7 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
         return () => {
             cancelled = true;
         };
-    }, [worldId]);
+    }, [worldId, resolveCanonicalTrackId]);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
@@ -105,12 +122,11 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
         return () => window.removeEventListener(QUEST_UPDATED_EVENT, handler);
     }, []);
 
-    // Derive list of tracks and current filter
-    const trackIds = useMemo(() => {
-        const set = new Set<string>();
-        for (const q of quests) set.add(q.track_id);
-        return Array.from(set).sort();
-    }, [quests]);
+    // USE CATALOG FOR TRACKS (Source of Truth)
+    const catalogTracks = useMemo(() => {
+        if (!worldId) return [];
+        return getTracksForWorld(worldId);
+    }, [worldId, getTracksForWorld]);
 
     const filteredQuests = useMemo(() => {
         if (activeTrack === "all") return quests;
@@ -190,6 +206,10 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
         }
     };
 
+    // Helpers for Resolving Names
+    const getWorldObj = (id: string) => worlds.find(w => w.world_id === id);
+    const getTrackObj = (id: string) => allTracks.find(t => t.track_id === id);
+
     if (loading) {
         return (
             <div className="text-[11px] text-slate-400">
@@ -200,7 +220,7 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
 
     if (error) {
         return (
-            <div className="text-[11px] text-rose-300">
+            <div className="text-[11px] text-red-400">
                 Failed to load quests: {error}
             </div>
         );
@@ -239,23 +259,26 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                     >
                         All ({quests.length})
                     </button>
-                    {trackIds.map((track) => {
-                        const count = quests.filter((q) => q.track_id === track).length;
+                    {/* Render Catalog Tracks (Active Only) */}
+                    {catalogTracks.map((track) => {
+                        const count = quests.filter((q) => q.track_id === track.track_id).length;
+                        if (count === 0 && activeTrack !== track.track_id) return null; // Hide empty tracks? Or show 0?
+
                         return (
                             <button
-                                key={track}
+                                key={track.track_id}
                                 type="button"
-                                onClick={() => setActiveTrack(track)}
+                                onClick={() => setActiveTrack(track.track_id)}
                                 className={`
                   rounded-full border px-2 py-[1px]
-                  ${activeTrack === track
+                  ${activeTrack === track.track_id
                                         ? "border-cyan-400/80 bg-cyan-500/10 text-cyan-200"
                                         : "border-slate-700/80 bg-slate-950/80 text-slate-300 hover:border-slate-500"
                                     }
                 `}
-                                data-testid={`quest-filter-${track}`}
+                                data-testid={`quest-filter-${track.track_id}`}
                             >
-                                {track} ({count})
+                                {resolveTrackName(track)} ({count})
                             </button>
                         );
                     })}
@@ -315,14 +338,30 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                                         </h3>
 
                                         {/* METADATA BADGES */}
-                                        <div className="flex gap-1 items-center opacity-60 hover:opacity-100 transition-opacity">
+                                        <div className="flex gap-1 items-center opacity-70 hover:opacity-100 transition-opacity">
                                             {/* World Badge */}
-                                            <span className="text-[9px] text-zinc-500 font-mono border border-zinc-800 rounded px-1">{q.world_id}</span>
+                                            <span
+                                                className="text-[9px] text-zinc-500 font-mono border border-zinc-800 rounded px-1"
+                                                title={`World: ${q.world_id}`}
+                                            >
+                                                {getWorldObj(q.world_id)
+                                                    ? resolveWorldName(getWorldObj(q.world_id)!)
+                                                    : q.world_id}
+                                            </span>
                                             {/* Track Badge */}
-                                            <span className="text-[9px] text-zinc-500 font-mono border border-zinc-800 rounded px-1">{q.track_id}</span>
+                                            <span
+                                                className="text-[9px] text-workshop-cyan font-mono border border-zinc-800 rounded px-1"
+                                                title={`Track: ${q.track_id}`}
+                                            >
+                                                {getTrackObj(q.track_id)
+                                                    ? resolveTrackName(getTrackObj(q.track_id)!)
+                                                    : q.track_id}
+                                            </span>
                                             {/* Pack Badge */}
                                             {q.questpack && (
-                                                <span className="text-[9px] text-zinc-500 font-mono border border-zinc-800 rounded px-1" title="Source Questpack">{q.questpack}</span>
+                                                <span className="text-[9px] text-zinc-600 font-mono border border-zinc-800 rounded px-1" title="Source Questpack">
+                                                    📦 {q.questpack.replace('.json', '')}
+                                                </span>
                                             )}
                                         </div>
 
@@ -400,3 +439,4 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
         </div>
     );
 };
+

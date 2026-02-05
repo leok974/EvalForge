@@ -1,3 +1,9 @@
+---
+id: glossary/cli/search
+title: Search
+world: cli
+---
+
 # Search
 
 **Search** tools help you find files and content across your filesystem.
@@ -31,8 +37,8 @@ Get-ChildItem -Recurse | Where-Object { $_.Length -gt 10MB }
 Search **inside** files for text patterns.
 
 ```bash
-# Find files containing "TODO"
-grep -r "TODO" .
+# Find files containing "FIXME"
+grep -r "FIXME" .
 
 # Case-insensitive search
 grep -ri "error" logs/

@@ -1,30 +1,60 @@
-# Node Ignition: Run Code Like a Runtime
+## Node Ignition
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node ignition concepts in a real-world scenario.
 
-Run a Node script and explain what process/output means.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node ignition to practice core concepts.
 
-process, argv, stdout/stderr, event loop (light intro).
+## 2) The Concept in 30 Seconds
+Node Ignition demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-Node runs JS outside the browser; the OS process owns environment + IO.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-run `node index.js`, read args, print output, handle errors.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-write a CLI script that prints “Hello <name>” from args.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-running in wrong directory, confusing stdout vs stderr.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What is a process? Where do env vars come from?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

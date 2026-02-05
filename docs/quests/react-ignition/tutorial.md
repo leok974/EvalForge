@@ -1,30 +1,60 @@
-# React Ignition: Components & JSX
+## React Ignition
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice react ignition concepts in a real-world scenario.
 
-Build and render a component using JSX.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with react ignition to practice core concepts.
 
-component, JSX, render tree.
+## 2) The Concept in 30 Seconds
+React Ignition demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“UI is a function of state/props.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-create `App`, render a header + paragraph, reuse a small component.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-build a `Card` component and render 3 cards.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-forgetting `return`, invalid JSX nesting, missing keys (preview).
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What does JSX compile to? Why is React declarative?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

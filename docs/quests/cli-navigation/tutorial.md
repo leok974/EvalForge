@@ -1,30 +1,60 @@
-# Navigate the Filesystem
+## Cli Navigation
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice cli navigation concepts in a real-world scenario.
 
-Move around confidently using relative/absolute paths.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with cli navigation to practice core concepts.
 
-absolute vs relative, `..`, home dir, current dir.
+## 2) The Concept in 30 Seconds
+Cli Navigation demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“paths are addresses” and `cd` changes your viewpoint.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-`cd`, `cd ..`, `cd ~`, navigating into a project folder.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-go to a folder, return, jump to home, re-enter by relative path.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-spaces in paths, assuming `cd` “opens” files.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What’s the difference between `/` and `~`? When do you use `..`?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

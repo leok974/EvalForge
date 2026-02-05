@@ -1,3 +1,9 @@
+---
+id: glossary/cli/path
+title: Path
+world: cli
+---
+
 # PATH
 
 The `PATH` environment variable tells your shell **where to find executable programs**.

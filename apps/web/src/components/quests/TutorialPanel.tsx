@@ -86,6 +86,43 @@ export function TutorialPanel({
                     {children}
                 </Callout>
             );
+        },
+        // GFM Alerts via Blockquote (Option A)
+        blockquote({ children, ...props }: any) {
+            const childrenArray = React.Children.toArray(children);
+            const firstChild = childrenArray[0];
+
+            let alertType: string | null = null;
+            let content = childrenArray;
+
+            if (React.isValidElement(firstChild) && firstChild.type === 'p') {
+                const pChildren = React.Children.toArray(firstChild.props.children);
+                const firstText = pChildren[0];
+
+                if (typeof firstText === 'string') {
+                    const match = firstText.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
+                    if (match) {
+                        alertType = match[1].toLowerCase();
+                        // Remove the marker from the text
+                        const remainingText = firstText.substring(match[0].length).trim();
+
+                        // Reconstruct the paragraph without the marker
+                        const newPChildren = [
+                            remainingText ? <React.Fragment key="text">{remainingText}</React.Fragment> : null,
+                            ...pChildren.slice(1).map((child, i) => <React.Fragment key={i}>{child}</React.Fragment>)
+                        ].filter(Boolean);
+
+                        const newFirstP = React.cloneElement(firstChild as React.ReactElement, { key: "first-p" }, ...newPChildren);
+                        content = [newFirstP, ...childrenArray.slice(1).map((child, i) => <React.Fragment key={`rest-${i}`}>{child}</React.Fragment>)];
+                    }
+                }
+            }
+
+            if (alertType) {
+                return <Callout variant={alertType as any}>{content}</Callout>;
+            }
+
+            return <blockquote {...props} className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic text-gray-600 dark:text-gray-400 my-4">{children}</blockquote>;
         }
     }), [onPasteCode, onOpenCodexRef]);
 
@@ -108,9 +145,9 @@ export function TutorialPanel({
                         Key Terms
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                        {keyTerms.map((term) => (
+                        {keyTerms.map((term, i) => (
                             <button
-                                key={term.id}
+                                key={`${term.id}-${i}`}
                                 onClick={() => term.codex_ref && onOpenCodexRef(term.codex_ref)}
                                 className="px-3 py-2 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 
                            text-blue-900 dark:text-blue-100 rounded-lg transition-colors
@@ -140,13 +177,13 @@ export function TutorialPanel({
                         Related Codex Entries
                     </h3>
                     <div className="flex flex-col gap-2">
-                        {codexRefs.map((ref) => {
+                        {codexRefs.map((ref, i) => {
                             // Extract display name from ref (e.g., "glossary/python/print" -> "print")
                             const displayName = ref.split('/').pop()?.replace(/-/g, ' ') || ref;
 
                             return (
                                 <button
-                                    key={ref}
+                                    key={`${ref}-${i}`}
                                     onClick={() => onOpenCodexRef(`codex:${ref}`)}
                                     className="text-left px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700
                              rounded-lg transition-colors flex items-center gap-2"

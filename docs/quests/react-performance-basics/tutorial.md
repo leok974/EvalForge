@@ -1,30 +1,60 @@
-# Performance Basics
+## React Performance Basics
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice react performance basics concepts in a real-world scenario.
 
-Diagnose unnecessary rerenders and apply basic fixes.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with react performance basics to practice core concepts.
 
-rerender triggers, memoization, referential equality.
+## 2) The Concept in 30 Seconds
+React Performance Basics demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-“new object/function props can trigger rerenders.”
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-use `memo`, `useMemo`, `useCallback` in one small scenario.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-optimize a list render without premature complexity.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-memo everywhere, optimizing before measuring.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-When does memoization help? What’s the cost of overusing it?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

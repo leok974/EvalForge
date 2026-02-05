@@ -1,30 +1,60 @@
-# Filesystem & Paths: Read/Write Without Pain
+## Node Fs Path
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node fs path concepts in a real-world scenario.
 
-Read/write files using correct paths.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node fs path to practice core concepts.
 
-`fs`, `path.join`, cwd, encoding.
+## 2) The Concept in 30 Seconds
+Node Fs Path demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-always build paths intentionally; never assume cwd in prod.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-read JSON file, write output file, handle missing file.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-implement a “copy template to output” task.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-Windows path separators, relative path surprises.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What does `process.cwd()` represent?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?

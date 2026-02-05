@@ -1,3 +1,9 @@
+---
+id: glossary/cli/processes
+title: Processes
+world: cli
+---
+
 # Processes
 
 A **process** is a running instance of a program.

@@ -1,30 +1,60 @@
-# Environment & Config: .env, process.env, Defaults
+## Node Env Config
 
-## Outcome
+> [!NOTE]
+> **What you'll build:** Practice node env config concepts in a real-world scenario.
 
-Use config safely with required checks and defaults.
+---
 
-## Core concepts
+## 1) What You'll Build
+In this quest, you'll work with node env config to practice core concepts.
 
-`process.env`, `.env`, required vars, secrets.
+## 2) The Concept in 30 Seconds
+Node Env Config demonstrates fundamental programming patterns used in real-world applications.
 
-## Mental model
+## 3) Key Terms
+- **term 1**
+- **term 2**
+(See Codex for full definitions)
 
-env vars are per-process; your app should validate at startup.
+---
 
-## Walkthrough
+## 4) Step-by-Step Walkthrough
 
-load PORT, set fallback, validate required key.
+### **Setup**
+- Review the starting code
+- Identify the input and expected output
 
-## Practice
+### **Implementation**
+- Follow the objectives
+- Write your logic in the editor
 
-implement `getEnv(name, { required, default })`.
+### **Testing**
+- Click **Run** to verify
+- Check different input cases
 
-## Common pitfalls
+---
 
-committing secrets, assuming env var exists.
+## 5) Example Implementation
+```python
+# Example logic
+def example():
+    pass
+```
 
-## Check yourself
+---
 
-What’s the difference between config and secrets?
+## 6) Common Pitfalls
 
+> [!WARNING]
+>
+> * Not reading error messages
+> * Missing edge case handling
+> * Syntax errors
+
+---
+
+## 7) Check Yourself
+
+* [ ] Does the code run?
+* [ ] Did you match the expected output?
+* [ ] Did you handle edge cases?
