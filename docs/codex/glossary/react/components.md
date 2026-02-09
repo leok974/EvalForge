@@ -1,38 +1,44 @@
 ---
 title: Components
 id: glossary/react/components
-world: general
+world: react
+level: beginner
+tags: [react, ui, fundamentals]
+related:
+  - codex:glossary/react/props
+  - codex:glossary/react/state
+  - codex:glossary/react/effects
 ---
 
 # Components
 
-**Definition:** Components is a fundamental concept in general. 
+## Definition
+A **React component** is a reusable unit of UI. It's just a JavaScript function (or class) that returns a React element tree describing what should appear on screen.
 
-## Overview
-
-In the context of software development, Components plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Components to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Components frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Break UI into small, focused components.
+- Pass data in via props.
+- Keep components "pure" when possible: same inputs → same output.
 
 ## Example
+```js
+import React from "react";
 
-The following code snippet demonstrates a basic application of the concept:
+function Greeting(props) {
+  return React.createElement("h1", null, `Hello, ${props.name}!`);
+}
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Components initialized"
-    print(result)
-    return True
+// Usage:
+// React.createElement(Greeting, { name: "Leo" })
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Doing side effects inside the render path (network calls, timers) causes repeated work and bugs.
+* Components that do too much become hard to test and reuse.
+
+## Related
+
+* Props: components receive data via props.
+* State: components manage internal state.
+* Effects: components trigger side effects.

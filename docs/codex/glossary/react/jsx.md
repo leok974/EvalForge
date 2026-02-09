@@ -1,38 +1,41 @@
 ---
-title: Jsx
+title: JSX
 id: glossary/react/jsx
-world: general
+world: react
+level: beginner
+tags: [react, syntax, templating]
+related:
+  - codex:glossary/react/components
+  - codex:glossary/react/props
+  - codex:glossary/react/events
 ---
 
-# Jsx
+# JSX
 
-**Definition:** Jsx is a fundamental concept in general. 
+## Definition
+**JSX** is a syntax extension that looks like HTML inside JavaScript. It compiles to `React.createElement(...)` calls. JSX is optional—React works without it.
 
-## Overview
-
-In the context of software development, Jsx plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Jsx to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Jsx frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use JSX to write UI more ergonomically.
+- Know that JSX is just syntax sugar for element creation.
+- In EvalForge React world, you may build elements without JSX to stay pure JS.
 
 ## Example
+```js
+// JSX (conceptual)
+const el = <button disabled={true}>Save</button>;
 
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Jsx initialized"
-    print(result)
-    return True
+// Compiles to:
+const el2 = React.createElement("button", { disabled: true }, "Save");
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* JSX is not HTML: attributes are camelCased (`className`, `htmlFor`).
+* Returning multiple siblings requires a wrapper (`<>...</>` or a parent element).
+
+## Related
+
+* Components: components usually return JSX.
+* Props: JSX syntax passes props.
+* Events: JSX syntax attaches event handlers.

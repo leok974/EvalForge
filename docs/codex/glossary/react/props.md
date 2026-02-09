@@ -1,38 +1,45 @@
 ---
 title: Props
 id: glossary/react/props
-world: general
+world: react
+level: beginner
+tags: [react, data-flow, fundamentals]
+related:
+  - codex:glossary/react/components
+  - codex:glossary/react/context
+  - codex:glossary/react/state
 ---
 
 # Props
 
-**Definition:** Props is a fundamental concept in general. 
+## Definition
+**Props** (properties) are inputs passed from a parent component to a child. Props are read-only: a child should not mutate props, only use them to render.
 
-## Overview
-
-In the context of software development, Props plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Props to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Props frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use props to configure a component (text, handlers, flags).
+- Pass callbacks down to let children "request" changes.
+- Prefer explicit props over hidden global state.
 
 ## Example
+```js
+import React from "react";
 
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Props initialized"
-    print(result)
-    return True
+function Button(props) {
+  return React.createElement(
+    "button",
+    { onClick: props.onClick, disabled: props.disabled },
+    props.label
+  );
+}
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Mutating props breaks the mental model and can cause stale UI.
+* Passing too many props through many layers can cause "prop drilling" (consider context).
+
+## Related
+
+* Components: components accept props.
+* Context: context avoids prop drilling.
+* State: props often come from parent state.
