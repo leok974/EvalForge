@@ -28,7 +28,7 @@ from arcade_app.auth_helper import (
 from arcade_app.bosses.registry import is_boss_track, evaluate_boss
 from arcade_app.bosses.progress_helper import apply_boss_outcome
 from arcade_app.explain_agent import ExplainAgent
-from arcade_app.routers import avatars, routes_assist
+from arcade_app.routers import avatars, routes_tools
 from arcade_app.persona_helper import get_npc, wrap_prompt_with_persona
 from arcade_app.quest_helper import build_quest_system_prompt
 from arcade_app.explain_helper import build_explain_system_prompt
@@ -436,9 +436,7 @@ from arcade_app.routers import (
     routes_profile as profile,
     projects,
     reporting,
-    codex,
-    skills,
-    codex,
+    routes_codex as codex, # Phase 9.1: Use new routes_codex but alias to keep namespace simple or just rename
     skills,
     session as session_router,
     routes_practice_rounds as practice_rounds,
@@ -457,14 +455,14 @@ app.include_router(avatars.router)
 app.include_router(quests_runtime.router)
 app.include_router(quests.router)
 app.include_router(workshop.router) # Workshop Catalog API
-app.include_router(routes_assist.router) # Assist API
+app.include_router(routes_tools.router) # Assist API
 app.include_router(universe.router)
 app.include_router(boss.router)
 app.include_router(profile.router)
 app.include_router(projects.router)
 app.include_router(reporting.router)
 app.include_router(boss_codex.router)
-app.include_router(codex.router)
+app.include_router(codex.router) # Now points to routes_codex via alias
 app.include_router(skills.router)
 app.include_router(session_router.router)
 app.include_router(practice_rounds.router)

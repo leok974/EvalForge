@@ -20,7 +20,8 @@ export async function fetchCodex(ref: string): Promise<CodexEntry> {
     const id = ref.replace(/^(codex:)+/, '');
 
     // Call detail endpoint (now supports slashes via backend fix)
-    const response = await fetch(`/api/codex/${id}`);
+    // Backend expects ?ref=codex:...
+    const response = await fetch(`/api/codex?ref=codex:${id}`);
 
     if (!response.ok) {
         const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
@@ -34,7 +35,7 @@ export async function fetchCodex(ref: string): Promise<CodexEntry> {
     return {
         ref: ref,
         title: data.metadata?.title || data.title || id,
-        md: data.content || data.body_markdown || '',
+        md: data.md || data.content || data.body_markdown || '',
         path: id
     };
 }

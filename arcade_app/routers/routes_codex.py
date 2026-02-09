@@ -148,3 +148,94 @@ async def get_codex_entry(ref: str = Query(..., description="Codex reference (e.
         "md": md_content,
         "path": str(file_path.relative_to(Path.cwd()))
     }
+
+@router.get("/index/structure")
+async def get_codex_index():
+    """
+    Get structure of Codex for navigation/filtering.
+    Returns nested structure: World -> Sections -> Pages
+    """
+    index = []
+    
+    if not CODEX_ROOT.exists():
+        return {"sections": []}
+
+    # Walk directory
+    # Structure: codex/{world}/{section}/{page}.md
+    
+    # We want to group by World -> Section
+    structure = {}
+    
+    for world_dir in CODEX_ROOT.iterdir():
+        if not world_dir.is_dir() or world_dir.name not in ALLOWED_ROOTS:
+            continue
+            
+        world_name = world_dir.name
+        
+        for section_dir in world_dir.iterdir():
+            if not section_dir.is_dir():
+                continue
+                
+            section_name = section_dir.name
+            
+            # Find pages
+            pages = []
+            for page_file in section_dir.glob("*.md"):
+                page_id = f"{world_name}/{section_name}/{page_file.stem}"
+                
+                # Try to get title cheaply (read first line)
+                title = page_file.stem.replace("-", " ").title()
+                try:
+                    with open(page_file, "r", encoding="utf-8") as f:
+                        first_line = f.readline().strip()
+                        if first_line.startswith("# "):
+                            title = first_line[2:].strip()
+                except:
+                    pass
+                
+                pages.append({
+                    "id": page_id,
+                    "title": title,
+                    "world": world_name,
+                    "section": section_name
+                })
+            
+            if pages:
+                # Add to structure
+                index.append({
+                    "world": world_name,
+                    "section": section_name,
+                    "pages": sorted(pages, key=lambda x: x["title"])
+                })
+        
+        # Phase 9.2: Support flat files in world root (e.g. README.md)
+        flat_pages = []
+        for page_file in world_dir.glob("*.md"):
+            section_name = "general"
+            page_id = f"{world_name}/{section_name}/{page_file.stem}"
+            
+            # Try to get title cheaply
+            title = page_file.stem.replace("-", " ").title()
+            try:
+                with open(page_file, "r", encoding="utf-8") as f:
+                    first_line = f.readline().strip()
+                    if first_line.startswith("# "):
+                        title = first_line[2:].strip()
+            except:
+                pass
+            
+            flat_pages.append({
+                "id": page_id,
+                "title": title,
+                "world": world_name,
+                "section": section_name
+            })
+            
+        if flat_pages:
+             index.append({
+                "world": world_name,
+                "section": "general",
+                "pages": sorted(flat_pages, key=lambda x: x["title"])
+            })
+                
+    return {"sections": index}
