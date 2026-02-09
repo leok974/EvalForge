@@ -1,38 +1,90 @@
 ---
-title: Package Json
 id: glossary/node/package-json
-world: general
+level: tier1
+title: npm & package.json
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
-# Package Json
+# npm & package.json
 
-**Definition:** Package Json is a fundamental concept in general. 
+npm is Node’s package manager. `package.json` is the project manifest:
+- dependencies
+- scripts
+- metadata (including module type)
 
-## Overview
+---
 
-In the context of software development, Package Json plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Package Json to structure their code, manage data, or control application flow effectively.
+## The three commands you’ll use most
 
-## Usage in General
-
-When working with General, you will encounter Package Json frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
-
-## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Package Json initialized"
-    print(result)
-    return True
+### Install dependencies
+```bash
+npm install
 ```
 
-## Related Concepts
+### Run scripts
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+```bash
+npm run test
+npm run dev
+npm start
+```
+
+### Add a dependency
+
+```bash
+npm install express
+npm install -D eslint
+```
+
+---
+
+## package.json scripts
+
+Example:
+
+```json
+{
+  "scripts": {
+    "test": "node --test",
+    "start": "node server.js"
+  }
+}
+```
+
+Run them:
+
+```bash
+npm run test
+npm start
+```
+
+---
+
+## Dependencies vs devDependencies
+
+* `dependencies`: needed at runtime
+* `devDependencies`: needed for development/testing
+
+In many quest workspaces, everything is local and minimal — follow the quest instructions.
+
+---
+
+## Versioning rule of thumb
+
+If you want reproducibility, use a lockfile:
+
+* `package-lock.json` (npm)
+
+EvalForge environments usually install deterministically — don’t delete lockfiles unless instructed.
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

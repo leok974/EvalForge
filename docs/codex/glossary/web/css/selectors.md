@@ -1,38 +1,36 @@
 ---
-title: Selectors
 id: glossary/web/css/selectors
-world: general
+title: Selectors
+world: web
+level: beginner
+tags: [css, selectors, syntax]
+related:
+  - codex:glossary/web/css/specificity
+  - codex:glossary/web/css/cascade
 ---
 
 # Selectors
 
-**Definition:** Selectors is a fundamental concept in general. 
+## Definition
+Selectors choose which elements a CSS rule applies to (class, id, element, attribute, pseudo-class). Good selector strategy keeps styles maintainable.
 
-## Overview
-
-In the context of software development, Selectors plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Selectors to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Selectors frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Prefer class selectors for reusable styling.
+- Use `:hover`, `:focus-visible` for states.
+- Avoid deep nesting unless necessary.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Selectors initialized"
-    print(result)
-    return True
+```css
+.button { padding: .5rem 1rem; }
+.button:hover { transform: translateY(-1px); }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Over-specific selectors make overrides hard.
+* Styling by tag alone can cause unintended global changes.
+
+## Related
+
+* Specificity: selectors combine with specificity.
+* Cascade: selectors interact with the cascade.

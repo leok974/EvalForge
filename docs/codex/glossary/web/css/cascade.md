@@ -1,38 +1,36 @@
 ---
-title: Cascade
 id: glossary/web/css/cascade
-world: general
+title: Cascade
+world: web
+level: intermediate
+tags: [css, cascade, fundamentals]
+related:
+  - codex:glossary/web/css/specificity
+  - codex:glossary/web/css/inheritance
 ---
 
 # Cascade
 
-**Definition:** Cascade is a fundamental concept in general. 
+## Definition
+The cascade is how CSS decides final styles: origin (browser/user/author), importance, specificity, and source order.
 
-## Overview
-
-In the context of software development, Cascade plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Cascade to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Cascade frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Structure styles to reduce conflicts.
+- Place overrides later intentionally.
+- Use component-level styling patterns.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Cascade initialized"
-    print(result)
-    return True
+```css
+.card { color: white; }
+.theme-light .card { color: black; } /* later override */
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Random import order causes unpredictable styling.
+* Overriding without understanding specificity leads to hacks.
+
+## Related
+
+* Specificity: specificity is part of the cascade.
+* Inheritance: inheritance interacts with the cascade.

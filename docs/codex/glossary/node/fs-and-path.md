@@ -1,38 +1,83 @@
 ---
-title: Fs And Path
 id: glossary/node/fs-and-path
-world: general
+level: tier1
+title: File System (fs)
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
-# Fs And Path
+# File System (fs)
 
-**Definition:** Fs And Path is a fundamental concept in general. 
+Node’s `fs` module lets you read and write files. In quests, you’ll often:
+- read fixture files
+- write outputs to a required path
+- ensure directories exist
 
-## Overview
+---
 
-In the context of software development, Fs And Path plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Fs And Path to structure their code, manage data, or control application flow effectively.
+## Sync vs async APIs
 
-## Usage in General
+Sync (simple, fine for small fixtures):
+```js
+import fs from "node:fs";
 
-When working with General, you will encounter Fs And Path frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
-
-## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Fs And Path initialized"
-    print(result)
-    return True
+const text = fs.readFileSync("fixtures/input.txt", "utf8");
+fs.writeFileSync("outputs/result.txt", text);
 ```
 
-## Related Concepts
+Async (non-blocking):
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+```js
+import { promises as fsp } from "node:fs";
+
+const text = await fsp.readFile("fixtures/input.txt", "utf8");
+await fsp.writeFile("outputs/result.txt", text);
+```
+
+---
+
+## Directories
+
+Create dirs before writing files:
+
+```js
+import fs from "node:fs";
+fs.mkdirSync("outputs", { recursive: true });
+```
+
+---
+
+## Paths
+
+Prefer `path.join` for portability:
+
+```js
+import path from "node:path";
+const p = path.join("outputs", "result.txt");
+```
+
+---
+
+## Common pitfalls
+
+* forgetting encoding (`utf8`) → you get a Buffer
+* writing to wrong relative path (cwd matters)
+* not creating directories
+
+---
+
+## EvalForge guidance
+
+Most quests run from a workspace root directory.
+Assume relative paths are from that root unless stated otherwise.
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

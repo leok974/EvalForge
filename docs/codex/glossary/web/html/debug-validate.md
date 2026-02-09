@@ -1,38 +1,36 @@
 ---
-title: Debug Validate
 id: glossary/web/html/debug-validate
-world: general
+title: Debug Validate
+world: web
+level: beginner
+tags: [validation, debugging, quality]
+related:
+  - codex:glossary/node/health-checks
+  - codex:glossary/node/lockfiles
 ---
 
 # Debug Validate
 
-**Definition:** Debug Validate is a fundamental concept in general. 
+## Definition
+Validation is a fast, repeatable way to catch broken content/config before runtime. In a mono-repo, a "validate" command typically checks schemas, required files, and link integrity.
 
-## Overview
-
-In the context of software development, Debug Validate plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Debug Validate to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Debug Validate frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Run validation before committing or seeding content.
+- Use "fast" mode locally, "strict" mode in CI.
+- Prefer clear errors over silent fallbacks.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Debug Validate initialized"
-    print(result)
-    return True
+```bash
+# Example shape (your repo commands may differ)
+python scripts/validate_all.py --fast
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* "Warnings only" validation lets regressions leak into main.
+* Validators must point to the same source-of-truth as the app.
+
+## Related
+
+* Health Checks: both catch errors before production.
+* Lockfiles: both ensure reproducible builds.

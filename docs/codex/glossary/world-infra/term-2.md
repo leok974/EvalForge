@@ -1,38 +1,39 @@
 ---
-title: Term 2
+title: Environment & Secrets
 id: glossary/world-infra/term-2
-world: general
+world: world-infra
+level: intermediate
+tags: [configuration, security, secrets]
+related:
+  - codex:glossary/infra/container
+  - codex:glossary/infra/docker-compose
 ---
 
-# Term 2
+# Environment & Secrets
 
-**Definition:** Term 2 is a fundamental concept in general. 
+## Definition
+Environment variables configure apps without changing code. Secrets are sensitive values (API keys, passwords) that should not be committed to git.
 
-## Overview
-
-In the context of software development, Term 2 plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Term 2 to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Term 2 frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Store secrets in env vars or secret managers.
+- Use `.env` for local dev (gitignored).
+- Validate required env vars at startup.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Term 2 initialized"
-    print(result)
-    return True
+```yaml
+services:
+  api:
+    environment:
+      - ENV=prod
+      - DATABASE_URL=${DATABASE_URL}
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Logging secrets by accident is common; scrub logs.
+* Missing env vars should fail fast, not silently default.
+
+## Related
+
+* Container: containers receive environment variables.
+* Docker Compose: Compose manages environment variables.

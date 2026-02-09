@@ -1,38 +1,67 @@
 ---
-title: Middleware
 id: glossary/node/middleware
-world: general
+level: tier1
+title: Middleware
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
 # Middleware
 
-**Definition:** Middleware is a fundamental concept in general. 
+Middleware is a **pipeline** of functions that run in order for a request.
 
-## Overview
+Mental model:
+> request → [log] → [auth] → [validate] → [handler] → response
 
-In the context of software development, Middleware plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Middleware to structure their code, manage data, or control application flow effectively.
+Middleware is order-dependent: earlier steps can block later steps.
 
-## Usage in General
+---
 
-When working with General, you will encounter Middleware frequently.
+## Why it matters
+Middleware is how you build:
+- logging
+- authentication
+- request validation
+- error mapping
 
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+---
 
-## Example
+## Minimal pseudo-pattern
+Frameworks differ, but the idea is consistent:
 
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Middleware initialized"
-    print(result)
-    return True
+```js
+function log(req, next) { next(); }
+function auth(req, next) { next(); }
+function handler(req) { return "ok"; }
 ```
 
-## Related Concepts
+---
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+## Common pitfalls
+
+* forgetting to call `next()` (pipeline stops)
+* returning early without a response
+* putting auth after handler (too late)
+
+---
+
+## Error handling in middleware
+
+Good systems catch errors and map them to responses:
+
+* 400 for validation
+* 401/403 for auth
+* 500 for unexpected
+
+See: [error-handling](./error-handling.md)
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

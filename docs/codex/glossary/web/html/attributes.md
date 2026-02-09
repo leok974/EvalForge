@@ -1,38 +1,37 @@
 ---
-title: Attributes
 id: glossary/web/html/attributes
-world: general
+title: Attributes
+world: web
+level: beginner
+tags: [html, attributes, syntax]
+related:
+  - codex:glossary/web/html/accessibility-basics
+  - codex:glossary/web/html/images
+  - codex:glossary/web/html/forms
 ---
 
 # Attributes
 
-**Definition:** Attributes is a fundamental concept in general. 
+## Definition
+Attributes are key/value pairs on HTML elements that configure behavior and meaning (like `href`, `alt`, `type`, `name`). Some are global (`id`, `class`), others are element-specific.
 
-## Overview
-
-In the context of software development, Attributes plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Attributes to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Attributes frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- `alt` for images, `name` for inputs, `href` for links.
+- Data attributes (`data-*`) for hooks and metadata.
+- ARIA attributes when needed for accessibility.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Attributes initialized"
-    print(result)
-    return True
+```html
+<img src="/logo.png" alt="EvalForge logo" width="128" height="128" />
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Missing `alt` hurts accessibility and SEO.
+* Duplicate `id` values break selectors and JS lookups.
+
+## Related
+
+* Accessibility Basics: attributes like alt improve accessibility.
+* Images: images require alt attributes.
+* Forms: form inputs use name attributes.

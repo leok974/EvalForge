@@ -1,38 +1,40 @@
 ---
-title: Term 3
+title: Debugging Playbook
 id: glossary/world-infra/term-3
-world: general
+world: world-infra
+level: intermediate
+tags: [debugging, troubleshooting, operations]
+related:
+  - codex:glossary/infra/container
+  - codex:glossary/infra/docker-compose
+  - codex:glossary/infra/port-mapping
 ---
 
-# Term 3
+# Debugging Playbook
 
-**Definition:** Term 3 is a fundamental concept in general. 
+## Definition
+A debugging playbook is a repeatable checklist for diagnosing failures: reproduce, isolate, inspect logs, verify config, and fix the smallest thing.
 
-## Overview
-
-In the context of software development, Term 3 plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Term 3 to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Term 3 frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Start with symptoms (error messages, status codes).
+- Check health endpoints.
+- Verify environment variables and ports.
+- Inspect logs and container state.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Term 3 initialized"
-    print(result)
-    return True
+```bash
+docker compose ps
+docker compose logs -f api
+curl -fsS http://localhost:8000/api/ready
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Skipping reproduction leads to guessing.
+* Changing many things at once makes it hard to know what fixed it.
+
+## Related
+
+* Container: inspect container logs and state when debugging.
+* Docker Compose: Compose commands are central to debugging.
+* Port Mapping: verify ports are mapped correctly.

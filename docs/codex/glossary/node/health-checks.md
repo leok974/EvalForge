@@ -1,38 +1,46 @@
 ---
-title: Health Checks
 id: glossary/node/health-checks
-world: general
+title: Health Checks
+world: node
+level: beginner
+tags: [devops, monitoring, apis]
+related:
+  - codex:glossary/node/lockfiles
+  - codex:glossary/web/html/debug-validate
+  - codex:glossary/web/html/metadata-seo
 ---
 
 # Health Checks
 
-**Definition:** Health Checks is a fundamental concept in general. 
+## Definition
+Health checks are lightweight endpoints that report whether a service is alive and ready. "Liveness" means the process is running; "readiness" means it can actually serve traffic (DB reachable, migrations complete, deps OK).
 
-## Overview
-
-In the context of software development, Health Checks plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Health Checks to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Health Checks frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Expose `/healthz` (liveness) and `/ready` (readiness).
+- Used by reverse proxies, load balancers, containers, and monitors.
+- Helps prevent routing traffic to broken instances.
 
 ## Example
+```js
+import express from "express";
+const app = express();
 
-The following code snippet demonstrates a basic application of the concept:
+app.get("/healthz", (_req, res) => res.status(200).send("ok"));
+app.get("/ready", async (_req, res) => {
+  // await db.ping()
+  res.status(200).json({ ready: true });
+});
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Health Checks initialized"
-    print(result)
-    return True
+app.listen(8000);
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Returning 200 from readiness when DB is down causes "healthy but broken" routing.
+* Health checks must be fast; don't do heavy queries.
+
+## Related
+
+* Lockfiles: both are part of production readiness.
+* Debug Validate: validation catches errors before deploy.
+* Metadata Seo: both involve HTTP responses and standards.

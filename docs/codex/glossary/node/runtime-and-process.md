@@ -1,38 +1,30 @@
 ---
-title: Runtime And Process
+title: Runtime and Process
 id: glossary/node/runtime-and-process
-world: general
+world: node
 ---
 
-# Runtime And Process
+# Runtime and Process
 
-**Definition:** Runtime And Process is a fundamental concept in general. 
+Content regarding the Node.js runtime and process object is currently under development.
 
-## Overview
+Refer to official Node.js documentation for `process`.
 
-In the context of software development, Runtime And Process plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Runtime And Process to structure their code, manage data, or control application flow effectively.
 
-## Usage in General
+## Pitfalls
 
-When working with General, you will encounter Runtime And Process frequently.
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
 
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]
 
 ## Example
 
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Runtime And Process initialized"
-    print(result)
-    return True
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
 ```
-
-## Related Concepts
-
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.

@@ -1,38 +1,40 @@
 ---
-title: Tables
 id: glossary/web/html/tables
-world: general
+title: Tables
+world: web
+level: beginner
+tags: [html, data-display, semantics]
+related:
+  - codex:glossary/web/html/accessibility-basics
+  - codex:glossary/web/css/typography
 ---
 
 # Tables
 
-**Definition:** Tables is a fundamental concept in general. 
+## Definition
+Tables display tabular data with rows and columns. Use `<thead>` for headers and `<tbody>` for body rows.
 
-## Overview
-
-In the context of software development, Tables plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Tables to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Tables frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Data grids, comparisons, reports.
+- Use header cells `<th>` for column/row headings.
+- Add captions for accessibility when needed.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Tables initialized"
-    print(result)
-    return True
+```html
+<table>
+  <thead><tr><th>Quest</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Ignition</td><td>Unlocked</td></tr>
+  </tbody>
+</table>
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Don't use tables for page layout (use flex/grid instead).
+* Missing `<th>` hurts accessibility.
+
+## Related
+
+* Accessibility Basics: accessible tables use proper markup.
+* Typography: table text uses typography styling.

@@ -1,38 +1,39 @@
 ---
-title: Term 1
+title: Reverse Proxy
 id: glossary/world-infra/term-1
-world: general
+world: world-infra
+level: intermediate
+tags: [networking, routing, nginx]
+related:
+  - codex:glossary/infra/container
+  - codex:glossary/infra/port-mapping
 ---
 
-# Term 1
+# Reverse Proxy
 
-**Definition:** Term 1 is a fundamental concept in general. 
+## Definition
+A reverse proxy sits in front of services and routes incoming requests to the right backend (e.g., Nginx routing `/api` to the API container). It centralizes TLS, routing, headers, and compression.
 
-## Overview
-
-In the context of software development, Term 1 plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Term 1 to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Term 1 frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Route multiple apps by hostname/path.
+- Terminate TLS.
+- Set security headers and cache rules.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Term 1 initialized"
-    print(result)
-    return True
+```nginx
+location /api/ {
+  proxy_pass http://api:8000/;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Missing trailing slashes in `proxy_pass` can break paths.
+* Not forwarding headers can break auth/cookies.
+
+## Related
+
+* Container: reverse proxies route traffic to containers.
+* Port Mapping: proxies use port mapping to reach services.

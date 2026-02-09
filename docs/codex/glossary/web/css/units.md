@@ -1,38 +1,35 @@
 ---
-title: Units
 id: glossary/web/css/units
-world: general
+title: Units
+world: web
+level: beginner
+tags: [css, measurement, layout]
+related:
+  - codex:glossary/web/css/typography
+  - codex:glossary/web/css/box-model
 ---
 
 # Units
 
-**Definition:** Units is a fundamental concept in general. 
+## Definition
+CSS units define sizes and spacing. Common units: `px`, `rem`, `em`, `%`, `vh`, `vw`. `rem` is typically best for scalable typography.
 
-## Overview
-
-In the context of software development, Units plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Units to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Units frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use `rem` for font sizes and spacing scales.
+- Use `%` for fluid layouts.
+- Use `vh/vw` cautiously for mobile.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Units initialized"
-    print(result)
-    return True
+```css
+.card { padding: 1rem; max-width: 60ch; }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* `vh` on mobile can behave unexpectedly due to browser UI bars.
+* Mixing units without a system creates inconsistent spacing.
+
+## Related
+
+* Typography: rem units for text sizing.
+* Box Model: units define padding/margin.

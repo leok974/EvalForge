@@ -1,38 +1,37 @@
 ---
-title: Links
 id: glossary/web/html/links
-world: general
+title: Links
+world: web
+level: beginner
+tags: [html, navigation, seo]
+related:
+  - codex:glossary/web/html/metadata-seo
+  - codex:glossary/web/html/semantic-elements
 ---
 
 # Links
 
-**Definition:** Links is a fundamental concept in general. 
+## Definition
+Links connect pages/resources using `<a href="...">`. They can be internal routes, external sites, or file downloads, and can include security-related attributes.
 
-## Overview
-
-In the context of software development, Links plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Links to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Links frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use meaningful link text (not "click here").
+- Add `rel="noopener noreferrer"` for external `target="_blank"`.
+- Use anchors (`#section`) for page navigation.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Links initialized"
-    print(result)
-    return True
+```html
+<a href="https://example.com" target="_blank" rel="noopener noreferrer">
+  Open docs
+</a>
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* `target="_blank"` without `noopener` can be a security risk.
+* Styling links without hover/focus states hurts UX.
+
+## Related
+
+* Metadata Seo: links affect SEO and crawling.
+* Semantic Elements: navigation uses semantic nav elements.

@@ -1,38 +1,84 @@
 ---
-title: Testing Basics
 id: glossary/node/testing-basics
-world: general
+level: tier1
+title: node:test
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
-# Testing Basics
+# node:test
 
-**Definition:** Testing Basics is a fundamental concept in general. 
+`node:test` is Node’s built-in test runner. EvalForge uses it because it’s:
+- fast
+- dependency-free
+- predictable in CI
 
-## Overview
-
-In the context of software development, Testing Basics plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Testing Basics to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Testing Basics frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
-
-## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Testing Basics initialized"
-    print(result)
-    return True
+Run tests:
+```bash
+node --test
 ```
 
-## Related Concepts
+Run a file:
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+```bash
+node --test path/to/test.mjs
+```
+
+---
+
+## Basic test
+
+```js
+import test from "node:test";
+import assert from "node:assert/strict";
+
+test("adds", () => {
+  assert.equal(1 + 1, 2);
+});
+```
+
+---
+
+## Async test
+
+```js
+test("async works", async () => {
+  const v = await Promise.resolve(42);
+  assert.equal(v, 42);
+});
+```
+
+---
+
+## The #1 issue: hanging tests
+
+Tests hang when there are open handles:
+
+* servers still listening
+* intervals still running
+* streams not closed
+
+Fix by:
+
+* closing servers
+* clearing timers
+* awaiting async work
+
+---
+
+## Useful debugging
+
+* Add logs inside the test temporarily
+* Print values before assertions
+* Confirm the working directory / paths
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

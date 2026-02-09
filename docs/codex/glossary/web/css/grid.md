@@ -1,38 +1,35 @@
 ---
-title: Grid
 id: glossary/web/css/grid
-world: general
+title: Grid
+world: web
+level: intermediate
+tags: [css, layout, grid]
+related:
+  - codex:glossary/web/css/flexbox
+  - codex:glossary/web/css/box-model
 ---
 
 # Grid
 
-**Definition:** Grid is a fundamental concept in general. 
+## Definition
+CSS Grid is a 2D layout system for rows and columns. It's ideal for dashboards, cards, and page shells.
 
-## Overview
-
-In the context of software development, Grid plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Grid to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Grid frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Define column tracks with `grid-template-columns`.
+- Control gaps consistently.
+- Create responsive layouts with `minmax` and `auto-fit`.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Grid initialized"
-    print(result)
-    return True
+```css
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Overusing fixed widths harms responsiveness.
+* Too many nested grids can become hard to reason about.
+
+## Related
+
+* Flexbox: flexbox is 1D; grid is 2D.
+* Box Model: grid builds on box model.

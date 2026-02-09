@@ -1,38 +1,36 @@
 ---
-title: Box Model
 id: glossary/web/css/box-model
-world: general
+title: Box Model
+world: web
+level: beginner
+tags: [css, layout, fundamentals]
+related:
+  - codex:glossary/web/css/positioning
+  - codex:glossary/web/css/flexbox
 ---
 
 # Box Model
 
-**Definition:** Box Model is a fundamental concept in general. 
+## Definition
+The box model describes how elements take space: content + padding + border + margin. It determines layout sizing and spacing.
 
-## Overview
-
-In the context of software development, Box Model plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Box Model to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Box Model frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use padding for internal spacing.
+- Use margin for external spacing.
+- Prefer `box-sizing: border-box` for predictable sizing.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Box Model initialized"
-    print(result)
-    return True
+```css
+* { box-sizing: border-box; }
+.box { width: 200px; padding: 16px; border: 1px solid; margin: 12px; }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Without border-box, padding/border increase total width unexpectedly.
+* Collapsing margins can surprise you in vertical layouts.
+
+## Related
+
+* Positioning: positioning changes how box model interacts with layout.
+* Flexbox: flexbox builds on the box model.

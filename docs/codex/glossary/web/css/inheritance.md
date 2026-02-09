@@ -1,38 +1,35 @@
 ---
-title: Inheritance
 id: glossary/web/css/inheritance
-world: general
+title: Inheritance
+world: web
+level: beginner
+tags: [css, inheritance, fundamentals]
+related:
+  - codex:glossary/web/css/typography
+  - codex:glossary/web/css/cascade
 ---
 
 # Inheritance
 
-**Definition:** Inheritance is a fundamental concept in general. 
+## Definition
+Some CSS properties inherit from parents (like `color` and `font-family`), while others don't (like `margin` and `padding`). Inheritance reduces repetition but can cause surprises.
 
-## Overview
-
-In the context of software development, Inheritance plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Inheritance to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Inheritance frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Set base typography on `body`.
+- Use inheritance for consistent text styling.
+- Override locally when needed.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Inheritance initialized"
-    print(result)
-    return True
+```css
+body { color: #e6e8ee; font-family: system-ui; }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Inherited colors can make nested components unreadable.
+* Assuming layout properties inherit leads to confusion.
+
+## Related
+
+* Typography: typography properties inherit.
+* Cascade: inheritance interacts with the cascade.

@@ -1,38 +1,37 @@
 ---
-title: Backgrounds
 id: glossary/web/css/backgrounds
-world: general
+title: Backgrounds
+world: web
+level: beginner
+tags: [css, styling, design]
+related:
+  - codex:glossary/web/html/images
+  - codex:glossary/web/css/colors
 ---
 
 # Backgrounds
 
-**Definition:** Backgrounds is a fundamental concept in general. 
+## Definition
+Backgrounds control the visual fill behind an element (color, image, gradient). Backgrounds can be positioned, repeated, and sized.
 
-## Overview
-
-In the context of software development, Backgrounds plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Backgrounds to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Backgrounds frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use gradients for subtle depth.
+- Use `background-size: cover` for hero images.
+- Control repeat/position intentionally.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Backgrounds initialized"
-    print(result)
-    return True
+```css
+.hero {
+  background: linear-gradient(180deg, rgba(0,0,0,.6), transparent);
+}
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Background images don't support `alt` (use `<img>` when content matters).
+* Heavy images hurt performance.
+
+## Related
+
+* Images: HTML images vs CSS backgrounds.
+* Colors: backgrounds use colors.

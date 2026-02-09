@@ -1,38 +1,82 @@
 ---
-title: Async Errors
 id: glossary/node/async-errors
-world: general
+level: tier1
+title: Error Handling
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
-# Async Errors
+# Error Handling
 
-**Definition:** Async Errors is a fundamental concept in general. 
+Node errors come from:
+- sync exceptions (throw)
+- async rejections (promise rejects)
+- callback errors (err-first callbacks)
 
-## Overview
+Good apps and good quests handle errors **intentionally**.
 
-In the context of software development, Async Errors plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Async Errors to structure their code, manage data, or control application flow effectively.
+---
 
-## Usage in General
-
-When working with General, you will encounter Async Errors frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
-
-## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Async Errors initialized"
-    print(result)
-    return True
+## Sync errors
+```js
+try {
+  risky();
+} catch (err) {
+  // recover or rethrow
+}
 ```
 
-## Related Concepts
+---
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+## Async errors
+
+```js
+try {
+  await riskyAsync();
+} catch (err) {
+  // handle
+}
+```
+
+If you don’t catch async errors, you often get:
+
+* unhandled rejection
+* flaky tests
+* server crash
+
+---
+
+## Error mapping (server mindset)
+
+You typically map errors to:
+
+* client errors (400/401/403/404)
+* server errors (500)
+
+Even if the quest is small, it’s good practice to be explicit.
+
+---
+
+## EvalForge guidance
+
+If the quest specifies:
+
+* exact stderr message
+* exact exit code
+  follow the contract exactly.
+
+Otherwise:
+
+* keep stderr for real failures
+* keep stdout clean for “happy path”
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

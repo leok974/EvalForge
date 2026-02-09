@@ -1,38 +1,37 @@
 ---
-title: Accessibility Basics
 id: glossary/web/html/accessibility-basics
-world: general
+title: Accessibility Basics
+world: web
+level: beginner
+tags: [accessibility, a11y, best-practices]
+related:
+  - codex:glossary/web/html/semantic-elements
+  - codex:glossary/web/html/attributes
+  - codex:glossary/web/css/typography
 ---
 
 # Accessibility Basics
 
-**Definition:** Accessibility Basics is a fundamental concept in general. 
+## Definition
+Accessibility (a11y) ensures interfaces are usable with screen readers, keyboard navigation, and assistive tech. Good a11y starts with semantic HTML and proper focus states.
 
-## Overview
-
-In the context of software development, Accessibility Basics plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Accessibility Basics to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Accessibility Basics frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Prefer semantic elements over div soup.
+- Ensure keyboard focus visibility.
+- Provide alt text and label inputs.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Accessibility Basics initialized"
-    print(result)
-    return True
+```html
+<button type="button">Run Quest</button>
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Clickable `<div>` without keyboard support is a common a11y failure.
+* Low contrast text is hard to read.
+
+## Related
+
+* Semantic Elements: semantic HTML improves accessibility.
+* Attributes: ARIA attributes help accessibility.
+* Typography: readable text improves accessibility.

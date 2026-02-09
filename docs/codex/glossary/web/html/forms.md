@@ -1,38 +1,38 @@
 ---
-title: Forms
 id: glossary/web/html/forms
-world: general
+title: Forms
+world: web
+level: beginner
+tags: [html, forms, input]
+related:
+  - codex:glossary/web/html/accessibility-basics
+  - codex:glossary/web/html/attributes
 ---
 
 # Forms
 
-**Definition:** Forms is a fundamental concept in general. 
+## Definition
+Forms collect user input using elements like `<input>`, `<select>`, and `<textarea>`, usually with `<label>` for accessible naming.
 
-## Overview
-
-In the context of software development, Forms plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Forms to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Forms frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use labels tied with `for` + `id`.
+- Set `name` attributes so values submit properly.
+- Validate client-side + server-side.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Forms initialized"
-    print(result)
-    return True
+```html
+<form>
+  <label for="email">Email</label>
+  <input id="email" name="email" type="email" required />
+</form>
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Placeholder text is not a label.
+* Missing `name` means submitted value may be empty.
+
+## Related
+
+* Accessibility Basics: accessible forms use labels.
+* Attributes: form elements use many attributes.

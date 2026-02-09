@@ -1,38 +1,39 @@
 ---
-title: Semantic Elements
 id: glossary/web/html/semantic-elements
-world: general
+title: Semantic Elements
+world: web
+level: beginner
+tags: [html, semantics, structure]
+related:
+  - codex:glossary/web/html/document-skeleton
+  - codex:glossary/web/html/accessibility-basics
 ---
 
 # Semantic Elements
 
-**Definition:** Semantic Elements is a fundamental concept in general. 
+## Definition
+Semantic elements describe meaning/role: `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`. They improve accessibility, SEO, and maintainability.
 
-## Overview
-
-In the context of software development, Semantic Elements plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Semantic Elements to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Semantic Elements frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use `<main>` for primary content (once per page).
+- Wrap site navigation in `<nav>`.
+- Use headings (`h1..h6`) in order.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Semantic Elements initialized"
-    print(result)
-    return True
+```html
+<header><nav>...</nav></header>
+<main>
+  <h1>Workshop</h1>
+</main>
+<footer>©</footer>
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Multiple `<main>` elements is invalid.
+* Skipping heading levels can confuse readers.
+
+## Related
+
+* Document Skeleton: semantic elements structure the body.
+* Accessibility Basics: semantic HTML improves accessibility.

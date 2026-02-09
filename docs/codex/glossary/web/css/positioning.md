@@ -1,38 +1,36 @@
 ---
-title: Positioning
 id: glossary/web/css/positioning
-world: general
+title: Positioning
+world: web
+level: intermediate
+tags: [css, layout, positioning]
+related:
+  - codex:glossary/web/css/box-model
+  - codex:glossary/web/css/flexbox
 ---
 
 # Positioning
 
-**Definition:** Positioning is a fundamental concept in general. 
+## Definition
+Positioning controls how an element is placed: `static`, `relative`, `absolute`, `fixed`, `sticky`. Absolute/fixed positioning removes elements from normal flow.
 
-## Overview
-
-In the context of software development, Positioning plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Positioning to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Positioning frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Tooltips/popovers (absolute).
+- Sticky headers (sticky).
+- Floating action buttons (fixed).
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Positioning initialized"
-    print(result)
-    return True
+```css
+.badge { position: absolute; top: 8px; right: 8px; }
+.card { position: relative; }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Absolute elements need a positioned parent (`position: relative`).
+* Fixed elements can overlap content without padding.
+
+## Related
+
+* Box Model: positioning changes how box model works.
+* Flexbox: flexbox is usually better than absolute positioning.

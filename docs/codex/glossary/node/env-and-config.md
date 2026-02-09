@@ -1,38 +1,80 @@
 ---
-title: Env And Config
 id: glossary/node/env-and-config
-world: general
+level: tier1
+title: Environment Variables
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
-# Env And Config
+# Environment Variables
 
-**Definition:** Env And Config is a fundamental concept in general. 
+Environment variables are the standard way to configure Node apps without hardcoding values.
 
-## Overview
+Use cases:
+- `PORT`
+- `MODE` / `NODE_ENV`
+- API keys (never commit these)
 
-In the context of software development, Env And Config plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Env And Config to structure their code, manage data, or control application flow effectively.
+---
 
-## Usage in General
-
-When working with General, you will encounter Env And Config frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
-
-## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Env And Config initialized"
-    print(result)
-    return True
+## Reading env vars
+```js
+const MODE = process.env.MODE || "dev";
+const PORT = Number(process.env.PORT || "3000");
 ```
 
-## Related Concepts
+### Empty string gotcha
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+In some quests, empty should behave like “missing”.
+
+Pattern:
+
+```js
+const raw = (process.env.MODE || "").trim();
+const MODE = raw ? raw : "dev";
+```
+
+---
+
+## Setting env vars
+
+### Linux/macOS
+
+```bash
+MODE=prod PORT=8080 node server.js
+```
+
+### Windows PowerShell
+
+```powershell
+$env:MODE="prod"; $env:PORT="8080"; node server.js
+```
+
+---
+
+## Production contract (common)
+
+* bind to `PORT` if provided
+* default to 3000 (or quest-defined default)
+* never crash on missing optional vars
+
+---
+
+## EvalForge guidance
+
+If a quest checks output files for config:
+
+* match the exact format
+* treat unset/empty as specified
+* don’t print extra logs unless asked
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

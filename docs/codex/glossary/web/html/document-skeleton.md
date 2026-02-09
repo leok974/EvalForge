@@ -1,38 +1,47 @@
 ---
-title: Document Skeleton
 id: glossary/web/html/document-skeleton
-world: general
+title: Document Skeleton
+world: web
+level: beginner
+tags: [html, structure, fundamentals]
+related:
+  - codex:glossary/web/html/metadata-seo
+  - codex:glossary/web/html/semantic-elements
+  - codex:glossary/web/html/tags-and-elements
 ---
 
 # Document Skeleton
 
-**Definition:** Document Skeleton is a fundamental concept in general. 
+## Definition
+The document skeleton is the minimal structure of an HTML page: doctype, `<html>`, `<head>`, and `<body>`. The head contains metadata; the body contains visible content.
 
-## Overview
-
-In the context of software development, Document Skeleton plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Document Skeleton to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Document Skeleton frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Set title + meta tags in `<head>`.
+- Load CSS/JS safely (defer scripts when possible).
+- Keep semantic structure inside `<body>`.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Document Skeleton initialized"
-    print(result)
-    return True
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Page</title>
+  </head>
+  <body>
+    <main>Hello</main>
+  </body>
+</html>
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Missing viewport breaks mobile scaling.
+* Putting visible content in `<head>` won't render properly.
+
+## Related
+
+* Metadata Seo: meta tags go in the document head.
+* Semantic Elements: body contains semantic structure.
+* Tags And Elements: skeleton is built from tags/elements.

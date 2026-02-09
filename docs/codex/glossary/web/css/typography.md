@@ -1,38 +1,36 @@
 ---
-title: Typography
 id: glossary/web/css/typography
-world: general
+title: Typography
+world: web
+level: beginner
+tags: [css, text, design]
+related:
+  - codex:glossary/web/css/units
+  - codex:glossary/web/css/colors
 ---
 
 # Typography
 
-**Definition:** Typography is a fundamental concept in general. 
+## Definition
+Typography is how text is styled: font family, size, weight, line height, letter spacing. Good typography improves readability and hierarchy.
 
-## Overview
-
-In the context of software development, Typography plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Typography to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Typography frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use `line-height` for comfortable reading.
+- Use `rem` for scalable sizing.
+- Keep headings distinct from body text.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Typography initialized"
-    print(result)
-    return True
+```css
+body { font-size: 16px; line-height: 1.5; }
+h1 { font-size: 2rem; line-height: 1.2; }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Too-tight line-height makes paragraphs exhausting.
+* Mixing many fonts reduces cohesion.
+
+## Related
+
+* Units: typography uses rem/px units.
+* Colors: text uses color values.

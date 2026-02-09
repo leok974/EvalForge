@@ -1,38 +1,42 @@
 ---
-title: Lockfiles
 id: glossary/node/lockfiles
-world: general
+title: Lockfiles
+world: node
+level: beginner
+tags: [dependencies, package-management, reproducibility]
+related:
+  - codex:glossary/node/health-checks
+  - codex:glossary/web/html/debug-validate
 ---
 
 # Lockfiles
 
-**Definition:** Lockfiles is a fundamental concept in general. 
+## Definition
+A lockfile pins exact dependency versions so installs are reproducible across machines and CI. Examples include `package-lock.json`, `pnpm-lock.yaml`, and `yarn.lock`.
 
-## Overview
-
-In the context of software development, Lockfiles plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Lockfiles to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Lockfiles frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Commit lockfiles to ensure deterministic builds.
+- CI should install from the lockfile.
+- Helps avoid "works on my machine" dependency drift.
 
 ## Example
+```bash
+# npm
+npm ci
 
-The following code snippet demonstrates a basic application of the concept:
+# pnpm
+pnpm install --frozen-lockfile
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Lockfiles initialized"
-    print(result)
-    return True
+# yarn
+yarn install --frozen-lockfile
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Mixing package managers can cause churn and inconsistent installs.
+* Editing lockfiles manually is risky—regenerate via the tool.
+
+## Related
+
+* Health Checks: both are part of production readiness.
+* Debug Validate: validation ensures dependencies are correct.

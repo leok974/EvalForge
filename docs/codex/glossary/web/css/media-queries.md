@@ -1,38 +1,37 @@
 ---
-title: Media Queries
 id: glossary/web/css/media-queries
-world: general
+title: Media Queries
+world: web
+level: intermediate
+tags: [css, responsive, media-queries]
+related:
+  - codex:glossary/web/css/grid
+  - codex:glossary/web/css/units
 ---
 
 # Media Queries
 
-**Definition:** Media Queries is a fundamental concept in general. 
+## Definition
+Media queries apply CSS based on device conditions (width, prefers-color-scheme, reduced motion). They drive responsive design.
 
-## Overview
-
-In the context of software development, Media Queries plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Media Queries to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Media Queries frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Adjust layout at breakpoints.
+- Respect reduced-motion preferences.
+- Adapt typography for small screens.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Media Queries initialized"
-    print(result)
-    return True
+```css
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+}
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Too many breakpoints makes maintenance hard.
+* Mobile-first styles usually scale better than desktop-first.
+
+## Related
+
+* Grid: grid works with media queries for responsive layouts.
+* Units: viewport units interact with media queries.

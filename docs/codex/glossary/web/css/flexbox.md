@@ -1,38 +1,36 @@
 ---
-title: Flexbox
 id: glossary/web/css/flexbox
-world: general
+title: Flexbox
+world: web
+level: beginner
+tags: [css, layout, flexbox]
+related:
+  - codex:glossary/web/css/grid
+  - codex:glossary/web/css/box-model
 ---
 
 # Flexbox
 
-**Definition:** Flexbox is a fundamental concept in general. 
+## Definition
+Flexbox is a 1D layout system for arranging items in a row or column. It excels at alignment, spacing, and responsive distribution.
 
-## Overview
-
-In the context of software development, Flexbox plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Flexbox to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Flexbox frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Horizontal nav bars and toolbars.
+- Centering content.
+- Responsive wrapping rows.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Flexbox initialized"
-    print(result)
-    return True
+```css
+.row { display: flex; gap: 12px; align-items: center; }
+.row > .spacer { flex: 1; }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Flex is 1D; use Grid for 2D layouts.
+* Forgetting `min-width: 0` can cause overflow in flex children.
+
+## Related
+
+* Grid: grid is 2D layout; flexbox is 1D.
+* Box Model: flexbox builds on box model.

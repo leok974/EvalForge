@@ -1,38 +1,83 @@
 ---
-title: Http Basics
 id: glossary/node/http-basics
-world: general
+level: tier1
+title: HTTP Basics
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
-# Http Basics
+# HTTP Basics
 
-**Definition:** Http Basics is a fundamental concept in general. 
+HTTP is request/response:
+- client sends a request (method + path + headers + optional body)
+- server responds (status code + headers + body)
 
-## Overview
+---
 
-In the context of software development, Http Basics plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Http Basics to structure their code, manage data, or control application flow effectively.
+## Methods (common)
+- `GET`: fetch data
+- `POST`: create
+- `PUT/PATCH`: update
+- `DELETE`: remove
 
-## Usage in General
+---
 
-When working with General, you will encounter Http Basics frequently.
+## Status codes
+- `200 OK` success
+- `201 Created` created something
+- `400 Bad Request` client error
+- `401/403` auth errors
+- `404 Not Found`
+- `500` server error
 
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+---
 
-## Example
+## Node http server (minimal)
 
-The following code snippet demonstrates a basic application of the concept:
+```js
+import http from "node:http";
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Http Basics initialized"
-    print(result)
-    return True
+const server = http.createServer((req, res) => {
+  if (req.url === "/health") {
+    res.statusCode = 200;
+    res.end("ok");
+    return;
+  }
+  res.statusCode = 404;
+  res.end("not found");
+});
+
+server.listen(3000);
 ```
 
-## Related Concepts
+---
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+## Body parsing (conceptual)
+
+Raw `http` does not auto-parse JSON. Frameworks/middleware do.
+
+In quests, you may:
+
+* only need query/path handling
+* or parse a simple JSON body
+
+---
+
+## EvalForge guidance
+
+If tests check:
+
+* exact status code
+* exact response body
+  match them exactly (no extra whitespace/logging).
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

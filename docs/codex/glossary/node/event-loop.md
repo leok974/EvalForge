@@ -1,38 +1,110 @@
 ---
-title: Event Loop
-id: glossary/node/event-loop
-world: general
+title: "Event Loop"
+world_id: world-node
+type: codex_entry
+level: tier1
 ---
 
 # Event Loop
 
-**Definition:** Event Loop is a fundamental concept in general. 
+Node.js runs your JavaScript on a **single thread**, and uses the **event loop** to handle I/O (files, network, timers) without blocking the whole program.
 
-## Overview
+Think: **“Do a little work, schedule the rest, repeat.”**
 
-In the context of software development, Event Loop plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Event Loop to structure their code, manage data, or control application flow effectively.
+---
 
-## Usage in General
+## What you need to know for EvalForge
 
-When working with General, you will encounter Event Loop frequently.
+### Sync code runs first
+Anything not async runs immediately, top-to-bottom.
 
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+### Async work runs later
+Timers, I/O callbacks, and resolved promises run on later turns of the event loop.
 
-## Example
+This is why you see:
+- “my log order is weird”
+- “tests pass locally but hang in CI”
+- “server keeps running after the test ends”
 
-The following code snippet demonstrates a basic application of the concept:
+---
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Event Loop initialized"
-    print(result)
-    return True
+## Microtasks vs tasks (the useful mental model)
+
+- **Microtasks**: promise callbacks (`then`, `await` continuations)
+- **Tasks**: timers (`setTimeout`), I/O callbacks, etc.
+
+Practical rule:
+> Promises usually run *before* timers scheduled in the same turn.
+
+Example:
+```js
+console.log("A");
+
+setTimeout(() => console.log("timeout"), 0);
+
+Promise.resolve().then(() => console.log("promise"));
+
+console.log("B");
+
+// A, B, promise, timeout (typical)
 ```
 
-## Related Concepts
+---
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+## Common failure mode: hanging tests
+
+Tests hang when Node still has “open handles”:
+
+* a server still listening
+* an interval still running
+* an open socket/stream
+
+Fix: close what you open.
+
+* `server.close()`
+* `clearInterval(id)`
+* ensure streams end
+
+---
+
+## Tiny patterns
+
+### Let async complete
+
+```js
+await new Promise((r) => setTimeout(r, 0));
+```
+
+### “Run after current call stack”
+
+```js
+queueMicrotask(() => {
+  // runs after current sync code, before timers
+});
+```
+
+---
+
+## Checklist
+
+If something is “not happening”:
+
+* Did you `await` the promise?
+* Did you accidentally exit early?
+* Are you expecting a timer to run while you’re blocking the thread?
+
+If something “never ends”:
+
+* Did you start an interval?
+* Did you forget to close the server?
+
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

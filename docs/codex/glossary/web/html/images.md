@@ -1,38 +1,35 @@
 ---
-title: Images
 id: glossary/web/html/images
-world: general
+title: Images
+world: web
+level: beginner
+tags: [html, media, assets]
+related:
+  - codex:glossary/web/html/attributes
+  - codex:glossary/web/css/backgrounds
 ---
 
 # Images
 
-**Definition:** Images is a fundamental concept in general. 
+## Definition
+Images are embedded with `<img>` or via CSS backgrounds. Use `alt` text for meaning and responsive sizing to avoid layout shifts.
 
-## Overview
-
-In the context of software development, Images plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Images to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Images frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Always provide `alt`.
+- Set width/height to reduce CLS.
+- Use `max-width: 100%` for responsiveness.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Images initialized"
-    print(result)
-    return True
+```html
+<img src="/banner.jpg" alt="Orion map overview" width="1200" height="630" />
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Missing dimensions can cause layout jumps.
+* Huge images without compression slow pages.
+
+## Related
+
+* Attributes: images use alt and size attributes.
+* Backgrounds: CSS backgrounds are an alternative to img elements.

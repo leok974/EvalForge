@@ -1,38 +1,39 @@
 ---
-title: Lists
 id: glossary/web/html/lists
-world: general
+title: Lists
+world: web
+level: beginner
+tags: [html, structure, semantics]
+related:
+  - codex:glossary/web/html/semantic-elements
+  - codex:glossary/web/css/typography
 ---
 
 # Lists
 
-**Definition:** Lists is a fundamental concept in general. 
+## Definition
+Lists group related items. Use `<ul>` for unordered lists and `<ol>` for ordered steps. `<li>` must be inside a list container.
 
-## Overview
-
-In the context of software development, Lists plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Lists to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Lists frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Navigation menus, bullet points, step-by-step instructions.
+- Use `<ol>` for sequences that matter.
+- Nest lists for hierarchy.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Lists initialized"
-    print(result)
-    return True
+```html
+<ol>
+  <li>Install deps</li>
+  <li>Run dev server</li>
+  <li>Open Workshop</li>
+</ol>
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Replacing lists with `<div>` loses semantics and accessibility.
+* Incorrect nesting breaks layout and screen readers.
+
+## Related
+
+* Semantic Elements: lists are semantic HTML.
+* Typography: list styling uses typography principles.

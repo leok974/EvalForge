@@ -1,38 +1,116 @@
 ---
-title: Modules Esm Cjs
 id: glossary/node/modules-esm-cjs
-world: general
+level: tier1
+title: Modules (ESM vs CommonJS)
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
-# Modules Esm Cjs
+# Modules (ESM vs CommonJS)
 
-**Definition:** Modules Esm Cjs is a fundamental concept in general. 
+Node has two module systems:
 
-## Overview
+- **CommonJS (CJS)**: `require(...)`, `module.exports = ...`
+- **ES Modules (ESM)**: `import ... from`, `export ...`
 
-In the context of software development, Modules Esm Cjs plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Modules Esm Cjs to structure their code, manage data, or control application flow effectively.
+Mixing them incorrectly is a top cause of “it runs but tests fail”.
 
-## Usage in General
+---
 
-When working with General, you will encounter Modules Esm Cjs frequently.
+## CommonJS (default in older Node)
 
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+```js
+// add.js
+function add(a, b) { return a + b; }
+module.exports = { add };
 
-## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Modules Esm Cjs initialized"
-    print(result)
-    return True
+// main.js
+const { add } = require("./add");
+console.log(add(1, 2));
 ```
 
-## Related Concepts
+---
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+## ES Modules (modern)
+
+```js
+// add.js
+export function add(a, b) { return a + b; }
+
+// main.js
+import { add } from "./add.js";
+console.log(add(1, 2));
+```
+
+---
+
+## How Node decides ESM vs CJS
+
+Node treats a file as ESM if:
+
+* it ends in `.mjs`, OR
+* `package.json` has `"type": "module"`
+
+Node treats a file as CJS if:
+
+* it ends in `.cjs`, OR
+* default `.js` behavior when `"type"` not set
+
+---
+
+## Common error messages
+
+### “Cannot use import statement outside a module”
+
+You used `import` but Node thinks the file is CJS.
+
+Fix:
+
+* add `"type": "module"` in package.json **or**
+* rename file to `.mjs`
+
+### “require is not defined in ES module scope”
+
+You used `require` but Node thinks it’s ESM.
+
+Fix:
+
+* use `import`, or switch the file to `.cjs`
+
+---
+
+## Path gotcha in ESM
+
+In ESM you don’t get `__dirname` by default.
+
+Pattern:
+
+```js
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+```
+
+---
+
+## EvalForge guidance
+
+In quests, follow the existing project convention:
+
+* if tests use `import`, stay ESM
+* if tests use `require`, stay CJS
+
+Don’t change module type unless the quest explicitly asks.
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

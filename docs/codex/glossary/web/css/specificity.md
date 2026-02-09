@@ -1,38 +1,37 @@
 ---
-title: Specificity
 id: glossary/web/css/specificity
-world: general
+title: Specificity
+world: web
+level: intermediate
+tags: [css, specificity, debugging]
+related:
+  - codex:glossary/web/css/cascade
+  - codex:glossary/web/css/selectors
 ---
 
 # Specificity
 
-**Definition:** Specificity is a fundamental concept in general. 
+## Definition
+Specificity determines which CSS rule wins when multiple match. IDs > classes/attributes > elements. Later rules also matter when specificity ties.
 
-## Overview
-
-In the context of software development, Specificity plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Specificity to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Specificity frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Keep specificity low and consistent.
+- Use classes instead of IDs for styling.
+- Use `!important` only as a last resort.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Specificity initialized"
-    print(result)
-    return True
+```css
+/* .card wins over div */
+div { padding: 8px; }
+.card { padding: 16px; }
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* IDs in CSS create "specificity wars".
+* `!important` can become contagious and unmaintainable.
+
+## Related
+
+* Cascade: specificity is part of the cascade.
+* Selectors: selectors have different specificity.

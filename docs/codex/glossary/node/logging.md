@@ -1,38 +1,70 @@
 ---
-title: Logging
 id: glossary/node/logging
-world: general
+level: tier1
+title: Observability
+type: codex_entry
+world: node
+world_id: world-node
 ---
 
-# Logging
+# Observability
 
-**Definition:** Logging is a fundamental concept in general. 
+Observability means you can answer:
+- What happened?
+- Why did it happen?
+- How often does it happen?
 
-## Overview
+Start simple: **logs first**, then metrics, then tracing.
 
-In the context of software development, Logging plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Logging to structure their code, manage data, or control application flow effectively.
+---
 
-## Usage in General
+## Logs (the minimum)
+Good logs tell you:
+- which path ran
+- key inputs (safe ones)
+- error details on failure
 
-When working with General, you will encounter Logging frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
-
-## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Logging initialized"
-    print(result)
-    return True
+Pattern:
+```js
+console.log("server_start", { port });
+console.error("request_error", { message: err.message });
 ```
 
-## Related Concepts
+---
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+## Metrics (next step)
+
+Metrics are counts/timers:
+
+* requests_total
+* errors_total
+* latency_ms
+
+Even without a full metrics system, thinking in counters helps.
+
+---
+
+## Tracing (advanced)
+
+Tracing tracks a request across components.
+You won’t need it for most Tier-1 quests, but you will later in Infra/Agents.
+
+---
+
+## EvalForge guidance
+
+For quests:
+
+* don’t spam logs unless allowed
+* log only when it helps debugging
+* keep stdout/stderr behavior consistent with tests
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

@@ -1,38 +1,37 @@
 ---
-title: Metadata Seo
 id: glossary/web/html/metadata-seo
-world: general
+title: Metadata Seo
+world: web
+level: beginner
+tags: [html, seo, meta-tags]
+related:
+  - codex:glossary/web/html/document-skeleton
+  - codex:glossary/web/html/links
 ---
 
 # Metadata Seo
 
-**Definition:** Metadata Seo is a fundamental concept in general. 
+## Definition
+SEO metadata helps browsers and crawlers understand your page. Key items include `<title>`, meta description, canonical URLs, and social preview tags (Open Graph).
 
-## Overview
-
-In the context of software development, Metadata Seo plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Metadata Seo to structure their code, manage data, or control application flow effectively.
-
-## Usage in General
-
-When working with General, you will encounter Metadata Seo frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Set unique titles per page.
+- Add description for search previews.
+- Use OG tags for share cards.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Metadata Seo initialized"
-    print(result)
-    return True
+```html
+<title>EvalForge — Workshop</title>
+<meta name="description" content="Practice quests with instant feedback." />
+<meta property="og:title" content="EvalForge — Workshop" />
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official general documentation.
+* Duplicate titles/descriptions reduce clarity in search results.
+* Missing canonical URLs can create duplicate indexing issues.
+
+## Related
+
+* Document Skeleton: metadata lives in the document head.
+* Links: canonical links prevent duplicate content.
