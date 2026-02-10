@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-components** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+A component alone is a spark.
+A component inside another is a system.
+Welcome to composition—the first real architecture in the React world.

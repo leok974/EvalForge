@@ -1,10 +1,14 @@
-# Hints
+# Hints — React State: Counter
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (nudge)
+You already have `useState(0)`. Now wire the UI to that state.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (more specific)
+The increment button needs an `onClick` that does `setCount(c => c + 1)`.
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (close)
+Render the count as a string:
+- `React.createElement("div", { "data-testid": "count" }, String(count))`
+And add:
+- increment: `{ "data-testid": "increment", onClick: ... }`
+- reset: `{ "data-testid": "reset", onClick: () => setCount(0) }`

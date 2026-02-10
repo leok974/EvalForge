@@ -1,10 +1,13 @@
-# Hints
+# Hints — React Props: Dynamic Greeting
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (nudge)
+Decide the displayed name first, then build the greeting string.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (more specific)
+The tests pass `{}` for the default case, so `props.name` will be `undefined`.
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (close)
+Use a nullish check:
+- `const name = props.name == null ? "Stranger" : props.name`
+Then render:
+- `React.createElement("h1", { "data-testid": "welcome" }, \`Hello, ${name}!\`)`

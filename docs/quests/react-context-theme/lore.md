@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-context-theme** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+A theme is a shared signal.
+Context is how it travels through the tree without being shouted down every branch.
+Listen carefully—and render what you hear.

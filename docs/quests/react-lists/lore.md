@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-lists** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+A list is a chorus.
+Keys are the names of the singers.
+Without names, React can’t tell who moved when the song changes.

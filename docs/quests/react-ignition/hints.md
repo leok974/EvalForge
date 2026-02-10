@@ -1,10 +1,15 @@
-# Hints
+# Hints — React Ignition
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (nudge)
+Build the element explicitly: **type + props + children**.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (more specific)
+The test asserts:
+- `welcome.type` is `"div"`
+- `welcome.children[0]` is `"Hello React"`
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+So your component must return a `div` whose first child is that exact string.
+
+## Hint 3 (close)
+Return this from `App`:
+- `React.createElement("div", { "data-testid": "welcome" }, "Hello React")`

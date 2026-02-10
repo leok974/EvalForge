@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-state-counter** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+State is your component’s heartbeat.
+Each click is a pulse.
+Count cleanly, and the UI stays alive.

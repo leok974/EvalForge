@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-props** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+In React, data is a message.
+Props are the courier.
+Render what you’re given—and when you’re given nothing, stay graceful.

@@ -1,10 +1,24 @@
-# Hints
+# Hints — React Reducer: Shopping Cart
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (nudge)
+Focus on the reducer first: given an action, return the next `{ total: ... }`.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (more specific)
+Handle two action types:
+- `"ADD"` uses `action.amount`
+- `"RESET"` returns `{ total: 0 }`
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (close)
+Reducer shape:
+```js
+switch (action.type) {
+  case "ADD": return { total: state.total + action.amount };
+  case "RESET": return { total: 0 };
+  default: return state;
+}
+```
+
+Buttons:
+
+* add-10 dispatches `{ type: "ADD", amount: 10 }`
+* reset dispatches `{ type: "RESET" }`

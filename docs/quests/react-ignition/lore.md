@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-ignition** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+No JSX. No shortcuts.
+Just the raw element constructor and a single spark of UI.
+Ignite the first component—boot the React world.

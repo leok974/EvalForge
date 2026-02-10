@@ -1,4 +1,6 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-effects-mount** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Everything that appears will disappear.
+Mount is the hello.
+Cleanup is the goodbye.
+Write both, and the lifecycle stays honest.

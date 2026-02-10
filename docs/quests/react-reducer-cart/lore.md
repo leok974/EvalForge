@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-reducer-cart** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+A cart is a ledger.
+Actions are entries.
+Reducers are the rules that keep the totals honest.

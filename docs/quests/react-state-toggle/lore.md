@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**react-state-toggle** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Two states. One button.
+A tiny switch that proves your UI can change.
+Flip it—feel the world respond.

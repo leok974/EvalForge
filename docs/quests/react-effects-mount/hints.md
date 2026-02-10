@@ -1,10 +1,17 @@
-# Hints
+# Hints — React Effects: Mount/Unmount
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (nudge)
+Effects run after rendering. Cleanup runs when the component is removed.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (more specific)
+Your effect should:
+- call `onMount()` once
+- return a function that calls `onUnmount()`
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (close)
+```js
+useEffect(() => {
+  onMount?.();
+  return () => onUnmount?.();
+}, [onMount, onUnmount]);
+```

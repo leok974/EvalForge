@@ -1,17 +1,38 @@
-# Tutorial
+# Tutorial — React State: Toggle
+
+## What You’ll Learn
+- Using boolean state to drive UI text
+- Wiring a click handler to flip state
+- Keeping render output deterministic
 
 ## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+Use a boolean like `isOn`.
+Render text based on it:
+- `isOn ? "ON" : "OFF"`
+Flip it on click:
+- `setIsOn(v => !v)`
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+## Implementation Plan
+1. Add state:
+   - `const [isOn, setIsOn] = useState(false)`
+2. Render button with handler:
+   - `onClick: () => setIsOn(v => !v)`
+3. Render the label:
+   - `isOn ? "ON" : "OFF"`
 
 ## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+```bash
+node scripts/run_world_public_tests.mjs --questpack data/questpacks/react_core.json --mode solution
+```
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+
+* Forgetting the click handler
+* Returning `"On"`/`"Off"` with wrong casing (must be `"ON"`/`"OFF"`)
+* Adding extra whitespace around text
+
+## Self-Check
+
+* Start: OFF
+* Click: ON
+* Click: OFF

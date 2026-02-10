@@ -1,10 +1,18 @@
-# Hints
+# Hints — React Context: Theme
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (nudge)
+Wrap children with the Provider and set `value` to the `theme` prop.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (more specific)
+`ThemeContext.Provider` is just a React component:
+- type: `ThemeContext.Provider`
+- props: `{ value: theme }`
+- child: `children`
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (close)
+Provider:
+- `React.createElement(ThemeContext.Provider, { value: theme }, children)`
+
+Consumer:
+- `const theme = useContext(ThemeContext);`
+- `React.createElement("button", { "data-testid": "btn" }, theme)`
