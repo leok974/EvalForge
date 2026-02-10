@@ -1,58 +1,204 @@
 {
-    "questpack_id": "react_core",
-    "title": "React Foundations",
     "world_id": "world-react",
-    "track_id": "track-react-core",
+    "track_id": "track-react",
+    "title": "React Foundations",
     "quests": [
         {
             "slug": "react-ignition",
-            "title": "React Ignition: Components & JSX",
-            "order": 1
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Renders welcome div with correct text",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "react-components",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Card renders CardBody",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "react-props",
-            "title": "Props: Data In, UI Out",
-            "order": 2
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Renders prop name",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "Renders default stranger",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
-            "slug": "react-state",
-            "title": "State: Interactive UI",
-            "order": 3
+            "slug": "react-conditional-render",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Renders title and content when visible",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
-            "slug": "react-events",
-            "title": "Events & Forms",
-            "order": 4
+            "slug": "react-lists",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Renders list items with keys",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
-            "slug": "react-lists-keys",
-            "title": "Lists & Keys",
-            "order": 5
+            "slug": "react-state-counter",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Increments counter",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
-            "slug": "react-effects",
-            "title": "Effects: Sync With the Outside World",
-            "order": 6
+            "slug": "react-state-toggle",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Toggles between ON and OFF",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
-            "slug": "react-custom-hooks",
-            "title": "Custom Hooks: Reuse Logic",
-            "order": 7
+            "slug": "react-effects-mount",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Calls onMount but not onUnmount initially",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
-            "slug": "react-context",
-            "title": "Context: Global State (Small Scale)",
-            "order": 8
+            "slug": "react-context-theme",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Button consumes theme from provider",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
-            "slug": "react-routing",
-            "title": "Routing Basics",
-            "order": 9
-        },
-        {
-            "slug": "react-performance-basics",
-            "title": "Performance Basics",
-            "order": 10
+            "slug": "react-reducer-cart",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Adds values to total",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         }
     ]
 }

@@ -24,3 +24,23 @@ It catches hidden dependencies and prevents regressions.
 
 ## Rule
 If CI fails, fix the root cause — don’t “just rerun.”
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

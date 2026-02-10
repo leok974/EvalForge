@@ -11,7 +11,25 @@
         "language": "python",
         "xp_base": 70,
         "starter_code": "# Quest: Data Forge\n# Objective: Parse raw data into a structured format.\n\nraw_data = [\n    {\"id\": \"A1\", \"val\": \"100\"},\n    {\"id\": \"B2\", \"val\": \"invalid\"},\n    {\"id\": \"C3\", \"val\": \"50\"}\n]\n\ndef forge(data):\n    # TODO: Parse 'val' as int. specialized handling for errors.\n    # Return list of valid dicts.\n    return []\n\nif __name__ == \"__main__\":\n    print(forge(raw_data))\n",
-        "objectives": []
+        "objectives": [
+            {
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
+            }
+        ],
+        "briefing_md": "# Mission: Data Forge\n\n**Objective:** Data Forge.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: Data Forge\n\n> *Accessing archival records...*\n>\n> Subject: Data Forge\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "workspace": {
+            "files_from": "../quests/python-data-forge/workspace"
+        },
+        "tiered_hints": {
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **data pipeline** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+        },
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     },
     {
         "slug": "python-loop",
@@ -25,7 +43,25 @@
         "language": "python",
         "xp_base": 50,
         "starter_code": "# Quest: Loop\n# Objective: Process a list of sensor readings.\n\nreadings = [12, 45, 0, 99, -5, 23]\n\ndef process_readings(data):\n    # TODO: Loop through data\n    # TODO: Filter out negative values\n    # TODO: Return the count of valid readings\n    return 0\n\nif __name__ == \"__main__\":\n    print(process_readings(readings))\n",
-        "objectives": []
+        "briefing_md": "# Mission: Loop\n\n**Objective:** Loop.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: Loop\n\n> *Accessing archival records...*\n>\n> Subject: Loop\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "objectives": [
+            {
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
+            }
+        ],
+        "workspace": {
+            "files_from": "../quests/python-loop/workspace"
+        },
+        "tiered_hints": {
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **for loop** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+        },
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     },
     {
         "slug": "python-systems-service-boundaries",
@@ -39,7 +75,25 @@
         "language": "python",
         "xp_base": 50,
         "starter_code": null,
-        "objectives": []
+        "objectives": [
+            {
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
+            }
+        ],
+        "briefing_md": "# Mission: Service Boundaries & Contracts\n\n**Objective:** Service Boundaries & Contracts.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: Service Boundaries & Contracts\n\n> *Accessing archival records...*\n>\n> Subject: Service Boundaries & Contracts\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "workspace": {
+            "files_from": "../quests/python-systems-service-boundaries/workspace"
+        },
+        "tiered_hints": {
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **separation of concerns** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+        },
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     },
     {
         "slug": "python-systems-resilient-job-runner",
@@ -53,7 +107,25 @@
         "language": "python",
         "xp_base": 50,
         "starter_code": null,
-        "objectives": []
+        "objectives": [
+            {
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
+            }
+        ],
+        "briefing_md": "# Mission: Resilient Job Runner\n\n**Objective:** Resilient Job Runner.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: Resilient Job Runner\n\n> *Accessing archival records...*\n>\n> Subject: Resilient Job Runner\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "workspace": {
+            "files_from": "../quests/python-systems-resilient-job-runner/workspace"
+        },
+        "tiered_hints": {
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **retry** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+        },
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     },
     {
         "slug": "python-systems-observability-sli",
@@ -67,7 +139,25 @@
         "language": "python",
         "xp_base": 50,
         "starter_code": null,
-        "objectives": []
+        "objectives": [
+            {
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
+            }
+        ],
+        "briefing_md": "# Mission: Observability & SLIs\n\n**Objective:** Observability & SLIs.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: Observability & SLIs\n\n> *Accessing archival records...*\n>\n> Subject: Observability & SLIs\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "workspace": {
+            "files_from": "../quests/python-systems-observability-sli/workspace"
+        },
+        "tiered_hints": {
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **observability** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+        },
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     },
     {
         "slug": "python-systems-performance-profile",
@@ -81,7 +171,25 @@
         "language": "python",
         "xp_base": 50,
         "starter_code": null,
-        "objectives": []
+        "objectives": [
+            {
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
+            }
+        ],
+        "briefing_md": "# Mission: Performance & Profiling\n\n**Objective:** Performance & Profiling.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: Performance & Profiling\n\n> *Accessing archival records...*\n>\n> Subject: Performance & Profiling\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "workspace": {
+            "files_from": "../quests/python-systems-performance-profile/workspace"
+        },
+        "tiered_hints": {
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **profiling** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+        },
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     },
     {
         "slug": "python-systems-platform-tooling",
@@ -95,6 +203,24 @@
         "language": "python",
         "xp_base": 50,
         "starter_code": null,
-        "objectives": []
+        "objectives": [
+            {
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
+            }
+        ],
+        "briefing_md": "# Mission: Internal Tooling & DX\n\n**Objective:** Internal Tooling & DX.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: Internal Tooling & DX\n\n> *Accessing archival records...*\n>\n> Subject: Internal Tooling & DX\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "workspace": {
+            "files_from": "../quests/python-systems-platform-tooling/workspace"
+        },
+        "tiered_hints": {
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **virtual environment (venv)** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+        },
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     }
 ]

@@ -36,3 +36,14 @@ git branch -m old-name new-name
 ## Key idea
 
 Creating a branch does not copy files. It creates a new pointer.
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

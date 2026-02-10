@@ -1,0 +1,32 @@
+[
+  {
+    "ref": "codex:glossary/infra/shell",
+    "quest_slug": "infra-containment-q1-linux-shell-and-fs",
+    "source_file": "docs\\quests\\infra-containment-q1-linux-shell-and-fs\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/filesystem",
+    "quest_slug": "infra-containment-q1-linux-shell-and-fs",
+    "source_file": "docs\\quests\\infra-containment-q1-linux-shell-and-fs\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/path",
+    "quest_slug": "infra-containment-q1-linux-shell-and-fs",
+    "source_file": "docs\\quests\\infra-containment-q1-linux-shell-and-fs\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/cwd",
+    "quest_slug": "infra-containment-q1-linux-shell-and-fs",
+    "source_file": "docs\\quests\\infra-containment-q1-linux-shell-and-fs\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/permissions",
+    "quest_slug": "infra-containment-q1-linux-shell-and-fs",
+    "source_file": "docs\\quests\\infra-containment-q1-linux-shell-and-fs\\terms.json",
+    "field": "codex_references"
+  }
+]

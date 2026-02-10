@@ -2,6 +2,7 @@
 set -eu
 mkdir -p outputs
 
+
 mode="${MODE:-dev}"
 port="${PORT:-3000}"
 

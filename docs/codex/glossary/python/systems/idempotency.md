@@ -1,38 +1,47 @@
 ---
-title: Idempotency
 id: glossary/python/systems/idempotency
+title: Idempotency
 world: python
+level: intermediate
+tags: [systems, reliability, api-design]
+related:
+  - codex:glossary/python/systems/retry
+  - codex:glossary/python/systems/side-effect
+  - codex:glossary/python/systems/queue-worker
 ---
 
-# Idempotency
+## Definition
+An operation is **idempotent** if calling it multiple times produces the same result as calling it once. Idempotency is critical for safe retries, distributed systems, and APIs that clients might call repeatedly.
 
-**Definition:** Idempotency is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Idempotency plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Idempotency to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Idempotency frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Design PUT/DELETE REST endpoints to be idempotent (safe to retry).
+- Use unique request IDs to de-duplicate operations.
+- Avoid idempotency for non-repeatable actions (payments, sending emails).
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Idempotency initialized"
-    print(result)
-    return True
+# Idempotent: setting a user's email (can safely retry)
+def set_user_email(user_id, email):
+    db.users.update({"id": user_id}, {"email": email})
+
+# NOT idempotent: incrementing a counter (retries cause double-counting)
+def increment_view_count(post_id):
+    db.posts.update({"id": post_id}, {"$inc": {"views": 1}})
+
+# Fix: use idempotency key
+def increment_view_count_safe(post_id, request_id):
+    if not db.requests.find_one({"id": request_id}):
+        db.posts.update({"id": post_id}, {"$inc": {"views": 1}})
+        db.requests.insert_one({"id": request_id})
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Assuming all operations are safely retryable without checking idempotency.
+* Using POST for idempotent operations instead of PUT/PATCH.
+
+## Related
+
+* Retry: only retry idempotent operations safely.
+* Side Effect: idempotent operations may have side effects but produce the same final state.
+* Queue Worker: workers must handle duplicate messages idempotently.

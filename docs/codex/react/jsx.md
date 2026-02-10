@@ -26,3 +26,14 @@ const element = React.createElement(
 ```
 
 In the **React Foundations** world, we intentionally use `React.createElement` to verify understanding of structure without relying on build tools.
+
+
+## Pitfalls
+
+- Mutating state directly instead of using the setter function.
+- Forgetting to include dependencies in the `useEffect` array.
+
+## Related
+
+- [[react/components]]
+- [[react/hooks]]

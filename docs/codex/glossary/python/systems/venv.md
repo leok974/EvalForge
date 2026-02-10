@@ -1,38 +1,48 @@
 ---
-title: Venv
 id: glossary/python/systems/venv
+title: Venv
 world: python
+level: beginner
+tags: [tooling, environment, isolation]
+related:
+  - codex:glossary/python/systems/pip
+  - codex:glossary/python/systems/package-manager
+  - codex:glossary/python/systems/dependency
 ---
 
-# Venv
+## Definition
+**Venv** is Python's built-in tool for creating isolated virtual environments. Each venv has its own Python binary and package directory, preventing dependency conflicts between projects. Always use a venv for project work.
 
-**Definition:** Venv is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Venv plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Venv to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Venv frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Create a new venv with `python -m venv <directory>`.
+- Activate it to use its isolated Python/pip.
+- Deactivate to return to the global environment.
 
 ## Example
+```bash
+# Create virtual environment
+python -m venv .venv
 
-The following code snippet demonstrates a basic application of the concept:
+# Activate (Windows)
+.venv\Scripts\activate
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Venv initialized"
-    print(result)
-    return True
+# Activate (macOS/Linux)
+source .venv/bin/activate
+
+# Now pip installs go into .venv, not globally
+pip install requests
+
+# Deactivate when done
+deactivate
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Forgetting to activate the venv means packages install globally.
+* Committing `.venv/` to git bloats repos; add `.venv/` to`.gitignore`.
+
+## Related
+
+* Pip: install packages inside a venv.
+* Package Manager: venvs work with pip to manage dependencies.
+* Dependency: venvs isolate project dependencies.

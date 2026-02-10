@@ -30,3 +30,22 @@ Never “just keep trying.”
 - exponential backoff for transient failures
 - jitter to avoid thundering herd
 - circuit breaker when repeated failures occur
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

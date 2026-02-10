@@ -9,42 +9,20 @@
         "summary": "Ignite the Foundry core.",
         "description": "Initialize the Python runtime by printing the launch sequence.",
         "lore": "The core is cold. We need a spark to get the systems online.",
-        "language": "python",
+        "language": "txt",
         "xp_base": 50,
         "starter_code": "def main():\n    # TODO: Print T-minus 3, 2, 1...\n    pass\n\nif __name__ == '__main__':\n    main()\n",
         "objectives": [
             {
-                "id": "main",
-                "title": "Define main()",
-                "why": "Entry point discipline",
-                "kind": "ast",
-                "rule": {
-                    "must_define_function": "main"
-                }
-            },
-            {
-                "id": "tminus",
-                "title": "Print T-minus",
-                "why": "Loop + output",
-                "kind": "stdout_regex",
-                "rule": {
-                    "pattern": "(?i)t-?minus"
-                }
-            },
-            {
-                "id": "liftoff",
-                "title": "Confirm Liftoff",
-                "why": "Mission completion cue",
-                "kind": "stdout_regex",
-                "rule": {
-                    "pattern": "(?i)liftoff"
-                }
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
             }
         ],
         "tiered_hints": {
-            "concept": "Think about main() and printing output.",
-            "guided": "Add a loop that prints T-minus lines then Liftoff.",
-            "full_solution": "def main():\n    for i in range(3, 0, -1):\n        print(f'T-minus {i}')\n    print('Liftoff!')\n\nif __name__ == '__main__':\n    main()"
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **term-1** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "runtime": {
             "enabled": true,
@@ -52,7 +30,14 @@
             "require_exit_code_zero": true,
             "require_no_timeout": true,
             "max_output_chars": 16000
-        }
+        },
+        "workspace": {
+            "files_from": "../quests/first-sparks/workspace"
+        },
+        "briefing_md": "# Mission: First Sparks\n\n**Objective:** First Sparks.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: First Sparks\n\n> *Accessing archival records...*\n>\n> Subject: First Sparks\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     },
     {
         "id": "quest-hello-variable",
@@ -69,43 +54,28 @@
         "starter_code": "def main():\n    # Create your variable here\n    pass\n\nif __name__ == '__main__':\n    main()\n",
         "objectives": [
             {
-                "id": "main",
-                "title": "Define main()",
-                "why": "Entry point discipline",
-                "kind": "ast",
-                "rule": {
-                    "must_define_function": "main"
-                }
-            },
-            {
-                "id": "var_msg",
-                "title": "Define variable",
-                "why": "Memory assignment",
-                "kind": "ast",
-                "rule": {
-                    "must_assign_variable": "message"
-                }
-            },
-            {
-                "id": "print_msg",
-                "title": "Print Variable",
-                "why": "Output check",
-                "kind": "stdout_regex",
-                "rule": {
-                    "pattern": "(?i)system online"
-                }
+                "id": "obj_default",
+                "text": "Complete the assignment as described in README.md",
+                "why": "Specification"
             }
         ],
         "tiered_hints": {
-            "concept": "Use the = operator to assign values.",
-            "guided": "metric = 'System Online'\nprint(metric)",
-            "full_solution": "def main():\n    message = 'System Online'\n    print(message)\n\nif __name__ == '__main__':\n    main()"
+            "concept": "Review the workspace file structure.",
+            "guided": "Review the concept of **term-1** in the Codex.",
+            "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "runtime": {
             "enabled": true,
             "timeout_ms": 2000,
             "require_exit_code_zero": true,
             "require_no_timeout": true
-        }
+        },
+        "workspace": {
+            "files_from": "../quests/hello-variable/workspace"
+        },
+        "briefing_md": "# Mission: Hello Variable\n\n**Objective:** Hello Variable.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+        "lore_md": "## Holocron Entry: Hello Variable\n\n> *Accessing archival records...*\n>\n> Subject: Hello Variable\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "content_source": "generated_v1",
+        "content_version": "9.9.0"
     }
 ]

@@ -1,32 +1,202 @@
-[
-    {
-        "quest_path": "docs/quests/infra-ignition"
-    },
-    {
-        "quest_path": "docs/quests/infra-docker-basics"
-    },
-    {
-        "quest_path": "docs/quests/infra-docker-compose"
-    },
-    {
-        "quest_path": "docs/quests/infra-env-variables"
-    },
-    {
-        "quest_path": "docs/quests/infra-container-networking"
-    },
-    {
-        "quest_path": "docs/quests/infra-volumes-persistence"
-    },
-    {
-        "quest_path": "docs/quests/infra-ci-cd-basics"
-    },
-    {
-        "quest_path": "docs/quests/infra-deployment-strategies"
-    },
-    {
-        "quest_path": "docs/quests/infra-monitoring-logging"
-    },
-    {
-        "quest_path": "docs/quests/infra-kubernetes-intro"
-    }
-]
+{
+    "world_id": "world-infra",
+    "track_id": "track-infra",
+    "title": "Infrastructure Foundations",
+    "quests": [
+        {
+            "slug": "infra-ignition",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Fails preflight when a required tool is missing",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Review the concept of **term-1** in the Codex.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-ports-and-localhost",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Splits 0.0.0.0 vs 127.0.0.1 bindings",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-env-config",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Uses file values + defaults when env missing",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "Env vars override file",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-healthchecks",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Computes degraded status, failures, slowest, and score",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-logs-metrics",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Computes log counters and top error",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-docker-compose",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Extracts services from compose file",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Review the concept of **term-1** in the Codex.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-networking-dns",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Resolves using hosts mapping and prints NXDOMAIN otherwise",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-reverse-proxy",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Extracts location -> proxy_pass in order",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-cors-cookies",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Computes CORS and cookie security flags",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        },
+        {
+            "slug": "infra-debug-playbook",
+            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "502 produces reverse-proxy oriented next steps",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
+        }
+    ]
+}

@@ -1,38 +1,49 @@
 ---
-title: Dictionary
 id: glossary/python/dictionary
+title: Dictionary
 world: python
+level: beginner
+tags: [data-structures, basics, collections]
+related:
+  - codex:glossary/python/keyerror
+  - codex:glossary/python/iteration
+  - codex:glossary/python/for-loop
 ---
 
-# Dictionary
+## Definition
+A **dictionary** (dict) is a mutable, unordered collection of key-value pairs. Dictionaries provide O(1) average-case lookup, making them ideal for fast data retrieval by key.
 
-**Definition:** Dictionary is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Dictionary plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Dictionary to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Dictionary frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Store mappings between keys and values.
+- Use `dict.get(key, default)` to avoid KeyError.
+- Iterate over keys, values, or key-value pairs.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Dictionary initialized"
-    print(result)
-    return True
+# Create a dictionary
+user = {"name": "Alice", "age": 30, "email": "alice@example.com"}
+
+# Access values
+print(user["name"])  # "Alice"
+
+# Safe access with default
+print(user.get("phone", "N/A"))  # "N/A"
+
+# Iterate over dictionary
+for key, value in user.items():
+    print(f"{key}: {value}")
+
+# Add/update keys
+user["phone"] = "555-1234"
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Accessing missing keys with `dict[key]` raises KeyError; use `.get()` for safety.
+* Dictionaries are unordered (before Python 3.7); don't rely on insertion order in old code.
+
+## Related
+
+* KeyError: raised when accessing missing dict keys.
+* Iteration: iterate over dict keys, values, or items.
+* For Loop: commonly used to loop over dictionaries.

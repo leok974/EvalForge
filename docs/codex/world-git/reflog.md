@@ -30,3 +30,14 @@ git reset --hard <sha-from-reflog>
 ## Tip
 
 Reflog is local. If you rewrote history and pushed, you may also need remote recovery, but reflog is still the first step.
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

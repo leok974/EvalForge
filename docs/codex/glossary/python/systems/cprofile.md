@@ -1,38 +1,47 @@
 ---
-title: Cprofile
 id: glossary/python/systems/cprofile
+title: cProfile
 world: python
+level: intermediate
+tags: [profiling, performance, tooling]
+related:
+  - codex:glossary/python/systems/profiling
+  - codex:glossary/python/systems/bottleneck
+  - codex:glossary/python/systems/hot-path
 ---
 
-# Cprofile
+## Definition
+**cProfile** is Python's built-in profiler that measures how much time is spent in each function. It's the go-to tool for finding performance bottlenecks in CPU-bound code.
 
-**Definition:** Cprofile is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Cprofile plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Cprofile to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Cprofile frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Run `python -m cProfile script.py` to profile entire scripts.
+- Use `cProfile.Profile()` to profile specific code sections.
+- Analyze results with `pstats` to sort by time, calls, or cumulative duration.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Cprofile initialized"
-    print(result)
-    return True
+import cProfile
+
+def slow_loop():
+    total = 0
+    for i in range(1_000_000):
+        total += i ** 2
+    return total
+
+# Profile a function
+cProfile.run('slow_loop()')
+
+# Command-line profiling
+# python -m cProfile -s cumtime script.py
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* cProfile adds overhead; results show relative time, not absolute wall-clock time.
+* Too much noise from library calls; filter results to focus on your code.
+
+## Related
+
+* Profiling: cProfile is a profiling tool.
+* Bottleneck: use cProfile to find bottlenecks.
+* Hot Path: profile the hot path to optimize effectively.

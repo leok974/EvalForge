@@ -3,7 +3,7 @@ import { LayoutId } from "../features/layouts/layoutConfig";
 import { useLayoutUnlocks, enforceLayoutUnlocked } from "../features/layouts/useLayoutUnlocks";
 import { useGameStore } from "../store/gameStore";
 
-const LAYOUT_STORAGE_KEY = "evalforge:layout";
+const LAYOUT_STORAGE_KEY = "ef:layout";
 
 interface LayoutContextValue {
     layout: LayoutId;
@@ -13,30 +13,47 @@ interface LayoutContextValue {
 const LayoutContext = createContext<LayoutContextValue | undefined>(undefined);
 
 export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const unlockStates = useLayoutUnlocks();
+    // Initial state from URL > LocalStorage > Default (orion)
+    const [layout, setInternalLayout] = useState<LayoutId>(() => {
+        // 1. URL override
+        const params = new URLSearchParams(window.location.search);
+        const urlLayout = params.get('layout');
+        if (urlLayout === 'orion' || urlLayout === 'cyberdeck') {
+            return urlLayout;
+        }
 
-    // We sync with gameStore for now, but enforce rules
-    const { layout: storeLayout, setLayout: setStoreLayout } = useGameStore();
+        // 2. LocalStorage
+        try {
+            const saved = localStorage.getItem(LAYOUT_STORAGE_KEY);
+            if (saved === 'orion' || saved === 'cyberdeck') {
+                return saved;
+            }
+        } catch (e) {
+            console.warn("Layout storage read error", e);
+        }
 
-    // We use local state to handle the "requested" layout before enforcement
-    // But actually, gameStore persists state, so we should probably just wrap that.
-
-    const layout = useMemo(
-        () => enforceLayoutUnlocked(storeLayout, unlockStates),
-        [storeLayout, unlockStates],
-    );
+        // 3. Default
+        return 'orion';
+    });
 
     const setLayout = (id: LayoutId) => {
-        const enforced = enforceLayoutUnlocked(id, unlockStates);
-        setStoreLayout(enforced);
+        if (id === 'workshop') return; // Deprecated
+        setInternalLayout(id);
+        localStorage.setItem(LAYOUT_STORAGE_KEY, id);
+
+        // Sync to URL if present (optional, generally refrain from dirtying URL unless needed)
+        // For deep linking support, we just respect it on load.
     };
 
-    // If the current store layout is invalid (e.g. locked), we should update it
+    // removed legacy gameStore sync for now to avoid loops, 
+    // unless gameStore is the source of truth for other things? 
+    // The instructions say "Update useCurrentLayout to persist ef:layout".
+    // We can sync TO gameStore if needed, but let's make this the authority for UI.
+    const { setLayout: setStoreLayout } = useGameStore();
     useEffect(() => {
-        if (storeLayout !== layout) {
-            setStoreLayout(layout);
-        }
-    }, [layout, storeLayout, setStoreLayout]);
+        setStoreLayout(layout);
+    }, [layout, setStoreLayout]);
+
 
     const value = useMemo(
         () => ({

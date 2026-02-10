@@ -1,33 +1,46 @@
 ---
+id: glossary/python/systems/configuration-env-vars
 title: Configuration & Environment Variables
-id: codex:glossary/python/systems/configuration-env-vars
 world: python
+level: beginner
+tags: [configuration, deployment, security]
+related:
+  - codex:glossary/python/systems/venv
+  - codex:glossary/python/systems/dependency
+  - codex:glossary/python/dictionary
 ---
 
-# Configuration & Env Vars
+## Definition
+**Environment variables** are key-value pairs set outside your code that configure application behavior (API keys, database URLs, feature flags). They let you change config without modifying code, which is essential for deploying to different environments (dev, staging, prod).
 
-Managing configuration separately from code is a core principle of The Twelve-Factor App.
+## Usage
+- Store secrets (API keys, passwords) in environment variables, not in code.
+- Use `os.getenv()` to read environment variables.
+- Document required environment variables in README or `.env.example`.
 
-## Environment Variables
-
-Environment variables are key-value pairs stored outside your application code. They allow you to:
-- Change behavior between environments (Dev, Staging, Prod) without changing code.
-- Keep secrets (API keys, DB passwords) safe.
-
-## Python `os.environ`
-
-In Python, you can access environment variables using `os.environ`:
-
+## Example
 ```python
 import os
 
-# Get a value, defaults to None if not set
-db_url = os.environ.get("DATABASE_URL")
+# Read from environment (with fallback default)
+database_url = os.getenv("DATABASE_URL", "sqlite:///default.db")
+api_key = os.getenv("API_KEY")
 
-# Get a value, raises KeyError if not set
-secret = os.environ["API_SECRET"]
+if not api_key:
+    raise ValueError("API_KEY environment variable must be set")
+
+# Set environment variable (bash/terminal)
+# export API_KEY="secret123"
+# python app.py
 ```
 
-## `.env` Files
+## Pitfalls
 
-For local development, it is common to use a `.env` file to store these variables and load them using libraries like `python-dotenv`.
+* Hardcoding secrets in code exposes them in version control.
+* Forgetting to document required environment variables breaks deployments.
+
+## Related
+
+* Venv: environment variables are often set per virtual environment.
+* Dependency: configuration often includes dependency URLs.
+* Dictionary: `os.environ` is a dictionary of environment variables.

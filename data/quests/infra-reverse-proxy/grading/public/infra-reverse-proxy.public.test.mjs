@@ -1,15 +1,20 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { runSh, readText } from "../../../_shared/node_test_helpers.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const WS = path.resolve(__dirname, "../../workspace");
+const norm = (s) => s.replace(/\r\n/g, "\n").trimEnd();
 
-test("nginx proxies /api/ to api:8000 with safe trailing slash and / to web", () => {
-    const s = fs.readFileSync(path.join(WS, "nginx.conf"), "utf8");
-    assert.match(s, /location\s+\/api\/\s*\{[\s\S]*proxy_pass\s+http:\/\/api:8000\/;/m, "EF_INFRA_NGX_API_PROXY: must proxy_pass http://api:8000/;");
-    assert.match(s, /location\s+\/\s*\{[\s\S]*proxy_pass\s+http:\/\/web:5173\/;/m, "EF_INFRA_NGX_WEB_PROXY: must proxy_pass http://web:5173/;");
+test("extracts location -> proxy_pass in order", async () => {
+    await runSh(WS, "task.sh");
+    assert.equal(
+        norm(readText(WS, "outputs/routes.txt")),
+        "/api/ -> http://backend:8000/\n/static/ -> http://cdn:9000/\n/ -> http://frontend:5173/",
+        "EF_INFRA_PROXY_ROUTES"
+    );
 });
+

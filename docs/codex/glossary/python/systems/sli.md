@@ -1,38 +1,47 @@
 ---
-title: Sli
 id: glossary/python/systems/sli
+title: SLI
 world: python
+level: advanced
+tags: [reliability, monitoring, systems]
+related:
+  - codex:glossary/python/systems/slo
+  - codex:glossary/python/systems/observability
+  - codex:glossary/python/systems/structured-logging
 ---
 
-# Sli
+## Definition
+A **Service Level Indicator (SLI)** is a quantitative measure of service quality, typically expressed as a percentage. Common SLIs include request success rate, latency percentiles (p50, p99), and availability. SLIs form the foundation of SLOs.
 
-**Definition:** Sli is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Sli plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Sli to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Sli frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Define SLIs for critical user journeys (e.g., "99% of login requests succeed").
+- Measure SLIs from real production traffic, not synthetic tests.
+- Track SLIs in dashboards to spot degradations early.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Sli initialized"
-    print(result)
-    return True
+# SLI: Request success rate
+total_requests = 1000
+successful_requests = 995
+error_requests = 5
+
+sli_success_rate = (successful_requests / total_requests) * 100
+print(f"SLI: {sli_success_rate}% success rate")  # 99.5%
+
+# SLI: Latency p99
+import numpy as np
+latencies = [10, 15, 20, 25, 500]  # milliseconds
+p99 = np.percentile(latencies, 99)
+print(f"SLI: p99 latency = {p99}ms")
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Measuring SLIs on non-representative traffic (e.g., health checks) gives false confidence.
+* Too many SLIs dilute focus; pick 2-3 per service that matter to users.
+
+## Related
+
+* SLO: SLOs set targets for SLIs (e.g., "SLI must be >99.9%").
+* Observability: observability tools measure SLIs.
+* Structured Logging: logs power SLI calculations.

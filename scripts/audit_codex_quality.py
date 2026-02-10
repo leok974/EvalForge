@@ -207,6 +207,7 @@ def main():
     
     missing_refs = []
     stub_refs = []
+    quality_warnings = []
     valid_refs = 0
     
     # Cache resolution to avoid repeated walks
@@ -224,6 +225,10 @@ def main():
             stub_refs.append({"ref": ref, "path": str(path), "reason": reason})
         else:
             valid_refs += 1
+            # Quality Checks (Warnings Only)
+            signals = check_quality_signals(path)
+            if signals:
+                quality_warnings.append({"ref": ref, "path": str(path), "signals": signals})
             
     # Generate Report
     report_path = ARTIFACTS_DIR / "codex_quality_report.md"
@@ -234,7 +239,8 @@ def main():
         f.write(f"- **Unique Terms:** {len(all_refs)}\n")
         f.write(f"- **Valid:** {valid_refs}\n")
         f.write(f"- **Missing:** {len(missing_refs)}\n")
-        f.write(f"- **Stubs:** {len(stub_refs)}\n\n")
+        f.write(f"- **Stubs:** {len(stub_refs)}\n")
+        f.write(f"- **Quality Warnings:** {len(quality_warnings)}\n\n")
         
         if missing_refs:
             f.write("## ❌ Missing References\n\n")
@@ -247,6 +253,14 @@ def main():
             for item in stub_refs:
                 f.write(f"- **{item['ref']}**: {item['reason']} (`{item['path']}`)\n")
             f.write("\n")
+
+        if quality_warnings:
+            f.write("## 💡 Quality Improvements (Non-Blocking)\n\n")
+            for item in quality_warnings:
+                f.write(f"### {item['ref']}\n")
+                for sig in item['signals']:
+                    f.write(f"- {sig}\n")
+                f.write("\n")
             
         if not missing_refs and not stub_refs:
             f.write("✅ **All systems nominal.** Codex is complete and high-quality.\n")
@@ -258,8 +272,36 @@ def main():
         print(f"❌ Audit FAILED: {len(missing_refs)} missing, {len(stub_refs)} stubs.")
         sys.exit(1)
     else:
-        print("✅ Audit PASSED.")
+        print(f"✅ Audit PASSED (with {len(quality_warnings)} quality warnings).")
         sys.exit(0)
+
+def check_quality_signals(path: Path) -> List[str]:
+    """Check for optional quality signals."""
+    signals = []
+    try:
+        post = frontmatter.load(path)
+        content = post.content
+        
+        # 1. Level checking
+        if "level" not in post.metadata:
+            signals.append("Missing 'level' metadata (beginner|intermediate|advanced)")
+            
+        # 2. Tags checking
+        if "tags" not in post.metadata or not isinstance(post.metadata["tags"], list):
+            signals.append("Missing or invalid 'tags' metadata")
+            
+        # 3. Examples check (heuristic: code blocks)
+        if "```" not in content and "Example" not in content:
+            signals.append("No examples found (code blocks or 'Example' header)")
+            
+        # 4. Related links check
+        if "codex:" not in content and "related" not in post.metadata:
+             signals.append("No related terms found (links or 'related' metadata)")
+
+    except Exception as e:
+        signals.append(f"Error checking quality: {e}")
+        
+    return signals
 
 if __name__ == "__main__":
     main()

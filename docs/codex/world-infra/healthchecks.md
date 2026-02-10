@@ -23,3 +23,23 @@ Asks: “is it ready to serve traffic?” (DB connected, migrations done, etc.)
 - keep health cheap
 - keep readiness informative
 - make failures explicit (logs + status codes)
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

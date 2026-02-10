@@ -231,54 +231,42 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                         except Exception as e:
                             print(f"    ⚠️ Failed to read terms {terms_path}: {e}")
 
-            # Hydrate files
-            if "tutorial.md" not in quest_data: # Only hydrate if not in JSON
+            # Hydrate Tutorial (Standard Logic)
+            if "tutorial_md" not in quest_data: 
                  hydrate_tutorial(existing, json_dir, quest_data)
 
-            # Update Config Fields (Partial Update Support)
-            if "starter_code" in quest_data:
-                existing.starter_code = quest_data["starter_code"]
+            # Hydrate Briefing & Lore (Prefer Disk Overlay)
+            # We use the same search logic as hydrate_tutorial but for other files
+            root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+            overlay_dir = os.path.join(root_dir, "docs", "quests", slug)
             
-            if "objectives_json" in quest_data:
-                existing.objectives_json = quest_data["objectives_json"]
-            elif "objectives" in quest_data:
-                existing.objectives_json = quest_data["objectives"]
-                
-            if "tiered_hints_json" in quest_data:
-                existing.tiered_hints_json = quest_data["tiered_hints_json"]
-            elif "tiered_hints" in quest_data:
-                existing.tiered_hints_json = quest_data["tiered_hints"]
-                
-            if "runtime_rules_json" in quest_data:
-                existing.runtime_rules_json = quest_data["runtime_rules_json"]
-            elif "runtime" in quest_data:
-                existing.runtime_rules_json = quest_data["runtime"]
-                
-            if "base_xp_reward" in quest_data:
-                existing.base_xp_reward = quest_data["base_xp_reward"]
-            elif "xp_base" in quest_data:
-                existing.base_xp_reward = quest_data["xp_base"]
-                
-            if "language" in quest_data:
-                existing.language = quest_data["language"]
-            
-            if "workspace" in quest_data:
-                raw_ws = quest_data["workspace"]
-                existing.workspace_json = hydrate_workspace(raw_ws, json_dir)
-            
-            if "grading" in quest_data:
-                existing.grading_json = quest_data["grading"]
-
-            if "detailed_description" in quest_data:
-                existing.detailed_description = quest_data["detailed_description"]
-            elif "description" in quest_data:
-                existing.detailed_description = quest_data["description"]
-
-            if "briefing_md" in quest_data:
+            # Briefing
+            briefing_path = os.path.join(overlay_dir, "briefing.md")
+            if os.path.exists(briefing_path):
+                print(f"    ✅ Found briefing.md in overlay")
+                with open(briefing_path, "r", encoding="utf-8") as f:
+                    existing.briefing_md = f.read()
+            elif "briefing_md" in quest_data:
                 existing.briefing_md = quest_data["briefing_md"]
-                
-            if "lore_md" in quest_data:
+
+            # Lore
+            lore_path = os.path.join(overlay_dir, "lore.md")
+            if os.path.exists(lore_path):
+                print(f"    ✅ Found lore.md in overlay")
+                with open(lore_path, "r", encoding="utf-8") as f:
+                    existing.lore_md = f.read()
+            elif "lore_md" in quest_data:
                 existing.lore_md = quest_data["lore_md"]
+            
+            # Hints (Parse markdown to JSON)
+            hints_path = os.path.join(overlay_dir, "hints.md")
+            if os.path.exists(hints_path):
+                 print(f"    ✅ Found hints.md in overlay")
+                 with open(hints_path, "r", encoding="utf-8") as f:
+                     raw_hints = f.read()
+                     # Simple parsing: split by header or bullets
+                     # For now, just wrap in a simple dict structure compatible with frontend
+                     existing.tiered_hints_json = {"markdown_source": raw_hints}
             
             session.add(existing)
         

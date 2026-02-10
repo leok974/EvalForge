@@ -1,0 +1,15 @@
+/* Prism overrides for dark mode */
+pre[class*="language-"] {
+    background: transparent;
+    /* We manage bg via Tailwind */
+}
+
+code[class*="language-"] {
+    text-shadow: none;
+}
+
+/* Ensure inline code doesn't get Prism styling */
+:not(pre)>code[class*="language-"] {
+    background: transparent;
+    padding: 0;
+}

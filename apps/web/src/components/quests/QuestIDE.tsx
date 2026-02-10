@@ -4,7 +4,7 @@ import { QuestSummary, QuestAttemptSummary, fetchQuestAttempts, fetchQuestAttemp
 import { QuestEditor, QuestEditorRef } from './QuestEditor';
 import { QuestDrawer } from './QuestDrawer';
 import { TutorialPanel } from './TutorialPanel'; // Phase 9.1
-import { CodexDrawer } from '../codex/CodexDrawer'; // Phase 9.1
+// import { CodexDrawer } from '../codex/CodexDrawer'; // Phase 9.1 REMOVED
 import { QuestSuccessOverlay } from './QuestSuccessOverlay';
 import { CoachBanner, CoachData } from './CoachBanner';
 import { DebriefData } from './DebriefPanel';
@@ -30,7 +30,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const editorRef = useRef<QuestEditorRef>(null);
     const navigate = useNavigate();
     const { worldSlug } = useParams<{ worldSlug: string }>();
-    const { focusMode, toggleFocusMode } = useQuestStore();
+    const { focusMode, toggleFocusMode, setLastRunResult } = useQuestStore();
 
     // Phase 9.5: Hydrate full quest details (tutorial_md, key_terms, etc.)
     const [quest, setQuest] = useState<QuestSummary>(initialQuest);
@@ -60,13 +60,27 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | undefined>(undefined);
 
     // Codex State (Phase 9.1)
-    const [codexOpen, setCodexOpen] = useState(false);
-    const [codexRef, setCodexRef] = useState<string | null>(null);
+    // Removed local state in favor of URL params for Workshop Tools Panel
 
     const handleOpenCodex = (ref: string) => {
-        console.log('📖 OPENING CODEX:', ref);
-        setCodexRef(ref);
-        setCodexOpen(true);
+        console.log('📖 NAVIGATING TO CODEX:', ref);
+        const params = new URLSearchParams(window.location.search);
+        params.set('panel', 'codex');
+        // Clean ref if needed (remove 'codex:' prefix if the panel expects clean)
+        // Check CodexPanel expectation. It takes 'initialTerm'. 
+        // Let's pass the full ref or clean it? 
+        // Scaffolder used 'clean_ref'. The Panel just displays it.
+        // Let's keep 'codex:' prefix stripped for display consistency if needed, 
+        // but CodexResolver usually handles it.
+        // Let's pass as is, the Panel can handle cleaning if needed.
+        params.set('term', ref);
+
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.replaceState(null, '', newUrl);
+
+        // Force a navigate event or allow context to pick it up?
+        // React Router useSearchParams change should be detected by WorkshopLayout
+        navigate(`${window.location.pathname}?${params.toString()}`, { replace: true });
     };
 
     // Default Tab Logic including Tutorial
@@ -74,49 +88,17 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
         if (!drawerTab) {
             // Priority: Tutorial (if exists) -> Briefing
             if (quest.tutorial_md) {
-                // Check if user has seen tutorial? (Optional MVP enhancement)
-                // For now, always default to tutorial if present
                 setDrawerTab('tutorial');
             } else {
-                setDrawerTab('briefing'); // Default to briefing if no tutorial
+                setDrawerTab('briefing');
             }
         }
-    }, [quest.id, quest.tutorial_md]); // Run when quest changes
+    }, [quest.id, quest.tutorial_md]);
 
-    // Deep Link Handling (Phase 9.4)
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-
-        // ?tutorial=1
-        if (params.get('tutorial') === '1' && quest.tutorial_md) {
-            setDrawerTab('tutorial');
-        }
-
-        // ?codex=...
-        const codexLink = params.get('codex');
-        if (codexLink) {
-            setCodexRef(codexLink);
-            setCodexOpen(true);
-        }
-    }, [quest.id]);
-
-    // Sync state to URL (Deep Linking Phase 9.4)
+    // Sync state to URL (Tutorial only now)
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         let changed = false;
-
-        // Sync Codex
-        if (codexOpen && codexRef) {
-            if (params.get('codex') !== codexRef) {
-                params.set('codex', codexRef);
-                changed = true;
-            }
-        } else {
-            if (params.has('codex')) {
-                params.delete('codex');
-                changed = true;
-            }
-        }
 
         // Sync Tutorial
         if (drawerTab === 'tutorial') {
@@ -135,7 +117,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             const newUrl = `${window.location.pathname}?${params.toString()}`;
             window.history.replaceState(null, '', newUrl);
         }
-    }, [codexOpen, codexRef, drawerTab]);
+    }, [drawerTab]);
 
     // State
     // Workspace State
@@ -543,6 +525,9 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             if (result.stdout) addLog(result.stdout, 'output');
             if (result.stderr) addLog(result.stderr, 'error');
 
+            // Sync to Store for Tools Panel
+            setLastRunResult(result);
+
             // Show Test Summary if available
             if (result.test_summary) {
                 const ts = result.test_summary;
@@ -551,6 +536,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 } else {
                     addLog(`[TESTS] ${ts.failed}/${ts.total} tests failed.`, 'error');
                     ts.failures.forEach((f: any) => addLog(`  - ${f.name}: ${f.message}`, 'error'));
+                    addLog("💡 Tip: Open the 'Debug' panel for analysis.", "info");
                 }
             }
 
@@ -597,9 +583,21 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
         }
     };
 
+    const runQuestStore = useQuestStore((s) => s.setLastRunResult);
+    // Inject store update in handleRun (Refactored to minimize diffs, inserting update hook usage)
+
+    // Actually better to just use the hook at top level and call it here.
+    // See lines 33 for existing hook usage.
+
+
     const handleSubmit = async () => {
         if (!allPassed) return;
         setCoachData(null);
+
+        // Auto-switch to Judge panel
+        const params = new URLSearchParams(window.location.search);
+        params.set('panel', 'judge');
+        navigate(`${window.location.pathname}?${params.toString()}`, { replace: true });
 
         try {
             const { submitQuestSolution } = await import('@/lib/questsApi');
@@ -1098,13 +1096,8 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             </div>
 
             {/* Codex Drawer (Phase 9.1) */}
-            <CodexDrawer
-                isOpen={codexOpen}
-                activeRef={codexRef}
-                onClose={() => setCodexOpen(false)}
-                onOpenCodex={handleOpenCodex}
-                questSlug={quest.slug}
-            />
+            {/* Codex Drawer (Phase 9.1) REMOVED - Using Workshop Tools Panel */}
+            {/* <CodexDrawer ... /> */}
         </div>
     );
 }

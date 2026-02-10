@@ -1,38 +1,48 @@
 ---
-title: Retry
 id: glossary/python/systems/retry
+title: Retry
 world: python
+level: intermediate
+tags: [resilience, error-handling, systems]
+related:
+  - codex:glossary/python/systems/timeout
+  - codex:glossary/python/systems/idempotency
+  - codex:glossary/python/systems/exception-handling
 ---
 
-# Retry
+## Definition
+A **retry** is a strategy for handling transient failures by automatically re-attempting an operation after a delay. Retries are essential for resilient systems that call external APIs, databases, or unreliable services.
 
-**Definition:** Retry is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Retry plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Retry to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Retry frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Retry network requests that might fail temporarily (503, timeouts).
+- Use exponential backoff (increasing delays) to avoid overwhelming a recovering service.
+- Set a maximum retry count to prevent infinite loops.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Retry initialized"
-    print(result)
-    return True
+import time
+
+def fetch_with_retry(url, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, timeout=5)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as e:
+            if attempt < max_retries - 1:
+                wait = 2 ** attempt  # Exponential backoff: 1s, 2s, 4s
+                time.sleep(wait)
+            else:
+                raise
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Retrying non-idempotent operations (like payments) can cause duplicate charges.
+* No backoff strategy hammers failing services and makes outages worse.
+
+## Related
+
+* Timeout: combine retries with timeouts to avoid hanging.
+* Idempotency: only retry idempotent operations safely.
+* Exception Handling: retries catch and handle exceptions.

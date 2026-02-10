@@ -21,23 +21,33 @@ export async function fetchCodex(ref: string): Promise<CodexEntry> {
 
     // Call detail endpoint (now supports slashes via backend fix)
     // Backend expects ?ref=codex:...
-    const response = await fetch(`/api/codex?ref=codex:${id}`);
+    // Add 10s timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    if (!response.ok) {
-        const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
-        throw new Error(error.detail || `Failed to fetch codex entry: ${response.statusText}`);
+    try {
+        const response = await fetch(`/api/codex?ref=codex:${id}`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
+            throw new Error(error.detail || `Failed to fetch codex entry: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Backend returns { metadata: {...}, content: "..." }
+        // We map it to CodexEntry interface: { ref, title, md, path }
+        return {
+            ref: ref,
+            title: data.metadata?.title || data.title || id,
+            md: data.md || data.content || data.body_markdown || '',
+            path: id
+        };
+    } catch (error) {
+        clearTimeout(timeoutId);
+        throw error;
     }
-
-    const data = await response.json();
-
-    // Backend returns { metadata: {...}, content: "..." }
-    // We map it to CodexEntry interface: { ref, title, md, path }
-    return {
-        ref: ref,
-        title: data.metadata?.title || data.title || id,
-        md: data.md || data.content || data.body_markdown || '',
-        path: id
-    };
 }
 
 export interface CodexSection {

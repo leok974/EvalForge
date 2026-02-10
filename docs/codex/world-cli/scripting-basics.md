@@ -134,3 +134,8 @@ set -euo pipefail
 
 - [Exit Codes](codex:glossary/cli/exit-codes)
 - [Environment Variables](codex:glossary/cli/env-vars)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

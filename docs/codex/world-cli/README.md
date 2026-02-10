@@ -184,3 +184,14 @@ But Tier-1 already covers the reusable core that powers most engineering workflo
 ### Tip: Use Codex while solving
 
 If you’re stuck, don’t guess. Open the relevant concept page, copy the “tiny pattern”, and adapt it to the quest.
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

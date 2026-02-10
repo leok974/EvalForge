@@ -35,3 +35,14 @@ A commit is a snapshot of the repo state. Diffs are how Git *shows* changes.
 * commit: `git commit -m "msg"`
 * unstage: `git restore --staged <file>`
 * undo working edits: `git restore <file>`
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

@@ -38,3 +38,14 @@ git stash pop
 * pulling changes without committing messy work
 
 Prefer committing small WIP commits if stashing becomes frequent.
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

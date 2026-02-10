@@ -1,10 +1,8 @@
-# Reverse Proxy
+# Infra Reverse Proxy: Nginx Route Extractor
 
-Fix `nginx.conf` so it routes:
+Parse fixtures/nginx.conf to find route mappings.
+Extract paths from `location <path>` and targets from `proxy_pass <target>`.
+Write routes to outputs/routes.txt as:
+`<path> -> <target>`
 
-* `/api/*` → `http://api:8000/*` **with prefix stripped**
-* `/` → `http://web:5173/`
-
-We enforce the safe nginx pattern:
-
-* `location /api/ { proxy_pass http://api:8000/; }` (note the trailing `/`)
+Preserve file order.

@@ -55,3 +55,8 @@ EOF
 ## Related Concepts
 
 - [Pipes](codex:glossary/cli/pipes)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

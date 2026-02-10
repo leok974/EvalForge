@@ -1,2 +1,2 @@
-MODE=dev
-PORT=3000
+MODE=prod
+PORT=8080

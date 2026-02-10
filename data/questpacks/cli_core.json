@@ -7,52 +7,270 @@
         {
             "slug": "cli-ignition",
             "title": "CLI Ignition: Your First Commands",
-            "order": 1
+            "track_id": "cli-fundamentals",
+            "order": 1,
+            "briefing_md": "# Mission: CLI Ignition: Your First Commands\n\n**Objective:** CLI Ignition: Your First Commands.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Task.sh prints directory basename and file count",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "Prints exactly CWD, FILES, OK",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: CLI Ignition: Your First Commands\n\n> *Secure shell connection established...*\n>\n> Operation: CLI Ignition: Your First Commands\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-navigation",
             "title": "Navigate the Filesystem",
-            "order": 2
+            "track_id": "cli-fundamentals",
+            "order": 2,
+            "briefing_md": "# Mission: Navigate the Filesystem\n\n**Objective:** Navigate the Filesystem.\n\nYou need to implement the solution in `fixtures\\site\\pages\\index.html`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Task.sh navigates to correct directory",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "Creates outputs files with correct navigation evidence",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Navigate the Filesystem\n\n> *Secure shell connection established...*\n>\n> Operation: Navigate the Filesystem\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `fixtures\\site\\pages\\index.html`.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-files-folders",
             "title": "Create, Copy, Move, Delete Safely",
-            "order": 3
+            "order": 3,
+            "briefing_md": "# Mission: Create, Copy, Move, Delete Safely\n\n**Objective:** Create, Copy, Move, Delete Safely.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Creates required structure and preserves fixtures",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Create, Copy, Move, Delete Safely\n\n> *Secure shell connection established...*\n>\n> Operation: Create, Copy, Move, Delete Safely\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-globs-search",
             "title": "Globs and Search",
-            "order": 4
+            "order": 4,
+            "briefing_md": "# Mission: Globs and Search\n\n**Objective:** Globs and Search.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Writes correct error counts and file list",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "\\n",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Globs and Search\n\n> *Secure shell connection established...*\n>\n> Operation: Globs and Search\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-redirection",
             "title": "Redirect and Append Output",
-            "order": 5
+            "order": 5,
+            "briefing_md": "# Mission: Redirect and Append Output\n\n**Objective:** Redirect and Append Output.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Report contains header + data + footer",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "\\n",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Redirect and Append Output\n\n> *Secure shell connection established...*\n>\n> Operation: Redirect and Append Output\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-pipes",
             "title": "Pipes and Filters",
-            "order": 6
+            "order": 6,
+            "briefing_md": "# Mission: Pipes and Filters\n\n**Objective:** Pipes and Filters.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Top.txt contains top 2 names with counts",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "\\n",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Pipes and Filters\n\n> *Secure shell connection established...*\n>\n> Operation: Pipes and Filters\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "workspace": {
+                "files_from": "../quests/cli-pipes/workspace"
+            },
+            "language": "txt",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for txt.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-env-vars",
             "title": "Environment Variables and PATH",
-            "order": 7
+            "order": 7,
+            "briefing_md": "# Mission: Environment Variables and PATH\n\n**Objective:** Environment Variables and PATH.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Defaults to dev/3000 when vars missing",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "Uses env vars when provided",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Environment Variables and PATH\n\n> *Secure shell connection established...*\n>\n> Operation: Environment Variables and PATH\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "workspace": {
+                "files_from": "../quests/cli-env-vars/workspace"
+            },
+            "language": "txt",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for txt.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-exit-codes",
             "title": "Exit Codes and Error Handling",
-            "order": 8
+            "order": 8,
+            "briefing_md": "# Mission: Exit Codes and Error Handling\n\n**Objective:** Exit Codes and Error Handling.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Prints BAD to stderr and exits 5 when FAIL present",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "Prints OK and exits 0 when FAIL absent",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Exit Codes and Error Handling\n\n> *Secure shell connection established...*\n>\n> Operation: Exit Codes and Error Handling\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "workspace": {
+                "files_from": "../quests/cli-exit-codes/workspace"
+            },
+            "language": "txt",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for txt.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-processes",
             "title": "Processes and Signals",
-            "order": 9
+            "order": 9,
+            "briefing_md": "# Mission: Processes and Signals\n\n**Objective:** Processes and Signals.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Writes the highest-CPU process line",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Processes and Signals\n\n> *Secure shell connection established...*\n>\n> Operation: Processes and Signals\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "workspace": {
+                "files_from": "../quests/cli-processes/workspace"
+            },
+            "language": "txt",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for txt.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "cli-scripting",
             "title": "Shell Scripting Basics",
-            "order": 10
+            "order": 10,
+            "briefing_md": "# Mission: Shell Scripting Basics\n\n**Objective:** Shell Scripting Basics.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_test_1",
+                    "text": "Copies src to dst when args provided",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_test_2",
+                    "text": "Prints usage and exits 2 when missing args",
+                    "why": "Specification requirement"
+                }
+            ],
+            "lore_md": "## Terminal Log: Shell Scripting Basics\n\n> *Secure shell connection established...*\n>\n> Operation: Shell Scripting Basics\n> Clearance: Root\n\nCommand execution required. Standard input parameters missing. Execute directive immediately.",
+            "tiered_hints": {
+                "concept": "Review the workspace file structure.",
+                "guided": "Remember to check standard library documentation for unknown.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         }
     ]
 }

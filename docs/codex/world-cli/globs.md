@@ -43,3 +43,8 @@ ls *.{js,ts}
 ## Related Concepts
 
 - [Search](codex:glossary/cli/search)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

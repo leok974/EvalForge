@@ -1,38 +1,45 @@
 ---
-title: Timeout
 id: glossary/python/systems/timeout
+title: Timeout
 world: python
+level: intermediate
+tags: [resilience, error-handling, systems]
+related:
+  - codex:glossary/python/systems/retry
+  - codex:glossary/python/systems/exception-handling
+  - codex:glossary/python/systems/hot-path
 ---
 
-# Timeout
+## Definition
+A **timeout** is a maximum time limit for an operation to complete. If the operation takes longer than the timeout, it's aborted and raises an exception. Timeouts prevent hung processes and improve system resilience.
 
-**Definition:** Timeout is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Timeout plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Timeout to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Timeout frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Set timeouts on network requests to avoid waiting forever for slow/dead services.
+- Use timeouts in database queries to detect performance issues early.
+- Configure timeouts slightly above expected response times (e.g., 5-10 seconds for APIs).
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Timeout initialized"
-    print(result)
-    return True
+import requests
+
+# Timeout after 5 seconds
+try:
+    response = requests.get("https://api.example.com/data", timeout=5)
+    print(response.json())
+except requests.Timeout:
+    print("Request timed out after 5 seconds")
+
+# Separate connect and read timeouts
+response = requests.get(url, timeout=(3, 10))  # 3s connect, 10s read
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* No timeout means your code can hang indefinitely waiting for a response.
+* Timeouts too short cause false failures; too long wastes resources on slow requests.
+
+## Related
+
+* Retry: combine timeouts with retries for resilient systems.
+* Exception Handling: timeouts raise exceptions that must be handled.
+* Hot Path: timeouts are critical on latency-sensitive code paths.

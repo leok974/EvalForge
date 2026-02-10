@@ -87,3 +87,22 @@ A good agent run produces:
 - Tool calls with recorded inputs/outputs
 - Verification proof (tests/checks/diffs)
 - A concise report: what changed, why, how to undo
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

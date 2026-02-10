@@ -42,3 +42,22 @@ Avoid storing:
 - version memory entries
 - include last-updated timestamp
 - prefer “rules” over “opinions”
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

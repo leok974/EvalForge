@@ -27,3 +27,23 @@ Compose env injection:
 ## Common pitfall
 “works locally” because you have `.env` but CI/prod doesn’t.
 Fix: document required vars + validate at startup.
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

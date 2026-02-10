@@ -25,3 +25,23 @@ If a container listens on 8000 internally, expose it to the host:
 ## Tiny patterns
 - listen on all interfaces: `0.0.0.0`
 - check ports: `ss -ltnp` (Linux) or service logs
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

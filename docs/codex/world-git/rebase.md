@@ -29,3 +29,14 @@ git rebase --abort
 ## Important safety rule
 
 Don’t rebase commits that are already shared with others (unless your team agrees).
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

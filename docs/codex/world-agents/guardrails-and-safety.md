@@ -31,3 +31,22 @@ Agent safety is engineered, not wished for.
 - deploying without health checks
 - changing DB schema without migration strategy
 - wide-scope search/replace across repo
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

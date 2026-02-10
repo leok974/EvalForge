@@ -1,38 +1,49 @@
 ---
-title: Keyerror
 id: glossary/python/keyerror
+title: KeyError
 world: python
+level: beginner
+tags: [errors, dictionaries, debugging]
+related:
+  - codex:glossary/python/dictionary
+  - codex:glossary/python/systems/exception-handling
+  - codex:glossary/python/systems/module-not-found-error
 ---
 
-# Keyerror
+## Definition
+**KeyError** is raised when you try to access a dictionary key that doesn't exist. This is one of the most common Python errors and indicates missing data or a typo in the key name.
 
-**Definition:** Keyerror is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Keyerror plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Keyerror to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Keyerror frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use `.get(key, default)` instead of `dict[key]` to avoid KeyError.
+- Catch KeyError with try/except when the key might be missing.
+- Check if a key exists with `key in dict` before accessing.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Keyerror initialized"
-    print(result)
-    return True
+user = {"name": "Alice"}
+
+# This raises KeyError
+try:
+    print(user["age"])
+except KeyError:
+    print("Age not found")
+
+# Better: use .get() with default
+age = user.get("age", "Unknown")
+print(age)  # "Unknown"
+
+# Check if key exists
+if "email" in user:
+    print(user["email"])
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Typos in key names cause KeyError; use constants or enums for common keys.
+* Silently catching KeyError without logging hides data issues.
+
+## Related
+
+* Dictionary: KeyError occurs with dictionary access.
+* Exception Handling: catch KeyError to handle missing keys gracefully.
+* ModuleNotFoundError: similar error for missing Python modules.

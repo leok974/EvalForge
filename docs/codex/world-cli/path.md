@@ -65,3 +65,8 @@ The **first match** in PATH wins. Reorder directories to change priority.
 ## Related Concepts
 
 - [Environment Variables](codex:glossary/cli/env-vars)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

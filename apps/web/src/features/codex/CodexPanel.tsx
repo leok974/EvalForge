@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { BookOpen, Search, History, Bookmark, ArrowLeft, Filter, Globe } from 'lucide-react'; // Added icons
 import { cn } from '../../lib/utils';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { CodexMarkdown } from './CodexMarkdown';
 import { fetchQuest, QuestSummary } from '../../lib/questsApi';
 import { fetchCodex, fetchCodexIndex, CodexEntry, CodexIndex } from '../../lib/codexApi';
 import { useOpenCodex } from '../../hooks/useOpenCodex';
@@ -90,7 +89,8 @@ export const CodexPanel: React.FC<CodexPanelProps> = ({ initialTerm, questSlug }
                 })
                 .catch(err => {
                     console.error("❌ [CodexPanel] fetch error:", err);
-                    setTermError(err.message);
+                    setTermError(err.message || "Failed to load term. Please try again.");
+                    setTermContent(null); // Ensure content is cleared
                 })
                 .finally(() => setLoadingTerm(false));
         }
@@ -103,17 +103,10 @@ export const CodexPanel: React.FC<CodexPanelProps> = ({ initialTerm, questSlug }
 
     const handleTermClick = (termRef: string) => {
         console.log("👉 [CodexPanel] handleTermClick:", termRef);
-        // Use the hook to update URL, which will drive props back here if wired correctly,
-        // but since we are inside the component, we can arguably just set state directly for speed.
-        // However, preserving URL state is key for "Deep Linking" requirement.
-        // Let's use the hook to ensure URL sync.
+        // Ensure consistent state reset
+        setLoadingTerm(true);
+        setTermError(null);
         openCodex(termRef);
-        // Also set local immediate for responsiveness? 
-        // The hook updates URL -> Parent WorkshopLayout -> re-renders this with new initialTerm?
-        // Actually, WorkshopLayout passes `activePanel` but maybe not `initialTerm` dynamically 
-        // unless we parse URL there and pass it down.
-        // WorkshopLayout DOES parse `term` param? Let's use logic.
-        // If we rely purely on props, we might lag. Let's do both.
         setActiveTerm(termRef);
     };
 
@@ -205,7 +198,7 @@ export const CodexPanel: React.FC<CodexPanelProps> = ({ initialTerm, questSlug }
                                             : "bg-zinc-900/50 text-zinc-500 border-zinc-800 hover:border-zinc-700"
                                     )}
                                 >
-                                    {w}
+                                    {w.replace(/^world-/, '')}
                                 </button>
                             ))}
                         </div>
@@ -324,21 +317,42 @@ export const CodexPanel: React.FC<CodexPanelProps> = ({ initialTerm, questSlug }
                         <div className="text-xs text-cyan-500 uppercase tracking-widest">Decrypting...</div>
                     </div>
                 ) : termError ? (
-                    <div className="p-4 border border-red-900/30 bg-red-950/10 text-red-400 text-xs rounded">
-                        <strong className="block mb-1">DATA CORRUPTED</strong>
-                        {termError}
+                    <div className="flex flex-col items-center justify-center py-10 gap-4">
+                        <div className="p-4 border border-red-900/30 bg-red-950/10 text-red-400 text-xs rounded max-w-md">
+                            <strong className="block mb-1">DATA CORRUPTED</strong>
+                            {termError}
+                            <div className="text-[10px] text-red-500/70 mt-2">
+                                Term: <code className="bg-red-950/30 px-1 rounded">{activeTerm}</code>
+                            </div>
+                        </div>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => {
+                                    setTermError(null);
+                                    setLoadingTerm(true);
+                                    fetchCodex(activeTerm!)
+                                        .then(data => setTermContent(data))
+                                        .catch(err => setTermError(err.message || "Failed to load term."))
+                                        .finally(() => setLoadingTerm(false));
+                                }}
+                                className="px-3 py-1.5 bg-cyan-900/30 hover:bg-cyan-900/50 border border-cyan-700/50 text-cyan-300 text-xs rounded transition-colors"
+                            >
+                                Retry
+                            </button>
+                            <button
+                                onClick={handleBack}
+                                className="px-3 py-1.5 bg-zinc-900/30 hover:bg-zinc-800 border border-zinc-700/50 text-zinc-300 text-xs rounded transition-colors"
+                            >
+                                Back to Search
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        {/* We use a simplified markdown view here or reusing the Surface? 
-                             Let's use ReactMarkdown directly for speed/simplicity or Surface if available.
-                             Use ReactMarkdown for now to avoid circular deps if surface uses panels.
-                         */}
-                        <div className="prose prose-sm prose-invert max-w-none prose-h1:text-cyan-400 prose-a:text-cyan-400 prose-code:text-amber-200">
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                {termContent?.md || ''}
-                            </ReactMarkdown>
-                        </div>
+                        <CodexMarkdown
+                            markdown={termContent?.md || ''}
+                            overrideTitle={termContent?.title}
+                        />
                     </div>
                 )}
             </div>

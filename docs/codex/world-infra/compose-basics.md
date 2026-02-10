@@ -22,3 +22,23 @@ Most real apps are multi-service. Compose makes local stacks reproducible.
 - stop: `docker compose down`
 - rebuild: `docker compose up -d --build`
 - logs: `docker compose logs -f <service>`
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

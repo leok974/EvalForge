@@ -33,3 +33,22 @@ Every applied change must have a rollback path:
 - git revert / reset
 - restore backup
 - re-run migration down (if supported)
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

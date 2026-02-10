@@ -1,38 +1,49 @@
 ---
-title: Exception Handling
 id: glossary/python/systems/exception-handling
+title: Exception Handling
 world: python
+level: beginner
+tags: [errors, control-flow, debugging]
+related:
+  - codex:glossary/python/systems/retry
+  - codex:glossary/python/systems/timeout
+  - codex:glossary/python/keyerror
 ---
 
-# Exception Handling
+## Definition
+**Exception handling** is the process of catching and responding to errors (exceptions) at runtime instead of letting the program crash. Python uses `try/except/finally` blocks to handle exceptions gracefully.
 
-**Definition:** Exception Handling is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Exception Handling plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Exception Handling to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Exception Handling frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Catch specific exceptions to handle them differently (e.g., `FileNotFoundError`, `ValueError`).
+- Use `finally` for cleanup code that must run regardless of errors.
+- Avoid bare `except:` — it catches everything, including keyboard interrupts.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Exception Handling initialized"
-    print(result)
-    return True
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+    result = None
+finally:
+    print("Cleanup code runs whether exception occurred or not")
+
+# Better: catch specific exceptions
+try:
+    data = requests.get(url, timeout=5).json()
+except requests.Timeout:
+    print("Request timed out")
+except requests.HTTPError as e:
+    print(f"HTTP error: {e}")
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Catching `Exception` or bare `except:` hides bugs you didn't anticipate.
+* Silently swallowing exceptions (`except: pass`) makes debugging nearly impossible.
+
+## Related
+
+* Retry: retries often wrap exception handling.
+* Timeout: timeouts raise exceptions that must be handled.
+* KeyError: a specific exception type for missing dictionary keys.

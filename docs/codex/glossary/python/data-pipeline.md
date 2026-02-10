@@ -1,38 +1,53 @@
 ---
-title: Data Pipeline
 id: glossary/python/data-pipeline
+title: Data Pipeline
 world: python
+level: intermediate
+tags: [data, architecture, systems]
+related:
+  - codex:glossary/python/csv
+  - codex:glossary/python/parse
+  - codex:glossary/python/systems/queue-worker
 ---
 
-# Data Pipeline
+## Definition
+A **data pipeline** is a series of data processing steps where each step transforms, filters, or enriches data before passing it to the next step. Pipelines move data from sources (APIs, files, databases) to destinations (warehouses, dashboards, ML models).
 
-**Definition:** Data Pipeline is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Data Pipeline plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Data Pipeline to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Data Pipeline frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Extract data from sources (APIs, databases, CSV files).
+- Transform data (clean, aggregate, enrich).
+- Load data into destinations (databases, data warehouses).
+- Use tools like Airflow, Prefect, or custom Python scripts.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Data Pipeline initialized"
-    print(result)
-    return True
+# Simple ETL pipeline
+def extract():
+    # Read from source
+    with open('data.csv', 'r') as f:
+        return list(csv.DictReader(f))
+
+def transform(data):
+    # Clean and filter
+    return [row for row in data if row['age'].isdigit()]
+
+def load(data):
+    # Write to database
+    db.insert_many(data)
+
+# Run pipeline
+data = extract()
+data = transform(data)
+load(data)
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Pipelines without error handling fail silently and corrupt data.
+* Not tracking pipeline runs makes debugging data issues nearly impossible.
+
+## Related
+
+* CSV: CSV files are common pipeline inputs.
+* Parse: parsing is the first transform step in pipelines.
+* Queue Worker: workers process pipeline tasks asynchronously.

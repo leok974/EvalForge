@@ -1,38 +1,43 @@
 ---
-title: Dependency
 id: glossary/python/systems/dependency
+title: Dependency
 world: python
+level: beginner
+tags: [packaging, imports, architecture]
+related:
+  - codex:glossary/python/systems/pip
+  - codex:glossary/python/systems/package-manager
+  - codex:glossary/python/systems/module-not-found-error
 ---
 
-# Dependency
+## Definition
+A **dependency** is a third-party library or package that your code relies on. In Python, dependencies are typically installed via pip from PyPI and listed in `requirements.txt` or `pyproject.toml`.
 
-**Definition:** Dependency is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Dependency plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Dependency to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Dependency frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Declare dependencies in `requirements.txt` for reproducible installations.
+- Pin dependency versions to avoid breaking changes.
+- Keep dependencies up-to-date but test upgrades before deploying.
 
 ## Example
+```bash
+# requirements.txt
+requests==2.31.0
+flask==3.0.0
+pytest>=7.4.0
 
-The following code snippet demonstrates a basic application of the concept:
+# Install all dependencies
+python -m pip install -r requirements.txt
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Dependency initialized"
-    print(result)
-    return True
+# Show dependency tree
+python -m pip show requests
 ```
 
-## Related Concepts
+## Pitfalls ##
+* Unpinned versions (`requests` instead of `requests==2.31.0`) can cause "works locally, breaks in CI" issues.
+* Adding too many dependencies increases security surface area and installation time.
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+## Related
+
+* Pip: pip installs dependencies.
+* Package Manager: manages dependencies for your project.
+* ModuleNotFoundError: occurs when dependencies aren't installed.

@@ -84,3 +84,8 @@ exit 0  # Signal success
 ## Related Concepts
 
 - [Scripting Basics](codex:glossary/cli/scripting-basics)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

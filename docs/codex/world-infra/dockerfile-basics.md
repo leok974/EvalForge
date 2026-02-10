@@ -30,3 +30,14 @@ COPY . .
 EXPOSE 8000
 CMD ["npm","start"]
 ```
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]

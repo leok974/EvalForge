@@ -11,8 +11,8 @@ const WS = path.resolve(import.meta.dirname, "../../workspace");
 test("report contains header + data + footer", async () => {
     await runSh(WS);
     // readTextTrim handles CRLF normalization
-    const lines = readText(WS, "outputs/report.txt").split("\n");
+    const lines = readText(WS, "outputs/report.txt").replace(/\r/g, "").split("\n");
     assert.equal(lines[0], "HEADER", "EF_CLI_REDIRECT_HEADER: first line must be HEADER");
     assert.equal(lines.at(-1), "FOOTER", "EF_CLI_REDIRECT_FOOTER: last line must be FOOTER");
-    assert.equal(lines.slice(1, -1).join("\n"), readTextTrim(WS, "fixtures/data.txt"), "EF_CLI_REDIRECT_BODY: middle must match fixtures/data.txt");
+    assert.equal(lines.slice(1, -1).join("\n"), readText(WS, "fixtures/data.txt").replace(/\r/g, "").trim(), "EF_CLI_REDIRECT_BODY: middle must match fixtures/data.txt");
 });

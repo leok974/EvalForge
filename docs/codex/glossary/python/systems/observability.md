@@ -1,38 +1,46 @@
 ---
-title: Observability
 id: glossary/python/systems/observability
+title: Observability
 world: python
+level: intermediate
+tags: [monitoring, systems, debugging]
+related:
+  - codex:glossary/python/systems/structured-logging
+  - codex:glossary/python/systems/sli
+  - codex:glossary/python/systems/slo
 ---
 
-# Observability
+## Definition
+**Observability** is the ability to understand a system's internal state by examining its outputs (logs, metrics, traces). In production, observability lets you debug issues, measure performance, and understand user behavior without modifying code.
 
-**Definition:** Observability is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Observability plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Observability to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Observability frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Instrument code with structured logs, metrics (counters, gauges), and traces.
+- Use observability platforms (Datadog, New Relic, Prometheus) to aggregate signals.
+- Answer questions like "Why is this endpoint slow?" or "Which users are hitting errors?"
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Observability initialized"
-    print(result)
-    return True
+import logging
+from prometheus_client import Counter, Histogram
+
+# Metrics
+request_count = Counter('http_requests_total', 'Total HTTP requests')
+request_duration = Histogram('http_request_duration_seconds', 'Request duration')
+
+@request_duration.time()
+def handle_request():
+    request_count.inc()
+    logging.info("Processing request", extra={"user_id": 123})
+    # ... process request
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Instrumenting everything creates noise; focus on high-value signals (errors, latency, traffic).
+* Poor observability means debugging production issues requires deploying new code with more logging.
+
+## Related
+
+* Structured Logging: logs are a key observability signal.
+* SLI: observability powers SLI measurements.
+* SLO: observability validates whether SLOs are met.

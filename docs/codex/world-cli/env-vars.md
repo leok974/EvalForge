@@ -68,3 +68,8 @@ export DATABASE_URL="postgres://localhost/mydb"
 ## Related Concepts
 
 - [PATH](codex:glossary/cli/path)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

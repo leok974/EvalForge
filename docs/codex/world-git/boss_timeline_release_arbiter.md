@@ -140,3 +140,20 @@ The boss doesn’t care which named “model” you use as long as it is:
 - enforceable,
 - debuggable,
 - and survivable under pressure.
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` text
+// Example
+```

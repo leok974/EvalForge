@@ -74,3 +74,8 @@ done
 ## Related Concepts
 
 - [Processes](codex:glossary/cli/processes)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

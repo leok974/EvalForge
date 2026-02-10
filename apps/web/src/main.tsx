@@ -1,4 +1,6 @@
 import React from "react";
+import 'prismjs/themes/prism-tomorrow.css';
+import './styles/prism-overrides.css';
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";

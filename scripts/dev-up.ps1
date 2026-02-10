@@ -44,29 +44,21 @@ if (!(docker info 2>$null)) {
 Check-Port 8092 "Backend" > $null
 Check-Port 5174 "Frontend" > $null
 
-# 3. Start Infrastructure (DB + Redis)
-Write-Host "📦 Starting Database and Redis..." -ForegroundColor Cyan
-docker compose up -d db redis
+# 3. Start Full Stack
+Write-Host "📦 Starting Full Stack (Containers)..." -ForegroundColor Cyan
+docker compose up -d --build
 
 # 4. Wait for Healthchecks
 if (!(Wait-For-Health "evalforge-db")) { exit 1 }
 if (!(Wait-For-Health "evalforge-redis")) { exit 1 }
+if (!(Wait-For-Health "evalforge-backend")) { exit 1 }
+# Frontend might not have healthcheck in compose, check logic if needed
+# But usually verified by port check later.
 
-# 5. Environment Setup for Uvicorn
-$env:DATABASE_URL = "postgresql+asyncpg://evalforge:evalforge@127.0.0.1:5435/evalforge"
-$env:REDIS_URL = "redis://127.0.0.1:6380/0"
-$env:PYTHONPATH = "D:\EvalForge"
-$env:ENV = "development"
-$env:AUTO_INIT_DB = "1"
-$env:EXECUTION_ENABLED = "1"
+# 5. Connect to Logs
+Write-Host "⚡ Environment Up! Tailing logs..." -ForegroundColor Green
+Write-Host "   Frontend: http://localhost:5173" -ForegroundColor Gray
+Write-Host "   Backend:  http://localhost:8092" -ForegroundColor Gray
+Write-Host "   (Ctrl+C to stop following logs, containers will keep running)" -ForegroundColor DarkGray
 
-# 6. Start Backend (in new window if technically possible, but for agent use we run here? 
-# actually user wants "dev up", usually implies running the server too. 
-# But if I run uvicorn here, it blocks shell. 
-# I will run it in background job or just run it directly and user stops it with Ctrl+C)
-Write-Host "⚡ Starting Uvicorn Backend..." -ForegroundColor Green
-Write-Host "   API: http://127.0.0.1:8092" -ForegroundColor Gray
-Write-Host "   Docs: http://127.0.0.1:8092/docs" -ForegroundColor Gray
-
-# We wrap uvicorn to catch exit codes if needed, but direct invocation is fine for 'dev up'
-python -m uvicorn arcade_app.agent:app --reload --host 127.0.0.1 --port 8092
+docker compose logs -f

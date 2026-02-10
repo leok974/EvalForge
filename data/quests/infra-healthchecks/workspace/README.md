@@ -1,7 +1,10 @@
-# Healthchecks & Readiness
+# Infra Healthchecks: Aggregator
 
-Implement `/health` and `/ready` in `server.js`:
+Read fixtures/health.txt (format: "NAME STATUS_CODE LATENCY")
+Write outputs/health_status.txt:
+STATUS=OK|DEGRADED
+FAILED=name1,name2 (comma-separated, empty if none)
+SLOWEST=name3 latency
 
-* `/health` → `200 ok`
-* `/ready` → `200 ready` only if `fixtures/ready.flag` exists, else `503 not_ready`
-* On start, print `PORT <port>`
+Write outputs/health_score.txt:
+Integer percent (ok / total * 100)

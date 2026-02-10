@@ -4,7 +4,7 @@
         "world_id": "world-python",
         "track_id": "python-fundamentals",
         "title": "Workspace Logic",
-        "language": "python",
+        "language": "txt",
         "short_description": "Fix the helper module.",
         "workspace": {
             "entrypoint": "main.py",
@@ -19,7 +19,8 @@
                     "content": "def calculate():\n    return 0",
                     "editable": true
                 }
-            ]
+            ],
+            "files_from": "../quests/quest-py-workspace/workspace"
         },
         "objectives_json": [
             {
@@ -42,6 +43,25 @@
                     "content": "def calculate():\n    return 42"
                 }
             ]
-        }
+        },
+        "briefing_md": "# Mission: Workspace Logic\n\n# Workspace Logic\n        \nRequirements:\n1. Implement the solution in the provided starter file.\n2. Ensure usage of standard library features where appropriate.\n3. Verify output matches expected format.\n\n",
+        "objectives": [
+            {
+                "id": "obj_1",
+                "text": "Implement the solution in the provided starter file.",
+                "why": "Specification requirement"
+            },
+            {
+                "id": "obj_2",
+                "text": "Ensure usage of standard library features where appropriate.",
+                "why": "Specification requirement"
+            },
+            {
+                "id": "obj_3",
+                "text": "Verify output matches expected format.",
+                "why": "Specification requirement"
+            }
+        ],
+        "lore_md": "## System Log: Workspace Logic\n\n> *Establishing secure uplink...*\n>\n> Target: Workspace Logic\n> Status: Pending Authorization\n> User ID: **AUTH_REQUIRED**\n\nThe mission parameters are set. \nInitialize the workspace to begin the assignment.\n"
     }
 ]

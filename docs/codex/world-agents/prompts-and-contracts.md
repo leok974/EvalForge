@@ -46,3 +46,22 @@ Rollback: revert commit
 - forbid destructive ops
 - define expected output format (JSON, file, stdout)
 - add strict timeouts
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

@@ -30,3 +30,22 @@ A verifier should output:
 - pass/fail
 - evidence (logs, test output, diff summary)
 - next recommended action
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypePrism from 'rehype-prism-plus';
 import { Copy, Check, Info, AlertTriangle, AlertOctagon, Lightbulb, FileText } from 'lucide-react';
+import { useOpenCodex } from '../../hooks/useOpenCodex';
 
 interface MarkdownSurfaceProps {
     md: string | null | undefined;
@@ -35,7 +37,8 @@ export function MarkdownSurface({ md }: MarkdownSurfaceProps) {
         /* Code & Links */
         prose-a:text-sky-400 hover:prose-a:text-sky-300 prose-a:underline hover:prose-a:no-underline prose-a:underline-offset-4
         prose-code:text-amber-200 prose-code:bg-amber-950/40 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-[0.9em]
-        prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-slate-800 prose-pre:shadow-xl
+        prose-code:before:content-none prose-code:after:content-none
+        prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-slate-800 prose-pre:shadow-xl prose-pre:rounded-lg
 
         /* Dividers */
         prose-hr:my-8 prose-hr:border-white/10
@@ -43,9 +46,27 @@ export function MarkdownSurface({ md }: MarkdownSurfaceProps) {
         >
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypePrism]}
                 components={{
                     pre: PreBlock,
-                    blockquote: BlockquoteBlock
+                    blockquote: BlockquoteBlock,
+                    a: ({ href, children, ...props }: any) => {
+                        const openCodex = useOpenCodex();
+
+                        if (href?.startsWith('codex:')) {
+                            return (
+                                <button
+                                    onClick={() => openCodex(href)}
+                                    className="text-sky-400 hover:text-sky-300 underline underline-offset-4 cursor-pointer inline-block"
+                                    title={`Open Codex: ${href}`}
+                                >
+                                    {children}
+                                </button>
+                            );
+                        }
+
+                        return <a href={href} {...props}>{children}</a>;
+                    }
                 }}
             >
                 {md ?? ""}
@@ -53,6 +74,7 @@ export function MarkdownSurface({ md }: MarkdownSurfaceProps) {
         </div>
     );
 }
+
 
 const PreBlock = ({ children, ...props }: any) => {
     const [copied, setCopied] = useState(false);

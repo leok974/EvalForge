@@ -18,12 +18,31 @@ export function writeText(wsDir, rel, txt) {
 }
 
 export async function runSh(wsDir, scriptRel = "task.sh", args = [], env = {}, timeoutMs = DEFAULT_TIMEOUT_MS) {
+    const merged = { ...process.env };
+
+    // Allow callers to unset env vars by passing null/undefined
+    const envKeysToShare = [];
+    for (const [k, v] of Object.entries(env || {})) {
+        if (v === undefined || v === null) {
+            delete merged[k];
+        } else {
+            merged[k] = String(v);
+            envKeysToShare.push(k);
+        }
+    }
+
+    // On Windows, if using WSL, we need to explicitly list env vars in WSLENV to share them
+    if (process.platform === "win32" && envKeysToShare.length > 0) {
+        const currentWslEnv = merged.WSLENV ? merged.WSLENV + ":" : "";
+        merged.WSLENV = currentWslEnv + envKeysToShare.join(":");
+    }
+
     // Use bash on Windows/WSL environments if sh is missing, or default to sh
     const shell = process.platform === "win32" ? "bash" : "sh";
     return execFileAsync(shell, [scriptRel, ...args], {
         cwd: wsDir,
         timeout: timeoutMs,
-        env: { ...process.env, ...env },
+        env: merged,
     });
 }
 

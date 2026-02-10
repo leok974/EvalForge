@@ -26,3 +26,23 @@ A reverse proxy sits in front of services to:
 ## Tier-1 mindset
 You don’t need “perfect nginx wizardry.”
 You need predictable routing + clear debug logs.
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

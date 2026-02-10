@@ -113,3 +113,23 @@ Read: [reverse-proxy](./reverse-proxy.md)
 10) **What changed since last working state?**
 
 See: [debugging-playbook](./debugging-playbook.md)
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

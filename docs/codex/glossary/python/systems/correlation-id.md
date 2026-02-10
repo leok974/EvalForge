@@ -1,38 +1,49 @@
 ---
-title: Correlation Id
 id: glossary/python/systems/correlation-id
+title: Correlation ID
 world: python
+level: intermediate
+tags: [observability, distributed-systems, debugging]
+related:
+  - codex:glossary/python/systems/structured-logging
+  - codex:glossary/python/systems/observability
+  - codex:glossary/python/systems/queue-worker
 ---
 
-# Correlation Id
+## Definition
+A **correlation ID** is a unique identifier that tracks a request across multiple services or processes. When a request enters your system, it gets assigned a correlation ID that's logged and passed to all downstream services, making it easy to trace the request's full journey.
 
-**Definition:** Correlation Id is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Correlation Id plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Correlation Id to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Correlation Id frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Generate a correlation ID at the API gateway or first service.
+- Include it in all logs, database queries, and API calls.
+- Use it to filter logs and reconstruct the sequence of events for a single request.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Correlation Id initialized"
-    print(result)
-    return True
+import uuid
+import logging
+
+def handle_request(request):
+    correlation_id = request.headers.get("X-Correlation-ID", str(uuid.uuid4()))
+    
+    logging.info("Processing request", extra={"correlation_id": correlation_id})
+    
+    # Pass to downstream services
+    response = requests.get(
+        "https://api.service2.com/data",
+        headers={"X-Correlation-ID": correlation_id}
+    )
+    
+    return response
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Not propagating correlation IDs to all services breaks traceability.
+* Overwriting correlation IDs at service boundaries loses the connection to the original request.
+
+## Related
+
+* Structured Logging: correlation IDs are included in structured logs.
+* Observability: correlation IDs power distributed tracing.
+* Queue Worker: workers should preserve correlation IDs from messages.

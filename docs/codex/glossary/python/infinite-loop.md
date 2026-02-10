@@ -1,38 +1,52 @@
 ---
-title: Infinite Loop
 id: glossary/python/infinite-loop
+title: Infinite Loop
 world: python
+level: beginner
+tags: [control-flow, debugging, loops]
+related:
+  - codex:glossary/python/for-loop
+  - codex:glossary/python/break-continue
+  - codex:glossary/python/systems/timeout
 ---
 
-# Infinite Loop
+## Definition
+An **infinite loop** is a loop that never terminates because its exit condition is never met. While some infinite loops are intentional (event loops, servers), most are bugs that cause programs to hang.
 
-**Definition:** Infinite Loop is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Infinite Loop plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Infinite Loop to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Infinite Loop frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Use `while True:` for intentional infinite loops (servers, event processors).
+- Always include a `break` condition to exit intentional infinite loops.
+- Avoid infinite loops caused by logic errors in loop conditions.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Infinite Loop initialized"
-    print(result)
-    return True
+# Intentional infinite loop (server)
+while True:
+    request = get_next_request()
+    process_request(request)
+    if should_shutdown():
+        break  # Exit condition
+
+# Accidental infinite loop (bug)
+i = 0
+while i < 10:
+    print(i)
+    # BUG: forgot to increment i, loops forever!
+
+# Fixed
+i = 0
+while i < 10:
+    print(i)
+    i += 1  # Now loop terminates
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Forgetting to update loop variables causes infinite loops.
+* Using `while True:` without a `break` makes loops impossible to exit.
+
+## Related
+
+* For Loop: for loops have built-in termination; while loops can be infinite.
+* Break/Continue: break is essential for exiting infinite loops.
+* Timeout: use timeouts to detect and kill infinite loops.

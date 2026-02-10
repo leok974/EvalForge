@@ -6,6 +6,9 @@ export interface QuestState {
     activeBossSlug: string | null;
     focusMode: boolean;
 
+    lastRunResult: any | null; // Typed loosely to avoid circular deps if needed, but ideally RunResult
+    setLastRunResult: (result: any | null) => void;
+
     setActiveWorldSlug: (slug: string | null) => void;
     setActiveTrackId: (id: string | null) => void;
     setActiveBossSlug: (slug: string | null) => void;
@@ -17,6 +20,9 @@ export const useQuestStore = create<QuestState>((set) => ({
     activeTrackId: null,
     activeBossSlug: null,
     focusMode: typeof window !== 'undefined' ? localStorage.getItem('evalforge:focus_mode') === 'true' : false,
+
+    lastRunResult: null,
+    setLastRunResult: (result) => set({ lastRunResult: result }),
 
     setActiveWorldSlug: (slug) => set({ activeWorldSlug: slug }),
     setActiveTrackId: (id) => set({ activeTrackId: id }),

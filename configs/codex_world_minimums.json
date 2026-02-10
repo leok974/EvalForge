@@ -1,0 +1,23 @@
+{
+    "world-python": {
+        "min_good": 12
+    },
+    "world-node": {
+        "min_good": 12
+    },
+    "world-react": {
+        "min_good": 12
+    },
+    "world-ts": {
+        "min_good": 12
+    },
+    "world-sql": {
+        "min_good": 12
+    },
+    "world-ml": {
+        "min_good": 12
+    },
+    "world-infra": {
+        "min_good": 12
+    }
+}

@@ -9,7 +9,7 @@ import {
 const WS = path.resolve(import.meta.dirname, "../../workspace");
 
 test("defaults to dev/3000 when vars missing", async () => {
-    await runSh(WS, "task.sh", [], { MODE: undefined, PORT: undefined });
+    await runSh(WS, "task.sh", [], { MODE: null, PORT: null });
     const out = readText(WS, "outputs/config.txt").trim();
     assert.equal(out, "MODE=dev\nPORT=3000", "EF_CLI_ENV_DEFAULTS: expected defaults");
 });

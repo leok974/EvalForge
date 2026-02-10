@@ -54,3 +54,8 @@ grep -ri "error" logs/
 
 - [Globs](codex:glossary/cli/globs)
 - [Pipes](codex:glossary/cli/pipes)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

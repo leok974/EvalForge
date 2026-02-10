@@ -61,3 +61,22 @@ Plan:
 3) Propose patch diff
 4) Re-run tests → confirm
 5) Report + rollback instructions
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

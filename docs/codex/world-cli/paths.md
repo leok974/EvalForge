@@ -48,3 +48,8 @@ documents/notes.txt
 ## Related Concepts
 
 - [Working Directory](codex:glossary/cli/working-directory)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

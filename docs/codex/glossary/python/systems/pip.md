@@ -1,38 +1,45 @@
 ---
-title: Pip
 id: glossary/python/systems/pip
+title: Pip
 world: python
+level: beginner
+tags: [packaging, tooling, dependencies]
+related:
+  - codex:glossary/python/systems/package-manager
+  - codex:glossary/python/systems/venv
+  - codex:glossary/python/systems/module-not-found-error
 ---
 
-# Pip
+## Definition
+**Pip** is Python's default package installer. It downloads and installs packages from PyPI (Python Package Index) and manages dependencies. Pip comes bundled with Python 3.4+, so you usually already have it.
 
-**Definition:** Pip is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Pip plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Pip to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Pip frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Install packages with `pip install <package>`.
+- Uninstall with `pip uninstall <package>`.
+- List installed packages with `pip list` or `pip freeze`.
 
 ## Example
+```bash
+# Install a specific version
+python -m pip install requests==2.28.0
 
-The following code snippet demonstrates a basic application of the concept:
+# Install from requirements file
+python -m pip install -r requirements.txt
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Pip initialized"
-    print(result)
-    return True
+# Show package details
+python -m pip show requests
+
+# Upgrade pip itself
+python -m pip install --upgrade pip
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Running `pip` directly instead of `python -m pip` can use the wrong Python version.
+* Installing without a virtual environment pollutes the global Python environment.
+
+## Related
+
+* Package Manager: pip is Python's package manager.
+* Venv: use virtual environments to isolate pip installs.
+* ModuleNotFoundError: occurs when pip hasn't installed a required package.

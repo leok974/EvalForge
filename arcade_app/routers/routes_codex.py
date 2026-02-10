@@ -6,6 +6,7 @@ from typing import Dict, Optional
 from fastapi import APIRouter, HTTPException, Query
 from pathlib import Path
 import re
+import frontmatter
 
 router = APIRouter(prefix="/api/codex", tags=["codex"])
 
@@ -16,7 +17,7 @@ CODEX_ROOT = Path("docs/codex")
 ALLOWED_ROOTS = {"glossary", "concepts", "patterns", "react", "world-agents", "world-cli", "world-git", "world-infra", "world-java", "world-ml", "world-node", "world-python", "world-react", "world-sql", "world-typescript"}
 
 # Safe path segment regex (alphanumeric, hyphens, underscores, slashes)
-SAFE_PATH_REGEX = re.compile(r"^[a-z0-9/_-]+$")
+SAFE_PATH_REGEX = re.compile(r"^[a-zA-Z0-9/_-]+$")
 
 
 def validate_and_resolve_ref(ref: str) -> Path:
@@ -104,67 +105,100 @@ def extract_title_from_markdown(md_content: str) -> Optional[str]:
 async def get_codex_entry(ref: str = Query(..., description="Codex reference (e.g., codex:glossary/python/print)")):
     """
     Fetch Codex markdown entry by reference.
-    
-    Args:
-        ref: Codex reference string
-        
-    Returns:
-        JSON with title, markdown content, and path
-        
-    Example:
-        GET /api/codex?ref=codex:glossary/python/print
-        
-        Response:
-        {
-            "ref": "codex:glossary/python/print",
-            "title": "print()",
-            "md": "# print()\\n\\n**Definition**: ...",
-            "path": "data/codex/glossary/python/print.md"
-        }
+    Follows 'redirect_to' in frontmatter if present.
     """
-    # Validate and resolve ref
-    file_path = validate_and_resolve_ref(ref)
+    # Max recursion depth for redirects
+    MAX_REDIRECTS = 5
+    current_ref = ref
+    visited_refs = set()
     
-    # Check if file exists
-    if not file_path.exists():
-        raise HTTPException(404, f"Codex entry not found: {ref}")
+    for _ in range(MAX_REDIRECTS):
+        if current_ref in visited_refs:
+            raise HTTPException(500, f"Circular redirect detected: {current_ref}")
+        visited_refs.add(current_ref)
+
+        # Validate and resolve ref
+        file_path = validate_and_resolve_ref(current_ref)
+        
+        # Check if file exists
+        if not file_path.exists():
+            raise HTTPException(404, f"Codex entry not found: {current_ref}")
+        
+        # Read and parse frontmatter
+        try:
+            post = frontmatter.load(file_path)
+        except Exception as e:
+            raise HTTPException(500, f"Failed to parse codex entry {current_ref}: {str(e)}")
+            
+        # Check for redirect
+        redirect_target = post.metadata.get("redirect_to")
+        if redirect_target:
+            # Ensure target has prefix
+            if not redirect_target.startswith("codex:"):
+                 redirect_target = f"codex:{redirect_target}"
+            current_ref = redirect_target
+            continue
+            
+        # Found real content
+        # Extract title if not in metadata
+        title = post.metadata.get("title")
+        if not title:
+            title = extract_title_from_markdown(post.content)
+        if not title:
+            title = file_path.stem.replace("-", " ").title()
+            
+        return {
+            "ref": ref, # Return original ref so client knows what it asked for? Or canonical?
+                        # Usually better to return canonical ref in metadata, but client might expect original.
+                        # Let's return the content of the canonical, but maybe hint it resolved?
+            "canonical_ref": current_ref, 
+            "title": title,
+            "md": post.content,
+            "path": str(file_path.relative_to(Path.cwd())),
+            "metadata": post.metadata
+        }
     
-    # Read markdown content
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            md_content = f.read()
-    except Exception as e:
-        raise HTTPException(500, f"Failed to read codex entry: {str(e)}")
-    
-    # Extract title
-    title = extract_title_from_markdown(md_content)
-    if not title:
-        # Fallback to last path segment
-        title = file_path.stem.replace("-", " ").title()
-    
-    return {
-        "ref": ref,
-        "title": title,
-        "md": md_content,
-        "path": str(file_path.relative_to(Path.cwd()))
-    }
+    raise HTTPException(500, "Too many redirects")
 
 @router.get("/index/structure")
 async def get_codex_index():
     """
     Get structure of Codex for navigation/filtering.
-    Returns nested structure: World -> Sections -> Pages
+    Excludes pages that are redirects.
     """
     index = []
     
     if not CODEX_ROOT.exists():
         return {"sections": []}
 
-    # Walk directory
-    # Structure: codex/{world}/{section}/{page}.md
-    
-    # We want to group by World -> Section
     structure = {}
+    
+    # World name normalization (short name -> canonical world ID)
+    def normalize_world_name(world: str) -> str:
+        """Normalize world name to canonical form (e.g. 'python' -> 'world-python')"""
+        if not world:
+            return "unknown"
+        # If already prefixed, return as-is
+        if world.startswith("world-"):
+            return world
+        # Map short names to canonical IDs
+        world_map = {
+            "python": "world-python",
+            "sql": "world-sql",
+            "node": "world-node",
+            "java": "world-java",
+            "typescript": "world-typescript",
+            "ts": "world-typescript",
+            "js": "world-js",
+            "react": "world-react",
+            "infra": "world-infra",
+            "git": "world-git",
+            "agents": "world-agents",
+            "ml": "world-ml",
+            "web": "world-web",
+            "cli": "world-cli"
+        }
+        return world_map.get(world, world)
     
     for world_dir in CODEX_ROOT.iterdir():
         if not world_dir.is_dir() or world_dir.name not in ALLOWED_ROOTS:
@@ -172,70 +206,113 @@ async def get_codex_index():
             
         world_name = world_dir.name
         
+        # Index root-level files (e.g., boss files, README)
+        for page_file in world_dir.glob("*.md"):
+            page_id = f"{world_name}/{page_file.stem}"
+            
+            try:
+                post = frontmatter.load(page_file)
+                if post.metadata.get("redirect_to"):
+                     continue
+                     
+                title = post.metadata.get("title")
+                if not title:
+                    title = post.metadata.get("id") or page_file.stem
+                
+                # Normalize world from metadata or use directory name
+                # Check both 'world' and 'world_id' keys
+                meta_world = post.metadata.get("world") or post.metadata.get("world_id")
+                if not meta_world:
+                    # If no world metadata and we're in glossary dir, infer from section
+                    if world_name == "glossary":
+                        meta_world = section_name  # e.g., "node", "python", "java"
+                    else:
+                        meta_world = world_name
+                normalized_world = normalize_world_name(meta_world)
+                    
+                if normalized_world not in structure:
+                    structure[normalized_world] = []
+                    
+                structure[normalized_world].append({
+                    "id": page_id,
+                    "title": title,
+                    "world": normalized_world,
+                    "section": None  # Root-level file
+                })
+            except Exception:
+                pass
+        
+        # Index subdirectory files
         for section_dir in world_dir.iterdir():
             if not section_dir.is_dir():
                 continue
                 
             section_name = section_dir.name
             
-            # Find pages
             pages = []
-            for page_file in section_dir.glob("*.md"):
-                page_id = f"{world_name}/{section_name}/{page_file.stem}"
+            # Use rglob to recursively find all .md files in subdirectories
+            for page_file in section_dir.rglob("*.md"):
+                # Calculate relative path for ID
+                rel_path = page_file.relative_to(world_dir)
+                page_id = f"{world_name}/{rel_path.as_posix()[:-3]}"  # Remove .md extension
                 
-                # Try to get title cheaply (read first line)
-                title = page_file.stem.replace("-", " ").title()
+                # Check for redirect - skip if present
                 try:
-                    with open(page_file, "r", encoding="utf-8") as f:
-                        first_line = f.readline().strip()
-                        if first_line.startswith("# "):
-                            title = first_line[2:].strip()
+                    # We use frontmatter.load (lazy check would be better for perf but this is robust)
+                    post = frontmatter.load(page_file)
+                    if post.metadata.get("redirect_to"):
+                         continue
+                         
+                    title = post.metadata.get("title")
+                    if not title:
+                         title = extract_title_from_markdown(post.content)
+                    if not title:
+                         title = page_file.stem.replace("-", " ").title()
+                    
+                    # Normalize world from metadata or use directory name
+                    # Check both 'world' and 'world_id' keys
+                    meta_world = post.metadata.get("world") or post.metadata.get("world_id")
+                    if not meta_world:
+                        # If no world metadata and we're in glossary dir, infer from section
+                        if world_name == "glossary":
+                            meta_world = section_name  # e.g., "node", "python", "java"
+                        else:
+                            meta_world = world_name
+                    normalized_world = normalize_world_name(meta_world)
+                         
+                    pages.append({
+                        "id": page_id,
+                        "title": title,
+                        "world": normalized_world,
+                        "section": section_name
+                    })
                 except:
-                    pass
-                
-                pages.append({
-                    "id": page_id,
-                    "title": title,
-                    "world": world_name,
-                    "section": section_name
-                })
+                    continue
             
             if pages:
-                # Add to structure
-                index.append({
-                    "world": world_name,
-                    "section": section_name,
-                    "pages": sorted(pages, key=lambda x: x["title"])
-                })
-        
-        # Phase 9.2: Support flat files in world root (e.g. README.md)
-        flat_pages = []
-        for page_file in world_dir.glob("*.md"):
-            section_name = "general"
-            page_id = f"{world_name}/{section_name}/{page_file.stem}"
-            
-            # Try to get title cheaply
-            title = page_file.stem.replace("-", " ").title()
-            try:
-                with open(page_file, "r", encoding="utf-8") as f:
-                    first_line = f.readline().strip()
-                    if first_line.startswith("# "):
-                        title = first_line[2:].strip()
-            except:
-                pass
-            
-            flat_pages.append({
-                "id": page_id,
-                "title": title,
+                # Group pages by their normalized world (not directory structure)
+                pages_by_world = {}
+                for page in pages:
+                    world = page["world"]
+                    if world not in pages_by_world:
+                        pages_by_world[world] = []
+                    pages_by_world[world].append(page)
+                
+                # Add each world group as a separate section
+                for world, world_pages in pages_by_world.items():
+                    index.append({
+                        "world": world,
+                        "section": section_name,
+                        "pages": sorted(world_pages, key=lambda x: x["title"])
+                    })
+    
+    # Add root-level files to index
+    for world_name, pages in structure.items():
+        if pages:
+            index.append({
                 "world": world_name,
-                "section": section_name
-            })
-            
-        if flat_pages:
-             index.append({
-                "world": world_name,
-                "section": "general",
-                "pages": sorted(flat_pages, key=lambda x: x["title"])
+                "section": None,
+                "pages": sorted(pages, key=lambda x: x["title"])
             })
                 
     return {"sections": index}

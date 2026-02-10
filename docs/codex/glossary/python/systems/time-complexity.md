@@ -1,38 +1,60 @@
 ---
-title: Time Complexity
 id: glossary/python/systems/time-complexity
+title: Time Complexity
 world: python
+level: intermediate
+tags: [algorithms, performance, big-o]
+related:
+  - codex:glossary/python/systems/bottleneck
+  - codex:glossary/python/systems/profiling
+  - codex:glossary/python/for-loop
 ---
 
-# Time Complexity
+## Definition
+**Time complexity** describes how an algorithm's runtime grows as input size increases, expressed in Big-O notation (O(n), O(log n), etc.). Understanding time complexity helps you pick algorithms that scale and avoid performance problems.
 
-**Definition:** Time Complexity is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Time Complexity plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Time Complexity to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Time Complexity frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Prefer O(1) constant time operations when possible.
+- Avoid O(n²) nested loops on large datasets.
+- Use appropriate data structures: dict lookups are O(1), list searches are O(n).
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Time Complexity initialized"
-    print(result)
-    return True
+# O(1) - constant time
+def get_first(items):
+    return items[0]
+
+# O(n) - linear time
+def find_max(items):
+    return max(items)
+
+# O(n²) - quadratic time (inefficient)
+def find_duplicates_slow(items):
+    duplicates = []
+    for i in items:
+        for j in items:
+            if i == j and i not in duplicates:
+                duplicates.append(i)
+    return duplicates
+
+# O(n) - better approach
+def find_duplicates_fast(items):
+    seen = set()
+    duplicates = set()
+    for item in items:
+        if item in seen:
+            duplicates.add(item)
+        seen.add(item)
+    return list(duplicates)
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Ignoring time complexity leads to code that works fine in development but fails in production with large datasets.
+* Nested loops (`for x in items: for y in items:`) are often O(n²) — avoid when n is large.
+
+## Related
+
+* Bottleneck: high time complexity code paths become bottlenecks.
+* Profiling: profiling reveals where time complexity matters most.
+* For Loop: understanding loop complexity is critical.

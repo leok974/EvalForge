@@ -22,3 +22,23 @@ If you change files on your host, your running container does not magically upda
 - run: `docker run --rm -p 8000:8000 myapp`
 - list: `docker ps`
 - logs: `docker logs <container>`
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

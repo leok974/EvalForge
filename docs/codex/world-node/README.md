@@ -261,3 +261,14 @@ But Tier-1 should master: **modules + env + async + fs + HTTP + tests**.
 ### Tip: Use Codex while solving
 
 If you’re stuck, open the concept page, copy the tiny pattern, then adapt it to the quest contract.
+
+
+## Pitfalls
+
+- Blocking the event loop with heavy synchronous operations.
+- Unhandled promise rejections can crash the process.
+
+## Related
+
+- [[node/event-loop]]
+- [[node/modules]]

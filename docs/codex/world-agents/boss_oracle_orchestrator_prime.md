@@ -140,3 +140,22 @@ To defeat the Oracle Orchestrator Prime, the player must submit an **“Agentic 
   - and support ongoing improvement through evaluation.
 
 The boss does not care which vendor or library you use. It cares whether the **design is coherent, safe, and operable**.
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

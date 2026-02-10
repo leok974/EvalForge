@@ -1,38 +1,45 @@
 ---
-title: Bottleneck
 id: glossary/python/systems/bottleneck
+title: Bottleneck
 world: python
+level: intermediate
+tags: [performance, profiling, optimization]
+related:
+  - codex:glossary/python/systems/profiling
+  - codex:glossary/python/systems/hot-path
+  - codex:glossary/python/systems/time-complexity
 ---
 
-# Bottleneck
+## Definition
+A **bottleneck** is the slowest part of a system that limits overall performance. Identifying bottlenecks (via profiling) lets you focus optimization efforts where they'll have the biggest impact.
 
-**Definition:** Bottleneck is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Bottleneck plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Bottleneck to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Bottleneck frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Profile your code to find bottlenecks (CPU, I/O, memory, network).
+- Optimize the bottleneck first before making other changes.
+- After fixing one bottleneck, re-profile — a new bottleneck often appears.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Bottleneck initialized"
-    print(result)
-    return True
+import cProfile
+
+def slow_function():
+    total = 0
+    for i in range(1_000_000):  # This loop is the bottleneck
+        total += i ** 2
+    return total
+
+# Profile to find the bottleneck
+cProfile.run('slow_function()')
+# Output shows slow_function took 99% of execution time
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Optimizing non-bottleneck code wastes time and adds complexity.
+* Assuming the bottleneck without profiling often leads you to optimize the wrong thing.
+
+## Related
+
+* Profiling: profiling identifies bottlenecks.
+* Hot Path: the hot path often contains the bottleneck.
+* Time Complexity: bottlenecks often have high time complexity.

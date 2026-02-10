@@ -1,0 +1,1920 @@
+[
+  {
+    "timestamp": "2026-02-09T14:48:29.497440",
+    "path": "docs\\codex\\glossary\\world-typescript\\term-3.md",
+    "before_hash": "73ad125b0e03a9f458c7beade84bf90e684136ef9fb3e01c3d6f76544f715e42",
+    "after_hash": "a4c3e6ca23556de9d9ddecce7d260727f0c2c5f00ec72cd8ad29b8e77fcad49c",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.538963",
+    "path": "docs\\codex\\glossary\\world-js\\term-3.md",
+    "before_hash": "25ed969e4e1a3c523736f0460f4a87b1fe4328587c15854f011ebb32303f6606",
+    "after_hash": "1c42e82e219c3d7c8b0e04c090928bbf8da26fe9bb08554a37fbeb2a476b1edc",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.549186",
+    "path": "docs\\codex\\glossary\\sql\\order-by.md",
+    "before_hash": "510132f875a7c1998d3a948878626093802faba4d8a5ea7ecc18fbb84669a545",
+    "after_hash": "ab4edbce50a4d713c3d5b8b77cb0b03cd570e3737c7cbf7582ca5c120422222c",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.559012",
+    "path": "docs\\codex\\glossary\\world-js\\term-2.md",
+    "before_hash": "6ddf92c35e9e7934f03997fc2b80a25f74b4deee115f4e1cad5dc952131712a6",
+    "after_hash": "4658737c2e51144055095b3dbe62fa10420fdacfe41b00ae7c1bd57366e68e17",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.568362",
+    "path": "docs\\codex\\glossary\\ts\\compiler.md",
+    "before_hash": "67caf8a62503a72374e9a0e6bb2b5b292e7d7bec989d50adb3b63ea69b286002",
+    "after_hash": "c5185096e418adb16991902f0ad71377745cad00c67bf5dc1f9e3af2ae29b4a9",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.578886",
+    "path": "docs\\codex\\glossary\\infra\\docker-compose.md",
+    "before_hash": "893b575e874b99a1bba256c33a9598b483a0b3dd318d098c4f17ef1e459f5a8c",
+    "after_hash": "bfb7757121d1d96c6bd12679064669988d3b8640762d67796e22e34e99bb5e7b",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.590475",
+    "path": "docs\\codex\\glossary\\world-sql\\term-2.md",
+    "before_hash": "30b9d8dee6dee6b2f06082e20d92708e4fb9f010e8c63877bca4058d25199aa3",
+    "after_hash": "f47700967edc48d265f105462fe4b35ab37657f43bf2d132fc818cc46c0f9bcf",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.601397",
+    "path": "docs\\codex\\glossary\\git\\merge.md",
+    "before_hash": "765f2fa76eff812d85e3582859d31bcc57a12989397b9baa58e65899c4b090f8",
+    "after_hash": "d455c4561b631ac294488c2311924c4e90983b2b49d7c0097565e76125464c6b",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.612892",
+    "path": "docs\\codex\\glossary\\world-ml\\term-2.md",
+    "before_hash": "c22fc77c3150ad90cdfeafba8a4911074ee246c33277aac3056e0865b7ed09c4",
+    "after_hash": "40187b313b4a838aa3ebc386ae0c8a3ed76ae4b854ba17624e90507fd9c449c7",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.624196",
+    "path": "docs\\codex\\glossary\\infra\\container.md",
+    "before_hash": "5e7bebf9bb730345610ee1c0c47a0b66c2ea38189ca02c9a9a7f556ba31fa291",
+    "after_hash": "6a1cbbd3d6313879597c3193281ddaf37b6d497a819b4665da5b9ed6e0868e2c",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.635539",
+    "path": "docs\\codex\\glossary\\git\\head.md",
+    "before_hash": "f83d96cd2bfd5c337d7230f6118601317fc9d8d245027c9e68a3444620b15757",
+    "after_hash": "78c21270777aa938ec810f5eea3df708c43a432815205a2eaab5bd73cc88d4ef",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.647195",
+    "path": "docs\\codex\\glossary\\ts\\typeof.md",
+    "before_hash": "9c44b48677ee9ad5b500366db8e2443e5982f6ee85651fe0cd83f158cf6eceef",
+    "after_hash": "68d5adb1cd7ee90987e850eea166772c447551b37418485672316c5e7324c02a",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.657775",
+    "path": "docs\\codex\\glossary\\world-sql\\term-3.md",
+    "before_hash": "3c379d21be6f1c41b0c20b499cc813d067503b2a5cae7124b5284cd4a86e14cd",
+    "after_hash": "cce0e34467124846ab3883ef6230970a2239a87a27a2c5633005e317d63e791a",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.668491",
+    "path": "docs\\codex\\glossary\\ml\\learning-rate.md",
+    "before_hash": "fc3be8c81909e1f85a46e3c00b8b18188e1ba792252bc1d1bbf7dfe5f9496742",
+    "after_hash": "20916c0215dc60490418e870b3c1635b2d81a6da15a69678d71229abca001dd4",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.679350",
+    "path": "docs\\codex\\glossary\\world-js\\term-1.md",
+    "before_hash": "de7b5a23db9ff867f3743fe113730705e29068c2dc1ae1de3e668cace316a7a5",
+    "after_hash": "c50fcd3497dd0d27da6576a97cfa31289e2fa70ebf42c5a0d3933ee701061d08",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.689948",
+    "path": "docs\\codex\\glossary\\world-typescript\\term-2.md",
+    "before_hash": "77a5a0f59109b548c44f47b104b853330dfc154069db1ca7094cde33c63bd472",
+    "after_hash": "a99e19a2b828f745c68c457306cc4a239b3f86218506acc601999cce53cd0531",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.700354",
+    "path": "docs\\codex\\glossary\\js\\parameter.md",
+    "before_hash": "5716db700670be5dbc3825400f449e6db63e86a1b09f91b50c56f7696fe344e4",
+    "after_hash": "e953a1fe3b52b86b8c0e54d9a49e8545526bf53582cb5a18093796a3abdac441",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.711738",
+    "path": "docs\\codex\\glossary\\js\\reduce.md",
+    "before_hash": "39d2b698207598ec8768fd47296070aab648e0c31675275d287b09a1ef3b9222",
+    "after_hash": "365ef97d12589d2d1e830e84383975f62fb37c3d187f061954df7173f9a699df",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.722070",
+    "path": "docs\\codex\\glossary\\ts\\interface.md",
+    "before_hash": "371dc98a12cb9168e3bc4bb56a73a19339482d8e282117de54ce8b91a97c3986",
+    "after_hash": "d2bbbd21538fc1be4711c5e85bdb4ed9d50cb76d73bf618ab37bf5e35199b555",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.732394",
+    "path": "docs\\codex\\glossary\\world-typescript\\term-1.md",
+    "before_hash": "c128785541a8f78fbc76744cde260799f7cc7b696c363a42e0ff17ca6af63d7f",
+    "after_hash": "872ba8a44dc3e2531cfd644f94d76f5d856d805faa95d82dd18605243d2ad846",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.743281",
+    "path": "docs\\codex\\glossary\\ml\\tensor.md",
+    "before_hash": "134f6e8fee9c07250cb9ba5f9cd43242b22cf80a14b24349d8b9d9fa2c8db8cd",
+    "after_hash": "dfaeb4e6c0f2789f01d0b0ad8d5c188d4c8160f902a19d3cad806e0346207b6a",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.753966",
+    "path": "docs\\codex\\glossary\\ml\\loss.md",
+    "before_hash": "ea785e1676109380bad71aa5582095eff045cc7b9896b0a14568e9cde70e76b6",
+    "after_hash": "85e7754aa2773f39234c4e8898cddefc0a1e8b64616456de87347f223ed7931d",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.764754",
+    "path": "docs\\codex\\glossary\\js\\function.md",
+    "before_hash": "f1e8f277a888de9a3d1eeb42518bdcb94a48fb1ffe3646964a231fa1bcde1345",
+    "after_hash": "38cf7d1e57d860b2a446aa247b8f4ad8c3a42b755fe7fd11a4ce8432ec6a83f1",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.775415",
+    "path": "docs\\codex\\glossary\\ts\\type-narrowing.md",
+    "before_hash": "3bddb54860dca9bbe133e2cf306418dc3968d7480e5b5ebc1d97c0b4555050cb",
+    "after_hash": "5776d26b1857ea14ef419e25bd247a1cd9895264edf10cd394f982209a7c2b59",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.786252",
+    "path": "docs\\codex\\glossary\\ml\\reshape.md",
+    "before_hash": "34138ed8d0fb5474d6489d41f7bb7367bc7c656749df855edbde775c3f5f8a76",
+    "after_hash": "df6265e462e41a423558ad3cf28d8bab1590c706135b1aa00e60ca6130d47893",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.797738",
+    "path": "docs\\codex\\glossary\\agents\\retrieval.md",
+    "before_hash": "cdebe62a75f0efcafda4f8eadf0c32b72771090954e00c7d073e315d51ca9bf7",
+    "after_hash": "be2a2ac73a266fcaea9292593690cb386419fcb8d8394f8026856b91cbf9d9af",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.808495",
+    "path": "docs\\codex\\glossary\\ts\\result-type.md",
+    "before_hash": "1164114f72415f73ef60c49d40853b103cc8f514d429bb9f451b2bf7a666ebb4",
+    "after_hash": "238690811121e13f5b764bc3e283030f0ec4d134ce2a7ad228719c1e3114b953",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.820295",
+    "path": "docs\\codex\\glossary\\world-agents\\term-1.md",
+    "before_hash": "fab7e0395ec76ed5a6e69bc0234c3d3462d0a3c17e20af155192a0661e5eea15",
+    "after_hash": "578b1bba289b0214fdff3e228ce58affbcf42c2566f882a917710a95c5eb3b0f",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.832189",
+    "path": "docs\\codex\\glossary\\sql\\over.md",
+    "before_hash": "28c642edef03179b45e9228b4b664784c4412c79f257a9a8e2146a12cdc3d245",
+    "after_hash": "1613ce8486078260376674b03fa0933310edaa41ab873b8707359e908c0d817a",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.843467",
+    "path": "docs\\codex\\glossary\\ml\\broadcasting.md",
+    "before_hash": "800b7f21af21311747664db9e1f1ccc0323adc94eeb2c9be92401befa2ae317d",
+    "after_hash": "1dc7944cb61ad7b3d196383afacf6991e5b121155c795aa8fcbc9a2787484428",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.854646",
+    "path": "docs\\codex\\glossary\\sql\\where.md",
+    "before_hash": "ea2ed3575b308a58dfc1d08785b555e01acb59827c2c991993d95c54bd41a913",
+    "after_hash": "c0d5fb8ad67ce6cce9fa3303ee466ea39b06c735aa2ee976d5845d8461921518",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.866514",
+    "path": "docs\\codex\\glossary\\infra\\dockerfile.md",
+    "before_hash": "2405332da4a15f1a51b51ce9318e165fe4bfb39e5504240c69127afa37a91b7b",
+    "after_hash": "764e2af0c7d8a8492e577bce8e29747832a213b4c381147eeb7575ad1632c0e9",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.878168",
+    "path": "docs\\codex\\glossary\\ml\\axis.md",
+    "before_hash": "6ec2e769466f363b3949bb07e6391006d0695d00089c5e67ec314fb9f7eaba32",
+    "after_hash": "df617caa9f4f890d8bdd3405be29a20632abda6eb2d23527831aa3e0a32d8f08",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.889215",
+    "path": "docs\\codex\\glossary\\sql\\limit.md",
+    "before_hash": "98cb9bfddcfa64f5d250d8e97e8af2a4978b869941e88f2e7b79c6bd40fdee59",
+    "after_hash": "e4e4814cfcd92be83edd048bb97b684b62f070dc45c30d177b62e2c386410589",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.900657",
+    "path": "docs\\codex\\glossary\\world-ml\\term-3.md",
+    "before_hash": "88a34e4ac5fbaec584ea9152f91891f56b63b9dfdf632a7b34c4e753df52dd8a",
+    "after_hash": "3607973dd6f0daaa4558629aab06c521748a9a19677773d26fb462722ab2e449",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.912053",
+    "path": "docs\\codex\\glossary\\ts\\type-alias.md",
+    "before_hash": "a3fba5fd8729ea71c18539293ad81495fa908af1b79f396ccf98810d7a02dcb2",
+    "after_hash": "a1fc8063451612a22723580386f5a2d7edb9a53ba3ac2d7d4ab52713e58255d9",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.923637",
+    "path": "docs\\codex\\glossary\\ts\\type-inference.md",
+    "before_hash": "59a3f75242319834226cfa5a0bc4726887cd478d904303ac789b3f828e9c9784",
+    "after_hash": "382c0a460cd7773e950810df95bb2672203ab887d2fd04283fde59e23a6d342c",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.934790",
+    "path": "docs\\codex\\glossary\\js\\map.md",
+    "before_hash": "a9bc147b1b3fa6ab5182bf02b14e223b3d260e9587c96e6b5443654a3e55a62b",
+    "after_hash": "ac43e0d47365cbe8c57f9cbd8c36384d566b5279b35b9a569ec6f4e523ca952d",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.946483",
+    "path": "docs\\codex\\glossary\\sql\\row-number.md",
+    "before_hash": "87887d24983beb8a113473f3cb47c3c27bdaad326a2281698b682de1a3f0cb42",
+    "after_hash": "04a96b4e99f1359bdd6277cb81d05290902258aa2d9b7c1df9153de53cd6bae3",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.957619",
+    "path": "docs\\codex\\glossary\\ml\\epoch.md",
+    "before_hash": "d32897f0b9e83f0718bca36cacd35f3cdc1fc495e1b8cd5230306264d348a25a",
+    "after_hash": "ada1ed7f723f10da6e5068f7db2aa35802010b670dcdb8c9334ef7d041e08d21",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.969457",
+    "path": "docs\\codex\\glossary\\agents\\citation.md",
+    "before_hash": "553f17a51c9644903c6f4a2e25f3f23d2236b2dc737190daf0ea996bbc5103a2",
+    "after_hash": "49c0d9728284b27e22c0118a520e7cbd840bcc23a2e2a69b7f480222a8afeae9",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.980617",
+    "path": "docs\\codex\\glossary\\sql\\from.md",
+    "before_hash": "96cd0d12fc8533eb2a4249d169e46df02a5dfb36bb748c947dde341d3f889d5d",
+    "after_hash": "f1427e67104be7f3dcfb33631988d1f8ebbb18385b61cc0c799ef31897d96728",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:29.992556",
+    "path": "docs\\codex\\glossary\\sql\\partition-by.md",
+    "before_hash": "f56250d07f105638cc080027f2867270b99546c798d3af94a1100416e32f528b",
+    "after_hash": "539c3acbd2375656b24fd4bd70d88d10eb470410bbefa42f459029a49fccf103",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.004285",
+    "path": "docs\\codex\\glossary\\ts\\type-guard.md",
+    "before_hash": "312726c7c7b79fbb0130fa9bcb5201fc7731121a874d6950bd0aafbb523ec42b",
+    "after_hash": "4ca79deee88cda13c4f8b494352b9edede4d1120311a94c27ee4b6af3e453e76",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.015445",
+    "path": "docs\\codex\\glossary\\infra\\image.md",
+    "before_hash": "10971a8f69fcbe40e09eb9c88c1eb39975312d2cfdcd7152281c2e5036580307",
+    "after_hash": "0cfb2da008fc1dbcbf4c24b07cc411604b8741f073a37b2b3b0f5e81a8a56974",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.026336",
+    "path": "docs\\codex\\glossary\\git\\switch.md",
+    "before_hash": "6f57f16e4ff95202f998756d41cff2b435cf448382c4caf6401ccf8004ecd6d0",
+    "after_hash": "01e538ed62384829566f25a5cc9307d1f3ce0dd9fd2d64cda775ec540b24a352",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.037692",
+    "path": "docs\\codex\\glossary\\world-git\\term-1.md",
+    "before_hash": "6ebcb4fa86cb3eb76be7ec845235323dbf500b8c165fc9f977a09bb4b028ab75",
+    "after_hash": "97738f5512c0f0a53dae954f7365e9ddb5ea7a848781224ef96649981524634c",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.048890",
+    "path": "docs\\codex\\glossary\\js\\array.md",
+    "before_hash": "9572d7ffa3d5adcf05411a89856054b803ef72ea32c5f4dfadb3578543aaad7c",
+    "after_hash": "52063c07f1b449e4aeef2f7897185033c7b1601ec54d887691f3f05ca0a1d152",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.059778",
+    "path": "docs\\codex\\glossary\\world-agents\\term-2.md",
+    "before_hash": "b1b31490664ea93d178588efad5fd37b8b6285cd24b658bce246f11fb87459d7",
+    "after_hash": "bc3869ed88f73319062e6dffdcd3349146a834799b327c63075be7bb1aa1b9a4",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.071124",
+    "path": "docs\\codex\\glossary\\js\\console-log.md",
+    "before_hash": "937914a0573ffae93828548c26d292ddee20c0ff500ac2379235baf4a7b12349",
+    "after_hash": "870bb4b816d6c1a38558c8a2d88d6de30f08c2a51648f0948c09cfbca279d9ec",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.082225",
+    "path": "docs\\codex\\glossary\\js\\return-value.md",
+    "before_hash": "00142558386d3850e03fc3f29ad72241898ac682d7cd6db36e073d3ab8637f30",
+    "after_hash": "a217c720983f17498715716ed414af034869c66f82fe593762fc61c79f78c1f9",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.093444",
+    "path": "docs\\codex\\glossary\\ts\\never.md",
+    "before_hash": "56c10527409517e1fcbd9e68e093c706be0a99a97379eb0961be70e230799535",
+    "after_hash": "21b93051da38ae3e6d2d6a5018036572a2f69d2bc455d54867cf4e07a5e6b929",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.104987",
+    "path": "docs\\codex\\glossary\\ml\\metric.md",
+    "before_hash": "f8fb2ad4047a0fdde469836a88c2f43350ebe04dc9069f7d1fe53d740da4aba3",
+    "after_hash": "f7991b569d25de9ded5547d5620f6b4328df4b3ad77acb2a7816cf9f7d1ba11c",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.115676",
+    "path": "docs\\codex\\glossary\\sql\\window-function.md",
+    "before_hash": "1078f8e0ff8832450c87c7dbeb0cd6a7798744525aa7bb80d422954d010983f6",
+    "after_hash": "c7fe9fc9d7855f14dbea685a59b9dbd30e17db05249631abb1d773ff020e6ab9",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.127139",
+    "path": "docs\\codex\\glossary\\world-ml\\term-1.md",
+    "before_hash": "7d59f2088668f869b817d9aea51eaea201ab4512608f4f632b8040c68f9898d9",
+    "after_hash": "45b861884bcdfe05b44c26cc327bfccb021eea33dd4f488579a0a253ac398e24",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.139507",
+    "path": "docs\\codex\\glossary\\ts\\union-type.md",
+    "before_hash": "f5842bdec8796f1c8ff3ce956bc322fe435276ab07e07381c4d11d360a183748",
+    "after_hash": "3e74880531ba65a792e11a5f585a956c8fa4260fb3b23fa3e246f23cbc777fa9",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.151235",
+    "path": "docs\\codex\\glossary\\agents\\rag.md",
+    "before_hash": "df21b8b7ab66ddde40df55a3a3c4a53f0d5b2aa2f59060148863e4d77ee16641",
+    "after_hash": "8411df52bfcf72f868d7ada1f27ae8c504a802823d684d1a66222a2a88c5357a",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.163013",
+    "path": "docs\\codex\\glossary\\ts\\type-annotation.md",
+    "before_hash": "6505db7001437d2a7177d9c35c3f6b01738cbdbb2ddae672f9194f8ccd94aeba",
+    "after_hash": "d1adce26541d5e509ae5218f088c7f0d87ee96d3e0f94ef9643b1483df42e318",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.176297",
+    "path": "docs\\codex\\glossary\\world-git\\term-2.md",
+    "before_hash": "ef77a66137e6438bfae3ea3fb377705cfa6dcfe3c7286ece49a3b673034156ff",
+    "after_hash": "ad7e2bbebc1962edc868ca213350dba5ed8d3e58cf72ea9cc0750b2d334c13f2",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.190320",
+    "path": "docs\\codex\\glossary\\git\\main-branch.md",
+    "before_hash": "209ad23f7232eeeb64cb58b655ac5d966e1bd97adb1c35c7bf002de2b7f0a6ec",
+    "after_hash": "0f0b43acf9d8a54c2c96d19aa6c137c82018fa578d6e1188fdec902d3fab1a69",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.203095",
+    "path": "docs\\codex\\glossary\\agents\\chunk.md",
+    "before_hash": "5d7f29c9e3d67fb234d24517345400de2bdbe6d7361a90ce99e122a47f26bd82",
+    "after_hash": "548e1d726881a15e7cd8ae492fb3d8ef11649b8ac461c9502028cc0ac6d9d177",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.214961",
+    "path": "docs\\codex\\glossary\\js\\callback.md",
+    "before_hash": "a9e15e3ae0108043fc75e8ad27c78e54a06eb23f25cec24f5c6c99e31f2a2031",
+    "after_hash": "ef1b0c9df39f233cc285bb1952e11e8e590d3639b0136bc641620c5dac7d2950",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.226494",
+    "path": "docs\\codex\\glossary\\js\\filter.md",
+    "before_hash": "45b535e41cda54606f6326fb0a14a2ee0a966f7fad4d3f6ba6f5780588a072d9",
+    "after_hash": "7e35b7d9f7155883c3fb799950c0aa64e9b026f47916b4e16f4fe642ffdfb780",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.238093",
+    "path": "docs\\codex\\glossary\\js\\string.md",
+    "before_hash": "68c037444ef67da9e322d5f4ee0667950d6cd6346dab801bebd901e286c0610f",
+    "after_hash": "b566c0a5e5ae2387f349c48215ca8cc07412a1acfc012f85f847939826104bc8",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.249579",
+    "path": "docs\\codex\\glossary\\ts\\in-operator.md",
+    "before_hash": "270c3de03bc59a0d3f3bbe885796a8fe5152deddaed6da17592eb0ecacf7ebb5",
+    "after_hash": "a27a38f6b4f42667bc3d67a5978e3508f5019754e13f0973e01dedb46d57b277",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.261508",
+    "path": "docs\\codex\\glossary\\ml\\shape.md",
+    "before_hash": "9420820268b720fb4a97023059ff38d442bab8958944d36fb61974ef87ab7d00",
+    "after_hash": "ccc31f82e1f2f5075fa00f7bdd30d31927d9a459eb67efdaa60c671e5d3e9219",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.273190",
+    "path": "docs\\codex\\glossary\\infra\\port-mapping.md",
+    "before_hash": "ea8b77e33bdca87c0774382d2d0a9ea7070f6514aff8da4439f6d0a1329611f7",
+    "after_hash": "1d324afd0daeca38529720937891b97e67782ee06bb2a798e9cce30ad03b3596",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.284690",
+    "path": "docs\\codex\\glossary\\ml\\gradient.md",
+    "before_hash": "7d5fcdd9a86b9baefb980a9e16651c6816878cf6fb5f7a8006872403031d4a42",
+    "after_hash": "84782e60e1c9a5b3cdd3aa0b6d939090bb58ac69eef09ac7167fc79e8dfb8295",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.296602",
+    "path": "docs\\codex\\glossary\\world-git\\term-3.md",
+    "before_hash": "00a4bdfdd4a7b0e183b0523e3769a1f0e465093fa4edc7990b8f9592e7ac433f",
+    "after_hash": "fcc3ad2b0789c4a345c5584068d977a3c47fe8f85d0f9b87b938a732a0a47f91",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.307587",
+    "path": "docs\\codex\\glossary\\agents\\grounding.md",
+    "before_hash": "bf1395855274f7e341f3f92d2192a729b709640b369e2ccb85080b94c9640eb7",
+    "after_hash": "acc4dad303a159698055879d30f31c7c4551068420bb174af5423f25e27d34fe",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.318860",
+    "path": "docs\\codex\\glossary\\ts\\discriminated-union.md",
+    "before_hash": "ff2a50874b27fde1499257d54b1235bec0b3b4f0ae9f58d1d68afda05a319be9",
+    "after_hash": "6bfe410219cf1424bef92a370475f67ad9ac97e6fe7c4b25cd658b3d52912c56",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.329918",
+    "path": "docs\\codex\\glossary\\sql\\select.md",
+    "before_hash": "baf3f7f6954775fe89c3bcc93d736bab4e138f4d107153a60223c63bede55938",
+    "after_hash": "756bd898ab6307977f614400d2891feadc40b51eaebd996c74193dabac1b14d3",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.340875",
+    "path": "docs\\codex\\glossary\\ts\\generic.md",
+    "before_hash": "9ef762442ed7686ac9ba88c8bfadf7ce069ca7498a7937e5bc8b2647736733b3",
+    "after_hash": "ddcecd237073e20f967c8bb3ea6f4384a81d66eb4c3a5fab6dfa716385111500",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.351965",
+    "path": "docs\\codex\\glossary\\world-agents\\term-3.md",
+    "before_hash": "4c337d91f0ade79a339ec12de58f2bfc3f96cbdd46405e23b6861b1c69bcc887",
+    "after_hash": "2036ed8f37381654b120ee33edb63d64128f49f9a380ee54fad94efebbe6b2fd",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.363716",
+    "path": "docs\\codex\\glossary\\ts\\type-parameter.md",
+    "before_hash": "d7562d0a055024024cd0c0aa8ecd01e4e3bc1ac56bf35236fa4ec41b968cc207",
+    "after_hash": "467fd33009a58b6b42a09d2cf7895c9c5b0cb89ea1580f4977306e7ab9c7d419",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.376879",
+    "path": "docs\\codex\\glossary\\git\\branch.md",
+    "before_hash": "a21c596e5e84df16e9d8d5c5923a10c0b1c1ff3ae0629c769f4688238e22d73d",
+    "after_hash": "6e8022dd2354d6d2fe0980c755193aab43b6910b3471b6f9df24010f6cb03b32",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:48:30.388408",
+    "path": "docs\\codex\\glossary\\world-sql\\term-1.md",
+    "before_hash": "ecc6db3083544496d2e06da4f45fa92219d494081f2834fc904a33e2c3ee8489",
+    "after_hash": "559a56e905b20910d6501f09f101e9ff30ff0e0b5ac712564d521ad87537b1b7",
+    "reason": "Scaffolding Tier-1 Content"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:53.991625",
+    "path": "docs\\codex\\react\\jsx.md",
+    "before_hash": "f2616cd4147155a06f492f950a45a86024f6f0c3d9c4f2d6e6fb54912613bbf2",
+    "after_hash": "7cf03530cd2076fd3b89c456500266fa22b0441679e10f746e4b9fe09a50c0e8",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:53.993971",
+    "path": "docs\\codex\\world-agents\\agent-loop.md",
+    "before_hash": "33f14f476f1e40d6dcde899f9ab102eef06f21c6a82df42e24af279af668b903",
+    "after_hash": "ab53133836e800cc2cfcc2b8739203bf0b79c55db4f8a77459f309ea0208d5c7",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.006221",
+    "path": "docs\\codex\\world-agents\\approvals-and-diffs.md",
+    "before_hash": "408322248bd864e31ffe91a5e32475389221ebf42ae301e2fc1461c9af523f42",
+    "after_hash": "f5a48df7508d5af881306a4cee8c303dbb9de0963613135f4dc3bcc6b77db470",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.018022",
+    "path": "docs\\codex\\world-agents\\boss_oracle_orchestrator_prime.md",
+    "before_hash": "fa266cf0df4247f95bb4c0db5e2e444286c55fe42b90267c384414ab31ec9a8b",
+    "after_hash": "8af4e57dab9d4a72f18ea15ba531466546c403790b5f91a96be70cf34225d0c9",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.029579",
+    "path": "docs\\codex\\world-agents\\budgets-and-rate-limits.md",
+    "before_hash": "ada4d8683256e35848591b8b5c4d1b9c263c5fa508833f26ef20aeffcfefd900",
+    "after_hash": "e0a37a34c6bdd58aa19d0a819bb7f2fb325970d601296fc161e6f83129c42ded",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.040980",
+    "path": "docs\\codex\\world-agents\\executor.md",
+    "before_hash": "270655024ed168a8ff1228fba1c62534c247d850e4191deabbad82f9fdc84c08",
+    "after_hash": "8e344b4860375987bd50126fd0f07f8f221573ee00a0d034043042361e532cd5",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.052834",
+    "path": "docs\\codex\\world-agents\\grounding-and-rag.md",
+    "before_hash": "192f6e71a17b6158da7719c3c343d7aa4ce6bbdb93b092167a34166fad8c02b9",
+    "after_hash": "da185b0b08bb5b730a37a776041ec9e192dc699e91897c420126fa1486d84911",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.064904",
+    "path": "docs\\codex\\world-agents\\guardrails-and-safety.md",
+    "before_hash": "49bf7330f3f26705355372374168903571daa7332374b8b5e8574285a7696932",
+    "after_hash": "a5c2864d153a71579ebc152fed70cf33d71fde5dda91f9ab067edb4288e5ed8c",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.078247",
+    "path": "docs\\codex\\world-agents\\memory.md",
+    "before_hash": "50cfbd9abe49fd4ef06e7b4cb97173fc8fb27c1912c423e30c0d304d9aafef6c",
+    "after_hash": "d67635e70f2c435b6c9c175396e2384b531edb0c19f168da8da9924b6f52b3d3",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.090278",
+    "path": "docs\\codex\\world-agents\\observability-and-tracing.md",
+    "before_hash": "f7315c991e2fe1ce36b3ec1a15137300956aa728fb7d91f662d3501d2cf64f38",
+    "after_hash": "67b993c9c9ea0c102974ca26ac8b8bcfd01bc59b0af177afe8bf9c7c8466e845",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.102172",
+    "path": "docs\\codex\\world-agents\\planner.md",
+    "before_hash": "eaf72a52160ecdb579c17a2d2faa37c9cecaea4be184b62f62e9bf40d571425c",
+    "after_hash": "df864a366cbbc7e0585f6b3cada7b135b7028354aafcba2795812ec67d53378a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.114306",
+    "path": "docs\\codex\\world-agents\\prompts-and-contracts.md",
+    "before_hash": "8c146fc0825f98ce810f9c01e8d05979aff21ed4c1cf25161b1db2213ffb8d1f",
+    "after_hash": "856441a04b529366bf24290c984d271580fd0fe6a7d46f4b3b9dc05e03ab7531",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.127757",
+    "path": "docs\\codex\\world-agents\\README.md",
+    "before_hash": "645678c9ecfa69630176c467dff6094e603484d9d0ad545df490f6b645e6e552",
+    "after_hash": "84694470034c3faf86c677e14c6293351d72418562b281bdddba34d76750339b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.142970",
+    "path": "docs\\codex\\world-agents\\tool-contracts.md",
+    "before_hash": "5c2f25cfcb948a77abdfcd38dc2cc2579dad016f8ccb58a26aad029780eb83a3",
+    "after_hash": "4e6646f87eb49e0c4db07694b324353d2093ce6a3c33cf7149b7aa8b0764a40b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.157042",
+    "path": "docs\\codex\\world-agents\\verifier.md",
+    "before_hash": "5fa1b8532ad26339fedc6223089635bc7a6fe334d42b77b8f0cf9966a76ef779",
+    "after_hash": "6904fc078848ac97f01dfa83d78fec03eb7efc3e96dd60b9ac6d20fa682a81e2",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.171067",
+    "path": "docs\\codex\\world-cli\\env-vars.md",
+    "before_hash": "3eae5dc5e76efcb366a8b71795b90b6ce9cb7bbed0e1829617e75d657f6fdd70",
+    "after_hash": "0dba8c158056677062cabe759d97a66a3e7492cce90c8508609716cb6148d63c",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.183876",
+    "path": "docs\\codex\\world-cli\\exit-codes.md",
+    "before_hash": "d3002982700d9372ac8b5364142ade7fb24ee24fc39bcc85fe5d1f7b189c64b0",
+    "after_hash": "79164059c9dfa82b2f3de92b8c28b4a6140396ad5402606f671d769f78a97b4c",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.196779",
+    "path": "docs\\codex\\world-cli\\globs.md",
+    "before_hash": "d47479311cdcad77d4ee8e7194e0c6eaed8e040e5b41c5db6d74dbfc98ffa31c",
+    "after_hash": "0fa1d0d999c9da75ee0c6820847e7402545466a8280067dfb91d203e4603c0fd",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.209677",
+    "path": "docs\\codex\\world-cli\\path.md",
+    "before_hash": "c3d723cd1f5a4bc74175dd252158a1f57e98039a102bd3e0b59e5fe2dce4d473",
+    "after_hash": "194196def8e4b91f8adcf04984eb07cea59413da8c67acf1bb7c906789495980",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.222651",
+    "path": "docs\\codex\\world-cli\\paths.md",
+    "before_hash": "d7ea036fca08393bdee55e843d7d282e898741dc87438d62975ae98763cac890",
+    "after_hash": "36591c5848add1e92bd8a2ee80b08cc746e7b02593a5e7877557b54d05bd2017",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.234290",
+    "path": "docs\\codex\\world-cli\\pipes.md",
+    "before_hash": "660fa4b498594a7f1d877b864e294592d0a4b639c5dfaf76eaa5f9b7c02bcc82",
+    "after_hash": "cbf72981ab7a18e4610f632247bad501a7ad9ab28a379f711fb2df99dd60e55f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.246673",
+    "path": "docs\\codex\\world-cli\\processes.md",
+    "before_hash": "2ae3171be53cbd4c5fc6af5d8d004e647048875666a2579be74b7706cc335b2f",
+    "after_hash": "990fb971117f85f9ab750715ba4d2d1bcab31c3ecb1afcdb295e5bda2cb535bc",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.259571",
+    "path": "docs\\codex\\world-cli\\README.md",
+    "before_hash": "1bc5a48b25b814bfc3d923fc1062eb79cc3e07c91f8f3f9118f0584a5bfdf094",
+    "after_hash": "6b0c8add45038303ba480c497df597f559ffd29e74a92a0081745ec90b61ba38",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.271912",
+    "path": "docs\\codex\\world-cli\\redirection.md",
+    "before_hash": "6f5aacf45269ad6f8d930ddcbf377b04167d50c93eb52b4ff9b1f24a9f9b1523",
+    "after_hash": "8eeab4cc8afca54e1813b09d0572a178d13a61cdaa10509113d422b407929ff8",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.283808",
+    "path": "docs\\codex\\world-cli\\scripting-basics.md",
+    "before_hash": "1c5354790ea8d4fa0e78f2a157d8ca5fdf3ce70460c9b887ca702d4484fb5793",
+    "after_hash": "2b0b193f6506226829c288683db561bf267f9c33631ef1b28cbb20423744319c",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.296515",
+    "path": "docs\\codex\\world-cli\\search.md",
+    "before_hash": "40d19aa492e7162aaf1f4847381a9b65ec47c9a770641c4db6a5ee3d6e7a61c9",
+    "after_hash": "a29b60ef0a832c496f998d5141959b5c37b08068b278b02f87c49b07c705bae0",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.309173",
+    "path": "docs\\codex\\world-cli\\signals.md",
+    "before_hash": "cda976b5b8142fda87c2e49df34f089c9e9ca67744722469d565d35f9bfdfd5a",
+    "after_hash": "7705c0678489a17dc5322a90ec271eec96bedf2b16a57d2cacd0275b0f4ed1af",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.321931",
+    "path": "docs\\codex\\world-cli\\working-directory.md",
+    "before_hash": "c15332b3627c59149aabb4696386da04bd082e5cf8f8b849077d446154c89d96",
+    "after_hash": "5a23778b560889002d54c59fdc8584475f045fae7323f566b961940ef55a8d9e",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.334014",
+    "path": "docs\\codex\\world-git\\add-and-commit.md",
+    "before_hash": "b03c5d66a2ba4d8b8a05c0f1a03bd902a082a3125c5e8d07bce829ad7e8a473c",
+    "after_hash": "67878ab4ed2a8811b798ded2bfa2cd9009015f6c94b1db93805fcf6cbe88722f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.346577",
+    "path": "docs\\codex\\world-git\\boss_timeline_release_arbiter.md",
+    "before_hash": "81d110c67fab1fdafb52ced5c7517ef069c8f9cb90aa0e2dae65344109e77037",
+    "after_hash": "7b3681dc220df8ddfeb718084b9c27fe240c37634c2291b896f2c22bce89a0c7",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.358687",
+    "path": "docs\\codex\\world-git\\branches.md",
+    "before_hash": "f84d6b572ba885cd3c21794a3eb54cdada3da64566f2461348cc9760dd7a9831",
+    "after_hash": "2cfb233d0fef9edcbd4313bf601fd9b2a6c1fb31baa914df5cf7bc408267ca1d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.370995",
+    "path": "docs\\codex\\world-git\\conflicts.md",
+    "before_hash": "b529594fc5119cca60894df2d51eb8dc0e92cb1a917b441c3ddc5a8e9827963a",
+    "after_hash": "1ef3de78f5cc7c2894028fe6e8b6b1dbf8a1dc15df3ad5c26e893b4515a62122",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.383103",
+    "path": "docs\\codex\\world-git\\gitignore.md",
+    "before_hash": "09d564003cd16ebb467c0a25c87e571556e9647ca1f5a83e0ce4dcf7b2241b2b",
+    "after_hash": "5441410ccace8932a84d90fcfd3b47b05d4a86464001e737dc5ba334166d85b3",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.395727",
+    "path": "docs\\codex\\world-git\\mental-model.md",
+    "before_hash": "5650f3274a49c03e5645ee69498cdd88927b97c01ba21882e31080a1631f29fe",
+    "after_hash": "b80704ee98520260bb938206234afc1d66ac73bb50357b5352b1e83f223b5a14",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.408242",
+    "path": "docs\\codex\\world-git\\merge.md",
+    "before_hash": "1173a842173b06ba2342b891df1c65014d0cbeed8539503eca6b0a2f48a169cb",
+    "after_hash": "bd256d0bd3abc76d08b112d87dcafea887327c4b9978e28fb659f07ff08241df",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.419792",
+    "path": "docs\\codex\\world-git\\README.md",
+    "before_hash": "e617fb7e7ea28bd69e47c72b4a9f0426296ebac4c0076fefb6b253a5add98ff7",
+    "after_hash": "fff103d4b76808cce7aefdb6d7c59cf4ac8d8d76e1f9ffbc306221c55fa8beb9",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.431860",
+    "path": "docs\\codex\\world-git\\rebase.md",
+    "before_hash": "a7383609c15398ea9ac58676cdeea06fe5140d1ae5fb846edd2662947bf5db7b",
+    "after_hash": "3ce47957893dcd9b8919a84986209b93e98fa63f0cba2aeb2cd21eb823154adc",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.443927",
+    "path": "docs\\codex\\world-git\\reflog.md",
+    "before_hash": "9890b5f4099be7adc1913b4fe95bf66a17739e728d4504c4945f01f99d014d5f",
+    "after_hash": "f9de9cfe49879f99a535ed14a9225dd11a053f25db542f108f74ba6b8e381125",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.456949",
+    "path": "docs\\codex\\world-git\\remotes.md",
+    "before_hash": "264df792db23da5bd6af122673c17a5c1fb34e844f43e8f8060ca39c4095019f",
+    "after_hash": "898ab26dac4bab0aca9a57f606a2b95c5e0f6bf489c92ef1aee50a0f403586a9",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.469583",
+    "path": "docs\\codex\\world-git\\reset-vs-revert.md",
+    "before_hash": "32b72e8ae81d2017b078874d14f7868c937c38f4503c5d0959ecc329c3e1f6fa",
+    "after_hash": "3841d71bbf705fad39c64472834912898600a202cca9304f7f87e25e158f01f7",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.482262",
+    "path": "docs\\codex\\world-git\\stash.md",
+    "before_hash": "dbb2729099d0e506498f17e2f9a5db3685ad52769da3e99452224c5a4881992d",
+    "after_hash": "a619ed31d693241f4964cd5cc25b5fddb10824747b0dc5a8b3163742b8be0f3d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.494582",
+    "path": "docs\\codex\\world-git\\status-and-diff.md",
+    "before_hash": "d9eebb903677c415efda88933598ecd4b80052105490e722121c2c9421b8a350",
+    "after_hash": "adfb516c80c383fb7ac511191b60802f3ce2b3a70ac9a635abdeae1d92cc9716",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.507397",
+    "path": "docs\\codex\\world-infra\\boss_grid_resilience_warden.md",
+    "before_hash": "f4ffdb1da336fffa6ebcc9d90b9f27d5e45906537b3b40481b1d1712f75a97d3",
+    "after_hash": "6cd328c61a3d618b705f49c61771997baef96c9692d0dee85a555ce937c589ff",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.519970",
+    "path": "docs\\codex\\world-infra\\ci-basics.md",
+    "before_hash": "a2725abf63219cbf40beeb45788768aa6d32cad9a8469ed14b52c2e2d496b828",
+    "after_hash": "785cbe9f6bcfd302c040f978db8728c9b3b04def5757576ceaaf04966bf9bb4a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.532262",
+    "path": "docs\\codex\\world-infra\\compose-basics.md",
+    "before_hash": "c00c967a0d058e542c3939c8cedbf022d16b88bb51dbdf61aefd233ff480c19a",
+    "after_hash": "c2b64ab6b3b57f3d0d8ac59a9b93b1fbc4bc53e75354d5cacbe86a3948867769",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.544017",
+    "path": "docs\\codex\\world-infra\\debugging-playbook.md",
+    "before_hash": "cc4bb5ff4466c9275e4e10d0239c66316ecbc5a7acffe72362be92011ae88ecb",
+    "after_hash": "15969ee95131a3369c542b1286d2531b40e5ba70c316799a968d5d79271edab6",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.556396",
+    "path": "docs\\codex\\world-infra\\dockerfile-basics.md",
+    "before_hash": "92e27ea09a5e5cd3f5a62f2834e322ed3ae293cfc37d1961ab17252cf13770a7",
+    "after_hash": "db096a442cbceafbc9f9cc8540945a1705c8903b9c50bcdbd75f9a4d5c7eb08d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.569427",
+    "path": "docs\\codex\\world-infra\\env-and-secrets.md",
+    "before_hash": "6f453ce6ed28d06486c620e0328c4e44e8cfca20bfe2d49face3ac6d5833bc4e",
+    "after_hash": "a9d3407d5af7b370757795af22e681e4e00a9a19edd828d0d0f8a5d84e4917b0",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.582871",
+    "path": "docs\\codex\\world-infra\\healthchecks.md",
+    "before_hash": "696618d5c8100d45781abead42b5871ca4338194b74056c0e0f90503b6206d91",
+    "after_hash": "35cf245a54e84f24c3751ab89be8416998474d49429750453e9044b3f8b2cc2b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.595745",
+    "path": "docs\\codex\\world-infra\\images-and-containers.md",
+    "before_hash": "38683898ff62b912dc52cd7088223b373d0c45ca70838ac78fa4145b0db79d2b",
+    "after_hash": "049c4b13135a9edf495cdca0231441548de68043dedd481b4e4f54697db17b0d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.608477",
+    "path": "docs\\codex\\world-infra\\networks.md",
+    "before_hash": "cd8c43f1ffa2b852c89e5f0e08a92cf50b9181bd584362e89649420aa991f354",
+    "after_hash": "81c958d8de4ed20fbdb6bbd4394cb90c6c942c26e5e61799f0f36d106eebf3db",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.622547",
+    "path": "docs\\codex\\world-infra\\observability.md",
+    "before_hash": "27dbdd07ee174029a49750467bd9bec46f64e003811f3b61d7a62c8ab8721f89",
+    "after_hash": "fd8106be4b15a53f23d02b61d708393809dd161163ca4c7ddda36b5dfcf8074f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.635241",
+    "path": "docs\\codex\\world-infra\\ports-and-localhost.md",
+    "before_hash": "0671e435221bc2225deaa739364e648ac47ff8ee660e037b3e056cba0647fd12",
+    "after_hash": "ee10e16cb59db8dbd689dd447778633cc15ce22316929e407cdf0d4a32e41c1f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.647414",
+    "path": "docs\\codex\\world-infra\\README.md",
+    "before_hash": "51ac8f7eb689a115439fe325897e198d87940f3dd3b6ce3906a6130dd4def9ce",
+    "after_hash": "5e8d1a540d0185f095ddef4c737ee0d08d3c89309a158a24d64409a53f9ac224",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.659848",
+    "path": "docs\\codex\\world-infra\\reverse-proxy.md",
+    "before_hash": "06c2858b933ef48eda7d1e80f4047a7056093e32dfd417334f6e95bf0cf21190",
+    "after_hash": "d1fd9e6e6b7860976d7b5c073561952576ac93618d6adf64c67cb2c2ad0eb74a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.672142",
+    "path": "docs\\codex\\world-infra\\volumes.md",
+    "before_hash": "c5a813aad7c7b7dbeb6a8c5f883d96f12cbd573d3e21dbacbe72b5fb0f780919",
+    "after_hash": "54b71c1d3884f5ae13bb542fb5aea57ec25bc09e5f1276f7ed06a15d6e88d629",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.684860",
+    "path": "docs\\codex\\world-java\\boss_reactor_runtime_arbiter.md",
+    "before_hash": "87fb768dbb77847a4861e703150c0ca089c113453bb03f1892c93d4194b3cb75",
+    "after_hash": "d399f961170774bef2d289adfacc70410c53f20a2dff76d3147a1e1c5fbebb1f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.698907",
+    "path": "docs\\codex\\world-node\\README.md",
+    "before_hash": "632c3df7fe2bb6870d81dd29f2952e0238484473a6df5dde5ef77925ff2b70f7",
+    "after_hash": "1f17f75415c8aebde8f792fc71b7c8a595033c3c53b92dfa5f0007c3e4bce5e4",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.712155",
+    "path": "docs\\codex\\world-python\\README.md",
+    "before_hash": "f45fc819cb8ccb3963170b90f69551f319dbb8df12a811b74a931c3ab73c65b6",
+    "after_hash": "31c5dee5240de606628b0db7cd38be73f7cd0dff4ba72b514b499271e3bc087e",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.725983",
+    "path": "docs\\codex\\world-react\\jsx.md",
+    "before_hash": "693026ae05441e2b7b90526eb377eb2c19f001a1d5ba9291ddf16fa86a058ee4",
+    "after_hash": "130469dc87522c5933fced3ca809ef55601d718b84ce29e36f8b2390e350d7ad",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.740450",
+    "path": "docs\\codex\\world-react\\README.md",
+    "before_hash": "97e850117affb2e02c793985ff1d9e62fe1907b6bf5379752de8ce03f9b3b263",
+    "after_hash": "1eb8601bf1387f91ceddf6459a333db952ee379f9fa20d458f15c564570a75ce",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.752760",
+    "path": "docs\\codex\\world-sql\\boss_archives_analytics_arbiter.md",
+    "before_hash": "0031ff3ac9f4a611d9e90f5adecc9ed4e06efda1661bada6a3818c22040aaf82",
+    "after_hash": "12fc60832d06424bd817246cef98259dee8cde484cada7b7eb3e99786bdf8501",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.767163",
+    "path": "docs\\codex\\glossary\\infra\\cwd.md",
+    "before_hash": "1601ca43d4a348488e2ad7a12b71da7095fca1ce1e4285b6f5996aa0cc76b1ba",
+    "after_hash": "e6a92dcc939944697fd702a683984957c98741c5ab387fface70212450daa8d2",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.780708",
+    "path": "docs\\codex\\glossary\\infra\\filesystem.md",
+    "before_hash": "80343f18df6b68944c577b49b23eed90f1f651cb2c089b7cd0752846e922f433",
+    "after_hash": "00d4d49cadaa83a2cf47ec824966f4ef7ea79620d38ec4ce391a7147d461a701",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.793786",
+    "path": "docs\\codex\\glossary\\infra\\path.md",
+    "before_hash": "26a109e6a7739db7fd12052182e7a1be7879c76c40bebd8371af9529a5840d15",
+    "after_hash": "4f46479701c43438cc754e5de023658a642865f231bf07ab7114d6154fdac5aa",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.806451",
+    "path": "docs\\codex\\glossary\\infra\\permissions.md",
+    "before_hash": "00902cbac389e9976c586dead408f720140352cae18f973ae8345d4a4861f896",
+    "after_hash": "6b053101f6314ad34a54129c017fbca39ac95949c5b3b8014f4024164384a95f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.819446",
+    "path": "docs\\codex\\glossary\\infra\\shell.md",
+    "before_hash": "c3bd48c41d71823be54f86cc9bf9e9855d2c9581173fef94f885b706af4fd2f2",
+    "after_hash": "d0e8ced146c1df07123ebe8cd4fad734bc5756f206ccaeafb54c9b4fb91089c9",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.836704",
+    "path": "docs\\codex\\glossary\\node\\async-await.md",
+    "before_hash": "1861c872543780870070f4a7388575b1c3aa2d9114a2120a615a3d189ec694e0",
+    "after_hash": "b3b9b3dd757897a6ce1a8699a3db245e08dd856222238e3f1f8aa10d71d6a1c8",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.849978",
+    "path": "docs\\codex\\glossary\\node\\async-errors.md",
+    "before_hash": "60e00ed946dfb1eb2d36117a195d6578675a3b40ae0d2388d4bb265c6859b343",
+    "after_hash": "563a88148e5bf979332aaebca952268e42baef04090ef3735b191a1ced3a3627",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.862282",
+    "path": "docs\\codex\\glossary\\node\\deploy-basics.md",
+    "before_hash": "4ec369f5734bb8964c52431bde4b715865d0379f8442934359a12b34a3881353",
+    "after_hash": "90935c884a3c8417419d913d180c6ec33d82c25542cb85658edbd50a75325073",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.872807",
+    "path": "docs\\codex\\glossary\\node\\env-and-config.md",
+    "before_hash": "a324b27678bfc029e2727096ae1915b62b9eabe09e074b29a7ede985e5efd687",
+    "after_hash": "beebeac3270060a32b38635eaaafac0b74466c1b9e992df269356e9377cde9e9",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.887179",
+    "path": "docs\\codex\\glossary\\node\\event-loop.md",
+    "before_hash": "01e9c9783ba439877ee28daf23316604598e71a8f4a8e120f8b157d4fd6e7d71",
+    "after_hash": "beee54b1d12d0a2003876cd3dd376975838cef8724e5628cd3ef6f56c79b6296",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.899060",
+    "path": "docs\\codex\\glossary\\node\\fs-and-path.md",
+    "before_hash": "9713988e84c7a35363a86f92c2519464900b019d73f24430bdfc6008b8ff6153",
+    "after_hash": "d9ef040cca81de8a77f102e12ca7e12d9ffe6e450ca6586c23d5164bd8e3ee7a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.911029",
+    "path": "docs\\codex\\glossary\\node\\health-checks.md",
+    "before_hash": "7bf350bdf1e0526c68b4df2b530c741d5b833691acc5af3330e90e7dbc5976c4",
+    "after_hash": "33c06836b69c75162a353dc850185cd9f273386a566939d8e80ec50f16b85ed4",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.923987",
+    "path": "docs\\codex\\glossary\\node\\http-basics.md",
+    "before_hash": "168bad566eb6006cda9b515a2d6e8e219b0a02475cd99a4e43181c9a539ae57f",
+    "after_hash": "5ccc8bb9f52185807e08158be31fca7ac254915232364e0d1ff8a47cf7150674",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.936523",
+    "path": "docs\\codex\\glossary\\node\\lockfiles.md",
+    "before_hash": "f0f28fa0191af2c33b5e052ffcd9db80437693efe528cf4833348210569513be",
+    "after_hash": "22d7a07c8b0e86b9f5ff2b2d334a2eba48ae4e9ca52283da43675d87a9b34380",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.949590",
+    "path": "docs\\codex\\glossary\\node\\logging.md",
+    "before_hash": "06bc7622d1bfc0d28c068c04efa06efc4187afcd620d948acfd1b91e97fc221d",
+    "after_hash": "d39ba165e3e6941742c6dcf0c2915ff6aea8b3f022615d7509a1baa76783c008",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.962488",
+    "path": "docs\\codex\\glossary\\node\\middleware.md",
+    "before_hash": "af3114f62a6dc4b7fdd82b6bf0a285a5ac70dbf8e7df3c4413ba26fab00b58bf",
+    "after_hash": "49b44a7813cd93313883b1a0b2d51dea411e2a195a58ecffa5e10178adaf3ea4",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.976433",
+    "path": "docs\\codex\\glossary\\node\\modules-esm-cjs.md",
+    "before_hash": "3560f2c6d64db4f0ed7ded7621b4da711adc767fb79a890cac36129033b5a138",
+    "after_hash": "856f1eae832e0408757b703ba018e55e96ec982350c0bf79b804a9e3dca0bea3",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:54.989559",
+    "path": "docs\\codex\\glossary\\node\\package-json.md",
+    "before_hash": "96627ce511c04c45e271c9fc4a8887168960fad39b1a659c8528be89517f7a7c",
+    "after_hash": "13431a73face3cca38a97a29fbae0266c6db98422220520174e693e9eaba4790",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.002651",
+    "path": "docs\\codex\\glossary\\node\\runtime-and-process.md",
+    "before_hash": "7a100d578e7dbe80e5b8345b775fcaaac03fafe0afb68a0b00b79ae349582a6b",
+    "after_hash": "f3a8760f188f6af3e50b3944a3e8e3d4a3c3f46a0ce4c0278b8a6955ce1e85fb",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.016352",
+    "path": "docs\\codex\\glossary\\node\\testing-basics.md",
+    "before_hash": "afcd4ee5049476a9a0a0894d0e74fc32bc27ab6dcab60007fc34c72ae901b3ca",
+    "after_hash": "992e085d1bf0c0ff4d81528f0e07aae35969b6e5c627210440713e6e6148e18e",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.029048",
+    "path": "docs\\codex\\glossary\\python\\break-continue.md",
+    "before_hash": "d87aded9a95a4b13d40baf6ae7ad8f0d62a2625b8be83df0441ee9375db36145",
+    "after_hash": "44480bab08be48d50cd07796088d544e406475dadb74df02c1966f947f7e88c8",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.042659",
+    "path": "docs\\codex\\glossary\\python\\csv.md",
+    "before_hash": "13d732dab9743e5be98532e5e1d251790208aaccb2e432de6679c11ab164dc22",
+    "after_hash": "6d2605eccd4fe4dba4a14c387df9b5b75dc7e529b9283dbb83efe17c58005e07",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.055654",
+    "path": "docs\\codex\\glossary\\python\\data-pipeline.md",
+    "before_hash": "14a18c4f06c5a7ca6236a919e9adbfe287d5eb93f32487b7c2117c61ba80de17",
+    "after_hash": "76947145480d0a4896a4c5143c41893481f44a429bcfef1f05071a117652e516",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.068688",
+    "path": "docs\\codex\\glossary\\python\\dictionary.md",
+    "before_hash": "d39db368a5ae21948e3b8d24f81d739cf866239251371f9dcbdb8a7f68d8798b",
+    "after_hash": "f35a869a91f478df60bcaab1463acad7a1fcd330013a2cc4429b7242415805be",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.083247",
+    "path": "docs\\codex\\glossary\\python\\for-loop.md",
+    "before_hash": "755d2d9f1ca56f004af0ab1e340b7ef569dba91c1e1b79ca33ec48b96856b563",
+    "after_hash": "83809ecbde0fb120b85baaa08cd375ff49df4f8f6eb2158cca48ff476dadcd5a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.097450",
+    "path": "docs\\codex\\glossary\\python\\infinite-loop.md",
+    "before_hash": "da98bfd860af3dc7550f2fb08c9b6605c38f0cbceb6ec9809eab6de2683e0dcb",
+    "after_hash": "1ac5010670bc68631de43a9cf0d231d88f508a4cd99b88d6b1944052d8a59506",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.108790",
+    "path": "docs\\codex\\glossary\\python\\iteration.md",
+    "before_hash": "d60606b116a2099c525685af013e867e3f4556b92014af9ff328ccd5337f52c0",
+    "after_hash": "8457c8cff2aafee3497fee4c2842b5be1bb506803c74f65278b4fb7d6ce4299d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.121868",
+    "path": "docs\\codex\\glossary\\python\\keyerror.md",
+    "before_hash": "7e13ebe03eea1b240d008aca9e0f93f1f9933e9fe5252539be792f721736e576",
+    "after_hash": "b4551e50c409b52eb0e1f5beb5db06eb253a6689ea20a431a7c2e24e06beab98",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.135633",
+    "path": "docs\\codex\\glossary\\python\\parse.md",
+    "before_hash": "626ca37347710491697297d29aa537fa9b8681d8eb35b1ee4e76c16f6bab9168",
+    "after_hash": "3a8767df56926f02a237a601c3863f8dc194a631ff882d3d05143be26fec3f09",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.149953",
+    "path": "docs\\codex\\glossary\\python\\range.md",
+    "before_hash": "0772432d12da94624c63bb77f8364b0eec0762b65a13b889e9ac2b8cd8a501fa",
+    "after_hash": "94bad05ca298ac6400c76476ab0a998cdd30539aea8b478e5ee18ef47602e87a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.163252",
+    "path": "docs\\codex\\glossary\\react\\components.md",
+    "before_hash": "f4842f6139bf5436536436eae0643dd685f8ec4e281a10c23423cccda94ede9a",
+    "after_hash": "e91fe09e18dc436822b4f6814c8e631ffa9e09d1864bfc00bd365508df0a5045",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.176235",
+    "path": "docs\\codex\\glossary\\react\\context.md",
+    "before_hash": "834bd52dbc85477363fbdcc0e334f0a124047f77a039fa47c223801891fde2c6",
+    "after_hash": "0be2f8e713b257387a4a4df7bc1ce012803b7464de36457cedf08394c2213c2b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.189072",
+    "path": "docs\\codex\\glossary\\react\\controlled-inputs.md",
+    "before_hash": "c4fa338168e05a823b0ddbbe9aa5dbc188dc8534dda23425d78b0a66c338bb9a",
+    "after_hash": "f3328aee7497a0fd403f33b713d22cb0701da5b7ead16a194ee4511084810126",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.202074",
+    "path": "docs\\codex\\glossary\\react\\custom-hooks.md",
+    "before_hash": "00c52d322c391cd6cd82a38f21706e0217d6491bce578cd2f4cf3820667ed9ca",
+    "after_hash": "af820c0b53f40af3dd178f55bb2f6b0ef194910cdd8f00a3c68add30dd638c5a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.216389",
+    "path": "docs\\codex\\glossary\\react\\effects.md",
+    "before_hash": "da0d66a842384433b95c170c454dc922ea657c0a7163c62d43eedc1d9b7894d3",
+    "after_hash": "5712d75f5723e37e07916be09a155245edc1504ea9eb540a506195c8172d02b9",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.228814",
+    "path": "docs\\codex\\glossary\\react\\events.md",
+    "before_hash": "e9ac65e51fa36b2fd1b35ea1ffa5b564c9eeebf7b273854b2046e4c99799ab2b",
+    "after_hash": "4ce407485b765e3742b5853973e9b65888bfa1c951e5cbd598356fa49febacc5",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.242579",
+    "path": "docs\\codex\\glossary\\react\\jsx.md",
+    "before_hash": "43f78e9168e92c49f188f1945fde590bf9e926e26a51fbf3aff82539b36ddc32",
+    "after_hash": "461f5177038ed0d550c5550eb1e51c06de8f0936dbaf433af2e565076a459969",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.255835",
+    "path": "docs\\codex\\glossary\\react\\lists-and-keys.md",
+    "before_hash": "61ec06cc06742f4d1e6f7ca16f25c5e7d96e13e7c6f76c41f41e58b572762191",
+    "after_hash": "8f7bceabd77d1b27399639086704f9e0a949f10e3d199a100855542e2c82f37e",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.269760",
+    "path": "docs\\codex\\glossary\\react\\performance-basics.md",
+    "before_hash": "ced38b62faaca41cc57e26ffeb31076fe12a3fdbf0e68512bc4ed2f8cdb3c5c8",
+    "after_hash": "a4e8f2333482ad168bdae6ac21b9f0e273f4354fbe1689e2a512ae95f7e3e67b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.283328",
+    "path": "docs\\codex\\glossary\\react\\props.md",
+    "before_hash": "565eb2639a4e19d4a4467f0f2ea30f5dda36597e6e6eba2779c7c5b2ef80cc0d",
+    "after_hash": "9b33103efbacfcc73088f42b7a20f28d11401c47719b427fd8b86ea2eef26be6",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.296940",
+    "path": "docs\\codex\\glossary\\react\\routing.md",
+    "before_hash": "6457ab885dc0704eded139c34292c412d20f19141a13ddfc2b23beef6a9790fc",
+    "after_hash": "a2456bf5a6a1ac1ab87b1e5e38ef9bcad4336a673d30cce55971df237c2bbdbd",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.310419",
+    "path": "docs\\codex\\glossary\\react\\state.md",
+    "before_hash": "41622c6a23049179b9853afce0f37060afe738f8465f64f7e5791f2004abb488",
+    "after_hash": "6a76b240cf1606195b7540a8878f8d9c09013057f3f18d11c072f30f87b6a01f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.329891",
+    "path": "docs\\codex\\glossary\\world-infra\\term-1.md",
+    "before_hash": "bb0c0c286b2ca716f4cf1d63663d21f370bc729bb4854d49e8f879f8904ea779",
+    "after_hash": "34d56cce18a2ea9b732111779b643f70c82b5ace3c0530746f460afb4b4dff94",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.344123",
+    "path": "docs\\codex\\glossary\\world-infra\\term-2.md",
+    "before_hash": "177fbf2a6df9fe68e873dcb7faee4e1a00a2c87a73caa24e69ff8156acba56ca",
+    "after_hash": "2e26998f282255d022cde115e9c325d4c928d623125e5b6d1ca6a409d41115da",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.356956",
+    "path": "docs\\codex\\glossary\\world-infra\\term-3.md",
+    "before_hash": "96500d19f08b8ff8e534017d05f2da2c23a193e18cca30f45d9798b651dc50d8",
+    "after_hash": "cd37be7982c040012479615b586c30d47baf4ac0dbd419c5d8e3d86e815b03bd",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.371344",
+    "path": "docs\\codex\\glossary\\world-python\\term-1.md",
+    "before_hash": "bd29a90541d7d2f78b4b6092153e7d5afc2254be2dc2c044ac80ded97b29ad19",
+    "after_hash": "f48d02d637844e690b8b381ec1be98d20589dc74bfa3371b698ad2802228cb48",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.384908",
+    "path": "docs\\codex\\glossary\\world-python\\term-2.md",
+    "before_hash": "130be44089a72764cd270731992f20cab140aa87df2fdf96a1fdb76a9394b322",
+    "after_hash": "ee970b11f0c303b9b7c58f57dff7344a2368393015f3e319f10e418a8d7b5eec",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.399534",
+    "path": "docs\\codex\\glossary\\web\\css\\backgrounds.md",
+    "before_hash": "38ac2d059585d812af3d081d2855178ffee352b6a5c70071579ae1647839a888",
+    "after_hash": "692026520d26b2b498b6de6bd963f1591522d6fe42eba59e190851465c9a588e",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.412835",
+    "path": "docs\\codex\\glossary\\web\\css\\box-model.md",
+    "before_hash": "712a4dcb6a6c53758042d8fadbef488fec9c636d123d23b32addbc967443ae9c",
+    "after_hash": "c2419da6a87577941e8eee1348a16a5fb8d610863f390f6ccbc4ad805d1acdd7",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.427345",
+    "path": "docs\\codex\\glossary\\web\\css\\cascade.md",
+    "before_hash": "b0c33502069a1a4a2ee57ed9e98c8757c39ba60804ab515eea5d06d2add23311",
+    "after_hash": "ce63a6a159691cc8e82a4d296392c9ee644c72e0a5ec61799fa4c48c7addd83d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.439842",
+    "path": "docs\\codex\\glossary\\web\\css\\colors.md",
+    "before_hash": "95d22880f7f9951ed8e75460614395e10e3782b55dc3863488dc88d78a7be20b",
+    "after_hash": "f4e07e31ecf1fcb2ffd9e4c10312563e849434bf4ad9a52f6c8bc91cdce1c8b2",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.452912",
+    "path": "docs\\codex\\glossary\\web\\css\\flexbox.md",
+    "before_hash": "4269da22a446139c5a9c52046e84236f37a1001362a711ea036b68fd9ffd9bea",
+    "after_hash": "72bfa5f7ebb8a5c0d7eb23ba20d3975adecd4fdd4e8609855d29a4c8acd790f8",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.466311",
+    "path": "docs\\codex\\glossary\\web\\css\\grid.md",
+    "before_hash": "be6e309638d52e00c0dc26c9bd70953094ac0d6fce11c416bc3107fbc9e15ab1",
+    "after_hash": "4dded311295c0faafa60c4c94d6fe074e87db44e70cd8c49cc60d8665a74c9f5",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.481306",
+    "path": "docs\\codex\\glossary\\web\\css\\inheritance.md",
+    "before_hash": "4b5dd0b32715e5cb3bada53aed1aecad054990920caf0d64bc7496aa82ce6275",
+    "after_hash": "8d74280c8fe1e384aa2a11d5b57566c787f55b6ccf8424fe218c33dd70a6e34c",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.494476",
+    "path": "docs\\codex\\glossary\\web\\css\\media-queries.md",
+    "before_hash": "84add4cf283dd70c572d346aa875099c6c73aab5ac34465135584ca0ab7488ce",
+    "after_hash": "9598bf9066d52955f80c36fce33486d1b6861125ad4779b47204697c9362b5ca",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.507500",
+    "path": "docs\\codex\\glossary\\web\\css\\positioning.md",
+    "before_hash": "f72368d23f7fb41dbde3f19e27c9cc76503479affb41bac79a2c7fd96e93b771",
+    "after_hash": "06c5003c3418c4b8e7a729b835892381ad1a344c67323de24305a76cdfa58fbe",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.521451",
+    "path": "docs\\codex\\glossary\\web\\css\\selectors.md",
+    "before_hash": "a4a0831bfb1cd673aa4305b458229fdfdf7dfcc33a0fc246e48517773942a37e",
+    "after_hash": "f2b202830d1361a7d1bffc88711ca67c218d5a38e51d2e87d8ab8c9f71226dc2",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.535415",
+    "path": "docs\\codex\\glossary\\web\\css\\specificity.md",
+    "before_hash": "b75db99da8f133576edb76dc5b9ad4ada9761c8f7e439627343f18c535525094",
+    "after_hash": "b21573011c11aba90db712253086c04989b5a57991cd38820dee26b88873564d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.548335",
+    "path": "docs\\codex\\glossary\\web\\css\\typography.md",
+    "before_hash": "a175924bffae5b66bfe129584c98761ca71e3881dee97d05e93c4d24a92dbd91",
+    "after_hash": "ebc683306caa711b85e6a1dd3f96627c81ab51a964e46c13f08447ca67b67c4c",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.562181",
+    "path": "docs\\codex\\glossary\\web\\css\\units.md",
+    "before_hash": "57e8496cd36aff1230bb0ccc864b5fdd79bf1ab5a2e4dd9eab6e2c411cdb4378",
+    "after_hash": "d84f197e6698b952a91fdf43edcde5e960286e87468c44946e6f2535ac187542",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.575196",
+    "path": "docs\\codex\\glossary\\web\\html\\accessibility-basics.md",
+    "before_hash": "62817073a67a330770a5b0ecbf1e04d3f61364186fc68d99661106972fa023d8",
+    "after_hash": "70a7c9bdacd12a84c41d5e09ad1f61c79aced680fd7cdc30b72c258c43ff001a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.587784",
+    "path": "docs\\codex\\glossary\\web\\html\\attributes.md",
+    "before_hash": "4aae15732ef7009655b8347e7268a01100e6811150f65e0580ff2210dcbb42e0",
+    "after_hash": "c76bda2661ce1785c0b3a117a367a056429a51d87d8b001f503ab3021b93692d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.601017",
+    "path": "docs\\codex\\glossary\\web\\html\\debug-validate.md",
+    "before_hash": "e66f011b16fbcb6ad3899fb8cf31b8618d9b931d7fcbfb9098ea1f440d5272ea",
+    "after_hash": "948258a899b3165cd2c7e2958be72d20c265370d997fee9f5e29d5e5fbfc4d01",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.613888",
+    "path": "docs\\codex\\glossary\\web\\html\\document-skeleton.md",
+    "before_hash": "438037b2706ee33c154372529e45123812336b6093fdb4f161f8754a5b67dcfe",
+    "after_hash": "d6b6e6267d47ae748131b57d6ae11f934e8c66d2c1550a3ccbacffb4001cef06",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.627158",
+    "path": "docs\\codex\\glossary\\web\\html\\forms.md",
+    "before_hash": "73c181918378a4adc963a396f66696e744dbde0e4d9fd529059770673b4a11f4",
+    "after_hash": "35951cd9409df9cabeb7bc04db8458839d26c1ab9917fa91215c9d6b7fd67503",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.640031",
+    "path": "docs\\codex\\glossary\\web\\html\\images.md",
+    "before_hash": "42a612ab946a1a131e9db48504eba47a86f92614c6ff9c0dfe268d90c6268363",
+    "after_hash": "297179dc5d273e13f9085885ac14eab8c7cf459eb83296d1da12c3efefa49c5b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.653154",
+    "path": "docs\\codex\\glossary\\web\\html\\links.md",
+    "before_hash": "45bb110b9ea8c6dd37e2ce84a72a8314b882cbe0fe61ad1050b0ab41a592aeec",
+    "after_hash": "a5f5bdecde93032670c24885745f8c79834be5e56ce45d265346efa9937abd4f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.671320",
+    "path": "docs\\codex\\glossary\\web\\html\\lists.md",
+    "before_hash": "39f01b45090f36f6f96c31e6c6b76b8fd994e1f4e6387dcc498b540ae0fe8244",
+    "after_hash": "9163ebd324941b11e2cb524d19ec216745455d34f50b65c423da9db9580bfaab",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.685590",
+    "path": "docs\\codex\\glossary\\web\\html\\media-embed.md",
+    "before_hash": "3bdc213e37a97c31de892c6287b846beb4c202ec76add26dc44760e5406fa9b3",
+    "after_hash": "a5da0f7ff1cf8938a82d7343c608bf8001b0840e6e4ae7d4de88c17a02eb02d8",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.698558",
+    "path": "docs\\codex\\glossary\\web\\html\\metadata-seo.md",
+    "before_hash": "0b61a091e2a7a2c4000e1a9177ecd01d8795d694abc41163563fb0913b680c0e",
+    "after_hash": "a97f5c7cefac2201876bb7ceff46e3d49416b1c7f4c28205834578ba08d417af",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.712446",
+    "path": "docs\\codex\\glossary\\web\\html\\semantic-elements.md",
+    "before_hash": "4a93b9e90f4dd0626493b3ca4f4d8e4e2626cd7180eb79d988f69811143b1ec4",
+    "after_hash": "0534211b06bbc225a059aeeaba1f29e57ab5fad5df1b918221e6949f3753e324",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.727329",
+    "path": "docs\\codex\\glossary\\web\\html\\tables.md",
+    "before_hash": "5ceba656199c629f5360a324d2e704329eeef3414489ce3f1508d2de3c9d4175",
+    "after_hash": "ba9d79b5898ccb7f12a3d6e5d46bfbfbff92d6c0edf47d1a0c0b887b61c03542",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.742058",
+    "path": "docs\\codex\\glossary\\web\\html\\tags-and-elements.md",
+    "before_hash": "a3a4d2daaa2b0cf47a4d7eee6cc6a1eb354394f76a1254bfd7ccc67c50b8c863",
+    "after_hash": "c853bb1d28419108eb4ca850c6c02876e9214d14ac38f289e5a553f5f9fa144f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.756991",
+    "path": "docs\\codex\\glossary\\python\\systems\\bottleneck.md",
+    "before_hash": "d4987864986cee1e9a7ff858d580040877902b027c399e3b80c8fc4dcbbe3c9a",
+    "after_hash": "68385852ce6f18e416e5cfd37d2942e52827f33f0746f6b38d9b1b2afc854413",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.771773",
+    "path": "docs\\codex\\glossary\\python\\systems\\configuration-env-vars.md",
+    "before_hash": "dbc501e7a06d532d85c5a99fc65a4965d993d27ffee83848317e40814e8768a9",
+    "after_hash": "4635b09bacced1deba32e40d9f5de6527e92905571b7e1eb27e19b29be08bd67",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.786635",
+    "path": "docs\\codex\\glossary\\python\\systems\\correlation-id.md",
+    "before_hash": "38a30eb3f1d66a7ed66a8ac130f5fcd903439e20ed7908438a3c4fb9d6e88130",
+    "after_hash": "774d8a62ac780e34f8f51b011c75860b938f715d4d7ea1f9e0afc12a0498b459",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.799672",
+    "path": "docs\\codex\\glossary\\python\\systems\\cprofile.md",
+    "before_hash": "2b5d5e796b68b11d1ac72cdbbe84404da9bd1ffadc0102429694c0da4f02e823",
+    "after_hash": "c65bd836a88fa3d9e2f8258c8f9aad30560cfcfd1837a4f9d23dcdf9f609d1b2",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.813219",
+    "path": "docs\\codex\\glossary\\python\\systems\\dependency-injection.md",
+    "before_hash": "8f451e2b928651dc843042123b2fa7108da2cc2f542ceebd0ee6eb52505b7771",
+    "after_hash": "7699be6558fe01434ca33199325d3e4cd45beff66f1d8fd41122a637d7351f55",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.826774",
+    "path": "docs\\codex\\glossary\\python\\systems\\dependency.md",
+    "before_hash": "e928259c102261a52bba66ba63c7b2ef6543856b4158d7b735e0c281731b0655",
+    "after_hash": "db1417889ebbea74e9fe30296df5bd4d811ab2597aaf36579118e2013289ff20",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.839814",
+    "path": "docs\\codex\\glossary\\python\\systems\\exception-handling.md",
+    "before_hash": "976d4e4e44d0ac039268e9d7947650fe35f2049d7e64a0654fc68efae9a2cc0c",
+    "after_hash": "c230fd703b5d15232592dc54fe77ec984469e1b4ce461b69bf7de5a840833e70",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.853140",
+    "path": "docs\\codex\\glossary\\python\\systems\\hot-path.md",
+    "before_hash": "22c8c44af28aab3637272056e1cbc546b734654f55c004ba57099441138fd21d",
+    "after_hash": "6d40284f0f7b93be0644b74713c001ad0d1d82a8aabe02f22c7ed367cea29697",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.865808",
+    "path": "docs\\codex\\glossary\\python\\systems\\idempotency.md",
+    "before_hash": "9c56a794db42a803d4d472e1e081baf6bd2543a419c439ef95e764738213dc77",
+    "after_hash": "c4407244acb4901fd162eac95566c3c61b7cf3ef8878ccff1ce9a7dee3000bb9",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.878459",
+    "path": "docs\\codex\\glossary\\python\\systems\\interface.md",
+    "before_hash": "72f2ea3dfc139898af2926f73c473c4b524989b96ef02069db19910cdf4d0bb3",
+    "after_hash": "8ca8c196e32a1445b3afbf05c1edac1dad1555855fe1ea29f234de17f9056484",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.890647",
+    "path": "docs\\codex\\glossary\\python\\systems\\module-not-found-error.md",
+    "before_hash": "f103f2047e68d8316fb968c513059227063daa4908825a82d7d3dcda00c44de6",
+    "after_hash": "0f4a0611fce461a1ef2fd335fc5c940d184979795d2bf705598b2a9294b585ed",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.903886",
+    "path": "docs\\codex\\glossary\\python\\systems\\observability.md",
+    "before_hash": "f3b87768cf57097c779edad6ccc46b1223024a274cb66ed5793ff18821d0ffcc",
+    "after_hash": "78543421771eb97a9d6b2ac9aface42df91355adc320fa9b99d68c80437b5770",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.915925",
+    "path": "docs\\codex\\glossary\\python\\systems\\package-manager.md",
+    "before_hash": "7fd38ca1f0c95bd6ffce01ec7a31037273f41cdae42c8bd55f9e1cb88e885a1e",
+    "after_hash": "731fb083a8d9cea4322633053861c003ec9653209c2531dd4f545da09ba681d1",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.928793",
+    "path": "docs\\codex\\glossary\\python\\systems\\pip.md",
+    "before_hash": "e0f8c2f94971abda61da0c5546d680fdfaf06bf4601ecdfeae528f97a0a97bf7",
+    "after_hash": "f7c75d80b7bb10381fa5ee3319271c3b3afea6a5fe15e1138fe7b4ba430e4c02",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.942599",
+    "path": "docs\\codex\\glossary\\python\\systems\\profiling.md",
+    "before_hash": "9af4f6bd306a09f774f79bf131d7c6d761551de887d87e98c5d8880aa67fcd3e",
+    "after_hash": "6d9918a81b91f5db01e60ad554cbff7b9bc34b542e6a9500f0131c6dde947f1e",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.955916",
+    "path": "docs\\codex\\glossary\\python\\systems\\queue-worker.md",
+    "before_hash": "9cb2ff5cf838c5a432f1b3b6667b30dc26df6a541e4742c153ff4a7fc11c15af",
+    "after_hash": "9a7942e1d039db95eaec3e76c5dded59cae157a74b3794c6397a3b2b41fc26b4",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.968551",
+    "path": "docs\\codex\\glossary\\python\\systems\\retry.md",
+    "before_hash": "fcd15a4a958b8ce43131a6ef087e1253ecba7c0b0d1d57dd6adc19296790662e",
+    "after_hash": "ea25e905850ebabfab295d10d25ec4f03616af37b44eaf6426cce07966df40bb",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.981693",
+    "path": "docs\\codex\\glossary\\python\\systems\\separation-of-concerns.md",
+    "before_hash": "6b4bb616eb4ce24565cd580117180d3fc41566eeb50b45c0f0ff7c8ec9c4a3ac",
+    "after_hash": "31526060af533c4d46afe351d2f87548ea9eb658587d41bfebfb32722d0d000e",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:55.995260",
+    "path": "docs\\codex\\glossary\\python\\systems\\side-effect.md",
+    "before_hash": "e65bfad4ae603e94b1e5092aac2a413de9d16cc1e2a83e17a89c6ef06cf4ff50",
+    "after_hash": "cc849b2c278f641fcc0720932fbed384deaf098e8a8ff80e3e9fb9055f8e9ccc",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:56.007757",
+    "path": "docs\\codex\\glossary\\python\\systems\\sli.md",
+    "before_hash": "46553420516c56dd20df9725b67aea303086185f350fd3b56d775160d0f7cc13",
+    "after_hash": "5d03fc14e575ddf1adb2e5db5303b8b6d56ff39751fc73ee5af58d76846f5012",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:56.021406",
+    "path": "docs\\codex\\glossary\\python\\systems\\slo.md",
+    "before_hash": "ac98c78e352d1525e514499dd61e605708bc1a93a1abc6907b494242faeb99bf",
+    "after_hash": "0ec6d6fbff61e146cdbe99308bebd8049ad8220edcc5d98f6f187623c609f19f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:56.035242",
+    "path": "docs\\codex\\glossary\\python\\systems\\structured-logging.md",
+    "before_hash": "cb854a87aa5efc93a835e913005c8a0b28705dd41558a10de87b64fd69f51e8c",
+    "after_hash": "d3cd0007706a00edf54aa42f8da6ee12605c3fe3e005d365d1f26204aa949839",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:56.048977",
+    "path": "docs\\codex\\glossary\\python\\systems\\time-complexity.md",
+    "before_hash": "04b8187ea3749017265aa9bec71cf60c8a7ec86e93697108aee6f6d65a50fdcd",
+    "after_hash": "9a7244977a96bef87daecd97d55686644a2fad930728d858acd9f295ad14f90b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:56.062042",
+    "path": "docs\\codex\\glossary\\python\\systems\\timeout.md",
+    "before_hash": "4794379112c18961bc3dd9d7256b6a9ffba82e44d87648a3dd1d2a3998b80d4e",
+    "after_hash": "0ed52aa80df25892d2d0f3ae3d40dc393a1312dd4de9debfff3557c8665cae12",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:49:56.074965",
+    "path": "docs\\codex\\glossary\\python\\systems\\venv.md",
+    "before_hash": "7a1b6ce4765a64c95b0d788e4809759b74d1de819a6a7faca0e6e3034c33ee34",
+    "after_hash": "c4f789005b6d02cb0f3159830dcc8861308067163afa9029d4f99e0d3bc9a0c2",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.139306",
+    "path": "docs\\codex\\world-agents\\agent-loop.md",
+    "before_hash": "ab53133836e800cc2cfcc2b8739203bf0b79c55db4f8a77459f309ea0208d5c7",
+    "after_hash": "4b03acb13fb5dcdd8cbe1a400a51416cdb2849c0bd49a6241a261a0f99c53048",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.142950",
+    "path": "docs\\codex\\world-agents\\approvals-and-diffs.md",
+    "before_hash": "f5a48df7508d5af881306a4cee8c303dbb9de0963613135f4dc3bcc6b77db470",
+    "after_hash": "c13a58509da0ac0c41309deeeba41a78da6caecc6df1c77c5340e779fdfd59e3",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.158156",
+    "path": "docs\\codex\\world-agents\\boss_oracle_orchestrator_prime.md",
+    "before_hash": "8af4e57dab9d4a72f18ea15ba531466546c403790b5f91a96be70cf34225d0c9",
+    "after_hash": "b7da8e58d13a2b4b704c1f1770eb7807c47f05dc39317c37703835873be52235",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.172052",
+    "path": "docs\\codex\\world-agents\\budgets-and-rate-limits.md",
+    "before_hash": "e0a37a34c6bdd58aa19d0a819bb7f2fb325970d601296fc161e6f83129c42ded",
+    "after_hash": "0152e9c4be821673e75e017f67125086bf785960e2d6dc1af3a910679bbc4b37",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.186597",
+    "path": "docs\\codex\\world-agents\\executor.md",
+    "before_hash": "8e344b4860375987bd50126fd0f07f8f221573ee00a0d034043042361e532cd5",
+    "after_hash": "2f447075ff3e4e125bdd98d13345a92e5088c87229a0b38c68c3a8fd4b8c699b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.202679",
+    "path": "docs\\codex\\world-agents\\grounding-and-rag.md",
+    "before_hash": "da185b0b08bb5b730a37a776041ec9e192dc699e91897c420126fa1486d84911",
+    "after_hash": "f040ff8dffed49d0d59e845f9089d4970afc06b1a3bafd2844afa55d5cdf38a8",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.218137",
+    "path": "docs\\codex\\world-agents\\guardrails-and-safety.md",
+    "before_hash": "a5c2864d153a71579ebc152fed70cf33d71fde5dda91f9ab067edb4288e5ed8c",
+    "after_hash": "62fef0a1ec0e89f0a49e9349b6ea146859d388f89628bd4d2121bcbc4867b421",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.232302",
+    "path": "docs\\codex\\world-agents\\memory.md",
+    "before_hash": "d67635e70f2c435b6c9c175396e2384b531edb0c19f168da8da9924b6f52b3d3",
+    "after_hash": "8e1cc5621c79129d799e39238ac666ad92ce6c65626ede55b993d97dc6a9b134",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.247153",
+    "path": "docs\\codex\\world-agents\\observability-and-tracing.md",
+    "before_hash": "67b993c9c9ea0c102974ca26ac8b8bcfd01bc59b0af177afe8bf9c7c8466e845",
+    "after_hash": "458e5365d3e66f58dc6dce5e2eb637240b896a92f2b9ea35f544f0734a2c678f",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.263372",
+    "path": "docs\\codex\\world-agents\\planner.md",
+    "before_hash": "df864a366cbbc7e0585f6b3cada7b135b7028354aafcba2795812ec67d53378a",
+    "after_hash": "86d3976e218a43e080807a8c2b9252296b501fed72ceb7a3b7bcdc109a6639dd",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.279700",
+    "path": "docs\\codex\\world-agents\\prompts-and-contracts.md",
+    "before_hash": "856441a04b529366bf24290c984d271580fd0fe6a7d46f4b3b9dc05e03ab7531",
+    "after_hash": "f1ec2292aef6e496364492f7e8775ed1d8322489e3470d1ac1ff0bc73473b92c",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.295284",
+    "path": "docs\\codex\\world-agents\\README.md",
+    "before_hash": "84694470034c3faf86c677e14c6293351d72418562b281bdddba34d76750339b",
+    "after_hash": "38fe99d9359e8b142252e82fc880a70beb54dbe84e64a1ff99eb4fc0831947ba",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.309931",
+    "path": "docs\\codex\\world-agents\\tool-contracts.md",
+    "before_hash": "4e6646f87eb49e0c4db07694b324353d2093ce6a3c33cf7149b7aa8b0764a40b",
+    "after_hash": "b8ec1f9042122a3342033450edcf126dd8ed1faf755e8778e5d3a9eb4024e3e3",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.366642",
+    "path": "docs\\codex\\world-agents\\verifier.md",
+    "before_hash": "6904fc078848ac97f01dfa83d78fec03eb7efc3e96dd60b9ac6d20fa682a81e2",
+    "after_hash": "6902a153696b69278cc8a25320392f54602d1009cb0ae6dd7fca864d9668d33e",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.382544",
+    "path": "docs\\codex\\world-git\\boss_timeline_release_arbiter.md",
+    "before_hash": "7b3681dc220df8ddfeb718084b9c27fe240c37634c2291b896f2c22bce89a0c7",
+    "after_hash": "f9ccece7945afebcd85ccc2f15e8c4eda41388ef89d0ae818b8f6a1400f28ba0",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.398690",
+    "path": "docs\\codex\\world-infra\\boss_grid_resilience_warden.md",
+    "before_hash": "6cd328c61a3d618b705f49c61771997baef96c9692d0dee85a555ce937c589ff",
+    "after_hash": "6d1c52bacce9f63e91c3c8a401dc7735f02015749a610a44940ba4a9ad787c47",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.413288",
+    "path": "docs\\codex\\world-infra\\ci-basics.md",
+    "before_hash": "785cbe9f6bcfd302c040f978db8728c9b3b04def5757576ceaaf04966bf9bb4a",
+    "after_hash": "75f794f2452cdabc52c1777777b07cd442cc0821f865746cafe1ec20e842be9a",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.427636",
+    "path": "docs\\codex\\world-infra\\compose-basics.md",
+    "before_hash": "c2b64ab6b3b57f3d0d8ac59a9b93b1fbc4bc53e75354d5cacbe86a3948867769",
+    "after_hash": "5dd5672881e6258a88e1008f207edd49fc8e1292e26e8261ea3a653dce9eb594",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.443144",
+    "path": "docs\\codex\\world-infra\\debugging-playbook.md",
+    "before_hash": "15969ee95131a3369c542b1286d2531b40e5ba70c316799a968d5d79271edab6",
+    "after_hash": "92714c7adc4a6da60142fdd080f187edc9cb9a76bc0e163a5f7fb2febc6f3844",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.458127",
+    "path": "docs\\codex\\world-infra\\env-and-secrets.md",
+    "before_hash": "a9d3407d5af7b370757795af22e681e4e00a9a19edd828d0d0f8a5d84e4917b0",
+    "after_hash": "40e6df1dea45b9ea3ff4d71375779564c451d5bb76f9886fb8d80f91fb0c7040",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.474805",
+    "path": "docs\\codex\\world-infra\\healthchecks.md",
+    "before_hash": "35cf245a54e84f24c3751ab89be8416998474d49429750453e9044b3f8b2cc2b",
+    "after_hash": "61fd754a212a52fe1a7f2384725c1cedc797170deb60831a4b1d6e67bd5c11e2",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.489532",
+    "path": "docs\\codex\\world-infra\\images-and-containers.md",
+    "before_hash": "049c4b13135a9edf495cdca0231441548de68043dedd481b4e4f54697db17b0d",
+    "after_hash": "39c0fcf540b5bc47c79e15a073e1995925605bbada6484ef482ffcb170c14a08",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.504968",
+    "path": "docs\\codex\\world-infra\\networks.md",
+    "before_hash": "81c958d8de4ed20fbdb6bbd4394cb90c6c942c26e5e61799f0f36d106eebf3db",
+    "after_hash": "b5ace24a88853ec2344b491a9b27c367ce1d3fec53d68104a5a489245f8bdac3",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.519443",
+    "path": "docs\\codex\\world-infra\\observability.md",
+    "before_hash": "fd8106be4b15a53f23d02b61d708393809dd161163ca4c7ddda36b5dfcf8074f",
+    "after_hash": "114180b6fbf1b4bb16f699d0ef81f54e0c7f76daba46b8b8285ae98734d3c661",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.534398",
+    "path": "docs\\codex\\world-infra\\ports-and-localhost.md",
+    "before_hash": "ee10e16cb59db8dbd689dd447778633cc15ce22316929e407cdf0d4a32e41c1f",
+    "after_hash": "a051f5261701c4a21a716d5fbd86291cba54418643d48c8823aeb5fc45667f03",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.548518",
+    "path": "docs\\codex\\world-infra\\README.md",
+    "before_hash": "5e8d1a540d0185f095ddef4c737ee0d08d3c89309a158a24d64409a53f9ac224",
+    "after_hash": "c2c29a26d858afba8ba34afcd56475e49e3b729dff584763bd7ae7984a883bbd",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.563053",
+    "path": "docs\\codex\\world-infra\\reverse-proxy.md",
+    "before_hash": "d1fd9e6e6b7860976d7b5c073561952576ac93618d6adf64c67cb2c2ad0eb74a",
+    "after_hash": "9712d937382aca9ad330de90242af6eb725cf99bef223c1da3df63c4db59073d",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.576931",
+    "path": "docs\\codex\\world-infra\\volumes.md",
+    "before_hash": "54b71c1d3884f5ae13bb542fb5aea57ec25bc09e5f1276f7ed06a15d6e88d629",
+    "after_hash": "41fb46609804bc40d0d586dd39849579b1cb2dbf5319e4f3275580ceb17cca19",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.590100",
+    "path": "docs\\codex\\world-java\\boss_reactor_runtime_arbiter.md",
+    "before_hash": "d399f961170774bef2d289adfacc70410c53f20a2dff76d3147a1e1c5fbebb1f",
+    "after_hash": "3770150aead93e401aa897ed681809bbaa50270baac1452a2fdb3c6dcc6f0800",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.606170",
+    "path": "docs\\codex\\world-python\\README.md",
+    "before_hash": "31c5dee5240de606628b0db7cd38be73f7cd0dff4ba72b514b499271e3bc087e",
+    "after_hash": "6f48ce52fb5c7f66308de23706746b934fb8d74190b8bedef6c1d5c1d240fcab",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.622945",
+    "path": "docs\\codex\\world-sql\\boss_archives_analytics_arbiter.md",
+    "before_hash": "12fc60832d06424bd817246cef98259dee8cde484cada7b7eb3e99786bdf8501",
+    "after_hash": "f36e9303013d7d64ab8fdd5ea13de4ef6dbe15db9cf04340892c3b8d8f7798f1",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.646667",
+    "path": "docs\\codex\\glossary\\node\\health-checks.md",
+    "before_hash": "33c06836b69c75162a353dc850185cd9f273386a566939d8e80ec50f16b85ed4",
+    "after_hash": "af5ea14d87e2311ab7a737710065386eebc4302e508ebc10ce85c64bfaaca4c9",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.663297",
+    "path": "docs\\codex\\glossary\\node\\lockfiles.md",
+    "before_hash": "22d7a07c8b0e86b9f5ff2b2d334a2eba48ae4e9ca52283da43675d87a9b34380",
+    "after_hash": "933f6b6c49b600a4c574080485f16af834f7c88c20ab5f7821ccb9fc313278a7",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.678441",
+    "path": "docs\\codex\\glossary\\node\\runtime-and-process.md",
+    "before_hash": "f3a8760f188f6af3e50b3944a3e8e3d4a3c3f46a0ce4c0278b8a6955ce1e85fb",
+    "after_hash": "46dc97275f5e5308f86315e589a11bdc72d7afe478ed348fc81649bd61280be2",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.696378",
+    "path": "docs\\codex\\glossary\\react\\performance-basics.md",
+    "before_hash": "a4e8f2333482ad168bdae6ac21b9f0e273f4354fbe1689e2a512ae95f7e3e67b",
+    "after_hash": "35cd76b916e72e7a3bdf68b7d6bbd6f6da1e9e1f1da73fc32ff1657d9d4c4aea",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.710808",
+    "path": "docs\\codex\\glossary\\react\\routing.md",
+    "before_hash": "a2456bf5a6a1ac1ab87b1e5e38ef9bcad4336a673d30cce55971df237c2bbdbd",
+    "after_hash": "ac7e0bdaa436b37e20df3c2143749fb573330c195bd10b155778e75b6c5c153b",
+    "reason": "Upgrading Legacy to Tier-1"
+  },
+  {
+    "timestamp": "2026-02-09T14:50:31.743902",
+    "path": "docs\\codex\\glossary\\python\\systems\\separation-of-concerns.md",
+    "before_hash": "31526060af533c4d46afe351d2f87548ea9eb658587d41bfebfb32722d0d000e",
+    "after_hash": "bcab7a07f6c3538137b04446dd3179f88a2b05d80bd4f7c096c6ce5d099e9390",
+    "reason": "Upgrading Legacy to Tier-1"
+  }
+]

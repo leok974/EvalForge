@@ -1,0 +1,5 @@
+Proto LocalAddress PID Program
+tcp 127.0.0.1:5173 111 node
+tcp 0.0.0.0:8000 222 uvicorn
+tcp 0.0.0.0:5435 333 postgres
+tcp 127.0.0.1:3000 444 vite

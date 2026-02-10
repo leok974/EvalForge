@@ -23,3 +23,23 @@ Volumes provide persistence (DB data, caches, uploads).
 ## Tiny patterns
 - list: `docker volume ls`
 - inspect: `docker volume inspect <name>`
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

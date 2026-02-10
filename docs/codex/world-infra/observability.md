@@ -22,3 +22,23 @@ If you can’t see it, you can’t fix it.
 ## Tier-1 standard
 - logs should explain why readiness failed
 - errors should include enough context to reproduce
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

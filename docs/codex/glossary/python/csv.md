@@ -1,38 +1,48 @@
 ---
-title: Csv
 id: glossary/python/csv
+title: CSV
 world: python
+level: beginner
+tags: [data, files, parsing]
+related:
+  - codex:glossary/python/parse
+  - codex:glossary/python/dictionary
+  - codex:glossary/python/data-pipeline
 ---
 
-# Csv
+## Definition
+**CSV (Comma-Separated Values)** is a simple text format for storing tabular data where each line represents a row and values are separated by commas. Python's `csv` module provides tools for reading and writing CSV files.
 
-**Definition:** Csv is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Csv plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Csv to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Csv frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Read CSV files with `csv.reader()` or `csv.DictReader()`.
+- Write CSV files with `csv.writer()` or `csv.DictWriter()`.
+- Use DictReader/DictWriter for column-based access.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Csv initialized"
-    print(result)
-    return True
+import csv
+
+# Write CSV
+with open('users.csv', 'w', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(['name', 'age', 'email'])
+    writer.writerow(['Alice', 30, 'alice@example.com'])
+    writer.writerow(['Bob', 25, 'bob@example.com'])
+
+# Read CSV
+with open('users.csv', 'r') as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        print(f"{row['name']} is {row['age']} years old")
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* CSV doesn't handle commas within values well unless quoted; use proper quoting settings.
+* Not specifying `newline=''` on Windows can cause extra blank rows.
+
+## Related
+
+* Parse: CSV parsing is a form of text parsing.
+* Dictionary: DictReader returns rows as dictionaries.
+* Data Pipeline: CSV is common in data pipelines for ingestion.

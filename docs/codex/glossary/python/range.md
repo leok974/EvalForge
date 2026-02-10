@@ -1,38 +1,49 @@
 ---
-title: Range
 id: glossary/python/range
+title: Range
 world: python
+level: beginner
+tags: [built-ins, loops, basics]
+related:
+  - codex:glossary/python/for-loop
+  - codex:glossary/python/iteration
+  - codex:glossary/python/systems/time-complexity
 ---
 
-# Range
+## Definition
+**Range** is a built-in function that generates a sequence of numbers. It's commonly used in for loops to iterate a specific number of times. `range()` is memory-efficient because it generates numbers on demand, not all at once.
 
-**Definition:** Range is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Range plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Range to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Range frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- `range(n)` generates 0 to n-1.
+- `range(start, stop)` generates start to stop-1.
+- `range(start, stop, step)` generates numbers with custom step.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Range initialized"
-    print(result)
-    return True
+# range(5) generates 0, 1, 2, 3, 4
+for i in range(5):
+    print(i)
+
+# range(2, 6) generates 2, 3, 4, 5
+for i in range(2, 6):
+    print(i)
+
+# range with step
+for i in range(0, 10, 2):
+    print(i)  # 0, 2, 4, 6, 8
+
+# Reverse range
+for i in range(5, 0, -1):
+    print(i)  # 5, 4, 3, 2, 1
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* `range(n)` starts at 0, not 1 — forgetting this causes off-by-one errors.
+* Converting `range()` to a list with `list(range(1000000))` wastes memory; iterate directly.
+
+## Related
+
+* For Loop: range is commonly used in for loops.
+* Iteration: range generates sequences for iteration.
+* Time Complexity: understanding range helps analyze loop complexity.

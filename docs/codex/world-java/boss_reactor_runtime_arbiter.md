@@ -110,3 +110,20 @@ It should cover:
   - `## Operability & Incident Handling`
 
 The Arbiter assesses whether your system can **sustain high throughput and reliability** under pressure.
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` text
+// Example
+```

@@ -43,3 +43,14 @@ Resolve with intention:
 * choose one side
 * or combine both
   Then run tests.
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

@@ -1,38 +1,50 @@
 ---
-title: Profiling
 id: glossary/python/systems/profiling
+title: Profiling
 world: python
+level: intermediate
+tags: [performance, debugging, optimization]
+related:
+  - codex:glossary/python/systems/cprofile
+  - codex:glossary/python/systems/bottleneck
+  - codex:glossary/python/systems/hot-path
 ---
 
-# Profiling
+## Definition
+**Profiling** measures where your program spends time and resources (CPU, memory). Use profiling to identify bottlenecks before optimizing — guessing at performance problems is usually wrong.
 
-**Definition:** Profiling is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Profiling plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Profiling to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Profiling frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Profile before optimizing to find the actual slow parts.
+- Use `cProfile` for CPU profiling or `memory_profiler` for memory usage.
+- Focus optimization on the top 3-5 functions consuming the most time.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Profiling initialized"
-    print(result)
-    return True
+import cProfile
+import pstats
+
+def compute():
+    return sum(i**2 for i in range(1_000_000))
+
+# Profile the function
+profiler = cProfile.Profile()
+profiler.enable()
+compute()
+profiler.disable()
+
+# Print stats sorted by cumulative time
+stats = pstats.Stats(profiler)
+stats.sort_stats('cumulative')
+stats.print_stats(10)
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Profiling in development doesn't always match production performance (different data, load, hardware).
+* Over-optimizing based on micro-benchmarks instead of real-world usage.
+
+## Related
+
+* cProfile: Python's built-in profiler.
+* Bottleneck: profiling reveals bottlenecks.
+* Hot Path: profile the hot path to find the biggest wins.

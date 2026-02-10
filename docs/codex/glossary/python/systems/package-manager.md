@@ -1,38 +1,47 @@
 ---
-title: Package Manager
 id: glossary/python/systems/package-manager
+title: Package Manager
 world: python
+level: beginner
+tags: [packaging, dependencies, tooling]
+related:
+  - codex:glossary/python/systems/pip
+  - codex:glossary/python/systems/venv
+  - codex:glossary/python/systems/module-not-found-error
 ---
 
-# Package Manager
+## Definition
+A **package manager** is a tool that installs, upgrades, and removes third-party libraries ("packages") for your project. In Python, the most common package manager workflow uses **pip** to install packages from PyPI. Package managers matter because they make dependencies reproducible across machines.
 
-**Definition:** Package Manager is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Package Manager plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Package Manager to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Package Manager frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Install a dependency for your project (typically into a virtual environment).
+- Pin versions so teammates/CI get the same behavior.
+- Upgrade carefully to avoid breaking changes.
 
 ## Example
+```bash
+# create + activate a virtual environment first (recommended)
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
 
-The following code snippet demonstrates a basic application of the concept:
+# install packages
+python -m pip install requests
 
-```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Package Manager initialized"
-    print(result)
-    return True
+# freeze exact versions for reproducibility
+python -m pip freeze > requirements.txt
+
+# later: install the same set elsewhere
+python -m pip install -r requirements.txt
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* **Installing globally** (no venv) often causes version conflicts between projects.
+* Forgetting to **pin versions** can cause "works on my machine" bugs when dependencies update.
+
+## Related
+
+* Pip: the standard Python package installer.
+* Venv: virtual environments isolate project dependencies.
+* ModuleNotFoundError: common error when packages aren't installed.

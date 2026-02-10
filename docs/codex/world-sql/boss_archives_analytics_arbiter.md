@@ -127,3 +127,20 @@ It should cover:
 
 The Arbiter doesn’t require specific tools (dbt vs custom, BigQuery vs Snowflake).  
 It wants a design that is **coherent, resilient, and auditable**.
+
+
+## Pitfalls
+
+- Forgetting the semicolon at the end of the statement.
+- Selecting all columns (`*`) in production can reduce performance.
+
+## Related
+
+- [[sql/select]]
+- [[sql/where]]
+
+## Example
+
+``` sql
+SELECT * FROM table;
+```

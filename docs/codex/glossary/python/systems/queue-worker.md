@@ -1,38 +1,47 @@
 ---
-title: Queue Worker
 id: glossary/python/systems/queue-worker
+title: Queue Worker
 world: python
+level: advanced
+tags: [distributed-systems, async, architecture]
+related:
+  - codex:glossary/python/systems/idempotency
+  - codex:glossary/python/systems/retry
+  - codex:glossary/python/systems/correlation-id
 ---
 
-# Queue Worker
+## Definition
+A **queue worker** is a process that consumes messages from a queue (like RabbitMQ, Redis, SQ S) and performs background tasks. Workers decouple heavy processing from request/response cycles, improving API responsiveness.
 
-**Definition:** Queue Worker is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, Queue Worker plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize Queue Worker to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter Queue Worker frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Offload slow tasks (email sending, image processing, data pipeline jobs) to workers.
+- Use queues to handle traffic spikes without overloading servers.
+- Ensure workers are idempotent — messages may be delivered more than once.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "Queue Worker initialized"
-    print(result)
-    return True
+import redis
+
+# Producer: enqueue work
+queue = redis.Redis()
+queue.lpush("tasks", json.dumps({"type": "send_email", "to": "user@example.com"}))
+
+# Worker: process tasks
+while True:
+    task_json = queue.brpop("tasks", timeout=5)
+    if task_json:
+        task = json.loads(task_json[1])
+        print(f"Processing: {task['type']}")
+        send_email(task['to'])
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Workers that aren't idempotent can process the same message multiple times, causing duplication.
+* No dead-letter queue means failed messages are lost forever.
+
+## Related
+
+* Idempotency: workers must handle duplicate messages idempotently.
+* Retry: workers need retry logic for transient failures.
+* Correlation ID: preserve correlation IDs from queued messages for tracing.

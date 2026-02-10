@@ -1,0 +1,3 @@
+Check reverse proxy upstream host/port
+Verify backend /health from proxy network
+Inspect backend logs for crash/restarts

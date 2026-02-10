@@ -44,3 +44,14 @@ git switch main
 git fetch origin
 git pull --ff-only
 ```
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

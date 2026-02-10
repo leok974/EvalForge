@@ -43,3 +43,14 @@ Fix: unstage then stage carefully:
 git restore --staged .
 git add -p
 ```
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

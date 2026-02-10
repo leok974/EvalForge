@@ -1,0 +1,1406 @@
+[
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-approvals-diffs",
+    "source_file": "docs\\quests\\agents-approvals-diffs\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-approvals-diffs",
+    "source_file": "docs\\quests\\agents-approvals-diffs\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-approvals-diffs",
+    "source_file": "docs\\quests\\agents-approvals-diffs\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-budgets",
+    "source_file": "docs\\quests\\agents-budgets\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-budgets",
+    "source_file": "docs\\quests\\agents-budgets\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-budgets",
+    "source_file": "docs\\quests\\agents-budgets\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-executor",
+    "source_file": "docs\\quests\\agents-executor\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-executor",
+    "source_file": "docs\\quests\\agents-executor\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-executor",
+    "source_file": "docs\\quests\\agents-executor\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/agents/rag",
+    "quest_slug": "agents-grounding-q1-rag-basics",
+    "source_file": "docs\\quests\\agents-grounding-q1-rag-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/agents/retrieval",
+    "quest_slug": "agents-grounding-q1-rag-basics",
+    "source_file": "docs\\quests\\agents-grounding-q1-rag-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/agents/chunk",
+    "quest_slug": "agents-grounding-q1-rag-basics",
+    "source_file": "docs\\quests\\agents-grounding-q1-rag-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/agents/grounding",
+    "quest_slug": "agents-grounding-q1-rag-basics",
+    "source_file": "docs\\quests\\agents-grounding-q1-rag-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/agents/citation",
+    "quest_slug": "agents-grounding-q1-rag-basics",
+    "source_file": "docs\\quests\\agents-grounding-q1-rag-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-ignition",
+    "source_file": "docs\\quests\\agents-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-ignition",
+    "source_file": "docs\\quests\\agents-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-ignition",
+    "source_file": "docs\\quests\\agents-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-memory",
+    "source_file": "docs\\quests\\agents-memory\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-memory",
+    "source_file": "docs\\quests\\agents-memory\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-memory",
+    "source_file": "docs\\quests\\agents-memory\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-observability",
+    "source_file": "docs\\quests\\agents-observability\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-observability",
+    "source_file": "docs\\quests\\agents-observability\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-observability",
+    "source_file": "docs\\quests\\agents-observability\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-planner",
+    "source_file": "docs\\quests\\agents-planner\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-planner",
+    "source_file": "docs\\quests\\agents-planner\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-planner",
+    "source_file": "docs\\quests\\agents-planner\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-prompts-contracts",
+    "source_file": "docs\\quests\\agents-prompts-contracts\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-prompts-contracts",
+    "source_file": "docs\\quests\\agents-prompts-contracts\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-prompts-contracts",
+    "source_file": "docs\\quests\\agents-prompts-contracts\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-tools-basics",
+    "source_file": "docs\\quests\\agents-tools-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-tools-basics",
+    "source_file": "docs\\quests\\agents-tools-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-tools-basics",
+    "source_file": "docs\\quests\\agents-tools-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-1",
+    "quest_slug": "agents-verifier",
+    "source_file": "docs\\quests\\agents-verifier\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-2",
+    "quest_slug": "agents-verifier",
+    "source_file": "docs\\quests\\agents-verifier\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-agents/term-3",
+    "quest_slug": "agents-verifier",
+    "source_file": "docs\\quests\\agents-verifier\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-add-commit",
+    "source_file": "docs\\quests\\git-add-commit\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-add-commit",
+    "source_file": "docs\\quests\\git-add-commit\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-add-commit",
+    "source_file": "docs\\quests\\git-add-commit\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-branch-checkout",
+    "source_file": "docs\\quests\\git-branch-checkout\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-branch-checkout",
+    "source_file": "docs\\quests\\git-branch-checkout\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-branch-checkout",
+    "source_file": "docs\\quests\\git-branch-checkout\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/git/branch",
+    "quest_slug": "git-branch-q1-branching-strategies",
+    "source_file": "docs\\quests\\git-branch-q1-branching-strategies\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/git/head",
+    "quest_slug": "git-branch-q1-branching-strategies",
+    "source_file": "docs\\quests\\git-branch-q1-branching-strategies\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/git/switch",
+    "quest_slug": "git-branch-q1-branching-strategies",
+    "source_file": "docs\\quests\\git-branch-q1-branching-strategies\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/git/merge",
+    "quest_slug": "git-branch-q1-branching-strategies",
+    "source_file": "docs\\quests\\git-branch-q1-branching-strategies\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/git/main-branch",
+    "quest_slug": "git-branch-q1-branching-strategies",
+    "source_file": "docs\\quests\\git-branch-q1-branching-strategies\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-ignition",
+    "source_file": "docs\\quests\\git-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-ignition",
+    "source_file": "docs\\quests\\git-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-ignition",
+    "source_file": "docs\\quests\\git-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-init-clone",
+    "source_file": "docs\\quests\\git-init-clone\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-init-clone",
+    "source_file": "docs\\quests\\git-init-clone\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-init-clone",
+    "source_file": "docs\\quests\\git-init-clone\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-merge-conflicts",
+    "source_file": "docs\\quests\\git-merge-conflicts\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-merge-conflicts",
+    "source_file": "docs\\quests\\git-merge-conflicts\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-merge-conflicts",
+    "source_file": "docs\\quests\\git-merge-conflicts\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-push-pull",
+    "source_file": "docs\\quests\\git-push-pull\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-push-pull",
+    "source_file": "docs\\quests\\git-push-pull\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-push-pull",
+    "source_file": "docs\\quests\\git-push-pull\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-remote-origin",
+    "source_file": "docs\\quests\\git-remote-origin\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-remote-origin",
+    "source_file": "docs\\quests\\git-remote-origin\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-remote-origin",
+    "source_file": "docs\\quests\\git-remote-origin\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-reset-revert",
+    "source_file": "docs\\quests\\git-reset-revert\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-reset-revert",
+    "source_file": "docs\\quests\\git-reset-revert\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-reset-revert",
+    "source_file": "docs\\quests\\git-reset-revert\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-stash",
+    "source_file": "docs\\quests\\git-stash\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-stash",
+    "source_file": "docs\\quests\\git-stash\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-stash",
+    "source_file": "docs\\quests\\git-stash\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-1",
+    "quest_slug": "git-status-log",
+    "source_file": "docs\\quests\\git-status-log\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-2",
+    "quest_slug": "git-status-log",
+    "source_file": "docs\\quests\\git-status-log\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-git/term-3",
+    "quest_slug": "git-status-log",
+    "source_file": "docs\\quests\\git-status-log\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/image",
+    "quest_slug": "infra-service-q1-dockerize-and-compose",
+    "source_file": "docs\\quests\\infra-service-q1-dockerize-and-compose\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/container",
+    "quest_slug": "infra-service-q1-dockerize-and-compose",
+    "source_file": "docs\\quests\\infra-service-q1-dockerize-and-compose\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/dockerfile",
+    "quest_slug": "infra-service-q1-dockerize-and-compose",
+    "source_file": "docs\\quests\\infra-service-q1-dockerize-and-compose\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/docker-compose",
+    "quest_slug": "infra-service-q1-dockerize-and-compose",
+    "source_file": "docs\\quests\\infra-service-q1-dockerize-and-compose\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/infra/port-mapping",
+    "quest_slug": "infra-service-q1-dockerize-and-compose",
+    "source_file": "docs\\quests\\infra-service-q1-dockerize-and-compose\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-1",
+    "quest_slug": "js-arrays-q1-basics",
+    "source_file": "docs\\quests\\js-arrays-q1-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-2",
+    "quest_slug": "js-arrays-q1-basics",
+    "source_file": "docs\\quests\\js-arrays-q1-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-3",
+    "quest_slug": "js-arrays-q1-basics",
+    "source_file": "docs\\quests\\js-arrays-q1-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/array",
+    "quest_slug": "js-arrays-q2-map-filter-reduce",
+    "source_file": "docs\\quests\\js-arrays-q2-map-filter-reduce\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/callback",
+    "quest_slug": "js-arrays-q2-map-filter-reduce",
+    "source_file": "docs\\quests\\js-arrays-q2-map-filter-reduce\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/map",
+    "quest_slug": "js-arrays-q2-map-filter-reduce",
+    "source_file": "docs\\quests\\js-arrays-q2-map-filter-reduce\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/filter",
+    "quest_slug": "js-arrays-q2-map-filter-reduce",
+    "source_file": "docs\\quests\\js-arrays-q2-map-filter-reduce\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/reduce",
+    "quest_slug": "js-arrays-q2-map-filter-reduce",
+    "source_file": "docs\\quests\\js-arrays-q2-map-filter-reduce\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-1",
+    "quest_slug": "js-async-q1-promises-basics",
+    "source_file": "docs\\quests\\js-async-q1-promises-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-2",
+    "quest_slug": "js-async-q1-promises-basics",
+    "source_file": "docs\\quests\\js-async-q1-promises-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-3",
+    "quest_slug": "js-async-q1-promises-basics",
+    "source_file": "docs\\quests\\js-async-q1-promises-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-1",
+    "quest_slug": "js-control-q1-if-else-loops",
+    "source_file": "docs\\quests\\js-control-q1-if-else-loops\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-2",
+    "quest_slug": "js-control-q1-if-else-loops",
+    "source_file": "docs\\quests\\js-control-q1-if-else-loops\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-3",
+    "quest_slug": "js-control-q1-if-else-loops",
+    "source_file": "docs\\quests\\js-control-q1-if-else-loops\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-1",
+    "quest_slug": "js-errors-q1-try-catch",
+    "source_file": "docs\\quests\\js-errors-q1-try-catch\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-2",
+    "quest_slug": "js-errors-q1-try-catch",
+    "source_file": "docs\\quests\\js-errors-q1-try-catch\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-3",
+    "quest_slug": "js-errors-q1-try-catch",
+    "source_file": "docs\\quests\\js-errors-q1-try-catch\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-1",
+    "quest_slug": "js-functions-q1-arrow-vs-regular",
+    "source_file": "docs\\quests\\js-functions-q1-arrow-vs-regular\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-2",
+    "quest_slug": "js-functions-q1-arrow-vs-regular",
+    "source_file": "docs\\quests\\js-functions-q1-arrow-vs-regular\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-3",
+    "quest_slug": "js-functions-q1-arrow-vs-regular",
+    "source_file": "docs\\quests\\js-functions-q1-arrow-vs-regular\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/console-log",
+    "quest_slug": "js-ignition-q1-console-and-functions",
+    "source_file": "docs\\quests\\js-ignition-q1-console-and-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/string",
+    "quest_slug": "js-ignition-q1-console-and-functions",
+    "source_file": "docs\\quests\\js-ignition-q1-console-and-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/function",
+    "quest_slug": "js-ignition-q1-console-and-functions",
+    "source_file": "docs\\quests\\js-ignition-q1-console-and-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/parameter",
+    "quest_slug": "js-ignition-q1-console-and-functions",
+    "source_file": "docs\\quests\\js-ignition-q1-console-and-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/js/return-value",
+    "quest_slug": "js-ignition-q1-console-and-functions",
+    "source_file": "docs\\quests\\js-ignition-q1-console-and-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-1",
+    "quest_slug": "js-modules-q1-import-export",
+    "source_file": "docs\\quests\\js-modules-q1-import-export\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-2",
+    "quest_slug": "js-modules-q1-import-export",
+    "source_file": "docs\\quests\\js-modules-q1-import-export\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-3",
+    "quest_slug": "js-modules-q1-import-export",
+    "source_file": "docs\\quests\\js-modules-q1-import-export\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-1",
+    "quest_slug": "js-objects-q1-properties-methods",
+    "source_file": "docs\\quests\\js-objects-q1-properties-methods\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-2",
+    "quest_slug": "js-objects-q1-properties-methods",
+    "source_file": "docs\\quests\\js-objects-q1-properties-methods\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-3",
+    "quest_slug": "js-objects-q1-properties-methods",
+    "source_file": "docs\\quests\\js-objects-q1-properties-methods\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-1",
+    "quest_slug": "js-vars-q1-let-const-var",
+    "source_file": "docs\\quests\\js-vars-q1-let-const-var\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-2",
+    "quest_slug": "js-vars-q1-let-const-var",
+    "source_file": "docs\\quests\\js-vars-q1-let-const-var\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-js/term-3",
+    "quest_slug": "js-vars-q1-let-const-var",
+    "source_file": "docs\\quests\\js-vars-q1-let-const-var\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-classification-basics",
+    "source_file": "docs\\quests\\ml-classification-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-classification-basics",
+    "source_file": "docs\\quests\\ml-classification-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-classification-basics",
+    "source_file": "docs\\quests\\ml-classification-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-data-preprocessing",
+    "source_file": "docs\\quests\\ml-data-preprocessing\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-data-preprocessing",
+    "source_file": "docs\\quests\\ml-data-preprocessing\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-data-preprocessing",
+    "source_file": "docs\\quests\\ml-data-preprocessing\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/loss",
+    "quest_slug": "ml-gradient-q1-training-loop-and-metrics",
+    "source_file": "docs\\quests\\ml-gradient-q1-training-loop-and-metrics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/gradient",
+    "quest_slug": "ml-gradient-q1-training-loop-and-metrics",
+    "source_file": "docs\\quests\\ml-gradient-q1-training-loop-and-metrics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/learning-rate",
+    "quest_slug": "ml-gradient-q1-training-loop-and-metrics",
+    "source_file": "docs\\quests\\ml-gradient-q1-training-loop-and-metrics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/epoch",
+    "quest_slug": "ml-gradient-q1-training-loop-and-metrics",
+    "source_file": "docs\\quests\\ml-gradient-q1-training-loop-and-metrics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/metric",
+    "quest_slug": "ml-gradient-q1-training-loop-and-metrics",
+    "source_file": "docs\\quests\\ml-gradient-q1-training-loop-and-metrics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-ignition",
+    "source_file": "docs\\quests\\ml-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-ignition",
+    "source_file": "docs\\quests\\ml-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-ignition",
+    "source_file": "docs\\quests\\ml-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-linear-regression",
+    "source_file": "docs\\quests\\ml-linear-regression\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-linear-regression",
+    "source_file": "docs\\quests\\ml-linear-regression\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-linear-regression",
+    "source_file": "docs\\quests\\ml-linear-regression\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-model-evaluation",
+    "source_file": "docs\\quests\\ml-model-evaluation\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-model-evaluation",
+    "source_file": "docs\\quests\\ml-model-evaluation\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-model-evaluation",
+    "source_file": "docs\\quests\\ml-model-evaluation\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-neural-networks-intro",
+    "source_file": "docs\\quests\\ml-neural-networks-intro\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-neural-networks-intro",
+    "source_file": "docs\\quests\\ml-neural-networks-intro\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-neural-networks-intro",
+    "source_file": "docs\\quests\\ml-neural-networks-intro\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-numpy-basics",
+    "source_file": "docs\\quests\\ml-numpy-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-numpy-basics",
+    "source_file": "docs\\quests\\ml-numpy-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-numpy-basics",
+    "source_file": "docs\\quests\\ml-numpy-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-overfitting-regularization",
+    "source_file": "docs\\quests\\ml-overfitting-regularization\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-overfitting-regularization",
+    "source_file": "docs\\quests\\ml-overfitting-regularization\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-overfitting-regularization",
+    "source_file": "docs\\quests\\ml-overfitting-regularization\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-pandas-dataframes",
+    "source_file": "docs\\quests\\ml-pandas-dataframes\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-pandas-dataframes",
+    "source_file": "docs\\quests\\ml-pandas-dataframes\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-pandas-dataframes",
+    "source_file": "docs\\quests\\ml-pandas-dataframes\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/tensor",
+    "quest_slug": "ml-tensor-q1-numpy-and-shapes",
+    "source_file": "docs\\quests\\ml-tensor-q1-numpy-and-shapes\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/shape",
+    "quest_slug": "ml-tensor-q1-numpy-and-shapes",
+    "source_file": "docs\\quests\\ml-tensor-q1-numpy-and-shapes\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/axis",
+    "quest_slug": "ml-tensor-q1-numpy-and-shapes",
+    "source_file": "docs\\quests\\ml-tensor-q1-numpy-and-shapes\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/broadcasting",
+    "quest_slug": "ml-tensor-q1-numpy-and-shapes",
+    "source_file": "docs\\quests\\ml-tensor-q1-numpy-and-shapes\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ml/reshape",
+    "quest_slug": "ml-tensor-q1-numpy-and-shapes",
+    "source_file": "docs\\quests\\ml-tensor-q1-numpy-and-shapes\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-1",
+    "quest_slug": "ml-train-test-split",
+    "source_file": "docs\\quests\\ml-train-test-split\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-2",
+    "quest_slug": "ml-train-test-split",
+    "source_file": "docs\\quests\\ml-train-test-split\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-ml/term-3",
+    "quest_slug": "ml-train-test-split",
+    "source_file": "docs\\quests\\ml-train-test-split\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-aggregates",
+    "source_file": "docs\\quests\\sql-aggregates\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-aggregates",
+    "source_file": "docs\\quests\\sql-aggregates\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-aggregates",
+    "source_file": "docs\\quests\\sql-aggregates\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/window-function",
+    "quest_slug": "sql-analytics-q1-window-functions",
+    "source_file": "docs\\quests\\sql-analytics-q1-window-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/over",
+    "quest_slug": "sql-analytics-q1-window-functions",
+    "source_file": "docs\\quests\\sql-analytics-q1-window-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/partition-by",
+    "quest_slug": "sql-analytics-q1-window-functions",
+    "source_file": "docs\\quests\\sql-analytics-q1-window-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/order-by",
+    "quest_slug": "sql-analytics-q1-window-functions",
+    "source_file": "docs\\quests\\sql-analytics-q1-window-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/row-number",
+    "quest_slug": "sql-analytics-q1-window-functions",
+    "source_file": "docs\\quests\\sql-analytics-q1-window-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-cte-subquery",
+    "source_file": "docs\\quests\\sql-cte-subquery\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-cte-subquery",
+    "source_file": "docs\\quests\\sql-cte-subquery\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-cte-subquery",
+    "source_file": "docs\\quests\\sql-cte-subquery\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-groupby-having",
+    "source_file": "docs\\quests\\sql-groupby-having\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-groupby-having",
+    "source_file": "docs\\quests\\sql-groupby-having\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-groupby-having",
+    "source_file": "docs\\quests\\sql-groupby-having\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-ignition",
+    "source_file": "docs\\quests\\sql-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-ignition",
+    "source_file": "docs\\quests\\sql-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-ignition",
+    "source_file": "docs\\quests\\sql-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-insert-update-delete",
+    "source_file": "docs\\quests\\sql-insert-update-delete\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-insert-update-delete",
+    "source_file": "docs\\quests\\sql-insert-update-delete\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-insert-update-delete",
+    "source_file": "docs\\quests\\sql-insert-update-delete\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-joins",
+    "source_file": "docs\\quests\\sql-joins\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-joins",
+    "source_file": "docs\\quests\\sql-joins\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-joins",
+    "source_file": "docs\\quests\\sql-joins\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-left-join-null",
+    "source_file": "docs\\quests\\sql-left-join-null\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-left-join-null",
+    "source_file": "docs\\quests\\sql-left-join-null\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-left-join-null",
+    "source_file": "docs\\quests\\sql-left-join-null\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-order-limit",
+    "source_file": "docs\\quests\\sql-order-limit\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-order-limit",
+    "source_file": "docs\\quests\\sql-order-limit\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-order-limit",
+    "source_file": "docs\\quests\\sql-order-limit\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/select",
+    "quest_slug": "sql-retrieval-q1-select-from-basics",
+    "source_file": "docs\\quests\\sql-retrieval-q1-select-from-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/from",
+    "quest_slug": "sql-retrieval-q1-select-from-basics",
+    "source_file": "docs\\quests\\sql-retrieval-q1-select-from-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/where",
+    "quest_slug": "sql-retrieval-q1-select-from-basics",
+    "source_file": "docs\\quests\\sql-retrieval-q1-select-from-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/order-by",
+    "quest_slug": "sql-retrieval-q1-select-from-basics",
+    "source_file": "docs\\quests\\sql-retrieval-q1-select-from-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/sql/limit",
+    "quest_slug": "sql-retrieval-q1-select-from-basics",
+    "source_file": "docs\\quests\\sql-retrieval-q1-select-from-basics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-select",
+    "source_file": "docs\\quests\\sql-select\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-select",
+    "source_file": "docs\\quests\\sql-select\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-select",
+    "source_file": "docs\\quests\\sql-select\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-1",
+    "quest_slug": "sql-where",
+    "source_file": "docs\\quests\\sql-where\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-2",
+    "quest_slug": "sql-where",
+    "source_file": "docs\\quests\\sql-where\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-sql/term-3",
+    "quest_slug": "sql-where",
+    "source_file": "docs\\quests\\sql-where\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-arrays",
+    "source_file": "docs\\quests\\ts-arrays\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-arrays",
+    "source_file": "docs\\quests\\ts-arrays\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-arrays",
+    "source_file": "docs\\quests\\ts-arrays\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-control",
+    "source_file": "docs\\quests\\ts-control\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-control",
+    "source_file": "docs\\quests\\ts-control\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-control",
+    "source_file": "docs\\quests\\ts-control\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-functions",
+    "source_file": "docs\\quests\\ts-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-functions",
+    "source_file": "docs\\quests\\ts-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-functions",
+    "source_file": "docs\\quests\\ts-functions\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-generics",
+    "source_file": "docs\\quests\\ts-generics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-generics",
+    "source_file": "docs\\quests\\ts-generics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-generics",
+    "source_file": "docs\\quests\\ts-generics\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/generic",
+    "quest_slug": "ts-generics-q2-result-type",
+    "source_file": "docs\\quests\\ts-generics-q2-result-type\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/type-parameter",
+    "quest_slug": "ts-generics-q2-result-type",
+    "source_file": "docs\\quests\\ts-generics-q2-result-type\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/result-type",
+    "quest_slug": "ts-generics-q2-result-type",
+    "source_file": "docs\\quests\\ts-generics-q2-result-type\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/type-inference",
+    "quest_slug": "ts-generics-q2-result-type",
+    "source_file": "docs\\quests\\ts-generics-q2-result-type\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/never",
+    "quest_slug": "ts-generics-q2-result-type",
+    "source_file": "docs\\quests\\ts-generics-q2-result-type\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-ignition",
+    "source_file": "docs\\quests\\ts-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-ignition",
+    "source_file": "docs\\quests\\ts-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-ignition",
+    "source_file": "docs\\quests\\ts-ignition\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/type-annotation",
+    "quest_slug": "ts-ignition-q1-types-and-interfaces",
+    "source_file": "docs\\quests\\ts-ignition-q1-types-and-interfaces\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/interface",
+    "quest_slug": "ts-ignition-q1-types-and-interfaces",
+    "source_file": "docs\\quests\\ts-ignition-q1-types-and-interfaces\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/type-alias",
+    "quest_slug": "ts-ignition-q1-types-and-interfaces",
+    "source_file": "docs\\quests\\ts-ignition-q1-types-and-interfaces\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/union-type",
+    "quest_slug": "ts-ignition-q1-types-and-interfaces",
+    "source_file": "docs\\quests\\ts-ignition-q1-types-and-interfaces\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/compiler",
+    "quest_slug": "ts-ignition-q1-types-and-interfaces",
+    "source_file": "docs\\quests\\ts-ignition-q1-types-and-interfaces\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-interfaces",
+    "source_file": "docs\\quests\\ts-interfaces\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-interfaces",
+    "source_file": "docs\\quests\\ts-interfaces\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-interfaces",
+    "source_file": "docs\\quests\\ts-interfaces\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-modules",
+    "source_file": "docs\\quests\\ts-modules\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-modules",
+    "source_file": "docs\\quests\\ts-modules\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-modules",
+    "source_file": "docs\\quests\\ts-modules\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/type-narrowing",
+    "quest_slug": "ts-narrowing-q2-unions-and-guards",
+    "source_file": "docs\\quests\\ts-narrowing-q2-unions-and-guards\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/type-guard",
+    "quest_slug": "ts-narrowing-q2-unions-and-guards",
+    "source_file": "docs\\quests\\ts-narrowing-q2-unions-and-guards\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/discriminated-union",
+    "quest_slug": "ts-narrowing-q2-unions-and-guards",
+    "source_file": "docs\\quests\\ts-narrowing-q2-unions-and-guards\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/typeof",
+    "quest_slug": "ts-narrowing-q2-unions-and-guards",
+    "source_file": "docs\\quests\\ts-narrowing-q2-unions-and-guards\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/ts/in-operator",
+    "quest_slug": "ts-narrowing-q2-unions-and-guards",
+    "source_file": "docs\\quests\\ts-narrowing-q2-unions-and-guards\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-objects",
+    "source_file": "docs\\quests\\ts-objects\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-objects",
+    "source_file": "docs\\quests\\ts-objects\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-objects",
+    "source_file": "docs\\quests\\ts-objects\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-types",
+    "source_file": "docs\\quests\\ts-types\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-types",
+    "source_file": "docs\\quests\\ts-types\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-types",
+    "source_file": "docs\\quests\\ts-types\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-1",
+    "quest_slug": "ts-vars",
+    "source_file": "docs\\quests\\ts-vars\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-2",
+    "quest_slug": "ts-vars",
+    "source_file": "docs\\quests\\ts-vars\\terms.json",
+    "field": "codex_references"
+  },
+  {
+    "ref": "codex:glossary/world-typescript/term-3",
+    "quest_slug": "ts-vars",
+    "source_file": "docs\\quests\\ts-vars\\terms.json",
+    "field": "codex_references"
+  }
+]

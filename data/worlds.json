@@ -220,5 +220,113 @@
             ],
             "analogy_prompt": "Use biological brain metaphors."
         }
+    },
+    {
+        "id": "world-node",
+        "name": "Node.js World",
+        "icon": "server",
+        "description": "Backend Runtime. Theme: The Engine Room.",
+        "default_tracks": [
+            "node-ignition"
+        ],
+        "tags": [
+            "javascript",
+            "backend",
+            "runtime"
+        ],
+        "narrative_config": {
+            "alias": "THE ENGINE ROOM",
+            "theme": "Steam engines, pistons, clockwork gears, pressure gauges.",
+            "role": "Runtime Engineer",
+            "vocabulary": [
+                "cycle",
+                "process",
+                "loop",
+                "tick",
+                "crash"
+            ],
+            "analogy_prompt": "Use steam engine and mechanical metaphors."
+        }
+    },
+    {
+        "id": "world-cli",
+        "name": "CLI World",
+        "icon": "terminal",
+        "description": "Command Line. Theme: The Terminal.",
+        "default_tracks": [
+            "cli-ignition"
+        ],
+        "tags": [
+            "linux",
+            "bash",
+            "shell"
+        ],
+        "narrative_config": {
+            "alias": "THE TERMINAL",
+            "theme": "Green phosphor screens, blinking cursors, retro mainframes.",
+            "role": "Operator",
+            "vocabulary": [
+                "command",
+                "signal",
+                "pipe",
+                "stream",
+                "exit code"
+            ],
+            "analogy_prompt": "Use retro computing and hacker metaphors."
+        }
+    },
+    {
+        "id": "world-react",
+        "name": "React World",
+        "icon": "atom",
+        "description": "UI Library. Theme: The Component Lab.",
+        "default_tracks": [
+            "react-ignition"
+        ],
+        "tags": [
+            "javascript",
+            "frontend",
+            "ui"
+        ],
+        "narrative_config": {
+            "alias": "THE COMPONENT LAB",
+            "theme": "Clean white rooms, modular blocks, assembly stations.",
+            "role": "Interface Designer",
+            "vocabulary": [
+                "mount",
+                "render",
+                "hook",
+                "state",
+                "effect"
+            ],
+            "analogy_prompt": "Use laboratory and modular design metaphors."
+        }
+    },
+    {
+        "id": "world-web",
+        "name": "Web World",
+        "icon": "globe",
+        "description": "HTML/CSS. Theme: The Canvas.",
+        "default_tracks": [
+            "web-ignition"
+        ],
+        "tags": [
+            "html",
+            "css",
+            "frontend"
+        ],
+        "narrative_config": {
+            "alias": "THE CANVAS",
+            "theme": "Art supplies, blueprints, layout grids, painters.",
+            "role": "Layout Artist",
+            "vocabulary": [
+                "tag",
+                "style",
+                "flow",
+                "box model",
+                "paint"
+            ],
+            "analogy_prompt": "Use painting and architectural blueprints metaphors."
+        }
     }
 ]

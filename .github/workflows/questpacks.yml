@@ -41,6 +41,14 @@ jobs:
       with:
         python-version: '3.12'
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install Node Dependencies
+      run: npm install
+
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
@@ -57,6 +65,15 @@ jobs:
     - name: Validate Quest Packs (Schema)
       run: |
         python scripts/questpack_validate.py data/questpacks
+
+    - name: Audit Codex Quality
+      run: python scripts/audit_codex_quality.py --active --source disk
+
+    - name: Audit Quest Panels (Briefing/Objectives/Lore)
+      run: python scripts/audit_quest_panels.py --active --fail-on-missing
+
+    - name: Audit Quest Content (Tier-1 Contract)
+      run: python scripts/audit_quest_content.py --tier 1 --fail-on-warn --strict-codex
 
     - name: Seed Quest Packs (DB Upsert)
       env:
@@ -82,3 +99,7 @@ jobs:
         
         # Run Smoke Tests on all packs
         python scripts/questpack_smoke.py data/questpacks
+
+    - name: Verify React World (Solution Mode)
+      run: |
+        node scripts/run_world_public_tests.mjs --questpack data/questpacks/react_core.json --mode solution

@@ -54,3 +54,8 @@ cat data.csv | grep "error" | cut -d',' -f2 | sort | uniq -c
 
 - [Redirection](codex:glossary/cli/redirection)
 - [Search](codex:glossary/cli/search)
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.

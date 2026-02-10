@@ -1,38 +1,46 @@
 ---
-title: For Loop
 id: glossary/python/for-loop
+title: For Loop
 world: python
+level: beginner
+tags: [control-flow, iteration, basics]
+related:
+  - codex:glossary/python/iteration
+  - codex:glossary/python/range
+  - codex:glossary/python/break-continue
 ---
 
-# For Loop
+## Definition
+A **for loop** iterates over a sequence (list, string, range) and executes a block of code for each element. For loops are the primary way to process collections in Python.
 
-**Definition:** For Loop is a fundamental concept in python. Python is a high-level, interpreted programming language known for its readability.
-
-## Overview
-
-In the context of software development, For Loop plays a specific role. While the exact implementation details may vary depending on the specific use case or framework version, the core principles remain consistent. Developers utilize For Loop to structure their code, manage data, or control application flow effectively.
-
-## Usage in Python
-
-When working with Python, you will encounter For Loop frequently.
-
-- It helps organize logic.
-- It facilitates better code maintainability.
-- It is often used in conjunction with other standard patterns.
+## Usage
+- Loop over lists, strings, dicts, or any iterable.
+- Use `range()` for numeric sequences.
+- Access both index and value with `enumerate()`.
 
 ## Example
-
-The following code snippet demonstrates a basic application of the concept:
-
 ```python
-# profound_example.py
-def demonstrate_concept():
-    # This function illustrates how one might approach the concept
-    result = "For Loop initialized"
-    print(result)
-    return True
+# Loop over a list
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+
+# Loop with range
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4
+
+# Loop with index and value
+for idx, fruit in enumerate(fruits):
+    print(f"{idx}: {fruit}")
 ```
 
-## Related Concepts
+## Pitfalls
 
-To fully master this topic, consider exploring related entries in the Codex or the official python documentation.
+* Modifying a list while looping over it causes unexpected behavior; iterate over a copy instead.
+* Nested for loops can become O(n²) — watch performance with large datasets.
+
+## Related
+
+* Iteration: for loops perform iteration.
+* Range: creates numeric sequences for loops.
+* Break/Continue: control loop execution.

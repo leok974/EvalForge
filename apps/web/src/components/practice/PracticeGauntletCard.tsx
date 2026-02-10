@@ -1,4 +1,4 @@
-import { subscribeWorldProgress } from "@/lib/worldProgressEvents";
+import { subscribeWorldProgress } from "../../lib/worldProgressEvents";
 import React, { useCallback, useEffect, useState } from "react";
 import {
     Swords,

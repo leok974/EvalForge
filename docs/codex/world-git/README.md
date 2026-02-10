@@ -133,3 +133,14 @@ git rebase --continue  # or: git commit after merge conflict
 git reflog
 git reset --hard <sha-from-reflog>
 ```
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

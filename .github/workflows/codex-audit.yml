@@ -32,9 +32,14 @@ jobs:
           # Wait for backend to be ready
           timeout 60 bash -c 'until curl -f http://127.0.0.1:8092/healthz 2>/dev/null; do sleep 2; done'
       
-      - name: Run Codex audit
+      - name: Run Codex audit (strict mode)
         id: audit
         run: |
+          python scripts/audit_codex_consistency.py \
+            --fail-on-broken \
+            --fail-on-placeholders \
+            --tier 1 \
+            --fail-on-low-quality
           python scripts/codex_audit_missing.py --base-url http://127.0.0.1:8092
           
           # Extract metrics for summary

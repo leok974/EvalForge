@@ -34,3 +34,22 @@ Every run should produce:
 3) Inspect tool failures
 4) Inspect verification evidence
 5) Re-run smallest failing step
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]
+
+## Example
+
+``` typescript
+const example = () => {
+  console.log('Hello');
+};
+```

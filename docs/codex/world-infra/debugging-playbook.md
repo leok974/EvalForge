@@ -48,3 +48,23 @@ At the end, you should have:
 - the exact failing command
 - the exact error
 - the one configuration/routing fix that resolves it
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```

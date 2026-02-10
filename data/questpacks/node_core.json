@@ -7,52 +7,254 @@
         {
             "slug": "node-ignition",
             "title": "Node Ignition: Run Code Like a Runtime",
-            "order": 1
+            "track_id": "node-fundamentals",
+            "order": 1,
+            "briefing_md": "# Mission: Node Ignition: Run Code Like a Runtime\n\n**Objective:** Node Ignition: Run Code Like a Runtime.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: Node Ignition: Run Code Like a Runtime\n\n> *Establishing secure uplink...*\n>\n> Target: Node Ignition: Run Code Like a Runtime\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-ignition/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-modules",
             "title": "Modules: ESM vs CommonJS",
-            "order": 2
+            "track_id": "node-fundamentals",
+            "order": 2,
+            "briefing_md": "# Mission: Modules: ESM vs CommonJS\n\n**Objective:** Modules: ESM vs CommonJS.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: Modules: ESM vs CommonJS\n\n> *Establishing secure uplink...*\n>\n> Target: Modules: ESM vs CommonJS\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-modules/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-npm",
             "title": "npm: Packages, Scripts, and Lockfiles",
-            "order": 3
+            "order": 3,
+            "briefing_md": "# Mission: npm: Packages, Scripts, and Lockfiles\n\n**Objective:** npm: Packages, Scripts, and Lockfiles.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: npm: Packages, Scripts, and Lockfiles\n\n> *Establishing secure uplink...*\n>\n> Target: npm: Packages, Scripts, and Lockfiles\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-npm/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-env-config",
             "title": "Environment & Config: .env, process.env, Defaults",
-            "order": 4
+            "order": 4,
+            "briefing_md": "# Mission: Environment & Config: .env, process.env, Defaults\n\n**Objective:** Environment & Config: .env, process.env, Defaults.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: Environment & Config: .env, process.env, Defaults\n\n> *Establishing secure uplink...*\n>\n> Target: Environment & Config: .env, process.env, Defaults\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-env-config/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-async",
             "title": "Async Patterns: Promises, async/await, Errors",
-            "order": 5
+            "order": 5,
+            "briefing_md": "# Mission: Async Patterns: Promises, async/await, Errors\n\n**Objective:** Async Patterns: Promises, async/await, Errors.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: Async Patterns: Promises, async/await, Errors\n\n> *Establishing secure uplink...*\n>\n> Target: Async Patterns: Promises, async/await, Errors\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-async/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-fs-path",
             "title": "Filesystem & Paths: Read/Write Without Pain",
-            "order": 6
+            "order": 6,
+            "briefing_md": "# Mission: Filesystem & Paths: Read/Write Without Pain\n\n**Objective:** Filesystem & Paths: Read/Write Without Pain.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: Filesystem & Paths: Read/Write Without Pain\n\n> *Establishing secure uplink...*\n>\n> Target: Filesystem & Paths: Read/Write Without Pain\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-fs-path/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-http",
             "title": "HTTP Server: Routes and JSON",
-            "order": 7
+            "order": 7,
+            "briefing_md": "# Mission: HTTP Server: Routes and JSON\n\n**Objective:** HTTP Server: Routes and JSON.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: HTTP Server: Routes and JSON\n\n> *Establishing secure uplink...*\n>\n> Target: HTTP Server: Routes and JSON\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-http/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-middleware",
             "title": "Middleware: Logging, Errors, Request IDs",
-            "order": 8
+            "order": 8,
+            "briefing_md": "# Mission: Middleware: Logging, Errors, Request IDs\n\n**Objective:** Middleware: Logging, Errors, Request IDs.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: Middleware: Logging, Errors, Request IDs\n\n> *Establishing secure uplink...*\n>\n> Target: Middleware: Logging, Errors, Request IDs\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-middleware/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-testing",
             "title": "Testing: Unit Tests and Integration Smoke",
-            "order": 9
+            "order": 9,
+            "briefing_md": "# Mission: Testing: Unit Tests and Integration Smoke\n\n**Objective:** Testing: Unit Tests and Integration Smoke.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: Testing: Unit Tests and Integration Smoke\n\n> *Establishing secure uplink...*\n>\n> Target: Testing: Unit Tests and Integration Smoke\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-testing/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         },
         {
             "slug": "node-deploy-basics",
             "title": "Deploy Basics: Start Scripts and Health Checks",
-            "order": 10
+            "order": 10,
+            "briefing_md": "# Mission: Deploy Basics: Start Scripts and Health Checks\n\n**Objective:** Deploy Basics: Start Scripts and Health Checks.\n\nYou need to implement the solution in `index.js`. Focus on meeting the requirements defined by the test suite.\n\n",
+            "objectives": [
+                {
+                    "id": "obj_default",
+                    "text": "Complete the assignment as described in README.md",
+                    "why": "Specification"
+                }
+            ],
+            "lore_md": "## System Log: Deploy Basics: Start Scripts and Health Checks\n\n> *Establishing secure uplink...*\n>\n> Target: Deploy Basics: Start Scripts and Health Checks\n> Status: Priority Alpha\n> Protocol: **NODE_RUNTIME**\n\nThe runtime environment is destabilized. Re-initialize the core logic to restore functionality.",
+            "workspace": {
+                "files_from": "../quests/node-deploy-basics/workspace"
+            },
+            "language": "javascript",
+            "tiered_hints": {
+                "concept": "Start by analyzing the structure of `index.js`.",
+                "guided": "Remember to check standard library documentation for javascript.",
+                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+            },
+            "content_source": "generated_v1",
+            "content_version": "9.9.0"
         }
     ]
 }

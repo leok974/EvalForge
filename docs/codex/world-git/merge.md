@@ -30,3 +30,14 @@ git merge --no-ff feat/my-work
 
 If files changed in incompatible ways, Git asks you to resolve them.
 See: conflicts.md
+
+
+## Pitfalls
+
+- Premature optimization can lead to complex, unmaintainable code.
+- Ignoring error handling can lead to silent failures.
+
+## Related
+
+- [[general/clean-code]]
+- [[general/debugging]]

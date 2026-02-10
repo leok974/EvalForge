@@ -1,34 +1,54 @@
 ---
-title: Interface (Abstract Base Class)
-id: codex:glossary/python/systems/interface
+id: glossary/python/systems/interface
+title: Interface
 world: python
+level: intermediate
+tags: [architecture, abstraction, duck-typing]
+related:
+  - codex:glossary/python/systems/dependency-injection
+  - codex:glossary/python/systems/separation-of-concerns
+  - codex:glossary/python/dictionary
 ---
 
-# Interface
+## Definition
+An **interface** defines a contract for what methods a class should implement, without specifying how. In Python, interfaces are typically defined using abstract base classes (ABC) or duck typing ("if it walks like a duck...").
 
-In Python, an **Interface** is a blueprint for a class. It defines a set of methods that implementing classes must define, but it does not implement them itself.
+## Usage
+- Define interfaces with `abc.ABC` and `@abstractmethod`.
+- Code against interfaces, not concrete implementations.
+- Swap implementations without changing client code.
 
-## Why use Interfaces?
-
-- **Enforce Contracts:** Ensures that different classes adhere to the same structure.
-- **Decoupling:** Code can rely on the interface rather than the specific implementation.
-- **Testing:** Easier to mock dependencies.
-
-## Python `abc` module
-
-Python lacks a native `interface` keyword, so we use the `abc` (Abstract Base Classes) module:
-
+## Example
 ```python
 from abc import ABC, abstractmethod
 
-class PaymentGateway(ABC):
+# Define interface
+class PaymentProcessor(ABC):
     @abstractmethod
-    def charge(self, amount: int) -> bool:
-        """Process a charge."""
+    def process_payment(self, amount):
         pass
 
-class StripeGateway(PaymentGateway):
-    def charge(self, amount: int) -> bool:
-        print(f"Charging {amount} via Stripe")
-        return True
+# Implementations
+class StripeProcessor(PaymentProcessor):
+    def process_payment(self, amount):
+        print(f"Processing ${amount} via Stripe")
+
+class PayPalProcessor(PaymentProcessor):
+    def process_payment(self, amount):
+        print(f"Processing ${amount} via PayPal")
+
+# Client code works with any PaymentProcessor
+def checkout(processor: PaymentProcessor, amount):
+    processor.process_payment(amount)
 ```
+
+## Pitfalls
+
+* Over-using interfaces for simple code adds boilerplate.
+* Python's duck typing often makes explicit interfaces unnecessary.
+
+## Related
+
+* Dependency Injection: DI works best with interfaces.
+* Separation of Concerns: interfaces help separate concerns.
+* Dictionary: dicts can act as simple interfaces (duck typing).

@@ -437,13 +437,8 @@ function DevUIContent() {
         onStartStarterQuest={handleStartStarterQuest}
       />
 
-      {/* Codex Drawer (Overlay) */}
-      <CodexDrawer
-        isOpen={isCodexOpen}
-        onClose={() => setIsCodexOpen(false)}
-        activeRef={codexRef || 'codex:home'}
-        onOpenCodex={(ref) => { setIsCodexOpen(true); setCodexRef(ref); }}
-      />
+      {/* Codex Drawer (Legacy Overlay REMOVED) */}
+
 
       {/* GOD MODE BANNER */}
       {godMode && (

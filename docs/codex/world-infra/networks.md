@@ -22,3 +22,23 @@ Then services can reach each other by service name, e.g. `db:5432`.
 In Compose:
 - app connects to `postgres://db:5432/...`
 not `localhost:5432`
+
+
+## Pitfalls
+
+- Exposing sensitive ports in production.
+- Hardcoding secrets in the Dockerfile.
+
+## Related
+
+- [[infra/containers]]
+- [[infra/docker-compose]]
+
+## Example
+
+``` yaml
+version: '3.8'
+services:
+  app:
+    image: alpine
+```
