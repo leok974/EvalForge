@@ -1,10 +1,10 @@
 {
-    "slug": "git-init-clone",
-    "title": "Git Init + Clone (Local)",
+    "slug": "git-undo-revert",
+    "title": "Git Undo: Revert Safely",
     "language": "bash",
     "world_id": "world-git",
     "track_id": "track-git-core",
-    "order_index": 2,
+    "order_index": 7,
     "grading": {
         "mode": "tests"
     },

@@ -1,36 +1,15 @@
 {
     "slug": "git-add-commit",
-    "title": "git-add-commit",
-    "language": "txt",
+    "title": "Git Add + Commit",
+    "language": "bash",
     "world_id": "world-git",
-    "track_id": "core",
-    "order_index": 1,
-    "short_description": "A generated quest description.",
-    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
-    "objectives": [
-        {
-            "id": "obj_default",
-            "text": "Complete the assignment as described in README.md",
-            "why": "Specification"
-        }
-    ],
+    "track_id": "track-git-core",
+    "order_index": 3,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
-        "entrypoint": "main.py",
-        "files_from": "../quests/git-add-commit/workspace"
-    },
-    "smoke": {
-        "solution_workspace_files": []
-    },
-    "briefing_md": "# Mission: git-add-commit\n\n**Objective:** git-add-commit.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-    "lore_md": "## Git Reflog: git-add-commit\n\n> *Checking out revision...*\n>\n> HEAD -> git-add-commit\n> State: Detached\n\nVersion control integrity compromised. Commit the correct changes to restore the timeline.",
-    "tiered_hints": {
-        "concept": "Review the workspace file structure.",
-        "guided": "Review the concept of **term-1** in the Codex.",
-        "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-    },
-    "content_source": "generated_v1",
-    "content_version": "9.9.0"
+        "entrypoint": "task.sh",
+        "files_from": "./starter"
+    }
 }

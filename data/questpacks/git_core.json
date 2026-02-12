@@ -9,24 +9,24 @@
         "quest_path": "docs/quests/git-add-commit"
     },
     {
-        "quest_path": "docs/quests/git-status-log"
+        "quest_path": "docs/quests/git-status-diff"
     },
     {
-        "quest_path": "docs/quests/git-branch-checkout"
+        "quest_path": "docs/quests/git-branch-merge"
     },
     {
-        "quest_path": "docs/quests/git-merge-conflicts"
+        "quest_path": "docs/quests/git-remote-push"
     },
     {
-        "quest_path": "docs/quests/git-push-pull"
-    },
-    {
-        "quest_path": "docs/quests/git-reset-revert"
+        "quest_path": "docs/quests/git-undo-revert"
     },
     {
         "quest_path": "docs/quests/git-stash"
     },
     {
-        "quest_path": "docs/quests/git-remote-origin"
+        "quest_path": "docs/quests/git-tag-release"
+    },
+    {
+        "quest_path": "docs/quests/git-rebase-linear"
     }
 ]
