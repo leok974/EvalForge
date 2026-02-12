@@ -1,202 +1,347 @@
 {
-    "world_id": "world-infra",
-    "track_id": "track-infra",
-    "title": "Infrastructure Foundations",
-    "quests": [
+  "world_id": "world-infra",
+  "track_id": "track-infra",
+  "title": "Infrastructure Foundations",
+  "quests": [
+    {
+      "slug": "infra-ignition",
+      "briefing_md": "# Mission: Preflight Checks\n\n**Objective:** Generate a preflight report and exit with the correct code when tools are missing.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
         {
-            "slug": "infra-ignition",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Fails preflight when a required tool is missing",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Review the concept of **term-1** in the Codex.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
+          "id": "obj_infra_ignition_1",
+          "text": "Read required tools and installed tools from fixtures",
+          "why": "Test-aligned requirement"
         },
         {
-            "slug": "infra-ports-and-localhost",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Splits 0.0.0.0 vs 127.0.0.1 bindings",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
+          "id": "obj_infra_ignition_2",
+          "text": "Write outputs/preflight.txt with STATUS and MISSING fields",
+          "why": "Test-aligned requirement"
         },
         {
-            "slug": "infra-env-config",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Uses file values + defaults when env missing",
-                    "why": "Specification requirement"
-                },
-                {
-                    "id": "obj_test_2",
-                    "text": "Env vars override file",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
+          "id": "obj_infra_ignition_3",
+          "text": "Exit 10 and print MISSING_TOOLS on stderr when missing tools exist",
+          "why": "Test-aligned requirement"
         },
         {
-            "slug": "infra-healthchecks",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Computes degraded status, failures, slowest, and score",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
-        },
-        {
-            "slug": "infra-logs-metrics",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Computes log counters and top error",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
-        },
-        {
-            "slug": "infra-docker-compose",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Extracts services from compose file",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Review the concept of **term-1** in the Codex.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
-        },
-        {
-            "slug": "infra-networking-dns",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Resolves using hosts mapping and prints NXDOMAIN otherwise",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
-        },
-        {
-            "slug": "infra-reverse-proxy",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Extracts location -> proxy_pass in order",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
-        },
-        {
-            "slug": "infra-cors-cookies",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "Computes CORS and cookie security flags",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
-        },
-        {
-            "slug": "infra-debug-playbook",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-            "objectives": [
-                {
-                    "id": "obj_test_1",
-                    "text": "502 produces reverse-proxy oriented next steps",
-                    "why": "Specification requirement"
-                }
-            ],
-            "lore_md": "## Infrastructure Alert: None\n\n> *Monitoring systems active...*\n>\n> Service: None\n> Health: Degraded\n\nConfiguration drift detected. Apply the necessary manifest to stabilize the environment.",
-            "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-            },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0"
+          "id": "obj_infra_ignition_4",
+          "text": "Exit 0 when everything is present",
+          "why": "Test-aligned requirement"
         }
-    ]
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> Systems won't deploy if your baseline tools aren't installed. The pipeline expects a strict preflight contract.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "Think of this like a CI preflight: diff required vs installed and report missing.",
+        "guided": "Normalize newlines, build a missing list, join with commas, and follow the exact output format.",
+        "full_solution": "Approach: read both lists, compute missing = required - installed, write outputs/preflight.txt, then exit 10 with stderr message if missing else 0."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-ports-and-localhost",
+      "briefing_md": "# Mission: Port Mapping Sanity\n\n**Objective:** Analyze port mappings and explain what is reachable from localhost vs container network.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_ports_and_localhost_1",
+          "text": "Parse the provided fixture(s) describing port mappings",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_ports_and_localhost_2",
+          "text": "Write the expected analysis file to outputs",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_ports_and_localhost_3",
+          "text": "Correctly identify host vs container ports",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_ports_and_localhost_4",
+          "text": "Preserve ordering exactly as fixtures define",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> The lab router lights up. If you misread ports, you ship a service nobody can reach.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "Port mapping is about translating HOST:PORT -> CONTAINER:PORT and knowing which side traffic starts on.",
+        "guided": "Treat each mapping line as data. Extract both sides. Output in the exact requested format and order.",
+        "full_solution": "Approach: parse mappings, write outputs with normalized lines; do not invent ports or reorder rows."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-env-config",
+      "briefing_md": "# Mission: Env Config Loader\n\n**Objective:** Load environment-style config and emit a normalized resolved configuration.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_env_config_1",
+          "text": "Read key/value pairs from fixtures",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_env_config_2",
+          "text": "Apply defaults/overrides as described in the quest README",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_env_config_3",
+          "text": "Write normalized config output to outputs",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_env_config_4",
+          "text": "Handle missing keys deterministically",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> The service won't start without correct env. Your job is to make config resolution predictable.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "Env config is parsing + precedence: defaults < file < overrides.",
+        "guided": "Split on the first '=' only; trim spaces; ignore blank lines/comments if present.",
+        "full_solution": "Approach: build a dict of resolved values, emit sorted or spec-ordered output (match README/tests)."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-healthchecks",
+      "briefing_md": "# Mission: Healthcheck Aggregator\n\n**Objective:** Summarize service health from a raw fixture list into a report + score.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_healthchecks_1",
+          "text": "Read fixtures/health.txt (or equivalent) and parse name/status/latency",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_healthchecks_2",
+          "text": "Write outputs/health_status.txt with STATUS/FAILED/SLOWEST fields",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_healthchecks_3",
+          "text": "Write outputs/health_score.txt as an integer percent",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_healthchecks_4",
+          "text": "Preserve deterministic formatting and ordering",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> Dashboards are down. The incident commander needs one clean summary file.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "This is a reducer: map inputs \u2192 counts \u2192 derived status + slowest.",
+        "guided": "Track failed services, compute ok/total, find max latency, then format output exactly.",
+        "full_solution": "Approach: parse rows, compute failures list, compute slowest, compute score, write both outputs."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-logs-metrics",
+      "briefing_md": "# Mission: Log Signal Extractor\n\n**Objective:** Extract key metrics from logs and emit a compact report.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_logs_metrics_1",
+          "text": "Parse the fixture log file(s) deterministically",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_logs_metrics_2",
+          "text": "Count/aggregate the required signals (errors, warnings, p95, etc as README specifies)",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_logs_metrics_3",
+          "text": "Write outputs report files with exact formatting",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_logs_metrics_4",
+          "text": "Avoid non-determinism (no timestamps, no random ordering)",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> Observability is a contract. Your parser turns chaos into a stable metric stream.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "Logs become metrics when you count and bucket them consistently.",
+        "guided": "Use grep/awk/sed defensively; normalize CRLF; keep stable ordering.",
+        "full_solution": "Approach: parse, aggregate, write outputs; match the test's exact expected text."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-docker-compose",
+      "briefing_md": "# Mission: Compose Inspector\n\n**Objective:** Extract a structured view of a docker-compose file (services/ports/env/etc) into outputs.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_docker_compose_1",
+          "text": "Read the compose fixture(s) and extract requested fields",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_docker_compose_2",
+          "text": "Write the output summary file(s) to outputs",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_docker_compose_3",
+          "text": "Keep services in spec order (or deterministic order per README)",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_docker_compose_4",
+          "text": "Handle missing optional fields safely",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> A deployment is failing. You need a quick machine-readable summary of what compose is doing.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "Compose parsing is mostly pattern extraction from YAML-like structure (in this simplified lab).",
+        "guided": "Don't fully YAML-parse unless required; use stable string parsing suited to the fixture constraints.",
+        "full_solution": "Approach: identify service blocks, extract known keys, emit normalized summary."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-networking-dns",
+      "briefing_md": "# Mission: DNS + Network Map\n\n**Objective:** Build a connectivity map from fixtures describing networks, aliases, and service names.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_networking_dns_1",
+          "text": "Parse the provided network fixture(s)",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_networking_dns_2",
+          "text": "Determine which services can resolve which names",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_networking_dns_3",
+          "text": "Write the expected outputs mapping file",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_networking_dns_4",
+          "text": "Preserve deterministic order",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> The tunnel is up, but requests 404. It's usually DNS. Your map tells the truth.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "DNS in docker networks is name \u2192 container IP (conceptually). The lab simplifies to name/alias mapping.",
+        "guided": "Treat each alias mapping as an edge in a graph; emit the expected resolved names list.",
+        "full_solution": "Approach: parse mappings, expand aliases, output in a stable order."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-reverse-proxy",
+      "briefing_md": "# Mission: Nginx Route Extractor\n\n**Objective:** Parse nginx location \u2192 proxy_pass routes and write them in order.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_reverse_proxy_1",
+          "text": "Read the nginx config fixture",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_reverse_proxy_2",
+          "text": "Extract each `location <path>` and its `proxy_pass <target>`",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_reverse_proxy_3",
+          "text": "Write outputs/routes.txt as `<path> -> <target>` per line",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_reverse_proxy_4",
+          "text": "Preserve file order exactly",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> Requests enter the proxy first. If routes are wrong, the whole stack is unreachable.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "Reverse proxies are routing tables. Extract routes without reformatting the source.",
+        "guided": "Scan for `location` then the next `proxy_pass` inside that block; emit a mapping line when both are found.",
+        "full_solution": "Approach: minimal state machine (location_path + proxy_target) using awk is perfect here."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-cors-cookies",
+      "briefing_md": "# Mission: CORS + Cookie Policy\n\n**Objective:** Evaluate a policy fixture and output which origins/cookies are allowed.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_cors_cookies_1",
+          "text": "Parse the CORS/cookie fixture input",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_cors_cookies_2",
+          "text": "Determine allow/deny results per the README rules",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_cors_cookies_3",
+          "text": "Write outputs with exact expected values",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_cors_cookies_4",
+          "text": "Handle edge cases like wildcard vs explicit allowlists deterministically",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> Security review flags your API. Your job: make the policy machine-checkable.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "CORS is a browser-side gate; cookies are transport constraints (Domain/SameSite/Secure).",
+        "guided": "Implement explicit precedence rules from the README; don't guess or infer beyond fixtures.",
+        "full_solution": "Approach: parse rules, apply to each test case row, emit outputs exactly."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    },
+    {
+      "slug": "infra-debug-playbook",
+      "briefing_md": "# Mission: Debug Triage Generator\n\n**Objective:** Given an incident fixture, generate a short runbook-like triage output.\n\nYou will implement the required behavior in `workspace/task.sh`.\nYour script must read from `fixtures/` (or the quest's fixture files) and write deterministic outputs to `outputs/`.\n\n",
+      "objectives": [
+        {
+          "id": "obj_infra_debug_playbook_1",
+          "text": "Parse the incident symptoms from fixtures",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_debug_playbook_2",
+          "text": "Classify the likely failure class (ports, DNS, CORS, proxy, env, etc.)",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_debug_playbook_3",
+          "text": "Write the requested runbook/triage outputs",
+          "why": "Test-aligned requirement"
+        },
+        {
+          "id": "obj_infra_debug_playbook_4",
+          "text": "Keep output stable and rubric-aligned",
+          "why": "Test-aligned requirement"
+        }
+      ],
+      "lore_md": "## Ops Deck Log\n\n> *Booting infra simulation\u2026*\n>\n> Pager goes off. You have 90 seconds to propose the next best debugging step.\n\n**Constraint:** No network calls. Pure file parsing + deterministic output.\n",
+      "tiered_hints": {
+        "concept": "A good runbook is a decision tree: symptoms \u2192 checks \u2192 likely fix.",
+        "guided": "Use simple matching rules based on fixture signals; emit exactly what tests expect.",
+        "full_solution": "Approach: map symptoms to a primary diagnosis and recommended checks; write outputs."
+      },
+      "content_source": "infra_metadata_upgrade",
+      "content_version": "2026-02-12.v1"
+    }
+  ]
 }
