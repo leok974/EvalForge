@@ -66,6 +66,31 @@ if (looksCli) {
     const res = spawnSync(process.execPath, args, { stdio: "inherit" });
     process.exit(res.status ?? 1);
 }
+
+const looksTs =
+    packBase.includes("typescript") ||
+    packBase.includes("ts-") ||
+    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("ts-")));
+
+if (looksTs) {
+    const runnerPath = path.resolve(root, "scripts/run_ts_questpack.mjs");
+    const args = [
+        runnerPath,
+        "--questpack",
+        questpackPath,
+        "--mode",
+        arg("--mode") || "starter",
+    ];
+
+    const onlySlug = arg("--only-slug");
+    if (onlySlug) args.push("--only-slug", onlySlug);
+
+    if (process.argv.includes("--debug")) args.push("--debug");
+
+    const res = spawnSync(process.execPath, args, { stdio: "inherit" });
+    process.exit(res.status ?? 1);
+}
+
 // -------------------------------------------------------------------------
 
 function extractSlugs(obj) {

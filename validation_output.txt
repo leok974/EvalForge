@@ -1,0 +1,3 @@
+=== Running 10 TS quests from data/questpacks/typescript_core.json in solution mode ===
+
+❌ TS questpack FAILED (8/10 passed)
