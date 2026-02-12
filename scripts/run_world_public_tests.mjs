@@ -115,31 +115,55 @@ if (looksGit) {
     process.exit(res.status ?? 1);
 }
 
+// --- Shared Python helper for Python & SQL dispatchers ---
+function pickPythonBin() {
+    const env = process.env.PYTHON || process.env.PYTHON_BIN;
+    if (env && env.trim()) return env.trim();
+
+    const candidates = ["python", "python3", "py"];
+    for (const c of candidates) {
+        const probeArgs = c === "py" ? ["-3", "--version"] : ["--version"];
+        const r = spawnSync(c, probeArgs, { stdio: "pipe" });
+        if (r.status === 0) return c;
+    }
+    return "python";
+}
+
+const looksPython =
+    packBase.includes("python_") ||
+    packBase.includes("foundry_python") ||
+    packBase === "python_systems.json" ||
+    packBase === "foundry_python.json" ||
+    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("python-")));
+
+if (looksPython) {
+    // Python dispatch: use pytest runner
+    const py = pickPythonBin();
+    const args = [];
+
+    if (py === "py") args.push("-3");
+
+    args.push("scripts/run_python_questpack.py", "--questpack", questpackPath, "--mode", arg("--mode") || "student");
+
+    const onlySlug = arg("--only-slug");
+    if (onlySlug) args.push("--only-slug", onlySlug);
+
+    const res = spawnSync(py, args, { stdio: "inherit" });
+    process.exit(res.status ?? 1);
+}
+
 const looksSql =
     packBase.includes("sql") ||
     (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("sql-")));
 
 if (looksSql) {
     // SQL dispatch: use Python runner with pytest + sqlite3
-    function pickPythonBin() {
-        const env = process.env.PYTHON || process.env.PYTHON_BIN;
-        if (env && env.trim()) return env.trim();
-
-        const candidates = ["python", "python3", "py"];
-        for (const c of candidates) {
-            const probeArgs = c === "py" ? ["-3", "--version"] : ["--version"];
-            const r = spawnSync(c, probeArgs, { stdio: "pipe" });
-            if (r.status === 0) return c;
-        }
-        return "python";
-    }
-
     const py = pickPythonBin();
     const args = [];
 
     if (py === "py") args.push("-3");
 
-    args.push("scripts/run_sql_questpack.py", questpackPath, "--mode", arg("--mode") || "student");
+    args.push("scripts/run_sql_questpack.py", "--questpack", questpackPath, "--mode", arg("--mode") || "student");
 
     const onlySlug = arg("--only-slug");
     if (onlySlug) args.push("--only-slug", onlySlug);

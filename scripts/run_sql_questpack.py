@@ -63,7 +63,7 @@ def restore_swap(swap: tuple[Path, bytes] | None) -> None:
 
 def main(argv: list[str] | None = None) -> int:
   ap = argparse.ArgumentParser()
-  ap.add_argument("questpack", type=str)
+  ap.add_argument("--questpack", type=str, required=True)
   ap.add_argument("--mode", choices=["student", "solution"], default="student")
   ap.add_argument("--only-slug", type=str, default=None)
   args = ap.parse_args(argv)
