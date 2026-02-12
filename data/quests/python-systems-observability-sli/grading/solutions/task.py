@@ -1,18 +1,3 @@
-"""
-Quest: python-systems-observability-sli
-
-Compute a simple availability SLI from JSONL events.
-
-Each event has: {"status_code": <int>}
-
-Rules:
-- success if 200 <= status_code <= 399
-- availability = successes / total (float)
-- calculate_availability(events) -> float rounded to 4 decimals
-- main() loads fixtures/events.jsonl and prints:
-    availability=0.7000
-"""
-
 from __future__ import annotations
 
 import json
@@ -20,12 +5,20 @@ from pathlib import Path
 
 
 def calculate_availability(events: list[dict]) -> float:
-  raise NotImplementedError("TODO: implement calculate_availability(events)")
+  total = len(events)
+  if total == 0:
+    return 1.0
+  ok = 0
+  for e in events:
+    code = int(e["status_code"])
+    if 200 <= code <= 399:
+      ok += 1
+  return round(ok / total, 4)
 
 
 def main() -> None:
   here = Path(__file__).resolve()
-  quest_root = here.parents[1]
+  quest_root = here.parents[2]
   path = quest_root / "fixtures" / "events.jsonl"
 
   events: list[dict] = []
