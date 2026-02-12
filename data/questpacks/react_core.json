@@ -6,208 +6,361 @@
         {
             "slug": "react-ignition",
             "track_id": "react-fundamentals",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "briefing_md": "# Mission: Ignite the Renderer\n\nYour cockpit is powered, but the UI is still dark. Bring the first component online and prove the render pipeline works.\n\n## Objectives\n- Render the welcome element with the exact text the tests expect.\n- Ensure the root component mounts without crashing.\n- Keep the output deterministic (no time-based/random content).\n\n> **Tip:** Treat the tests as the spec. Match the required element type, text, and export shape.\n",
             "objectives": [
                 {
                     "id": "obj_test_1",
                     "text": "Renders welcome div with correct text",
                     "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Root component renders without runtime errors",
+                    "why": "Baseline app health"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Exports the expected top-level component",
+                    "why": "Test harness imports must resolve"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Render output is deterministic",
+                    "why": "Training-grade stability"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Boot Sequence\n\n> *Power routed to the UI bus...*\n>\n> Component: **App**\n> Props: **(none)**\n> State: **(none)**\n\nThe reactor is online, but the viewport is blank. A single missing return, wrong export, or mismatched text can keep the whole cockpit offline. Light it up.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "React renders UI by returning JSX from a component function. Tests often assert exact text and structure.",
+                "guided": "Find the component the tests import (usually the entry App/root). Make sure it returns the required element and that the exported name matches what the tests expect.",
+                "full_solution": "Implement the minimal render that satisfies the tests: correct export + correct element + exact text. Avoid adding extra wrappers unless the tests allow them."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-components",
             "track_id": "react-fundamentals",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "briefing_md": "# Mission: Assemble the Card\n\nBuild a small component system using composition. Your goal is to create a reusable **Card** container and a **CardBody** region that can hold content.\n\n## Objectives\n- Implement `Card` as a wrapper component.\n- Implement `CardBody` as a composable inner component.\n- Ensure children render in the correct place and structure.\n\n> **Tip:** Composition is the React way: \"components that contain components\".\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Card renders CardBody",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Renders a Card wrapper component with the expected structure",
+                    "why": "Component composition baseline"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Renders children content inside the CardBody region",
+                    "why": "Slot/content composition requirement"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Uses the expected DOM hierarchy (no extra wrappers unless allowed)",
+                    "why": "Tests may assert structure"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Keeps components reusable and deterministic",
+                    "why": "Training-grade maintainability"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Card Assembly Line\n\n> *Materializing UI modules...*\n>\n> Component: **Card**\n> └─ Component: **CardBody**\n>    └─ Children: **(content)**\n\nA loose layout is rattling around the lab. Lock it into a clean component shell so it can be reused across the ship without rewriting markup.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "Component composition is mostly about **props.children** and predictable structure.",
+                "guided": "Implement the container component first (outer wrapper). Then implement CardBody to render its children where tests expect them.",
+                "full_solution": "Return the required wrappers and render children exactly at the expected nesting level. Keep classNames/attrs minimal unless tests require them."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-props",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: Wire the Greeting Interface\n\nYour greeting module must adapt to incoming props — and gracefully fall back when no name is provided.\n\n## Objectives\n- Accept a `name` prop and render a greeting.\n- Provide a default name when `name` is missing/undefined.\n- Match the exact text format expected by the test suite.\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Renders prop name",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Renders a greeting using the provided name prop",
+                    "why": "Props plumbing requirement"
                 },
                 {
-                    "id": "obj_test_2",
-                    "text": "Renders default stranger",
-                    "why": "Specification requirement"
+                    "id": "obj_2",
+                    "text": "Uses a default name when the prop is missing",
+                    "why": "Robustness / edge-case handling"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Matches the exact greeting text format required by tests",
+                    "why": "Spec compliance"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Does not mutate props or rely on global state",
+                    "why": "Determinism + best practices"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Greeting Console\n\n> *Calibrating comms channel...*\n>\n> Component: **Greeting**\n> Props: **name** (optional)\n\nThe console can greet named pilots — but crashes when the name field is blank. Add a safe fallback so the system can greet anyone who boards.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "Props are inputs. Defaults can be done with parameter defaults or fallback logic.",
+                "guided": "If `name` is undefined, substitute a default string. Ensure the rendered text matches exactly what the tests assert.",
+                "full_solution": "Use a default value for the `name` prop (either in the function signature or inside the render) and render the greeting string exactly as required."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-conditional-render",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: Control Visibility\n\nA panel in the lab should only appear when the visibility rule is true. Implement conditional rendering so the UI shows or hides the section correctly.\n\n## Objectives\n- Render the section content when visible.\n- Hide/remove the section content when not visible.\n- Ensure the toggle/flag behavior matches the tests.\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Renders title and content when visible",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Shows content when visibility condition is true",
+                    "why": "Conditional render requirement"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Does not render content when visibility condition is false",
+                    "why": "Correct hidden state"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Uses the expected condition source (prop or state) per tests",
+                    "why": "Spec alignment"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Avoids side effects during render",
+                    "why": "React correctness + determinism"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Toggle Section\n\n> *Routing visibility signals...*\n>\n> Component: **ToggleSection**\n> Condition: **isVisible**\n\nThe lab door is stuck open. If the visibility signal is false, the door should vanish from the blueprint entirely — not just look closed.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "Conditional rendering can return `null`, use `&&`, or a ternary based on a boolean condition.",
+                "guided": "Identify whether the condition comes from a prop (e.g., `isVisible`) or internal state. Render the content only when the condition is true.",
+                "full_solution": "Implement a boolean condition check that matches tests, and ensure the hidden state truly removes the content from the render tree."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-lists",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: Render the Crew Roster\n\nYou've received a list of users. Render them as a stable list in the UI — with proper keys — so React can track each entry reliably.\n\n## Objectives\n- Render a list of users from the provided data.\n- Provide a stable `key` for each item.\n- Match the list structure/text expected by the tests.\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Renders list items with keys",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Renders all user entries from the provided list",
+                    "why": "List rendering requirement"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Assigns a stable key to each rendered list item",
+                    "why": "React list reconciliation best practice"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Matches expected DOM structure for the roster",
+                    "why": "Tests may assert exact markup"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Handles empty list case if tested",
+                    "why": "Edge-case correctness"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: UserList\n\n> *Syncing crew registry...*\n>\n> Component: **UserList**\n> Children: **UserRow × N**\n\nThe roster keeps reshuffling because the crew IDs aren't pinned. Add stable keys so the ship can track each crew member without glitches.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "When you `map()` to JSX, React needs a `key` on the top-level element inside the loop.",
+                "guided": "Use a unique field from each user as the key (prefer an id). Render the visible text exactly as tests expect.",
+                "full_solution": "Map users to list items with stable keys and ensure the list container/item structure matches the asserted output."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-state-counter",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: Stabilize the Counter Core\n\nThe reactor readout must change based on user actions. Implement a counter using React state so the displayed value updates correctly.\n\n## Objectives\n- Initialize state to the required starting value.\n- Update the value through the required actions (e.g., increment/decrement/reset as tests define).\n- Render the updated count in the UI deterministically.\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Increments counter",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Initializes counter state to the expected value",
+                    "why": "Spec compliance"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Updates counter state when the required controls are used",
+                    "why": "Interactive behavior"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Renders the current count in the UI",
+                    "why": "User-visible correctness"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Uses useState correctly without direct mutation",
+                    "why": "React best practice"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Counter Reactor\n\n> *Charging state capacitor...*\n>\n> Component: **Counter**\n> State: **count**\n\nThe reactor display is stuck. Route button impulses into `useState` so the readout updates instantly and reliably.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "State updates should use the setter from `useState`, often with the functional form for safety.",
+                "guided": "Confirm the initial count matches tests. Wire event handlers to call the state setter with the new value.",
+                "full_solution": "Implement the required handlers so each user action updates state and the UI text reflects the new count exactly."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-state-toggle",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: Flip the Power Switch\n\nCreate a toggle control that switches between ON and OFF. The UI label must always match the internal state.\n\n## Objectives\n- Initialize toggle state correctly.\n- Flip state when the user clicks the button.\n- Render the correct ON/OFF label as required by tests.\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Toggles between ON and OFF",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Initializes toggle state to the expected default",
+                    "why": "Spec compliance"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Flips toggle state on user interaction",
+                    "why": "Interactive behavior"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Renders the correct ON/OFF label based on state",
+                    "why": "UI correctness"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Keeps render deterministic and state-driven",
+                    "why": "Training-grade stability"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Power Toggle\n\n> *Routing switch input...*\n>\n> Component: **Toggle**\n> State: **isOn**\n\nA manual switch is installed, but the label lies. Bind the UI to state so the indicator always matches the ship's actual power status.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "A boolean state plus a click handler is the simplest toggle pattern.",
+                "guided": "Use a boolean in `useState`. On click, set it to the opposite value. Render label conditionally from that boolean.",
+                "full_solution": "Implement `isOn` state, invert it in the handler, and render the exact strings the tests assert for ON/OFF."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-effects-mount",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: Run the Mount Sequence\n\nSome systems must initialize exactly once when a component mounts. Use `useEffect` to perform a one-time setup that the tests can verify.\n\n## Objectives\n- Implement an effect that runs on mount (once).\n- Ensure the effect causes the expected observable change (UI/state) required by tests.\n- Avoid infinite loops by using the correct dependency configuration.\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Calls onMount but not onUnmount initially",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Runs a mount effect exactly once",
+                    "why": "Lifecycle correctness"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Produces the expected effect outcome (state/UI change)",
+                    "why": "Spec compliance"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Uses correct dependency array to prevent re-running",
+                    "why": "Avoid infinite loops"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Avoids non-deterministic behavior inside the effect",
+                    "why": "Training-grade stability"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Mount Protocol\n\n> *Initiating lifecycle handshake...*\n>\n> Component: **(MountEffect Module)**\n> Hook: **useEffect(…, [])**\n\nThe initialization sequence keeps repeating, flooding the lab with rerenders. Set the dependency controls correctly so the mount protocol runs once — and only once.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "`useEffect` runs after render; an empty dependency array means "run on mount".",
+                "guided": "If the effect sets state, make sure it won't trigger the effect again. Keep the dependency array aligned with what tests expect.",
+                "full_solution": "Implement a one-time `useEffect` that triggers the required state/UI result and confirm no repeated execution occurs."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-context-theme",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: Establish a Theme Signal\n\nYour ship needs a shared theme setting accessible across components without prop-drilling. Implement a Theme Context with a provider and consumer.\n\n## Objectives\n- Create/provide a theme value via Context.\n- Consume the theme value in a child component.\n- Ensure the displayed theme output matches the tests.\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Button consumes theme from provider",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Provides a theme value via React Context",
+                    "why": "Global-ish state sharing without props"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Consumes the theme value in a descendant component",
+                    "why": "Context usage requirement"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Renders the expected theme output in the UI",
+                    "why": "Spec compliance"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Uses a safe default theme when no provider is present (if tested)",
+                    "why": "Robustness"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Theme Relay\n\n> *Broadcasting style signal...*\n>\n> Provider: **ThemeProvider**\n> └─ Consumer: **ThemedDisplay**\n>\n> Value: **theme**\n\nThe theme signal is getting lost in transit. Establish a relay (provider) so every module downstream can read the current theme instantly.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "Context = `createContext` + Provider + `useContext` in consumers.",
+                "guided": "Wrap the component tree with the provider and pass the value. In the consumer, read it with `useContext` and render the expected text.",
+                "full_solution": "Create ThemeContext, export ThemeProvider, consume the value in the target component, and ensure the rendered output matches tests exactly."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         },
         {
             "slug": "react-reducer-cart",
-            "briefing_md": "# Mission: None\n\n**Objective:** None.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
+            "track_id": "react-fundamentals",
+            "briefing_md": "# Mission: Operate the Cart Controller\n\nThe cargo bay needs predictable state transitions. Use `useReducer` to manage a shopping cart with explicit actions and a pure reducer.\n\n## Objectives\n- Implement a pure reducer handling the required cart actions.\n- Dispatch actions from UI controls as tests require.\n- Render the cart state (items/quantities/total) deterministically.\n",
             "objectives": [
                 {
-                    "id": "obj_test_1",
-                    "text": "Adds values to total",
-                    "why": "Specification requirement"
+                    "id": "obj_1",
+                    "text": "Implements a pure reducer for cart state transitions",
+                    "why": "Predictable state machine behavior"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Handles required cart actions (add/remove/update/clear as specified by tests)",
+                    "why": "Spec compliance"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Dispatches actions from UI interactions correctly",
+                    "why": "Interactive correctness"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Renders derived cart output deterministically",
+                    "why": "Training-grade stability"
                 }
             ],
-            "lore_md": "## Component Tree: None\n\n> *Mounting component...*\n>\n> Component: None\n> Props: Invalid\n\nThe render cycle is broken. Fix the hook dependencies and state management to prevent infinite loops.",
+            "lore_md": "## Component Tree: Cargo Cart\n\n> *Engaging reducer controls...*\n>\n> Component: **ShoppingCart**\n> Hook: **useReducer(reducer, initialState)**\n> Actions: **(explicit)**\n\nCargo keeps duplicating and disappearing because updates are happening ad hoc. Lock state changes behind a reducer so every transition is logged, pure, and testable.",
             "tiered_hints": {
-                "concept": "Review the workspace file structure.",
-                "guided": "Remember to check standard library documentation for unknown.",
-                "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
+                "concept": "Reducers must be pure: same inputs → same output, no mutation, no side effects.",
+                "guided": "Implement action handlers one-by-one. Confirm you return new state objects/arrays and that UI reflects the updated state after dispatch.",
+                "full_solution": "Implement the reducer cases required by tests, dispatch the matching actions from the UI, and ensure rendered totals/items match expected output exactly."
             },
-            "content_source": "generated_v1",
-            "content_version": "9.9.0",
+            "content_source": "react_refined_v1",
+            "content_version": "2026-02-12.v1",
             "tier": 1
         }
     ]
