@@ -1,6 +1,7 @@
 # sql-cte-subquery
-        
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+- Return employees whose salary is strictly greater than their department's average salary
+- Return columns: `employee`, `department`, `salary`
+- Order by salary DESC, then employee ASC
+- You may use a CTE or a subquery (either is fine)

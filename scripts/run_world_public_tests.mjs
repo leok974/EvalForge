@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
+import process from "node:process";
 import { spawnSync } from "node:child_process";
 
 function arg(name) {
@@ -88,6 +89,62 @@ if (looksTs) {
     if (process.argv.includes("--debug")) args.push("--debug");
 
     const res = spawnSync(process.execPath, args, { stdio: "inherit" });
+    process.exit(res.status ?? 1);
+}
+
+const looksGit =
+    packBase.includes("git") ||
+    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("git-")));
+
+if (looksGit) {
+    const runnerPath = path.resolve(root, "scripts/run_git_questpack.mjs");
+    const args = [
+        runnerPath,
+        "--questpack",
+        questpackPath,
+        "--mode",
+        arg("--mode") || "starter",
+    ];
+
+    const onlySlug = arg("--only-slug");
+    if (onlySlug) args.push("--only-slug", onlySlug);
+
+    if (process.argv.includes("--debug")) args.push("--debug");
+
+    const res = spawnSync(process.execPath, args, { stdio: "inherit" });
+    process.exit(res.status ?? 1);
+}
+
+const looksSql =
+    packBase.includes("sql") ||
+    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("sql-")));
+
+if (looksSql) {
+    // SQL dispatch: use Python runner with pytest + sqlite3
+    function pickPythonBin() {
+        const env = process.env.PYTHON || process.env.PYTHON_BIN;
+        if (env && env.trim()) return env.trim();
+
+        const candidates = ["python", "python3", "py"];
+        for (const c of candidates) {
+            const probeArgs = c === "py" ? ["-3", "--version"] : ["--version"];
+            const r = spawnSync(c, probeArgs, { stdio: "pipe" });
+            if (r.status === 0) return c;
+        }
+        return "python";
+    }
+
+    const py = pickPythonBin();
+    const args = [];
+
+    if (py === "py") args.push("-3");
+
+    args.push("scripts/run_sql_questpack.py", questpackPath, "--mode", arg("--mode") || "student");
+
+    const onlySlug = arg("--only-slug");
+    if (onlySlug) args.push("--only-slug", onlySlug);
+
+    const res = spawnSync(py, args, { stdio: "inherit" });
     process.exit(res.status ?? 1);
 }
 

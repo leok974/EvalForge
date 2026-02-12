@@ -1,6 +1,6 @@
 # sql-order-limit
-        
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+- Select `name`, `price` from `products`
+- Order by `price` DESC, then `name` ASC
+- Return only the top 3 rows

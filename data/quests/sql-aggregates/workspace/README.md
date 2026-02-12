@@ -1,6 +1,8 @@
 # sql-aggregates
-        
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+- Return a single row with columns:
+  - `count_orders`
+  - `total_amount`
+  - `avg_amount`
+- avg_amount must be rounded to 2 decimals (use ROUND)
