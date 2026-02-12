@@ -1,13 +1,11 @@
-# Briefing
+# Briefing — node-testing
 
 ## Objective
-Implement the required behavior for **node-testing** so all public tests pass.
+Turn two empty tests into real assertions.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- `add(2, 3)` must equal `5`
+- `subtract(5, 2)` must equal `3`
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+`node --test tests/math.test.js` exits 0.

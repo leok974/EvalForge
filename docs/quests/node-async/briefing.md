@@ -1,13 +1,11 @@
-# Briefing
+# Briefing — node-async
 
 ## Objective
-Implement the required behavior for **node-async** so all public tests pass.
+Implement `getUserName(id)` so it is safe under failures.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- On success: `getUserName(10) => "User10"`
+- On failure: `getUserName(-5) => "Guest"`
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+Public tests pass.

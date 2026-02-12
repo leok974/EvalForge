@@ -1,10 +1,14 @@
-# Hints
+# Hints — Internal Tooling & DX
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+A good slugify pipeline is:
+normalize spaces → spaces to hyphens → remove invalid chars → collapse hyphens → strip hyphens
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+Use regex:
+- remove invalid: `re.sub(r"[^a-z0-9-]+", "", s)`
+- collapse hyphens: `re.sub(r"-{2,}", "-", s)`
 
 ## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+For unique_sorted:
+`sorted(set(cleaned_items))`

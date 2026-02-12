@@ -523,8 +523,83 @@ async def submit_quest(
             "status": "completed",
         }
     
-    objective_results = validate_first_sparks_python(payload.code)
-    passed = all(o.get("ok") for o in objective_results if o["id"] != "syntax")
+    # Generic Validation
+    # We re-run validation on the submitted code to ensure it still passes
+    # Validation logic is identical to /run payload.
+    
+    # 1. Resolve effective workspace/code (same logic as run_quest)
+    # For submit, we usually just trust payload.code + payload.workspace
+    validation_code = payload.code
+    
+    # 2. Run validation (static + dynamic checks if enabled)
+    # NOTE: Submit usually does NOT re-run execution (too slow/costly). 
+    # It relies on the client passing us the execution results OR we trust static checks.
+    # But for "stdout" checks, we need the stdout. 
+    # If the client sent us the result of a run, we should probably verify it?
+    # For now, we'll assume the client is honest about the stdout it saw, OR we enforce re-execution.
+    # Re-execution is safer but slower. 
+    # Let's assume for now we re-validate based on what's provided, 
+    # BUT wait, the payload to submit is just code + id. It doesn't include stdout/stderr.
+    # So we MUST re-execute if we want to validate dynamic rules.
+    
+    # However, standard practice here (Phase 8) is:
+    # A) Trust the "passed" state from the client (insecure)
+    # B) Re-execute (secure, slow)
+    # C) Check idempotency ID for a recent valid run (secure, fast) -> this is what get_existing_attempt_by_idempotency does!
+    
+    # If we are here, we didn't find an existing submit.
+    # Did we find an existing *run*? 
+    # The client usually calls /run -> gets "ready_to_submit" -> calls /submit.
+    # To be safe and simple: allow submit to re-trigger validation. 
+    # FOR PYTHON QUESTS: we need stdout. So we must execute.
+    
+    # Let's re-use the execution logic? 
+    # Refactoring run_quest to be callable would be best, but for now let's just do:
+    # If runtime rules exist, we must execute.
+    
+    result = await db.execute(select(QuestDefinition).where(QuestDefinition.slug == quest_id))
+    quest = result.scalar_one_or_none()
+    
+    # Re-execute for validation
+    stdout = stderr = None
+    exit_code = 0
+    timed_out = False
+    
+    # Logic copied from run_quest (should be shared)
+    EXECUTION_ENABLED = os.getenv("EXECUTION_ENABLED", "0") == "1"
+    if EXECUTION_ENABLED:
+        from arcade_app.services.code_runner import run_code
+        
+        # Build workspace
+        run_workspace = None
+        if getattr(quest, "workspace_json", None):
+             run_workspace = build_effective_workspace(quest.workspace_json, payload.workspace or [])
+        elif payload.workspace:
+             run_workspace = {"files": payload.workspace}
+             
+        r = run_code(
+            payload.language or "python", 
+            payload.code, 
+            stdin=getattr(payload, "stdin", "") or "", 
+            workspace=run_workspace,
+            mode="run" # Force run mode for submit check
+        )
+        stdout = sanitize_logs(r.stdout)
+        stderr = sanitize_logs(r.stderr)
+        timed_out, exit_code = r.timed_out, r.exit_code
+
+    test_results = validate_quest_attempt(
+        code=payload.code,
+        stdout=stdout,
+        stderr=stderr,
+        exit_code=exit_code,
+        timed_out=timed_out,
+        quest_def=quest
+    )
+    
+    objective_results = test_results
+    passed = all(o.get("ok") for o in objective_results)
+    
     if not passed:
         return {"ok": False, "reason": "Objectives not met", "objective_results": objective_results}
 

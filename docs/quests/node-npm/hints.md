@@ -1,10 +1,10 @@
-# Hints
+# Hints — node-npm
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+Use `fs.existsSync` before reading the lockfile.
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+On failure: print an error and `process.exit(1)`.
 
 ## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+Only enforce name matching if `package-lock.json` includes a `name` field.

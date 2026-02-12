@@ -6,6 +6,10 @@ from arcade_app.models import QuestDefinition
 import sys
 import os
 
+import logging
+logging.basicConfig(level=logging.WARNING)
+logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
+
 sys.path.append(os.getcwd())
 
 async def debug_db():
@@ -23,6 +27,8 @@ async def debug_db():
             print(f"   World: {quest.world_id}")
             print(f"   Track: {quest.track_id}")
             print(f"   Title: {quest.title}")
+            print(f"   Grading JSON: {quest.grading_json}")
+            print(f"   Runtime Rules: {quest.runtime_rules_json}")
         else:
             print(f"❌ NOT FOUND in DB for slug '{slug}'")
             

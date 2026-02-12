@@ -1,10 +1,10 @@
-# Hints
+# Hints — node-deploy-basics
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+Port default pattern:
+`const PORT = process.env.PORT ? Number(process.env.PORT) : 3000`
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
-
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+Health route:
+- set `res.statusCode = 200`
+- `res.end("OK")`

@@ -1,4 +1,4 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**node-testing** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+A runtime without tests is a ship without gauges.
+You don’t steer by hope — you steer by failing fast.

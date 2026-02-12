@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**node-ignition** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Every runtime has rituals.
+In Node, the first ritual is learning which stream you speak through —
+stdout for results, stderr for guidance, and exit codes for truth.

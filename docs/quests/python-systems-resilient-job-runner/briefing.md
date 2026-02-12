@@ -1,13 +1,15 @@
-# Briefing
+# Briefing — Resilient Job Runner
 
 ## Objective
-Implement the required behavior for **python-systems-resilient-job-runner** so all public tests pass.
+Run a batch of jobs from `fixtures/jobs.json` with bounded retries and emit a deterministic JSON report.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## What This Trains
+- Retry policy: bounded attempts, retryable vs non-retryable errors
+- Deterministic outcomes (stable ordering, stable attempt counts)
+- Clean boundaries (core runner does not do IO)
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+- Output JSON deep-equals the expected report.
+- Transient failures retry up to 3 attempts.
+- Fatal failures do not retry.
+- One canonical JSON line to stdout, nothing else.

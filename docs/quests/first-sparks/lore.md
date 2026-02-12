@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**first-sparks** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+The reactor doesn’t roar to life with complexity—
+it starts with a single, precise signal.
+Print the sequence. Ignite the world.

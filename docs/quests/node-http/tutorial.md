@@ -1,17 +1,20 @@
-# Tutorial
+# Tutorial — node-http
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- raw Node HTTP routing via `req.method` and `req.url`
+- setting status codes and headers correctly
+- returning JSON safely
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Implementation Plan
+1. Ensure you only handle `GET` requests (everything else can be 404).
+2. Route by `req.url`:
+   - `/` → text/plain + "Hello World"
+   - `/api` → application/json + JSON.stringify({ message: "Hello API" })
+   - `/error` → status 500
+   - default → 404
+3. Call `res.end(body)` exactly once.
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- forgetting `Content-Type`
+- calling `res.end()` before writing body
+- returning JSON without `JSON.stringify`

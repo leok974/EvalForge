@@ -1,10 +1,14 @@
-# Hints
+# Hints — Observability & SLIs
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+Success = 2xx or 3xx. Error-rate here is 5xx only.
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+Nearest-rank p95:
+k = ceil(0.95 * N), p95 = sorted_latencies[k-1]
 
 ## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+Make output deterministic:
+- sort routes by name
+- round rates to 3 decimals
+- print canonical JSON once

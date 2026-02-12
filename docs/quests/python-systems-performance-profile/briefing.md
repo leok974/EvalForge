@@ -1,13 +1,14 @@
-# Briefing
+# Briefing — Performance & Profiling
 
 ## Objective
-Implement the required behavior for **python-systems-performance-profile** so all public tests pass.
+Compute a deterministic profile report for membership queries and choose the cheaper strategy.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## What This Trains
+- Finding the hot path (membership checks)
+- Profiling without timing (operation counts)
+- Choosing an optimization based on measured cost
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+- Output JSON deep-equals expected.
+- Strategy selection follows tie-break rules.
+- One canonical JSON line to stdout, no extra prints.

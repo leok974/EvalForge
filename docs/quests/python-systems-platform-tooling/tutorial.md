@@ -1,17 +1,17 @@
-# Tutorial
+# Tutorial — Internal Tooling & DX
 
 ## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+You have a tool router already. Your job is to implement the core helpers cleanly.
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Steps
+1. Implement `slugify(text)` exactly per rules.
+2. Implement `unique_sorted(items)`:
+   - trim, lowercase, drop empty
+   - unique + sorted
+3. Run the quest and confirm the JSON output matches expected.
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- Forgetting to collapse whitespace before replacing with "-"
+- Leaving punctuation in the slug
+- Not stripping leading/trailing "-"
+- Not sorting after dedup

@@ -1,19 +1,20 @@
 {
     "slug": "node-env-config",
-    "title": "Environment & Config: .env, process.env, Defaults",
-    "short_description": "Load config safely, validate required vars, and avoid leaking secrets.",
-    "description": "Load config safely, validate required vars, and avoid leaking secrets.",
+    "title": "Node Env Config: process.env + defaults",
+    "short_description": "Load PORT with a default and require DB_URL from the environment.",
+    "description": "Use process.env safely: default PORT to 3000 and fail fast when DB_URL is missing.",
     "world_id": "world-node",
     "track_id": "track-node-core",
-    "order_index": 4,
-    "base_xp_reward": 100,
-    "language": "javascript",
-    "xp": 100,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
         "entrypoint": "index.js",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/node-env-config.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

@@ -1,19 +1,20 @@
 {
     "slug": "node-http",
     "title": "HTTP Server: Routes and JSON",
-    "short_description": "Build a basic server with routing and JSON responses (with correct status codes).",
-    "description": "Build a basic server with routing and JSON responses (with correct status codes).",
+    "short_description": "Build a basic HTTP server with routing, JSON responses, and correct status codes.",
+    "description": "Implement GET routes for /, /api, /error, and a 404 fallback using node:http.",
     "world_id": "world-node",
     "track_id": "track-node-core",
-    "order_index": 7,
-    "base_xp_reward": 100,
-    "language": "javascript",
-    "xp": 100,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
         "entrypoint": "server.js",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/node-http.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

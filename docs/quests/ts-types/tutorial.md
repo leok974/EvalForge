@@ -1,60 +1,21 @@
-## Ts Types
+# Tutorial — TS Types
 
-> [!NOTE]
-> **What you'll build:** Practice ts types concepts in a real-world scenario.
+## What You’re Practicing
+- Modeling data with unions + object types
+- Narrowing `unknown` values safely
+- Using a type guard (`value is User`) to enforce contracts
 
----
+## Implementation Plan
+1. In `isUser`:
+   - Check value is an object (and not null).
+   - Validate `id` is a number and `name` is a string.
+   - Validate `role` is exactly one of the allowed strings.
+2. In `parseUser`:
+   - Try `JSON.parse`.
+   - Call `isUser` on the parsed value.
+   - If valid return it; otherwise throw `Error("EF_TS_TYPES_INVALID")`.
 
-## 1) What You'll Build
-In this quest, you'll work with ts types to practice core concepts.
-
-## 2) The Concept in 30 Seconds
-Ts Types demonstrates fundamental programming patterns used in real-world applications.
-
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
----
-
-## 4) Step-by-Step Walkthrough
-
-### **Setup**
-- Review the starting code
-- Identify the input and expected output
-
-### **Implementation**
-- Follow the objectives
-- Write your logic in the editor
-
-### **Testing**
-- Click **Run** to verify
-- Check different input cases
-
----
-
-## 5) Example Implementation
-```python
-# Example logic
-def example():
-    pass
-```
-
----
-
-## 6) Common Pitfalls
-
-> [!WARNING]
->
-> * Not reading error messages
-> * Missing edge case handling
-> * Syntax errors
-
----
-
-## 7) Check Yourself
-
-* [ ] Does the code run?
-* [ ] Did you match the expected output?
-* [ ] Did you handle edge cases?
+## Pitfalls
+- Treating `typeof value === "object"` as enough (null is an object!)
+- Forgetting to validate `role`
+- Throwing a different error message (tests require exact text)

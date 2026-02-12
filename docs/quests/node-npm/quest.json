@@ -1,8 +1,8 @@
 {
     "slug": "node-npm",
     "title": "npm: Packages, Scripts, and Lockfiles",
-    "short_description": "Install deps, run scripts, and understand why lockfiles matter for reproducibility.",
-    "description": "Install deps, run scripts, and understand why lockfiles matter for reproducibility.",
+    "short_description": "Fix npm scripts and validate lockfiles for reproducible installs.",
+    "description": "Repair npm scripts and implement a Node lockfile checker that enforces lockfileVersion and name matching.",
     "world_id": "world-node",
     "track_id": "track-node-core",
     "grading": {
@@ -10,6 +10,11 @@
     },
     "workspace": {
         "entrypoint": "index.js",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/node-npm.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

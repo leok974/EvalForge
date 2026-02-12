@@ -1,17 +1,29 @@
-# Tutorial
+# Tutorial — Observability & SLIs
 
 ## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+Treat this as a pipeline:
+1) Extract signals (status, latency, route)
+2) Compute global SLIs (rates, p95)
+3) Compute per-route breakdown
+4) Emit deterministic JSON once
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Implementation Plan
+1. Count total events.
+2. Count successes (2xx/3xx) and errors (5xx).
+3. Compute success_rate and error_rate:
+   - rate = count / total
+   - round to 3 decimals
+4. Compute p95:
+   - sort latencies
+   - k = ceil(0.95*N)
+   - p95 = latencies[k-1]
+5. Compute per-route metrics:
+   - requests, errors_5xx
+   - avg_latency_ms (rounded to nearest int)
+6. Sort routes list by route name.
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- Using the wrong percentile definition
+- Treating 4xx as “error_rate” (this quest defines error_rate = 5xx only)
+- Not sorting routes
+- Printing debug text (breaks stdout JSON parsing)

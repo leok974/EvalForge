@@ -1,4 +1,4 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**python-systems-performance-profile** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Heat is invisible until you measure it.
+Profile the path, and the optimization reveals itself.

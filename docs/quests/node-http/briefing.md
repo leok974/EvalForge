@@ -1,13 +1,13 @@
-# Briefing
+# Briefing — node-http
 
 ## Objective
-Implement the required behavior for **node-http** so all public tests pass.
+Implement a framework-free HTTP server with correct routing and status codes.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- `GET /` → 200 + `Hello World`
+- `GET /api` → 200 + JSON `{ "message": "Hello API" }`
+- `GET /error` → 500
+- everything else → 404
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+Public tests pass.

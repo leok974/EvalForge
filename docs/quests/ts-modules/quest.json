@@ -1,36 +1,29 @@
 {
     "slug": "ts-modules",
-    "title": "ts-modules",
+    "title": "TS Modules",
     "language": "typescript",
     "world_id": "world-typescript",
     "track_id": "core",
-    "order_index": 1,
-    "short_description": "A generated quest description.",
-    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
+    "order_index": 9,
+    "short_description": "Use imports/exports across two TypeScript files to compute an invoice total.",
+    "detailed_description": "Implement math helpers in one module and import them into task.ts to compute a deterministic total.\n",
     "objectives": [
         {
-            "id": "obj_default",
-            "text": "Complete the assignment as described in README.md",
-            "why": "Specification"
+            "id": "obj_modules_import_export",
+            "text": "Implement math.ts exports and use them from task.ts so all public tests pass.",
+            "why": "Modules + imports + named exports"
         }
     ],
     "grading": {
         "mode": "tests"
     },
     "workspace": {
-        "entrypoint": "main.py",
-        "files_from": "../quests/ts-modules/workspace"
+        "entrypoint": "task.ts",
+        "files_from": "workspace"
     },
-    "smoke": {
-        "solution_workspace_files": []
+    "tests": {
+        "command": "node --import tsx --test grading/public/ts-modules.public.test.mjs"
     },
-    "briefing_md": "# Mission: ts-modules\n\n**Objective:** ts-modules.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-    "lore_md": "## Compilation Log: ts-modules\n\n> *Type checking in progress...*\n>\n> Module: ts-modules\n> Status: Type Mismatch\n\nStrict mode is active. Define interfaces and types to satisfy the compiler.",
-    "tiered_hints": {
-        "concept": "Review the workspace file structure.",
-        "guided": "Review the concept of **term-1** in the Codex.",
-        "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-    },
-    "content_source": "generated_v1",
-    "content_version": "9.9.0"
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

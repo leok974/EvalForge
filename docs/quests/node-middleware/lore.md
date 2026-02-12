@@ -1,4 +1,6 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**node-middleware** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+The pipeline is the border.
+Logs are your radar.
+Auth is the gate.
+Errors are contained — never unleashed.

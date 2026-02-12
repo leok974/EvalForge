@@ -1,17 +1,19 @@
-# Tutorial
+# Tutorial — node-env-config
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- `process.env` is always strings (or undefined)
+- defaults vs required secrets
+- failing fast with clear errors
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Implementation Plan
+1. Read `process.env.PORT`
+   - if missing/blank → 3000
+   - else convert to number
+2. Read `process.env.DB_URL`
+   - if missing/blank → throw Error
+3. Export a `config` object used by `index.js`
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- forgetting to default PORT
+- allowing empty string DB_URL
+- treating PORT as a string in output logic

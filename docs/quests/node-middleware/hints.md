@@ -1,10 +1,13 @@
-# Hints
+# Hints — node-middleware
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+Logger must output exactly:
+`GET /`
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+Auth should stop the chain:
+return after `res.end("Unauthorized")`
 
 ## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+For error middleware:
+use `err.message` (not the whole Error object)

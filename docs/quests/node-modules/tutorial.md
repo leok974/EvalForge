@@ -1,17 +1,16 @@
-# Tutorial
+# Tutorial — Node Modules (ESM vs CommonJS)
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- Why `import/export` can fail in Node
+- How Node decides whether `.js` files are ESM or CommonJS
+- The `package.json` switch that controls default module mode
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Implementation Plan
+1. Open `package.json`.
+2. Ensure it includes `"type": "module"`.
+3. Re-run tests.
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- Adding `"type": "module"` in the wrong directory
+- Editing code to “work around” module mode instead of fixing config
+- Printing debug output (tests expect clean stdout/stderr)

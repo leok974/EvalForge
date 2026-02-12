@@ -1,36 +1,29 @@
 {
     "slug": "ts-interfaces",
-    "title": "ts-interfaces",
+    "title": "TS Interfaces",
     "language": "typescript",
     "world_id": "world-typescript",
     "track_id": "core",
-    "order_index": 1,
-    "short_description": "A generated quest description.",
-    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
+    "order_index": 7,
+    "short_description": "Model events with interfaces and format them deterministically.",
+    "detailed_description": "Define BaseEvent and UserEvent interfaces and implement formatEvent(e) to output a stable one-line summary.\n",
     "objectives": [
         {
-            "id": "obj_default",
-            "text": "Complete the assignment as described in README.md",
-            "why": "Specification"
+            "id": "obj_format_event",
+            "text": "Implement formatEvent(e) so all public tests pass.",
+            "why": "Interfaces + extension + type narrowing"
         }
     ],
     "grading": {
         "mode": "tests"
     },
     "workspace": {
-        "entrypoint": "main.py",
-        "files_from": "../quests/ts-interfaces/workspace"
+        "entrypoint": "task.ts",
+        "files_from": "workspace"
     },
-    "smoke": {
-        "solution_workspace_files": []
+    "tests": {
+        "command": "node --import tsx --test grading/public/ts-interfaces.public.test.mjs"
     },
-    "briefing_md": "# Mission: ts-interfaces\n\n**Objective:** ts-interfaces.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-    "lore_md": "## Compilation Log: ts-interfaces\n\n> *Type checking in progress...*\n>\n> Module: ts-interfaces\n> Status: Type Mismatch\n\nStrict mode is active. Define interfaces and types to satisfy the compiler.",
-    "tiered_hints": {
-        "concept": "Review the workspace file structure.",
-        "guided": "Review the concept of **term-1** in the Codex.",
-        "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-    },
-    "content_source": "generated_v1",
-    "content_version": "9.9.0"
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

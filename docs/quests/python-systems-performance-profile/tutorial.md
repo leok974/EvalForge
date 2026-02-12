@@ -1,17 +1,24 @@
-# Tutorial
+# Tutorial — Performance & Profiling
 
 ## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+Implement two cost models:
+1) naive scan comparisons
+2) set strategy ops (build + membership)
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+Then choose the cheaper one deterministically.
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Steps
+1. Implement `naive_comparisons(items, queries)`:
+   - scan items for each query and count comparisons
+2. Implement `set_ops(items, queries)`:
+   - len(items) + len(queries)
+3. Implement `choose_strategy`:
+   - choose cheaper, tie -> "set"
+4. Implement `count_hits`:
+   - how many queries exist in items
+5. Return the report object and print canonical JSON once.
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- Off-by-one in naive comparisons when an item is found
+- Forgetting tie-break rule
+- Printing debug output (breaks stdout JSON parsing)

@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**python-loop** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+The reactor reads the world in cycles.
+Each pass filters noise from signal.
+Loop cleanly—and the system stays stable.

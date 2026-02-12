@@ -1,36 +1,39 @@
 {
     "slug": "ts-types",
-    "title": "ts-types",
+    "title": "TS Types",
     "language": "typescript",
     "world_id": "world-typescript",
     "track_id": "core",
-    "order_index": 1,
-    "short_description": "A generated quest description.",
-    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
+    "order_index": 3,
+    "short_description": "Model an API payload with TypeScript types and validate it with a type guard.",
+    "detailed_description": "Implement a runtime-safe JSON parser using TypeScript types and a type guard.\n\n## Objective\nParse a JSON string into a typed `User` only if it matches the contract.\n",
     "objectives": [
         {
-            "id": "obj_default",
-            "text": "Complete the assignment as described in README.md",
-            "why": "Specification"
+            "id": "obj_types_guard_and_parser",
+            "text": "Implement isUser() and parseUser() so the public tests pass.",
+            "why": "Type safety + runtime validation"
         }
     ],
     "grading": {
-        "mode": "tests"
+        "mode": "tests",
+        "command": "node --import tsx --test grading/public/ts-types.public.test.mjs"
     },
     "workspace": {
-        "entrypoint": "main.py",
-        "files_from": "../quests/ts-types/workspace"
+        "entrypoint": "task.ts",
+        "files_from": "workspace"
     },
     "smoke": {
         "solution_workspace_files": []
     },
-    "briefing_md": "# Mission: ts-types\n\n**Objective:** ts-types.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-    "lore_md": "## Compilation Log: ts-types\n\n> *Type checking in progress...*\n>\n> Module: ts-types\n> Status: Type Mismatch\n\nStrict mode is active. Define interfaces and types to satisfy the compiler.",
+    "briefing_md": "briefing.md",
+    "lore_md": "lore.md",
+    "helper_md": "tutorial.md",
+    "hints_md": "hints.md",
     "tiered_hints": {
         "concept": "Review the workspace file structure.",
         "guided": "Review the concept of **term-1** in the Codex.",
         "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
     },
-    "content_source": "generated_v1",
-    "content_version": "9.9.0"
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

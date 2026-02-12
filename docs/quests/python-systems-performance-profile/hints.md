@@ -1,10 +1,10 @@
-# Hints
+# Hints — Performance & Profiling
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+Naive comparisons for a found item at index p is p+1.
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+Set ops are deterministic: build=len(items), membership=len(queries).
 
 ## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+Tie-break goes to "set".

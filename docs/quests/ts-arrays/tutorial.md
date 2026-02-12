@@ -1,60 +1,21 @@
-## Ts Arrays
+# Tutorial — TS Arrays
 
-> [!NOTE]
-> **What you'll build:** Practice ts arrays concepts in a real-world scenario.
+## What You’re Practicing
+- Narrowing `unknown` into an array you can process
+- Filtering invalid data (NaN, Infinity, out-of-range)
+- Deterministic transforms (round + unique + sort)
 
----
+## Implementation Plan
+1. If `!Array.isArray(input)`, return [].
+2. Filter elements to numbers:
+   - `typeof x === "number"`
+   - `Number.isFinite(x)`
+3. Round with `Math.round`.
+4. Filter to 0..100 inclusive.
+5. Deduplicate (use a Set).
+6. Sort ascending with `(a, b) => a - b`.
 
-## 1) What You'll Build
-In this quest, you'll work with ts arrays to practice core concepts.
-
-## 2) The Concept in 30 Seconds
-Ts Arrays demonstrates fundamental programming patterns used in real-world applications.
-
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
----
-
-## 4) Step-by-Step Walkthrough
-
-### **Setup**
-- Review the starting code
-- Identify the input and expected output
-
-### **Implementation**
-- Follow the objectives
-- Write your logic in the editor
-
-### **Testing**
-- Click **Run** to verify
-- Check different input cases
-
----
-
-## 5) Example Implementation
-```python
-# Example logic
-def example():
-    pass
-```
-
----
-
-## 6) Common Pitfalls
-
-> [!WARNING]
->
-> * Not reading error messages
-> * Missing edge case handling
-> * Syntax errors
-
----
-
-## 7) Check Yourself
-
-* [ ] Does the code run?
-* [ ] Did you match the expected output?
-* [ ] Did you handle edge cases?
+## Pitfalls
+- `typeof NaN === "number"` (still invalid) → must use `Number.isFinite`
+- Default `.sort()` sorts as strings → must provide numeric comparator
+- Forgetting to dedupe after rounding (100.4 and 99.6 both become 100)

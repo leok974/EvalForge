@@ -1,4 +1,4 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**node-http** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Every framework starts here:
+a socket, a request line, and the discipline to return the right code.

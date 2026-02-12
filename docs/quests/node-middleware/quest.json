@@ -1,19 +1,20 @@
 {
     "slug": "node-middleware",
-    "title": "Middleware: Logging, Errors, Request IDs",
-    "short_description": "Add a simple middleware pipeline for logs, request IDs, and error handling.",
-    "description": "Add a simple middleware pipeline for logs, request IDs, and error handling.",
+    "title": "Middleware: Logging, Auth, Error Handling",
+    "short_description": "Build a tiny middleware pipeline: log requests, require an API key, and translate errors into 500s.",
+    "description": "Implement requestLogger, authMiddleware, and errorMiddleware for a minimal Node server pipeline.",
     "world_id": "world-node",
     "track_id": "track-node-core",
-    "order_index": 8,
-    "base_xp_reward": 100,
-    "language": "javascript",
-    "xp": 100,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
         "entrypoint": "app.js",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/node-middleware.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

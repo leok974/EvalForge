@@ -1,60 +1,17 @@
-## Ts Control
+# Tutorial — TS Control
 
-> [!NOTE]
-> **What you'll build:** Practice ts control concepts in a real-world scenario.
+## What You’re Practicing
+- Using `unknown` safely
+- Narrowing with runtime checks
+- Writing clean, readable control flow
 
----
+## Implementation Plan
+1. Check type: `typeof code === "number"`.
+2. Check integer: `Number.isInteger(code)`.
+3. Check range: `code >= 100 && code <= 599`.
+4. Use numeric ranges to return the correct label.
 
-## 1) What You'll Build
-In this quest, you'll work with ts control to practice core concepts.
-
-## 2) The Concept in 30 Seconds
-Ts Control demonstrates fundamental programming patterns used in real-world applications.
-
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
----
-
-## 4) Step-by-Step Walkthrough
-
-### **Setup**
-- Review the starting code
-- Identify the input and expected output
-
-### **Implementation**
-- Follow the objectives
-- Write your logic in the editor
-
-### **Testing**
-- Click **Run** to verify
-- Check different input cases
-
----
-
-## 5) Example Implementation
-```python
-# Example logic
-def example():
-    pass
-```
-
----
-
-## 6) Common Pitfalls
-
-> [!WARNING]
->
-> * Not reading error messages
-> * Missing edge case handling
-> * Syntax errors
-
----
-
-## 7) Check Yourself
-
-* [ ] Does the code run?
-* [ ] Did you match the expected output?
-* [ ] Did you handle edge cases?
+## Pitfalls
+- Accepting `"200"` (string) by accident
+- Accepting floats like `200.5`
+- Forgetting the range gate (100–599)

@@ -1,4 +1,4 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**node-modules** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Most runtime failures aren’t logic.
+They’re contracts the loader can’t understand.

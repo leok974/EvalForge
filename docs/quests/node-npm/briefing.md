@@ -1,13 +1,17 @@
-# Briefing
+# Briefing — node-npm
 
 ## Objective
-Implement the required behavior for **node-npm** so all public tests pass.
+Make npm scripts work and enforce a lockfile contract.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- `npm test` runs node:test and passes
+- `npm run start` prints `OK`
+- `npm run check-lockfile`:
+  - fails if package-lock.json missing
+  - parses JSON
+  - lockfileVersion >= 2
+  - if lockfile has `name`, it must equal package.json `name`
+  - prints `Lockfile OK` on success
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+All public tests pass.

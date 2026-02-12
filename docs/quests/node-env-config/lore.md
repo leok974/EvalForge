@@ -1,4 +1,4 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**node-env-config** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+A secret hardcoded is a secret already leaked.
+A secret validated is a system that can survive deployment.

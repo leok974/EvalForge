@@ -1,13 +1,15 @@
-# Briefing
+# Briefing — node-middleware
 
 ## Objective
-Implement the required behavior for **node-middleware** so all public tests pass.
+Implement a middleware pipeline that:
+- logs requests
+- blocks unauthorized calls
+- converts errors into a 500 response
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- Logger prints: `METHOD URL`
+- Auth requires `x-api-key: secret123` or returns 401 Unauthorized
+- Errors become: 500 Internal Server Error
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+Public tests pass.

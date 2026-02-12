@@ -1,17 +1,22 @@
-# Tutorial
+# Tutorial — node-fs-path
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- Using `node:fs/promises` for async IO
+- Building paths safely with `path.join`
+- Thinking in terms of `process.cwd()` (runtime context)
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Implementation Plan
+1. Build an absolute path:
+   - `const inputPath = path.join(process.cwd(), fileName)`
+2. Read file:
+   - `await fs.readFile(inputPath, "utf-8")`
+3. Uppercase:
+   - `const upper = content.toUpperCase()`
+4. Write output in the same directory:
+   - `const outPath = path.join(process.cwd(), "output.txt")`
+   - `await fs.writeFile(outPath, upper, "utf-8")`
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- forgetting `"utf-8"` (you’ll get a Buffer)
+- writing output in the wrong directory
+- using string concat instead of `path.join`

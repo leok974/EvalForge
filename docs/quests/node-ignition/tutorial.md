@@ -1,17 +1,22 @@
-# Tutorial
+# Tutorial — Node Ignition
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- ESM modules (`import` / `export`)
+- CLI args via `process.argv`
+- stderr vs stdout
+- exit codes and “usage” contracts
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Implementation Plan
+1. Implement `greet(name)`:
+   - trim
+   - throw on blank
+   - return exact string
+2. Implement CLI:
+   - read `process.argv[2]`
+   - if missing/blank: `console.error(usage)` + `process.exit(2)`
+   - else: print greeting to stdout
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- Printing usage to stdout instead of stderr
+- Exiting with code 0/1 instead of 2 for usage
+- Forgetting to treat whitespace-only as “missing”

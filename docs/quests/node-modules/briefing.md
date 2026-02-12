@@ -1,13 +1,12 @@
-# Briefing
+# Briefing — Node Modules (ESM vs CommonJS)
 
 ## Objective
-Implement the required behavior for **node-modules** so all public tests pass.
+Make Node treat this project as ESM so imports work.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- `node src/app.js` prints exactly: `Result: 6`
+- No stderr output
+- `package.json` must include: `"type": "module"`
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+Public tests pass.

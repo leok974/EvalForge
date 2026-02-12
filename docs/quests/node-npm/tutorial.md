@@ -1,17 +1,21 @@
-# Tutorial
+# Tutorial — node-npm
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- npm scripts as developer UX
+- lockfiles for reproducibility
+- minimal Node scripting: fs + JSON parsing + exit codes
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Implementation Plan
+1. Fix scripts in `package.json`:
+   - test → `node --test`
+   - start → `node index.js`
+   - check-lockfile → `node scripts/check-lockfile.js`
+2. Implement `check-lockfile.js`:
+   - ensure file exists
+   - JSON.parse and validate fields
+   - print success message
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- printing success to stderr
+- exiting 0 on failure
+- forgetting to enforce lockfileVersion >= 2

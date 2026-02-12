@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**python-systems-resilient-job-runner** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+A runner isn’t measured by perfect days.
+It’s measured by what it does when things go wrong—
+bounded, calm, and deterministic.

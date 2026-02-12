@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**node-async** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Async code is a promise.
+The difference between a pro system and a crash
+is what you do when that promise breaks.

@@ -1,60 +1,23 @@
-## Ts Ignition
+# Tutorial — TS Ignition
 
-> [!NOTE]
-> **What you'll build:** Practice ts ignition concepts in a real-world scenario.
+## What You’ll Learn
+- How TypeScript enforces a return-shape contract
+- Literal types: values that must be exact (not just “string” or “number”)
+- Exporting a function from a module
 
----
+## Approach
+1. Define a type alias `Handshake`
+2. Make `handshake()` return that type
+3. Return the exact object required by the contract
 
-## 1) What You'll Build
-In this quest, you'll work with ts ignition to practice core concepts.
+## Implementation Plan
+- In `Handshake`, use literal types:
+  - message: "System Online"
+  - code: 42
+  - ok: true
+- Return the matching object in `handshake()`
 
-## 2) The Concept in 30 Seconds
-Ts Ignition demonstrates fundamental programming patterns used in real-world applications.
-
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
----
-
-## 4) Step-by-Step Walkthrough
-
-### **Setup**
-- Review the starting code
-- Identify the input and expected output
-
-### **Implementation**
-- Follow the objectives
-- Write your logic in the editor
-
-### **Testing**
-- Click **Run** to verify
-- Check different input cases
-
----
-
-## 5) Example Implementation
-```python
-# Example logic
-def example():
-    pass
-```
-
----
-
-## 6) Common Pitfalls
-
-> [!WARNING]
->
-> * Not reading error messages
-> * Missing edge case handling
-> * Syntax errors
-
----
-
-## 7) Check Yourself
-
-* [ ] Does the code run?
-* [ ] Did you match the expected output?
-* [ ] Did you handle edge cases?
+## Pitfalls
+- Using `message: string` instead of the exact literal
+- Returning `code: number` instead of `42`
+- Misspelling keys or changing casing

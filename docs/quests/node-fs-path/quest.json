@@ -1,19 +1,20 @@
 {
     "slug": "node-fs-path",
     "title": "Filesystem & Paths: Read/Write Without Pain",
-    "short_description": "Use `fs` and `path` safely, avoid path bugs, and handle missing files.",
-    "description": "Use `fs` and `path` safely, avoid path bugs, and handle missing files.",
+    "short_description": "Use fs/promises and path.join safely to read and write files relative to cwd.",
+    "description": "Implement processFile(fileName) to read a file from cwd, uppercase it, and write output.txt.",
     "world_id": "world-node",
     "track_id": "track-node-core",
-    "order_index": 6,
-    "base_xp_reward": 100,
-    "language": "javascript",
-    "xp": 100,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
         "entrypoint": "index.js",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/node-fs-path.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

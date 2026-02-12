@@ -1,4 +1,6 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**python-data-forge** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+The forge is cold, but the data burns.
+Hammer out the impurities.
+Standardize the form.
+Only the tempered signal survives the Core.

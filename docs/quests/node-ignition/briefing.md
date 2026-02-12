@@ -1,13 +1,14 @@
-# Briefing
+# Briefing — Node Ignition
 
 ## Objective
-Implement the required behavior for **node-ignition** so all public tests pass.
+Build a tiny Node CLI greeting tool with a strict contract.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- `greet(name)` trims input and returns `Hello, <name>!`
+- `greet` throws on empty/whitespace-only
+- CLI:
+  - `node index.js Leo` → stdout `Hello, Leo!`
+  - `node index.js` or whitespace arg → stderr usage + exit code 2
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+All public tests pass with exact output formatting.

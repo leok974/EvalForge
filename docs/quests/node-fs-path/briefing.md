@@ -1,13 +1,12 @@
-# Briefing
+# Briefing — node-fs-path
 
 ## Objective
-Implement the required behavior for **node-fs-path** so all public tests pass.
+Read a file from the current working directory and write an uppercased copy.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- Reads `fileName` from `process.cwd()`
+- Writes `output.txt` containing the uppercased content
+- No extra files required
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+Public tests pass.

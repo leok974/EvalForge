@@ -1,13 +1,16 @@
-# Briefing
+# Briefing — Observability & SLIs
 
 ## Objective
-Implement the required behavior for **python-systems-observability-sli** so all public tests pass.
+Compute a small SLI report from request events and print a canonical JSON metrics object.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## What This Trains
+- Converting raw logs into measurable SLIs
+- Percentiles (p95) using a precise definition
+- Deterministic reporting (stable rounding + stable ordering)
+- Clean boundaries: core computation is pure; only main.py does IO
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+- Output JSON deep-equals the expected report.
+- Rates are correct and rounded to 3 decimals.
+- p95 follows nearest-rank definition.
+- Routes are sorted ascending.

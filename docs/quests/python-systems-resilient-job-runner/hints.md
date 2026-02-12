@@ -1,10 +1,10 @@
-# Hints
+# Hints — Resilient Job Runner
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+Use a nested loop: jobs outer loop, attempts inner loop.
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+Only retry the transient exception type.
 
 ## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+If attempts 1..3 all fail transiently, final error is EF_RUNNER_RETRY_EXHAUSTED and attempts=3.

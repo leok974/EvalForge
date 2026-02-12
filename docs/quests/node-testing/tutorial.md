@@ -1,17 +1,18 @@
-# Tutorial
+# Tutorial — node-testing
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- `node:test` for defining test cases
+- `node:assert/strict` for real checks that fail loudly
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+## Implementation Plan
+1) In the add test:
+   - call `add(2, 3)`
+   - assert the result equals `5`
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+2) In the subtract test:
+   - call `subtract(5, 2)`
+   - assert the result equals `3`
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- forgetting to call the function (asserting on the function itself)
+- using loose equality when strict is expected

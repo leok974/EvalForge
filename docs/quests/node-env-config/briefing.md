@@ -1,13 +1,14 @@
-# Briefing
+# Briefing — node-env-config
 
 ## Objective
-Implement the required behavior for **node-env-config** so all public tests pass.
+Load runtime config from environment variables with safe defaults.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- `PORT`:
+  - if set → use it
+  - if missing/blank → default to 3000
+- `DB_URL`:
+  - required (missing/blank must fail)
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+Public tests pass.

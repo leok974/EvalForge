@@ -10,18 +10,56 @@
         "summary": "Shape messy data into something Reactor Core can consume.",
         "language": "python",
         "xp_base": 70,
-        "starter_code": "# Quest: Data Forge\n# Objective: Parse raw data into a structured format.\n\nraw_data = [\n    {\"id\": \"A1\", \"val\": \"100\"},\n    {\"id\": \"B2\", \"val\": \"invalid\"},\n    {\"id\": \"C3\", \"val\": \"50\"}\n]\n\ndef forge(data):\n    # TODO: Parse 'val' as int. specialized handling for errors.\n    # Return list of valid dicts.\n    return []\n\nif __name__ == \"__main__\":\n    print(forge(raw_data))\n",
+        "starter_code": "import json\nfrom pathlib import Path\n\ndef normalize_record(record: dict) -> dict:\n    \"\"\"\n    Normalize a single raw record.\n    \"\"\"\n    # TODO: Implement normalization rules\n    return {}\n\ndef main() -> None:\n    # 1. Read input\n    fixture_path = Path(\"fixtures/raw_contacts.json\")\n    if not fixture_path.exists():\n        # Fallback for some runner contexts\n        fixture_path = Path(\"workspace/fixtures/raw_contacts.json\")\n        \n    with open(fixture_path, \"r\") as f:\n        raw_data = json.load(f)\n\n    # 2. Process\n    normalized = []\n    for item in raw_data:\n        normalized.append(normalize_record(item))\n\n    # 3. Sort by ID (ensure int)\n    # normalized.sort(key=...)\n\n    # 4. Print Canonical JSON\n    # print(json.dumps(normalized, sort_keys=True, separators=(\",\",\":\")))\n    pass\n\nif __name__ == \"__main__\":\n    main()\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_normalized_json",
+                "title": "Prints normalized JSON (deep equal)",
+                "kind": "stdout_json_eq",
+                "rule_json": {
+                    "expected": [
+                        {
+                            "email": null,
+                            "id": 1,
+                            "is_active": false,
+                            "name": "Bob",
+                            "phone": "555-000-9999",
+                            "tags": [
+                                "internal",
+                                "vip"
+                            ]
+                        },
+                        {
+                            "email": "alice@example.com",
+                            "id": 2,
+                            "is_active": true,
+                            "name": "Alice Smith",
+                            "phone": "555-123-4567",
+                            "tags": [
+                                "new",
+                                "vip"
+                            ]
+                        },
+                        {
+                            "email": "carol@example.com",
+                            "id": 3,
+                            "is_active": true,
+                            "name": "Unknown",
+                            "phone": null,
+                            "tags": []
+                        }
+                    ]
+                }
             }
         ],
-        "briefing_md": "# Mission: Data Forge\n\n**Objective:** Data Forge.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: Data Forge\n\n> *Accessing archival records...*\n>\n> Subject: Data Forge\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "workspace": {
             "files_from": "../quests/python-data-forge/workspace"
+        },
+        "grading_json": {
+            "entrypoint": "task.py"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -29,7 +67,8 @@
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     },
     {
         "slug": "python-loop",
@@ -42,18 +81,26 @@
         "summary": "Learn loops and conditionals to process collections of data.",
         "language": "python",
         "xp_base": 50,
-        "starter_code": "# Quest: Loop\n# Objective: Process a list of sensor readings.\n\nreadings = [12, 45, 0, 99, -5, 23]\n\ndef process_readings(data):\n    # TODO: Loop through data\n    # TODO: Filter out negative values\n    # TODO: Return the count of valid readings\n    return 0\n\nif __name__ == \"__main__\":\n    print(process_readings(readings))\n",
-        "briefing_md": "# Mission: Loop\n\n**Objective:** Loop.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: Loop\n\n> *Accessing archival records...*\n>\n> Subject: Loop\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "starter_code": "def main() -> None:\n    # Print even numbers from 1..10 inclusive, each on its own line.\n    # Then print the summary line: EVEN_COUNT=5\n    pass\n\nif __name__ == \"__main__\":\n    main()\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_even_numbers_and_count",
+                "title": "Prints even numbers 1..10 and final count",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "^2\\n4\\n6\\n8\\n10\\nEVEN_COUNT=5\\s*$",
+                    "flags": "m"
+                }
             }
         ],
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "workspace": {
             "files_from": "../quests/python-loop/workspace"
+        },
+        "grading_json": {
+            "entrypoint": "task.py"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -61,7 +108,8 @@
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     },
     {
         "slug": "python-systems-service-boundaries",
@@ -74,18 +122,58 @@
         "summary": "",
         "language": "python",
         "xp_base": 50,
-        "starter_code": null,
+        "starter_code": "from __future__ import annotations\n\nfrom typing import Any\n\n\ndef coerce_id(value: Any) -> int:\n    \"\"\"\n    Convert string/number ids into an int.\n    Examples: \"002\" -> 2, 1 -> 1\n    \"\"\"\n    try:\n        return int(str(value).strip())\n    except Exception:\n        return 0\n\n\ndef _bad(action: str, req_id: Any, code: str) -> dict:\n    return {\n        \"id\": coerce_id(req_id),\n        \"action\": action,\n        \"ok\": False,\n        \"value\": None,\n        \"error\": code,\n    }\n\n\ndef _ok(action: str, req_id: Any, value: Any) -> dict:\n    return {\n        \"id\": coerce_id(req_id),\n        \"action\": action,\n        \"ok\": True,\n        \"value\": value,\n        \"error\": None,\n    }\n\n\ndef handle_request(req: dict) -> dict:\n    \"\"\"\n    Pure core function: takes a request dict and returns a response dict.\n\n    Must not print, read files, or rely on globals.\n    \"\"\"\n    req_id = req.get(\"id\")\n    action = req.get(\"action\")\n    \n    # TODO: Implement request handling logic\n    # 1. Validate action and inputs\n    # 2. Return _ok or _bad response\n    \n    return _bad(str(action), req_id, \"EF_BOUNDARY_NOT_IMPLEMENTED\")\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_service_contract_json",
+                "title": "Prints canonical service responses (deep equal)",
+                "kind": "stdout_json_eq",
+                "rule_json": {
+                    "expected": [
+                        {
+                            "id": 1,
+                            "action": "divide",
+                            "ok": true,
+                            "value": 5,
+                            "error": null
+                        },
+                        {
+                            "id": 2,
+                            "action": "sum",
+                            "ok": true,
+                            "value": 6,
+                            "error": null
+                        },
+                        {
+                            "id": 3,
+                            "action": "divide",
+                            "ok": false,
+                            "value": null,
+                            "error": "EF_BOUNDARY_DIVIDE_BY_ZERO"
+                        },
+                        {
+                            "id": 4,
+                            "action": "concat",
+                            "ok": true,
+                            "value": "hello world",
+                            "error": null
+                        },
+                        {
+                            "id": 5,
+                            "action": "sum",
+                            "ok": false,
+                            "value": null,
+                            "error": "EF_BOUNDARY_BAD_INPUT"
+                        }
+                    ]
+                }
             }
         ],
-        "briefing_md": "# Mission: Service Boundaries & Contracts\n\n**Objective:** Service Boundaries & Contracts.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: Service Boundaries & Contracts\n\n> *Accessing archival records...*\n>\n> Subject: Service Boundaries & Contracts\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "workspace": {
-            "files_from": "../quests/python-systems-service-boundaries/workspace"
+            "files_from": "../../docs/quests/python-systems-service-boundaries/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -93,7 +181,8 @@
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     },
     {
         "slug": "python-systems-resilient-job-runner",
@@ -106,18 +195,51 @@
         "summary": "",
         "language": "python",
         "xp_base": 50,
-        "starter_code": null,
+        "starter_code": "from __future__ import annotations\n\nfrom dataclasses import dataclass\nfrom typing import Any\n\n\nclass TransientError(Exception):\n    pass\n\n\nclass FatalError(Exception):\n    pass\n\n\ndef coerce_id(value: Any) -> int:\n    try:\n        return int(str(value).strip())\n    except Exception:\n        return 0\n\n\ndef execute_job(job: dict, attempt: int) -> int:\n    \"\"\"\n    Execute a single job attempt.\n\n    Kinds:\n      - add: always succeeds\n      - flaky_add: fails TransientError for first `fail_times` attempts\n      - fatal: always fails FatalError\n    \"\"\"\n    # TODO: Implement job execution logic\n    pass\n\n\ndef run_jobs(jobs: list[dict]) -> list[dict]:\n    \"\"\"\n    Pure core runner. Does not print, does not read files.\n\n    Retry policy:\n      - max_attempts = 3\n      - retry only TransientError\n      - FatalError is never retried\n    \"\"\"\n    results: list[dict] = []\n    max_attempts = 3\n    \n    # TODO: Implement retry loop\n    \n    return results\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_job_runner_report",
+                "title": "Prints deterministic job runner report (deep equal)",
+                "kind": "stdout_json_eq",
+                "rule_json": {
+                    "expected": [
+                        {
+                            "id": 1,
+                            "ok": true,
+                            "attempts": 1,
+                            "value": 5,
+                            "error": null
+                        },
+                        {
+                            "id": 2,
+                            "ok": true,
+                            "attempts": 3,
+                            "value": 15,
+                            "error": null
+                        },
+                        {
+                            "id": 3,
+                            "ok": false,
+                            "attempts": 3,
+                            "value": null,
+                            "error": "EF_RUNNER_RETRY_EXHAUSTED"
+                        },
+                        {
+                            "id": 4,
+                            "ok": false,
+                            "attempts": 1,
+                            "value": null,
+                            "error": "EF_RUNNER_FATAL"
+                        }
+                    ]
+                }
             }
         ],
-        "briefing_md": "# Mission: Resilient Job Runner\n\n**Objective:** Resilient Job Runner.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: Resilient Job Runner\n\n> *Accessing archival records...*\n>\n> Subject: Resilient Job Runner\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "workspace": {
-            "files_from": "../quests/python-systems-resilient-job-runner/workspace"
+            "files_from": "../../docs/quests/python-systems-resilient-job-runner/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -125,7 +247,8 @@
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     },
     {
         "slug": "python-systems-observability-sli",
@@ -138,18 +261,48 @@
         "summary": "",
         "language": "python",
         "xp_base": 50,
-        "starter_code": null,
+        "starter_code": "from __future__ import annotations\n\nimport math\nfrom typing import Any\n\n\ndef _is_success(status: Any) -> bool:\n    return isinstance(status, int) and 200 <= status <= 399\n\n\ndef _is_5xx(status: Any) -> bool:\n    return isinstance(status, int) and 500 <= status <= 599\n\n\ndef _p95_nearest_rank(latencies: list[int]) -> int:\n    if not latencies:\n        return 0\n    xs = sorted(latencies)\n    n = len(xs)\n    k = math.ceil(0.95 * n)\n    return xs[k - 1]\n\n\ndef compute_sli_report(events: list[dict]) -> dict:\n    \"\"\"\n    Pure function: compute a deterministic SLI report from raw events.\n\n    Must not print or read files.\n    \"\"\"\n    # TODO: Implement metrics per README.\n    #\n    # Return shape:\n    # {\n    #   \"total_requests\": int,\n    #   \"success_rate\": float,   # rounded to 3 decimals\n    #   \"error_rate\": float,     # rounded to 3 decimals (5xx only)\n    #   \"p95_latency_ms\": int,\n    #   \"slo_ok\": bool,\n    #   \"routes\": [\n    #       {\"route\": str, \"requests\": int, \"errors_5xx\": int, \"avg_latency_ms\": int},\n    #       ...\n    #   ]\n    # }\n    return {}\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_sli_report",
+                "title": "Prints deterministic SLI report (deep equal)",
+                "kind": "stdout_json_eq",
+                "rule_json": {
+                    "expected": {
+                        "total_requests": 10,
+                        "success_rate": 0.8,
+                        "error_rate": 0.2,
+                        "p95_latency_ms": 300,
+                        "slo_ok": false,
+                        "routes": [
+                            {
+                                "route": "/health",
+                                "requests": 2,
+                                "errors_5xx": 0,
+                                "avg_latency_ms": 11
+                            },
+                            {
+                                "route": "/ingest",
+                                "requests": 3,
+                                "errors_5xx": 1,
+                                "avg_latency_ms": 233
+                            },
+                            {
+                                "route": "/search",
+                                "requests": 5,
+                                "errors_5xx": 1,
+                                "avg_latency_ms": 180
+                            }
+                        ]
+                    }
+                }
             }
         ],
-        "briefing_md": "# Mission: Observability & SLIs\n\n**Objective:** Observability & SLIs.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: Observability & SLIs\n\n> *Accessing archival records...*\n>\n> Subject: Observability & SLIs\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "workspace": {
-            "files_from": "../quests/python-systems-observability-sli/workspace"
+            "files_from": "../../docs/quests/python-systems-observability-sli/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -157,7 +310,8 @@
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     },
     {
         "slug": "python-systems-performance-profile",
@@ -170,18 +324,29 @@
         "summary": "",
         "language": "python",
         "xp_base": 50,
-        "starter_code": null,
+        "starter_code": "from __future__ import annotations\n\nfrom typing import Any\n\n\ndef count_hits(items: list[str], queries: list[str]) -> int:\n    \"\"\"\n    Return how many queries are present in items.\n    Use a set for membership checks (deterministic).\n    \"\"\"\n    # TODO\n    return 0\n\n\ndef naive_comparisons(items: list[str], queries: list[str]) -> int:\n    \"\"\"\n    Deterministic cost model for naive membership:\n    comparisons += number of item==query checks performed.\n    \"\"\"\n    # TODO\n    return 0\n\n\ndef set_ops(items: list[str], queries: list[str]) -> int:\n    \"\"\"\n    Deterministic cost model for set membership:\n    build_ops = len(items)\n    membership_ops = len(queries)\n    set_ops = build_ops + membership_ops\n    \"\"\"\n    # TODO\n    return 0\n\n\ndef choose_strategy(naive_cost: int, set_cost: int) -> str:\n    \"\"\"\n    Choose cheaper strategy. Tie-break: choose \"set\".\n    \"\"\"\n    # TODO\n    return \"set\"\n\n\ndef profile_membership_case(case: dict[str, Any]) -> dict:\n    \"\"\"\n    Pure function: read case dict and return report dict.\n\n    Required report shape:\n    {\n      \"hits\": int,\n      \"strategy\": \"naive\"|\"set\",\n      \"cost\": {\"naive_comparisons\": int, \"set_ops\": int}\n    }\n    \"\"\"\n    items = case.get(\"items\", [])\n    queries = case.get(\"queries\", [])\n\n    # Basic input validation (keep deterministic)\n    if not isinstance(items, list) or not all(isinstance(x, str) for x in items):\n        items = []\n    if not isinstance(queries, list) or not all(isinstance(x, str) for x in queries):\n        queries = []\n\n    ncost = naive_comparisons(items, queries)\n    scost = set_ops(items, queries)\n    strategy = choose_strategy(ncost, scost)\n    hits = count_hits(items, queries)\n\n    return {\n        \"hits\": hits,\n        \"strategy\": strategy,\n        \"cost\": {\n            \"naive_comparisons\": ncost,\n            \"set_ops\": scost,\n        },\n    }\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_profile_report",
+                "title": "Prints deterministic profile report (deep equal)",
+                "kind": "stdout_json_eq",
+                "rule_json": {
+                    "expected": {
+                        "hits": 12,
+                        "strategy": "set",
+                        "cost": {
+                            "naive_comparisons": 179,
+                            "set_ops": 35
+                        }
+                    }
+                }
             }
         ],
-        "briefing_md": "# Mission: Performance & Profiling\n\n**Objective:** Performance & Profiling.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: Performance & Profiling\n\n> *Accessing archival records...*\n>\n> Subject: Performance & Profiling\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "workspace": {
-            "files_from": "../quests/python-systems-performance-profile/workspace"
+            "files_from": "../../docs/quests/python-systems-performance-profile/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -189,7 +354,8 @@
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     },
     {
         "slug": "python-systems-platform-tooling",
@@ -202,18 +368,31 @@
         "summary": "",
         "language": "python",
         "xp_base": 50,
-        "starter_code": null,
+        "starter_code": "from __future__ import annotations\n\nimport re\nfrom typing import Any\n\n\ndef _bad(tool: str, code: str) -> dict:\n    return {\"tool\": tool, \"ok\": False, \"result\": None, \"error\": code}\n\n\ndef _ok(tool: str, result: Any) -> dict:\n    return {\"tool\": tool, \"ok\": True, \"result\": result, \"error\": None}\n\n\ndef slugify(text: str) -> str:\n    \"\"\"\n    Rules:\n    - lowercase\n    - trim\n    - collapse whitespace to single spaces\n    - spaces -> \"-\"\n    - remove all chars except a-z, 0-9, \"-\"\n    - collapse multiple \"-\" to one\n    - strip leading/trailing \"-\"\n    \"\"\"\n    # TODO\n    return \"\"\n\n\ndef unique_sorted(items: list[str]) -> list[str]:\n    \"\"\"\n    - trim, lowercase\n    - drop empty\n    - unique + sorted\n    \"\"\"\n    # TODO\n    return []\n\n\ndef run_tool_request(req: dict) -> dict:\n    \"\"\"\n    Pure function: no IO.\n    \"\"\"\n    tool = req.get(\"tool\")\n    payload = req.get(\"payload\")\n\n    if not isinstance(tool, str) or not tool.strip():\n        return _bad(\"unknown\", \"EF_TOOL_BAD_INPUT\")\n\n    tool = tool.strip()\n\n    if not isinstance(payload, dict):\n        return _bad(tool, \"EF_TOOL_BAD_INPUT\")\n\n    if tool == \"slugify\":\n        text = payload.get(\"text\")\n        if not isinstance(text, str):\n            return _bad(tool, \"EF_TOOL_BAD_INPUT\")\n        return _ok(tool, slugify(text))\n\n    if tool == \"sum\":\n        nums = payload.get(\"numbers\")\n        if not isinstance(nums, list) or any(not isinstance(n, int) for n in nums):\n            return _bad(tool, \"EF_TOOL_BAD_INPUT\")\n        return _ok(tool, sum(nums))\n\n    if tool == \"unique_sorted\":\n        items = payload.get(\"items\")\n        if not isinstance(items, list) or any(not isinstance(x, str) for x in items):\n            return _bad(tool, \"EF_TOOL_BAD_INPUT\")\n        return _ok(tool, unique_sorted(items))\n\n    return _bad(tool, \"EF_TOOL_UNKNOWN\")\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_tool_result",
+                "title": "Prints deterministic tool result (deep equal)",
+                "kind": "stdout_json_eq",
+                "rule_json": {
+                    "expected": {
+                        "tool": "unique_sorted",
+                        "ok": true,
+                        "result": [
+                            "alpha",
+                            "beta",
+                            "gamma"
+                        ],
+                        "error": null
+                    }
+                }
             }
         ],
-        "briefing_md": "# Mission: Internal Tooling & DX\n\n**Objective:** Internal Tooling & DX.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: Internal Tooling & DX\n\n> *Accessing archival records...*\n>\n> Subject: Internal Tooling & DX\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "workspace": {
-            "files_from": "../quests/python-systems-platform-tooling/workspace"
+            "files_from": "../../docs/quests/python-systems-platform-tooling/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -221,6 +400,7 @@
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     }
 ]

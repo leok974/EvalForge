@@ -61,6 +61,26 @@ def validate_quest_attempt(
     # 3. Process Objectives
     objectives = getattr(quest_def, "objectives_json", []) or []
     
+    # Tier-1 Strictness Gate
+    tier = getattr(quest_def, "tier", 0)
+    if tier >= 1:
+        if not objectives:
+             return [ObjResult(id="config_missing", ok=False, detail="EF_OBJ_MISSING: Tier-1 quest has no objectives.").__dict__]
+        
+        # Check for placeholders
+        for obj in objectives:
+            t = (obj.get("title") or "").lower()
+            k = (obj.get("kind") or "").lower()
+            r = obj.get("rule", {})
+            
+            is_placeholder = False
+            if "complete the assignment" in t: is_placeholder = True
+            if k in ["", "placeholder", "tbd", "todo"]: is_placeholder = True
+            if not r or r == "TODO": is_placeholder = True
+            
+            if is_placeholder:
+                return [ObjResult(id="config_placeholder", ok=False, detail=f"EF_OBJ_PLACEHOLDER: Tier-1 quest has placeholder objective '{t}'.").__dict__]
+
     if not objectives and not getattr(quest_def, "sandbox", False) and not getattr(quest_def, "is_sandbox", False):
          # If no objectives and not a sandbox, this is likely a configuration error
          return [ObjResult(id="config", ok=False, detail="Quest has no objectives configured").__dict__]
@@ -142,13 +162,56 @@ def validate_quest_attempt(
                     res.ok = found
                     res.detail = f"Assign variable '{var_name}'" if not found else "Variable assigned"
                     
-            elif kind == "stdout_regex":
-                pattern = rule.get("pattern", "")
-                if re.search(pattern, stdout or "", re.IGNORECASE | re.MULTILINE):
-                    res.ok = True
-                    res.detail = "Output matches pattern"
+            elif kind == "stdout_json_eq":
+                import json
+                expected = rule.get("expected")
+                if expected is None:
+                     res.detail = "Invalid rule (missing 'expected')"
                 else:
-                    res.detail = "Output mismatch"
+                    try:
+                        # Parse stdout as JSON
+                        # normalize to single line if needed? json.loads handles whitespace
+                        actual = json.loads(stdout or "")
+                        
+                        # Deep equality check
+                        if actual == expected:
+                            res.ok = True
+                            res.detail = "JSON output matches expected data"
+                        else:
+                            res.detail = "JSON output mismatch"
+                            # Optional: diff details?
+                    except json.JSONDecodeError:
+                        res.detail = "Output is not valid JSON"
+                    except Exception as e:
+                        res.detail = f"JSON validation error: {str(e)}"
+                    
+            elif kind == "stdout_regex" or kind == "stdout_exact": # Alias
+                pattern = rule.get("pattern", "")
+                if not pattern:
+                    res.detail = "Invalid regex rule (empty pattern)"
+                else:
+                    # Parse flags
+                    flags = rule.get("flags", "")
+                    re_flags = 0
+                    if "i" in flags.lower(): re_flags |= re.IGNORECASE
+                    if "m" in flags.lower(): re_flags |= re.MULTILINE
+                    if "s" in flags.lower(): re_flags |= re.DOTALL
+                    
+                    # Normalize stdout
+                    # We use stdout_clean for simple checks, but regex might want exact structure
+                    # Let's use normalized version with \n
+                    txt = stdout_normalized or ""
+                    
+                    try:
+                        if re.search(pattern, txt, re_flags):
+                             res.ok = True
+                             res.detail = "Output matches expected pattern"
+                        else:
+                             res.detail = f"Output does not match required pattern." 
+                             # Don't leak regex to user in detail unless helpful?
+                             # Better to keep it opaque or give a hint via title.
+                    except re.error as e:
+                         res.detail = f"Invalid regex pattern: {e}"
 
             elif kind == "exit_code_zero":
                 res.ok = (exit_code == 0)

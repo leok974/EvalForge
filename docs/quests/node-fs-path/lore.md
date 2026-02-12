@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**node-fs-path** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Paths are coordinates.
+IO is gravity.
+If you don’t respect the cwd, your files drift into the void.

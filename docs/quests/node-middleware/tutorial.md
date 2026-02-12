@@ -1,17 +1,26 @@
-# Tutorial
+# Tutorial — node-middleware
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- middleware control flow via `next()`
+- stopping the chain safely (don’t call next after ending a response)
+- translating errors into consistent HTTP responses
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+## Implementation Plan
+1. `requestLogger`
+   - log `${req.method} ${req.url}`
+   - call `next()`
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+2. `authMiddleware`
+   - read `req.headers["x-api-key"]`
+   - if valid → `next()`
+   - if invalid → set `res.statusCode = 401` and `res.end("Unauthorized")`
+
+3. `errorMiddleware`
+   - log the error message
+   - set `res.statusCode = 500`
+   - `res.end("Internal Server Error")`
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- calling `next()` after you already ended the response
+- logging extra text (tests expect exact format)
+- forgetting header key is lowercase in Node (`x-api-key`)

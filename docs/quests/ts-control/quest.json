@@ -1,36 +1,29 @@
 {
     "slug": "ts-control",
-    "title": "ts-control",
+    "title": "TS Control",
     "language": "typescript",
     "world_id": "world-typescript",
     "track_id": "core",
-    "order_index": 1,
-    "short_description": "A generated quest description.",
-    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
+    "order_index": 4,
+    "short_description": "Use control flow to classify status codes into a typed union.",
+    "detailed_description": "Implement a typed decision function that classifies HTTP-like status codes.\n\n## Objective\nReturn a `StatusClass` for valid inputs and `\"invalid\"` for anything outside the contract.\n",
     "objectives": [
         {
-            "id": "obj_default",
-            "text": "Complete the assignment as described in README.md",
-            "why": "Specification"
+            "id": "obj_classify_status",
+            "text": "Implement classifyStatus(code) so all public tests pass.",
+            "why": "Control flow + type narrowing"
         }
     ],
     "grading": {
         "mode": "tests"
     },
     "workspace": {
-        "entrypoint": "main.py",
-        "files_from": "../quests/ts-control/workspace"
+        "entrypoint": "task.ts",
+        "files_from": "workspace"
     },
-    "smoke": {
-        "solution_workspace_files": []
+    "tests": {
+        "command": "node --import tsx --test grading/public/ts-control.public.test.mjs"
     },
-    "briefing_md": "# Mission: ts-control\n\n**Objective:** ts-control.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-    "lore_md": "## Compilation Log: ts-control\n\n> *Type checking in progress...*\n>\n> Module: ts-control\n> Status: Type Mismatch\n\nStrict mode is active. Define interfaces and types to satisfy the compiler.",
-    "tiered_hints": {
-        "concept": "Review the workspace file structure.",
-        "guided": "Review the concept of **term-1** in the Codex.",
-        "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-    },
-    "content_source": "generated_v1",
-    "content_version": "9.9.0"
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

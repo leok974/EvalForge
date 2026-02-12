@@ -1,0 +1,37 @@
+[
+    {
+        "id": "002",
+        "action": "sum",
+        "numbers": [
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "id": 1,
+        "action": "divide",
+        "numerator": 10,
+        "denominator": 2
+    },
+    {
+        "id": "3",
+        "action": "divide",
+        "numerator": 5,
+        "denominator": 0
+    },
+    {
+        "id": 4,
+        "action": "concat",
+        "parts": [
+            "  hello",
+            "world  ",
+            ""
+        ]
+    },
+    {
+        "id": 5,
+        "action": "sum",
+        "numbers": "notalist"
+    }
+]

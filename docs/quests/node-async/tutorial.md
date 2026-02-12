@@ -1,17 +1,17 @@
-# Tutorial
+# Tutorial — node-async
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- `async/await` control flow
+- handling thrown errors in awaited calls
+- preventing crashes / unhandled rejections
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
-
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Implementation Plan
+1. Call `await loadUser(id)` inside `getUserName`.
+2. Return `user.name` on success.
+3. Wrap the await in `try/catch`.
+4. In the catch block, return `"Guest"`.
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- forgetting `await` (you’ll return a Promise instead of a string)
+- catching but not returning `"Guest"`
+- letting the error escape and failing the test

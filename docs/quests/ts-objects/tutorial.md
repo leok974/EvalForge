@@ -1,60 +1,23 @@
-## Ts Objects
+# Tutorial — TS Objects
 
-> [!NOTE]
-> **What you'll build:** Practice ts objects concepts in a real-world scenario.
+## What You’re Practicing
+- Narrowing `unknown` to a plain object safely
+- Applying defaults without losing type safety
+- Normalizing nested objects (headers)
 
----
+## Implementation Plan
+1. If input isn’t a plain object, treat it as `{}`.
+2. Start with defaults.
+3. For each field:
+   - validate its type
+   - apply clamping/trim rules
+4. For headers:
+   - ensure it’s a plain object
+   - only accept string values
+   - lowercase keys + trim values
+   - drop empty keys/values
 
-## 1) What You'll Build
-In this quest, you'll work with ts objects to practice core concepts.
-
-## 2) The Concept in 30 Seconds
-Ts Objects demonstrates fundamental programming patterns used in real-world applications.
-
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
----
-
-## 4) Step-by-Step Walkthrough
-
-### **Setup**
-- Review the starting code
-- Identify the input and expected output
-
-### **Implementation**
-- Follow the objectives
-- Write your logic in the editor
-
-### **Testing**
-- Click **Run** to verify
-- Check different input cases
-
----
-
-## 5) Example Implementation
-```python
-# Example logic
-def example():
-    pass
-```
-
----
-
-## 6) Common Pitfalls
-
-> [!WARNING]
->
-> * Not reading error messages
-> * Missing edge case handling
-> * Syntax errors
-
----
-
-## 7) Check Yourself
-
-* [ ] Does the code run?
-* [ ] Did you match the expected output?
-* [ ] Did you handle edge cases?
+## Pitfalls
+- Treating arrays as plain objects
+- Forgetting to use numeric comparator/clamp
+- Allowing whitespace-only strings through

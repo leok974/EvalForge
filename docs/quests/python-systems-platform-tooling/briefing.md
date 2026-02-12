@@ -1,13 +1,14 @@
-# Briefing
+# Briefing — Internal Tooling & DX
 
 ## Objective
-Implement the required behavior for **python-systems-platform-tooling** so all public tests pass.
+Execute a tool request from a fixture file and print a structured JSON result.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## What This Trains
+- Tool boundaries: parse input → run tool → return JSON
+- Deterministic behavior: stable formatting and ordering
+- Defensive validation with clear error codes
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+- Output JSON deep-equals expected.
+- No extra stdout beyond the one JSON line.
+- Core logic is pure (no IO).

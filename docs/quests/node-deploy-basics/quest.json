@@ -1,19 +1,20 @@
 {
     "slug": "node-deploy-basics",
     "title": "Deploy Basics: Start Scripts and Health Checks",
-    "short_description": "Add `start` conventions, health endpoints, and production-ready defaults.",
-    "description": "Add `start` conventions, health endpoints, and production-ready defaults.",
+    "short_description": "Add a start script, bind to PORT, and implement a /healthz endpoint.",
+    "description": "Production basics: use standard npm start, support PORT, and add a health check endpoint.",
     "world_id": "world-node",
     "track_id": "track-node-core",
-    "order_index": 10,
-    "base_xp_reward": 100,
-    "language": "javascript",
-    "xp": 100,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
         "entrypoint": "app.js",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/node-deploy-basics.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

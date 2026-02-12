@@ -1,60 +1,16 @@
-## Ts Vars
+# Tutorial — TS Vars
 
-> [!NOTE]
-> **What you'll build:** Practice ts vars concepts in a real-world scenario.
+## What You’ll Learn
+- Why `const` is the default in TypeScript
+- How type annotations prevent “shape drift”
+- Literal types: enforcing exact values
 
----
+## Approach
+1. Export `greeting` as a constant string.
+2. Define a `Config` type with literal values.
+3. Export `config` that matches `Config` exactly.
 
-## 1) What You'll Build
-In this quest, you'll work with ts vars to practice core concepts.
-
-## 2) The Concept in 30 Seconds
-Ts Vars demonstrates fundamental programming patterns used in real-world applications.
-
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
----
-
-## 4) Step-by-Step Walkthrough
-
-### **Setup**
-- Review the starting code
-- Identify the input and expected output
-
-### **Implementation**
-- Follow the objectives
-- Write your logic in the editor
-
-### **Testing**
-- Click **Run** to verify
-- Check different input cases
-
----
-
-## 5) Example Implementation
-```python
-# Example logic
-def example():
-    pass
-```
-
----
-
-## 6) Common Pitfalls
-
-> [!WARNING]
->
-> * Not reading error messages
-> * Missing edge case handling
-> * Syntax errors
-
----
-
-## 7) Check Yourself
-
-* [ ] Does the code run?
-* [ ] Did you match the expected output?
-* [ ] Did you handle edge cases?
+## Pitfalls
+- Using `string` instead of the exact literal in the type
+- Returning numbers that don’t match (e.g., 300 instead of 250)
+- Misspelling config keys

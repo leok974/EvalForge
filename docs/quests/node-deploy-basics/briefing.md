@@ -1,13 +1,14 @@
-# Briefing
+# Briefing — node-deploy-basics
 
 ## Objective
-Implement the required behavior for **node-deploy-basics** so all public tests pass.
+Make this project “deploy-ready” by following two conventions:
+- `npm start` runs your app
+- `/healthz` confirms the service is alive
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+- Start script: `node app.js`
+- Port: `process.env.PORT` (default `3000`)
+- `GET /healthz` → 200 + `OK`
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+Public tests pass.

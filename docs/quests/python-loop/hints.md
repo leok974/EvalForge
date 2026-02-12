@@ -1,10 +1,12 @@
-# Hints
+# Hints — Loop
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (nudge)
+Loop through numbers 1..10 and print only the ones that pass a condition.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (more specific)
+Even numbers satisfy: `n % 2 == 0`.
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (close)
+Use a counter:
+- increment when you print an even number
+- print `EVEN_COUNT={count}` after the loop

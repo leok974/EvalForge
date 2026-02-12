@@ -1,0 +1,13 @@
+{
+    "tool": "unique_sorted",
+    "payload": {
+        "items": [
+            "  Alpha",
+            "beta ",
+            "ALPHA",
+            "",
+            "  gamma",
+            "Beta"
+        ]
+    }
+}

@@ -1,10 +1,10 @@
-# Hints
+# Hints — node-fs-path
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+Use `path.join(process.cwd(), fileName)`.
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+Use `fs.readFile(..., "utf-8")` so you get a string.
 
 ## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+Write with `fs.writeFile(outPath, upper, "utf-8")`.

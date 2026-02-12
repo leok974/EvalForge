@@ -14,11 +14,18 @@
         "starter_code": "def main():\n    # TODO: Print T-minus 3, 2, 1...\n    pass\n\nif __name__ == '__main__':\n    main()\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_launch_sequence",
+                "title": "Prints the launch sequence",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "^T-minus 3\\nT-minus 2\\nT-minus 1\\nIGNITION\\s*$",
+                    "flags": "im"
+                }
             }
         ],
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
             "guided": "Review the concept of **term-1** in the Codex.",
@@ -34,10 +41,9 @@
         "workspace": {
             "files_from": "../quests/first-sparks/workspace"
         },
-        "briefing_md": "# Mission: First Sparks\n\n**Objective:** First Sparks.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: First Sparks\n\n> *Accessing archival records...*\n>\n> Subject: First Sparks\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     },
     {
         "id": "quest-hello-variable",
@@ -54,11 +60,18 @@
         "starter_code": "def main():\n    # Create your variable here\n    pass\n\nif __name__ == '__main__':\n    main()\n",
         "objectives": [
             {
-                "id": "obj_default",
-                "text": "Complete the assignment as described in README.md",
-                "why": "Specification"
+                "id": "stdout_system_online",
+                "title": "Prints System Online",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "^System Online\\s*$",
+                    "flags": "im"
+                }
             }
         ],
+        "runtime_rules_json": {
+            "require_exit_code_zero": true
+        },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
             "guided": "Review the concept of **term-1** in the Codex.",
@@ -73,9 +86,8 @@
         "workspace": {
             "files_from": "../quests/hello-variable/workspace"
         },
-        "briefing_md": "# Mission: Hello Variable\n\n**Objective:** Hello Variable.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-        "lore_md": "## Holocron Entry: Hello Variable\n\n> *Accessing archival records...*\n>\n> Subject: Hello Variable\n> Clearance: Acolyte\n\nThe ancient scripts have fragmented. Reconstruct the logic to preserve the knowledge.",
         "content_source": "generated_v1",
-        "content_version": "9.9.0"
+        "content_version": "9.9.0",
+        "tier": 1
     }
 ]

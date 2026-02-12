@@ -1,17 +1,19 @@
-# Tutorial
+# Tutorial — node-deploy-basics
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What You’re Practicing
+- production conventions (`npm start`)
+- runtime configuration via `process.env.PORT`
+- health checks used by load balancers and orchestration systems
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+## Implementation Plan
+1) Update `package.json`:
+- add `"scripts": { "start": "node app.js" }`
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+2) Update `app.js`:
+- set `PORT` using `process.env.PORT ?? 3000`
+- implement `/healthz` returning `OK`
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- forgetting `PORT` is a string (convert to number if you want)
+- returning the wrong body (`"Ok"` vs `"OK"`)
+- changing the startup log format (tests look for the port)

@@ -1,8 +1,8 @@
 {
     "slug": "node-modules",
-    "title": "Modules: ESM vs CommonJS",
-    "short_description": "Import/export correctly, understand `type: module`, and avoid module-resolution confusion.",
-    "description": "Import/export correctly, understand `type: module`, and avoid module-resolution confusion.",
+    "title": "Node Modules: ESM vs CommonJS",
+    "short_description": "Fix module loading by configuring Node to run ESM correctly.",
+    "description": "This project uses ESM import/export, but Node is treating it as CommonJS. Configure the project so `node src/app.js` prints `Result: 6` with no stderr.",
     "world_id": "world-node",
     "track_id": "track-node-core",
     "grading": {
@@ -10,6 +10,11 @@
     },
     "workspace": {
         "entrypoint": "src/app.js",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/node-modules.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

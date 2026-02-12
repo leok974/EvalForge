@@ -1,19 +1,20 @@
 {
     "slug": "node-testing",
-    "title": "Testing: Unit Tests and Integration Smoke",
-    "short_description": "Write a couple tests that catch regressions and prove the server works.",
-    "description": "Write a couple tests that catch regressions and prove the server works.",
+    "title": "Testing: Node’s Built-in Test Runner",
+    "short_description": "Write unit test assertions with node:test and node:assert to catch regressions.",
+    "description": "Implement two assertions in a Node test file and verify it passes under node --test.",
     "world_id": "world-node",
     "track_id": "track-node-core",
-    "order_index": 9,
-    "base_xp_reward": 100,
-    "language": "javascript",
-    "xp": 100,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
         "entrypoint": "tests/math.test.js",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/node-testing.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }
