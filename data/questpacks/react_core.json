@@ -283,7 +283,7 @@
             ],
             "lore_md": "## Component Tree: Mount Protocol\n\n> *Initiating lifecycle handshake...*\n>\n> Component: **(MountEffect Module)**\n> Hook: **useEffect(…, [])**\n\nThe initialization sequence keeps repeating, flooding the lab with rerenders. Set the dependency controls correctly so the mount protocol runs once — and only once.",
             "tiered_hints": {
-                "concept": "`useEffect` runs after render; an empty dependency array means "run on mount".",
+                "concept": "`useEffect` runs after render; an empty dependency array means \\\"run on mount\\\".",
                 "guided": "If the effect sets state, make sure it won't trigger the effect again. Keep the dependency array aligned with what tests expect.",
                 "full_solution": "Implement a one-time `useEffect` that triggers the required state/UI result and confirm no repeated execution occurs."
             },

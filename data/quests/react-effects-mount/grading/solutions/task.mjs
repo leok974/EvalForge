@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-export function LifecycleLogger({ onMount, onUnmount }) {
+export function LifecycleLogger({ onMount, onUnmount } = {}) {
     useEffect(() => {
-        onMount();
-        return () => onUnmount();
-    }, []); // Empty dependency array for mount/unmount only
-    return null;
+        if (typeof onMount === "function") onMount();
+        return () => {
+            if (typeof onUnmount === "function") onUnmount();
+        };
+    }, []);
+
+    return React.createElement("div", { "data-testid": "logger" }, "logger");
 }

@@ -1,25 +1,22 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { runComponent, findByTestId, act } from "../../../_shared/react_test_helpers.mjs";
+import { runComponent, findByTestId, act, textContent } from "../../../_shared/react_test_helpers.mjs";
 import { Counter } from "../../workspace/task.mjs";
 
-test("increments counter", () => {
+test("Counter increments and resets deterministically", () => {
     const { root } = runComponent(Counter);
 
-    const countDiv = findByTestId(root, "count");
-    const btn = findByTestId(root, "increment");
+    const countNode = findByTestId(root, "count");
+    assert.equal(textContent(countNode), "0");
 
-    assert.equal(countDiv.children[0], "0", "EF_REACT_STATE_INIT");
+    const inc = findByTestId(root, "inc");
+    act(() => inc.props.onClick());
+    assert.equal(textContent(findByTestId(root, "count")), "1");
 
-    act(() => {
-        btn.props.onClick();
-    });
+    act(() => inc.props.onClick());
+    assert.equal(textContent(findByTestId(root, "count")), "2");
 
-    assert.equal(countDiv.children[0], "1", "EF_REACT_STATE_INC");
-
-    act(() => {
-        btn.props.onClick();
-    });
-
-    assert.equal(countDiv.children[0], "2", "EF_REACT_STATE_INC_2");
+    const reset = findByTestId(root, "reset");
+    act(() => reset.props.onClick());
+    assert.equal(textContent(findByTestId(root, "count")), "0");
 });

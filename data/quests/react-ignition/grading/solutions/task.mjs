@@ -1,5 +1,5 @@
-import React from 'react';
+import React from "react";
 
 export function App() {
-    return React.createElement('div', { 'data-testid': 'welcome' }, 'Hello React');
+    return React.createElement("div", { "data-testid": "welcome" }, "Hello React");
 }

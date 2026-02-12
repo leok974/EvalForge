@@ -1,13 +1,21 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext } from "react";
 
-const ThemeContext = createContext('light');
+/**
+ * TODO:
+ * Create ThemeContext with default "light"
+ * Export:
+ * - ThemeProvider({ theme, children }) -> provides theme via context
+ * - ThemedButton() -> reads theme from context, renders:
+ *   <button data-testid="btn">{theme}</button>
+ * No JSX.
+ */
+export const ThemeContext = createContext("light");
 
-export function ThemeProvider({ children, theme }) {
-    // TODO: Provider
-    return React.createElement(React.Fragment, null, children);
+export function ThemeProvider(_props) {
+    return null;
 }
 
 export function ThemedButton() {
-    // TODO: useContext
-    return React.createElement('button', { 'data-testid': 'btn' }, 'default');
+    const theme = useContext(ThemeContext);
+    return React.createElement("button", { "data-testid": "btn" }, theme);
 }

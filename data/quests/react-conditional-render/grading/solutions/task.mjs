@@ -1,8 +1,11 @@
-import React from 'react';
+import React from "react";
 
 export function ToggleSection({ title, isVisible }) {
-    return React.createElement('div', null,
-        React.createElement('h2', null, title),
-        isVisible ? React.createElement('p', null, 'Now you see me') : null
-    );
+    const header = React.createElement("h2", null, title);
+
+    const body = isVisible
+        ? React.createElement("p", null, "Now you see me")
+        : null;
+
+    return React.createElement("div", { "data-testid": "toggle-section" }, header, body);
 }

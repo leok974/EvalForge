@@ -1,17 +1,17 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { runComponent, findByTestId, act } from "../../../_shared/react_test_helpers.mjs";
+import { runComponent, findByTestId, act, textContent } from "../../../_shared/react_test_helpers.mjs";
 import { ToggleButton } from "../../workspace/task.mjs";
 
-test("toggles between ON and OFF", () => {
+test("ToggleButton swaps OFF <-> ON on click", () => {
     const { root } = runComponent(ToggleButton);
 
     const btn = findByTestId(root, "toggle");
-    assert.equal(btn.children[0], "OFF", "EF_REACT_TOGGLE_INIT");
+    assert.equal(textContent(btn), "OFF");
 
     act(() => btn.props.onClick());
-    assert.equal(btn.children[0], "ON", "EF_REACT_TOGGLE_ON");
+    assert.equal(textContent(findByTestId(root, "toggle")), "ON");
 
     act(() => btn.props.onClick());
-    assert.equal(btn.children[0], "OFF", "EF_REACT_TOGGLE_OFF");
+    assert.equal(textContent(findByTestId(root, "toggle")), "OFF");
 });

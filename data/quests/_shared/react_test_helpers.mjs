@@ -1,66 +1,69 @@
-import React from 'react';
-import TestRenderer from 'react-test-renderer';
-import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-
-// Re-export act for convenience
-export const act = TestRenderer.act;
+import React from "react";
+import TestRenderer, { act as _act } from "react-test-renderer";
+import fs from "node:fs";
+import { fileURLToPath } from "node:url";
 
 /**
- * Mounts a component using react-test-renderer
- * @param {Function} Component - The React component to render
- * @param {Object} props - Props to pass to the component
- * @returns {Object} { root, toJSON, instance }
+ * Create + mount a component under react-test-renderer within act().
+ * Returns { renderer, root } where root is the ReactTestInstance.
  */
 export function runComponent(Component, props = {}) {
-    let root;
-    act(() => {
-        root = TestRenderer.create(React.createElement(Component, props));
+    let renderer;
+    _act(() => {
+        renderer = TestRenderer.create(React.createElement(Component, props));
     });
-    return {
-        root: root.root,
-        toJSON: () => root.toJSON(),
-        instance: root.getInstance()
-    };
+    return { renderer, root: renderer.root };
 }
 
 /**
- * Finds a single node by data-testid. Throws if not found or multiple found.
- * @param {Object} root - The TestInstance root
- * @param {string} testID - The data-testid value
- * @returns {Object} The found TestInstance
+ * Wrap react-test-renderer act() so tests can update state deterministically.
  */
-export function findByTestId(root, testID) {
+export function act(fn) {
+    _act(fn);
+}
+
+/**
+ * Find a node by data-testid within the given ReactTestInstance subtree.
+ */
+export function findByTestId(root, testId) {
+    return root.findByProps({ "data-testid": testId });
+}
+
+/**
+ * Find all nodes by data-testid within the given subtree.
+ */
+export function findAllByTestId(root, testId) {
+    return root.findAllByProps({ "data-testid": testId });
+}
+
+/**
+ * Flatten text content from a ReactTestInstance (or string/number).
+ * Useful for assert.equal(textContent(node), "expected").
+ */
+export function textContent(node) {
+    if (node == null) return "";
+    if (typeof node === "string" || typeof node === "number") return String(node);
+    if (Array.isArray(node)) return node.map(textContent).join("");
+    if (typeof node === "object" && Array.isArray(node.children)) {
+        return node.children.map(textContent).join("");
+    }
+    return "";
+}
+
+/**
+ * Read a fixture file relative to the quest root.
+ * Call from tests: readFixture(import.meta.url, "fixtures/users.json")
+ */
+export function readFixture(testMetaUrl, relPath) {
+    // grading/public -> quest root is ../../
+    const questRootUrl = new URL("../../", testMetaUrl);
+    const absUrl = new URL(relPath, questRootUrl);
+    const absPath = fileURLToPath(absUrl);
+
+    const raw = fs.readFileSync(absPath, "utf8");
     try {
-        return root.findByProps({ 'data-testid': testID });
-    } catch (e) {
-        throw new Error(`TestID "${testID}" not found or ambiguous: ${e.message}`);
+        return JSON.parse(raw);
+    } catch {
+        return raw;
     }
 }
-
-/**
- * Reads a JSON fixture file
- * @param {string} wsDir - Workspace directory
- * @param {string} relPath - Relative path to fixture (e.g. "fixtures/data.json")
- * @returns {any} Parsed JSON content
- */
-export function readFixture(wsDir, relPath) {
-    const p = path.join(wsDir, relPath);
-    return JSON.parse(fs.readFileSync(p, 'utf8'));
-}
-
-/**
- * Reads a text file
- * @param {string} wsDir 
- * @param {string} relPath 
- */
-export function readText(wsDir, relPath) {
-    return fs.readFileSync(path.join(wsDir, relPath), 'utf8');
-}
-
-/**
- * Fail helper with custom message prefix support if needed, 
- * or just standard assert.fail
- */
-export const fail = assert.fail;

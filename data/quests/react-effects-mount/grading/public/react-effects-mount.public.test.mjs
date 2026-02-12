@@ -1,17 +1,20 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { runComponent } from "../../../_shared/react_test_helpers.mjs";
+import { runComponent, act } from "../../../_shared/react_test_helpers.mjs";
 import { LifecycleLogger } from "../../workspace/task.mjs";
 
-test("calls onMount but not onUnmount initially", () => {
-    let mounted = 0;
-    let unmounted = 0;
+test("onMount called once after mount; onUnmount only on unmount", () => {
+    let mountCalls = 0;
+    let unmountCalls = 0;
 
-    runComponent(LifecycleLogger, {
-        onMount: () => mounted++,
-        onUnmount: () => unmounted++
-    });
+    const onMount = () => { mountCalls += 1; };
+    const onUnmount = () => { unmountCalls += 1; };
 
-    assert.equal(mounted, 1, "EF_REACT_EFFECT_MOUNT");
-    assert.equal(unmounted, 0, "EF_REACT_EFFECT_NO_UNMOUNT_YET");
+    const { renderer } = runComponent(LifecycleLogger, { onMount, onUnmount });
+
+    assert.equal(mountCalls, 1);
+    assert.equal(unmountCalls, 0);
+
+    act(() => renderer.unmount());
+    assert.equal(unmountCalls, 1);
 });
