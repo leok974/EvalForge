@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { runSh, exists, readTextTrim } from "../../../_shared/cli_test_utils.mjs";
+import { runSh, exists, readTextTrim, workspaceDirFromTestFile } from "../../../_shared/cli_test_utils.mjs";
 
-const WS = fileURLToPath(new URL("../../workspace", import.meta.url));
+const WS = workspaceDirFromTestFile(import.meta.url);
 
 test("creates required structure and preserves fixtures", async () => {
     const { status, stdout, stderr } = await runSh({ ws: WS });

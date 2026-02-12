@@ -2,9 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { runSh, readTextTrim } from "../../../_shared/cli_test_utils.mjs";
+import { runSh, readTextTrim, workspaceDirFromTestFile } from "../../../_shared/cli_test_utils.mjs";
 
-const WS = fileURLToPath(new URL("../../workspace", import.meta.url));
+const WS = workspaceDirFromTestFile(import.meta.url);
 const norm = (p) => p.replace(/\\/g, "/");
 
 test("creates outputs files with correct navigation evidence", async () => {
