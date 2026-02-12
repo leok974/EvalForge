@@ -1,4 +1,7 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-files-folders** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+The archive must be built without damaging the source.
+
+Copy what you need.
+Leave the fixtures untouched.
+Clean up the temp footprint.

@@ -1,17 +1,33 @@
-# Tutorial
+# Tutorial — CLI Navigation
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What you’re practicing
+- `cd` into a directory and confirm where you are (`pwd`)
+- Using a “home base” variable so you never get lost
+- Redirecting command output into files
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+## Plan
+1) Save the workspace path:
+- `WS="$(pwd)"`
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+2) Create `outputs/`:
+- `mkdir -p outputs`
+
+3) Move into the pages directory:
+- `cd fixtures/site/pages`
+
+4) Write the pages directory absolute path:
+- `pwd > "$WS/outputs/location.txt"`
+
+5) Write a one-per-line file listing:
+- `ls > "$WS/outputs/pages.txt"`
+
+6) Return to the workspace:
+- `cd "$WS"`
+
+7) Write the workspace absolute path:
+- `pwd > outputs/back.txt`
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- Writing files relative to the wrong directory (use `$WS/outputs/...`)
+- Forgetting to `cd` back before writing `back.txt`
+- Printing extra output that breaks test determinism

@@ -1,13 +1,23 @@
-# Briefing
+# Briefing — CLI Ignition
 
 ## Objective
-Implement the required behavior for **cli-ignition** so all public tests pass.
+Produce **exact**, testable CLI output based on the current directory and fixture contents.
 
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+## Contract
+Running:
+
+```sh
+sh task.sh
+```
+
+prints **exactly**:
+
+1. `CWD=<basename of current directory>`
+2. `FILES=3` (count regular files directly under `fixtures/`)
+3. `OK`
+
+Exit code must be **0** and you must not print extra lines.
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+
+Public tests pass and your output formatting is exact.

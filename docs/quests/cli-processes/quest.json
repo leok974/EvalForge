@@ -1,19 +1,15 @@
 {
     "slug": "cli-processes",
-    "title": "Processes",
-    "short_description": "Analyze running processes (simulated) using standard tools.",
-    "description": "Analyze running processes (simulated) using standard tools.",
+    "title": "Processes: Filter and Extract Data",
+    "short_description": "Parse a process list, filter by command, and output clean machine-readable results.",
+    "description": "Parse a process list, filter by command, and output clean machine-readable results.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
-    "order_index": 9,
-    "base_xp_reward": 50,
-    "language": "bash",
-    "xp": 50,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
         "entrypoint": "task.sh",
-        "files_from": "./starter"
+        "files_from": "./workspace"
     }
 }

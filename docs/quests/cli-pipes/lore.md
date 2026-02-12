@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-pipes** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Raw signals are useless until they’re shaped.
+
+Today you don’t write code — you assemble a pipeline that turns noise into ranked truth.

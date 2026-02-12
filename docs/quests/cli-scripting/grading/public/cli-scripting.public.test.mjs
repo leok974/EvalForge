@@ -1,28 +1,26 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { workspaceDirFromTestFile, runSh, readText, exists } from "../../../_shared/cli_test_utils.mjs";
+import { workspaceDirFromTestFile, runSh } from "../../../_shared/cli_test_utils.mjs";
 
 const WS = workspaceDirFromTestFile(import.meta.url);
 
-test("copies src to dst when args provided", async () => {
-    const src = "fixtures/hello.txt";
-    const dst = "outputs/copied.txt";
-
-    await runSh({ ws: WS, args: ["task.sh", src, dst] });
-
-    const out = readText(WS, dst);
-    assert.equal(out.trimEnd(), "hello world", "EF_CLI_SCRIPT_COPY: expected copied contents");
+test("prints usage and exits 1 when no args", async () => {
+    const { status, stdout = "", stderr = "" } = await runSh({ ws: WS });
+    assert.equal(status, 1, "EF_CLI_SCRIPT_EXIT_1: expected exit code 1");
+    assert.equal(stderr.trim(), "", "EF_CLI_SCRIPT_STDERR_EMPTY: keep stderr empty");
+    assert.equal(stdout.trimEnd(), "Usage: task.sh <name>", "EF_CLI_SCRIPT_USAGE: expected usage message");
 });
 
-test("prints usage and exits 2 when missing args", async () => {
-    try {
-        // Empty args mainly. task.sh is default. 
-        // Wait, runSh defaults args to ["task.sh"]. 
-        // If we want NO args beyond task.sh:
-        await runSh({ ws: WS, args: ["task.sh"] });
-        assert.fail("EF_CLI_SCRIPT_EXPECT_EXIT: expected non-zero exit");
-    } catch (err) {
-        assert.equal(err.code, 2, "EF_CLI_SCRIPT_EXIT_2: expected exit code 2");
-        assert.match(String(err.stderr || ""), /Usage:/, "EF_CLI_SCRIPT_USAGE: expected Usage on stderr");
-    }
+test("prints usage and exits 1 when blank arg", async () => {
+    const { status, stdout = "", stderr = "" } = await runSh({ ws: WS, args: ["   "] });
+    assert.equal(status, 1, "EF_CLI_SCRIPT_EXIT_1_BLANK: expected exit code 1");
+    assert.equal(stderr.trim(), "", "EF_CLI_SCRIPT_STDERR_EMPTY: keep stderr empty");
+    assert.equal(stdout.trimEnd(), "Usage: task.sh <name>", "EF_CLI_SCRIPT_USAGE_BLANK: expected usage");
+});
+
+test("greets name and exits 0", async () => {
+    const { status, stdout = "", stderr = "" } = await runSh({ ws: WS, args: ["World"] });
+    assert.equal(status, 0, "EF_CLI_SCRIPT_SUCCESS: expected exit 0");
+    assert.equal(stderr.trim(), "", "EF_CLI_SCRIPT_STDERR_EMPTY: keep stderr empty");
+    assert.equal(stdout.trimEnd(), "Hello, World!", "EF_CLI_SCRIPT_GREET: expected greeting");
 });

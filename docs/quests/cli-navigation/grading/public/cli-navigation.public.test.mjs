@@ -1,29 +1,58 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { workspaceDirFromTestFile, runSh, readTextTrim } from "../../../_shared/cli_test_utils.mjs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { runSh, readTextTrim } from "../../../_shared/cli_test_utils.mjs";
 
-const WS = workspaceDirFromTestFile(import.meta.url);
+const WS = fileURLToPath(new URL("../../workspace", import.meta.url));
+const norm = (p) => p.replace(/\\/g, "/");
 
 test("creates outputs files with correct navigation evidence", async () => {
-    await runSh({ ws: WS });
+    const { status, stdout, stderr } = await runSh({ ws: WS });
+
+    assert.equal(status, 0, "EF_CLI_NAV_EXIT_0: must exit 0");
+    assert.equal((stdout ?? "").trim(), "", "EF_CLI_NAV_STDOUT_EMPTY: no stdout");
+    assert.equal((stderr ?? "").trim(), "", "EF_CLI_NAV_STDERR_EMPTY: no stderr");
 
     const loc = readTextTrim(WS, "outputs/location.txt");
     const pages = readTextTrim(WS, "outputs/pages.txt");
     const back = readTextTrim(WS, "outputs/back.txt");
 
-    assert.match(loc, /\/fixtures\/site\/pages$/, "EF_CLI_NAV_LOCATION: location.txt must end with /fixtures/site/pages");
+    const expectedPagesDir = norm(path.join(WS, "fixtures", "site", "pages"));
+    const expectedWs = norm(WS);
 
-    // Check for some expected files in pages.txt
-    assert.match(pages, /contact\.html/, "EF_CLI_NAV_PAGES: pages.txt must contain contact.html");
-    assert.match(pages, /about\.html/, "EF_CLI_NAV_PAGES: pages.txt must contain about.html");
+    assert.equal(
+        norm(loc),
+        expectedPagesDir,
+        "EF_CLI_NAV_LOCATION: location.txt must equal absolute path to fixtures/site/pages"
+    );
 
-    // back.txt should equal WS path (normalized)
-    // Note: readTextTrim normalizes CRLF, but paths might have backslashes on Windows.
-    // The previous test logic used assert.equal(back, WS).
-    // However, pwd on Git Bash outputs forward slashes /d/EvalForge/...
-    // But WS (from node path) is D:\EvalForge\...
-    // So exact match might fail on Windows if not careful.
-    // Let's rely on basename or normalization if strictly needed.
-    // For now, let's just check it ends with the folder name 'starter' or 'workspace'.
-    assert.match(back, /(starter|workspace)$/, "EF_CLI_NAV_BACK: back.txt must end with workspace root");
+    // pages.txt must list filenames, one per line, and include expected names
+    const lines = pages.split(/\r?\n/).filter(Boolean);
+    assert.ok(lines.includes("about.html"), "EF_CLI_NAV_PAGES_ABOUT: must include about.html");
+    assert.ok(lines.includes("contact.html"), "EF_CLI_NAV_PAGES_CONTACT: must include contact.html");
+    assert.ok(lines.includes("index.html"), "EF_CLI_NAV_PAGES_INDEX: must include index.html");
+
+    // Ensure they are filenames only (not paths)
+    for (const line of lines) {
+        // Basic check: if it contains a separator, it's likely a path
+        const isPath = line.includes("/") || line.includes("\\");
+        assert.equal(
+            isPath,
+            false,
+            "EF_CLI_NAV_PAGES_FILENAMES_ONLY: pages.txt must contain filenames, not paths (detected separator)"
+        );
+        // Double check with basename for robustness
+        assert.equal(
+            line,
+            path.basename(line),
+            "EF_CLI_NAV_PAGES_FILENAMES_ONLY: pages.txt must contain filenames, not paths"
+        );
+    }
+
+    assert.equal(
+        norm(back),
+        expectedWs,
+        "EF_CLI_NAV_BACK: back.txt must equal the workspace absolute path"
+    );
 });

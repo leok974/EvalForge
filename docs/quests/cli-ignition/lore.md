@@ -1,4 +1,7 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-ignition** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Boot sequence starts with discipline:
+observe → measure → report.
+
+Your terminal doesn’t care what you meant —
+only what you printed.

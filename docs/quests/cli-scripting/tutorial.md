@@ -1,17 +1,17 @@
-# Tutorial
+# Tutorial — Bash Scripting
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## Arguments
+- `$1`: The first argument passed to the script.
+- `$#`: The number of arguments passed.
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+## Conditional Checks
+Check if a variable is empty:
+```sh
+if [ -z "$1" ]; then
+  echo "Missing argument"
+  exit 1
+fi
+```
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
-
-## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+## Printing
+`echo` prints to stdout by default.

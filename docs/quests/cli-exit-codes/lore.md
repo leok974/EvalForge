@@ -1,4 +1,3 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-exit-codes** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+The most reliable machine is the one that says nothing when it works, and stops immediately when it breaks.

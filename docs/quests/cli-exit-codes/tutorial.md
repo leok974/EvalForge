@@ -1,17 +1,17 @@
-# Tutorial
+# Tutorial — Exit Codes
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## Concepts
+- **Exit Code 0**: Success.
+- **Exit Code 1-255**: Failure.
+- **Silence**: Automation tools often rely on silent success.
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+## Checking for file existence
+`test -f` or `[ -f ... ]` checks if a file exists.
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
-
-## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+Example:
+```sh
+if [ -f "some/file" ]; then
+  exit 1
+fi
+exit 0
+```

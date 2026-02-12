@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-scripting** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+A script without arguments is a statue.
+A script with arguments is a tool.
+A script that validates argumets is a professional tool.

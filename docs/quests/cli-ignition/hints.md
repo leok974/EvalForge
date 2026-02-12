@@ -1,10 +1,18 @@
-# Hints
+# Hints — CLI Ignition
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (Concept)
+You can compute the current folder name with:
+`basename "$(pwd)"`
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (Guided)
+To count only direct regular files:
+`find fixtures -maxdepth 1 -type f | wc -l`
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+If `wc -l` prints leading spaces, strip them with:
+`tr -d ' '`
+
+## Hint 3 (Near-solution)
+Store values in variables, then print exactly:
+- `echo "CWD=$CWD"`
+- `echo "FILES=$FILES"`
+- `echo "OK"`

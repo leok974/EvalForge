@@ -25,6 +25,49 @@ if (!fs.existsSync(qpAbs)) {
 
 const questpack = JSON.parse(fs.readFileSync(qpAbs, "utf8"));
 
+// --- CLI questpack dispatch ----------------------------------------------
+function extractSlugsFromPack(pack) {
+    const items =
+        Array.isArray(pack) ? pack :
+            Array.isArray(pack.quests) ? pack.quests :
+                Array.isArray(pack.entries) ? pack.entries :
+                    null;
+    if (!items) return [];
+    return items.map((it) => {
+        if (typeof it === "string") return path.basename(it.replace(/\\/g, "/"));
+        if (it?.slug) return it.slug;
+        if (it?.quest_path) return path.basename(it.quest_path.replace(/\\/g, "/"));
+        return null;
+    }).filter(Boolean);
+}
+
+const slugsToCheck = extractSlugsFromPack(questpack);
+const packBase = path.basename(questpackPath).toLowerCase();
+const looksCli =
+    packBase.includes("cli") ||
+    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("cli-")));
+
+if (looksCli) {
+    const runnerPath = path.resolve(root, "scripts/run_cli_questpack.mjs");
+    const args = [
+        runnerPath,
+        "--questpack",
+        questpackPath,
+        "--mode",
+        arg("--mode") || "starter",
+    ];
+
+    const onlySlug = arg("--only-slug"); // Not typically supported by world runner yet, but future proofing
+    if (onlySlug) args.push("--only-slug", onlySlug);
+
+    // Check for debug flag in raw args since arg() helper is simple
+    if (process.argv.includes("--debug")) args.push("--debug");
+
+    const res = spawnSync(process.execPath, args, { stdio: "inherit" });
+    process.exit(res.status ?? 1);
+}
+// -------------------------------------------------------------------------
+
 function extractSlugs(obj) {
     if (!obj) return [];
     if (Array.isArray(obj)) {

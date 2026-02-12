@@ -1,17 +1,14 @@
-# Tutorial
+# Tutorial — Redirection
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## The two operators you’re learning
+- `>`  writes to a file (overwrites / creates)
+- `>>` appends to a file
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+## A common pattern
+1) Write the first line with `>`
+2) Append the body with `>>`
+3) Append the final line with `>>`
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
-
-## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+## Tips
+- `cat fixtures/data.txt >> outputs/report.txt` appends the entire file.
+- Don’t `echo` the body; read it from the fixture to preserve it exactly.

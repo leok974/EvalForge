@@ -1,4 +1,6 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-navigation** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Maps are useless without landmarks.
+
+Your landmark is the workspace root.
+Mark it, travel, return, and write proof.

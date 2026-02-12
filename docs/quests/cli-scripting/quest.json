@@ -1,19 +1,15 @@
 {
     "slug": "cli-scripting",
-    "title": "Bash Scripting Basics",
-    "short_description": "Write reusable scripts with arguments and error handling.",
-    "description": "Write reusable scripts with arguments and error handling.",
+    "title": "Bash Scripting",
+    "short_description": "Read arguments, validate input, and control output/exit codes deterministically.",
+    "description": "Read arguments, validate input, and control output/exit codes deterministically.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
-    "order_index": 10,
-    "base_xp_reward": 50,
-    "language": "bash",
-    "xp": 50,
     "grading": {
         "mode": "tests"
     },
     "workspace": {
         "entrypoint": "task.sh",
-        "files_from": "./starter"
+        "files_from": "./workspace"
     }
 }

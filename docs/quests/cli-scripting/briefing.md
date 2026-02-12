@@ -1,13 +1,16 @@
-# Briefing
+# Briefing — Bash Scripting
 
 ## Objective
-Implement the required behavior for **cli-scripting** so all public tests pass.
-
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+Write a script that handles arguments and validation.
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+1. `sh task.sh <name>`
+   - Prints: `Hello, <name>!`
+   - Exits: `0`
+2. `sh task.sh` (or empty arg)
+   - Prints: `Usage: task.sh <name>`
+   - Exits: `1`
+
+## Constraints
+- Output must be exact (single line).
+- No extraneous logging.

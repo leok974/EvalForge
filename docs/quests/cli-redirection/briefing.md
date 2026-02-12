@@ -1,13 +1,21 @@
-# Briefing
+# Briefing — Redirection
 
 ## Objective
-Implement the required behavior for **cli-redirection** so all public tests pass.
-
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+Generate `outputs/report.txt` by composing:
+- a header line
+- the contents of `fixtures/data.txt`
+- a footer line
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+After running:
+```sh
+sh task.sh
+```
+
+`outputs/report.txt` matches the contract exactly and the script exits 0.
+
+## Constraints
+
+* Preserve the data lines exactly.
+* Use `>` and `>>` redirection (no temp files).
+* No extra stdout/stderr output.

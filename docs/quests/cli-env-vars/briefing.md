@@ -1,13 +1,14 @@
-# Briefing
+# Briefing — Environment Variables
 
 ## Objective
-Implement the required behavior for **cli-env-vars** so all public tests pass.
-
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+Write a config file using environment variables with safe defaults.
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+After running `sh task.sh`, `outputs/config.txt` must equal:
+
+- `MODE=<mode>` (default `dev`)
+- `PORT=<port>` (default `3000`)
+
+## Constraints
+- Use env vars (`MODE`, `PORT`) and default if missing.
+- No extra stdout/stderr output. Exit code 0.

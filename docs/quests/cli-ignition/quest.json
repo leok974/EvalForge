@@ -1,8 +1,8 @@
 {
     "slug": "cli-ignition",
     "title": "CLI Ignition: Your First Commands",
-    "short_description": "Learn the terminal mental model (command \u2192 output) and run your first safe commands confidently.",
-    "description": "Learn the terminal mental model (command \u2192 output) and run your first safe commands confidently.",
+    "short_description": "Print deterministic output by reading your environment and counting files safely.",
+    "description": "Use pwd/basename and safe file counting to produce exact, testable CLI output.",
     "world_id": "world-cli",
     "track_id": "track-cli-core",
     "order_index": 1,
@@ -14,6 +14,11 @@
     },
     "workspace": {
         "entrypoint": "task.sh",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/cli-ignition.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

@@ -1,4 +1,5 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-globs-search** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+The logs don’t lie — but they’re noisy.
+
+Your job is to scan the noise, count the failures, and name the systems that broke.

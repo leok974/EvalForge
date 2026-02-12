@@ -1,32 +1,31 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {
-    workspaceDirFromTestFile,
-    runSh,
-    writeText,
-    withRestoredFile
-} from "../../../_shared/cli_test_utils.mjs";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { workspaceDirFromTestFile, runSh } from "../../../_shared/cli_test_utils.mjs";
 
 const WS = workspaceDirFromTestFile(import.meta.url);
 
-test("prints BAD to stderr and exits 5 when FAIL present", async () => {
-    await withRestoredFile(WS, "fixtures/input.txt", async () => {
-        writeText(WS, "fixtures/input.txt", "OK\nFAIL\n");
-        try {
-            await runSh({ ws: WS });
-            assert.fail("EF_CLI_EXIT_EXPECT_FAIL: expected non-zero exit");
-        } catch (err) {
-            assert.equal(err.code, 5, "EF_CLI_EXIT_CODE_5: expected exit code 5");
-            assert.match(String(err.stderr || ""), /BAD/, "EF_CLI_EXIT_BAD: expected BAD on stderr");
-        }
-    });
+test("exits 0 when no flag present", async () => {
+    await fs.mkdir(path.join(WS, "fixtures"), { recursive: true });
+    try { await fs.unlink(path.join(WS, "fixtures/error.flag")); } catch { }
+
+    const { status, stdout = "", stderr = "" } = await runSh({ ws: WS });
+    assert.equal(status, 0, "EF_CLI_EXIT_SUCCESS: must exit 0 when flag missing");
+    assert.equal(stdout.trim(), "", "EF_CLI_EXIT_STDOUT_EMPTY: must not print to stdout");
+    assert.equal(stderr.trim(), "", "EF_CLI_EXIT_STDERR_EMPTY: must not print to stderr");
 });
 
-test("prints OK and exits 0 when FAIL absent", async () => {
-    await withRestoredFile(WS, "fixtures/input.txt", async () => {
-        writeText(WS, "fixtures/input.txt", "OK\nOK\n");
-        const { stdout, stderr } = await runSh({ ws: WS });
-        assert.equal(stderr.trim(), "", "EF_CLI_EXIT_STDERR_EMPTY: expected no stderr on success");
-        assert.equal(stdout.trim(), "OK", "EF_CLI_EXIT_OK: expected OK on stdout");
-    });
+test("exits 1 when flag present", async () => {
+    await fs.mkdir(path.join(WS, "fixtures"), { recursive: true });
+    await fs.writeFile(path.join(WS, "fixtures/error.flag"), "");
+
+    try {
+        const { status, stdout = "", stderr = "" } = await runSh({ ws: WS });
+        assert.equal(status, 1, "EF_CLI_EXIT_FAILURE: must exit 1 when flag exists");
+        assert.equal(stdout.trim(), "", "EF_CLI_EXIT_STDOUT_EMPTY: must not print to stdout");
+        assert.equal(stderr.trim(), "", "EF_CLI_EXIT_STDERR_EMPTY: must not print to stderr");
+    } finally {
+        try { await fs.unlink(path.join(WS, "fixtures/error.flag")); } catch { }
+    }
 });

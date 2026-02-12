@@ -1,5 +1,0 @@
-HEADER
-alpha
-bravo
-charlie
-FOOTER

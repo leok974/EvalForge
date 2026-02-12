@@ -1,10 +1,10 @@
-# Hints
+# Hints — Processes
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+`grep` comes before `awk` in this pipeline.
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+The PID is the first column (`$1`).
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (Near-solution)
+`grep "python" fixtures/ps.txt | awk '{print $1}' | sort > outputs/pids.txt`

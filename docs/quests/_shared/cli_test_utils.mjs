@@ -1,60 +1,35 @@
+import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 
-const execFileAsync = promisify(execFile);
+export function workspaceDirFromTestFile(metaUrl) {
+    // Runner override (enables temp, isolated workspaces)
+    const override = process.env.EF_WORKSPACE_OVERRIDE;
+    if (override && override.trim()) return override;
 
-/**
- * From a test file at:
- *   data/quests/<slug>/grading/{public|hidden}/x.test.mjs
- * returns the workspace directory:
- *   data/quests/<slug>/workspace
- * 
- * Note: checks for 'workspace' or 'starter' to support local dev structure.
- */
-export function workspaceDirFromTestFile(importMetaUrl) {
-    const testFile = fileURLToPath(importMetaUrl);
-    const testDir = path.dirname(testFile);
+    // Default behavior: locate sibling workspace/starter relative to grading/public test file
+    const testFile = fileURLToPath(new URL(metaUrl));
+    const questDir = path.resolve(path.dirname(testFile), "..", ".."); // grading/public -> quest root
 
-    // Try standard ../../workspace first (for production structure)
-    let check = path.resolve(testDir, "../../workspace");
-    if (fs.existsSync(check)) return check;
+    const ws = path.join(questDir, "workspace");
+    if (fs.existsSync(ws)) return ws;
 
-    // Fallback to ../../starter (for local dev structure we've been using)
-    check = path.resolve(testDir, "../../starter");
-    if (fs.existsSync(check)) return check;
+    const starter = path.join(questDir, "starter");
+    if (fs.existsSync(starter)) return starter;
 
-    // Default to workspace even if missing, to allow failure elsewhere
-    return path.resolve(testDir, "../../workspace");
-}
-
-export async function runSh({
-    ws,
-    args = ["task.sh"],
-    env = {},
-    timeoutMs = 5000,
-} = {}) {
-    if (!ws) throw new Error("runSh requires { ws }");
-
-    // Windows-friendly sh resolution
-    const sh = process.platform === "win32" ? "C:\\Program Files\\Git\\bin\\bash.exe" : "sh";
-
-    return execFileAsync(sh, args, {
-        cwd: ws,
-        timeout: timeoutMs,
-        env: { ...process.env, ...env },
-    });
-}
-
-export function readText(ws, relPath) {
-    // Normalize CRLF to LF for consistent testing on Windows
-    return fs.readFileSync(path.join(ws, relPath), "utf8").replace(/\r\n/g, "\n");
+    // Last resort: old layouts
+    return questDir;
 }
 
 export function readTextTrim(ws, relPath) {
-    return readText(ws, relPath).trimEnd();
+    const abs = path.join(ws, relPath);
+    const txt = fs.readFileSync(abs, "utf8");
+    return txt.replace(/\r\n/g, "\n").trimEnd();
+}
+
+export function readText(ws, relPath) {
+    return fs.readFileSync(path.join(ws, relPath), "utf8").replace(/\r\n/g, "\n");
 }
 
 export function writeText(ws, relPath, content) {
@@ -80,4 +55,44 @@ export async function withRestoredFile(ws, relPath, fn) {
         if (had) fs.writeFileSync(abs, orig, "utf8");
         else if (fs.existsSync(abs)) fs.unlinkSync(abs);
     }
+}
+
+// IMPORTANT: do NOT throw on non-zero exit — return { status, stdout, stderr }
+export async function runSh({ ws, args = [], env = {} } = {}) {
+    const cleanEnv = { ...process.env };
+
+    // Allow callers to *unset* env vars by passing undefined/null
+    for (const [k, v] of Object.entries(env || {})) {
+        if (v === undefined || v === null) delete cleanEnv[k];
+        else cleanEnv[k] = String(v);
+    }
+
+    // Windows-friendly sh resolution
+    const sh = process.platform === "win32" ? "C:\\Program Files\\Git\\bin\\bash.exe" : "sh";
+
+    const argv = [sh, "task.sh", ...args];
+
+    return await new Promise((resolve, reject) => {
+        const child = spawn(argv[0], argv.slice(1), {
+            cwd: ws,
+            env: cleanEnv,
+            shell: false,
+            stdio: ["ignore", "pipe", "pipe"],
+        });
+
+        let stdout = "";
+        let stderr = "";
+
+        child.stdout.on("data", (d) => (stdout += d.toString("utf8")));
+        child.stderr.on("data", (d) => (stderr += d.toString("utf8")));
+
+        child.on("error", reject);
+        child.on("close", (code) => {
+            resolve({
+                status: code ?? 0,
+                stdout,
+                stderr,
+            });
+        });
+    });
 }

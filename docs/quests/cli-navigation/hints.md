@@ -1,10 +1,17 @@
-# Hints
+# Hints — CLI Navigation
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (Concept)
+If you store the workspace path once (`WS="$(pwd)"`), you can always write output files safely using `"$WS/outputs/..."`.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (Guided)
+After `cd fixtures/site/pages`, `pwd` is the value you want for `outputs/location.txt`.
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (Near-solution)
+Use this order:
+1) `WS="$(pwd)"`
+2) `mkdir -p outputs`
+3) `cd fixtures/site/pages`
+4) `pwd > "$WS/outputs/location.txt"`
+5) `ls > "$WS/outputs/pages.txt"`
+6) `cd "$WS"`
+7) `pwd > outputs/back.txt`

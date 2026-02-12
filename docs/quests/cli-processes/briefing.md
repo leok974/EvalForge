@@ -1,13 +1,15 @@
-# Briefing
+# Briefing — Processes
 
 ## Objective
-Implement the required behavior for **cli-processes** so all public tests pass.
-
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+Filter a process list to find specific PIDs.
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+1. Read `fixtures/ps.txt`.
+2. Extract PIDs where the command contains `python`.
+3. Write to `outputs/pids.txt`.
+4. Sort numerically ascending.
+
+## Constraints
+- Input format: PID COMMAND (space separated, but command may have spaces)
+- Output format: One PID per line.
+- No header in output.

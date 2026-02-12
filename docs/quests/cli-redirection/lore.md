@@ -1,4 +1,6 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-redirection** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Logs don’t “happen.”  
+They’re *captured*.
+
+Redirection is how you turn a command’s output into a durable artifact you can ship, diff, and audit.

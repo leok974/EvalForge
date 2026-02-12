@@ -1,10 +1,19 @@
-# Hints
+# Hints — Environment Variables
 
 ## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+Look up POSIX shell “parameter expansion” for default values.
 
 ## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+Write two lines with:
+- `>` then `>>`
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (Near-solution)
+```
+
+mode="${MODE:-dev}"
+port="${PORT:-3000}"
+
+```
+Then write:
+- `MODE=$mode`
+- `PORT=$port`

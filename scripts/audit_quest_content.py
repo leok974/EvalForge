@@ -5,10 +5,33 @@ import argparse
 import json
 import re
 import sys
+import os
+import glob
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
+def _load_quest_paths_from_questpack(questpack_path: str) -> list[str]:
+    data = json.loads(Path(questpack_path).read_text(encoding="utf-8"))
+    paths = []
+    # Supports either: [{"quest_path": "..."}] or [{"slug": "..."}]
+    for item in data.get("quests", data if isinstance(data, list) else []):
+        if isinstance(item, dict):
+            if item.get("quest_path"):
+                paths.append(item["quest_path"])
+            elif item.get("slug"):
+                paths.append(f"docs/quests/{item['slug']}")
+    return paths
+
+def _discover_all_questpacks() -> list[str]:
+    return sorted(glob.glob("data/questpacks/**/*.json", recursive=True))
+
+def discover_quest_paths(target_dir: str) -> list[str]:
+    # Original logic preserved if needed, or we can just rely on the main block
+    return [
+        os.path.dirname(p)
+        for p in glob.glob(os.path.join(target_dir, "**/quest.json"), recursive=True)
+    ]
 RE_PLACEHOLDER = re.compile(
     r"\b(TODO|TBD|PLACEHOLDER|LOREM IPSUM|COMING SOON|FILL THIS IN)\b",
     re.IGNORECASE,

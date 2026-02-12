@@ -1,10 +1,14 @@
-# Hints
+# Hints — CLI Files & Folders
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (Concept)
+Use `mkdir -p` so your script works whether or not the folder exists.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (Guided)
+Fixtures are read-only. If you use `mv`, your tests will fail because the source disappears.
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (Near-solution)
+Commands you need:
+- `mkdir -p sandbox/archive/2026`
+- `cp fixtures/invoice.txt sandbox/archive/2026/invoice.txt`
+- `cp fixtures/readme.md sandbox/README.md`
+- `rm -rf sandbox/tmp`

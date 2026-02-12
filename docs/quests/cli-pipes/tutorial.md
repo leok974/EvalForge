@@ -1,17 +1,19 @@
-# Tutorial
+# Tutorial — Pipes
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## Mental model
+You’re building a pipeline where each command transforms the stream:
 
-## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+input -> sort -> count -> rank -> select -> format -> output
 
-## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+## Useful tools
+- `sort` (groups equal values together)
+- `uniq -c` (counts adjacent duplicates)
+- `sort -nr` (rank by count)
+- `head -n 2` (take top 2)
+- `awk` (reformat fields)
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+- Forgetting to sort before `uniq -c` (counts will be wrong)
+- Outputting "count name" instead of "name count"
+- Printing extra debug output
+- Not producing deterministic ordering

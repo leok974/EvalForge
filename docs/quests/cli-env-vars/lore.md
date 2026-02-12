@@ -1,4 +1,6 @@
 # Lore
 
-In EvalForge, every quest is a small “system” hiding inside a puzzle.
-**cli-env-vars** is part of the world’s training arc—solve it cleanly, and your future self will thank you.
+Hardcoding config works… until the first deploy.
+
+Environment variables are the contract between your script and the machine it runs on:
+same code, different environment, predictable behavior.

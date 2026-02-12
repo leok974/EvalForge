@@ -1,13 +1,24 @@
-# Briefing
+# Briefing — Pipes
 
 ## Objective
-Implement the required behavior for **cli-pipes** so all public tests pass.
+Compute name frequencies from `fixtures/names.txt` and write the top 2 results to `outputs/top.txt`.
+
+## Contract
+Running:
+```sh
+sh task.sh
+```
+
+must create `outputs/top.txt` with exactly:
+
+```
+leo 3
+maya 2
+```
 
 ## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
 
-## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+* Case-sensitive.
+* Use pipes (`|`) and no temporary files.
+* Deterministic ordering: count desc, then name asc.
+* No extra stdout/stderr. Exit code 0.

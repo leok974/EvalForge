@@ -1,10 +1,13 @@
-# Hints
+# Hints — Redirection
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (Concept)
+Use `>` once to create the file, and `>>` to append additional lines.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (Guided)
+To insert all lines from a file, use `cat`.
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (Near-solution)
+A typical structure is:
+- `echo HEADER > outputs/report.txt`
+- `cat fixtures/data.txt >> outputs/report.txt`
+- `echo FOOTER >> outputs/report.txt`

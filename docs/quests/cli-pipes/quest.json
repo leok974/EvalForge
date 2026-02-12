@@ -14,6 +14,11 @@
     },
     "workspace": {
         "entrypoint": "task.sh",
-        "files_from": "./starter"
-    }
+        "files_from": "./workspace"
+    },
+    "tests": {
+        "command": "node --test grading/public/cli-pipes.public.test.mjs"
+    },
+    "content_source": "training_grade_v1",
+    "content_version": "1.0.0"
 }

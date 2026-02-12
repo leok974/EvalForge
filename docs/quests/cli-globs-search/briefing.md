@@ -1,13 +1,30 @@
-# Briefing
+# Briefing — Globs & Search
 
 ## Objective
-Implement the required behavior for **cli-globs-search** so all public tests pass.
+Search across multiple log files to extract:
+1) how many error lines exist
+2) which files contain errors
+
+## Contract
+Running:
+
+```sh
+sh task.sh
+```
+
+must create:
+
+* `outputs/error_count.txt` → `3`
+* `outputs/error_files.txt` → exactly:
+
+  ```
+  app.log
+  db.log
+  ```
 
 ## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
 
-## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+* Only consider `fixtures/*.log`.
+* Match `ERROR` exactly (case-sensitive).
+* Output must be deterministic (sorted basenames).
+* No extra stdout/stderr. Exit code `0`.

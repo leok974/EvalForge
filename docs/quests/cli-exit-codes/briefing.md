@@ -1,13 +1,15 @@
-# Briefing
+# Briefing — Exit Codes
 
 ## Objective
-Implement the required behavior for **cli-exit-codes** so all public tests pass.
-
-## Constraints
-- Follow the quest constraints described in the prompt and starter code.
-- Prefer small, test-driven changes; avoid extra dependencies unless explicitly allowed.
+Write a script that detects failure conditions and signals them via exit codes.
 
 ## Success Criteria
-- All **public tests** pass for this quest.
-- The solution matches the intended function signatures and output shapes.
-- No unnecessary complexity or hidden side effects.
+When running `sh task.sh`:
+- If `fixtures/error.flag` exists:
+  - Exit with code `1`
+- If `fixtures/error.flag` does NOT exist:
+  - Exit with code `0`
+
+## Constraints
+- **No stdout/stderr output**.
+- Exit codes must be precise.

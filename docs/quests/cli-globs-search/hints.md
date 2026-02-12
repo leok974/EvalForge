@@ -1,10 +1,14 @@
-# Hints
+# Hints — Globs & Search
 
-## Hint 1
-Start by running the public tests once and reading the first failure carefully.
+## Hint 1 (Concept)
+Use a glob like `fixtures/*.log` so you don’t hardcode filenames.
 
-## Hint 2
-Search for the function/class name mentioned in the prompt; it usually exists as a stub.
+## Hint 2 (Guided)
+To list files containing matches, `grep -l "ERROR" fixtures/*.log` is the fastest route. You may need to strip `fixtures/`.
 
-## Hint 3
-If you’re stuck, implement the simplest “happy path” first, then add edge-case handling to match the tests.
+## Hint 3 (Near-solution)
+- Count lines:
+  - `grep -h "ERROR" fixtures/*.log | wc -l`
+- Get basenames + sort:
+  - `grep -l "ERROR" fixtures/*.log | xargs -n1 basename | sort`
+Write the outputs to the two files in `outputs/`.

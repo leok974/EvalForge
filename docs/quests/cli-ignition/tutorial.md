@@ -1,17 +1,33 @@
-# Tutorial
+# Tutorial — CLI Ignition
 
-## Approach
-This quest is designed to be solved by reading the problem statement and validating behavior against the tests.
+## What you’re practicing
+- Reading your environment: `pwd`, `basename`
+- Counting files safely (no hardcoding)
+- Printing deterministic output
 
 ## Implementation
-- Identify the entrypoint file(s) referenced by the quest.
-- Implement the smallest change that satisfies the failing test case first.
-- Incrementally expand coverage until all tests pass.
+1) Compute the working directory basename:
+- `basename "$(pwd)"`
+
+2) Count **only** regular files directly under `fixtures/`:
+- `find fixtures -maxdepth 1 -type f | wc -l`
+
+3) Print the three lines in order:
+- `CWD=...`
+- `FILES=...`
+- `OK`
 
 ## Testing
-- Run the quest’s public tests locally.
-- If there are multiple test cases, fix them one by one and re-run.
+Run:
+```sh
+sh task.sh
+```
+
+You should see three lines and nothing else.
 
 ## Pitfalls
-- Don’t overfit to a single test case; confirm behavior for all cases.
-- Watch for edge cases called out in the prompt (empty inputs, nullables, ordering).
+
+* Counting subdirectories (use `-type f`)
+* Counting nested files (use `-maxdepth 1`)
+* Extra spaces from `wc -l` (trim or normalize)
+* Adding “debug” output that breaks the exact contract
