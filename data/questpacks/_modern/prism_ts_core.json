@@ -1,0 +1,80 @@
+{
+    "questpack_id": "prism_ts_core",
+    "title": "Prism TS",
+    "world_id": "world-prism",
+    "track_id": "track-prism-ts",
+    "quests": [
+        {
+            "slug": "quest-ts-hello-console",
+            "title": "Quest Quest Ts Hello Console",
+            "track_id": "track-prism-ts",
+            "order": 1,
+            "briefing_md": "# quest-ts-hello-console\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/quest-ts-hello-console/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "quest-ts-hello-variable",
+            "title": "Quest Quest Ts Hello Variable",
+            "track_id": "track-prism-ts",
+            "order": 2,
+            "briefing_md": "# quest-ts-hello-variable\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/quest-ts-hello-variable/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "quest-ts-loop-countdown",
+            "title": "Quest Quest Ts Loop Countdown",
+            "track_id": "track-prism-ts",
+            "order": 3,
+            "briefing_md": "# quest-ts-loop-countdown\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/quest-ts-loop-countdown/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "ts-ignition-q1-types-and-interfaces",
+            "title": "Quest Ts Ignition Q1 Types And Interfaces",
+            "track_id": "track-prism-ts",
+            "order": 4,
+            "briefing_md": "# ts-ignition-q1-types-and-interfaces\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/ts-ignition-q1-types-and-interfaces/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "ts-narrowing-q2-unions-and-guards",
+            "title": "Quest Ts Narrowing Q2 Unions And Guards",
+            "track_id": "track-prism-ts",
+            "order": 5,
+            "briefing_md": "# ts-narrowing-q2-unions-and-guards\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/ts-narrowing-q2-unions-and-guards/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "ts-generics-q2-result-type",
+            "title": "Quest Ts Generics Q2 Result Type",
+            "track_id": "track-prism-ts",
+            "order": 6,
+            "briefing_md": "# ts-generics-q2-result-type\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/ts-generics-q2-result-type/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        }
+    ]
+}

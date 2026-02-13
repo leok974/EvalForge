@@ -1,0 +1,32 @@
+{
+    "questpack_id": "python_foundry_core",
+    "title": "Python Foundry",
+    "world_id": "world-python",
+    "track_id": "track-python-foundry",
+    "quests": [
+        {
+            "slug": "first-sparks",
+            "title": "Quest First Sparks",
+            "track_id": "track-python-foundry",
+            "order": 1,
+            "briefing_md": "# first-sparks\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/first-sparks/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "hello-variable",
+            "title": "Quest Hello Variable",
+            "track_id": "track-python-foundry",
+            "order": 2,
+            "briefing_md": "# hello-variable\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/hello-variable/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        }
+    ]
+}

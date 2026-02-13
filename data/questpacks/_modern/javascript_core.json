@@ -1,0 +1,128 @@
+{
+    "questpack_id": "javascript_core",
+    "title": "JavaScript Core",
+    "world_id": "world-javascript",
+    "track_id": "track-js-core",
+    "quests": [
+        {
+            "slug": "js-ignition-q1-console-and-functions",
+            "title": "Quest Js Ignition Q1 Console And Functions",
+            "track_id": "track-js-core",
+            "order": 1,
+            "briefing_md": "# js-ignition-q1-console-and-functions\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-ignition-q1-console-and-functions/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-vars-q1-let-const-var",
+            "title": "Quest Js Vars Q1 Let Const Var",
+            "track_id": "track-js-core",
+            "order": 2,
+            "briefing_md": "# js-vars-q1-let-const-var\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-vars-q1-let-const-var/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-control-q1-if-else-loops",
+            "title": "Quest Js Control Q1 If Else Loops",
+            "track_id": "track-js-core",
+            "order": 3,
+            "briefing_md": "# js-control-q1-if-else-loops\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-control-q1-if-else-loops/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-arrays-q1-basics",
+            "title": "Quest Js Arrays Q1 Basics",
+            "track_id": "track-js-core",
+            "order": 4,
+            "briefing_md": "# js-arrays-q1-basics\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-arrays-q1-basics/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-arrays-q2-map-filter-reduce",
+            "title": "Quest Js Arrays Q2 Map Filter Reduce",
+            "track_id": "track-js-core",
+            "order": 5,
+            "briefing_md": "# js-arrays-q2-map-filter-reduce\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-arrays-q2-map-filter-reduce/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-objects-q1-properties-methods",
+            "title": "Quest Js Objects Q1 Properties Methods",
+            "track_id": "track-js-core",
+            "order": 6,
+            "briefing_md": "# js-objects-q1-properties-methods\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-objects-q1-properties-methods/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-functions-q1-arrow-vs-regular",
+            "title": "Quest Js Functions Q1 Arrow Vs Regular",
+            "track_id": "track-js-core",
+            "order": 7,
+            "briefing_md": "# js-functions-q1-arrow-vs-regular\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-functions-q1-arrow-vs-regular/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-async-q1-promises-basics",
+            "title": "Quest Js Async Q1 Promises Basics",
+            "track_id": "track-js-core",
+            "order": 8,
+            "briefing_md": "# js-async-q1-promises-basics\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-async-q1-promises-basics/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-errors-q1-try-catch",
+            "title": "Quest Js Errors Q1 Try Catch",
+            "track_id": "track-js-core",
+            "order": 9,
+            "briefing_md": "# js-errors-q1-try-catch\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-errors-q1-try-catch/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "js-modules-q1-import-export",
+            "title": "Quest Js Modules Q1 Import Export",
+            "track_id": "track-js-core",
+            "order": 10,
+            "briefing_md": "# js-modules-q1-import-export\n\nPlaceholder briefing.",
+            "workspace": {
+                "files_from": "../../quests/js-modules-q1-import-export/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        }
+    ]
+}
