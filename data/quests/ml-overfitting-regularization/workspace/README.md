@@ -1,6 +1,9 @@
-# ml-overfitting-regularization
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Regularization — Ridge Loss
+
+Implement `ridge_loss(y_true, y_pred, coef, alpha)`:
+
+- MSE = mean((y_true - y_pred)^2)
+- penalty = alpha * sum(coef^2)
+- return MSE + penalty
+
+All inputs are numpy arrays.

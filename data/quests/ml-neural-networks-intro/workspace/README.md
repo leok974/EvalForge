@@ -1,6 +1,11 @@
-# ml-neural-networks-intro
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Neural Nets Intro — Dense Forward Pass
+
+Implement `dense_forward(X, W, b, activation)`:
+
+- X: (n, d)
+- W: (d, h)
+- b: (h,)
+- activation: "relu" or "sigmoid"
+- Returns: (n, h)
+
+Use numpy only.

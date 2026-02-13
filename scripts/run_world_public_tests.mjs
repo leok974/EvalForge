@@ -140,6 +140,27 @@ const looksAgents =
     packBase.includes("agents_") ||
     (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("agents-")));
 
+function isMlQuestpack(questpackPath) {
+    const base = path.basename(questpackPath);
+    return (
+        base === "ml_core.json" ||
+        base === "ml_core.upgraded.json" ||
+        base.startsWith("ml_") ||
+        questpackPath.includes("/ml_") ||
+        questpackPath.includes("\\ml_")
+    );
+}
+
+if (isMlQuestpack(questpackPath)) {
+    const python = pickPythonBin();
+    const mode = arg("--mode") || "student";
+    const onlySlug = arg("--only-slug");
+    const args = ["scripts/run_ml_questpack.py", questpackPath, "--mode", mode];
+    if (onlySlug) args.push("--only-slug", onlySlug);
+    const rc = spawnSync(python, args, { stdio: "inherit" });
+    process.exit(rc.status ?? 1);
+}
+
 if (looksPython || looksAgents) {
     // Python dispatch: use pytest runner
     const py = pickPythonBin();

@@ -1,32 +1,367 @@
-[
-    {
-        "quest_path": "docs/quests/ml-ignition"
-    },
-    {
-        "quest_path": "docs/quests/ml-numpy-basics"
-    },
-    {
-        "quest_path": "docs/quests/ml-pandas-dataframes"
-    },
-    {
-        "quest_path": "docs/quests/ml-data-preprocessing"
-    },
-    {
-        "quest_path": "docs/quests/ml-train-test-split"
-    },
-    {
-        "quest_path": "docs/quests/ml-linear-regression"
-    },
-    {
-        "quest_path": "docs/quests/ml-classification-basics"
-    },
-    {
-        "quest_path": "docs/quests/ml-model-evaluation"
-    },
-    {
-        "quest_path": "docs/quests/ml-neural-networks-intro"
-    },
-    {
-        "quest_path": "docs/quests/ml-overfitting-regularization"
-    }
-]
+{
+    "world_id": "world-ml",
+    "track_id": "track-ml",
+    "title": "Machine Learning Foundations",
+    "quests": [
+        {
+            "slug": "ml-ignition",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Ignite the ML Lab\n\n**Objective:** Implement a deterministic readiness handshake for the ML world.\n\nYour task is to implement the workspace code so the test suite can confirm the ML lab is ready.\n\nConstraints:\n- No randomness\n- No file/network I/O\n- Return the exact expected value\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Expose the required entrypoint/function expected by tests",
+                    "why": "Specification requirement"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Return the exact literal readiness string",
+                    "why": "Deterministic contract"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Avoid randomness and external side effects",
+                    "why": "Reproducibility"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Keep implementation minimal and pure",
+                    "why": "Training-grade simplicity"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Boot sequence initiated…*\n>\nThe experiment harness won’t proceed until it receives an exact readiness handshake. In this lab, reproducibility is law—no hidden state, no surprise output.\n",
+            "tiered_hints": {
+                "concept": "This is a deterministic \"healthcheck\" style function. Return the exact constant expected by tests.",
+                "guided": "Open workspace/task.py and implement the function with a literal string return. Don’t print anything.",
+                "full_solution": "Return the required constant string exactly (no whitespace, no extra output) and ensure the function name matches the tests."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-numpy-basics",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Normalize the Signal\n\n**Objective:** Implement Min/Max normalization using NumPy.\n\nYou will write a function that takes a 1D NumPy array and returns values scaled to the range [0, 1].\n\nConstraints:\n- Do not mutate the input\n- Handle constant arrays deterministically\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Compute min and max correctly for the input vector",
+                    "why": "Normalization definition"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Return zeros for constant arrays",
+                    "why": "Division-by-zero avoidance"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Use vectorized NumPy operations (no per-element loops required)",
+                    "why": "Performance + idiomatic NumPy"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Do not mutate the input array",
+                    "why": "Functional contract"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Sensors calibrated…*\n>\nThe lab’s detectors are producing raw values with inconsistent scales. Before any model can learn, you must normalize the signal so every feature lives on the same numeric playing field.\n",
+            "tiered_hints": {
+                "concept": "Min/max normalization rescales values: (x - min) / (max - min).",
+                "guided": "Compute min and max with NumPy. If max == min, return an array of zeros with the same shape.",
+                "full_solution": "Convert to np.asarray, compute xmin/xmax, handle constant case, then compute the normalized vector and return it as float."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-pandas-dataframes",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Structure the Dataset\n\n**Objective:** Load a CSV into a DataFrame and compute mean age by city.\n\nYou will:\n1) Load a CSV fixture into a DataFrame\n2) Group by city and compute mean age\n3) Return results sorted by city name\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Load the CSV fixture into a DataFrame with correct columns",
+                    "why": "Data ingestion contract"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Group rows by city and compute mean age",
+                    "why": "Aggregation requirement"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Sort the result by city name ascending",
+                    "why": "Deterministic output ordering"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Return the expected Pandas type (Series/DataFrame) as required by tests",
+                    "why": "API contract"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Dataset loaded into the analysis bay…*\n>\nA pile of rows isn’t a dataset until it’s structured and queryable. Your job is to load the records and compute a clean, reproducible summary statistic.\n",
+            "tiered_hints": {
+                "concept": "Pandas excels at tabular data: read_csv, groupby, aggregate.",
+                "guided": "Use pd.read_csv to load. Then df.groupby('city')['age'].mean().sort_index().",
+                "full_solution": "Load with read_csv and compute groupby mean; ensure the Series index is sorted by city name."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-data-preprocessing",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Preprocess Features\n\n**Objective:** Impute missing values and one-hot encode a categorical column.\n\nYou will transform raw data into model-ready numeric features.\n\nRequirements:\n- Fill missing numeric ages with the median\n- Fill missing city with \"Unknown\"\n- One-hot encode city into stable, expected columns\n- Output columns must match expected order\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Impute missing numeric values using the median",
+                    "why": "Robust numeric preprocessing"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Impute missing categorical values with \"Unknown\"",
+                    "why": "Stable category handling"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "One-hot encode city into the required city__* columns",
+                    "why": "Numeric feature conversion"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Return output with deterministic column ordering",
+                    "why": "Test stability + reproducibility"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Feature pipeline warming up…*\n>\nRaw data is messy: missing values, inconsistent categories, and unpredictable shapes. Your pipeline must produce a clean, stable feature matrix every time.\n",
+            "tiered_hints": {
+                "concept": "Preprocessing is about deterministic schema: same input → same columns in the same order.",
+                "guided": "Fill numeric NaNs with median, fill city NaNs with 'Unknown', use pd.get_dummies, then reorder columns.",
+                "full_solution": "Copy input df, impute values, get dummies with prefix 'city__', ensure all expected dummy columns exist, then concat with age."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-train-test-split",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Split the Experiment\n\n**Objective:** Implement a deterministic train/test split.\n\nYou must split feature matrix X and labels y into train and test sets.\n\nRequirements:\n- Shuffle deterministically using the provided seed\n- Test set size is ceil(n * test_size)\n- Test set is the last chunk after shuffling\n- Return (X_train, X_test, y_train, y_test)\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Shuffle indices deterministically using the provided seed",
+                    "why": "Reproducibility"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Compute test set size using ceil(n * test_size)",
+                    "why": "Spec requirement"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Split X and y with aligned indices (no label drift)",
+                    "why": "Correctness"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Return outputs in correct shapes and order",
+                    "why": "API contract"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Preparing controlled trials…*\n>\nEvery experiment must be repeatable. The same seed must produce the same split—otherwise results can’t be trusted. Your job: split the data with surgical determinism.\n",
+            "tiered_hints": {
+                "concept": "A train/test split is a permutation of indices plus a cut point.",
+                "guided": "Use np.random.RandomState(seed).permutation(n). Take last ceil(n*test_size) indices for test.",
+                "full_solution": "Permute indices deterministically, compute n_test with math.ceil, slice idx into train/test, then index X and y accordingly."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-linear-regression",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Fit the Baseline\n\n**Objective:** Implement closed-form linear regression and prediction.\n\nRequirements:\n- Fit coefficients and intercept deterministically\n- Use a stable approach (pseudo-inverse acceptable)\n- Predict using y = X·coef + intercept\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Fit linear regression using a deterministic closed-form method",
+                    "why": "No training randomness"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Return coef shape (d,) and intercept as float",
+                    "why": "API contract"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Implement prediction y = X @ coef + intercept",
+                    "why": "Correct inference"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Handle input shapes consistently (n,d)",
+                    "why": "Deterministic behavior"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Fitting baseline model…*\n>\nBefore deep nets and fancy tricks, the lab demands a baseline. Linear regression is the first checkpoint: if it can’t learn a straight line, nothing else matters.\n",
+            "tiered_hints": {
+                "concept": "Closed-form linear regression can be solved by adding a bias column and using a pseudo-inverse.",
+                "guided": "Build Xb = [1, X]. Compute w = pinv(Xb) @ y. Then intercept=w[0], coef=w[1:].",
+                "full_solution": "Use np.linalg.pinv for stability and implement predict via matrix multiply plus intercept."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-classification-basics",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Draw a Boundary\n\n**Objective:** Implement a deterministic kNN classifier.\n\nRequirements:\n- Use Euclidean distance\n- Majority vote among k nearest neighbors\n- Tie breaks toward label 0\n- Return predicted labels as integers\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Compute Euclidean distances correctly",
+                    "why": "kNN definition"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Select the k nearest neighbors deterministically",
+                    "why": "Stable ordering"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Vote by majority with deterministic tie-break (0)",
+                    "why": "No ambiguity in tests"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Return predictions as a 1D integer array",
+                    "why": "API contract"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Decision boundary forming…*\n>\nSometimes the simplest classifier is enough: compare distances, consult neighbors, and vote. The lab’s only demand is determinism—no ties left unresolved.\n",
+            "tiered_hints": {
+                "concept": "kNN stores training data and predicts by nearest distances + majority vote.",
+                "guided": "For each x: compute squared distances to all training points, argsort, take first k, count labels.",
+                "full_solution": "If ones > zeros => 1 else 0. Use argsort over distance array for deterministic neighbor selection."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-model-evaluation",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Score the Model\n\n**Objective:** Compute binary classification metrics and confusion matrix.\n\nReturn a dict with:\n- accuracy\n- precision\n- recall\n- f1\n- confusion matrix [[tn, fp], [fn, tp]]\n\nRules:\n- Positive label is 1\n- If a precision/recall denominator is 0, return 0.0 for that metric\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Compute confusion matrix counts (tn, fp, fn, tp) correctly",
+                    "why": "Metrics foundation"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Compute accuracy, precision, recall, and f1 correctly",
+                    "why": "Evaluation correctness"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Handle zero-denominator edge cases deterministically",
+                    "why": "Avoid NaNs/infs"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Return the exact dict shape expected by tests",
+                    "why": "API contract"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Metrics console online…*\n>\nA model without evaluation is just a guess. The lab requires exact measurements: clean counts, clean formulas, and clean edge-case handling.\n",
+            "tiered_hints": {
+                "concept": "Metrics come from tn/fp/fn/tp. Precision = tp/(tp+fp), Recall = tp/(tp+fn).",
+                "guided": "Loop through pairs of (y_true, y_pred) and increment counters. Handle denominators that become 0.",
+                "full_solution": "Compute tn/fp/fn/tp then derive metrics; if (tp+fp)==0 precision=0.0; if (tp+fn)==0 recall=0.0; if (prec+rec)==0 f1=0.0."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-neural-networks-intro",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Forward Pass\n\n**Objective:** Implement a dense layer forward pass with activation.\n\nRequirements:\n- Compute Z = X @ W + b\n- Apply activation:\n  - relu: max(0, Z)\n  - sigmoid: 1/(1+exp(-Z))\n- Return output array shape (n, h)\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Compute affine transform X @ W + b correctly",
+                    "why": "Dense layer definition"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Apply ReLU activation correctly",
+                    "why": "Activation correctness"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Apply Sigmoid activation correctly",
+                    "why": "Activation correctness"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Return correct output shape for batch inputs",
+                    "why": "API contract"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Neurons firing…*\n>\nA dense layer is the simplest building block of a neural network: multiply, add bias, then apply a nonlinearity. In the lab, the math must be exact.\n",
+            "tiered_hints": {
+                "concept": "Dense layer output is matrix multiply plus bias; activation is elementwise.",
+                "guided": "Compute Z = X @ W + b. Then apply relu or sigmoid depending on activation string.",
+                "full_solution": "Use np.maximum for relu. Use 1/(1+np.exp(-Z)) for sigmoid. Validate activation and raise ValueError otherwise."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        },
+        {
+            "slug": "ml-overfitting-regularization",
+            "track_id": "ml-fundamentals",
+            "briefing_md": "# Mission: Add Discipline\n\n**Objective:** Implement ridge-regularized loss.\n\nRequirements:\n- MSE = mean((y_true - y_pred)^2)\n- penalty = alpha * sum(coef^2)\n- return MSE + penalty\n",
+            "objectives": [
+                {
+                    "id": "obj_1",
+                    "text": "Compute mean squared error correctly",
+                    "why": "Loss definition"
+                },
+                {
+                    "id": "obj_2",
+                    "text": "Compute ridge penalty alpha * sum(coef^2)",
+                    "why": "Regularization definition"
+                },
+                {
+                    "id": "obj_3",
+                    "text": "Return MSE + penalty as a float",
+                    "why": "API contract"
+                },
+                {
+                    "id": "obj_4",
+                    "text": "Keep implementation deterministic (no randomness)",
+                    "why": "Reproducibility"
+                }
+            ],
+            "lore_md": "## Model Lab Log\n\n> *Overfitting detected…*\n>\nThe model is memorizing noise. The lab introduces discipline: penalize large coefficients so the model prefers simpler explanations.\n",
+            "tiered_hints": {
+                "concept": "Ridge adds an L2 penalty to the loss: alpha * sum(w^2).",
+                "guided": "Compute MSE with np.mean((y_true - y_pred)**2). Then add alpha * np.sum(coef**2).",
+                "full_solution": "Convert inputs to numpy arrays, compute mse and penalty as floats, return mse + penalty."
+            },
+            "content_source": "ml_world_upgrade_v1",
+            "content_version": "2026.02.13",
+            "tier": 1
+        }
+    ]
+}

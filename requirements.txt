@@ -33,3 +33,7 @@ GitPython                        # For cloning repos
 arq                              # Async Task Queue (Background Workers)
 async-timeout                    # For WebSocket/Redis testing
 pydantic-settings                # For config management
+
+# --- ML World ---
+numpy
+pandas

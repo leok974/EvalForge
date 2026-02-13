@@ -1,6 +1,10 @@
-# ml-ignition
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# ML Ignition — Deterministic Handshake
+
+Implement a tiny "ready" contract for the ML world.
+
+## Requirements
+Implement `ml_ready()` in `task.py`:
+
+- Returns the exact string: `ML_READY`
+- No printing
+- No randomness
