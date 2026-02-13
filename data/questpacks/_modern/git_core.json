@@ -6,123 +6,123 @@
     "quests": [
         {
             "slug": "git-ignition",
-            "title": "Quest Git Ignition",
+            "title": "Git Ignition: Init + First Commit",
             "track_id": "track-git-core",
             "order": 1,
-            "briefing_md": "# git-ignition\n\nPlaceholder briefing.",
+            "briefing_md": "# git-ignition\n\nSee workspace/README.md",
             "workspace": {
                 "files_from": "../../quests/git-ignition/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
-        },
-        {
-            "slug": "git-init-clone",
-            "title": "Quest Git Init Clone",
-            "track_id": "track-git-core",
-            "order": 2,
-            "briefing_md": "# git-init-clone\n\nPlaceholder briefing.",
-            "workspace": {
-                "files_from": "../../quests/git-init-clone/workspace"
-            },
-            "language": "javascript",
-            "content_source": "legacy_wrapper"
-        },
-        {
-            "slug": "git-add-commit",
-            "title": "Quest Git Add Commit",
-            "track_id": "track-git-core",
-            "order": 3,
-            "briefing_md": "# git-add-commit\n\nPlaceholder briefing.",
-            "workspace": {
-                "files_from": "../../quests/git-add-commit/workspace"
-            },
-            "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "git-status-diff",
-            "title": "Quest Git Status Diff",
+            "title": "Status & Diff: Detect Changes",
             "track_id": "track-git-core",
-            "order": 4,
-            "briefing_md": "# git-status-diff\n\nPlaceholder briefing.",
+            "order": 2,
+            "briefing_md": "# git-status-diff\n\nSee workspace/README.md",
             "workspace": {
                 "files_from": "../../quests/git-status-diff/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
-            "slug": "git-branch-merge",
-            "title": "Quest Git Branch Merge",
+            "slug": "git-add-commit",
+            "title": "Add + Commit: Stage Selected Files",
+            "track_id": "track-git-core",
+            "order": 3,
+            "briefing_md": "# git-add-commit\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/git-add-commit/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "git-branches",
+            "title": "Branches: Create + Switch + Verify HEAD",
+            "track_id": "track-git-core",
+            "order": 4,
+            "briefing_md": "# git-branches\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/git-branches/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "git-merge-conflict",
+            "title": "Merge: Resolve a Simple Conflict",
             "track_id": "track-git-core",
             "order": 5,
-            "briefing_md": "# git-branch-merge\n\nPlaceholder briefing.",
+            "briefing_md": "# git-merge-conflict\n\nSee workspace/README.md",
             "workspace": {
-                "files_from": "../../quests/git-branch-merge/workspace"
+                "files_from": "../../quests/git-merge-conflict/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
-            "slug": "git-remote-push",
-            "title": "Quest Git Remote Push",
+            "slug": "git-log",
+            "title": "Log: Produce a Clean History Report",
             "track_id": "track-git-core",
             "order": 6,
-            "briefing_md": "# git-remote-push\n\nPlaceholder briefing.",
+            "briefing_md": "# git-log\n\nSee workspace/README.md",
             "workspace": {
-                "files_from": "../../quests/git-remote-push/workspace"
+                "files_from": "../../quests/git-log/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "git-undo-revert",
-            "title": "Quest Git Undo Revert",
+            "title": "Undo: Revert a Bad Commit Safely",
             "track_id": "track-git-core",
             "order": 7,
-            "briefing_md": "# git-undo-revert\n\nPlaceholder briefing.",
+            "briefing_md": "# git-undo-revert\n\nSee workspace/README.md",
             "workspace": {
                 "files_from": "../../quests/git-undo-revert/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "git-stash",
-            "title": "Quest Git Stash",
+            "title": "Stash: Save Work-in-Progress",
             "track_id": "track-git-core",
             "order": 8,
-            "briefing_md": "# git-stash\n\nPlaceholder briefing.",
+            "briefing_md": "# git-stash\n\nSee workspace/README.md",
             "workspace": {
                 "files_from": "../../quests/git-stash/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
-            "slug": "git-tag-release",
-            "title": "Quest Git Tag Release",
+            "slug": "git-tags",
+            "title": "Tags: Annotated Release Tag",
             "track_id": "track-git-core",
             "order": 9,
-            "briefing_md": "# git-tag-release\n\nPlaceholder briefing.",
+            "briefing_md": "# git-tags\n\nSee workspace/README.md",
             "workspace": {
-                "files_from": "../../quests/git-tag-release/workspace"
+                "files_from": "../../quests/git-tags/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
-            "slug": "git-rebase-linear",
-            "title": "Quest Git Rebase Linear",
+            "slug": "git-rebase-onto-main",
+            "title": "Rebase: Move Feature Onto Main",
             "track_id": "track-git-core",
             "order": 10,
-            "briefing_md": "# git-rebase-linear\n\nPlaceholder briefing.",
+            "briefing_md": "# git-rebase-onto-main\n\nSee workspace/README.md",
             "workspace": {
-                "files_from": "../../quests/git-rebase-linear/workspace"
+                "files_from": "../../quests/git-rebase-onto-main/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         }
     ]
 }

@@ -94,7 +94,7 @@ async function copyDir(src, dst) {
 
 async function runQuest({ slug, mode, debug }) {
     const repoRoot = process.cwd();
-    const questDir = path.join(repoRoot, "docs", "quests", slug);
+    const questDir = path.join(repoRoot, "data", "quests", slug);
     if (!fssync.existsSync(questDir)) throw new Error(`Quest dir missing: ${questDir}`);
 
     const tests = await listPublicTests(questDir);
@@ -116,9 +116,14 @@ async function runQuest({ slug, mode, debug }) {
         GIT_COMMITTER_EMAIL: "bot@evalforge.app",
     };
 
+    if (process.platform === "win32") {
+        const gitVars = ["GIT_AUTHOR_NAME", "GIT_AUTHOR_EMAIL", "GIT_COMMITTER_NAME", "GIT_COMMITTER_EMAIL"];
+        env.WSLENV = (process.env.WSLENV ? process.env.WSLENV + ":" : "") + gitVars.join(":");
+    }
+
     // Copy solutions if needed
     if (mode === "solution") {
-        const solDir = path.join(repoRoot, "solutions", slug);
+        const solDir = path.join(questDir, "grading", "solutions");
         if (fssync.existsSync(solDir)) {
             await copyDir(solDir, tmpWs);
 
@@ -182,11 +187,23 @@ async function main() {
     console.log(`=== Running ${slugs.length} Git quests from ${opts.questpack} in ${opts.mode} mode ===`);
 
     let pass = 0;
+    const results = [];
     for (const slug of slugs) {
         const ok = await runQuest({ slug, mode: opts.mode, debug: opts.debug });
+        results.push({ slug, status: ok ? "passed" : "failed" });
         if (!ok) process.exitCode = 1;
         else pass++;
     }
+
+    const summary = {
+        total: slugs.length,
+        passed: pass,
+        failed: slugs.length - pass,
+        errors: [],
+        slugs: results
+    };
+
+    console.log(`EF_RUNNER_RESULT_JSON=${JSON.stringify(summary)}`);
 
     if (process.exitCode === 1) {
         console.log(`\n❌ Git questpack FAILED (${pass}/${slugs.length} passed)`);
