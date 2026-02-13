@@ -14,7 +14,7 @@
                 "files_from": "../../quests/quest-ts-hello-console/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "quest-ts-hello-variable",
@@ -26,7 +26,7 @@
                 "files_from": "../../quests/quest-ts-hello-variable/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "quest-ts-loop-countdown",
@@ -38,7 +38,7 @@
                 "files_from": "../../quests/quest-ts-loop-countdown/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-ignition-q1-types-and-interfaces",
@@ -50,7 +50,7 @@
                 "files_from": "../../quests/ts-ignition-q1-types-and-interfaces/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-narrowing-q2-unions-and-guards",
@@ -62,7 +62,7 @@
                 "files_from": "../../quests/ts-narrowing-q2-unions-and-guards/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-generics-q2-result-type",
@@ -74,7 +74,7 @@
                 "files_from": "../../quests/ts-generics-q2-result-type/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         }
     ]
 }

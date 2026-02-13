@@ -1,6 +1,3 @@
-# Crystal Forge: Generics + Result<T,E>
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Result Type
+
+Implement generic `Result<T>` type and `success<T>(data: T): Result<T>` helper (tagged union with discriminated union).

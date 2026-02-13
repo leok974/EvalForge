@@ -14,7 +14,7 @@
                 "files_from": "../../quests/js-ignition-q1-console-and-functions/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "js-arrays-q2-map-filter-reduce",
@@ -26,7 +26,7 @@
                 "files_from": "../../quests/js-arrays-q2-map-filter-reduce/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         }
     ]
 }

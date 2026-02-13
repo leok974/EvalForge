@@ -1,6 +1,3 @@
-# Ignition Sequence
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Loop Countdown
+
+Export function `countdown(start: number): number[]` returning [start, start-1, ..., 0].

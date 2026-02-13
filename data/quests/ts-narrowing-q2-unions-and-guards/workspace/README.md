@@ -1,6 +1,3 @@
-# Crystal Lens: Unions + Type Guards
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Unions and Guards
+
+Export `format(val: string | number): string`. If number, return 'Value: N', if string, return uppercase.

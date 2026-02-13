@@ -156,7 +156,7 @@ async function main() {
     }
 
     // 2. TS
-    const looksTs = packBase.includes("typescript") || packBase.includes("ts-") || (slugs.length > 0 && slugs.every(s => s.startsWith("ts-")));
+    const looksTs = packBase.includes("typescript") || packBase.includes("ts-") || packBase.includes("prism_ts") || (slugs.length > 0 && slugs.every(s => s.startsWith("ts-")));
     if (looksTs) {
         const args = ["scripts/run_ts_questpack.mjs", "--questpack", questpackPath, "--mode", mode];
         if (arg("--only-slug")) args.push("--only-slug", arg("--only-slug"));

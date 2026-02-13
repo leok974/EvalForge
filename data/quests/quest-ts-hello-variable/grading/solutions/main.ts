@@ -1,0 +1,1 @@
+export let energy: number = 100;

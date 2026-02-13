@@ -24,8 +24,8 @@
 | world-agents | agents_core.json | modern | 0/-1 | -1/0 | NEEDS_VERIFY | 0 missing |
 | world-git | git_core.json | modern | 0/10 | 10/0 | TRAINING_GRADE | 0 missing |
 | **JavaScript** | `javascript_core` | **TRAINING-GRADE** | ✅ 10/10 Sol | ✅ 0/10 Stu | `node --test` | `_modern/javascript_core.json` |
-| world-prism | prism_js_core.json | modern | 0/2 | 0/2 | NEEDS_UPGRADE | 4 missing |
-| world-prism | prism_ts_core.json | modern | 0/6 | 0/6 | NEEDS_UPGRADE | 12 missing |
+| **Prism JS** | `prism_js_core` | **TRAINING-GRADE** | ✅ 2/2 Sol | ✅ 0/2 Stu | `node --test` | `_modern/prism_js_core.json` |
+| **Prism TS** | `prism_ts_core` | **TRAINING-GRADE** | ✅ 6/6 Sol | ✅ 0/6 Stu | `run_ts_questpack.mjs` | `_modern/prism_ts_core.json` |
 | world-python | python_foundry_core.json | modern | 0/2 | 0/2 | NEEDS_UPGRADE | 4 missing |
 | world-python | python_systems_core.json | modern | 0/7 | 7/0 | TRAINING_GRADE | 0 missing |
 | **TypeScript** | `typescript_core` | **TRAINING-GRADE** | ✅ 10/10 Sol | ✅ 0/10 Stu | `run_ts_questpack.mjs` | `_modern/typescript_core.json` |
