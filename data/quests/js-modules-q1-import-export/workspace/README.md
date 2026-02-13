@@ -1,6 +1,3 @@
-# js-modules-q1-import-export
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Modules
+
+Export constants `PI`, `E` and default export function `circleArea(r)`.

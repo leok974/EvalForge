@@ -1,6 +1,3 @@
-# js-control-q1-if-else-loops
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Control Flow
+
+Implement `checkNumber(n)` returning 'positive'/'negative'/'zero'. Implement `sumTo(n)`.

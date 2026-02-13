@@ -1,6 +1,3 @@
-# js-arrays-q1-basics
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Arrays Basics
+
+Implement `getFirst(arr)`, `getLast(arr)`, and `addEnd(arr, item)`.

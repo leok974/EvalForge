@@ -1,6 +1,3 @@
-# js-errors-q1-try-catch
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Errors
+
+Implement `parseJson(str)` that returns parsed object or null on error.
