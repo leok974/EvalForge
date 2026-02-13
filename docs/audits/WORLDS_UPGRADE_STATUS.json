@@ -1,32 +1,52 @@
 {
-  "generated_at": "2026-02-13T12:10:38.998101",
-  "repo": {
-    "os": "nt"
-  },
+  "generated_at": "2026-02-13T12:50:10.304307",
   "worlds": [
     {
-      "world_key": "agents",
-      "questpack": "data\\questpacks\\agents_core.json",
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/agents_core.json",
       "format": "legacy",
-      "slugs": [],
+      "slugs": [
+        "agents-ignition",
+        "agents-prompts-contracts",
+        "agents-tools-basics",
+        "agents-planner",
+        "agents-executor",
+        "agents-verifier",
+        "agents-approvals-diffs",
+        "agents-memory",
+        "agents-budgets",
+        "agents-observability"
+      ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
-          "ran": false
+          "ran": true,
+          "exit_code": 0,
+          "pass": -1,
+          "fail": 0,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: All tests passed (Legacy Mode)."
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "cli",
-      "questpack": "data\\questpacks\\cli_core.json",
+      "world_key": "world-cli",
+      "questpack": "data/questpacks/cli_core.json",
       "format": "modern",
       "slugs": [
         "cli-ignition",
@@ -41,75 +61,128 @@
         "cli-scripting"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 0,
+          "fail": -1,
           "errors": [
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'"
-          ]
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
           "ran": true,
-          "pass": 0,
+          "exit_code": 0,
+          "pass": -1,
           "fail": 0,
-          "errors": []
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: All tests passed (Legacy Mode)."
         }
       },
       "status": "NEEDS_VERIFY"
     },
     {
-      "world_key": "foundry_python",
-      "questpack": "data\\questpacks\\foundry_python.json",
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/foundry_python.json",
       "format": "legacy",
       "slugs": [],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "git",
-      "questpack": "data\\questpacks\\git_core.json",
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/git_core.json",
       "format": "legacy",
-      "slugs": [],
+      "slugs": [
+        "git-ignition",
+        "git-init-clone",
+        "git-add-commit",
+        "git-status-diff",
+        "git-branch-merge",
+        "git-remote-push",
+        "git-undo-revert",
+        "git-stash",
+        "git-tag-release",
+        "git-rebase-linear"
+      ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [
+          "git-ignition",
+          "git-status-diff",
+          "git-branch-merge",
+          "git-remote-push",
+          "git-undo-revert",
+          "git-tag-release",
+          "git-rebase-linear"
+        ],
+        "missing_public": [
+          "git-init-clone",
+          "git-add-commit",
+          "git-stash"
+        ],
+        "missing_solution": [
+          "git-init-clone",
+          "git-add-commit",
+          "git-stash"
+        ]
       },
       "verification": {
         "student": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
-          "ran": false
+          "ran": true,
+          "exit_code": 0,
+          "pass": -1,
+          "fail": 0,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: All tests passed (Legacy Mode)."
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "infra",
-      "questpack": "data\\questpacks\\infra_core.json",
+      "world_key": "world-infra",
+      "questpack": "data/questpacks/infra_core.json",
       "format": "modern",
       "slugs": [
         "infra-ignition",
@@ -124,95 +197,167 @@
         "infra-debug-playbook"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": 10,
+          "errors": [
+            "infra-ignition: infra-ignition.public.test.mjs failed",
+            "infra-ports-and-localhost: infra-ports-and-localhost.public.test.mjs failed",
+            "infra-env-config: infra-env-config.public.test.mjs failed",
+            "infra-healthchecks: infra-healthchecks.public.test.mjs failed",
+            "infra-logs-metrics: infra-logs-metrics.public.test.mjs failed",
+            "infra-docker-compose: infra-docker-compose.public.test.mjs failed",
+            "infra-networking-dns: infra-networking-dns.public.test.mjs failed",
+            "infra-reverse-proxy: infra-reverse-proxy.public.test.mjs failed",
+            "infra-cors-cookies: infra-cors-cookies.public.test.mjs failed",
+            "infra-debug-playbook: infra-debug-playbook.public.test.mjs failed"
+          ],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 quests passed."
+        },
+        "solution": {
+          "ran": true,
+          "exit_code": 0,
+          "pass": 10,
+          "fail": 0,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 10/10 quests passed."
+        }
+      },
+      "status": "TRAINING_GRADE"
+    },
+    {
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/javascript_core.json",
+      "format": "legacy",
+      "slugs": [
+        "js-ignition-q1-console-and-functions",
+        "js-vars-q1-let-const-var",
+        "js-control-q1-if-else-loops",
+        "js-arrays-q1-basics",
+        "js-arrays-q2-map-filter-reduce",
+        "js-objects-q1-properties-methods",
+        "js-functions-q1-arrow-vs-regular",
+        "js-async-q1-promises-basics",
+        "js-errors-q1-try-catch",
+        "js-modules-q1-import-export"
+      ],
+      "structure": {
+        "missing_dir": [],
+        "missing_public": [
+          "js-ignition-q1-console-and-functions",
+          "js-vars-q1-let-const-var",
+          "js-control-q1-if-else-loops",
+          "js-arrays-q1-basics",
+          "js-arrays-q2-map-filter-reduce",
+          "js-objects-q1-properties-methods",
+          "js-functions-q1-arrow-vs-regular",
+          "js-async-q1-promises-basics",
+          "js-errors-q1-try-catch",
+          "js-modules-q1-import-export"
+        ],
+        "missing_solution": [
+          "js-ignition-q1-console-and-functions",
+          "js-vars-q1-let-const-var",
+          "js-control-q1-if-else-loops",
+          "js-arrays-q1-basics",
+          "js-arrays-q2-map-filter-reduce",
+          "js-objects-q1-properties-methods",
+          "js-functions-q1-arrow-vs-regular",
+          "js-async-q1-promises-basics",
+          "js-errors-q1-try-catch",
+          "js-modules-q1-import-export"
+        ]
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": 10,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 quests passed."
+        },
+        "solution": {
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": 10,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 quests passed."
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/lab_hidden_tests.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "exit_code": 1,
           "pass": 0,
           "fail": 1,
-          "errors": [
-            "    + 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  actual: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'"
-          ]
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/1 quests passed."
         },
         "solution": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 0,
-          "errors": []
-        }
-      },
-      "status": "NEEDS_VERIFY"
-    },
-    {
-      "world_key": "javascript",
-      "questpack": "data\\questpacks\\javascript_core.json",
-      "format": "legacy",
-      "slugs": [],
-      "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
-      },
-      "verification": {
-        "student": {
-          "ran": false
-        },
-        "solution": {
-          "ran": false
+          "fail": 1,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/1 quests passed."
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "lab_hidden_tests",
-      "questpack": "data\\questpacks\\lab_hidden_tests.json",
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/lab_workspace.json",
       "format": "legacy",
       "slugs": [],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": 1,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/1 quests passed."
         },
         "solution": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": 1,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/1 quests passed."
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "lab_workspace",
-      "questpack": "data\\questpacks\\lab_workspace.json",
-      "format": "legacy",
-      "slugs": [],
-      "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
-      },
-      "verification": {
-        "student": {
-          "ran": false
-        },
-        "solution": {
-          "ran": false
-        }
-      },
-      "status": "NEEDS_UPGRADE"
-    },
-    {
-      "world_key": "ml",
-      "questpack": "data\\questpacks\\ml_core.json",
+      "world_key": "world-ml",
+      "questpack": "data/questpacks/ml_core.json",
       "format": "modern",
       "slugs": [
         "ml-ignition",
@@ -227,29 +372,37 @@
         "ml-overfitting-regularization"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 10,
-          "errors": []
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
           "ran": true,
-          "pass": 10,
-          "fail": 0,
-          "errors": []
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         }
       },
-      "status": "TRAINING_GRADE"
+      "status": "NEEDS_VERIFY"
     },
     {
-      "world_key": "node",
-      "questpack": "data\\questpacks\\node_core.json",
+      "world_key": "world-node",
+      "questpack": "data/questpacks/node_core.json",
       "format": "modern",
       "slugs": [
         "node-ignition",
@@ -264,111 +417,163 @@
         "node-deploy-basics"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [
-          "node-ignition",
-          "node-modules",
-          "node-npm",
-          "node-env-config",
-          "node-async",
-          "node-fs-path",
-          "node-http",
-          "node-middleware",
-          "node-testing",
-          "node-deploy-basics"
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": 10,
+          "errors": [
+            "node-ignition: node-ignition.test.mjs failed",
+            "node-modules: node-modules.test.mjs failed",
+            "node-npm: node-npm.test.mjs failed",
+            "node-env-config: node-env-config.test.mjs failed",
+            "node-async: node-async.test.mjs failed",
+            "node-fs-path: node-fs-path.test.mjs failed",
+            "node-http: node-http.test.mjs failed",
+            "node-middleware: node-middleware.test.mjs failed",
+            "node-testing: node-testing.test.mjs failed",
+            "node-deploy-basics: node-deploy-basics.test.mjs failed"
+          ],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 quests passed."
+        },
+        "solution": {
+          "ran": true,
+          "exit_code": 0,
+          "pass": 10,
+          "fail": 0,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 10/10 quests passed."
+        }
+      },
+      "status": "TRAINING_GRADE"
+    },
+    {
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/prism_js.json",
+      "format": "legacy",
+      "slugs": [
+        "js-ignition-q1-console-and-functions",
+        "js-arrays-q2-map-filter-reduce"
+      ],
+      "structure": {
+        "missing_dir": [],
+        "missing_public": [
+          "js-ignition-q1-console-and-functions",
+          "js-arrays-q2-map-filter-reduce"
         ],
-        "quests_missing_solutions": [
-          "node-ignition",
-          "node-modules",
-          "node-npm",
-          "node-env-config",
-          "node-async",
-          "node-fs-path",
-          "node-http",
-          "node-middleware",
-          "node-testing",
-          "node-deploy-basics"
+        "missing_solution": [
+          "js-ignition-q1-console-and-functions",
+          "js-arrays-q2-map-filter-reduce"
         ]
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 1,
-          "errors": []
+          "fail": 2,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/2 quests passed."
         },
         "solution": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 1,
-          "errors": []
+          "fail": 2,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/2 quests passed."
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "prism_js",
-      "questpack": "data\\questpacks\\prism_js.json",
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/prism_typescript.json",
       "format": "legacy",
-      "slugs": [],
+      "slugs": [
+        "ts-ignition-q1-types-and-interfaces",
+        "ts-narrowing-q2-unions-and-guards",
+        "ts-generics-q2-result-type"
+      ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [
+          "ts-ignition-q1-types-and-interfaces",
+          "ts-narrowing-q2-unions-and-guards",
+          "ts-generics-q2-result-type"
+        ],
+        "missing_solution": [
+          "ts-ignition-q1-types-and-interfaces",
+          "ts-narrowing-q2-unions-and-guards",
+          "ts-generics-q2-result-type"
+        ]
       },
       "verification": {
         "student": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "prism_typescript",
-      "questpack": "data\\questpacks\\prism_typescript.json",
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/python_systems.json",
       "format": "legacy",
       "slugs": [],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "python_systems",
-      "questpack": "data\\questpacks\\python_systems.json",
-      "format": "legacy",
-      "slugs": [],
-      "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
-      },
-      "verification": {
-        "student": {
-          "ran": false
-        },
-        "solution": {
-          "ran": false
-        }
-      },
-      "status": "NEEDS_UPGRADE"
-    },
-    {
-      "world_key": "react",
-      "questpack": "data\\questpacks\\react_core.json",
+      "world_key": "world-react",
+      "questpack": "data/questpacks/react_core.json",
       "format": "modern",
       "slugs": [
         "react-ignition",
@@ -383,35 +588,44 @@
         "react-reducer-cart"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 1,
+          "fail": 10,
           "errors": [
-            "  code: 'ERR_TEST_FAILURE'",
-            "  code: 'ERR_TEST_FAILURE'",
-            "  code: 'ERR_TEST_FAILURE'",
-            "  code: 'ERR_TEST_FAILURE'",
-            "  code: 'ERR_TEST_FAILURE'"
-          ]
+            "react-ignition: react-ignition.public.test.mjs failed",
+            "react-components: react-components.public.test.mjs failed",
+            "react-props: react-props.public.test.mjs failed",
+            "react-conditional-render: react-conditional-render.public.test.mjs failed",
+            "react-lists: react-lists.public.test.mjs failed",
+            "react-state-counter: react-state-counter.public.test.mjs failed",
+            "react-state-toggle: react-state-toggle.public.test.mjs failed",
+            "react-effects-mount: react-effects-mount.public.test.mjs failed",
+            "react-context-theme: react-context-theme.public.test.mjs failed",
+            "react-reducer-cart: react-reducer-cart.public.test.mjs failed"
+          ],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 quests passed."
         },
         "solution": {
           "ran": true,
-          "pass": 0,
+          "exit_code": 0,
+          "pass": 10,
           "fail": 0,
-          "errors": []
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 10/10 quests passed."
         }
       },
-      "status": "NEEDS_VERIFY"
+      "status": "TRAINING_GRADE"
     },
     {
-      "world_key": "sql",
-      "questpack": "data\\questpacks\\sql_core.json",
+      "world_key": "world-sql",
+      "questpack": "data/questpacks/sql_core.json",
       "format": "modern",
       "slugs": [
         "sql-ignition",
@@ -426,55 +640,98 @@
         "sql-insert-update-delete"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
           "fail": 10,
-          "errors": [
-            "E       AssertionError: assert 1 == 6",
-            "E       AssertionError: assert 1 == 6",
-            "FAILED grading/public/test_sql_select.py::test_sql_select - AssertionError: a...",
-            "E       AssertionError: assert ('TODO',) == (1, 'Alice', 28)",
-            "FAILED grading/public/test_sql_where.py::test_sql_where - AssertionError: ass..."
-          ]
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 public tests passed."
         },
         "solution": {
           "ran": true,
+          "exit_code": 0,
           "pass": 10,
           "fail": 0,
-          "errors": []
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 10/10 public tests passed."
         }
       },
       "status": "TRAINING_GRADE"
     },
     {
-      "world_key": "typescript",
-      "questpack": "data\\questpacks\\typescript_core.json",
+      "world_key": "legacy-derived",
+      "questpack": "data/questpacks/typescript_core.json",
       "format": "legacy",
-      "slugs": [],
+      "slugs": [
+        "ts-ignition",
+        "ts-vars",
+        "ts-types",
+        "ts-control",
+        "ts-arrays",
+        "ts-objects",
+        "ts-functions",
+        "ts-interfaces",
+        "ts-generics",
+        "ts-modules"
+      ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [
+          "ts-ignition",
+          "ts-vars",
+          "ts-types",
+          "ts-control",
+          "ts-arrays",
+          "ts-objects",
+          "ts-functions",
+          "ts-interfaces",
+          "ts-generics",
+          "ts-modules"
+        ],
+        "missing_solution": [
+          "ts-ignition",
+          "ts-vars",
+          "ts-types",
+          "ts-control",
+          "ts-arrays",
+          "ts-objects",
+          "ts-functions",
+          "ts-interfaces",
+          "ts-generics",
+          "ts-modules"
+        ]
       },
       "verification": {
         "student": {
-          "ran": false
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
-          "ran": false
+          "ran": true,
+          "exit_code": 0,
+          "pass": -1,
+          "fail": 0,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: All tests passed (Legacy Mode)."
         }
       },
       "status": "NEEDS_UPGRADE"
     },
     {
-      "world_key": "web",
-      "questpack": "data\\questpacks\\web_core.json",
+      "world_key": "world-web",
+      "questpack": "data/questpacks/web_core.json",
       "format": "modern",
       "slugs": [
         "html-ignition",
@@ -499,35 +756,33 @@
         "css-position-zindex"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 1,
-          "errors": [
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'"
-          ]
+          "fail": 20,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/20 public tests passed."
         },
         "solution": {
           "ran": true,
-          "pass": 0,
-          "fail": 1,
-          "errors": []
+          "exit_code": 0,
+          "pass": 20,
+          "fail": 0,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 20/20 public tests passed."
         }
       },
-      "status": "NEEDS_VERIFY"
+      "status": "TRAINING_GRADE"
     },
     {
-      "world_key": "web_css",
-      "questpack": "data\\questpacks\\web_css_core.json",
+      "world_key": "world-web",
+      "questpack": "data/questpacks/web_css_core.json",
       "format": "modern",
       "slugs": [
         "css-ignition",
@@ -542,35 +797,33 @@
         "css-position-zindex"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 1,
-          "errors": [
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'"
-          ]
+          "fail": 10,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 public tests passed."
         },
         "solution": {
           "ran": true,
-          "pass": 0,
-          "fail": 1,
-          "errors": []
+          "exit_code": 0,
+          "pass": 10,
+          "fail": 0,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 10/10 public tests passed."
         }
       },
-      "status": "NEEDS_VERIFY"
+      "status": "TRAINING_GRADE"
     },
     {
-      "world_key": "web_html",
-      "questpack": "data\\questpacks\\web_html_core.json",
+      "world_key": "world-web",
+      "questpack": "data/questpacks/web_html_core.json",
       "format": "modern",
       "slugs": [
         "html-ignition",
@@ -585,28 +838,30 @@
         "html-debug-validate"
       ],
       "structure": {
-        "quests_missing_data_dir": [],
-        "quests_missing_public_tests": [],
-        "quests_missing_solutions": []
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 1,
+          "fail": -1,
           "errors": [
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'",
-            "  code: 'ERR_ASSERTION'"
-          ]
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         },
         "solution": {
           "ran": true,
+          "exit_code": 1,
           "pass": 0,
-          "fail": 1,
-          "errors": []
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         }
       },
       "status": "NEEDS_VERIFY"

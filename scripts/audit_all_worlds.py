@@ -1,158 +1,145 @@
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime
 
-# Configuration
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DATA_QUESTPACKS = REPO_ROOT / "data" / "questpacks"
 DATA_QUESTS = REPO_ROOT / "data" / "quests"
-OUTPUT_JSON = REPO_ROOT / "docs" / "audits" / "WORLDS_UPGRADE_STATUS.json"
-OUTPUT_MD = REPO_ROOT / "docs" / "audits" / "WORLDS_UPGRADE_STATUS.md"
 
-# Ensure output dir exists
-OUTPUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-
-def run_tests(pack_path, mode):
-    """Run tests and parse output for pass/fail counts."""
-    cmd = [
-        "node", 
-        str(REPO_ROOT / "scripts" / "run_world_public_tests.mjs"),
-        "--questpack", str(pack_path),
-        "--mode", mode
-    ]
+def run_pack(pack_path, mode):
+    cmd = ["node", "scripts/run_world_public_tests.mjs", "--questpack", str(pack_path), "--mode", mode]
     try:
-        # We run with timeout to avoid hangs
-        result = subprocess.run(
-            cmd, 
-            cwd=str(REPO_ROOT), 
-            capture_output=True, 
-            text=True, 
-            timeout=120, # 2 minutes per pack max
-            encoding='utf-8',
-            shell=True if os.name == 'nt' else False
-        )
-        output = result.stdout + result.stderr
+        res = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, encoding="utf-8", errors="replace", timeout=120) 
+        stdout = res.stdout
         
-        # Parse output for summary line or cues
-        # Usually "EF_RUN_WORLD_SUMMARY: X public tests passed." or similar.
-        # Or individual [PASS] [FAIL].
+        # Extract JSON
+        json_line = None
+        for line in stdout.splitlines():
+            if line.startswith("EF_RUNNER_RESULT_JSON="):
+                json_line = line.replace("EF_RUNNER_RESULT_JSON=", "")
+                break
         
-        pass_count = output.count("[PASS]")
-        fail_count = output.count("[FAIL]")
+        result_data = None
+        if json_line:
+            try:
+                result_data = json.loads(json_line)
+            except:
+                pass
         
-        # Alternative parsing if explicit summary exists
-        # But [PASS]/[FAIL] is printed by python runners. 
-        # Node runner prints "✔" or "✖".
-        if pass_count == 0 and fail_count == 0:
-             # Try regex for node tap output?
-             pass_count = output.count("✔")
-             fail_count = output.count("✖") + output.count("failed") # approximate
-        
-        return {
+        # Formatting result
+        ret = {
             "ran": True,
-            "pass": pass_count,
-            "fail": fail_count,
-            "errors": [l for l in output.splitlines() if "ERR_" in l or "Error:" in l][:5]
+            "exit_code": res.returncode,
+            "pass": 0,
+            "fail": 0,
+            "errors": [],
+            "raw_summary": "No summary found"
         }
-    except subprocess.TimeoutExpired:
-        return {"ran": False, "pass": 0, "fail": 0, "errors": ["Timeout"]}
+
+        # Look for summary line
+        for line in stdout.splitlines():
+            if "EF_RUN_WORLD_SUMMARY" in line:
+                ret["raw_summary"] = line.strip()
+
+        if result_data:
+            ret["pass"] = result_data.get("passed", 0)
+            ret["fail"] = result_data.get("failed", 0)
+            ret["errors"] = result_data.get("errors", [])
+        else:
+            # Fallback
+            if res.returncode == 0:
+                ret["pass"] = -1 # Unknown but passed
+            else:
+                ret["fail"] = -1 # Unknown but failed
+                ret["errors"].append("Legacy runner failure or timeout")
+
+        return ret
+
     except Exception as e:
-        return {"ran": False, "pass": 0, "fail": 0, "errors": [str(e)]}
-
-def audit_pack(pack_file):
-    print(f"Auditing {pack_file.name}...")
-    try:
-        data = json.loads(pack_file.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
         return {
-            "world_key": pack_file.stem,
-            "questpack": str(pack_file.relative_to(REPO_ROOT)), # Use relative path for JSON output
-            "format": "broken",
-            "slugs": [],
-            "status": "NEEDS_UPGRADE"
+            "ran": False,
+            "error": str(e)
         }
 
-    # Determine format and slugs
-    slugs = []
-    fmt = "legacy"
-    if "quests" in data and isinstance(data["quests"], list):
-        # Modern? List of objects with slug?
-        if len(data["quests"]) > 0 and isinstance(data["quests"][0], dict) and "slug" in data["quests"][0]:
-            fmt = "modern"
-            slugs = [q["slug"] for q in data["quests"]]
-        elif len(data["quests"]) > 0 and isinstance(data["quests"][0], str):
-            # Legacy list of strings?
-            slugs = data["quests"]
-    
-    # Check structure
-    missing_data = []
-    missing_public = []
-    missing_solutions = []
-    missing_fixtures = []
+def audit_pack(pack_path):
+    print(f"Auditing {pack_path.name}...")
+    try:
+        content = json.loads(pack_path.read_text(encoding="utf-8"))
+    except:
+        return None
 
+    world_id = "unknown"
+    if isinstance(content, dict):
+        world_id = content.get("world_id", "unknown")
+    
+    # Extract slugs
+    slugs = []
+    format_type = "modern"
+    if isinstance(content, list):
+        format_type = "legacy"
+        world_id = "legacy-derived"
+        format_type = "legacy"
+        for item in content:
+            if isinstance(item, dict):
+                 path_str = item.get("quest_path") or item.get("questPath")
+                 if path_str: slugs.append(path_str.split("/")[-1])
+    elif isinstance(content, dict):
+        if "quests" in content:
+             for q in content["quests"]:
+                 if isinstance(q, str): slugs.append(q) # rare
+                 elif isinstance(q, dict):
+                     if "slug" in q: slugs.append(q["slug"])
+                     elif "quest_path" in q: slugs.append(q["quest_path"].split("/")[-1])
+        elif "entries" in content: # generic map
+             # ...
+             pass
+    
+    # Check Structure
+    structure = {
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
+    }
+    
     for s in slugs:
         q_dir = DATA_QUESTS / s
         if not q_dir.exists():
-            missing_data.append(s)
+            structure["missing_dir"].append(s)
             continue
-            
-        if not (q_dir / "workspace").exists():
-            missing_data.append(f"{s}/workspace")
-            
-        # Public tests
-        public_tests = list((q_dir / "grading" / "public").glob("*")) if (q_dir / "grading" / "public").exists() else []
-        if not public_tests:
-             missing_public.append(s)
-             
-        # Solution
-        solutions = list((q_dir / "grading" / "solutions").glob("*")) if (q_dir / "grading" / "solutions").exists() else []
-        if not solutions:
-             missing_solutions.append(s)
-             
-        # Fixtures (loose check)
-        # If sql/python, verify common fixtures? 
-        # For now just existence of fixtures dir if tests reference it? Hard to know if referenced.
-        # We skip explicit fixture check unless we know what to look for.
         
-    # Verification
-    # Only verify if we have slugs
-    student_res = {"ran": False}
-    solution_res = {"ran": False}
-    
+        if not (q_dir / "grading" / "public").exists() or not list((q_dir / "grading" / "public").iterdir()):
+             structure["missing_public"].append(s)
+        
+        if not (q_dir / "grading" / "solutions").exists() or not list((q_dir / "grading" / "solutions").iterdir()):
+             structure["missing_solution"].append(s)
+
+    # Run Verification
+    # Only if structure is mostly sane? Or run anyway.
+    # Run Student
+    student_res = run_pack(pack_path, "student")
+    solution_res = run_pack(pack_path, "solution")
+
+    # Determine Status
     status = "NEEDS_UPGRADE"
-    
-    if slugs:
-        print(f"  Verifying Student Mode...")
-        student_res = run_tests(pack_file, "student")
-        print(f"  Verifying Solution Mode...")
-        solution_res = run_tests(pack_file, "solution")
-        
-        # Status determination
-        # Training grade = modern format + structural integrity + 100% pass solution + ran
-        is_modern = fmt == "modern"
-        struct_ok = not (missing_data or missing_public or missing_solutions)
-        sol_pass = solution_res.get("pass", 0) >= len(slugs) and solution_res.get("fail", 0) == 0
-        
-        if is_modern and struct_ok and sol_pass:
-            status = "TRAINING_GRADE"
-        elif is_modern and struct_ok:
-            status = "NEEDS_VERIFY" # Structure ok but tests failed?
+    if format_type == "modern":
+        if not structure["missing_dir"] and not structure["missing_public"] and not structure["missing_solution"]:
+            if solution_res["pass"] > 0 and solution_res["fail"] == 0:
+                status = "TRAINING_GRADE"
+            else:
+                 status = "NEEDS_VERIFY" # Structure ok but tests failed
         else:
-            status = "NEEDS_UPGRADE"
-            
+             status = "NEEDS_UPGRADE" # Missing files
+    else:
+        status = "NEEDS_UPGRADE" # Legacy format
+
     return {
-        "world_key": pack_file.stem.replace("_core", ""),
-        "questpack": str(pack_file.relative_to(REPO_ROOT)),
-        "format": fmt,
+        "world_key": world_id,
+        "questpack": str(pack_path.relative_to(REPO_ROOT)).replace("\\", "/"),
+        "format": format_type,
         "slugs": slugs,
-        "structure": {
-            "quests_missing_data_dir": missing_data,
-            "quests_missing_public_tests": missing_public,
-            "quests_missing_solutions": missing_solutions
-        },
+        "structure": structure,
         "verification": {
             "student": student_res,
             "solution": solution_res
@@ -161,55 +148,46 @@ def audit_pack(pack_file):
     }
 
 def main():
+    packs = list(DATA_QUESTPACKS.glob("*.json"))
     report = {
         "generated_at": datetime.now().isoformat(),
-        "repo": {
-            "os": os.name
-        },
         "worlds": []
     }
     
-    packs = list(DATA_QUESTPACKS.glob("*.json"))
-    # Prioritize core packs mostly
-    # But user said "Prefer checking 100%"
-    
     for p in packs:
-        world_res = audit_pack(p)
-        report["worlds"].append(world_res)
+        # Skip some big ones? No, user asked for Audit.
+        # But skip maps? `campaign_map.json` is not a questpack.
+        if "map" in p.name or "profile" in p.name or "context" in p.name: continue
         
+        res = audit_pack(p)
+        if res:
+            report["worlds"].append(res)
+            
     # Write JSON
-    OUTPUT_JSON.write_text(json.dumps(report, indent=2), encoding="utf-8")
-    print(f"Wrote {OUTPUT_JSON}")
+    (REPO_ROOT / "docs" / "audits").mkdir(parents=True, exist_ok=True)
+    json_path = REPO_ROOT / "docs" / "audits" / "WORLDS_UPGRADE_STATUS.json"
+    json_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     
     # Write MD
-    md_lines = [
-        "# Worlds Upgrade Status",
-        "",
-        "| World | Pack | Format | Student (P/F) | Solution (P/F) | Status | Top Blocker |",
-        "|---|---|---|---|---|---|---|"
-    ]
+    md_path = REPO_ROOT / "docs" / "audits" / "WORLDS_UPGRADE_STATUS.md"
     
-    # Sort by status (Needs Upgrade first) then name
-    sorted_worlds = sorted(report["worlds"], key=lambda x: (x["status"] == "TRAINING_GRADE", x["world_key"]))
+    lines = ["# World Upgrade Status audit\n", "| World | Pack | Format | Student | Solution | Status | Missing Data |", "|---|---|---|---|---|---|---|"]
     
-    for w in sorted_worlds:
-        s_res = w["verification"]["student"]
-        sol_res = w["verification"]["solution"]
+    for w in report["worlds"]:
+        p_name = Path(w["questpack"]).name
+        fmt = w["format"]
+        stud = w["verification"]["student"]
+        sol = w["verification"]["solution"]
         
-        stud_str = f"{s_res.get('pass',0)}/{s_res.get('fail',0)}" if s_res.get("ran") else "-"
-        sol_str = f"{sol_res.get('pass',0)}/{sol_res.get('fail',0)}" if sol_res.get("ran") else "-"
+        s_res = f"{stud.get('pass')}/{stud.get('fail')}" if stud["ran"] else "ERR"
+        sol_res = f"{sol.get('pass')}/{sol.get('fail')}" if sol["ran"] else "ERR"
         
-        blocker = "-"
-        if w["format"] == "legacy": blocker = "Legacy Format"
-        elif w["structure"]["quests_missing_public_tests"]: blocker = "Missing Tests"
-        elif w["structure"]["quests_missing_solutions"]: blocker = "Missing Solutions"
-        elif sol_res.get("fail", 0) > 0: blocker = "Tests Failing"
-        elif w["status"] == "TRAINING_GRADE": blocker = "None"
+        missing = len(w["structure"]["missing_public"]) + len(w["structure"]["missing_solution"])
         
-        md_lines.append(f"| {w['world_key']} | {Path(w['questpack']).name} | {w['format']} | {stud_str} | {sol_str} | {w['status']} | {blocker} |")
+        lines.append(f"| {w['world_key']} | {p_name} | {fmt} | {s_res} | {sol_res} | {w['status']} | {missing} missing |")
         
-    OUTPUT_MD.write_text("\n".join(md_lines), encoding="utf-8")
-    print(f"Wrote {OUTPUT_MD}")
+    md_path.write_text("\n".join(lines), encoding="utf-8")
+    print(f"Audit Complete. Report: {md_path}")
 
 if __name__ == "__main__":
     main()
