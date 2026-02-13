@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-13T13:09:17.075969",
+  "generated_at": "2026-02-13T15:22:03.439136",
   "worlds": [
     {
       "world_key": "legacy-derived",
@@ -141,23 +141,16 @@
       ],
       "structure": {
         "missing_dir": [
-          "git-ignition",
-          "git-status-diff",
           "git-branch-merge",
           "git-remote-push",
-          "git-undo-revert",
           "git-tag-release",
           "git-rebase-linear"
         ],
         "missing_public": [
-          "git-init-clone",
-          "git-add-commit",
-          "git-stash"
+          "git-init-clone"
         ],
         "missing_solution": [
-          "git-init-clone",
-          "git-add-commit",
-          "git-stash"
+          "git-init-clone"
         ]
       },
       "verification": {
@@ -173,11 +166,13 @@
         },
         "solution": {
           "ran": true,
-          "exit_code": 0,
-          "pass": -1,
-          "fail": 0,
-          "errors": [],
-          "raw_summary": "EF_RUN_WORLD_SUMMARY: All tests passed (Legacy Mode)."
+          "exit_code": 1,
+          "pass": 0,
+          "fail": -1,
+          "errors": [
+            "Legacy runner failure or timeout"
+          ],
+          "raw_summary": "No summary found"
         }
       },
       "status": "NEEDS_UPGRADE"
@@ -853,21 +848,17 @@
           "ran": true,
           "exit_code": 1,
           "pass": 0,
-          "fail": -1,
-          "errors": [
-            "Legacy runner failure or timeout"
-          ],
-          "raw_summary": "No summary found"
+          "fail": 10,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 public tests passed."
         },
         "solution": {
           "ran": true,
           "exit_code": 1,
           "pass": 0,
-          "fail": -1,
-          "errors": [
-            "Legacy runner failure or timeout"
-          ],
-          "raw_summary": "No summary found"
+          "fail": 10,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 public tests passed."
         }
       },
       "status": "NEEDS_VERIFY"
@@ -921,58 +912,40 @@
       "format": "modern",
       "slugs": [
         "git-ignition",
-        "git-init-clone",
-        "git-add-commit",
         "git-status-diff",
-        "git-branch-merge",
-        "git-remote-push",
+        "git-add-commit",
+        "git-branches",
+        "git-merge-conflict",
+        "git-log",
         "git-undo-revert",
         "git-stash",
-        "git-tag-release",
-        "git-rebase-linear"
+        "git-tags",
+        "git-rebase-onto-main"
       ],
       "structure": {
-        "missing_dir": [
-          "git-ignition",
-          "git-status-diff",
-          "git-branch-merge",
-          "git-remote-push",
-          "git-undo-revert",
-          "git-tag-release",
-          "git-rebase-linear"
-        ],
-        "missing_public": [
-          "git-init-clone",
-          "git-add-commit",
-          "git-stash"
-        ],
-        "missing_solution": [
-          "git-init-clone",
-          "git-add-commit",
-          "git-stash"
-        ]
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
       },
       "verification": {
         "student": {
           "ran": true,
           "exit_code": 1,
           "pass": 0,
-          "fail": -1,
-          "errors": [
-            "Legacy runner failure or timeout"
-          ],
-          "raw_summary": "No summary found"
+          "fail": 10,
+          "errors": [],
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 0/10 public tests passed."
         },
         "solution": {
           "ran": true,
           "exit_code": 0,
-          "pass": -1,
+          "pass": 10,
           "fail": 0,
           "errors": [],
-          "raw_summary": "EF_RUN_WORLD_SUMMARY: All tests passed (Legacy Mode)."
+          "raw_summary": "EF_RUN_WORLD_SUMMARY: 10/10 public tests passed."
         }
       },
-      "status": "NEEDS_UPGRADE"
+      "status": "TRAINING_GRADE"
     },
     {
       "world_key": "world-javascript",

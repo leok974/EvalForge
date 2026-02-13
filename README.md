@@ -69,3 +69,28 @@ The platform is covered by a comprehensive test suite (Backend + Frontend + E2E)
 # Run all tests
 ./scripts/test_all.ps1
 ```
+
+## ✅ World Verification
+
+EvalForge maintains a "Training-Grade" standard for its quest content.
+
+### Verify All Modern Worlds
+To run the full verification suite (checking both solution and student modes against the canonical snapshot):
+
+```bash
+python scripts/verify_all_modern_worlds.py
+```
+
+This generates a report in `docs/audits/FINAL_SWEEP_VERIFICATION.md`.
+
+### CI Guard
+The repository is protected by a regression guard that enforces strict adherence to the [Training-Grade Snapshot](./docs/audits/TRAINING_GRADE_SNAPSHOT.json).
+
+```bash
+python scripts/ci_check_modern_worlds.py
+```
+
+**Policy:**
+*   **Solution Mode:** MUST be 100% passing.
+*   **Student Mode:** MUST match the snapshot state (preventing unintended fixes or breaks).
+
