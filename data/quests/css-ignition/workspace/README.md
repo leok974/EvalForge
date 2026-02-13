@@ -1,6 +1,14 @@
 # CSS Ignition: Your First Styles
-        
+
+Edit `style.css`.
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+1) body:
+   - background: #111
+   - color: #eee
+   - font-family: system-ui
+2) .container:
+   - max-width: 800px
+   - margin: 0 auto
+3) h1:
+   - font-size: 2rem

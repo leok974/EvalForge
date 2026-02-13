@@ -1,6 +1,8 @@
 # Cascade & Inheritance
-        
+
+Edit `style.css`.
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+1) body sets color: #222
+2) p sets color: inherit
+3) .muted sets color: #666

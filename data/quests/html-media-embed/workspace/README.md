@@ -1,6 +1,7 @@
 # Media & Embeds
-        
+
+Edit `index.html`.
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+1) `<video data-testid="demo-video" controls>` with `<source src="media/demo.mp4" type="video/mp4">`
+2) `<iframe data-testid="embed" src="https://example.com/embed" title="Demo Embed"></iframe>`

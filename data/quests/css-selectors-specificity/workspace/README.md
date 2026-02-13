@@ -1,6 +1,8 @@
 # Selectors & Specificity
-        
+
+Edit `style.css`.
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+1) `.btn` sets padding: 10px
+2) `.btn.primary` sets background: #4f46e5
+3) `#cta.btn.primary` sets border: 2px solid #fff

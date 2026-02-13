@@ -267,6 +267,21 @@ if (slugs.length === 0) {
     process.exit(2);
 }
 
+const looksWeb = (questpackPath, slugs) => {
+    const base = path.basename(questpackPath).toLowerCase();
+    if (base.includes("web_html_core") || base.includes("web_css_core")) return true;
+    if (base.startsWith("web_")) return true;
+    return slugs.some((s) => s.startsWith("html-") || s.startsWith("css-"));
+};
+
+if (looksWeb(questpackPath, slugs)) {
+    const args = ["scripts/run_web_questpack.mjs", "--questpack", questpackPath, "--mode", arg("--mode") || "student"];
+    const onlySlug = arg("--only-slug");
+    if (onlySlug) args.push("--only-slug", onlySlug);
+    const code = spawnSync(process.execPath, args, { stdio: "inherit" });
+    process.exit(code.status ?? 1);
+}
+
 function listPublicTests(slug) {
     const qDir = path.join(root, "data", "quests", slug);
     const pubDir = path.join(qDir, "grading", "public");

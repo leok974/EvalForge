@@ -1,6 +1,10 @@
 # The Box Model
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+
+Edit `style.css`.
+
+Requirements for `.box`:
+- width: 200px
+- padding: 16px
+- border: 2px solid #000
+- margin: 12px
+- box-sizing: border-box

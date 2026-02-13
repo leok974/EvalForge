@@ -1,6 +1,8 @@
 # Positioning & Z-Index
-        
+
+Edit `style.css`.
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+- .modal: position fixed; inset 0; z-index 1000
+- .tooltip: position absolute; z-index 1100
+- .fab: position fixed; right 16px; bottom 16px

@@ -1,6 +1,8 @@
 # Grid Layout
-        
+
+Edit `style.css`.
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+- .grid display: grid
+- .grid grid-template-columns: repeat(3, 1fr)
+- .grid gap: 12px

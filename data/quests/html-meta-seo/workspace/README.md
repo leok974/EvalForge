@@ -1,6 +1,9 @@
 # Metadata & SEO Basics
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+
+Edit `index.html`.
+
+Requirements in `<head>`:
+1) `<title>EvalForge Web Quest</title>`
+2) `<meta name="description" content="EvalForge web training quest.">`
+3) `<link rel="canonical" href="https://example.com/quest">`
+4) `<meta property="og:title" content="EvalForge">`

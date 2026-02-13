@@ -1,6 +1,9 @@
 # Flexbox Layout
-        
+
+Edit `style.css`.
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+- .row display: flex
+- .row justify-content: space-between
+- .row align-items: center
+- .row gap: 12px

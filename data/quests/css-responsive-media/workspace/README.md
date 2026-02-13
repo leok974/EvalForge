@@ -1,6 +1,11 @@
 # Responsive Design & Media Queries
-        
+
+Edit `style.css`.
+
 Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+1) Base:
+   - .row display: flex
+   - .grid has 3 columns
+2) In `@media (max-width: 600px)`:
+   - .row flex-direction: column
+   - .grid grid-template-columns: 1fr
