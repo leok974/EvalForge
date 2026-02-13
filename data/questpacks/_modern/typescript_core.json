@@ -14,7 +14,7 @@
                 "files_from": "../../quests/ts-ignition/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-vars",
@@ -26,7 +26,7 @@
                 "files_from": "../../quests/ts-vars/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-types",
@@ -38,7 +38,7 @@
                 "files_from": "../../quests/ts-types/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-control",
@@ -50,7 +50,7 @@
                 "files_from": "../../quests/ts-control/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-arrays",
@@ -62,7 +62,7 @@
                 "files_from": "../../quests/ts-arrays/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-objects",
@@ -74,7 +74,7 @@
                 "files_from": "../../quests/ts-objects/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-functions",
@@ -86,7 +86,7 @@
                 "files_from": "../../quests/ts-functions/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-interfaces",
@@ -98,7 +98,7 @@
                 "files_from": "../../quests/ts-interfaces/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-generics",
@@ -110,7 +110,7 @@
                 "files_from": "../../quests/ts-generics/workspace"
             },
             "language": "javascript",
-            "content_source": "legacy_wrapper"
+            "content_source": "modern_upgrade"
         },
         {
             "slug": "ts-modules",

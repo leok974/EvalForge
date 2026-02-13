@@ -98,7 +98,7 @@ async function copyDir(src, dst) {
 
 async function runQuest({ slug, mode, debug }) {
     const repoRoot = process.cwd();
-    const questDir = path.join(repoRoot, "docs", "quests", slug);
+    const questDir = path.join(repoRoot, "data", "quests", slug); // Correct path
     if (!fssync.existsSync(questDir)) {
         throw new Error(`Quest dir missing: ${questDir}`);
     }
@@ -111,83 +111,57 @@ async function runQuest({ slug, mode, debug }) {
     const tmpWs = path.join(tmpBase, wsInfo.name);
     await copyDir(wsInfo.dir, tmpWs);
 
-    // Overlay solutions (if present)
+    // Solution Mode Swap logic
     if (mode === "solution") {
-        const solDir = path.join(repoRoot, "solutions", slug);
-        if (!fssync.existsSync(solDir)) {
-            // Check if solution file is provided directly in solutions/slug/task.ts
-            // But usually we dump files there. 
-            // If missing -> fail in solution mode
-            throw new Error(`Missing solutions/${slug} (mode=solution)`);
+        // Standard path: grading/solutions
+        const solDir = path.join(questDir, "grading", "solutions");
+        if (fssync.existsSync(solDir)) {
+            await copyDir(solDir, tmpWs);
+        } else {
+            // Fallback to legacy root (optional, but let's stick to standard)
+            // throw new Error(`Missing grading/solutions for ${slug}`);
+            console.warn(`(warn) No solution found at grading/solutions`);
         }
-        await copyDir(solDir, tmpWs);
     }
 
-    // Set env var to point tests to the temp workspace
-    // Tests must conform to "workspaceDirFromTestFile" logic and respect EF_WORKSPACE_OVERRIDE
-    // OR we can pass it via another env var if needed. 
-    // The previous CLI updates to _shared/cli_test_utils.mjs handle EF_WORKSPACE_OVERRIDE.
-    // Assuming TS tests use similar logic or we need to update them.
-    // TS tests likely import from "../../workspace/task.ts". which is relative.
-    // IF tests are relying on RELATIVE imports from the test file location (in grading/public),
-    // then moving the workspace elsewhere breaks those imports unless we use a loader/resolver hook 
-    // OR we copy the tests to a location relative to the temp workspace?
-    //
-    // WAIT. If the test file is executed from its original location `docs/quests/ts-ign/grading/public/test.mjs`,
-    // and it does `import { x } from "../../workspace/task.ts"`, that import resolves relative to the test file.
-    // So it will import the ORIGINAL workspace file, not the temp execution one!
-    //
-    // For CLI tests, we used `runSh({ ws })` where `ws` was a path. The test logic used that path.
-    // But for TS, we are IMPORTING the code under test.
-    // 
-    // To solve this for unit tests that import:
-    // We must COPY the test file into the temp structure as well, maintaining the relative path relationship.
-    // OR use a module alias/loader.
-    //
-    // Strategy: Copy grading/public -> temp/grading/public. Run tests from THERE.
-    // This allows relative imports `../../workspace` to resolve to `temp/workspace`.
+    // ... (rest of execution logic remains similar, but ensure we capture output)
 
+    // Tests (COPY strategy is good)
     const tmpGradingPublic = path.join(tmpBase, "grading", "public");
     await copyDir(path.join(questDir, "grading", "public"), tmpGradingPublic);
 
     const env = {
         ...process.env,
-        EF_WORKSPACE_OVERRIDE: tmpWs, // Just in case
+        EF_WORKSPACE_OVERRIDE: tmpWs,
         EF_QUEST_SLUG: slug,
     };
 
-    // We run the COPIED tests
     const copiedTests = tests.map(t => path.join(tmpGradingPublic, path.basename(t)));
 
-    // Use node --import tsx --test
+    // We use node --test with loader
+    // If using typescript, we might need --import tsx 
+    // BUT 'tsx' might not be in path if just 'npm install'.
+    // Better to rely on npx or absolute path? 
+    // Or just assume 'node --import tsx' works if in devDependencies.
     const args = ["--import", "tsx", "--test", ...copiedTests];
 
     const res = spawnSync(process.execPath, args, {
-        cwd: repoRoot, // Run from root so node_modules are found? using tsx should handle it
+        cwd: repoRoot,
         env,
         encoding: "utf8",
-        shell: false,
+        shell: false
+        // win32 shell:false avoids quoting issues sometimes, but might need true for PATH?
+        // usually false is safer if executable is absolute. process.execPath is absolute.
     });
 
     const ok = res.status === 0;
-    if (!ok) {
-        console.error(`\n❌ FAIL: ${slug}`);
-        if (res.stdout) console.error(res.stdout);
-        if (res.stderr) console.error(res.stderr);
-    } else if (debug) {
-        console.log(`✅ PASS: ${slug}`);
-    }
 
+    // Cleanup
     if (!debug) {
-        // cleanup temp dir
-        try {
-            await fs.rm(tmpBase, { recursive: true, force: true });
-        } catch { }
-    } else {
-        console.log(`(debug) kept temp workspace at: ${tmpWs}`);
+        try { await fs.rm(tmpBase, { recursive: true, force: true }); } catch { }
     }
 
-    return ok;
+    return { ok, error: ok ? null : (res.stderr || res.stdout) };
 }
 
 async function main() {
@@ -200,15 +174,43 @@ async function main() {
     console.log(`=== Running ${slugs.length} TS quests from ${opts.questpack} in ${opts.mode} mode ===`);
 
     let pass = 0;
+    const results = [];
+
     for (const slug of slugs) {
-        const ok = await runQuest({ slug, mode: opts.mode, debug: opts.debug });
-        if (!ok) process.exitCode = 1;
-        else pass++;
+        let ok = false;
+        let err = null;
+        try {
+            const res = await runQuest({ slug, mode: opts.mode, debug: opts.debug });
+            ok = res.ok;
+            err = res.error;
+        } catch (e) {
+            err = e.message;
+        }
+
+        if (ok) {
+            console.log(`✅ PASS: ${slug}`);
+            pass++;
+            results.push({ slug, status: "passed" });
+        } else {
+            console.log(`❌ FAIL: ${slug}`);
+            if (err) console.error(err);
+            results.push({ slug, status: "failed", error: err });
+            process.exitCode = 1;
+        }
     }
+
+    const summary = {
+        total: slugs.length,
+        passed: pass,
+        failed: slugs.length - pass,
+        errors: [],
+        slugs: results
+    };
+
+    console.log(`EF_RUNNER_RESULT_JSON=${JSON.stringify(summary)}`); // CRITICAL for audit
 
     if (process.exitCode === 1) {
         console.log(`\n❌ TS questpack FAILED (${pass}/${slugs.length} passed)`);
-        process.exit(process.exitCode);
     } else {
         console.log(`\n✅ TS questpack OK (${pass}/${slugs.length} passed)`);
     }

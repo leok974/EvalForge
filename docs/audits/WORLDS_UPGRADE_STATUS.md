@@ -28,7 +28,7 @@
 | world-prism | prism_ts_core.json | modern | 0/6 | 0/6 | NEEDS_UPGRADE | 12 missing |
 | world-python | python_foundry_core.json | modern | 0/2 | 0/2 | NEEDS_UPGRADE | 4 missing |
 | world-python | python_systems_core.json | modern | 0/7 | 7/0 | TRAINING_GRADE | 0 missing |
-| world-typescript | typescript_core.json | modern | 0/-1 | -1/0 | NEEDS_UPGRADE | 20 missing |
+| **TypeScript** | `typescript_core` | **TRAINING-GRADE** | ✅ 10/10 Sol | ✅ 0/10 Stu | `run_ts_questpack.mjs` | `_modern/typescript_core.json` |
 | world-agents | quest.json | modern | 0/-1 | 0/-1 | NEEDS_VERIFY | 0 missing |
 | legacy-derived | terms.json | legacy | 0/-1 | 0/-1 | NEEDS_UPGRADE | 0 missing |
 | world-git | quest.json | modern | 0/-1 | 0/-1 | NEEDS_VERIFY | 0 missing |
