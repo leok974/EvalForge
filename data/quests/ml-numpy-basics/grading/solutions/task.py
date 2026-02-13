@@ -1,9 +1,8 @@
 import numpy as np
 
-def normalize_minmax(x: np.ndarray) -> np.ndarray:
-    x = np.asarray(x)
-    xmin = float(np.min(x))
-    xmax = float(np.max(x))
-    if xmax == xmin:
-        return np.zeros_like(x, dtype=float)
-    return (x - xmin) / (xmax - xmin)
+def normalize(arr):
+    arr = np.asarray(arr, dtype=float)
+    mi, ma = arr.min(), arr.max()
+    if mi == ma:
+        return np.zeros_like(arr)
+    return (arr - mi) / (ma - mi)

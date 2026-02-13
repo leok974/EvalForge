@@ -1,7 +1,3 @@
-# Pandas DataFrames — Load + Aggregate
+# Pandas Dataframes
 
-You have `fixtures/people.csv`.
-
-Implement:
-- `load_people(csv_path) -> DataFrame`
-- `average_age_by_city(df) -> Series` (mean age by city), sorted by city name ascending
+Load CSV and compute mean age by city.

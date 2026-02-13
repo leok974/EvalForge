@@ -1,0 +1,128 @@
+{
+    "questpack_id": "ml_core",
+    "title": "Machine Learning Foundations",
+    "world_id": "world-ml",
+    "track_id": "track-ml-foundations",
+    "quests": [
+        {
+            "slug": "ml-ignition",
+            "title": "ML Ignition",
+            "track_id": "track-ml-foundations",
+            "order": 1,
+            "briefing_md": "# ml-ignition\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-ignition/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-numpy-basics",
+            "title": "Numpy Basics",
+            "track_id": "track-ml-foundations",
+            "order": 2,
+            "briefing_md": "# ml-numpy-basics\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-numpy-basics/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-pandas-dataframes",
+            "title": "Pandas Dataframes",
+            "track_id": "track-ml-foundations",
+            "order": 3,
+            "briefing_md": "# ml-pandas-dataframes\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-pandas-dataframes/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-data-preprocessing",
+            "title": "Data Preprocessing",
+            "track_id": "track-ml-foundations",
+            "order": 4,
+            "briefing_md": "# ml-data-preprocessing\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-data-preprocessing/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-train-test-split",
+            "title": "Train Test Split",
+            "track_id": "track-ml-foundations",
+            "order": 5,
+            "briefing_md": "# ml-train-test-split\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-train-test-split/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-linear-regression",
+            "title": "Linear Regression",
+            "track_id": "track-ml-foundations",
+            "order": 6,
+            "briefing_md": "# ml-linear-regression\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-linear-regression/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-classification-basics",
+            "title": "Classification Basics",
+            "track_id": "track-ml-foundations",
+            "order": 7,
+            "briefing_md": "# ml-classification-basics\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-classification-basics/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-model-evaluation",
+            "title": "Model Evaluation",
+            "track_id": "track-ml-foundations",
+            "order": 8,
+            "briefing_md": "# ml-model-evaluation\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-model-evaluation/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-neural-networks-intro",
+            "title": "Neural Networks Intro",
+            "track_id": "track-ml-foundations",
+            "order": 9,
+            "briefing_md": "# ml-neural-networks-intro\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-neural-networks-intro/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ml-overfitting-regularization",
+            "title": "Overfitting & Regularization",
+            "track_id": "track-ml-foundations",
+            "order": 10,
+            "briefing_md": "# ml-overfitting-regularization\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/ml-overfitting-regularization/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        }
+    ]
+}

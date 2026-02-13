@@ -1,21 +1,22 @@
 import pandas as pd
+import numpy as np
 
-def preprocess(df: pd.DataFrame) -> pd.DataFrame:
-    out = df.copy()
-
-    med = out["age"].dropna().median()
-    out["age"] = out["age"].fillna(med)
-
-    out["city"] = out["city"].fillna("Unknown")
-
-    cats = sorted(out["city"].unique().tolist())
-    dummies = pd.get_dummies(out["city"], prefix="city", prefix_sep="__")
-    # Ensure all expected cats exist (including Unknown) and stable order
-    expected = [f"city__{c}" for c in ["Austin", "Chicago", "Detroit", "Unknown"]]
-    for col in expected:
-        if col not in dummies.columns:
-            dummies[col] = 0
-
-    dummies = dummies[expected]
-    out2 = pd.concat([out[["age"]], dummies], axis=1)
-    return out2
+def preprocess(df):
+    df = df.copy()
+    # Impute age
+    median_age = df['age'].median()
+    df['age'] = df['age'].fillna(median_age)
+    
+    # Impute city
+    df['city'] = df['city'].fillna('Unknown')
+    
+    # One-hot
+    df = pd.get_dummies(df, columns=['city'], prefix='city', prefix_sep='__')
+    
+    # Ensure booleans are standard ints/floats if needed, or leave as is
+    # Using ints for consistency
+    for col in df.columns:
+        if col.startswith('city__'):
+            df[col] = df[col].astype(int)
+            
+    return df
