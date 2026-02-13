@@ -1,6 +1,5 @@
-# Observability & SLIs
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Observability SLI
+
+Implement `calculate_sli(good, total)`.
+Return `good / total` as float.
+If total is 0, return 1.0.

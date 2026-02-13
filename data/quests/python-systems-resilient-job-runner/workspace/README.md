@@ -1,6 +1,5 @@
 # Resilient Job Runner
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+
+Implement `run_with_retry(fn, max_retries)`.
+Executes `fn()`. If it raises exception, retry up to `max_retries`.
+If all fail, raise the last exception.

@@ -1,6 +1,5 @@
-# Service Boundaries & Contracts
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Service Boundaries
+
+Define a class `PaymentService`.
+It should have a method `process(amount)`.
+If amount < 0, raise `ValueError`. Else return `True`.

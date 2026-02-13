@@ -24,6 +24,14 @@ from typing import Any, Dict, List, Optional
 # Ensure we can import from arcade_app
 sys.path.append(str(Path(__file__).parent.parent))
 
+# Force UTF-8 for Windows console
+if sys.stdout.encoding.lower() != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except AttributeError:
+        pass
+
 try:
     from arcade_app.services.quest_validate import validate_quest_attempt
 except ImportError:
@@ -69,39 +77,76 @@ def run_quest(
         
         # B. Apply Solution Overlay (if mode=solution)
         if mode == "solution":
-            if not solutions_root:
-                 # Default to repo_root/solutions
-                 solutions_root = Path(__file__).parent.parent / "solutions"
+            # Heuristic: Check for grading/solutions sibling to workspace
+            # If files_from defined, try ../grading/solutions
+            sol_overlay_found = False
             
-            sol_path = solutions_root / slug
-            if sol_path.exists():
-                print(f"   Overlaying solution from {sol_path}")
-                shutil.copytree(sol_path, temp_path, dirs_exist_ok=True)
-            else:
-                print(f"   ⚠️ No solution found at {sol_path}, running as student/starter.")
+            if files_from:
+                files_from_path = (questpack_path.parent / files_from)
+                quest_root = files_from_path.parent
+                sol_dir = quest_root / "grading" / "solutions"
+                if sol_dir.exists():
+                    print(f"   Overlaying solution from {sol_dir}")
+                    shutil.copytree(sol_dir, temp_path, dirs_exist_ok=True)
+                    sol_overlay_found = True
 
-        # 2. Run Entrypoint
-        # Check grading_json for entrypoint, default to main.py
+            if not sol_overlay_found:
+                if not solutions_root:
+                     solutions_root = Path(__file__).parent.parent / "solutions"
+                
+                sol_path = solutions_root / slug
+                if sol_path.exists():
+                    print(f"   Overlaying solution from {sol_path}")
+                    shutil.copytree(sol_path, temp_path, dirs_exist_ok=True)
+                else:
+                    print(f"   ⚠️ No solution found, running as student/starter.")
+
+        # 1.5. Copy Tests (grading/public)
+        # Determine quest directory (parent of workspace path usually)
+        # quest_def doesn't provide absolute path, but workspace.files_from does
+        workspace_conf = quest_def.get("workspace", {})
+        files_from = workspace_conf.get("files_from")
+        if files_from:
+            # ../quests/slug/workspace -> ../quests/slug/grading/public
+            files_from_path = (questpack_path.parent / files_from)
+            quest_root = files_from_path.parent
+            test_dir = quest_root / "grading" / "public"
+            if test_dir.exists():
+                shutil.copytree(test_dir, temp_path, dirs_exist_ok=True)
+                
+        # 2. Run Execution
+        # Priority: pytest if tests exist, else entrypoint
+        
+        # Check for pytest files
+        has_tests = any(f.name.startswith("test_") or f.name.endswith("_test.py") for f in temp_path.glob("*.py"))
+        
         grading = quest_def.get("grading_json", {})
         entrypoint = grading.get("entrypoint", quest_def.get("entrypoint", "main.py"))
-        entry_file = temp_path / entrypoint
         
-        if not entry_file.exists():
-             print(f"   ❌ ERROR: Entrypoint {entrypoint} not found in workspace temp path {temp_path}")
-             return QuestResult(slug, False, [{"error": f"Entrypoint {entrypoint} not found in workspace"}], "", "")
+        cmd = []
+        if has_tests:
+            # Run pytest
+            cmd = [sys.executable, "-m", "pytest", "."]
+        else:
+            # Run entrypoint
+            entry_file = temp_path / entrypoint
+            if not entry_file.exists():
+                 print(f"   ❌ ERROR: Entrypoint {entrypoint} not found and no tests detected.")
+                 return QuestResult(slug, False, [{"error": f"Entrypoint {entrypoint} missing"}], "", "")
+            cmd = [sys.executable, entrypoint]
 
         # Timeout config
         runtime_rules = quest_def.get("runtime_rules_json", {})
-        timeout_s = runtime_rules.get("timeout_ms", 2000) / 1000.0
+        timeout_s = runtime_rules.get("timeout_ms", 5000) / 1000.0 # Increased default
 
         try:
             proc = subprocess.run(
-                [sys.executable, entrypoint],
+                cmd,
                 cwd=temp_path,
                 capture_output=True,
                 text=True,
                 timeout=timeout_s,
-                encoding="utf-8"  # Force utf-8
+                encoding="utf-8"
             )
             stdout = proc.stdout
             stderr = proc.stderr
@@ -115,8 +160,24 @@ def run_quest(
         except Exception as e:
             print(f"   ❌ SUBPROCESS FAILED: {e}")
             return QuestResult(slug, False, [{"error": f"Subprocess execution failed: {e}"}], "", "")
-
-        # 3. Validate
+        
+        # If pytest, pass/fail based on exit code
+        if has_tests:
+            passed = (exit_code == 0)
+            if not passed:
+                print(f"   ❌ FAILED (Pytest exit code {exit_code})")
+                if stdout:
+                    print("      --- STDOUT ---")
+                    print(stdout)
+                    print("      --------------")
+                if stderr:
+                    print("      --- STDERR ---")
+                    print(stderr)
+                    print("      --------------")
+            else:
+                 print(f"   ✅ PASSED")
+            
+            return QuestResult(slug, passed, [{"ok": passed, "id": "pytest", "detail": "Pytest Run"}], stdout, stderr)
         # Mock class for validator expectations
         class MockQuest:
             def __init__(self, d):
@@ -197,14 +258,25 @@ def main():
         sys.exit(1)
         
     with open(qp_path, "r", encoding="utf-8") as f:
-        quests = json.load(f)
+        data = json.load(f)
         
+    quests = []
+    if isinstance(data, list):
+        quests = data
+    elif isinstance(data, dict):
+        if "quests" in data:
+            quests = data["quests"]
+        elif "entries" in data: # map format
+             pass # handle if needed, usually not for running
+        else: # maybe single quest? or invalid
+             pass
+
     # Filter
     if args.only_slug:
-        quests = [q for q in quests if q["slug"] == args.only_slug]
+        quests = [q for q in quests if q.get("slug") == args.only_slug]
         
     if not quests:
-        print("No quests to run.")
+        print("No quests to run or empty pack.")
         sys.exit(0)
 
     print(f"=== Running {len(quests)} quests from {qp_path.name} in {args.mode} mode ===")

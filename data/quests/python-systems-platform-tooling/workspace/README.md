@@ -1,6 +1,5 @@
-# Internal Tooling & DX
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Platform Tooling
+
+Implement `parse_semver(version_str)`.
+Return tuple `(major, minor, patch)` as ints.
+Raise ValueError if invalid format `x.y.z`.

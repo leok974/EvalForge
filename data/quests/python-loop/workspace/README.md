@@ -1,6 +1,3 @@
-# Loop
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Python Loop
+
+Implement `process_numbers(nums)` that returns a list of even numbers multiplied by 2.
