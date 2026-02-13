@@ -1,2 +1,3 @@
-// TODO: Implement solution
-console.log('Hello Node');
+function run() {
+ console.log('Steps: 1');
+}

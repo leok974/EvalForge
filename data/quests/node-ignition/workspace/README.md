@@ -1,6 +1,3 @@
-# Node Ignition: Run Code Like a Runtime
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Node Ignition
+
+Write a Node.js script `index.js` that prints `Hello Node` to stdout.

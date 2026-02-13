@@ -1,6 +1,3 @@
-# HTTP Server: Routes and JSON
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# HTTP Server
+
+Start an HTTP server on port 3000 that responds with `Hello HTTP` to any request.

@@ -1,0 +1,615 @@
+{
+  "generated_at": "2026-02-13T12:10:38.998101",
+  "repo": {
+    "os": "nt"
+  },
+  "worlds": [
+    {
+      "world_key": "agents",
+      "questpack": "data\\questpacks\\agents_core.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "cli",
+      "questpack": "data\\questpacks\\cli_core.json",
+      "format": "modern",
+      "slugs": [
+        "cli-ignition",
+        "cli-navigation",
+        "cli-files-folders",
+        "cli-globs-search",
+        "cli-redirection",
+        "cli-pipes",
+        "cli-env-vars",
+        "cli-exit-codes",
+        "cli-processes",
+        "cli-scripting"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 0,
+          "errors": [
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'"
+          ]
+        },
+        "solution": {
+          "ran": true,
+          "pass": 0,
+          "fail": 0,
+          "errors": []
+        }
+      },
+      "status": "NEEDS_VERIFY"
+    },
+    {
+      "world_key": "foundry_python",
+      "questpack": "data\\questpacks\\foundry_python.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "git",
+      "questpack": "data\\questpacks\\git_core.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "infra",
+      "questpack": "data\\questpacks\\infra_core.json",
+      "format": "modern",
+      "slugs": [
+        "infra-ignition",
+        "infra-ports-and-localhost",
+        "infra-env-config",
+        "infra-healthchecks",
+        "infra-logs-metrics",
+        "infra-docker-compose",
+        "infra-networking-dns",
+        "infra-reverse-proxy",
+        "infra-cors-cookies",
+        "infra-debug-playbook"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": [
+            "    + 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  actual: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'"
+          ]
+        },
+        "solution": {
+          "ran": true,
+          "pass": 0,
+          "fail": 0,
+          "errors": []
+        }
+      },
+      "status": "NEEDS_VERIFY"
+    },
+    {
+      "world_key": "javascript",
+      "questpack": "data\\questpacks\\javascript_core.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "lab_hidden_tests",
+      "questpack": "data\\questpacks\\lab_hidden_tests.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "lab_workspace",
+      "questpack": "data\\questpacks\\lab_workspace.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "ml",
+      "questpack": "data\\questpacks\\ml_core.json",
+      "format": "modern",
+      "slugs": [
+        "ml-ignition",
+        "ml-numpy-basics",
+        "ml-pandas-dataframes",
+        "ml-data-preprocessing",
+        "ml-train-test-split",
+        "ml-linear-regression",
+        "ml-classification-basics",
+        "ml-model-evaluation",
+        "ml-neural-networks-intro",
+        "ml-overfitting-regularization"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 10,
+          "errors": []
+        },
+        "solution": {
+          "ran": true,
+          "pass": 10,
+          "fail": 0,
+          "errors": []
+        }
+      },
+      "status": "TRAINING_GRADE"
+    },
+    {
+      "world_key": "node",
+      "questpack": "data\\questpacks\\node_core.json",
+      "format": "modern",
+      "slugs": [
+        "node-ignition",
+        "node-modules",
+        "node-npm",
+        "node-env-config",
+        "node-async",
+        "node-fs-path",
+        "node-http",
+        "node-middleware",
+        "node-testing",
+        "node-deploy-basics"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [
+          "node-ignition",
+          "node-modules",
+          "node-npm",
+          "node-env-config",
+          "node-async",
+          "node-fs-path",
+          "node-http",
+          "node-middleware",
+          "node-testing",
+          "node-deploy-basics"
+        ],
+        "quests_missing_solutions": [
+          "node-ignition",
+          "node-modules",
+          "node-npm",
+          "node-env-config",
+          "node-async",
+          "node-fs-path",
+          "node-http",
+          "node-middleware",
+          "node-testing",
+          "node-deploy-basics"
+        ]
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": []
+        },
+        "solution": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": []
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "prism_js",
+      "questpack": "data\\questpacks\\prism_js.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "prism_typescript",
+      "questpack": "data\\questpacks\\prism_typescript.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "python_systems",
+      "questpack": "data\\questpacks\\python_systems.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "react",
+      "questpack": "data\\questpacks\\react_core.json",
+      "format": "modern",
+      "slugs": [
+        "react-ignition",
+        "react-components",
+        "react-props",
+        "react-conditional-render",
+        "react-lists",
+        "react-state-counter",
+        "react-state-toggle",
+        "react-effects-mount",
+        "react-context-theme",
+        "react-reducer-cart"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": [
+            "  code: 'ERR_TEST_FAILURE'",
+            "  code: 'ERR_TEST_FAILURE'",
+            "  code: 'ERR_TEST_FAILURE'",
+            "  code: 'ERR_TEST_FAILURE'",
+            "  code: 'ERR_TEST_FAILURE'"
+          ]
+        },
+        "solution": {
+          "ran": true,
+          "pass": 0,
+          "fail": 0,
+          "errors": []
+        }
+      },
+      "status": "NEEDS_VERIFY"
+    },
+    {
+      "world_key": "sql",
+      "questpack": "data\\questpacks\\sql_core.json",
+      "format": "modern",
+      "slugs": [
+        "sql-ignition",
+        "sql-select",
+        "sql-where",
+        "sql-order-limit",
+        "sql-aggregates",
+        "sql-groupby-having",
+        "sql-joins",
+        "sql-left-join-null",
+        "sql-cte-subquery",
+        "sql-insert-update-delete"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 10,
+          "errors": [
+            "E       AssertionError: assert 1 == 6",
+            "E       AssertionError: assert 1 == 6",
+            "FAILED grading/public/test_sql_select.py::test_sql_select - AssertionError: a...",
+            "E       AssertionError: assert ('TODO',) == (1, 'Alice', 28)",
+            "FAILED grading/public/test_sql_where.py::test_sql_where - AssertionError: ass..."
+          ]
+        },
+        "solution": {
+          "ran": true,
+          "pass": 10,
+          "fail": 0,
+          "errors": []
+        }
+      },
+      "status": "TRAINING_GRADE"
+    },
+    {
+      "world_key": "typescript",
+      "questpack": "data\\questpacks\\typescript_core.json",
+      "format": "legacy",
+      "slugs": [],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": false
+        },
+        "solution": {
+          "ran": false
+        }
+      },
+      "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "web",
+      "questpack": "data\\questpacks\\web_core.json",
+      "format": "modern",
+      "slugs": [
+        "html-ignition",
+        "html-tags-attributes",
+        "html-links-images",
+        "html-lists-tables",
+        "html-forms-inputs",
+        "html-semantic-layout",
+        "html-accessibility-basics",
+        "html-media-embed",
+        "html-meta-seo",
+        "html-debug-validate",
+        "css-ignition",
+        "css-selectors-specificity",
+        "css-cascade-inheritance",
+        "css-box-model",
+        "css-units-typography",
+        "css-colors-backgrounds",
+        "css-flexbox",
+        "css-grid",
+        "css-responsive-media",
+        "css-position-zindex"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": [
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'"
+          ]
+        },
+        "solution": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": []
+        }
+      },
+      "status": "NEEDS_VERIFY"
+    },
+    {
+      "world_key": "web_css",
+      "questpack": "data\\questpacks\\web_css_core.json",
+      "format": "modern",
+      "slugs": [
+        "css-ignition",
+        "css-selectors-specificity",
+        "css-cascade-inheritance",
+        "css-box-model",
+        "css-units-typography",
+        "css-colors-backgrounds",
+        "css-flexbox",
+        "css-grid",
+        "css-responsive-media",
+        "css-position-zindex"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": [
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'"
+          ]
+        },
+        "solution": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": []
+        }
+      },
+      "status": "NEEDS_VERIFY"
+    },
+    {
+      "world_key": "web_html",
+      "questpack": "data\\questpacks\\web_html_core.json",
+      "format": "modern",
+      "slugs": [
+        "html-ignition",
+        "html-tags-attributes",
+        "html-links-images",
+        "html-lists-tables",
+        "html-forms-inputs",
+        "html-semantic-layout",
+        "html-accessibility-basics",
+        "html-media-embed",
+        "html-meta-seo",
+        "html-debug-validate"
+      ],
+      "structure": {
+        "quests_missing_data_dir": [],
+        "quests_missing_public_tests": [],
+        "quests_missing_solutions": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": [
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'",
+            "  code: 'ERR_ASSERTION'"
+          ]
+        },
+        "solution": {
+          "ran": true,
+          "pass": 0,
+          "fail": 1,
+          "errors": []
+        }
+      },
+      "status": "NEEDS_VERIFY"
+    }
+  ]
+}

@@ -1,6 +1,4 @@
-# Environment & Config: .env, process.env, Defaults
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Environment Variables
+
+Read `APP_PORT` from environment variables and print `Running on <APP_PORT>`.
+Use default `8080` if not set.

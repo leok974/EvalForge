@@ -1,2 +1,2 @@
-// TODO: Implement solution
-console.log('Hello Node');
+const assert = require('node:assert');
+// TODO

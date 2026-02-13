@@ -221,6 +221,15 @@ def main():
         if not res.passed:
             failures.append(res)
             
+    summary = {
+        "total": len(quests),
+        "passed": len(quests) - len(failures),
+        "failed": len(failures),
+        "errors": [f.stderr[-200:] if f.stderr else "" for f in failures], # snippet of errors
+        "slugs": [{"slug": q["slug"], "status": "failed" if any(f.slug == q["slug"] for f in failures) else "passed"} for q in quests]
+    }
+    print(f"EF_RUNNER_RESULT_JSON={json.dumps(summary)}")
+
     print("\n" + "="*40)
     if failures:
         print(f"❌ FAILED: {len(failures)}/{len(quests)} quests failed.")

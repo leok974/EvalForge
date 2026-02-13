@@ -131,6 +131,15 @@ async function main() {
         }
     }
 
+    const summary = {
+        total: passed + failed,
+        passed,
+        failed,
+        errors: [],
+        slugs: []
+    };
+    console.log(`EF_RUNNER_RESULT_JSON=${JSON.stringify(summary)}`);
+
     console.log(`EF_RUN_WORLD_SUMMARY: passed=${passed} failed=${failed} total=${passed + failed}`);
     process.exit(failed === 0 ? 0 : 1);
 }

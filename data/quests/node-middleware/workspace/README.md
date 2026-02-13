@@ -1,6 +1,4 @@
-# Middleware: Logging, Errors, Request IDs
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Middleware Pattern
+
+Implement `apply(value, fns)` that passes value through an array of functions.
+Each function takes `v` and returns modified `v`.

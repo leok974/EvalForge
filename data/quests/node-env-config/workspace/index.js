@@ -1,2 +1,2 @@
-// TODO: Implement solution
-console.log('Hello Node');
+const port = 3000;
+console.log(`Running on ${port}`);

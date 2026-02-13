@@ -1,6 +1,4 @@
-# Deploy Basics: Start Scripts and Health Checks
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Deploy Basics
+
+Create a `Procfile` with content `web: node index.js`.
+And `index.js` printing `Starting app...`

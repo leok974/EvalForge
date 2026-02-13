@@ -46,6 +46,21 @@ export async function runSh(wsDir, scriptRel = "task.sh", args = [], env = {}, t
     });
 }
 
+export async function runNode(wsDir, scriptRel, args = [], env = {}, timeoutMs = DEFAULT_TIMEOUT_MS) {
+    const merged = { ...process.env, NODE_DISABLE_COLORS: "1", FORCE_COLOR: "0" };
+    // Unset via null/undefined
+    for (const [k, v] of Object.entries(env || {})) {
+        if (v === undefined || v === null) delete merged[k];
+        else merged[k] = String(v);
+    }
+
+    return execFileAsync(process.execPath, [scriptRel, ...args], {
+        cwd: wsDir,
+        timeout: timeoutMs,
+        env: merged,
+    });
+}
+
 export function listFiles(dir, suffix) {
     if (!fs.existsSync(dir)) return [];
     return fs.readdirSync(dir).filter((f) => f.endsWith(suffix)).map((f) => path.join(dir, f));

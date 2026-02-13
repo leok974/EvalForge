@@ -1,2 +1,2 @@
-// TODO: Implement solution
-console.log('Hello Node');
+const fs = require('fs');
+// TODO

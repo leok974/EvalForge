@@ -2,7 +2,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
+
+// --- Helpers -------------------------------------------------------------
 
 function arg(name) {
     const idx = process.argv.indexOf(name);
@@ -10,361 +12,328 @@ function arg(name) {
 }
 
 function usage() {
-    console.error("Usage: node scripts/run_world_public_tests.mjs --questpack data/questpacks/cli_core.json");
+    console.error("Usage: node scripts/run_world_public_tests.mjs --questpack data/questpacks/cli_core.json [--mode student|solution]");
     process.exit(2);
 }
 
-const questpackPath = arg("--questpack");
-if (!questpackPath) usage();
+// Capture stdout while streaming it to user, so we can parse result JSON
+async function runDelegate(cmd, args, cwd) {
+    return new Promise((resolve) => {
+        const child = spawn(cmd, args, {
+            stdio: ["inherit", "pipe", "inherit"],
+            cwd: cwd || process.cwd(),
+            env: process.env
+        });
 
-const root = process.cwd();
-const qpAbs = path.resolve(root, questpackPath);
-if (!fs.existsSync(qpAbs)) {
-    console.error(`EF_RUN_WORLD_MISSING_QUESTPACK: not found: ${qpAbs}`);
-    process.exit(2);
-}
+        let out = "";
+        child.stdout.on("data", (chunk) => {
+            process.stdout.write(chunk);
+            out += chunk.toString();
+        });
 
-const questpack = JSON.parse(fs.readFileSync(qpAbs, "utf8"));
-
-// --- CLI questpack dispatch ----------------------------------------------
-function extractSlugsFromPack(pack) {
-    const items =
-        Array.isArray(pack) ? pack :
-            Array.isArray(pack.quests) ? pack.quests :
-                Array.isArray(pack.entries) ? pack.entries :
-                    null;
-    if (!items) return [];
-    return items.map((it) => {
-        if (typeof it === "string") return path.basename(it.replace(/\\/g, "/"));
-        if (it?.slug) return it.slug;
-        if (it?.quest_path) return path.basename(it.quest_path.replace(/\\/g, "/"));
-        return null;
-    }).filter(Boolean);
-}
-
-const slugsToCheck = extractSlugsFromPack(questpack);
-const packBase = path.basename(questpackPath).toLowerCase();
-const looksCli =
-    packBase.includes("cli") ||
-    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("cli-")));
-
-if (looksCli) {
-    const runnerPath = path.resolve(root, "scripts/run_cli_questpack.mjs");
-    const args = [
-        runnerPath,
-        "--questpack",
-        questpackPath,
-        "--mode",
-        arg("--mode") || "starter",
-    ];
-
-    const onlySlug = arg("--only-slug"); // Not typically supported by world runner yet, but future proofing
-    if (onlySlug) args.push("--only-slug", onlySlug);
-
-    // Check for debug flag in raw args since arg() helper is simple
-    if (process.argv.includes("--debug")) args.push("--debug");
-
-    const res = spawnSync(process.execPath, args, { stdio: "inherit" });
-    process.exit(res.status ?? 1);
-}
-
-const looksTs =
-    packBase.includes("typescript") ||
-    packBase.includes("ts-") ||
-    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("ts-")));
-
-if (looksTs) {
-    const runnerPath = path.resolve(root, "scripts/run_ts_questpack.mjs");
-    const args = [
-        runnerPath,
-        "--questpack",
-        questpackPath,
-        "--mode",
-        arg("--mode") || "starter",
-    ];
-
-    const onlySlug = arg("--only-slug");
-    if (onlySlug) args.push("--only-slug", onlySlug);
-
-    if (process.argv.includes("--debug")) args.push("--debug");
-
-    const res = spawnSync(process.execPath, args, { stdio: "inherit" });
-    process.exit(res.status ?? 1);
-}
-
-const looksGit =
-    packBase.includes("git") ||
-    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("git-")));
-
-if (looksGit) {
-    const runnerPath = path.resolve(root, "scripts/run_git_questpack.mjs");
-    const args = [
-        runnerPath,
-        "--questpack",
-        questpackPath,
-        "--mode",
-        arg("--mode") || "starter",
-    ];
-
-    const onlySlug = arg("--only-slug");
-    if (onlySlug) args.push("--only-slug", onlySlug);
-
-    if (process.argv.includes("--debug")) args.push("--debug");
-
-    const res = spawnSync(process.execPath, args, { stdio: "inherit" });
-    process.exit(res.status ?? 1);
-}
-
-// --- Shared Python helper for Python & SQL dispatchers ---
-function pickPythonBin() {
-    const env = process.env.PYTHON || process.env.PYTHON_BIN;
-    if (env && env.trim()) return env.trim();
-
-    const candidates = ["python", "python3", "py"];
-    for (const c of candidates) {
-        const probeArgs = c === "py" ? ["-3", "--version"] : ["--version"];
-        const r = spawnSync(c, probeArgs, { stdio: "pipe" });
-        if (r.status === 0) return c;
-    }
-    return "python";
-}
-
-const looksPython =
-    packBase.includes("python_") ||
-    packBase.includes("foundry_python") ||
-    packBase === "python_systems.json" ||
-    packBase === "foundry_python.json" ||
-    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("python-")));
-
-const looksAgents =
-    packBase.includes("agents_") ||
-    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("agents-")));
-
-function isMlQuestpack(questpackPath) {
-    const base = path.basename(questpackPath);
-    return (
-        base === "ml_core.json" ||
-        base === "ml_core.upgraded.json" ||
-        base.startsWith("ml_") ||
-        questpackPath.includes("/ml_") ||
-        questpackPath.includes("\\ml_")
-    );
-}
-
-if (isMlQuestpack(questpackPath)) {
-    const python = pickPythonBin();
-    const mode = arg("--mode") || "student";
-    const onlySlug = arg("--only-slug");
-    const args = ["scripts/run_ml_questpack.py", questpackPath, "--mode", mode];
-    if (onlySlug) args.push("--only-slug", onlySlug);
-    const rc = spawnSync(python, args, { stdio: "inherit" });
-    process.exit(rc.status ?? 1);
-}
-
-if (looksPython || looksAgents) {
-    // Python dispatch: use pytest runner
-    const py = pickPythonBin();
-    const args = [];
-
-    if (py === "py") args.push("-3");
-
-    if (looksAgents) {
-        args.push("scripts/run_agents_questpack.py");
-    } else {
-        args.push("scripts/run_python_questpack.py");
-    }
-
-    args.push("--questpack", questpackPath, "--mode", arg("--mode") || "student");
-
-    const onlySlug = arg("--only-slug");
-    if (onlySlug) args.push("--only-slug", onlySlug);
-
-    const res = spawnSync(py, args, { stdio: "inherit" });
-    process.exit(res.status ?? 1);
-}
-
-const looksSql =
-    packBase.includes("sql") ||
-    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("sql-")));
-
-if (looksSql) {
-    // SQL dispatch: use Python runner with pytest + sqlite3
-    const py = pickPythonBin();
-    const args = [];
-
-    if (py === "py") args.push("-3");
-
-    args.push("scripts/run_sql_questpack.py", "--questpack", questpackPath, "--mode", arg("--mode") || "student");
-
-    const onlySlug = arg("--only-slug");
-    if (onlySlug) args.push("--only-slug", onlySlug);
-
-    const res = spawnSync(py, args, { stdio: "inherit" });
-    process.exit(res.status ?? 1);
-}
-
-// -------------------------------------------------------------------------
-
-
-function extractSlugFromQuestPath(p) {
-    if (!p || typeof p !== "string") return null;
-    const norm = p.replace(/\\/g, "/");
-    const parts = norm.split("/").filter(Boolean);
-    return parts.length ? parts[parts.length - 1] : null;
-}
-
-function extractSlugs(questpackJson) {
-    const slugs = [];
-
-    const push = (s) => {
-        if (typeof s === "string" && s.trim()) slugs.push(s.trim());
-    };
-
-    const handleItem = (it) => {
-        if (!it) return;
-
-        // string style: ["infra-ignition", ...]
-        if (typeof it === "string") return push(it);
-
-        if (typeof it === "object") {
-            // canonical style: { slug: "agents-ignition", ... }
-            if (typeof it.slug === "string") return push(it.slug);
-
-            // quest_path style: { quest_path: "docs/quests/agents-ignition" }
-            if (typeof it.quest_path === "string") {
-                const s = extractSlugFromQuestPath(it.quest_path);
-                if (s) return push(s);
-            }
-
-            // tolerate camelCase too
-            if (typeof it.questPath === "string") {
-                const s = extractSlugFromQuestPath(it.questPath);
-                if (s) return push(s);
-            }
-        }
-    };
-
-    // wrapper style: { world_id, track_id, title, quests:[...] }
-    if (questpackJson && typeof questpackJson === "object" && !Array.isArray(questpackJson)) {
-        if (Array.isArray(questpackJson.quests)) {
-            for (const it of questpackJson.quests) handleItem(it);
-            return slugs;
-        }
-    }
-
-    // array style: [...]
-    if (Array.isArray(questpackJson)) {
-        for (const it of questpackJson) handleItem(it);
-        return slugs;
-    }
-
-    return slugs;
-}
-
-const slugs = Array.from(new Set(extractSlugs(questpack))).filter(Boolean);
-if (slugs.length === 0) {
-    console.error("EF_RUN_WORLD_NO_SLUGS: could not extract quest slugs from questpack JSON");
-    process.exit(2);
-}
-
-const looksWeb = (questpackPath, slugs) => {
-    const base = path.basename(questpackPath).toLowerCase();
-    if (base.includes("web_html_core") || base.includes("web_css_core")) return true;
-    if (base.startsWith("web_")) return true;
-    return slugs.some((s) => s.startsWith("html-") || s.startsWith("css-"));
-};
-
-if (looksWeb(questpackPath, slugs)) {
-    const args = ["scripts/run_web_questpack.mjs", "--questpack", questpackPath, "--mode", arg("--mode") || "student"];
-    const onlySlug = arg("--only-slug");
-    if (onlySlug) args.push("--only-slug", onlySlug);
-    const code = spawnSync(process.execPath, args, { stdio: "inherit" });
-    process.exit(code.status ?? 1);
-}
-
-function listPublicTests(slug) {
-    const qDir = path.join(root, "data", "quests", slug);
-    const pubDir = path.join(qDir, "grading", "public");
-    if (!fs.existsSync(pubDir)) return [];
-    return fs
-        .readdirSync(pubDir)
-        .filter((f) => f.endsWith(".test.mjs"))
-        .map((f) => path.join(pubDir, f));
-}
-
-let total = 0;
-let failed = 0;
-
-const mode = arg("--mode") || "starter"; // starter | solution
-
-for (const slug of slugs) {
-    const tests = listPublicTests(slug);
-    if (tests.length === 0) {
-        console.error(`EF_RUN_WORLD_NO_PUBLIC_TESTS: ${slug}`);
-        failed++;
-        continue;
-    }
-
-    const questDir = path.join(root, "data", "quests", slug);
-
-    // Detect task file extension (.sh or .mjs)
-    let taskFilename = "task.sh";
-    if (fs.existsSync(path.join(questDir, "workspace", "task.mjs"))) {
-        taskFilename = "task.mjs";
-    }
-
-    const workspaceTask = path.join(questDir, "workspace", taskFilename);
-    const solutionTask = path.join(questDir, "grading", "solutions", taskFilename);
-    const backupTask = path.join(questDir, "workspace", taskFilename + ".bak");
-
-    let swapped = false;
-    if (mode === "solution") {
-        if (fs.existsSync(solutionTask)) {
-            try {
-                if (fs.existsSync(workspaceTask)) {
-                    fs.copyFileSync(workspaceTask, backupTask);
+        child.on("exit", (code) => {
+            let json = null;
+            // Look for EF_RUNNER_RESULT_JSON={...}
+            const match = out.match(/EF_RUNNER_RESULT_JSON=(.*)/);
+            if (match) {
+                try {
+                    json = JSON.parse(match[1]);
+                } catch (e) {
+                    // ignore parse error, json remains null
                 }
-                fs.copyFileSync(solutionTask, workspaceTask);
-                swapped = true;
-            } catch (e) {
-                console.error(`EF_RUN_WORLD_SWAP_FAIL: ${slug} -> ${e.message}`);
             }
+            resolve({ code: code ?? 1, json, rawOutput: out });
+        });
+    });
+}
+
+function printSummaryAndExit(delegateResult) {
+    const { code, json } = delegateResult;
+
+    if (json) {
+        // Modern runner output
+        const passed = json.passed;
+        const total = json.total;
+        console.log(`\nEF_RUN_WORLD_SUMMARY: ${passed}/${total} public tests passed.`);
+        // Force exit 1 if any failures, even if child exit code was 0 (shouldn't happen but safe)
+        if (json.failed > 0 || json.errors.length > 0) process.exit(1);
+        process.exit(0);
+    } else {
+        // Legacy fallback
+        if (code === 0) {
+            // We assume 100% pass if exit code 0 and no JSON (best effort)
+            // Or strictly: we don't know totals.
+            console.log(`\nEF_RUN_WORLD_SUMMARY: All tests passed (Legacy Mode).`);
+            process.exit(0);
         } else {
-            console.warn(`EF_RUN_WORLD_NO_SOLUTION: ${slug} (running starter)`);
+            console.error(`\nEF_RUN_WORLD_SUMMARY: Tests failed (Legacy Mode). Exit code: ${code}`);
+            process.exit(1);
         }
     }
+}
 
-    for (const testFile of tests) {
-        total++;
-        const res = spawnSync(process.execPath, ["--test", testFile], { stdio: "inherit" });
-        if (res.status !== 0) {
-            failed++;
-            console.error(`EF_RUN_WORLD_TEST_FAIL: ${slug} -> ${path.relative(root, testFile)}`);
-        }
+// --- Main ----------------------------------------------------------------
+
+async function main() {
+    const questpackPath = arg("--questpack");
+    if (!questpackPath) usage();
+
+    const root = process.cwd();
+    const qpAbs = path.resolve(root, questpackPath);
+    if (!fs.existsSync(qpAbs)) {
+        console.error(`EF_RUN_WORLD_MISSING_QUESTPACK: not found: ${qpAbs}`);
+        process.exit(2);
     }
 
-    if (swapped) {
-        try {
-            if (fs.existsSync(backupTask)) {
-                fs.copyFileSync(backupTask, workspaceTask);
-                fs.unlinkSync(backupTask);
-            } else {
-                // If there was no original task.sh, maybe we should remove the solution? 
-                // But normally workspace has task.sh. Let's just unlink workspaceTask if backup didn't exist?
-                // Safest to leave it or unlink if we created it from scratch.
-                // Assuming workspace always has task.sh for CLI quests.
-                fs.unlinkSync(workspaceTask);
+    const questpack = JSON.parse(fs.readFileSync(qpAbs, "utf8"));
+    const packBase = path.basename(questpackPath).toLowerCase();
+
+    // --- Slug Extraction -------------------------------------------------
+
+    function extractSlugFromQuestPath(p) {
+        if (!p || typeof p !== "string") return null;
+        const norm = p.replace(/\\/g, "/");
+        const parts = norm.split("/").filter(Boolean);
+        return parts.length ? parts[parts.length - 1] : null;
+    }
+
+    function extractSlugs(json) {
+        const list = [];
+        const push = (s) => { if (typeof s === "string" && s.trim()) list.push(s.trim()); };
+
+        const handleItem = (it) => {
+            if (!it) return;
+            if (typeof it === "string") return push(it);
+            if (typeof it === "object") {
+                if (typeof it.slug === "string") return push(it.slug);
+                if (typeof it.quest_path === "string") return push(extractSlugFromQuestPath(it.quest_path));
+                if (typeof it.questPath === "string") return push(extractSlugFromQuestPath(it.questPath));
             }
-        } catch (e) {
-            console.error(`EF_RUN_WORLD_RESTORE_FAIL: ${slug} -> ${e.message}`);
+        };
+
+        if (json && typeof json === "object" && !Array.isArray(json)) {
+            if (Array.isArray(json.quests)) {
+                for (const it of json.quests) handleItem(it);
+            } else if (Array.isArray(json.entries)) {
+                for (const it of json.entries) handleItem(it);
+            }
+        } else if (Array.isArray(json)) {
+            for (const it of json) handleItem(it);
+        }
+        return list;
+    }
+
+    const slugs = Array.from(new Set(extractSlugs(questpack))).filter(Boolean);
+    const slugsToCheck = slugs; // Alias for cleaner checks
+
+    // --- Dispatch Logic --------------------------------------------------
+
+    const mode = arg("--mode") || "starter";
+
+    // Helper to run python runner
+    async function dispatchPython(runnerName) {
+        let pythonBin = process.env.PYTHON || process.env.PYTHON_BIN || "python";
+
+        // Try to pick python3/py if default is missing or generic
+        // (Simple heuristic, or trust environment)
+
+        const args = [runnerName, "--questpack", questpackPath, "--mode", mode];
+        const only = arg("--only-slug");
+        if (only) args.push("--only-slug", only);
+
+        const res = await runDelegate(pythonBin, args, root);
+        printSummaryAndExit(res);
+    }
+
+    // 1. CLI
+    const looksCli = packBase.includes("cli") || (slugs.length > 0 && slugs.every(s => s.startsWith("cli-")));
+    if (looksCli) {
+        const args = ["scripts/run_cli_questpack.mjs", "--questpack", questpackPath, "--mode", mode];
+        if (arg("--only-slug")) args.push("--only-slug", arg("--only-slug"));
+
+        const res = await runDelegate(process.execPath, args, root);
+        printSummaryAndExit(res);
+    }
+
+    // 2. TS
+    const looksTs = packBase.includes("typescript") || packBase.includes("ts-") || (slugs.length > 0 && slugs.every(s => s.startsWith("ts-")));
+    if (looksTs) {
+        const args = ["scripts/run_ts_questpack.mjs", "--questpack", questpackPath, "--mode", mode];
+        if (arg("--only-slug")) args.push("--only-slug", arg("--only-slug"));
+
+        const res = await runDelegate(process.execPath, args, root);
+        printSummaryAndExit(res);
+    }
+
+    // 3. Git
+    const looksGit = packBase.includes("git") || (slugs.length > 0 && slugs.every(s => s.startsWith("git-")));
+    if (looksGit) {
+        const args = ["scripts/run_git_questpack.mjs", "--questpack", questpackPath, "--mode", mode];
+        if (arg("--only-slug")) args.push("--only-slug", arg("--only-slug"));
+
+        const res = await runDelegate(process.execPath, args, root);
+        printSummaryAndExit(res);
+    }
+
+    // 4. ML
+    function isMlQuestpack(p) {
+        const b = path.basename(p);
+        return b.startsWith("ml_") || b.includes("ml_core");
+    }
+    if (isMlQuestpack(questpackPath)) {
+        await dispatchPython("scripts/run_ml_questpack.py");
+    }
+
+    // 5. Python / Agents
+    const looksPython = packBase.includes("python") || packBase.includes("foundry") || (slugs.length > 0 && slugs.every(s => s.startsWith("python-")));
+    const looksAgents = packBase.includes("agents") || (slugs.length > 0 && slugs.every(s => s.startsWith("agents-")));
+
+    if (looksPython || looksAgents) {
+        const script = looksAgents ? "scripts/run_agents_questpack.py" : "scripts/run_python_questpack.py";
+        await dispatchPython(script);
+    }
+
+    // 6. SQL
+    const looksSql = packBase.includes("sql") || (slugs.length > 0 && slugs.every(s => s.startsWith("sql-")));
+    if (looksSql) {
+        await dispatchPython("scripts/run_sql_questpack.py");
+    }
+
+    // 7. Web
+    const looksWeb = (p, sList) => {
+        const b = path.basename(p).toLowerCase();
+        if (b.includes("web_html") || b.includes("web_css") || b.startsWith("web_")) return true;
+        return sList.some(s => s.startsWith("html-") || s.startsWith("css-"));
+    };
+    if (looksWeb(questpackPath, slugs)) {
+        const args = ["scripts/run_web_questpack.mjs", "--questpack", questpackPath, "--mode", mode];
+        if (arg("--only-slug")) args.push("--only-slug", arg("--only-slug"));
+
+        const res = await runDelegate(process.execPath, args, root);
+        printSummaryAndExit(res);
+    }
+
+    // --- Default Node Runner Loop -----------------------------------------
+    // If no specialized runner, we run `node --test` for each slug.
+    // Handles: Node, React, Infra (often), Labs
+
+    if (slugs.length === 0) {
+        console.error("EF_RUN_WORLD_NO_SLUGS: could not extract quest slugs");
+        process.exit(2);
+    }
+
+    let totalQuests = 0;
+    let passedQuests = 0;
+    let failedQuests = 0;
+    const errors = [];
+    const slugResults = [];
+
+    for (const slug of slugs) {
+        // Filter by only-slug if present
+        if (arg("--only-slug") && arg("--only-slug") !== slug) continue;
+
+        totalQuests++;
+
+        const questDir = path.join(root, "data", "quests", slug);
+        const pubDir = path.join(questDir, "grading", "public");
+
+        let testFiles = [];
+        if (fs.existsSync(pubDir)) {
+            testFiles = fs.readdirSync(pubDir)
+                .filter(f => f.endsWith(".mjs") || f.endsWith(".js") || f.endsWith(".ts"))
+                .filter(f => f.includes(".test."))
+                .map(f => path.join(pubDir, f));
+        }
+
+        if (testFiles.length === 0) {
+            console.error(`EF_RUN_WORLD_NO_PUBLIC_TESTS: ${slug}`);
+            failedQuests++;
+            slugResults.push({ slug, status: "failed", error: "No public tests" });
+            continue;
+        }
+
+        // Swap Logic: Generic (copy all from grading/solutions to workspace)
+        const wsDir = path.join(questDir, "workspace");
+        const solDir = path.join(questDir, "grading", "solutions");
+        let backups = [];
+
+        if (mode === "solution" && fs.existsSync(solDir)) {
+            try {
+                const solFiles = fs.readdirSync(solDir);
+                for (const f of solFiles) {
+                    const src = path.join(solDir, f);
+                    const dst = path.join(wsDir, f);
+
+                    // Skip if directory (for now, simplistic)
+                    if (fs.statSync(src).isDirectory()) continue;
+
+                    if (fs.existsSync(dst)) {
+                        const bak = dst + ".bak";
+                        fs.copyFileSync(dst, bak);
+                        backups.push({ dst, bak });
+                    } else {
+                        backups.push({ dst, bak: null }); // Track new files
+                    }
+                    fs.copyFileSync(src, dst);
+                }
+            } catch (e) {
+                console.error(`EF_SWAP_FAIL: ${e.message}`);
+            }
+        }
+
+        // Run Tests
+        let slugFail = false;
+        for (const tf of testFiles) {
+            const childRef = spawnSync(process.execPath, ["--test", tf], {
+                stdio: "inherit",
+                cwd: questDir,
+            });
+
+            if (childRef.status !== 0) {
+                slugFail = true;
+                errors.push(`${slug}: ${path.basename(tf)} failed`);
+            }
+        }
+
+        // Restore
+        if (backups.length > 0) {
+            for (const b of backups) {
+                try {
+                    if (b.bak && fs.existsSync(b.bak)) {
+                        fs.copyFileSync(b.bak, b.dst);
+                        fs.unlinkSync(b.bak);
+                    } else if (b.bak === null && fs.existsSync(b.dst)) {
+                        fs.unlinkSync(b.dst);
+                    }
+                } catch (e) { }
+            }
+        }
+
+        if (slugFail) {
+            failedQuests++;
+            slugResults.push({ slug, status: "failed" });
+        } else {
+            passedQuests++;
+            slugResults.push({ slug, status: "passed" });
         }
     }
+
+    console.log(`\nEF_RUN_WORLD_SUMMARY: ${passedQuests}/${totalQuests} quests passed.`);
+
+    // Also emit JSON for audit script consistency from this "Parent Runner acting as Runner"
+    const resultJson = {
+        total: totalQuests,
+        passed: passedQuests,
+        failed: failedQuests,
+        errors,
+        slugs: slugResults
+    };
+    console.log(`EF_RUNNER_RESULT_JSON=${JSON.stringify(resultJson)}`);
+
+    process.exit(failedQuests === 0 ? 0 : 1);
 }
 
-if (failed) {
-    console.error(`\nEF_RUN_WORLD_SUMMARY: ${failed}/${total} public tests failed.`);
+main().catch(err => {
+    console.error("EF_RUN_WORLD_FATAL:", err);
     process.exit(1);
-} else {
-    console.log(`\nEF_RUN_WORLD_SUMMARY: ${total} public tests passed.`);
-    process.exit(0);
-}
+});

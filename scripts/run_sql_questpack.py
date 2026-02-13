@@ -118,12 +118,29 @@ def main(argv: list[str] | None = None) -> int:
     finally:
       restore_swap(swap)
 
+  summary = {
+    "total": len(slugs),
+    "passed": len(slugs) - len(failures),
+    "failed": len(failures),
+    "errors": [],
+    "slugs": []
+  }
+  
+  # Re-construct status per slug for JSON?
+  # Simplification: we know failures.
+  for s in slugs:
+      status = "failed" if s in failures else "passed"
+      summary["slugs"].append({"slug": s, "status": status})
+
+  print(f"EF_RUNNER_RESULT_JSON={json.dumps(summary)}")
+
   if failures:
     print("\nFailed quests:")
     for s in failures:
       print(f" - {s}")
     return 1
-
+  
+  print(f"\nEF_RUN_WORLD_SUMMARY: {summary['passed']}/{summary['total']} passed.")
   return 0
 
 if __name__ == "__main__":

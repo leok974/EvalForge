@@ -1,2 +1,1 @@
-// TODO: Implement solution
-console.log('Hello Node');
+console.log('TODO');

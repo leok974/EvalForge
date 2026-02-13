@@ -1,6 +1,3 @@
-# Async Patterns: Promises, async/await, Errors
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Async
+
+Write an `async` function `run()` that prints `Steps: 1` then awaits 10ms then prints `Steps: 2`.
