@@ -148,7 +148,7 @@ def audit_pack(pack_path):
     }
 
 def main():
-    packs = list(DATA_QUESTPACKS.glob("*.json"))
+    packs = list(DATA_QUESTPACKS.rglob("*.json")) # Recursive
     report = {
         "generated_at": datetime.now().isoformat(),
         "worlds": []
@@ -158,6 +158,7 @@ def main():
         # Skip some big ones? No, user asked for Audit.
         # But skip maps? `campaign_map.json` is not a questpack.
         if "map" in p.name or "profile" in p.name or "context" in p.name: continue
+        # Skip files in quests/ dir if accidentally placed there (though we look in questpacks)
         
         res = audit_pack(p)
         if res:
