@@ -1,0 +1,1 @@
+INSERT INTO products (id, name, category, price_cents, is_discontinued) VALUES (6, 'Pen', 'office', 300, 0); UPDATE products SET price_cents = 2600 WHERE id = 2; DELETE FROM products WHERE id = 4; SELECT id, name, price_cents FROM products ORDER BY id ASC;

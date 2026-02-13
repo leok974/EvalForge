@@ -1,0 +1,1 @@
+SELECT city, COUNT(*) AS user_count FROM users GROUP BY city HAVING COUNT(*) >= 2 ORDER BY user_count DESC, city ASC;

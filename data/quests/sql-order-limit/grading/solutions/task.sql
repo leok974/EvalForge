@@ -1,0 +1,1 @@
+SELECT id, name, price_cents FROM products WHERE is_discontinued = 0 ORDER BY price_cents DESC, id ASC LIMIT 3;

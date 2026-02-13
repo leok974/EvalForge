@@ -1,6 +1,4 @@
-# sql-order-limit
-
-Requirements:
-- Select `name`, `price` from `products`
-- Order by `price` DESC, then `name` ASC
-- Return only the top 3 rows
+# Mission: Order + Limit
+**Goal:** Top 3 most expensive products (not discontinued).
+Return `id, name, price_cents`.
+**Order:** `price_cents DESC`, then `id ASC`.

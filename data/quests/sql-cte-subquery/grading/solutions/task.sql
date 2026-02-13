@@ -1,0 +1,1 @@
+WITH paid_totals AS ( SELECT user_id, SUM(total_cents) AS paid_total_cents FROM orders WHERE status = 'paid' GROUP BY user_id ) SELECT u.id, u.name, p.paid_total_cents FROM paid_totals p JOIN users u ON u.id = p.user_id WHERE p.paid_total_cents >= 5000 ORDER BY p.paid_total_cents DESC, u.id ASC;

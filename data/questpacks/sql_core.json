@@ -1,32 +1,77 @@
-[
-    {
-        "quest_path": "docs/quests/sql-ignition"
-    },
-    {
-        "quest_path": "docs/quests/sql-select"
-    },
-    {
-        "quest_path": "docs/quests/sql-where"
-    },
-    {
-        "quest_path": "docs/quests/sql-order-limit"
-    },
-    {
-        "quest_path": "docs/quests/sql-aggregates"
-    },
-    {
-        "quest_path": "docs/quests/sql-groupby-having"
-    },
-    {
-        "quest_path": "docs/quests/sql-joins"
-    },
-    {
-        "quest_path": "docs/quests/sql-left-join-null"
-    },
-    {
-        "quest_path": "docs/quests/sql-cte-subquery"
-    },
-    {
-        "quest_path": "docs/quests/sql-insert-update-delete"
-    }
-]
+{
+    "world_id": "world-sql",
+    "track_id": "track-sql",
+    "title": "SQL Foundations",
+    "quests": [
+        {
+            "slug": "sql-ignition",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-select",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-where",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-order-limit",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-aggregates",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-groupby-having",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-joins",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-left-join-null",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-cte-subquery",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        },
+        {
+            "slug": "sql-insert-update-delete",
+            "track_id": "sql-fundamentals",
+            "tier": 1,
+            "content_source": "sql_world_v1",
+            "content_version": "1.0.0"
+        }
+    ]
+}

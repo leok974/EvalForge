@@ -1,0 +1,1 @@
+SELECT name, city FROM users ORDER BY name ASC;

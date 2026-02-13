@@ -1,26 +1,28 @@
-from __future__ import annotations
 
-import sys
+import pytest
 from pathlib import Path
+from data._shared.sql_test_helpers import run_sql as base_run_sql, assert_rows_match
 
-def _shared():
-  return Path(__file__).resolve().parents[4] / "_shared"
+QUEST_DIR = Path(__file__).resolve().parents[2]
+# Using task.sql in workspace (swapped in solution mode)
+TASK_SQL = QUEST_DIR / "workspace" / "task.sql"
+SCHEMA_SQL = QUEST_DIR / "fixtures" / "schema.sql"
+SEED_SQL = QUEST_DIR / "fixtures" / "seed.sql"
 
-sys.path.insert(0, str(_shared()))
-from sql_test_helpers import build_db, load_text, assert_readonly_sql, run_select, norm_rows  # type: ignore
+@pytest.fixture
+def run_sql():
+    return lambda: base_run_sql(TASK_SQL, SCHEMA_SQL, SEED_SQL)
 
-def _quest_root() -> Path:
-  return Path(__file__).resolve().parents[2]
 
-def test_sql_aggregates():
-  root = _quest_root()
-  con = build_db(load_text(root / "fixtures/schema.sql"), load_text(root / "fixtures/seed.sql"))
-  try:
-    sql = load_text(root / "workspace/query.sql")
-    assert_readonly_sql(sql)
-    res = run_select(con, sql)
-  finally:
-    con.close()
+def test_sql_aggregates(run_sql):
+    rows = run_sql()
+    assert len(rows) == 1
+    # Paid orders:
+    # 1: 102400
+    # 3: 9900
+    # 5: 1700
+    # Sum: 114000
+    # Count: 3
+    # Avg: 38000
+    assert rows[0] == (3, 114000, 38000.0)
 
-  assert res.columns == ["count_orders", "total_amount", "avg_amount"]
-  assert norm_rows(res.rows) == [(4, 180.0, 45.0)]

@@ -1,7 +1,5 @@
-# sql-cte-subquery
-
-Requirements:
-- Return employees whose salary is strictly greater than their department's average salary
-- Return columns: `employee`, `department`, `salary`
-- Order by salary DESC, then employee ASC
-- You may use a CTE or a subquery (either is fine)
+# Mission: CTE Summaries
+**Goal:** Users with >5000 cents in paid orders.
+Use a CTE `paid_totals`.
+Return `user_id, name, paid_total_cents`.
+**Order:** `paid_total_cents DESC`, then `user_id ASC`.

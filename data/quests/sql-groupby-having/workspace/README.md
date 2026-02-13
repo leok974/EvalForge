@@ -1,7 +1,4 @@
-# sql-groupby-having
-
-Requirements:
-- Count errors per service (`status='error'`)
-- Return columns: `service`, `error_count`
-- Only include services with error_count >= 2
-- Order by error_count DESC, then service ASC
+# Mission: Group By + Having
+**Goal:** Cities with at least 2 users.
+Return `city, user_count`.
+**Order:** `user_count DESC`, then `city ASC`.

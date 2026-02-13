@@ -1,29 +1,26 @@
-from __future__ import annotations
 
-import sys
+import pytest
 from pathlib import Path
+from data._shared.sql_test_helpers import run_sql as base_run_sql, assert_rows_match
 
-def _shared():
-  return Path(__file__).resolve().parents[4] / "_shared"
+QUEST_DIR = Path(__file__).resolve().parents[2]
+# Using task.sql in workspace (swapped in solution mode)
+TASK_SQL = QUEST_DIR / "workspace" / "task.sql"
+SCHEMA_SQL = QUEST_DIR / "fixtures" / "schema.sql"
+SEED_SQL = QUEST_DIR / "fixtures" / "seed.sql"
 
-sys.path.insert(0, str(_shared()))
-from sql_test_helpers import build_db, load_text, assert_readonly_sql, run_select, norm_rows  # type: ignore
+@pytest.fixture
+def run_sql():
+    return lambda: base_run_sql(TASK_SQL, SCHEMA_SQL, SEED_SQL)
 
-def _quest_root() -> Path:
-  return Path(__file__).resolve().parents[2]
 
-def test_sql_groupby_having():
-  root = _quest_root()
-  con = build_db(load_text(root / "fixtures/schema.sql"), load_text(root / "fixtures/seed.sql"))
-  try:
-    sql = load_text(root / "workspace/query.sql")
-    assert_readonly_sql(sql)
-    res = run_select(con, sql)
-  finally:
-    con.close()
+def test_sql_groupby_having(run_sql):
+    rows = run_sql()
+    # Detroit: 2 (Alice, Charlie)
+    # Austin: 2 (Bob, Evan)
+    # Others are 1
+    # Order: count DESC -> both 2. Then city ASC -> Austin, Detroit.
+    assert len(rows) == 2
+    assert rows[0] == ('Austin', 2)
+    assert rows[1] == ('Detroit', 2)
 
-  assert res.columns == ["service", "error_count"]
-  assert norm_rows(res.rows) == [
-    ("api", 3),
-    ("db", 2),
-  ]

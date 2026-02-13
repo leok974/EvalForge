@@ -1,0 +1,1 @@
+SELECT o.id, u.name, o.total_cents FROM orders o JOIN users u ON u.id = o.user_id WHERE o.status = 'paid' ORDER BY o.id ASC;

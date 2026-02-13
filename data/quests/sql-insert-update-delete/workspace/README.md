@@ -1,14 +1,6 @@
-# sql-insert-update-delete
-
-This quest allows INSERT/UPDATE/DELETE.
-
-Requirements:
-1) INSERT a new task: (4, 'monitor', 'todo')
-2) UPDATE task id=2 to status='done'
-3) DELETE task id=3
-4) Final statement MUST be a SELECT that returns: id, title, status ordered by id ASC
-
-Note:
-- DDL (DROP/ALTER/CREATE/PRAGMA/ATTACH/etc) is NOT allowed.
-- Your SQL can include multiple statements separated by semicolons.
-- The last statement must be the SELECT used for grading.
+# Mission: DML
+**Goal:**
+1. INSERT product 6: Pen, office, 300, not discontinued.
+2. UPDATE product 2 (Mouse): price 2600.
+3. DELETE product 4 (Headphones).
+Finally SELECT `id, name, price_cents` from `products` order by `id`.

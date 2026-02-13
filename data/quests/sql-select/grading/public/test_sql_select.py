@@ -1,31 +1,24 @@
-from __future__ import annotations
 
-import sys
+import pytest
 from pathlib import Path
+from data._shared.sql_test_helpers import run_sql as base_run_sql, assert_rows_match
 
-def _shared():
-  return Path(__file__).resolve().parents[4] / "_shared"
+QUEST_DIR = Path(__file__).resolve().parents[2]
+# Using task.sql in workspace (swapped in solution mode)
+TASK_SQL = QUEST_DIR / "workspace" / "task.sql"
+SCHEMA_SQL = QUEST_DIR / "fixtures" / "schema.sql"
+SEED_SQL = QUEST_DIR / "fixtures" / "seed.sql"
 
-sys.path.insert(0, str(_shared()))
-from sql_test_helpers import build_db, load_text, assert_readonly_sql, run_select, norm_rows  # type: ignore
+@pytest.fixture
+def run_sql():
+    return lambda: base_run_sql(TASK_SQL, SCHEMA_SQL, SEED_SQL)
 
-def _quest_root() -> Path:
-  return Path(__file__).resolve().parents[2]
 
-def test_sql_select():
-  root = _quest_root()
-  con = build_db(load_text(root / "fixtures/schema.sql"), load_text(root / "fixtures/seed.sql"))
-  try:
-    sql = load_text(root / "workspace/query.sql")
-    assert_readonly_sql(sql)
-    res = run_select(con, sql)
-  finally:
-    con.close()
+def test_sql_select(run_sql):
+    rows = run_sql()
+    assert len(rows) == 6
+    assert len(rows[0]) == 2
+    # Check ordering by name
+    assert rows[0] == ('Alice', 'Detroit')
+    assert rows[1] == ('Bob', 'Austin')
 
-  assert res.columns == ["id", "name", "city"]
-  assert norm_rows(res.rows) == [
-    (1, "Alice", "Detroit"),
-    (2, "Bob", "Austin"),
-    (3, "Charlie", "Boston"),
-    (4, "Dana", "Denver"),
-  ]

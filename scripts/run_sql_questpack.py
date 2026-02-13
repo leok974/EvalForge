@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import os
 import sys
 from typing import Any
 
@@ -33,6 +34,7 @@ def load_questpack(path: Path) -> list[str]:
 
   raise ValueError("Unsupported questpack format")
 
+
 def run_pytest(quest_dir: Path) -> int:
   public_dir = quest_dir / "grading" / "public"
   if not public_dir.exists():
@@ -40,16 +42,32 @@ def run_pytest(quest_dir: Path) -> int:
     return 1
 
   cmd = [sys.executable, "-m", "pytest", "-q", str(public_dir)]
-  p = subprocess.run(cmd, cwd=str(quest_dir))
+  
+  # Inject REPO_ROOT into PYTHONPATH so "data._shared" imports work
+  env = os.environ.copy()
+  old_path = env.get("PYTHONPATH", "")
+  env["PYTHONPATH"] = f"{REPO_ROOT}{os.pathsep}{old_path}"
+
+  p = subprocess.run(cmd, cwd=str(quest_dir), env=env)
   return p.returncode
 
+
 def swap_in_solution(quest_dir: Path) -> tuple[Path, bytes] | None:
-  ws = quest_dir / "workspace" / "query.sql"
-  sol = quest_dir / "grading" / "solutions" / "query.sql"
+  # Check for task.sql first
+  ws = quest_dir / "workspace" / "task.sql"
+  sol = quest_dir / "grading" / "solutions" / "task.sql"
+
+  # Fallback to query.sql if task.sql not found (for legacy support if needed, but per spec we use task.sql)
+  if not ws.exists() and (quest_dir / "workspace" / "query.sql").exists():
+     ws = quest_dir / "workspace" / "query.sql"
+  
+  if not sol.exists() and (quest_dir / "grading" / "solutions" / "query.sql").exists():
+     sol = quest_dir / "grading" / "solutions" / "query.sql"
+
   if not ws.exists():
-    raise FileNotFoundError(f"missing workspace/query.sql for {quest_dir.name}")
+    raise FileNotFoundError(f"missing workspace/task.sql for {quest_dir.name}")
   if not sol.exists():
-    raise FileNotFoundError(f"missing grading/solutions/query.sql for {quest_dir.name}")
+    raise FileNotFoundError(f"missing grading/solutions/task.sql for {quest_dir.name}")
 
   original = ws.read_bytes()
   shutil.copy2(sol, ws)

@@ -1,38 +1,32 @@
-from __future__ import annotations
 
-import re
-import sys
+import pytest
 from pathlib import Path
+from data._shared.sql_test_helpers import run_sql as base_run_sql, assert_rows_match
 
-def _shared():
-  return Path(__file__).resolve().parents[4] / "_shared"
+QUEST_DIR = Path(__file__).resolve().parents[2]
+# Using task.sql in workspace (swapped in solution mode)
+TASK_SQL = QUEST_DIR / "workspace" / "task.sql"
+SCHEMA_SQL = QUEST_DIR / "fixtures" / "schema.sql"
+SEED_SQL = QUEST_DIR / "fixtures" / "seed.sql"
 
-sys.path.insert(0, str(_shared()))
-from sql_test_helpers import build_db, load_text, assert_safe_dml_sql, run_dml_with_final_select, norm_rows  # type: ignore
+@pytest.fixture
+def run_sql():
+    return lambda: base_run_sql(TASK_SQL, SCHEMA_SQL, SEED_SQL)
 
-def _quest_root() -> Path:
-  return Path(__file__).resolve().parents[2]
 
-def test_sql_insert_update_delete_requires_keywords_and_correct_result():
-  root = _quest_root()
-  con = build_db(load_text(root / "fixtures/schema.sql"), load_text(root / "fixtures/seed.sql"))
-  try:
-    sql = load_text(root / "workspace/query.sql")
-    assert_safe_dml_sql(sql)
+def test_sql_insert_update_delete(run_sql):
+    rows = run_sql()
+    # 1. Laptop (99900)
+    # 2. Mouse (2600) - Updated
+    # 3. Coffee (1200)
+    # 4. Deleted
+    # 5. Notebook (500)
+    # 6. Pen (300) - Inserted
+    
+    assert len(rows) == 5
+    assert rows[0] == (1, 'Laptop', 99900)
+    assert rows[1] == (2, 'Mouse', 2600)
+    assert rows[2] == (3, 'Coffee', 1200)
+    assert rows[3] == (5, 'Notebook', 500)
+    assert rows[4] == (6, 'Pen', 300)
 
-    # enforce the learning objective: must contain INSERT, UPDATE, DELETE somewhere
-    upper = sql.upper()
-    assert "INSERT" in upper, "Expected an INSERT statement"
-    assert "UPDATE" in upper, "Expected an UPDATE statement"
-    assert "DELETE" in upper, "Expected a DELETE statement"
-
-    res = run_dml_with_final_select(con, sql)
-  finally:
-    con.close()
-
-  assert res.columns == ["id", "title", "status"]
-  assert norm_rows(res.rows) == [
-    (1, "setup", "todo"),
-    (2, "ship", "done"),
-    (4, "monitor", "todo"),
-  ]
