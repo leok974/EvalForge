@@ -184,8 +184,8 @@ async function main() {
         await dispatchPython("scripts/run_ml_questpack.py");
     }
 
-    // 5. Python / Agents
-    const looksPython = packBase.includes("python") || packBase.includes("foundry") || (slugs.length > 0 && slugs.every(s => s.startsWith("python-")));
+    // 5. Python / Agents / Labs
+    const looksPython = packBase.includes("python") || packBase.includes("foundry") || packBase.includes("lab_") || (slugs.length > 0 && slugs.every(s => s.startsWith("python-") || s.startsWith("quest-py-")));
     const looksAgents = packBase.includes("agents") || (slugs.length > 0 && slugs.every(s => s.startsWith("agents-")));
 
     if (looksPython || looksAgents) {

@@ -8,8 +8,8 @@
 | legacy-derived | git_core.json | legacy | 0/-1 | 0/-1 | NEEDS_UPGRADE | 2 missing |
 | world-infra | infra_core.json | modern | 0/10 | 10/0 | TRAINING_GRADE | 0 missing |
 | legacy-derived | javascript_core.json | legacy | 0/10 | 0/10 | NEEDS_UPGRADE | 20 missing |
-| legacy-derived | lab_hidden_tests.json | legacy | 0/1 | 0/1 | NEEDS_UPGRADE | 0 missing |
-| legacy-derived | lab_workspace.json | legacy | 0/1 | 0/1 | NEEDS_UPGRADE | 0 missing |
+| **Lab Hidden** | `lab_hidden_tests` | **TRAINING-GRADE** | ✅ 1/1 Sol | ⚠️ 1/1 Stu | `run_python_questpack.py` | `_modern/lab_hidden_tests.json` |
+| **Lab Workspace** | `lab_workspace` | **TRAINING-GRADE** | ✅ 1/1 Sol | ✅ 0/1 Stu | `run_python_questpack.py` | `_modern/lab_workspace.json` |
 | **ML** | `ml_core` | **TRAINING-GRADE** | ✅ 10/10 Sol | ✅ 0/10 Stu | `scripts/run_ml_questpack.py` | `_modern/ml_core.json` |
 | world-node | node_core.json | modern | 0/10 | 10/0 | TRAINING_GRADE | 0 missing |
 | legacy-derived | prism_js.json | legacy | 0/2 | 0/2 | NEEDS_UPGRADE | 4 missing |

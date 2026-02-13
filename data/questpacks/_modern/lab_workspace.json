@@ -1,0 +1,20 @@
+{
+    "questpack_id": "lab_workspace",
+    "title": "Lab Workspace",
+    "world_id": "world-infra",
+    "track_id": "lab-workspace",
+    "quests": [
+        {
+            "slug": "quest-py-workspace",
+            "title": "Workspace Logic",
+            "track_id": "lab-workspace",
+            "order": 1,
+            "briefing_md": "# Workspace Logic\n\nVerify workspace file handling.",
+            "workspace": {
+                "files_from": "../../quests/quest-py-workspace/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        }
+    ]
+}
