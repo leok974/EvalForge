@@ -1,6 +1,5 @@
-# agents-verifier
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Verifier
+
+Implement `verify_output(output, required_keys)`.
+
+Returns {ok: bool, missing: list[str]}.

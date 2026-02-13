@@ -136,14 +136,24 @@ const looksPython =
     packBase === "foundry_python.json" ||
     (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("python-")));
 
-if (looksPython) {
+const looksAgents =
+    packBase.includes("agents_") ||
+    (slugsToCheck.length > 0 && slugsToCheck.every((s) => String(s).startsWith("agents-")));
+
+if (looksPython || looksAgents) {
     // Python dispatch: use pytest runner
     const py = pickPythonBin();
     const args = [];
 
     if (py === "py") args.push("-3");
 
-    args.push("scripts/run_python_questpack.py", "--questpack", questpackPath, "--mode", arg("--mode") || "student");
+    if (looksAgents) {
+        args.push("scripts/run_agents_questpack.py");
+    } else {
+        args.push("scripts/run_python_questpack.py");
+    }
+
+    args.push("--questpack", questpackPath, "--mode", arg("--mode") || "student");
 
     const onlySlug = arg("--only-slug");
     if (onlySlug) args.push("--only-slug", onlySlug);
@@ -174,22 +184,60 @@ if (looksSql) {
 
 // -------------------------------------------------------------------------
 
-function extractSlugs(obj) {
-    if (!obj) return [];
-    if (Array.isArray(obj)) {
-        if (obj.every((x) => typeof x === "string")) return obj;
-        if (obj.every((x) => x && typeof x === "object" && typeof x.slug === "string")) return obj.map((x) => x.slug);
-        // try deeper
-        return obj.flatMap(extractSlugs);
+
+function extractSlugFromQuestPath(p) {
+    if (!p || typeof p !== "string") return null;
+    const norm = p.replace(/\\/g, "/");
+    const parts = norm.split("/").filter(Boolean);
+    return parts.length ? parts[parts.length - 1] : null;
+}
+
+function extractSlugs(questpackJson) {
+    const slugs = [];
+
+    const push = (s) => {
+        if (typeof s === "string" && s.trim()) slugs.push(s.trim());
+    };
+
+    const handleItem = (it) => {
+        if (!it) return;
+
+        // string style: ["infra-ignition", ...]
+        if (typeof it === "string") return push(it);
+
+        if (typeof it === "object") {
+            // canonical style: { slug: "agents-ignition", ... }
+            if (typeof it.slug === "string") return push(it.slug);
+
+            // quest_path style: { quest_path: "docs/quests/agents-ignition" }
+            if (typeof it.quest_path === "string") {
+                const s = extractSlugFromQuestPath(it.quest_path);
+                if (s) return push(s);
+            }
+
+            // tolerate camelCase too
+            if (typeof it.questPath === "string") {
+                const s = extractSlugFromQuestPath(it.questPath);
+                if (s) return push(s);
+            }
+        }
+    };
+
+    // wrapper style: { world_id, track_id, title, quests:[...] }
+    if (questpackJson && typeof questpackJson === "object" && !Array.isArray(questpackJson)) {
+        if (Array.isArray(questpackJson.quests)) {
+            for (const it of questpackJson.quests) handleItem(it);
+            return slugs;
+        }
     }
-    if (typeof obj === "object") {
-        if (Array.isArray(obj.quest_slugs)) return obj.quest_slugs;
-        if (Array.isArray(obj.slugs)) return obj.slugs;
-        if (Array.isArray(obj.quests)) return extractSlugs(obj.quests);
-        // fallback: scan values
-        return Object.values(obj).flatMap(extractSlugs);
+
+    // array style: [...]
+    if (Array.isArray(questpackJson)) {
+        for (const it of questpackJson) handleItem(it);
+        return slugs;
     }
-    return [];
+
+    return slugs;
 }
 
 const slugs = Array.from(new Set(extractSlugs(questpack))).filter(Boolean);

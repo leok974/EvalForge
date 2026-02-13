@@ -1,6 +1,8 @@
-# agents-planner
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Planner
+
+Implement `plan(request, tool_names)`.
+
+Supported request forms:
+- "add <a> <b>" -> tool "add" args {a:int,b:int}
+- "echo <text...>" -> tool "echo" args {text:str}
+Raises ValueError("NO_TOOL") if required tool missing.

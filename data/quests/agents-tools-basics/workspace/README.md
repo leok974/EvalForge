@@ -1,6 +1,9 @@
-# agents-tools-basics
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Tools Basics
+
+Implement ToolContract + ToolRegistry.
+
+- ToolContract(name, input_keys, fn)
+- ToolRegistry.register(tool)
+- ToolRegistry.call(name, **kwargs)
+  - validates name exists
+  - validates kwargs keys match tool.input_keys exactly

@@ -1,6 +1,9 @@
-# agents-ignition
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Agents Ignition
+
+Implement `format_prompt(system, user)`.
+
+Rules:
+- Trim `system`
+- Normalize `user` by trimming and collapsing internal whitespace to single spaces
+- Return:
+  SYSTEM: <system>\nUSER: <user>

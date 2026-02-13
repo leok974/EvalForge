@@ -1,6 +1,6 @@
-# agents-budgets
-        
-Requirements:
-1. Implement the solution in the provided starter file.
-2. Ensure usage of standard library features where appropriate.
-3. Verify output matches expected format.
+# Budgets
+
+Implement BudgetGuardrail(max_tool_calls, max_cost).
+
+- charge_tool(cost): increments tool_calls and cost
+- raises BudgetExceeded when either limit exceeded
