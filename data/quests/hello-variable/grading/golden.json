@@ -1,0 +1,12 @@
+{
+  "slug": "hello-variable",
+  "captured_at": "2026-02-17T18:17:12.453659",
+  "mode": "solution",
+  "language": "python",
+  "solution_file": "grading\\solutions\\main.py",
+  "stdout": "",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr": "",
+  "exit_code": 0,
+  "timed_out": false
+}

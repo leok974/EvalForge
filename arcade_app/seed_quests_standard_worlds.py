@@ -54,6 +54,47 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         }
     },
     {
+        "slug": "hello-variable",
+        "world_id": "world-python",
+        "track_id": "fundamentals",
+        "order_index": 15,
+        "title": "Hello Variable",
+        "short_description": "Learn variable assignment basics.",
+        "detailed_description": "First Python quest: define a variable and assign a value.",
+        "rubric_id": "python_hello",
+        "starting_code_path": "data/quests/hello-variable/workspace/main.py",
+        "unlocks_boss_id": None,
+        "unlocks_layout_id": None,
+        "base_xp_reward": 30,
+        "mastery_xp_bonus": 10,
+        "objectives_json": [
+            {
+                "id": "obj_var_energy",
+                "kind": "ast",
+                "rule": {
+                    "kind": "ast",
+                    "must_assign_variable": "energy"
+                },
+                "text": "Define variable 'energy'",
+                "why": "Practice variable assignment"
+            },
+            {
+                "id": "obj_exit_zero",
+                "kind": "exit_code_zero",
+                "rule": {
+                    "kind": "exit_code_zero"
+                },
+                "text": "Code runs without errors",
+                "why": "Ensure syntax is correct"
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
+    },
+    {
         "slug": "python-loop",
         "world_id": "world-python",
         "track_id": "fundamentals",

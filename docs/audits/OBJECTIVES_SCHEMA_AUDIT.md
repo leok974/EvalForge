@@ -1,13 +1,13 @@
 # Objectives Schema Audit Report
 
-**Date:** 2026-02-17T18:16:02.257556  
+**Date:** 2026-02-17T18:17:58.580145  
 **Status:** ❌ FAIL
 
 ## Summary
 
-- **Total Quests Scanned:** 15
-- **Total Objectives:** 9
-- **Valid Quests:** 3
+- **Total Quests Scanned:** 16
+- **Total Objectives:** 11
+- **Valid Quests:** 4
 - **Invalid Quests:** 0
 - **Quests with No Objectives:** 12
 

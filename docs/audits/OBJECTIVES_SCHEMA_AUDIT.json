@@ -1,7 +1,7 @@
 {
-  "audit_date": "2026-02-17T18:16:02.257556",
-  "total_quests": 15,
-  "total_objectives": 9,
+  "audit_date": "2026-02-17T18:17:58.580145",
+  "total_quests": 16,
+  "total_objectives": 11,
   "invalid_quests": [],
   "quests_with_no_objectives": [
     {
@@ -65,10 +65,10 @@
       "reason": "objectives_json is missing or empty"
     }
   ],
-  "valid_quests": 3,
+  "valid_quests": 4,
   "summary": {
-    "total_quests": 15,
-    "valid_quests": 3,
+    "total_quests": 16,
+    "valid_quests": 4,
     "invalid_quests_count": 0,
     "quests_with_no_objectives_count": 12,
     "status": "FAIL"
