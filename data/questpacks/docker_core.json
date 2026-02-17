@@ -1,0 +1,48 @@
+{
+    "world": "docker",
+    "pack_slug": "docker_core",
+    "title": "Docker Core (Training Grade)",
+    "tier": 1,
+    "quests": [
+        {
+            "slug": "docker-ignition",
+            "title": "Docker World Ignition"
+        },
+        {
+            "slug": "dockerfile-basics",
+            "title": "Dockerfile Basics"
+        },
+        {
+            "slug": "dockerfile-layers-cache",
+            "title": "Layers & Cache"
+        },
+        {
+            "slug": "dockerfile-copy-vs-add",
+            "title": "COPY vs ADD"
+        },
+        {
+            "slug": "dockerfile-multistage",
+            "title": "Multi-stage Builds"
+        },
+        {
+            "slug": "dockerfile-healthcheck",
+            "title": "Healthchecks"
+        },
+        {
+            "slug": "compose-basics",
+            "title": "Compose Basics"
+        },
+        {
+            "slug": "compose-networks-depends",
+            "title": "Networks & depends_on"
+        },
+        {
+            "slug": "compose-env-secrets",
+            "title": "Env + Secrets"
+        },
+        {
+            "slug": "compose-volumes-and-prod-hardening",
+            "title": "Volumes + Prod Hardening"
+        }
+    ]
+}

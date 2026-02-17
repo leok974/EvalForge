@@ -1,0 +1,1 @@
+# docker-ignition\n\nRun `npm test` to verify your solution.\n

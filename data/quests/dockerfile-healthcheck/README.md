@@ -1,0 +1,1 @@
+# dockerfile-healthcheck\n\nRun `npm test` to verify your solution.\n
