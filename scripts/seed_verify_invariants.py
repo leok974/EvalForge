@@ -1,95 +1,192 @@
 #!/usr/bin/env python3
 """
-Seed Invariant Verification Script
+Seed-time enforcement for objective schema validity.
 
-Enforces that all quests being seeded have required fields configured.
-Run this before seeding to catch configuration errors early.
+This script validates quest objectives BEFORE they are seeded into the database.
+It is the hard gate that prevents regressions.
+
+Enforces:
+1. All quests have objectives (unless allowlisted)
+2. Every objective has id, kind, rule
+3. kind is in VALIDATORS registry
+4. rule has required fields for that kind
+5. No legacy obj_default objectives
+
+Usage:
+    python scripts/seed_verify_invariants.py
+
+Exit codes:
+    0: All valid
+    1: Violations found (seeding should be aborted)
 """
 
 import sys
-from typing import List, Dict, Any
+import os
+from pathlib import Path
 
-# Import quest definitions
+# Add project root to path
+sys.path.insert(0, os.path.abspath('.'))
+
+from arcade_app.services.quest_validate import VALIDATORS, RULE_REQUIREMENTS
 from arcade_app.seed_quests_standard_worlds import STANDARD_QUESTLINES
 
-# Allowlist for quests that intentionally have no objectives
-# (Should be empty for production quests)
+# Quests allowed to have no objectives (sandboxes, playgrounds)
 ALLOWLIST_NO_OBJECTIVES = [
-    # Intentional exceptions only
+    "sandbox-python",
+    "sandbox-sql",
+    "sandbox-ts",
+    "playground-python",
 ]
 
-def verify_quest_invariants(quest_data: Dict[str, Any]) -> List[str]:
-    """
-    Verify quest configuration invariants.
-    
-    Returns:
-        List of error messages (empty if valid)
-    """
+def validate_objective(obj: dict, quest_slug: str) -> list[str]:
+    """Return list of validation errors for this objective."""
     errors = []
-    slug = quest_data.get('slug', 'UNKNOWN')
     
-    # Invariant 1: Objectives required (unless allowlisted)
-    if slug not in ALLOWLIST_NO_OBJECTIVES:
-        objectives = quest_data.get('objectives_json', [])
-        if not objectives or len(objectives) == 0:
+    # Required fields
+    if not obj.get('id'):
+        errors.append("Missing 'id'")
+    
+    obj_id = obj.get('id', 'unknown')
+    
+    # Check for legacy obj_default pattern
+    if obj_id == "obj_default" and not obj.get('kind'):
+        errors.append("❌ REGRESSION: Legacy obj_default objective detected (missing 'kind')")
+    
+    if not obj.get('kind'):
+        errors.append("Missing 'kind'")
+        return errors  # Can't validate further
+    
+    if 'rule' not in obj:
+        errors.append("Missing 'rule'")
+        return errors
+    
+    # Check kind is valid
+    kind = obj['kind']
+    if kind not in VALIDATORS:
+        errors.append(f"Unknown kind '{kind}' (not in VALIDATORS registry)")
+        supported = ', '.join(sorted(VALIDATORS.keys()))
+        errors.append(f"  Supported kinds: {supported}")
+        return errors
+    
+    # Check rule has required fields
+    rule = obj['rule']
+    if not isinstance(rule, dict):
+        errors.append(f"Rule must be a dict, got {type(rule).__name__}")
+        return errors
+    
+    required = RULE_REQUIREMENTS.get(kind, [])
+    
+    # Special case: AST requires at least one of the sub-rules
+    if kind == "ast":
+        has_ast_check = any(
+            k in rule for k in 
+            ['must_define_function', 'must_assign_variable', 'must_import', 'forbid_import']
+        )
+        if not has_ast_check:
             errors.append(
-                f"❌ Quest '{slug}' has no objectives. "
-                f"Add objectives_json or add to ALLOWLIST_NO_OBJECTIVES if intentional."
+                "AST rule missing required check. "
+                "Must have one of: must_define_function, must_assign_variable, must_import, forbid_import"
             )
+    else:
+        # Standard required fields
+        for field in required:
+            if field not in rule:
+                errors.append(f"Rule missing required field '{field}' for kind '{kind}'")
     
-    # Invariant 2: Objectives must have required fields
-    objectives = quest_data.get('objectives_json', [])
-    for idx, obj in enumerate(objectives):
-        obj_id = obj.get('id', f'objective_{idx}')
-        
-        if not obj.get('kind'):
-            errors.append(f"❌ Quest '{slug}', objective '{obj_id}': missing 'kind' field")
-        
-        if not obj.get('rule'):
-            errors.append(f"❌ Quest '{slug}', objective '{obj_id}': missing 'rule' field")
-        
-        # Validate rule structure
-        rule = obj.get('rule', {})
-        if isinstance(rule, dict) and not rule.get('kind'):
-            errors.append(f"❌ Quest '{slug}', objective '{obj_id}': rule missing 'kind'")
-    
-    # Invariant 3: starting_code_path should exist (warning only)
-    # This would require filesystem access, skip for now
+    # Special validation: stdout_exact should use 'expected' not 'pattern'
+    if kind == "stdout_exact" and 'pattern' in rule and 'expected' not in rule:
+        errors.append("⚠️  stdout_exact should use 'expected' not 'pattern' (backward compat supported but deprecated)")
     
     return errors
 
-def main():
-    """Run verification on all quest definitions."""
-    print("🔍 Verifying quest seed invariants...")
-    print(f"   Checking {len(STANDARD_QUESTLINES)} quests\n")
-    
-    all_errors = []
-    passed_count = 0
+def verify_all_quests() -> dict:
+    """Verify all quests and return report."""
+    violations = []
+    total_quests = len(STANDARD_QUESTLINES)
+    total_objectives = 0
     
     for quest in STANDARD_QUESTLINES:
-        slug = quest.get('slug', 'UNKNOWN')
-        errors = verify_quest_invariants(quest)
+        quest_slug = quest.get("slug", "unknown")
+        world_id = quest.get("world_id", "unknown")
         
-        if errors:
-            all_errors.extend(errors)
-            for error in errors:
-                print(error)
-        else:
-            passed_count += 1
-            print(f"✅ Quest '{slug}' passed all checks")
+        objectives = quest.get("objectives_json")
+        
+        # Check for missing/empty objectives
+        if objectives is None or (isinstance(objectives, list) and len(objectives) == 0):
+            if quest_slug not in ALLOWLIST_NO_OBJECTIVES:
+                violations.append({
+                    "quest": quest_slug,
+                    "world": world_id,
+                    "errors": ["❌ FATAL: Quest has no objectives (not allowlisted)"]
+                })
+            continue
+        
+        if not isinstance(objectives, list):
+            violations.append({
+                "quest": quest_slug,
+                "world": world_id,
+                "errors": [f"❌ FATAL: objectives_json must be a list, got {type(objectives).__name__}"]
+            })
+            continue
+        
+        # Validate each objective
+        quest_errors = []
+        for idx, obj in enumerate(objectives):
+            total_objectives += 1
+            
+            if not isinstance(obj, dict):
+                quest_errors.append(f"Objective index {idx}: must be a dict, got {type(obj).__name__}")
+                continue
+            
+            obj_errors = validate_objective(obj, quest_slug)
+            if obj_errors:
+                obj_id = obj.get('id', f'index_{idx}')
+                for err in obj_errors:
+                    quest_errors.append(f"Objective '{obj_id}': {err}")
+        
+        if quest_errors:
+            violations.append({
+                "quest": quest_slug,
+                "world": world_id,
+                "errors": quest_errors
+            })
     
-    print(f"\n{'='*60}")
-    print(f"Results: {passed_count} passed, {len(all_errors)} errors")
-    print(f"{'='*60}\n")
-    
-    if all_errors:
-        print("❌ SEED VALIDATION FAILED")
-        print("Fix the errors above before seeding quests.")
-        sys.exit(1)
-    else:
-        print("✅ ALL QUESTS PASSED VALIDATION")
-        print("Safe to proceed with seeding.")
-        sys.exit(0)
+    return {
+        "total_quests": total_quests,
+        "total_objectives": total_objectives,
+        "violations": violations,
+        "status": "PASS" if not violations else "FAIL"
+    }
 
 if __name__ == "__main__":
-    main()
+    print("🔒 Verifying quest objectives schema invariants...")
+    print()
+    
+    report = verify_all_quests()
+    
+    print(f"📊 Stats:")
+    print(f"  - Total quests: {report['total_quests']}")
+    print(f"  - Total objectives: {report['total_objectives']}")
+    print(f"  - Violations: {len(report['violations'])}")
+    print()
+    
+    if report['status'] == "PASS":
+        print("✅ PASS - All quest objectives valid!")
+        print("   Safe to seed to database.")
+        sys.exit(0)
+    else:
+        print("❌ FAIL - Quest objective violations detected!")
+        print()
+        print("🚫 SEEDING ABORTED - Fix the following issues:")
+        print()
+        
+        for violation in report['violations']:
+            print(f"Quest: {violation['quest']} (World: {violation['world']})")
+            for error in violation['errors']:
+                print(f"  - {error}")
+            print()
+        
+        print(f"Total violations: {len(report['violations'])} quests")
+        print()
+        print("Fix these issues before seeding to database.")
+        sys.exit(1)
