@@ -19,31 +19,27 @@ class ObjResult:
 # VALIDATOR REGISTRY - Single Source of Truth
 # ============================================================================
 
-# Supported objective kinds
+# Validator registry: maps objective kind to validator function name
 VALIDATORS = {
-    "stdout_regex": "validate_stdout_regex",
-    "stdout_exact": "validate_stdout_exact",  # Alias for stdout_regex
     "ast": "validate_ast",
-    "source_regex": "validate_source_regex",
-    "json_output": "validate_json_output",
-    "stdout_json_eq": "validate_json_output",  # Alias
-    "exit_code_zero": "validate_exit_code",
     "exit_code": "validate_exit_code",
+    "exit_code_zero": "validate_exit_code_zero",
+    "json_output": "validate_json_output",
     "not_timed_out": "validate_not_timed_out",
+    "source_regex": "validate_source_regex",
+    "stdout_exact": "validate_stdout_exact",
+    "stdout_json_eq": "validate_stdout_json_eq",
+    "stdout_regex": "validate_stdout_regex",
     "tests_pass": "validate_tests_pass",
 }
 
-# Per-kind rule requirements
-# Empty list means no required fields, but at least one optional field expected
+# Per-kind rule requirements (required fields in rule dict)
 RULE_REQUIREMENTS = {
-    "stdout_regex": ["pattern"],  # Optional: flags, description
-    "stdout_exact": ["pattern"],  # Alias
-    "ast": [],  # Requires at least one of: must_define_function, must_assign_variable, must_import
-    "source_regex": ["pattern"],  # Optional: flags
-    "json_output": ["expected"],
-    "stdout_json_eq": ["expected"],
-    "exit_code_zero": [],  # No required fields
     "exit_code": ["expected"],
+    "json_output": ["expected"],
+    "source_regex": ["pattern"],
+    "stdout_exact": ["expected"],  # CANONICAL: use 'expected' not 'pattern'
+    "stdout_json_eq": ["expected"],
     "not_timed_out": [],
     "tests_pass": [],  # Handled via pytest/node test output
 }
@@ -269,7 +265,8 @@ def validate_quest_attempt(
                     except Exception as e:
                         res.detail = f"JSON validation error: {str(e)}"
                     
-            elif kind == "stdout_regex" or kind == "stdout_exact": # Alias
+            elif kind == "stdout_regex":
+                # stdout_regex uses 'pattern' (canonical)
                 pattern = rule.get("pattern", "")
                 if not pattern:
                     res.detail = "Invalid regex rule (empty pattern)"
@@ -285,7 +282,7 @@ def validate_quest_attempt(
                     txt = stdout_normalized or ""
                     
                     # Get human-readable description
-                    expected_desc = rule.get("description") or title or f"Output matching pattern: {pattern[:50]}"
+                    expected_desc = rule.get("expected") or rule.get("description") or title or f"Output matching pattern: {pattern[:50]}"
                     
                     try:
                         if re.search(pattern, txt, re_flags):
@@ -301,6 +298,25 @@ def validate_quest_attempt(
                              res.diff = f"Expected:\n  {expected_desc}\nActual:\n  {res.actual}"
                     except re.error as e:
                          res.detail = f"Invalid regex pattern: {e}"
+            
+            elif kind == "stdout_exact":
+                # stdout_exact uses 'expected' (canonical) - support 'pattern' for backward compatibility
+                expected_val = rule.get("expected") or rule.get("pattern", "")
+                if not expected_val:
+                    res.detail = "Invalid stdout_exact rule (missing 'expected' field)"
+                else:
+                    txt = stdout_normalized or ""
+                    # Exact match comparison
+                    if txt == expected_val:
+                        res.ok = True
+                        res.detail = "Output matches expected value"
+                    else:
+                        res.ok = False
+                        res.kind = "objective"
+                        res.expected = expected_val
+                        res.actual = txt[:200] if txt else "(empty)"
+                        res.detail = f"Expected exact match"
+                        res.diff = f"Expected:\n  {expected_val}\nActual:\n  {res.actual}"
 
             elif kind == "exit_code_zero":
                 res.ok = (exit_code == 0)

@@ -129,7 +129,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
                 "kind": "stdout_exact",
                 "rule": {
                     "kind": "stdout_exact",
-                    "pattern": "2,4,6,8,10"  # From golden.json
+                    "expected": "2,4,6,8,10"  # From golden.json - CANONICAL: use 'expected' not 'pattern'
                 },
                 "text": "Output correct comma-separated evens",
                 "why": "Verify loop logic produces expected output"

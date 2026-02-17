@@ -1,6 +1,6 @@
 # Objectives Schema Audit Report
 
-**Date:** 2026-02-17T18:22:17.230615  
+**Date:** 2026-02-17T18:26:48.523474  
 **Status:** ✅ PASS
 
 ## Summary
@@ -34,7 +34,7 @@ No issues found. All objectives have proper kind+rule schema.
 | `json_output` | `expected` |
 | `not_timed_out` | (none) |
 | `source_regex` | `pattern` |
-| `stdout_exact` | `pattern` |
+| `stdout_exact` | `expected` |
 | `stdout_json_eq` | `expected` |
-| `stdout_regex` | `pattern` |
+| `stdout_regex` | (none) |
 | `tests_pass` | (none) |
