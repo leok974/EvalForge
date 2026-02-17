@@ -1,56 +1,21 @@
 # Objectives Schema Audit Report
 
-**Date:** 2026-02-17T18:17:58.580145  
-**Status:** ❌ FAIL
+**Date:** 2026-02-17T18:22:17.230615  
+**Status:** ✅ PASS
 
 ## Summary
 
 - **Total Quests Scanned:** 16
-- **Total Objectives:** 11
-- **Valid Quests:** 4
+- **Total Objectives:** 37
+- **Valid Quests:** 16
 - **Invalid Quests:** 0
-- **Quests with No Objectives:** 12
+- **Quests with No Objectives:** 0
 
 ---
 
-## ⚠️  Quests with No Objectives (12)
+## ✅ All Quests Valid!
 
-- **js-ignition-q1-console-and-functions** (World: world-js)
-  - objectives_json is missing or empty
-
-- **js-vars-q1-let-const-var** (World: world-js)
-  - objectives_json is missing or empty
-
-- **sql-ignition** (World: world-sql)
-  - objectives_json is missing or empty
-
-- **sql-select** (World: world-sql)
-  - objectives_json is missing or empty
-
-- **infra-ignition** (World: world-infra)
-  - objectives_json is missing or empty
-
-- **infra-ports-and-localhost** (World: world-infra)
-  - objectives_json is missing or empty
-
-- **agents-ignition** (World: world-agents)
-  - objectives_json is missing or empty
-
-- **agents-prompts-contracts** (World: world-agents)
-  - objectives_json is missing or empty
-
-- **git-ignition** (World: world-git)
-  - objectives_json is missing or empty
-
-- **git-init-clone** (World: world-git)
-  - objectives_json is missing or empty
-
-- **ml-ignition** (World: world-ml)
-  - objectives_json is missing or empty
-
-- **ml-numpy-basics** (World: world-ml)
-  - objectives_json is missing or empty
-
+No issues found. All objectives have proper kind+rule schema.
 ---
 
 ## Validator Registry

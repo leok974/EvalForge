@@ -234,6 +234,40 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 40,
         "mastery_xp_bonus": 20,
+        "objectives_json": [
+            {
+                "id": "obj_define_function",
+                "kind": "source_regex",
+                "rule": {
+                    "kind": "source_regex",
+                    "pattern": "function\\s+\\w+"
+                },
+                "text": "Define a JavaScript function",
+                "why": "Learn function syntax in JS"
+            },
+            {
+                "id": "obj_console_log",
+                "kind": "source_regex",
+                "rule": {
+                    "kind": "source_regex",
+                    "pattern": "console\\.log"
+                },
+                "text": "Use console.log",
+                "why": "Learn console output in JS"
+            },
+            {
+                "id": "obj_exit_zero",
+                "kind": "exit_code_zero",
+                "rule": {"kind": "exit_code_zero"},
+                "text": "Code runs without errors",
+                "why": "Ensure syntax is correct"
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
     },
     {
         "slug": "js-vars-q1-let-const-var",
@@ -249,6 +283,40 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 60,
         "mastery_xp_bonus": 25,
+        "objectives_json": [
+            {
+                "id": "obj_use_const",
+                "kind": "source_regex",
+                "rule": {
+                    "kind": "source_regex",
+                    "pattern": "const\\s+\\w+"
+                },
+                "text": "Use const declaration",
+                "why": "Learn modern variable declarations"
+            },
+            {
+                "id": "obj_use_let",
+                "kind": "source_regex",
+                "rule": {
+                    "kind": "source_regex",
+                    "pattern": "let\\s+\\w+"
+                },
+                "text": "Use let declaration",
+                "why": "Learn block-scoped variables"
+            },
+            {
+                "id": "obj_exit_zero",
+                "kind": "exit_code_zero",
+                "rule": {"kind": "exit_code_zero"},
+                "text": "Code runs without errors",
+                "why": "Ensure syntax is correct"
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
     },
 
     # === The Archives (SQL) ===
@@ -266,6 +334,30 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 40,
         "mastery_xp_bonus": 20,
+        "objectives_json": [
+            {
+                "id": "obj_select_statement",
+                "kind": "source_regex",
+                "rule": {
+                    "kind": "source_regex",
+                    "pattern": "SELECT.*FROM"
+                },
+                "text": "Write SELECT FROM query",
+                "why": "Learn basic SQL query structure"
+            },
+            {
+                "id": "obj_exit_zero",
+                "kind": "exit_code_zero",
+                "rule": {"kind": "exit_code_zero"},
+                "text": "Query executes successfully",
+                "why": "Ensure SQL syntax is correct"
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
     },
     {
         "slug": "sql-select",
@@ -281,6 +373,30 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 60,
         "mastery_xp_bonus": 25,
+        "objectives_json": [
+            {
+                "id": "obj_join",
+                "kind": "source_regex",
+                "rule": {
+                    "kind": "source_regex",
+                    "pattern": "JOIN"
+                },
+                "text": "Use JOIN clause",
+                "why": "Learn table joins"
+            },
+            {
+                "id": "obj_exit_zero",
+                "kind": "exit_code_zero",
+                "rule": {"kind": "exit_code_zero"},
+                "text": "Query executes successfully",
+                "why": "Ensure syntax is correct"
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
     },
 
     # === The Grid (Infra) ===
@@ -298,6 +414,23 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 50,
         "mastery_xp_bonus": 20,
+        "objectives_json": [
+            {
+                "id": "obj_docker_cmd",
+                "kind": "source_regex",
+                "rule": {"kind": "source_regex", "pattern": "docker|FROM"},
+                "text": "Use Docker commands",
+                "why": "Learn container basics"
+            },
+            {
+                "id": "obj_exit_zero",
+                "kind": "exit_code_zero",
+                "rule": {"kind": "exit_code_zero"},
+                "text": "Configuration valid",
+                "why": "Ensure syntax correct"
+            }
+        ],
+        "runtime_rules_json": {"enabled": True, "require_exit_code_zero": True, "require_no_timeout": True}
     },
     {
         "slug": "infra-ports-and-localhost",
@@ -313,6 +446,23 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": "workshop",
         "base_xp_reward": 70,
         "mastery_xp_bonus": 30,
+        "objectives_json": [
+            {
+                "id": "obj_port",
+                "kind": "source_regex",
+                "rule": {"kind": "source_regex", "pattern": "port|localhost"},
+                "text": "Configure ports/localhost",
+                "why": "Learn networking"
+            },
+            {
+                "id": "obj_exit_zero",
+                "kind": "exit_code_zero",
+                "rule": {"kind": "exit_code_zero"},
+                "text": "Config runs successfully",
+                "why": "Ensure valid setup"
+            }
+        ],
+        "runtime_rules_json": {"enabled": True, "require_exit_code_zero": True, "require_no_timeout": True}
     },
 
     # === The Oracle (Agents) ===
@@ -330,6 +480,11 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 50,
         "mastery_xp_bonus": 20,
+        "objectives_json": [
+            {"id": "obj_agent", "kind": "source_regex", "rule": {"kind": "source_regex", "pattern": "agent|llm|model"}, "text": "Use agent/LLM", "why": "Learn agent basics"},
+            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Runs successfully", "why": "Ensure syntax correct"}
+        ],
+        "runtime_rules_json": {"enabled": True, "require_exit_code_zero": True, "require_no_timeout": True}
     },
     {
         "slug": "agents-prompts-contracts",
@@ -345,6 +500,11 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 70,
         "mastery_xp_bonus": 30,
+        "objectives_json": [
+            {"id": "obj_contract", "kind": "source_regex", "rule": {"kind": "source_regex", "pattern": "contract|schema|type"}, "text": "Define contract", "why": "Learn structured prompts"},
+            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Runs successfully", "why": "Ensure valid"}
+        ],
+        "runtime_rules_json": {"enabled": True, "require_exit_code_zero": True, "require_no_timeout": True}
     },
 
     # === The Timeline (Git) ===
@@ -362,6 +522,15 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 40,
         "mastery_xp_bonus": 20,
+        "objectives_json": [
+            {"id": "obj_git_init", "kind": "source_regex", "rule": {"kind": "source_regex", "pattern": "git\\s+(init|clone)"}, "text": "Use git init or clone", "why": "Learn repo initialization"},
+            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Command succeeds", "why": "Ensure syntax correct"}
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
     },
     {
         "slug": "git-init-clone",
@@ -377,6 +546,11 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 60,
         "mastery_xp_bonus": 25,
+        "objectives_json": [
+            {"id": "obj_git_clone", "kind": "source_regex", "rule": {"kind": "source_regex", "pattern": "git\\s+clone"}, "text": "Use git clone", "why": "Learn repository cloning"},
+            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Command succeeds", "why": "Ensure valid"}
+        ],
+        "runtime_rules_json": {"enabled": True, "require_exit_code_zero": True, "require_no_timeout": True}
     },
 
     # === The Synapse (ML) ===
@@ -394,6 +568,11 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 50,
         "mastery_xp_bonus": 20,
+        "objectives_json": [
+            {"id": "obj_ml_lib", "kind": "source_regex", "rule": {"kind": "source_regex", "pattern": "import\\s+(numpy|pandas|sklearn|tensorflow|torch)"}, "text": "Import ML library", "why": "Learn ML environment setup"},
+            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Runs successfully", "why": "Ensure valid"}
+        ],
+        "runtime_rules_json": {"enabled": True, "require_exit_code_zero": True, "require_no_timeout": True}
     },
     {
         "slug": "ml-numpy-basics",
@@ -409,7 +588,12 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 70,
         "mastery_xp_bonus": 30,
-    }
+        "objectives_json": [
+            {"id": "obj_numpy", "kind": "source_regex", "rule": {"kind": "source_regex", "pattern": "np\\.|numpy"}, "text": "Use NumPy", "why": "Learn arrays"},
+            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Runs successfully", "why": "Ensure valid"}
+        ],
+        "runtime_rules_json": {"enabled": True, "require_exit_code_zero": True, "require_no_timeout": True}
+    },
 ]
 
 
