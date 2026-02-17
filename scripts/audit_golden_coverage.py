@@ -156,7 +156,7 @@ def generate_markdown_report(report: dict) -> str:
     
     # Missing golden
     if report['quests_missing_golden']:
-        mdmd += f"## ❌ Quests Missing Golden Capture ({len(report['quests_missing_golden'])})\n\n"
+        md += f"## ❌ Quests Missing Golden Capture ({len(report['quests_missing_golden'])})\n\n"
         md += "**CRITICAL:** These quests have NO golden capture (neither run nor spec):\n\n"
         for quest in report['quests_missing_golden']:
             md += f"- **{quest['slug']}** (World: {quest['world']})\n"
