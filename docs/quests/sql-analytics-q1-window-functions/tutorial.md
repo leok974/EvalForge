@@ -11,11 +11,6 @@ In this quest, you'll work with sql analytics q1 window functions to practice co
 ## 2) The Concept in 30 Seconds
 Sql Analytics Q1 Window Functions demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

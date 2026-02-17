@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  app:
+    image: myapp
+    env_file:
+      - .env
+    secrets:
+      - db_password
+
+secrets:
+  db_password:
+    file: ./db_password.txt

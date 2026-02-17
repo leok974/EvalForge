@@ -11,11 +11,6 @@ In this quest, you'll work with git branch q1 branching strategies to practice c
 ## 2) The Concept in 30 Seconds
 Git Branch Q1 Branching Strategies demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

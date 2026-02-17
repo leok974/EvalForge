@@ -1,0 +1,9 @@
+{
+  "name": "docker-quest",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test grading/public/*.test.mjs"
+  },
+  "devDependencies": {}
+}

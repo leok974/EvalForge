@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  api:
+    image: myapi
+    # TODO: Add depends_on for db
+    # TODO: Add network
+  db:
+    image: postgres
+    # TODO: Add network
+# TODO: Define networks block

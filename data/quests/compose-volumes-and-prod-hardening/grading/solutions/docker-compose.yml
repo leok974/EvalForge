@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  app:
+    image: myapp
+    read_only: true
+    security_opt:
+      - "no-new-privileges:true"
+
+volumes:
+  db_data:

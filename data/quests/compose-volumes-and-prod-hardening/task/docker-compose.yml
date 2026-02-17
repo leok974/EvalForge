@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    # TODO: Add named volume for persistence
+  app:
+    image: myapp
+    # TODO: Make read_only or drop capabilities
+volumes:
+  # TODO: Define volume

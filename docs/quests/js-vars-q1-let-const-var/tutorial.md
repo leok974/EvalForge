@@ -11,11 +11,6 @@ In this quest, you'll work with js vars q1 let const var to practice core concep
 ## 2) The Concept in 30 Seconds
 Js Vars Q1 Let Const Var demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

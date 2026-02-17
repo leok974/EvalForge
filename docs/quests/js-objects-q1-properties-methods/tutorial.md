@@ -11,11 +11,6 @@ In this quest, you'll work with js objects q1 properties methods to practice cor
 ## 2) The Concept in 30 Seconds
 Js Objects Q1 Properties Methods demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

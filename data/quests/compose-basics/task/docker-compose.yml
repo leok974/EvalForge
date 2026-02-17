@@ -1,0 +1,4 @@
+version: '3.8'
+# TODO: Define services
+# TODO: Define web service (port 3000:3000)
+# TODO: Set NODE_ENV=production

@@ -11,6 +11,10 @@ Do the smallest correct thing:
 2) use it in output,
 3) keep formatting exact.
 
+## Key Terms
+- **[variable](codex:glossary/python/variable)**
+- **[print](codex:glossary/python/print)**
+
 ## Implementation Plan
 1. In `main()`, create the variable:
    - `message = "System Online"`

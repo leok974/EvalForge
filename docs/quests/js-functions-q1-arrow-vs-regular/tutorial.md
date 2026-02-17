@@ -11,11 +11,6 @@ In this quest, you'll work with js functions q1 arrow vs regular to practice cor
 ## 2) The Concept in 30 Seconds
 Js Functions Q1 Arrow Vs Regular demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

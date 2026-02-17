@@ -11,11 +11,6 @@ In this quest, you'll work with infra volumes persistence to practice core conce
 ## 2) The Concept in 30 Seconds
 Infra Volumes Persistence demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

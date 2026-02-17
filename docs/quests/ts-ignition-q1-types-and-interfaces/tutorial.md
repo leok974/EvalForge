@@ -11,11 +11,6 @@ In this quest, you'll work with ts ignition q1 types and interfaces to practice 
 ## 2) The Concept in 30 Seconds
 Ts Ignition Q1 Types And Interfaces demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

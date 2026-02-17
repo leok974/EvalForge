@@ -11,11 +11,6 @@ In this quest, you'll work with sql retrieval q1 select from basics to practice 
 ## 2) The Concept in 30 Seconds
 Sql Retrieval Q1 Select From Basics demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

@@ -11,11 +11,6 @@ In this quest, you'll work with ml gradient q1 training loop and metrics to prac
 ## 2) The Concept in 30 Seconds
 Ml Gradient Q1 Training Loop And Metrics demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

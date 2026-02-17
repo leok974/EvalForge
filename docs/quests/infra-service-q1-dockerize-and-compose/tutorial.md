@@ -11,11 +11,6 @@ In this quest, you'll work with infra service q1 dockerize and compose to practi
 ## 2) The Concept in 30 Seconds
 Infra Service Q1 Dockerize And Compose demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough

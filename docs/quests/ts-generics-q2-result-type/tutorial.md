@@ -11,11 +11,6 @@ In this quest, you'll work with ts generics q2 result type to practice core conc
 ## 2) The Concept in 30 Seconds
 Ts Generics Q2 Result Type demonstrates fundamental programming patterns used in real-world applications.
 
-## 3) Key Terms
-- **term 1**
-- **term 2**
-(See Codex for full definitions)
-
 ---
 
 ## 4) Step-by-Step Walkthrough
