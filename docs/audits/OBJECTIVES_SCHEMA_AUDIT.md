@@ -1,22 +1,19 @@
 # Objectives Schema Audit Report
 
-**Date:** 2026-02-17T18:07:51.668287  
+**Date:** 2026-02-17T18:16:02.257556  
 **Status:** ❌ FAIL
 
 ## Summary
 
 - **Total Quests Scanned:** 15
-- **Total Objectives:** 5
-- **Valid Quests:** 2
+- **Total Objectives:** 9
+- **Valid Quests:** 3
 - **Invalid Quests:** 0
-- **Quests with No Objectives:** 13
+- **Quests with No Objectives:** 12
 
 ---
 
-## ⚠️  Quests with No Objectives (13)
-
-- **python-data-forge** (World: world-python)
-  - objectives_json is missing or empty
+## ⚠️  Quests with No Objectives (12)
 
 - **js-ignition-q1-console-and-functions** (World: world-js)
   - objectives_json is missing or empty

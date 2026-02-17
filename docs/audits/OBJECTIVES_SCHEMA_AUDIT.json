@@ -1,14 +1,9 @@
 {
-  "audit_date": "2026-02-17T18:07:51.668287",
+  "audit_date": "2026-02-17T18:16:02.257556",
   "total_quests": 15,
-  "total_objectives": 5,
+  "total_objectives": 9,
   "invalid_quests": [],
   "quests_with_no_objectives": [
-    {
-      "slug": "python-data-forge",
-      "world": "world-python",
-      "reason": "objectives_json is missing or empty"
-    },
     {
       "slug": "js-ignition-q1-console-and-functions",
       "world": "world-js",
@@ -70,12 +65,12 @@
       "reason": "objectives_json is missing or empty"
     }
   ],
-  "valid_quests": 2,
+  "valid_quests": 3,
   "summary": {
     "total_quests": 15,
-    "valid_quests": 2,
+    "valid_quests": 3,
     "invalid_quests_count": 0,
-    "quests_with_no_objectives_count": 13,
+    "quests_with_no_objectives_count": 12,
     "status": "FAIL"
   }
 }

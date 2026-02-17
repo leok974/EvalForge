@@ -128,6 +128,54 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": "orion",  # optional: unlock Orion layout here
         "base_xp_reward": 70,
         "mastery_xp_bonus": 30,
+        "objectives_json": [
+            {
+                "id": "obj_load_sales",
+                "kind": "ast",
+                "rule": {
+                    "kind": "ast",
+                    "must_define_function": "load_sales"
+                },
+                "text": "Define function load_sales",
+                "why": "Learn CSV file reading and parsing"
+            },
+            {
+                "id": "obj_revenue_by_item",
+                "kind": "ast",
+                "rule": {
+                    "kind": "ast",
+                    "must_define_function": "revenue_by_item"
+                },
+                "text": "Define function revenue_by_item",
+                "why": "Learn dictionary aggregation patterns"
+            },
+            {
+                "id": "obj_top_items",
+                "kind": "ast",
+                "rule": {
+                    "kind": "ast",
+                    "must_define_function": "top_items"
+                },
+                "text": "Define function top_items",
+                "why": "Learn sorting with custom keys"
+            },
+            {
+                "id": "obj_stdout",
+                "kind": "stdout_regex",
+                "rule": {
+                    "kind": "stdout_regex",
+                    "pattern": "apple=10\\.50\\s*\\nbanana=6\\.40",
+                    "description": "Top 2 items with revenue (apple=10.50, banana=6.40)"
+                },
+                "text": "Output top 2 items correctly formatted",
+                "why": "Verify complete data pipeline works"
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
     },
 
     # === The Prism (JS) ===
