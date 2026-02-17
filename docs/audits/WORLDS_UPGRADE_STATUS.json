@@ -1391,6 +1391,43 @@
         }
       },
       "status": "NEEDS_UPGRADE"
+    },
+    {
+      "world_key": "world-docker",
+      "questpack": "data/questpacks/docker_core.json",
+      "format": "modern",
+      "slugs": [
+        "docker-ignition",
+        "dockerfile-basics",
+        "dockerfile-layers-cache",
+        "dockerfile-copy-vs-add",
+        "dockerfile-multistage",
+        "dockerfile-healthcheck",
+        "compose-basics",
+        "compose-networks-depends",
+        "compose-env-secrets",
+        "compose-volumes-and-prod-hardening"
+      ],
+      "structure": {
+        "missing_dir": [],
+        "missing_public": [],
+        "missing_solution": []
+      },
+      "verification": {
+        "student": {
+          "ran": true,
+          "exit_code": 1,
+          "pass": 0,
+          "fail": 10
+        },
+        "solution": {
+          "ran": true,
+          "exit_code": 0,
+          "pass": 10,
+          "fail": 0
+        }
+      },
+      "status": "TRAINING_GRADE"
     }
   ]
 }

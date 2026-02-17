@@ -13,7 +13,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-ignition/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -25,7 +25,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-prompts-contracts/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -37,7 +37,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-tools-basics/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -49,7 +49,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-planner/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -61,7 +61,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-executor/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -73,7 +73,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-verifier/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -85,7 +85,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-approvals-diffs/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -97,7 +97,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-memory/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -109,7 +109,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-budgets/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         },
         {
@@ -121,7 +121,7 @@
             "workspace": {
                 "files_from": "../../quests/agents-observability/workspace"
             },
-            "language": "javascript",
+            "language": "python",
             "content_source": "legacy_wrapper"
         }
     ]

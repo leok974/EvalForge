@@ -101,6 +101,11 @@ export interface ObjectiveResult {
     ok: boolean;
     detail?: string;
     line?: number;
+    // Actionable error fields
+    kind?: 'runtime' | 'objective' | 'tests' | 'system';
+    expected?: string;
+    actual?: string;
+    diff?: string;
 }
 
 export interface QuickFix {

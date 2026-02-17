@@ -24,11 +24,34 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
             "- Print a status line that matches the spec.\n"
         ),
         "rubric_id": "python_ignition",
-        "starting_code_path": "data/quests/python/ignition_start.py",
+        "starting_code_path": "data/quests/python-ignition/workspace/task.py",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 40,
         "mastery_xp_bonus": 20,
+        "objectives_json": [
+            {
+                "id": "obj_runs",
+                "title": "Program executes successfully",
+                "kind": "exit_code_zero",
+                "rule": {"kind": "exit_code_zero"}
+            },
+            {
+                "id": "obj_output",
+                "title": "Print correct message",
+                "kind": "stdout_regex",
+                "rule": {
+                    "kind": "stdout_regex",
+                    "pattern": "System Online",
+                    "description": "Output containing 'System Online'"
+                }
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
     },
     {
         "slug": "python-loop",
@@ -44,7 +67,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
             "- Build a simple report over a list of records.\n"
         ),
         "rubric_id": "python_loop",
-        "starting_code_path": "data/quests/python/loop_start.py",
+        "starting_code_path": "data/quests/python-loop/workspace/task.py",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 50,
@@ -64,7 +87,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
             "- Emit a summary object used by The Reactor Core boss.\n"
         ),
         "rubric_id": "python_data_forge",
-        "starting_code_path": "data/quests/python/data_forge_start.py",
+        "starting_code_path": "data/quests/python-data-forge/workspace/task.py",
         "unlocks_boss_id": "reactor-core",
         "unlocks_layout_id": "orion",  # optional: unlock Orion layout here
         "base_xp_reward": 70,
@@ -73,40 +96,30 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
 
     # === The Prism (JS) ===
     {
-        "slug": "js-light-source",
+        "slug": "js-ignition-q1-console-and-functions",
         "world_id": "world-js",
         "track_id": "fundamentals",
         "order_index": 10,
-        "title": "Light Source",
-        "short_description": "Illuminate the basics of JavaScript and the event loop.",
-        "detailed_description": (
-            "Intro quest for The Prism.\n\n"
-            "- Use let/const and functions.\n"
-            "- Log diagnostic output.\n"
-            "- Wire a basic event handler.\n"
-        ),
-        "rubric_id": "js_light_source",
-        "starting_code_path": "data/quests/js/light_source_start.js",
+        "title": "Ignition: Console & Functions",
+        "short_description": "First sparks of JavaScript.",
+        "detailed_description": "Initial JS quest.",
+        "rubric_id": "js_ignition",
+        "starting_code_path": "data/quests/js-ignition-q1-console-and-functions/workspace/main.js",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 40,
         "mastery_xp_bonus": 20,
     },
     {
-        "slug": "js-refraction",
+        "slug": "js-vars-q1-let-const-var",
         "world_id": "world-js",
         "track_id": "boss-prep",
         "order_index": 20,
-        "title": "Refraction",
-        "short_description": "Bend streams of events into clean, composable logic.",
-        "detailed_description": (
-            "Boss-prep quest for The Prism.\n\n"
-            "- Map and filter arrays of events.\n"
-            "- Normalize payloads.\n"
-            "- Build the reducer that feeds The Signal Prism boss.\n"
-        ),
-        "rubric_id": "js_refraction",
-        "starting_code_path": "data/quests/js/refraction_start.js",
+        "title": "Variables: Let, Const, Var",
+        "short_description": "Master variable declarations.",
+        "detailed_description": "Variable scoping quest.",
+        "rubric_id": "js_vars",
+        "starting_code_path": "data/quests/js-vars-q1-let-const-var/workspace/main.js",
         "unlocks_boss_id": "signal-prism",
         "unlocks_layout_id": None,
         "base_xp_reward": 60,
@@ -115,40 +128,30 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
 
     # === The Archives (SQL) ===
     {
-        "slug": "sql-retrieval",
+        "slug": "sql-ignition",
         "world_id": "world-sql",
         "track_id": "fundamentals",
         "order_index": 10,
-        "title": "Retrieval",
-        "short_description": "Learn to fetch data from the Archives with SELECT.",
-        "detailed_description": (
-            "Intro quest for The Archives.\n\n"
-            "- Basic SELECT queries.\n"
-            "- Simple WHERE filters.\n"
-            "- LIMIT and ORDER BY.\n"
-        ),
-        "rubric_id": "sql_retrieval",
-        "starting_code_path": "data/quests/sql/retrieval.sql",
+        "title": "Ignition",
+        "short_description": "Start your SQL engine.",
+        "detailed_description": "Basic SQL selection.",
+        "rubric_id": "sql_ignition",
+        "starting_code_path": "data/quests/sql-ignition/workspace/query.sql",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 40,
         "mastery_xp_bonus": 20,
     },
     {
-        "slug": "sql-filter",
+        "slug": "sql-select",
         "world_id": "world-sql",
         "track_id": "boss-prep",
         "order_index": 20,
-        "title": "Filter",
-        "short_description": "Control the Archive’s flow with precise filters and joins.",
-        "detailed_description": (
-            "Boss-prep quest for The Archives.\n\n"
-            "- Combine WHERE, AND/OR.\n"
-            "- Use INNER JOIN.\n"
-            "- Build the query The Archive Warden boss will test.\n"
-        ),
-        "rubric_id": "sql_filter",
-        "starting_code_path": "data/quests/sql/filter.sql",
+        "title": "Selection",
+        "short_description": "Refine your data retrieval.",
+        "detailed_description": "Advanced SELECT.",
+        "rubric_id": "sql_select",
+        "starting_code_path": "data/quests/sql-select/workspace/query.sql",
         "unlocks_boss_id": "archive-warden",
         "unlocks_layout_id": None,
         "base_xp_reward": 60,
@@ -157,82 +160,62 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
 
     # === The Grid (Infra) ===
     {
-        "slug": "infra-containment",
+        "slug": "infra-ignition",
         "world_id": "world-infra",
         "track_id": "fundamentals",
         "order_index": 10,
-        "title": "Containment",
-        "short_description": "Learn how to containerize a simple service safely.",
-        "detailed_description": (
-            "Intro quest for The Grid.\n\n"
-            "- Write a basic Dockerfile.\n"
-            "- Expose a health endpoint.\n"
-            "- Run locally and verify.\n"
-        ),
-        "rubric_id": "infra_containment",
-        "starting_code_path": "data/quests/infra/containment.Dockerfile",
+        "title": "Ignition",
+        "short_description": "Preflight checks for The Grid.",
+        "detailed_description": "Infrastructure ignition.",
+        "rubric_id": "infra_ignition",
+        "starting_code_path": "data/quests/infra-ignition/workspace/task.sh",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 50,
         "mastery_xp_bonus": 20,
     },
     {
-        "slug": "infra-service-link",
+        "slug": "infra-ports-and-localhost",
         "world_id": "world-infra",
         "track_id": "boss-prep",
         "order_index": 20,
-        "title": "Service Link",
-        "short_description": "Wire services together so The Grid Sentinel can test resilience.",
-        "detailed_description": (
-            "Boss-prep quest for The Grid.\n\n"
-            "- Compose multiple services.\n"
-            "- Configure health checks.\n"
-            "- Verify a simple request path through the grid.\n"
-        ),
-        "rubric_id": "infra_service_link",
-        "starting_code_path": "data/quests/infra/service_link.docker-compose.yml",
+        "title": "Ports & Localhost",
+        "short_description": "Understand connectivity.",
+        "detailed_description": "Port mapping quest.",
+        "rubric_id": "infra_ports",
+        "starting_code_path": "data/quests/infra-ports-and-localhost/workspace/task.sh",
         "unlocks_boss_id": "grid-sentinel",
-        "unlocks_layout_id": "workshop",  # optional: unlock Workshop here
+        "unlocks_layout_id": "workshop",
         "base_xp_reward": 70,
         "mastery_xp_bonus": 30,
     },
 
     # === The Oracle (Agents) ===
     {
-        "slug": "agents-invocation",
+        "slug": "agents-ignition",
         "world_id": "world-agents",
         "track_id": "fundamentals",
         "order_index": 10,
-        "title": "Invocation",
-        "short_description": "Call a single agent with a safe, well-typed prompt.",
-        "detailed_description": (
-            "Intro quest for The Oracle.\n\n"
-            "- Call the LLM with a JSON schema.\n"
-            "- Handle errors gracefully.\n"
-            "- Log traces for debugging.\n"
-        ),
-        "rubric_id": "agents_invocation",
-        "starting_code_path": "data/quests/agents/invocation_start.py",
+        "title": "Ignition",
+        "short_description": "Awaken the Oracle.",
+        "detailed_description": "Agent first steps.",
+        "rubric_id": "agents_ignition",
+        "starting_code_path": "data/quests/agents-ignition/workspace/main.py",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 50,
         "mastery_xp_bonus": 20,
     },
     {
-        "slug": "agents-grounding",
+        "slug": "agents-prompts-contracts",
         "world_id": "world-agents",
         "track_id": "boss-prep",
         "order_index": 20,
-        "title": "Grounding",
-        "short_description": "Ground your agent with tools and RAG before it faces the Oracle Mirror.",
-        "detailed_description": (
-            "Boss-prep quest for The Oracle.\n\n"
-            "- Add a tool (HTTP/DB).\n"
-            "- Use RAG for citations.\n"
-            "- Enforce guardrails before the boss.\n"
-        ),
-        "rubric_id": "agents_grounding",
-        "starting_code_path": "data/quests/agents/grounding_start.py",
+        "title": "Prompts & Contracts",
+        "short_description": "Define the interface.",
+        "detailed_description": "Prompt engineering basics.",
+        "rubric_id": "agents_prompts",
+        "starting_code_path": "data/quests/agents-prompts-contracts/workspace/main.py",
         "unlocks_boss_id": "oracle-mirror",
         "unlocks_layout_id": None,
         "base_xp_reward": 70,
@@ -241,40 +224,30 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
 
     # === The Timeline (Git) ===
     {
-        "slug": "git-commit",
+        "slug": "git-ignition",
         "world_id": "world-git",
         "track_id": "fundamentals",
         "order_index": 10,
-        "title": "Commit",
-        "short_description": "Capture a clean snapshot in the Timeline with proper commits.",
-        "detailed_description": (
-            "Intro quest for The Timeline.\n\n"
-            "- Initialize a repo.\n"
-            "- Stage and commit changes.\n"
-            "- Write a meaningful commit message.\n"
-        ),
-        "rubric_id": "git_commit",
-        "starting_code_path": "data/quests/git/commit_start.txt",
+        "title": "Ignition",
+        "short_description": "Initialize your Timeline.",
+        "detailed_description": "Git init basics.",
+        "rubric_id": "git_ignition",
+        "starting_code_path": "data/quests/git-ignition/workspace/task.sh",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 40,
         "mastery_xp_bonus": 20,
     },
     {
-        "slug": "git-branch",
+        "slug": "git-init-clone",
         "world_id": "world-git",
         "track_id": "boss-prep",
         "order_index": 20,
-        "title": "Branch",
-        "short_description": "Branch, merge, and resolve conflicts before facing the Timeline Hydra.",
-        "detailed_description": (
-            "Boss-prep quest for The Timeline.\n\n"
-            "- Create and switch branches.\n"
-            "- Merge changes.\n"
-            "- Resolve a simple conflict.\n"
-        ),
-        "rubric_id": "git_branch",
-        "starting_code_path": "data/quests/git/branch_start.txt",
+        "title": "Init & Clone",
+        "short_description": "Cloning the history.",
+        "detailed_description": "Git clone operations.",
+        "rubric_id": "git_init_clone",
+        "starting_code_path": "data/quests/git-init-clone/workspace/task.sh",
         "unlocks_boss_id": "timeline-hydra",
         "unlocks_layout_id": None,
         "base_xp_reward": 60,
@@ -283,45 +256,35 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
 
     # === The Synapse (ML) ===
     {
-        "slug": "ml-tensor",
+        "slug": "ml-ignition",
         "world_id": "world-ml",
         "track_id": "fundamentals",
         "order_index": 10,
-        "title": "Tensor",
-        "short_description": "Get comfortable with tensors, shapes, and basic operations.",
-        "detailed_description": (
-            "Intro quest for The Synapse.\n\n"
-            "- Create tensors.\n"
-            "- Inspect shapes.\n"
-            "- Perform basic arithmetic ops.\n"
-        ),
-        "rubric_id": "ml_tensor",
-        "starting_code_path": "data/quests/ml/tensor_start.py",
+        "title": "Ignition",
+        "short_description": "Spark the synapse.",
+        "detailed_description": "ML basics.",
+        "rubric_id": "ml_ignition",
+        "starting_code_path": "data/quests/ml-ignition/workspace/task.py",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 50,
         "mastery_xp_bonus": 20,
     },
     {
-        "slug": "ml-gradient",
+        "slug": "ml-numpy-basics",
         "world_id": "world-ml",
         "track_id": "boss-prep",
         "order_index": 20,
-        "title": "Gradient",
-        "short_description": "Train a tiny model and watch gradients flow before Synapse Colossus.",
-        "detailed_description": (
-            "Boss-prep quest for The Synapse.\n\n"
-            "- Define a simple model.\n"
-            "- Run a forward/backward pass.\n"
-            "- Inspect loss improvements.\n"
-        ),
-        "rubric_id": "ml_gradient",
-        "starting_code_path": "data/quests/ml/gradient_start.py",
+        "title": "Numpy Basics",
+        "short_description": "Matrix operations.",
+        "detailed_description": "Numpy foundations.",
+        "rubric_id": "ml_numpy",
+        "starting_code_path": "data/quests/ml-numpy-basics/workspace/task.py",
         "unlocks_boss_id": "synapse-colossus",
         "unlocks_layout_id": None,
         "base_xp_reward": 70,
         "mastery_xp_bonus": 30,
-    },
+    }
 ]
 
 

@@ -3,7 +3,9 @@ import { useQuestStore } from '../../store/questStore';
 import { CodexPanel } from '../../features/codex/CodexPanel';
 import { PanelId, WORKSHOP_PANELS } from '../../features/workshop/workshopPanels';
 import { cn } from '../../lib/utils';
-import { Terminal, BookOpen, Bug, MessageSquare } from 'lucide-react';
+import { Terminal, BookOpen, Bug, MessageSquare, Play } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import { useCoach } from '../../hooks/useCoach';
 
 interface WorkshopToolsPanelProps {
     activePanel: PanelId;
@@ -35,62 +37,17 @@ export const WorkshopToolsPanel: React.FC<WorkshopToolsPanelProps> = ({
     initialCodexTerm,
     hasSkill
 }) => {
-    // 1. Store Access (Last Run Context)
+    // 1. Store Access
     const { lastRunResult } = useQuestStore();
 
-    // 2. Local State for Tools
-    const [explainData, setExplainData] = React.useState<any>(null);
-    const [debugData, setDebugData] = React.useState<any>(null);
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState<string | null>(null);
+    // 2. Coach Hooks
+    const explainCoach = useCoach('explain');
+    const debugCoach = useCoach('debug');
 
     // Helpers
     const isLocked = (id: PanelId) => {
         const def = WORKSHOP_PANELS[id];
         return !def.isEnabled({ hasSkill });
-    };
-
-    const handleExplain = async () => {
-        if (!questSlug) return;
-        setLoading(true);
-        setError(null);
-        try {
-            const payload = {
-                quest_slug: questSlug,
-                stdout: lastRunResult?.stdout || undefined,
-                stderr: lastRunResult?.stderr || undefined,
-                failing_tests: lastRunResult?.test_summary?.failures?.map((f: any) => f.name) || undefined,
-                // user_skill_level? could pull from profile store
-            };
-            const { explainQuest } = await import('@/lib/toolsApi');
-            const data = await explainQuest(payload);
-            setExplainData(data);
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleDebug = async () => {
-        if (!questSlug) return;
-        setLoading(true);
-        setError(null);
-        try {
-            const payload = {
-                quest_slug: questSlug,
-                stdout: lastRunResult?.stdout || undefined,
-                stderr: lastRunResult?.stderr || undefined,
-                failing_tests: lastRunResult?.test_summary?.failures?.map((f: any) => f.name) || undefined,
-            };
-            const { debugQuest } = await import('@/lib/toolsApi');
-            const data = await debugQuest(payload);
-            setDebugData(data);
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
     };
 
     return (
@@ -135,44 +92,64 @@ export const WorkshopToolsPanel: React.FC<WorkshopToolsPanelProps> = ({
                 {/* 2. Explain */}
                 {activePanel === 'explain' && (
                     <div className="space-y-4 animate-in fade-in zoom-in-95 duration-200">
-                        {loading && <div className="text-xs text-workshop-cyan animate-pulse">Running Analysis...</div>}
-                        {error && <div className="text-xs text-rose-400 border border-rose-900/50 p-2 rounded bg-rose-950/30">Error: {error}</div>}
+                        {explainCoach.loading && <div className="text-xs text-workshop-cyan animate-pulse">Analyzing...</div>}
+                        {explainCoach.error && <div className="text-xs text-rose-400 border border-rose-900/50 p-2 rounded bg-rose-950/30">Error: {explainCoach.error}</div>}
 
-                        {!explainData ? (
+                        {!explainCoach.data ? (
                             <div className="p-3 rounded bg-amber-950/20 border border-amber-900/30 text-amber-200/80 text-xs">
                                 <h4 className="font-bold mb-1 flex items-center gap-2">
                                     <MessageSquare className="w-3 h-3" />
-                                    Analysis
+                                    Explain
                                 </h4>
-                                <p className="mb-3">Run your code, then ask for an explanation of the results.</p>
+                                <p className="mb-3">Get a conceptual explanation of your current work.</p>
                                 <button
-                                    onClick={handleExplain}
-                                    disabled={!lastRunResult || loading}
+                                    onClick={explainCoach.invoke}
+                                    disabled={explainCoach.loading}
                                     className="w-full py-1.5 bg-amber-900/40 hover:bg-amber-800/40 disabled:opacity-50 disabled:cursor-not-allowed border border-amber-700/50 rounded text-[10px] uppercase tracking-wider font-bold transition-colors"
                                 >
-                                    {lastRunResult ? "Analyze Last Run" : "Run Code First"}
+                                    {lastRunResult ? "Explain Current State" : "Run Code First"}
                                 </button>
                             </div>
                         ) : (
                             <div className="space-y-3">
-                                <div className="text-sm font-bold text-amber-300">{explainData.summary}</div>
-                                <div className="text-xs text-slate-300 bg-black/20 p-2 rounded border border-white/5">
-                                    <span className="text-amber-500 font-bold block mb-1">Observation:</span>
-                                    {explainData.what_happened}
+                                {/* Summary Markdown */}
+                                <div className="text-sm text-slate-300 prose prose-invert prose-p:leading-relaxed prose-pre:bg-black/50 prose-pre:border prose-pre:border-white/10">
+                                    <ReactMarkdown>{explainCoach.data.summary_md}</ReactMarkdown>
                                 </div>
-                                <div className="text-xs text-slate-300 bg-black/20 p-2 rounded border border-white/5">
-                                    <span className="text-amber-500 font-bold block mb-1">Reason:</span>
-                                    {explainData.why_it_failed}
-                                </div>
-                                {explainData.next_steps?.length > 0 && (
-                                    <div className="text-xs">
-                                        <span className="text-workshop-subtle font-bold uppercase tracking-wider mb-1 block">Recommended Steps</span>
-                                        <ul className="list-disc pl-4 space-y-1 text-slate-300">
-                                            {explainData.next_steps.map((s: string, i: number) => <li key={i}>{s}</li>)}
+
+                                {/* Hypotheses */}
+                                {explainCoach.data.hypotheses.length > 0 && (
+                                    <div className="text-xs text-slate-300 bg-black/20 p-2 rounded border border-white/5">
+                                        <span className="text-amber-500 font-bold block mb-2">Key Concepts:</span>
+                                        <ul className="list-disc pl-4 space-y-2">
+                                            {explainCoach.data.hypotheses.map((h, i) => (
+                                                <li key={i}>
+                                                    <strong className="text-amber-200">{h.title}</strong>
+                                                    <br />
+                                                    <span className="opacity-80">{h.evidence.join(' ')}</span>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 )}
-                                <button onClick={() => setExplainData(null)} className="text-[10px] text-zinc-500 hover:text-zinc-300 underline">Clear</button>
+
+                                {/* Next Steps */}
+                                {explainCoach.data.next_steps.length > 0 && (
+                                    <div className="text-xs">
+                                        <span className="text-workshop-subtle font-bold uppercase tracking-wider mb-2 block">Recommended Steps</span>
+                                        <ul className="space-y-2">
+                                            {explainCoach.data.next_steps.map((s, i) => (
+                                                <li key={i} className="flex gap-2 items-start text-slate-300 bg-white/5 p-2 rounded border border-white/5">
+                                                    <Play className="w-3 h-3 mt-0.5 text-workshop-cyan shrink-0" />
+                                                    <div>
+                                                        <strong className="block text-cyan-200">{s.label}</strong>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                <button onClick={explainCoach.clear} className="text-[10px] text-zinc-500 hover:text-zinc-300 underline">Clear</button>
                             </div>
                         )}
                     </div>
@@ -181,19 +158,19 @@ export const WorkshopToolsPanel: React.FC<WorkshopToolsPanelProps> = ({
                 {/* 3. Debug */}
                 {activePanel === 'debug' && (
                     <div className="space-y-4 animate-in fade-in zoom-in-95 duration-200">
-                        {loading && <div className="text-xs text-workshop-cyan animate-pulse">Running Debugger...</div>}
-                        {error && <div className="text-xs text-rose-400 border border-rose-900/50 p-2 rounded bg-rose-950/30">Error: {error}</div>}
+                        {debugCoach.loading && <div className="text-xs text-workshop-cyan animate-pulse">Debugging...</div>}
+                        {debugCoach.error && <div className="text-xs text-rose-400 border border-rose-900/50 p-2 rounded bg-rose-950/30">Error: {debugCoach.error}</div>}
 
-                        {!debugData ? (
+                        {!debugCoach.data ? (
                             <div className="p-3 rounded bg-rose-950/20 border border-rose-900/30 text-rose-200/80 text-xs">
                                 <h4 className="font-bold mb-1 flex items-center gap-2">
                                     <Bug className="w-3 h-3" />
-                                    Debugger
+                                    Debug
                                 </h4>
                                 <p className="mb-3">Analyze failures and get a repair plan.</p>
                                 <button
-                                    onClick={handleDebug}
-                                    disabled={!lastRunResult || loading}
+                                    onClick={debugCoach.invoke}
+                                    disabled={debugCoach.loading}
                                     className="w-full py-1.5 bg-rose-900/40 hover:bg-rose-800/40 disabled:opacity-50 disabled:cursor-not-allowed border border-rose-700/50 rounded text-[10px] uppercase tracking-wider font-bold transition-colors"
                                 >
                                     {lastRunResult ? "Debug Last Failure" : "Run Code First"}
@@ -201,24 +178,50 @@ export const WorkshopToolsPanel: React.FC<WorkshopToolsPanelProps> = ({
                             </div>
                         ) : (
                             <div className="space-y-3">
-                                <div className="text-sm font-bold text-rose-300">{debugData.summary}</div>
-                                {debugData.likely_root_causes?.length > 0 && (
-                                    <div className="text-xs text-slate-300 bg-black/20 p-2 rounded border border-white/5">
-                                        <span className="text-rose-500 font-bold block mb-1">Root Causes:</span>
-                                        <ul className="list-disc pl-4 space-y-1">
-                                            {debugData.likely_root_causes.map((c: string, i: number) => <li key={i}>{c}</li>)}
+                                {/* Summary */}
+                                <div className="text-sm text-slate-300 prose prose-invert prose-p:leading-relaxed">
+                                    <ReactMarkdown>{debugCoach.data.summary_md}</ReactMarkdown>
+                                </div>
+
+                                {/* Root Causes */}
+                                {debugCoach.data.hypotheses.length > 0 && (
+                                    <div className="text-xs text-slate-300 bg-black/20 p-2 rounded border border-rose-900/20">
+                                        <span className="text-rose-400 font-bold block mb-2">Root Causes:</span>
+                                        <ul className="list-disc pl-4 space-y-2">
+                                            {debugCoach.data.hypotheses.map((h, i) => (
+                                                <li key={i}>
+                                                    <strong className="text-rose-200">{h.title}</strong>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 )}
-                                {debugData.fix_plan?.length > 0 && (
+
+                                {/* Fix Plan */}
+                                {debugCoach.data.next_steps.length > 0 && (
                                     <div className="text-xs">
-                                        <span className="text-workshop-subtle font-bold uppercase tracking-wider mb-1 block">Fix Plan</span>
-                                        <ol className="list-decimal pl-4 space-y-1 text-slate-300">
-                                            {debugData.fix_plan.map((s: string, i: number) => <li key={i}>{s}</li>)}
+                                        <span className="text-workshop-subtle font-bold uppercase tracking-wider mb-2 block">Fix Plan</span>
+                                        <ol className="list-decimal pl-4 space-y-2 text-slate-300">
+                                            {debugCoach.data.next_steps.map((s, i) => (
+                                                <li key={i} className="pl-1">
+                                                    <span className="font-bold text-slate-200">{s.label}</span>
+                                                </li>
+                                            ))}
                                         </ol>
                                     </div>
                                 )}
-                                <button onClick={() => setDebugData(null)} className="text-[10px] text-zinc-500 hover:text-zinc-300 underline">Clear</button>
+
+                                {/* Patch UI (Only if allowed by data, backend strips it for students) */}
+                                {debugCoach.data.patch && (
+                                    <div className="text-xs border border-white/10 rounded overflow-hidden">
+                                        <div className="bg-white/5 px-2 py-1 font-mono text-[10px] border-b border-white/10">SUGGESTED PATCH</div>
+                                        <pre className="p-2 bg-black/50 overflow-x-auto text-[10px] font-mono text-emerald-300">
+                                            {debugCoach.data.patch.unified_diff}
+                                        </pre>
+                                    </div>
+                                )}
+
+                                <button onClick={debugCoach.clear} className="text-[10px] text-zinc-500 hover:text-zinc-300 underline">Clear</button>
                             </div>
                         )}
                     </div>

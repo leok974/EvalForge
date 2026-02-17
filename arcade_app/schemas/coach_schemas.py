@@ -13,6 +13,7 @@ class CoachRequest(BaseModel):
     student_mode: bool
     runner_result: Optional[Dict[str, Any]] = None
     failing_tests_text: Optional[str] = None
+    terminal_output_text: Optional[str] = None
     selected_paths: Optional[List[str]] = None
     workspace_files: List[WorkspaceFile] = []
     attempt_id: Optional[str] = None
@@ -45,6 +46,10 @@ class SafetyAssessment(BaseModel):
 class UnifiedDiff(BaseModel):
     unified_diff: str
 
+class PrimaryError(BaseModel):
+    code: str
+    message: str
+
 class CoachResponse(BaseModel):
     mode: Literal["explain", "debug"]
     summary_md: str
@@ -53,3 +58,6 @@ class CoachResponse(BaseModel):
     patch: Optional[UnifiedDiff] = None
     confidence: float
     safety: SafetyAssessment
+    primary_error: Optional[PrimaryError] = None
+    evidence: List[str] = Field(default_factory=list, description="Exact log lines carrying the failure signal")
+    failure_class: Optional[str] = None

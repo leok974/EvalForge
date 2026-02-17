@@ -76,12 +76,28 @@ class CoachService:
         # 2. Prepare Prompt & Schema
         user_prompt = coach_prompts.build_user_prompt(req.model_dump())
         
+        failure_class = self._detect_failed_state(req.terminal_output_text or "")
+        
         if effective_mode == "explain":
             sys_prompt = coach_prompts.EXPLAIN_SYSTEM_PROMPT
             model_id = MODEL_FAST # Explain is usually easier
         else:
             sys_prompt = coach_prompts.DEBUG_SYSTEM_PROMPT
-            model_id = MODEL_FAST # Start fast, could escalate to DEEP if we had retry logic (simplifying for now)
+            model_id = MODEL_FAST # Start fast
+            
+            # INJECT AUTHORITATIVE HINT
+        if failure_class:
+            logger.info(f"Coach Pre-Parser caught failure: {failure_class}")
+            # SYSTEM ERROR SHORT-CIRCUIT
+            # If we know the runner failed, do NOT ask the LLM. It will hallucinate.
+            return self._mock_fallback(
+                req, 
+                f"System Error Detected: {failure_class}. The runner failed to execute your code because of an environment or file path issue. Check the logs."
+            )
+            
+            # Old logic (inject hint) is removed in favor of short-circuit
+            # sys_prompt += f"\n\nSYSTEM WARNING: The runner failed before executing student code. Error type: {failure_class}.\n"
+            # sys_prompt += "Do NOT hallucinate code issues. Focus on fixing the environment/file path/dependency."
 
         # 3. Call Gemini
         try:
@@ -112,12 +128,19 @@ class CoachService:
                         logger.warning("Coach: Guardrail intercepted a patch in student mode. Stripping it.")
                         parsed.patch = None
                     
-                    # Content safety check (simple keyword heuristic)
+                    # Content safety check
                     if "diff --git" in parsed.summary_md or "+++" in parsed.summary_md:
                          logger.warning("Coach: Guardrail detected diff markers in summary. Redacting.")
                          parsed.summary_md = "(Summary redacted regarding code patch due to student mode protections)"
                          parsed.safety.blocked = True
                          parsed.safety.solution_leak_risk = "high"
+                
+                # Evidence Guardrail
+                if failure_class and not parsed.evidence:
+                    # If we detected a failure but model gave no evidence, force it
+                     logger.warning("Coach: Model failed to cite evidence for detected system failure.")
+                     parsed.evidence = ["(System detected error but Coach failed to cite specific log line)"]
+                     parsed.confidence = 0.5
 
                 return parsed
             else:
@@ -126,6 +149,25 @@ class CoachService:
         except Exception as e:
             logger.error(f"Gemini Call Failed: {e}")
             return self._mock_fallback(req, f"AI Provider Error: {str(e)}")
+
+    def _detect_failed_state(self, terminal_text: str) -> Optional[str]:
+        """Detects common system/runner failures from terminal output."""
+        if not terminal_text:
+            return None
+            
+        # 1. Workspace Missing (Errno 2)
+        if "No such file or directory" in terminal_text and ("can't open file" in terminal_text or "[Errno 2]" in terminal_text):
+            return "WORKSPACE_MISSING"
+            
+        # 2. Dependency Missing
+        if "ModuleNotFoundError" in terminal_text or "ImportError" in terminal_text:
+            return "DEPENDENCY_MISSING"
+            
+        # 3. Syntax Error (Before code runs)
+        if "SyntaxError:" in terminal_text:
+            return "SYNTAX_ERROR"
+            
+        return None
 
     def _mock_fallback(self, req: CoachRequest, reason: str) -> CoachResponse:
         """Returns a valid schema response when AI fails or is disabled."""

@@ -27,7 +27,7 @@ The student has submitted code that failed tests or crashed.
 MODE: DEBUG
 
 GUIDELINES:
-1. Analyze the 'failing_tests_text', 'runner_result', and 'workspace_files'.
+1. Analyze the 'terminal_output_text', 'failing_tests_text', 'runner_result', and 'workspace_files'.
 2. Identify the ROOT CAUSE of the failure.
 3. Formulate specific HYPOTHESES about why it failed.
 4. Provide actionable NEXT STEPS to fix the issue.
@@ -37,8 +37,15 @@ GUIDELINES:
    - Do NOT output the full correct file content in the summary.
    - Do NOT use diff markers (+++/---) in the summary.
 
+EVIDENCE ENFORCEMENT:
+- You must populate the `evidence` field with exact lines from `terminal_output_text` or `failing_tests_text`.
+- Only state a root cause if you can quote the exact line(s) from `terminal_output_text` that prove it.
+- If failure is 'file missing' or 'command not found', do not mention variable assignment or code logic.
+- If `failure_class` is clear (e.g. WORKSPACE_MISSING), focus on that.
+
 OUTPUT FORMAT:
 Return a JSON object matching the `CoachResponse` schema.
+Ensure `primary_error`, `evidence`, and `failure_class` are populated if applicable.
 """
 
 def build_user_prompt(data: dict) -> str:
@@ -48,6 +55,7 @@ def build_user_prompt(data: dict) -> str:
     quest = data.get("quest_slug", "Unknown Quest")
     files = data.get("workspace_files", [])
     tests = data.get("failing_tests_text", "No test output provided.")
+    terminal = data.get("terminal_output_text", "")
     runner = data.get("runner_result", {})
     
     # Build
@@ -60,6 +68,9 @@ def build_user_prompt(data: dict) -> str:
             content = f.get("content", "")
             prompt += f"--- {path} ---\n{content}\n\n"
             
+    if terminal:
+        prompt += f"## Terminal Output (Primary Source of Truth):\n{terminal}\n\n"
+
     if tests:
         prompt += f"## Failing Tests / Output:\n{tests}\n\n"
         

@@ -28,9 +28,12 @@
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
-            "guided": "Review the concept of **term-1** in the Codex.",
+            "guided": "Review the concept of **[print](codex:glossary/python/print)** in the Codex.",
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
+        "key_terms": [
+            "glossary/python/print"
+        ],
         "runtime": {
             "enabled": true,
             "timeout_ms": 2500,
@@ -74,9 +77,12 @@
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
-            "guided": "Review the concept of **term-1** in the Codex.",
+            "guided": "Review the concept of **[variable](codex:glossary/python/variable)** in the Codex.",
             "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
         },
+        "key_terms": [
+            "glossary/python/variable"
+        ],
         "runtime": {
             "enabled": true,
             "timeout_ms": 2000,

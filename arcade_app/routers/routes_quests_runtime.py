@@ -154,7 +154,7 @@ async def run_quest(
         lang = payload.language or "python"
         
         # Pass workspace to runner
-        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=payload.mode if payload.mode == "tests" else "run")
+        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=payload.mode if payload.mode == "tests" else "run", quest_slug=quest_id)
         
         # Sanitize logs
         stdout = sanitize_logs(r.stdout)
@@ -195,15 +195,42 @@ async def run_quest(
                     validation_code = f.get("content") if isinstance(f, dict) else getattr(f, "content", "")
                     break
 
-    # Validate
-    objective_results = validate_quest_attempt(
-        code=validation_code,
-        stdout=stdout,
-        stderr=stderr,
-        exit_code=exit_code,
-        timed_out=timed_out,
-        quest_def=quest
-    )
+    # Validate with timeout protection
+    import signal
+    from contextlib import contextmanager
+    
+    @contextmanager
+    def validation_timeout(seconds=20):
+        def timeout_handler(signum, frame):
+            raise TimeoutError(f"Validation timeout after {seconds}s")
+        
+        # Set the signal handler and alarm
+        old_handler = signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(seconds)
+        try:
+            yield
+        finally:
+            signal.alarm(0)
+            signal.signal(signal.SIGALRM, old_handler)
+    
+    try:
+        with validation_timeout(20):
+            objective_results = validate_quest_attempt(
+                code=validation_code,
+                stdout=stdout,
+                stderr=stderr,
+                exit_code=exit_code,
+                timed_out=timed_out,
+                quest_def=quest
+            )
+    except TimeoutError as e:
+        # Validation timed out - return deterministic failure
+        stderr += f"\n{str(e)}"
+        objective_results = [{
+            "id": "validation_timeout",
+            "ok": False,
+            "detail": "Validation exceeded time limit (20s). Please simplify your code or contact support."
+        }]
     
     passed = False
     if objective_results:
@@ -213,11 +240,11 @@ async def run_quest(
         if payload.mode == "execute":
             passed = not timed_out
         else:
-            pass # AST only? defaults to ok if no checks? 
+            pass  # AST only? defaults to ok if no checks? 
             # If no quest def, maybe passed=False?
             # Let's verify: Generic validator returns empty list if no rules.
             # If nothing to check, it's a pass?
-            passed = True # Optimistic for playground
+            passed = True  # Optimistic for playground
             
     # Persist attempt + progress
 
@@ -582,7 +609,8 @@ async def submit_quest(
             payload.code, 
             stdin=getattr(payload, "stdin", "") or "", 
             workspace=run_workspace,
-            mode="run" # Force run mode for submit check
+            mode="run", # Force run mode for submit check
+            quest_slug=quest_id
         )
         stdout = sanitize_logs(r.stdout)
         stderr = sanitize_logs(r.stderr)

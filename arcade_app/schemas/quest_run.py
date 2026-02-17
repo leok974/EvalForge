@@ -15,6 +15,12 @@ class ObjectiveResult(BaseModel):
     detail: Optional[str] = None
     line: Optional[int] = None
 
+    # Actionable error fields
+    kind: Optional[str] = None  # "runtime" | "objective" | "tests" | "system"
+    expected: Optional[str] = None
+    actual: Optional[str] = None
+    diff: Optional[str] = None
+
     # Phase 7.1.2: Success Debrief
     debrief: Optional[dict] = None
 

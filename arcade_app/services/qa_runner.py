@@ -169,7 +169,8 @@ async def _run_starter(quest: QuestDefinition) -> Dict:
             quest.starter_code or "",
             timeout_ms=timeout,
             workspace=workspace,
-            mode=mode
+            mode=mode,
+            quest_slug=quest.slug
         )
         
         validation_results = validate_quest_attempt(
@@ -243,7 +244,8 @@ async def _run_solution(quest: QuestDefinition) -> Dict:
             solution_code or "",
             timeout_ms=timeout,
             workspace=workspace,
-            mode=mode
+            mode=mode,
+            quest_slug=quest.slug
         )
         
         validation_results = validate_quest_attempt(

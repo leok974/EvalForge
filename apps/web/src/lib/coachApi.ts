@@ -8,6 +8,7 @@ export interface CoachRequest {
     student_mode: boolean;
     runner_result?: any;
     failing_tests_text?: string;
+    terminal_output_text?: string;
     selected_paths?: string[];
     workspace_files: { path: string; content: string }[];
     attempt_id?: string;
@@ -21,6 +22,9 @@ export interface CoachResponse {
     patch?: { unified_diff: string };
     confidence: number;
     safety: { solution_leak_risk: string; blocked: boolean };
+    primary_error?: { code: string; message: string };
+    evidence: string[];
+    failure_class?: string;
 }
 
 export async function fetchCoachFeedback(payload: CoachRequest): Promise<CoachResponse> {

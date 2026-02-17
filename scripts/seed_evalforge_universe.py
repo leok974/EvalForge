@@ -23,7 +23,8 @@ BASE_DOCS = Path(__file__).parent.parent / "docs"
 # List of Track Spec Files to Seed
 TRACK_SPECS = [
     # PY
-    "curriculum_spec.json",  # Original Foundry (might need adaptation if format differs)
+    # "curriculum_spec.json",  <-- Legacy
+    "../data/questpacks/_modern/python_foundry_core.json",
     # TS
     "evalforge_prism_track_refraction.json",
     "evalforge_prism_track_spectrum.json",
@@ -130,10 +131,12 @@ async def upsert_quest(session, world_slug, track_id, quest_data, seeded_slugs=N
             title=quest_data["title"],
             short_description=quest_data.get("summary") or quest_data.get("narrative_blurb", "")[:150],
             detailed_description=details,
-            rubric_id=quest_data.get("quest_id") + "_rubric", # default convention
+            rubric_id=quest_db_id + "_rubric", # default convention
             base_xp_reward=50,
             order_index=quest_data.get("order_index", 0),
-            is_repeatable=True
+            is_repeatable=True,
+            tiered_hints_json=quest_data.get("tiered_hints"),
+            key_terms=quest_data.get("key_terms")
         )
         session.add(quest)
     else:
@@ -141,6 +144,8 @@ async def upsert_quest(session, world_slug, track_id, quest_data, seeded_slugs=N
         existing.short_description = quest_data.get("summary") or quest_data.get("narrative_blurb", "")[:150]
         existing.detailed_description = details
         existing.order_index = quest_data.get("order_index", 0)
+        existing.tiered_hints_json = quest_data.get("tiered_hints")
+        existing.key_terms = quest_data.get("key_terms")
         session.add(existing)
 
 async def upsert_boss(session, boss_data):
@@ -275,12 +280,6 @@ async def seed_universe():
         await session.commit()
         print("✅ Universe Seeded Successfully.")
         return seeded_slugs
-
-if __name__ == "__main__":
-    # Ensure env allows import
-    import sys
-    sys.path.append("d:/EvalForge")
-    asyncio.run(seed_universe())
 
 if __name__ == "__main__":
     # Ensure env allows import

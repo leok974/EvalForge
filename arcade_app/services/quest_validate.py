@@ -9,6 +9,11 @@ class ObjResult:
     ok: bool
     detail: Optional[str] = None
     line: Optional[int] = None
+    # Actionable error fields
+    kind: Optional[str] = None  # "runtime" | "objective" | "tests" | "system"
+    expected: Optional[str] = None
+    actual: Optional[str] = None
+    diff: Optional[str] = None
 
 def _find_main_func(tree: ast.AST):
     for node in ast.walk(tree):
@@ -82,8 +87,27 @@ def validate_quest_attempt(
                 return [ObjResult(id="config_placeholder", ok=False, detail=f"EF_OBJ_PLACEHOLDER: Tier-1 quest has placeholder objective '{t}'.").__dict__]
 
     if not objectives and not getattr(quest_def, "sandbox", False) and not getattr(quest_def, "is_sandbox", False):
-         # If no objectives and not a sandbox, this is likely a configuration error
-         return [ObjResult(id="config", ok=False, detail="Quest has no objectives configured").__dict__]
+         # CRITICAL: Still return config error, but include stderr for debugging
+         config_error = ObjResult(
+             id="config_no_objectives",
+             ok=False,
+             kind="system",
+             detail="Quest has no objectives configured",
+             expected="At least 1 objective",
+             actual="0 objectives found"
+         )
+         
+         # Include stderr if execution produced errors (preserve actionable details)
+         if stderr:
+             runtime_error = ObjResult(
+                 id="runtime_stderr",
+                 ok=False,
+                 kind="runtime",
+                 detail=f"Stderr: {stderr[:500]}"  # Truncate but preserve
+             )
+             return [config_error.__dict__, runtime_error.__dict__]
+         
+         return [config_error.__dict__]
     
     def normalize_stdout(text: str) -> str:
         if not text: return ""
@@ -94,10 +118,27 @@ def validate_quest_attempt(
     stdout_normalized = normalize_stdout(stdout) # For case-sensitive checks if needed
 
     for obj in objectives:
-        oid = obj.get("id")
+        oid = obj.get("id") or "unknown_objective"
         kind = obj.get("kind")
         rule = obj.get("rule", {})
-        title = obj.get("title", oid)
+        title = obj.get("title") or obj.get("text") or oid
+        
+        # TRAINING-GRADE VALIDATION: Check objective schema
+        if not kind or not rule:
+            import json
+            missing_fields = []
+            if not kind: missing_fields.append("'kind'")
+            if not rule: missing_fields.append("'rule'")
+            
+            return [ObjResult(
+                id="config_invalid_objective",
+                ok=False,
+                kind="system",
+                detail=f"Objective '{oid}' missing required fields: {', '.join(missing_fields)}",
+                expected="Every objective must have 'kind' and 'rule' fields",
+                actual=f"Objective structure: {json.dumps(obj, indent=2)}",
+                diff=f"Missing fields: {', '.join(missing_fields)}\n\nFix in quest seed data or database."
+            ).__dict__]
         
         res = ObjResult(id=oid, ok=False, detail=title)
 
@@ -154,13 +195,22 @@ def validate_quest_attempt(
                     found = False
                     for n in ast.walk(tree):
                         if isinstance(n, ast.Assign):
-                            for t in n.targets:
-                                if isinstance(t, ast.Name) and t.id == var_name:
+                            for target in n.targets:
+                                if isinstance(target, ast.Name) and target.id == var_name:
                                     found = True
                                     res.line = n.lineno
                                     break
                     res.ok = found
-                    res.detail = f"Assign variable '{var_name}'" if not found else "Variable assigned"
+                    
+                    # Enhanced error reporting
+                    if found:
+                        res.detail = f"Variable '{var_name}' assigned"
+                    else:
+                        res.kind = "objective"
+                        res.expected = f"Variable '{var_name}' must be assigned"
+                        res.actual = f"Variable '{var_name}' not found in code"
+                        res.detail = f"Assign variable '{var_name}'"
+                        res.diff = f"Expected:\n  {var_name} = <value>\n\nActual:\n  Variable not assigned in code"
                     
             elif kind == "stdout_json_eq":
                 import json
@@ -198,18 +248,23 @@ def validate_quest_attempt(
                     if "s" in flags.lower(): re_flags |= re.DOTALL
                     
                     # Normalize stdout
-                    # We use stdout_clean for simple checks, but regex might want exact structure
-                    # Let's use normalized version with \n
                     txt = stdout_normalized or ""
+                    
+                    # Get human-readable description
+                    expected_desc = rule.get("description") or title or f"Output matching pattern: {pattern[:50]}"
                     
                     try:
                         if re.search(pattern, txt, re_flags):
                              res.ok = True
                              res.detail = "Output matches expected pattern"
                         else:
-                             res.detail = f"Output does not match required pattern." 
-                             # Don't leak regex to user in detail unless helpful?
-                             # Better to keep it opaque or give a hint via title.
+                             res.ok = False
+                             res.kind = "objective"
+                             res.expected = expected_desc
+                             res.actual = txt[:200] if txt else "(empty)"
+                             res.detail = f"Expected {expected_desc}"
+                             # Simple diff
+                             res.diff = f"Expected:\n  {expected_desc}\nActual:\n  {res.actual}"
                     except re.error as e:
                          res.detail = f"Invalid regex pattern: {e}"
 

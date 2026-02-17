@@ -1,6 +1,9 @@
 import sys
 import os
 import time
+from dotenv import load_dotenv
+
+load_dotenv()
 
 sys.path.append(os.getcwd())
 

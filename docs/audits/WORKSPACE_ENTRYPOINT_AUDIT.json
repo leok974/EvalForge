@@ -1,0 +1,35 @@
+{
+  "scanned_at": "now",
+  "stats": {
+    "evaluated": 147,
+    "passed": 147,
+    "failed": 0,
+    "by_language": {
+      "unknown": {
+        "pass": 46,
+        "fail": 0
+      },
+      "txt": {
+        "pass": 4,
+        "fail": 0
+      },
+      "python": {
+        "pass": 31,
+        "fail": 0
+      },
+      "javascript": {
+        "pass": 46,
+        "fail": 0
+      },
+      "html": {
+        "pass": 10,
+        "fail": 0
+      },
+      "css": {
+        "pass": 10,
+        "fail": 0
+      }
+    }
+  },
+  "failures": []
+}

@@ -68,8 +68,16 @@ export function useCoach(mode: CoachMode): UseCoachResult {
 
             // Failing tests text construction
             let failingTestsText = "";
-            if (lastRunResult?.stderr) failingTestsText += `STDERR:\n${lastRunResult.stderr}\n`;
-            if (lastRunResult?.stdout) failingTestsText += `STDOUT:\n${lastRunResult.stdout}\n`;
+            let terminalOutputText = "";
+
+            if (lastRunResult?.stderr) {
+                failingTestsText += `STDERR:\n${lastRunResult.stderr}\n`;
+                terminalOutputText += `STDERR:\n${lastRunResult.stderr}\n`;
+            }
+            if (lastRunResult?.stdout) {
+                failingTestsText += `STDOUT:\n${lastRunResult.stdout}\n`;
+                terminalOutputText += `STDOUT:\n${lastRunResult.stdout}\n`;
+            }
             if (lastRunResult?.test_summary?.failures) {
                 failingTestsText += "\nTEST FAILURES:\n";
                 lastRunResult.test_summary.failures.forEach((f: any) => {
@@ -100,6 +108,7 @@ export function useCoach(mode: CoachMode): UseCoachResult {
                 student_mode: true, // Always true in Workshop for now
                 runner_result: lastRunResult,
                 failing_tests_text: failingTestsText,
+                terminal_output_text: terminalOutputText,
                 selected_paths: selectedPaths,
                 workspace_files: workspaceFiles
             };

@@ -36,14 +36,14 @@ export const WORKSHOP_PANELS: Record<PanelId, PanelDefinition> = {
         id: 'explain',
         label: 'Explain',
         description: 'Analysis of current situation.',
-        isEnabled: (ctx) => ctx.hasSkill('agent_explain'),
+        isEnabled: (ctx) => import.meta.env.DEV || ctx.hasSkill('agent_explain'),
         disabledReason: () => "Skill locked: Requires 'Agent Explain' module.",
     },
     debug: {
         id: 'debug',
         label: 'Debug',
         description: 'Fix proposal for failures.',
-        isEnabled: (ctx) => ctx.hasSkill('agent_debug'),
+        isEnabled: (ctx) => import.meta.env.DEV || ctx.hasSkill('agent_debug'),
         disabledReason: () => "Skill locked: Requires 'Agent Debug' module.",
     },
     codex: {

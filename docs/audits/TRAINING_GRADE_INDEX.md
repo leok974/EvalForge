@@ -19,6 +19,7 @@ Use these paths for all runners, testing, and development.
 | **Infra** | `infra_core` | `data/questpacks/_modern/infra_core.json` | `node --test` | ✅ TRAINING-GRADE |
 | **Git** | `git_core` | `data/questpacks/_modern/git_core.json` | `scripts/run_git_questpack.py` | ✅ TRAINING-GRADE |
 | **ML** | `ml_core` | `data/questpacks/_modern/ml_core.json` | `scripts/run_ml_questpack.py` | ✅ TRAINING-GRADE |
+| **Docker** | `docker_core` | `data/questpacks/docker_core.json` | `node --test` | ✅ TRAINING-GRADE |
 | **Web** | `web_core` | `data/questpacks/_modern/web_core.json` | `scripts/run_web_questpack.mjs` | ✅ TRAINING-GRADE |
 
 ## Prism & Labs

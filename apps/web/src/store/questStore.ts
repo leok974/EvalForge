@@ -9,6 +9,11 @@ export interface QuestState {
     lastRunResult: any | null; // Typed loosely to avoid circular deps if needed, but ideally RunResult
     setLastRunResult: (result: any | null) => void;
 
+    // Editor State
+    editorActivePath: string | null;
+    editorFiles: Record<string, { content: string }>;
+    setEditorState: (activePath: string | null, files: Record<string, { content: string }>) => void;
+
     setActiveWorldSlug: (slug: string | null) => void;
     setActiveTrackId: (id: string | null) => void;
     setActiveBossSlug: (slug: string | null) => void;
@@ -23,6 +28,11 @@ export const useQuestStore = create<QuestState>((set) => ({
 
     lastRunResult: null,
     setLastRunResult: (result) => set({ lastRunResult: result }),
+
+    // Editor State (Synced from QuestIDE for Tools access)
+    editorActivePath: null,
+    editorFiles: {},
+    setEditorState: (activePath, files) => set({ editorActivePath: activePath, editorFiles: files }),
 
     setActiveWorldSlug: (slug) => set({ activeWorldSlug: slug }),
     setActiveTrackId: (id) => set({ activeTrackId: id }),

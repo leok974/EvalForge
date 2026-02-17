@@ -165,6 +165,15 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const [showDiff, setShowDiff] = useState(false);
     const [diffFile, setDiffFile] = useState<string>("");
 
+    // Sync Editor State to Store (for Coach/Tools access)
+    const setEditorState = useQuestStore(s => s.setEditorState);
+    useEffect(() => {
+        // Debounce slightly to avoid thrashing store on every keystroke if typing fast?
+        // For now direct sync is probably fine given React batching, but let's be safe with a small timeout or just direct.
+        // Direct for responsiveness.
+        setEditorState(activePath, files);
+    }, [activePath, files, setEditorState]);
+
     // Computed Code/Output
     // If Replay, show replay code (snapshot). If live, show files[activePath]
     // Replay artifacts need to support multi-file too. 
@@ -521,9 +530,15 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 workspacePayload
             );
 
-            // Show Output
+            // Show Output (prioritize stderr for visibility)
+            if (result.stderr) {
+                addLog('--- Runtime Error ---', 'error');
+                result.stderr.split('\n').forEach(line => {
+                    if (line.trim()) addLog(line, 'error');
+                });
+            }
+
             if (result.stdout) addLog(result.stdout, 'output');
-            if (result.stderr) addLog(result.stderr, 'error');
 
             // Sync to Store for Tools Panel
             setLastRunResult(result);
@@ -571,9 +586,25 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 addLog('SUCCESS All objectives verified.', 'success');
                 addLog('Ready for submission.', 'info');
             } else {
-                addLog('Execution completed with warnings.', 'error');
+                // Show objective failures with details
+                addLog('--- Test Results ---', 'info');
                 result.objective_results.forEach(obj => {
-                    if (!obj.ok) addLog(`[FAIL] ${obj.id}: ${obj.detail || 'Requirement not met'}`, 'error');
+                    if (!obj.ok) {
+                        addLog(`[FAIL] ${obj.id}: ${obj.detail || 'Requirement not met'}`, 'error');
+
+                        // Show expected vs actual if available
+                        if (obj.expected || obj.actual) {
+                            if (obj.expected) addLog(`  Expected: ${obj.expected}`, 'info');
+                            if (obj.actual) addLog(`  Actual:   ${obj.actual}`, 'info');
+                        }
+
+                        // Show diff if available
+                        if (obj.diff) {
+                            obj.diff.split('\n').forEach((line: string) => {
+                                if (line.trim()) addLog(`  ${line}`, 'output');
+                            });
+                        }
+                    }
                 });
             }
         } catch (e: any) {
@@ -1078,10 +1109,10 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                         <div className="flex-1 break-all whitespace-pre-wrap">
                                             {entry.type === 'info' && <span className="text-cyan-500 font-bold mr-2">INFO</span>}
                                             {entry.type === 'success' && <span className="text-emerald-500 font-bold mr-2">SUCCESS</span>}
-                                            {entry.type === 'error' && <span className="text-amber-500 font-bold mr-2">WARN</span>}
+                                            {entry.type === 'error' && <span className="text-red-500 font-bold mr-2">ERROR</span>}
                                             <span className={
                                                 entry.type === 'success' ? 'text-emerald-200' :
-                                                    entry.type === 'error' ? 'text-amber-200' :
+                                                    entry.type === 'error' ? 'text-red-200' :
                                                         entry.type === 'info' ? 'text-cyan-200' :
                                                             'text-zinc-300'
                                             }>{entry.content}</span>
@@ -1109,15 +1140,23 @@ export function QuestIDEPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Set activeWorldSlug when quest is loaded
+    const setActiveWorldSlug = useQuestStore(s => s.setActiveWorldSlug);
+
     useEffect(() => {
         if (!questId) return;
         setLoading(true);
         fetchQuest(questId)
-            .then(setQuest)
-            .catch(err => setError(err.message))
+            .then(q => {
+                setQuest(q);
+                // Populate activeWorldSlug from quest data for tools that need it
+                if (q.world_id) {
+                    setActiveWorldSlug(q.world_id);
+                }
+            })
             .catch(err => setError(err.message))
             .finally(() => setLoading(false));
-    }, [questId]);
+    }, [questId, setActiveWorldSlug]);
 
     if (loading) {
         return (
