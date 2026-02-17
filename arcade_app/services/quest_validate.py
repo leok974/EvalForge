@@ -154,11 +154,11 @@ def validate_quest_attempt(
         title = obj.get("title") or obj.get("text") or oid
         
         # TRAINING-GRADE VALIDATION: Check objective schema
-        if not kind or not rule:
+        if not kind or rule is None:
             import json
             missing_fields = []
             if not kind: missing_fields.append("'kind'")
-            if not rule: missing_fields.append("'rule'")
+            if rule is None: missing_fields.append("'rule'")
             
             return [ObjResult(
                 id="config_invalid_objective",
@@ -183,7 +183,9 @@ def validate_quest_attempt(
 
         # Skip logic checks if runtime failed (and rule implies runtime dependency)
         # For now, regex/stdout checks imply runtime success
-        if not runtime_ok and kind in ["stdout_regex", "exit_code_zero"]:
+        # Skip logic checks if runtime failed (and rule implies runtime dependency)
+        # For now, regex/stdout checks imply runtime success
+        if not runtime_ok and kind in ["stdout_regex", "exit_code_zero", "json_output", "stdout_json_eq"]:
             res.detail = "Skipped due to runtime failure"
             results.append(res)
             continue
@@ -242,7 +244,7 @@ def validate_quest_attempt(
                         res.detail = f"Assign variable '{var_name}'"
                         res.diff = f"Expected:\n  {var_name} = <value>\n\nActual:\n  Variable not assigned in code"
                     
-            elif kind == "stdout_json_eq":
+            elif kind == "stdout_json_eq" or kind == "json_output":
                 import json
                 expected = rule.get("expected")
                 if expected is None:
@@ -302,7 +304,7 @@ def validate_quest_attempt(
             elif kind == "stdout_exact":
                 # stdout_exact uses 'expected' (canonical) - support 'pattern' for backward compatibility
                 expected_val = rule.get("expected") or rule.get("pattern", "")
-                if not expected_val:
+                if expected_val is None:
                     res.detail = "Invalid stdout_exact rule (missing 'expected' field)"
                 else:
                     txt = stdout_normalized or ""
@@ -321,6 +323,18 @@ def validate_quest_attempt(
             elif kind == "exit_code_zero":
                 res.ok = (exit_code == 0)
                 res.detail = "Exit code 0"
+
+            elif kind == "exit_code":
+                expected = rule.get("expected", 0)
+                if exit_code == expected:
+                    res.ok = True
+                    res.detail = f"Exit code {expected}"
+                else:
+                    res.ok = False
+                    res.kind = "objective"
+                    res.expected = f"Exit code {expected}"
+                    res.actual = f"Exit code {exit_code}"
+                    res.detail = f"Expected exit code {expected}"
 
             elif kind == "not_timed_out":
                 res.ok = not timed_out
