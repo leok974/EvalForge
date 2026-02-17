@@ -185,7 +185,7 @@ def validate_quest_attempt(
         # For now, regex/stdout checks imply runtime success
         # Skip logic checks if runtime failed (and rule implies runtime dependency)
         # For now, regex/stdout checks imply runtime success
-        if not runtime_ok and kind in ["stdout_regex", "exit_code_zero", "json_output", "stdout_json_eq"]:
+        if not runtime_ok and kind in ["stdout_regex", "json_output", "stdout_json_eq"]:
             res.detail = "Skipped due to runtime failure"
             results.append(res)
             continue

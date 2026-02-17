@@ -44,6 +44,25 @@ jobs:
       run: |
         pytest tests/backend/
 
+  # 2. AUDIT OBJECTIVES (Schema + Seed Gates)
+  objectives-audit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pytest
+        
+    - name: Run Objectives CI Check
+      run: python scripts/ci_check.py
+
   # 2. TEST FRONTEND (React)
   frontend-test:
     runs-on: ubuntu-latest
