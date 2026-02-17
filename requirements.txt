@@ -17,6 +17,7 @@ aiosqlite         # SQLite async driver (fallback)
 
 # --- AI & RAG (Phase 14) ---
 google-cloud-aiplatform>=1.38.0  # Vertex AI SDK
+google-genai                     # Gemini API SDK (Python)
 pgvector                         # Vector search support
 python-frontmatter               # Parsing Codex markdown headers
 tenacity                         # Retry logic for API calls

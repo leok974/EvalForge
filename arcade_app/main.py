@@ -14,6 +14,7 @@ from arcade_app.routers import routes_qa
 from arcade_app.routers import routes_codex  # Phase 9.1: Tutorial System
 from arcade_app.routers import routes_workshop
 from arcade_app.routers import routes_tools
+from arcade_app.routers import routes_coach
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -54,6 +55,7 @@ app.include_router(routes_qa.router)
 app.include_router(routes_codex.router)  # Phase 9.1: Codex API
 app.include_router(routes_workshop.router) # Workshop Catalog API
 app.include_router(routes_tools.router) # Phase 9.12: Explain/Debug Tools
+app.include_router(routes_coach.router) # Phase 12: Coach Explainer (Gemini)
 
 # Health Routes
 @app.get("/health")

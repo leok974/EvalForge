@@ -283,12 +283,15 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         "runtime": q.runtime_rules_json or {},
         # Phase 9.1: Tutorial System
         "tutorial_md": q.tutorial_md,
-        "key_terms": q.key_terms or [],
+        "key_terms": _inflate_key_terms(q.key_terms or []),
         "concept_tags": q.concept_tags or [],
         "codex_references": q.codex_references or [],
         # Phase 9.8 Parity
         "briefing_md": q.briefing_md,
         "lore_md": q.lore_md,
+        # Locks & Versioning
+        "schema_version": "v2", 
+        "content_version": getattr(q, "content_version", "1.0.0"),
     }
 
 def _transform_hints(tiered: Dict[str, str]) -> list[Dict[str, str]]:
@@ -302,6 +305,30 @@ def _transform_hints(tiered: Dict[str, str]) -> list[Dict[str, str]]:
         out.append({"id": "hint-guided", "text": tiered["guided"], "type": "snippet", "tier": 2})
     if "full_solution" in tiered:
         out.append({"id": "hint-solution", "text": tiered["full_solution"], "type": "solution", "tier": 3})
+    return out
+
+def _inflate_key_terms(terms: list) -> list[Dict[str, Any]]:
+    """
+    Ensures key_terms are objects {id, term, codex_ref}.
+    If DB has strings (legacy), inflates them.
+    """
+    if terms is None:
+        return []
+    out = []
+    for i, t in enumerate(terms):
+        if isinstance(t, str):
+            # Inflate string to object
+            # e.g. "glossary/python/variable" -> term="variable", id="term-i"
+            # e.g. "codex:simple-term" -> term="Simple Term"
+            raw_val = t.replace("codex:", "")
+            clean_term = raw_val.split('/')[-1].replace('-', ' ').title()
+            out.append({
+                "id": f"term-{i}", 
+                "term": clean_term, 
+                "codex_ref": t if t.startswith("glossary/") or t.startswith("codex:") else f"codex:{t}"
+            })
+        elif isinstance(t, dict):
+            out.append(t)
     return out
 
 def _ensure_flags_dict(user: Profile):

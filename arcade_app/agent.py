@@ -448,14 +448,18 @@ from arcade_app.routers import (
     routes_boss_codex as boss_codex,
     routes_quests_runtime as quests_runtime,
     routes_qa as qa,
-    routes_workshop as workshop  # Workshop Catalog refactor
+    routes_workshop as workshop,  # Workshop Catalog refactor
+    routes_coach as coach  # Phase 12: Coach Explainer
 )
+
 
 app.include_router(avatars.router)
 app.include_router(quests_runtime.router)
 app.include_router(quests.router)
 app.include_router(workshop.router) # Workshop Catalog API
 app.include_router(routes_tools.router) # Assist API
+app.include_router(coach.router) # Coach API
+
 app.include_router(universe.router)
 app.include_router(boss.router)
 app.include_router(profile.router)
