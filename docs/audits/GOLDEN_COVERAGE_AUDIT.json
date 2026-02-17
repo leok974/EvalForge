@@ -1,0 +1,86 @@
+{
+  "audit_date": "2026-02-17T18:29:35.535705",
+  "total_quests": 16,
+  "quests_with_golden_run": [
+    {
+      "slug": "hello-variable",
+      "world": "world-python",
+      "path": "data\\quests\\hello-variable\\grading\\golden.json",
+      "note": "using legacy golden.json (should migrate to golden.run.json)"
+    },
+    {
+      "slug": "python-loop",
+      "world": "world-python",
+      "path": "data\\quests\\python-loop\\grading\\golden.json",
+      "note": "using legacy golden.json (should migrate to golden.run.json)"
+    },
+    {
+      "slug": "python-data-forge",
+      "world": "world-python",
+      "path": "data\\quests\\python-data-forge\\grading\\golden.json",
+      "note": "using legacy golden.json (should migrate to golden.run.json)"
+    }
+  ],
+  "quests_with_golden_spec": [],
+  "quests_missing_golden": [
+    {
+      "slug": "python-ignition",
+      "world": "world-python"
+    },
+    {
+      "slug": "js-ignition-q1-console-and-functions",
+      "world": "world-js"
+    },
+    {
+      "slug": "js-vars-q1-let-const-var",
+      "world": "world-js"
+    },
+    {
+      "slug": "sql-ignition",
+      "world": "world-sql"
+    },
+    {
+      "slug": "sql-select",
+      "world": "world-sql"
+    },
+    {
+      "slug": "infra-ignition",
+      "world": "world-infra"
+    },
+    {
+      "slug": "infra-ports-and-localhost",
+      "world": "world-infra"
+    },
+    {
+      "slug": "agents-ignition",
+      "world": "world-agents"
+    },
+    {
+      "slug": "agents-prompts-contracts",
+      "world": "world-agents"
+    },
+    {
+      "slug": "git-ignition",
+      "world": "world-git"
+    },
+    {
+      "slug": "git-init-clone",
+      "world": "world-git"
+    },
+    {
+      "slug": "ml-ignition",
+      "world": "world-ml"
+    },
+    {
+      "slug": "ml-numpy-basics",
+      "world": "world-ml"
+    }
+  ],
+  "summary": {
+    "total_quests": 16,
+    "with_golden_run": 3,
+    "with_golden_spec": 0,
+    "missing_golden": 13,
+    "status": "FAIL"
+  }
+}
