@@ -1,0 +1,81 @@
+{
+  "audit_date": "2026-02-17T18:07:51.668287",
+  "total_quests": 15,
+  "total_objectives": 5,
+  "invalid_quests": [],
+  "quests_with_no_objectives": [
+    {
+      "slug": "python-data-forge",
+      "world": "world-python",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "js-ignition-q1-console-and-functions",
+      "world": "world-js",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "js-vars-q1-let-const-var",
+      "world": "world-js",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "sql-ignition",
+      "world": "world-sql",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "sql-select",
+      "world": "world-sql",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "infra-ignition",
+      "world": "world-infra",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "infra-ports-and-localhost",
+      "world": "world-infra",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "agents-ignition",
+      "world": "world-agents",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "agents-prompts-contracts",
+      "world": "world-agents",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "git-ignition",
+      "world": "world-git",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "git-init-clone",
+      "world": "world-git",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "ml-ignition",
+      "world": "world-ml",
+      "reason": "objectives_json is missing or empty"
+    },
+    {
+      "slug": "ml-numpy-basics",
+      "world": "world-ml",
+      "reason": "objectives_json is missing or empty"
+    }
+  ],
+  "valid_quests": 2,
+  "summary": {
+    "total_quests": 15,
+    "valid_quests": 2,
+    "invalid_quests_count": 0,
+    "quests_with_no_objectives_count": 13,
+    "status": "FAIL"
+  }
+}

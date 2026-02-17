@@ -1,0 +1,12 @@
+{
+  "slug": "python-loop",
+  "captured_at": "2026-02-17T18:06:47.424437",
+  "mode": "solution",
+  "language": "python",
+  "solution_file": "grading\\solutions\\main.py",
+  "stdout": "2,4,6,8,10\r\n",
+  "stdout_sha256": "064c6e5100b244ac27f8d4ae8bba2aaa304793a6a3149fcbbe781ca1c95c35fc",
+  "stderr": "",
+  "exit_code": 0,
+  "timed_out": false
+}

@@ -15,6 +15,40 @@ class ObjResult:
     actual: Optional[str] = None
     diff: Optional[str] = None
 
+# ============================================================================
+# VALIDATOR REGISTRY - Single Source of Truth
+# ============================================================================
+
+# Supported objective kinds
+VALIDATORS = {
+    "stdout_regex": "validate_stdout_regex",
+    "stdout_exact": "validate_stdout_exact",  # Alias for stdout_regex
+    "ast": "validate_ast",
+    "source_regex": "validate_source_regex",
+    "json_output": "validate_json_output",
+    "stdout_json_eq": "validate_json_output",  # Alias
+    "exit_code_zero": "validate_exit_code",
+    "exit_code": "validate_exit_code",
+    "not_timed_out": "validate_not_timed_out",
+    "tests_pass": "validate_tests_pass",
+}
+
+# Per-kind rule requirements
+# Empty list means no required fields, but at least one optional field expected
+RULE_REQUIREMENTS = {
+    "stdout_regex": ["pattern"],  # Optional: flags, description
+    "stdout_exact": ["pattern"],  # Alias
+    "ast": [],  # Requires at least one of: must_define_function, must_assign_variable, must_import
+    "source_regex": ["pattern"],  # Optional: flags
+    "json_output": ["expected"],
+    "stdout_json_eq": ["expected"],
+    "exit_code_zero": [],  # No required fields
+    "exit_code": ["expected"],
+    "not_timed_out": [],
+    "tests_pass": [],  # Handled via pytest/node test output
+}
+
+
 def _find_main_func(tree: ast.AST):
     for node in ast.walk(tree):
         if isinstance(node, ast.FunctionDef) and node.name == "main":

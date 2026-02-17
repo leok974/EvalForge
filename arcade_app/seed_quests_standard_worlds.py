@@ -72,6 +72,42 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "unlocks_layout_id": None,
         "base_xp_reward": 50,
         "mastery_xp_bonus": 20,
+        "objectives_json": [
+            {
+                "id": "obj_define_function",
+                "kind": "ast",
+                "rule": {
+                    "kind": "ast",
+                    "must_define_function": "generate_evens"
+                },
+                "text": "Define function generate_evens",
+                "why": "Learn function definition syntax"
+            },
+            {
+                "id": "obj_stdout",
+                "kind": "stdout_exact",
+                "rule": {
+                    "kind": "stdout_exact",
+                    "pattern": "2,4,6,8,10"  # From golden.json
+                },
+                "text": "Output correct comma-separated evens",
+                "why": "Verify loop logic produces expected output"
+            },
+            {
+                "id": "obj_tests",
+                "kind": "tests_pass",
+                "rule": {
+                    "kind": "tests_pass"
+                },
+                "text": "Pass all unit tests",
+                "why": "Verify generate_evens works for edge cases"
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
     },
     {
         "slug": "python-data-forge",
