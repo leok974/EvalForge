@@ -1,0 +1,13 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/app.log",
+        "outputs/metrics.prom",
+        "outputs/top_error.txt",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

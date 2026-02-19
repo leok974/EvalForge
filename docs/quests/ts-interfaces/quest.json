@@ -9,9 +9,12 @@
     "detailed_description": "Define BaseEvent and UserEvent interfaces and implement formatEvent(e) to output a stable one-line summary.\n",
     "objectives": [
         {
-            "id": "obj_format_event",
-            "text": "Implement formatEvent(e) so all public tests pass.",
-            "why": "Interfaces + extension + type narrowing"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

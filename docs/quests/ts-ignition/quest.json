@@ -9,9 +9,12 @@
     "detailed_description": "See workspace/README.md",
     "objectives": [
         {
-            "id": "obj_default",
-            "text": "Complete the assignment as described in README.md",
-            "why": "Specification"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

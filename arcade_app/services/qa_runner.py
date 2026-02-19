@@ -179,7 +179,8 @@ async def _run_starter(quest: QuestDefinition) -> Dict:
             stderr=exec_result.stderr,
             exit_code=exec_result.exit_code or 0,
             timed_out=exec_result.timed_out,
-            quest_def=MockQuest(quest)
+            quest_def=MockQuest(quest),
+            state=getattr(exec_result, "state", None)
         )
         
         passed = all(r["ok"] for r in validation_results) if validation_results else False
@@ -254,7 +255,8 @@ async def _run_solution(quest: QuestDefinition) -> Dict:
             stderr=exec_result.stderr,
             exit_code=exec_result.exit_code or 0,
             timed_out=exec_result.timed_out,
-            quest_def=MockQuest(quest)
+            quest_def=MockQuest(quest),
+            state=getattr(exec_result, "state", None)
         )
         
         passed = all(r["ok"] for r in validation_results) if validation_results else False

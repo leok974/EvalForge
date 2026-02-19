@@ -1,0 +1,15 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "outputs/commit.txt",
+        "task.sh",
+        "tmp/repo/keep.txt",
+        "tmp/repo/readme.md",
+        "tmp/repo/skip.txt",
+        "wrapper.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

@@ -11,5 +11,24 @@
     "workspace": {
         "entrypoint": "task.sh",
         "files_from": "./starter"
-    }
+    },
+    "objectives": [
+        {
+            "id": "fs_snapshot",
+            "kind": "fs_snapshot",
+            "title": "Verify file structure",
+            "rule": {
+                "kind": "fs_snapshot",
+                "must_exist": [
+                    "README.md",
+                    "outputs/diff.txt",
+                    "outputs/status.txt",
+                    "task.sh",
+                    "tmp/repo/app.txt",
+                    "tmp/repo/notes.txt",
+                    "wrapper.sh"
+                ]
+            }
+        }
+    ]
 }

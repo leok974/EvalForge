@@ -1,0 +1,13 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "outputs/undo.txt",
+        "task.sh",
+        "tmp/repo/calc.txt",
+        "wrapper.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

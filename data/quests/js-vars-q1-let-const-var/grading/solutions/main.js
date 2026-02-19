@@ -1,3 +1,3 @@
-export let age = 25;
-export const NAME = "EvalForge";
+export let age = 20;
+export const NAME = "Alice";
 export var isStudent = true;

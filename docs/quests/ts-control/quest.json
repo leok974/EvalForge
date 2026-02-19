@@ -9,9 +9,12 @@
     "detailed_description": "Implement a typed decision function that classifies HTTP-like status codes.\n\n## Objective\nReturn a `StatusClass` for valid inputs and `\"invalid\"` for anything outside the contract.\n",
     "objectives": [
         {
-            "id": "obj_classify_status",
-            "text": "Implement classifyStatus(code) so all public tests pass.",
-            "why": "Control flow + type narrowing"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

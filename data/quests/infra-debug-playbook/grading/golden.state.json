@@ -1,0 +1,12 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/diag.txt",
+        "outputs/next_steps.txt",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

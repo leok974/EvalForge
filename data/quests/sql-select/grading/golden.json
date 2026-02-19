@@ -1,0 +1,12 @@
+{
+  "slug": "sql-select",
+  "captured_at": "2026-02-17T19:15:25.014810",
+  "mode": "solution",
+  "language": "python",
+  "solution_file": "grading\\solutions\\main.py",
+  "stdout": "('Alice', 'Detroit')\r\n('Bob', 'Austin')\r\n('Charlie', 'Detroit')\r\n('Diana', 'Seattle')\r\n('Evan', 'Austin')\r\n('Fay', 'Miami')\r\n",
+  "stdout_sha256": "7fb8dbb2970f7a42c5d260958a70d92a54f5b9dddb5e20a9664a2acd0aae743d",
+  "stderr": "",
+  "exit_code": 0,
+  "timed_out": false
+}

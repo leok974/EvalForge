@@ -45,27 +45,16 @@
             "briefing_md": "# Mission: Assemble the Card\n\nBuild a small component system using composition. Your goal is to create a reusable **Card** container and a **CardBody** region that can hold content.\n\n## Objectives\n- Implement `Card` as a wrapper component.\n- Implement `CardBody` as a composable inner component.\n- Ensure children render in the correct place and structure.\n\n> **Tip:** Composition is the React way: \"components that contain components\".\n",
             "objectives": [
                 {
-                    "id": "obj_1",
-                    "text": "Renders a Card wrapper component with the expected structure",
-                    "why": "Component composition baseline"
-                },
-                {
-                    "id": "obj_2",
-                    "text": "Renders children content inside the CardBody region",
-                    "why": "Slot/content composition requirement"
-                },
-                {
-                    "id": "obj_3",
-                    "text": "Uses the expected DOM hierarchy (no extra wrappers unless allowed)",
-                    "why": "Tests may assert structure"
-                },
-                {
-                    "id": "obj_4",
-                    "text": "Keeps components reusable and deterministic",
-                    "why": "Training-grade maintainability"
+                    "id": "test_pass",
+                    "kind": "tests_pass",
+                    "text": "Correct solution implemented",
+                    "why": "Functional requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
                 }
             ],
-            "lore_md": "## Component Tree: Card Assembly Line\n\n> *Materializing UI modules...*\n>\n> Component: **Card**\n> └─ Component: **CardBody**\n>    └─ Children: **(content)**\n\nA loose layout is rattling around the lab. Lock it into a clean component shell so it can be reused across the ship without rewriting markup.",
+            "lore_md": "## Component Tree: Card Assembly Line\n\n> *Materializing UI modules...*\n>\n> Component: **Card**\n> \u2514\u2500 Component: **CardBody**\n>    \u2514\u2500 Children: **(content)**\n\nA loose layout is rattling around the lab. Lock it into a clean component shell so it can be reused across the ship without rewriting markup.",
             "tiered_hints": {
                 "concept": "Component composition is mostly about **props.children** and predictable structure.",
                 "guided": "Implement the container component first (outer wrapper). Then implement CardBody to render its children where tests expect them.",
@@ -78,7 +67,7 @@
         {
             "slug": "react-props",
             "track_id": "react-fundamentals",
-            "briefing_md": "# Mission: Wire the Greeting Interface\n\nYour greeting module must adapt to incoming props — and gracefully fall back when no name is provided.\n\n## Objectives\n- Accept a `name` prop and render a greeting.\n- Provide a default name when `name` is missing/undefined.\n- Match the exact text format expected by the test suite.\n",
+            "briefing_md": "# Mission: Wire the Greeting Interface\n\nYour greeting module must adapt to incoming props \u2014 and gracefully fall back when no name is provided.\n\n## Objectives\n- Accept a `name` prop and render a greeting.\n- Provide a default name when `name` is missing/undefined.\n- Match the exact text format expected by the test suite.\n",
             "objectives": [
                 {
                     "id": "obj_1",
@@ -101,7 +90,7 @@
                     "why": "Determinism + best practices"
                 }
             ],
-            "lore_md": "## Component Tree: Greeting Console\n\n> *Calibrating comms channel...*\n>\n> Component: **Greeting**\n> Props: **name** (optional)\n\nThe console can greet named pilots — but crashes when the name field is blank. Add a safe fallback so the system can greet anyone who boards.",
+            "lore_md": "## Component Tree: Greeting Console\n\n> *Calibrating comms channel...*\n>\n> Component: **Greeting**\n> Props: **name** (optional)\n\nThe console can greet named pilots \u2014 but crashes when the name field is blank. Add a safe fallback so the system can greet anyone who boards.",
             "tiered_hints": {
                 "concept": "Props are inputs. Defaults can be done with parameter defaults or fallback logic.",
                 "guided": "If `name` is undefined, substitute a default string. Ensure the rendered text matches exactly what the tests assert.",
@@ -117,27 +106,16 @@
             "briefing_md": "# Mission: Control Visibility\n\nA panel in the lab should only appear when the visibility rule is true. Implement conditional rendering so the UI shows or hides the section correctly.\n\n## Objectives\n- Render the section content when visible.\n- Hide/remove the section content when not visible.\n- Ensure the toggle/flag behavior matches the tests.\n",
             "objectives": [
                 {
-                    "id": "obj_1",
-                    "text": "Shows content when visibility condition is true",
-                    "why": "Conditional render requirement"
-                },
-                {
-                    "id": "obj_2",
-                    "text": "Does not render content when visibility condition is false",
-                    "why": "Correct hidden state"
-                },
-                {
-                    "id": "obj_3",
-                    "text": "Uses the expected condition source (prop or state) per tests",
-                    "why": "Spec alignment"
-                },
-                {
-                    "id": "obj_4",
-                    "text": "Avoids side effects during render",
-                    "why": "React correctness + determinism"
+                    "id": "test_pass",
+                    "kind": "tests_pass",
+                    "text": "Correct solution implemented",
+                    "why": "Functional requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
                 }
             ],
-            "lore_md": "## Component Tree: Toggle Section\n\n> *Routing visibility signals...*\n>\n> Component: **ToggleSection**\n> Condition: **isVisible**\n\nThe lab door is stuck open. If the visibility signal is false, the door should vanish from the blueprint entirely — not just look closed.",
+            "lore_md": "## Component Tree: Toggle Section\n\n> *Routing visibility signals...*\n>\n> Component: **ToggleSection**\n> Condition: **isVisible**\n\nThe lab door is stuck open. If the visibility signal is false, the door should vanish from the blueprint entirely \u2014 not just look closed.",
             "tiered_hints": {
                 "concept": "Conditional rendering can return `null`, use `&&`, or a ternary based on a boolean condition.",
                 "guided": "Identify whether the condition comes from a prop (e.g., `isVisible`) or internal state. Render the content only when the condition is true.",
@@ -150,30 +128,19 @@
         {
             "slug": "react-lists",
             "track_id": "react-fundamentals",
-            "briefing_md": "# Mission: Render the Crew Roster\n\nYou've received a list of users. Render them as a stable list in the UI — with proper keys — so React can track each entry reliably.\n\n## Objectives\n- Render a list of users from the provided data.\n- Provide a stable `key` for each item.\n- Match the list structure/text expected by the tests.\n",
+            "briefing_md": "# Mission: Render the Crew Roster\n\nYou've received a list of users. Render them as a stable list in the UI \u2014 with proper keys \u2014 so React can track each entry reliably.\n\n## Objectives\n- Render a list of users from the provided data.\n- Provide a stable `key` for each item.\n- Match the list structure/text expected by the tests.\n",
             "objectives": [
                 {
-                    "id": "obj_1",
-                    "text": "Renders all user entries from the provided list",
-                    "why": "List rendering requirement"
-                },
-                {
-                    "id": "obj_2",
-                    "text": "Assigns a stable key to each rendered list item",
-                    "why": "React list reconciliation best practice"
-                },
-                {
-                    "id": "obj_3",
-                    "text": "Matches expected DOM structure for the roster",
-                    "why": "Tests may assert exact markup"
-                },
-                {
-                    "id": "obj_4",
-                    "text": "Handles empty list case if tested",
-                    "why": "Edge-case correctness"
+                    "id": "test_pass",
+                    "kind": "tests_pass",
+                    "text": "Correct solution implemented",
+                    "why": "Functional requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
                 }
             ],
-            "lore_md": "## Component Tree: UserList\n\n> *Syncing crew registry...*\n>\n> Component: **UserList**\n> Children: **UserRow × N**\n\nThe roster keeps reshuffling because the crew IDs aren't pinned. Add stable keys so the ship can track each crew member without glitches.",
+            "lore_md": "## Component Tree: UserList\n\n> *Syncing crew registry...*\n>\n> Component: **UserList**\n> Children: **UserRow \u00d7 N**\n\nThe roster keeps reshuffling because the crew IDs aren't pinned. Add stable keys so the ship can track each crew member without glitches.",
             "tiered_hints": {
                 "concept": "When you `map()` to JSX, React needs a `key` on the top-level element inside the loop.",
                 "guided": "Use a unique field from each user as the key (prefer an id). Render the visible text exactly as tests expect.",
@@ -189,24 +156,13 @@
             "briefing_md": "# Mission: Stabilize the Counter Core\n\nThe reactor readout must change based on user actions. Implement a counter using React state so the displayed value updates correctly.\n\n## Objectives\n- Initialize state to the required starting value.\n- Update the value through the required actions (e.g., increment/decrement/reset as tests define).\n- Render the updated count in the UI deterministically.\n",
             "objectives": [
                 {
-                    "id": "obj_1",
-                    "text": "Initializes counter state to the expected value",
-                    "why": "Spec compliance"
-                },
-                {
-                    "id": "obj_2",
-                    "text": "Updates counter state when the required controls are used",
-                    "why": "Interactive behavior"
-                },
-                {
-                    "id": "obj_3",
-                    "text": "Renders the current count in the UI",
-                    "why": "User-visible correctness"
-                },
-                {
-                    "id": "obj_4",
-                    "text": "Uses useState correctly without direct mutation",
-                    "why": "React best practice"
+                    "id": "test_pass",
+                    "kind": "tests_pass",
+                    "text": "Correct solution implemented",
+                    "why": "Functional requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
                 }
             ],
             "lore_md": "## Component Tree: Counter Reactor\n\n> *Charging state capacitor...*\n>\n> Component: **Counter**\n> State: **count**\n\nThe reactor display is stuck. Route button impulses into `useState` so the readout updates instantly and reliably.",
@@ -225,24 +181,13 @@
             "briefing_md": "# Mission: Flip the Power Switch\n\nCreate a toggle control that switches between ON and OFF. The UI label must always match the internal state.\n\n## Objectives\n- Initialize toggle state correctly.\n- Flip state when the user clicks the button.\n- Render the correct ON/OFF label as required by tests.\n",
             "objectives": [
                 {
-                    "id": "obj_1",
-                    "text": "Initializes toggle state to the expected default",
-                    "why": "Spec compliance"
-                },
-                {
-                    "id": "obj_2",
-                    "text": "Flips toggle state on user interaction",
-                    "why": "Interactive behavior"
-                },
-                {
-                    "id": "obj_3",
-                    "text": "Renders the correct ON/OFF label based on state",
-                    "why": "UI correctness"
-                },
-                {
-                    "id": "obj_4",
-                    "text": "Keeps render deterministic and state-driven",
-                    "why": "Training-grade stability"
+                    "id": "test_pass",
+                    "kind": "tests_pass",
+                    "text": "Correct solution implemented",
+                    "why": "Functional requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
                 }
             ],
             "lore_md": "## Component Tree: Power Toggle\n\n> *Routing switch input...*\n>\n> Component: **Toggle**\n> State: **isOn**\n\nA manual switch is installed, but the label lies. Bind the UI to state so the indicator always matches the ship's actual power status.",
@@ -261,27 +206,16 @@
             "briefing_md": "# Mission: Run the Mount Sequence\n\nSome systems must initialize exactly once when a component mounts. Use `useEffect` to perform a one-time setup that the tests can verify.\n\n## Objectives\n- Implement an effect that runs on mount (once).\n- Ensure the effect causes the expected observable change (UI/state) required by tests.\n- Avoid infinite loops by using the correct dependency configuration.\n",
             "objectives": [
                 {
-                    "id": "obj_1",
-                    "text": "Runs a mount effect exactly once",
-                    "why": "Lifecycle correctness"
-                },
-                {
-                    "id": "obj_2",
-                    "text": "Produces the expected effect outcome (state/UI change)",
-                    "why": "Spec compliance"
-                },
-                {
-                    "id": "obj_3",
-                    "text": "Uses correct dependency array to prevent re-running",
-                    "why": "Avoid infinite loops"
-                },
-                {
-                    "id": "obj_4",
-                    "text": "Avoids non-deterministic behavior inside the effect",
-                    "why": "Training-grade stability"
+                    "id": "test_pass",
+                    "kind": "tests_pass",
+                    "text": "Correct solution implemented",
+                    "why": "Functional requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
                 }
             ],
-            "lore_md": "## Component Tree: Mount Protocol\n\n> *Initiating lifecycle handshake...*\n>\n> Component: **(MountEffect Module)**\n> Hook: **useEffect(…, [])**\n\nThe initialization sequence keeps repeating, flooding the lab with rerenders. Set the dependency controls correctly so the mount protocol runs once — and only once.",
+            "lore_md": "## Component Tree: Mount Protocol\n\n> *Initiating lifecycle handshake...*\n>\n> Component: **(MountEffect Module)**\n> Hook: **useEffect(\u2026, [])**\n\nThe initialization sequence keeps repeating, flooding the lab with rerenders. Set the dependency controls correctly so the mount protocol runs once \u2014 and only once.",
             "tiered_hints": {
                 "concept": "`useEffect` runs after render; an empty dependency array means \\\"run on mount\\\".",
                 "guided": "If the effect sets state, make sure it won't trigger the effect again. Keep the dependency array aligned with what tests expect.",
@@ -297,27 +231,16 @@
             "briefing_md": "# Mission: Establish a Theme Signal\n\nYour ship needs a shared theme setting accessible across components without prop-drilling. Implement a Theme Context with a provider and consumer.\n\n## Objectives\n- Create/provide a theme value via Context.\n- Consume the theme value in a child component.\n- Ensure the displayed theme output matches the tests.\n",
             "objectives": [
                 {
-                    "id": "obj_1",
-                    "text": "Provides a theme value via React Context",
-                    "why": "Global-ish state sharing without props"
-                },
-                {
-                    "id": "obj_2",
-                    "text": "Consumes the theme value in a descendant component",
-                    "why": "Context usage requirement"
-                },
-                {
-                    "id": "obj_3",
-                    "text": "Renders the expected theme output in the UI",
-                    "why": "Spec compliance"
-                },
-                {
-                    "id": "obj_4",
-                    "text": "Uses a safe default theme when no provider is present (if tested)",
-                    "why": "Robustness"
+                    "id": "test_pass",
+                    "kind": "tests_pass",
+                    "text": "Correct solution implemented",
+                    "why": "Functional requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
                 }
             ],
-            "lore_md": "## Component Tree: Theme Relay\n\n> *Broadcasting style signal...*\n>\n> Provider: **ThemeProvider**\n> └─ Consumer: **ThemedDisplay**\n>\n> Value: **theme**\n\nThe theme signal is getting lost in transit. Establish a relay (provider) so every module downstream can read the current theme instantly.",
+            "lore_md": "## Component Tree: Theme Relay\n\n> *Broadcasting style signal...*\n>\n> Provider: **ThemeProvider**\n> \u2514\u2500 Consumer: **ThemedDisplay**\n>\n> Value: **theme**\n\nThe theme signal is getting lost in transit. Establish a relay (provider) so every module downstream can read the current theme instantly.",
             "tiered_hints": {
                 "concept": "Context = `createContext` + Provider + `useContext` in consumers.",
                 "guided": "Wrap the component tree with the provider and pass the value. In the consumer, read it with `useContext` and render the expected text.",
@@ -333,29 +256,18 @@
             "briefing_md": "# Mission: Operate the Cart Controller\n\nThe cargo bay needs predictable state transitions. Use `useReducer` to manage a shopping cart with explicit actions and a pure reducer.\n\n## Objectives\n- Implement a pure reducer handling the required cart actions.\n- Dispatch actions from UI controls as tests require.\n- Render the cart state (items/quantities/total) deterministically.\n",
             "objectives": [
                 {
-                    "id": "obj_1",
-                    "text": "Implements a pure reducer for cart state transitions",
-                    "why": "Predictable state machine behavior"
-                },
-                {
-                    "id": "obj_2",
-                    "text": "Handles required cart actions (add/remove/update/clear as specified by tests)",
-                    "why": "Spec compliance"
-                },
-                {
-                    "id": "obj_3",
-                    "text": "Dispatches actions from UI interactions correctly",
-                    "why": "Interactive correctness"
-                },
-                {
-                    "id": "obj_4",
-                    "text": "Renders derived cart output deterministically",
-                    "why": "Training-grade stability"
+                    "id": "test_pass",
+                    "kind": "tests_pass",
+                    "text": "Correct solution implemented",
+                    "why": "Functional requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
                 }
             ],
             "lore_md": "## Component Tree: Cargo Cart\n\n> *Engaging reducer controls...*\n>\n> Component: **ShoppingCart**\n> Hook: **useReducer(reducer, initialState)**\n> Actions: **(explicit)**\n\nCargo keeps duplicating and disappearing because updates are happening ad hoc. Lock state changes behind a reducer so every transition is logged, pure, and testable.",
             "tiered_hints": {
-                "concept": "Reducers must be pure: same inputs → same output, no mutation, no side effects.",
+                "concept": "Reducers must be pure: same inputs \u2192 same output, no mutation, no side effects.",
                 "guided": "Implement action handlers one-by-one. Confirm you return new state objects/arrays and that UI reflects the updated state after dispatch.",
                 "full_solution": "Implement the reducer cases required by tests, dispatch the matching actions from the UI, and ensure rendered totals/items match expected output exactly."
             },

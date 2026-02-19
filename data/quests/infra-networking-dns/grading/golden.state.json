@@ -1,0 +1,13 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/hosts.txt",
+        "fixtures/requests.txt",
+        "outputs/resolved.txt",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

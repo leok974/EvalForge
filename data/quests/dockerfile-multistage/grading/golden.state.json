@@ -1,0 +1,9 @@
+{
+    "type": "state",
+    "files": [
+        "Dockerfile"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

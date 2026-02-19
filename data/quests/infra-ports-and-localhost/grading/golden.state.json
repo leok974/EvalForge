@@ -1,0 +1,18 @@
+{
+  "slug": "infra-ports-and-localhost",
+  "captured_at": "2026-02-17T19:54:28.180301",
+  "mode": "state",
+  "state": {
+    "files_present": [
+      "README.md",
+      "localhost_ports.txt",
+      "main.py",
+      "netstat.txt",
+      "public_ports.txt",
+      "task.sh"
+    ]
+  },
+  "solution_stdout": "Infra ports simulated.\r\n",
+  "solution_stderr": "",
+  "solution_exit_code": 0
+}

@@ -1,10 +1,36 @@
 {
-  "slug": "css-grid",
-  "title": "Grid Layout: Two-Dimensional Control",
-  "short_description": "Create a simple grid with columns/rows and place elements cleanly without brittle hacks.",
-  "world_id": "world-web",
-  "track_id": "track-css",
-  "order_index": 8,
-  "base_xp_reward": 50,
-  "language": "css"
+    "slug": "css-grid",
+    "title": "Grid Layout: Two-Dimensional Control",
+    "short_description": "Create a simple grid with columns/rows and place elements cleanly without brittle hacks.",
+    "world_id": "world-web",
+    "track_id": "track-css",
+    "order_index": 8,
+    "base_xp_reward": 50,
+    "language": "css",
+    "objectives": [
+        {
+            "id": "fs_check",
+            "kind": "fs_snapshot",
+            "text": "Required files exist",
+            "why": "Structure requirement",
+            "rule": {
+                "must_exist": [
+                    "styles.css"
+                ]
+            }
+        },
+        {
+            "id": "fs_snapshot",
+            "kind": "fs_snapshot",
+            "title": "Verify file structure",
+            "rule": {
+                "kind": "fs_snapshot",
+                "must_exist": [
+                    "README.md",
+                    "index.html",
+                    "style.css"
+                ]
+            }
+        }
+    ]
 }

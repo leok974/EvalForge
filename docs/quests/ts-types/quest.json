@@ -9,9 +9,12 @@
     "detailed_description": "Implement a runtime-safe JSON parser using TypeScript types and a type guard.\n\n## Objective\nParse a JSON string into a typed `User` only if it matches the contract.\n",
     "objectives": [
         {
-            "id": "obj_types_guard_and_parser",
-            "text": "Implement isUser() and parseUser() so the public tests pass.",
-            "why": "Type safety + runtime validation"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

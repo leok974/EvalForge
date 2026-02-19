@@ -78,6 +78,24 @@ def inject_starter_code(db):
     db.commit()
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--validate-only", action="store_true", help="Run schema validation without seeding")
+    args = parser.parse_args()
+
+    if args.validate_only:
+        print("🔍 Running Seed Validation (No DB Writes)...")
+        # Mock DB session for validation mode
+        try:
+             seed_standard_world_quests(None, validate_only=True)
+             sys.exit(0)
+        except ValueError as e:
+             print(f"❌ {e}")
+             sys.exit(1)
+        except Exception as e:
+             print(f"❌ Error: {e}")
+             sys.exit(1)
+
     print("🚀 Force Seeding Standard Questlines (Sync Mode + Content Injection)...")
     try:
         sync_url = DATABASE_URL.replace("+asyncpg", "")
@@ -104,3 +122,4 @@ if __name__ == "__main__":
         print(f"❌ Critical Error: {e}")
         import traceback
         traceback.print_exc()
+

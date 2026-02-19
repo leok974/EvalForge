@@ -6,43 +6,153 @@
     "quests": [
         {
             "slug": "docker-ignition",
-            "title": "Docker World Ignition"
+            "title": "Docker World Ignition",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "dockerfile-basics",
-            "title": "Dockerfile Basics"
+            "title": "Dockerfile Basics",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "dockerfile-layers-cache",
-            "title": "Layers & Cache"
+            "title": "Layers & Cache",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "dockerfile-copy-vs-add",
-            "title": "COPY vs ADD"
+            "title": "COPY vs ADD",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "dockerfile-multistage",
-            "title": "Multi-stage Builds"
+            "title": "Multi-stage Builds",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "dockerfile-healthcheck",
-            "title": "Healthchecks"
+            "title": "Healthchecks",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "compose-basics",
-            "title": "Compose Basics"
+            "title": "Compose Basics",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "compose-networks-depends",
-            "title": "Networks & depends_on"
+            "title": "Networks & depends_on",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "compose-env-secrets",
-            "title": "Env + Secrets"
+            "title": "Env + Secrets",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         },
         {
             "slug": "compose-volumes-and-prod-hardening",
-            "title": "Volumes + Prod Hardening"
+            "title": "Volumes + Prod Hardening",
+            "objectives": [
+                {
+                    "id": "default_pass",
+                    "kind": "tests_pass",
+                    "text": "Tests pass",
+                    "why": "Requirement",
+                    "rule": {
+                        "must_pass": true
+                    }
+                }
+            ]
         }
     ]
 }

@@ -1,0 +1,12 @@
+{
+  "slug": "python-ignition",
+  "captured_at": "2026-02-17T18:58:52.253977",
+  "mode": "solution",
+  "language": "python",
+  "solution_file": "grading\\solutions\\main.py",
+  "stdout": "Reactor status: Online\r\n",
+  "stdout_sha256": "a1c5d043e64793b09017bc8b0e46056597f1c559d3dc3c8ddb52f228c88eae49",
+  "stderr": "",
+  "exit_code": 0,
+  "timed_out": false
+}

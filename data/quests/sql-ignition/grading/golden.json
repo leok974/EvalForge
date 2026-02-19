@@ -1,0 +1,12 @@
+{
+  "slug": "sql-ignition",
+  "captured_at": "2026-02-17T19:15:24.904913",
+  "mode": "solution",
+  "language": "python",
+  "solution_file": "grading\\solutions\\main.py",
+  "stdout": "(1, 'Alice', 'alice@example.com', 28, 'Detroit', 1)\r\n(2, 'Bob', 'bob@example.com', 35, 'Austin', 1)\r\n(3, 'Charlie', 'charlie@example.com', 22, 'Detroit', 0)\r\n(4, 'Diana', 'diana@example.com', 41, 'Seattle', 1)\r\n(5, 'Evan', 'evan@example.com', 29, 'Austin', 0)\r\n(6, 'Fay', 'fay@example.com', 33, 'Miami', 1)\r\n",
+  "stdout_sha256": "0f0adba38391556c684d83297ff93950932cb234fdd4811c0965c258d12c586c",
+  "stderr": "",
+  "exit_code": 0,
+  "timed_out": false
+}

@@ -39,11 +39,36 @@ STAGES = [
     {
         "name": "Golden Coverage",
         "cmd": [sys.executable, "scripts/audit_golden_coverage.py"],
-        "critical": False  # Warning only for now (until 100% coverage)
+        "critical": True  # Now enforced
     },
     {
         "name": "Validator Smoke Tests",
         "cmd": [sys.executable, "-m", "pytest", "tests/test_objective_validators.py"],
+        "critical": True
+    },
+    {
+        "name": "Seed Logic Tests",
+        "cmd": [sys.executable, "-m", "pytest", "tests/test_seed_validation.py"],
+        "critical": True
+    },
+    {
+        "name": "Runtime Fallback Tests",
+        "cmd": [sys.executable, "-m", "pytest", "tests/test_runtime_objectives_fallback.py"],
+        "critical": True
+    },
+    {
+        "name": "Drift & Parity Regression",
+        "cmd": [sys.executable, "-m", "pytest", "tests/test_drift_checks.py", "tests/test_seed_parity_regression.py"],
+        "critical": True
+    },
+    {
+        "name": "Schema Fuzzing",
+        "cmd": [sys.executable, "-m", "pytest", "tests/test_objective_schema_fuzz.py"],
+        "critical": True
+    },
+    {
+        "name": "Certified Worlds Smoke",
+        "cmd": [sys.executable, "-m", "pytest", "tests/test_certified_worlds_smoke.py"],
         "critical": True
     }
 ]

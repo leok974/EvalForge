@@ -6,5 +6,30 @@
     "track_id": "track-html",
     "order_index": 10,
     "base_xp_reward": 50,
-    "language": "html"
+    "language": "html",
+    "objectives": [
+        {
+            "id": "fs_check",
+            "kind": "fs_snapshot",
+            "text": "Required files exist",
+            "why": "Structure requirement",
+            "rule": {
+                "must_exist": [
+                    "index.html"
+                ]
+            }
+        },
+        {
+            "id": "fs_snapshot",
+            "kind": "fs_snapshot",
+            "title": "Verify file structure",
+            "rule": {
+                "kind": "fs_snapshot",
+                "must_exist": [
+                    "README.md",
+                    "index.html"
+                ]
+            }
+        }
+    ]
 }

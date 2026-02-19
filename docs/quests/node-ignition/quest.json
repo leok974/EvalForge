@@ -16,5 +16,26 @@
         "command": "node --test grading/public/node-ignition.public.test.mjs"
     },
     "content_source": "training_grade_v1",
-    "content_version": "1.0.0"
+    "content_version": "1.0.0",
+    "objectives": [
+        {
+            "id": "test_pass",
+            "kind": "tests_pass",
+            "text": "Correct solution implemented",
+            "why": "Functional requirement",
+            "rule": {
+                "must_pass": true
+            }
+        },
+        {
+            "id": "obj_source_exit",
+            "kind": "source_regex",
+            "text": "Code uses process.exit() for status codes",
+            "why": "CLI best practice",
+            "rule": {
+                "pattern": "process\\.exit",
+                "must_match": true
+            }
+        }
+    ]
 }

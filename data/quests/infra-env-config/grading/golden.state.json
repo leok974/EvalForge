@@ -1,0 +1,12 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/app.env",
+        "outputs/runtime.env",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

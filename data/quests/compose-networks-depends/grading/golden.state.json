@@ -1,0 +1,9 @@
+{
+    "type": "state",
+    "files": [
+        "docker-compose.yml"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

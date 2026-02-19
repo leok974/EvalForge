@@ -1,0 +1,11 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "index.html",
+        "style.css"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

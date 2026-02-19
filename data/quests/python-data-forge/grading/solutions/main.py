@@ -41,13 +41,12 @@ def top_items(revenue: dict[str, float], k: int) -> list[tuple[str, float]]:
 
 def main() -> None:
   here = Path(__file__).resolve()
-  quest_root = here.parents[1]  # workspace/ -> quest root (or grading for solution)
   
-  # Handle both workspace and grading/solutions paths
-  if 'grading' in str(here):
-    quest_root = here.parents[2]
+  # When running in runner: fixtures are in ./fixtures (relative to script)
+  # When running locally in dev: fixtures are in workspace/fixtures
   
-  path = quest_root / "fixtures" / "sales.csv"
+  # Valid path for solution (assuming solution file is simulated in workspace root)
+  path = here.parent / "fixtures" / "sales.csv"
 
   rows = load_sales(path)
   rev = revenue_by_item(rows)

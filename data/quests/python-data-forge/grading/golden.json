@@ -1,11 +1,11 @@
 {
   "slug": "python-data-forge",
-  "captured_at": "2026-02-17T18:10:04.349651",
+  "captured_at": "2026-02-17T18:51:58.248558",
   "mode": "solution",
   "language": "python",
   "solution_file": "grading\\solutions\\main.py",
-  "stdout": "",
-  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "apple=10.50\r\nbanana=6.40\r\n",
+  "stdout_sha256": "576a91dd3796231ec392e393da8384e3479c4d01d8379eb2b58f0d5d2c94990f",
   "stderr": "",
   "exit_code": 0,
   "timed_out": false

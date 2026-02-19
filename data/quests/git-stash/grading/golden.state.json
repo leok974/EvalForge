@@ -1,0 +1,14 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "outputs/stash.txt",
+        "task.sh",
+        "tmp/repo/tmp.txt",
+        "tmp/repo/wip.txt",
+        "wrapper.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

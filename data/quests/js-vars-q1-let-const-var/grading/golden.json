@@ -1,0 +1,12 @@
+{
+  "slug": "js-vars-q1-let-const-var",
+  "captured_at": "2026-02-17T19:10:08.690393",
+  "mode": "solution",
+  "language": "javascript",
+  "solution_file": "grading\\solutions\\main.js",
+  "stdout": "",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr": "",
+  "exit_code": 0,
+  "timed_out": false
+}

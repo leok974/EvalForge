@@ -198,6 +198,8 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             "--network", "none",
             "--cpus", "1",
             "--memory", "256m",
+            "-e", "GIT_EDITOR=true",
+            "-e", "GIT_TERMINAL_PROMPT=0",
             "--pids-limit", "64",
             "--tmpfs", "/tmp:rw,noexec,nosuid,size=64m",
             "--cap-drop", "ALL",

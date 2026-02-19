@@ -9,9 +9,12 @@
     "detailed_description": "Implement totalCents(input) to safely validate items and compute a deterministic total.\n",
     "objectives": [
         {
-            "id": "obj_total_cents",
-            "text": "Implement totalCents(input) so all public tests pass.",
-            "why": "Function contracts + input validation"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

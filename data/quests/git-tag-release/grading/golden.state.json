@@ -1,0 +1,15 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "task.sh",
+        "wrapper.sh"
+    ],
+    "git": {
+        "has_dot_git": true,
+        "status_porcelain": "",
+        "log_oneline": [
+            "e44bc8e Initial commit"
+        ]
+    }
+}

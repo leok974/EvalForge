@@ -9,19 +9,28 @@
     "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
     "objectives": [
         {
-            "id": "obj_1",
-            "text": "Implement the solution in the provided starter file.",
-            "why": "Specification requirement"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         },
         {
-            "id": "obj_2",
-            "text": "Ensure usage of standard library features where appropriate.",
-            "why": "Specification requirement"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         },
         {
-            "id": "obj_3",
-            "text": "Verify output matches expected format.",
-            "why": "Specification requirement"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

@@ -9,10 +9,27 @@
     "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
     "objectives": [
         {
-            "id": "obj_1",
-            "description": "Implement the solution.",
-            "type": "test_pass",
-            "matcher": null
+            "id": "default_pass",
+            "kind": "tests_pass",
+            "text": "Tests pass",
+            "why": "Requirement",
+            "rule": {
+                "must_pass": true
+            }
+        },
+        {
+            "id": "fs_snapshot",
+            "kind": "fs_snapshot",
+            "title": "Verify file structure",
+            "rule": {
+                "kind": "fs_snapshot",
+                "must_exist": [
+                    "README.md",
+                    "fixtures/docker-compose.yml",
+                    "outputs/services.txt",
+                    "task.sh"
+                ]
+            }
         }
     ],
     "grading": {

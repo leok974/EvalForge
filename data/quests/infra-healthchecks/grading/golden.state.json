@@ -1,0 +1,14 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/health.txt",
+        "outputs/health_score.txt",
+        "outputs/health_status.txt",
+        "server.js",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

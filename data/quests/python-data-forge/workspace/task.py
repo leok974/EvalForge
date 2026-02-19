@@ -36,8 +36,8 @@ def top_items(revenue: dict[str, float], k: int) -> list[tuple[str, float]]:
 
 def main() -> None:
   here = Path(__file__).resolve()
-  quest_root = here.parents[1]  # workspace/ -> quest root
-  path = quest_root / "fixtures" / "sales.csv"
+  # Fixtures are in workspace/fixtures
+  path = here.parent / "fixtures" / "sales.csv"
 
   rows = load_sales(path)
   rev = revenue_by_item(rows)

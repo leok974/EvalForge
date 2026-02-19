@@ -41,7 +41,7 @@ def find_solution_file(quest_dir: Path) -> Path:
             continue
         
         # Try common filenames
-        for filename in ["main.py", "task.py", "solution.py", "index.js", "main.sql"]:
+        for filename in ["main.py", "main.js", "task.py", "solution.py", "index.js", "main.sql"]:
             solution_path = solution_dir / filename
             if solution_path.exists():
                 return solution_path
@@ -53,7 +53,7 @@ def find_solution_file(quest_dir: Path) -> Path:
     
     return None
 
-def run_solution(solution_path: Path, language: str = "python"):
+def run_solution(solution_path: Path, language: str = "python", quest_slug: str = None, entrypoint: str = "main.py"):
     """Run solution and capture output."""
     # Import here to avoid circular dependencies
     from arcade_app.services.code_runner import run_code
@@ -68,7 +68,9 @@ def run_solution(solution_path: Path, language: str = "python"):
     result = run_code(
         language=language,
         code=solution_code,
-        timeout_ms=10000  # 10 seconds
+        timeout_ms=10000,  # 10 seconds
+        quest_slug=quest_slug,
+        workspace={"entrypoint": entrypoint}
     )
     
     # Convert to dict format expected by downstream code
@@ -100,13 +102,15 @@ def capture_golden(slug: str):
     # 3. Determine language
     language = "python" if solution_path.suffix == ".py" else "javascript"
     
-    if language != "python":
-        print(f"❌ Only Python solutions supported currently (found: {language})")
+    if language not in ["python", "javascript"]:
+        print(f"❌ Only Python and JavaScript solutions supported currently (found: {language})")
         return False
     
     # 4. Run solution
+    entrypoint = "main.py" if language == "python" else "main.js"
+    
     try:
-        result = run_solution(solution_path, language)
+        result = run_solution(solution_path, language, quest_slug=slug, entrypoint=entrypoint)
     except Exception as e:
         print(f"❌ Failed to run solution: {e}")
         return False
@@ -162,8 +166,31 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Capture golden solution output for a quest"
     )
-    parser.add_argument("--slug", required=True, help="Quest slug (e.g., python-loop)")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--slug", help="Single quest slug")
+    group.add_argument("--slugs", help="Comma-separated list of slugs")
+    
     args = parser.parse_args()
     
-    success = capture_golden(args.slug)
-    sys.exit(0 if success else 1)
+    slugs = []
+    if args.slug:
+        slugs.append(args.slug)
+    elif args.slugs:
+        slugs = [s.strip() for s in args.slugs.split(",") if s.strip()]
+    
+    success_count = 0
+    fail_count = 0
+    
+    print(f"🚀 Starting batch capture for {len(slugs)} quests...")
+    
+    for slug in slugs:
+        print(f"\n[{slug}] Processing...")
+        if capture_golden(slug):
+            success_count += 1
+        else:
+            fail_count += 1
+            
+    print(f"\n{'='*40}")
+    print(f"Batch Summary: {success_count} passed, {fail_count} failed")
+    
+    sys.exit(1 if fail_count > 0 else 0)

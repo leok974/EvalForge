@@ -9,10 +9,13 @@
     "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
     "objectives": [
         {
-            "id": "obj_1",
-            "description": "Implement the solution.",
-            "type": "test_pass",
-            "matcher": null
+            "id": "sql_check",
+            "kind": "tests_pass",
+            "text": "Query produces correct results",
+            "why": "Functional requirement",
+            "rule": {
+                "must_pass": true
+            }
         }
     ],
     "grading": {

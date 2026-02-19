@@ -95,9 +95,16 @@ class CoachService:
                 f"System Error Detected: {failure_class}. The runner failed to execute your code because of an environment or file path issue. Check the logs."
             )
             
-            # Old logic (inject hint) is removed in favor of short-circuit
-            # sys_prompt += f"\n\nSYSTEM WARNING: The runner failed before executing student code. Error type: {failure_class}.\n"
-            # sys_prompt += "Do NOT hallucinate code issues. Focus on fixing the environment/file path/dependency."
+        # C2. Config Error Short-Circuit
+        config_err = self._detect_config_error(req.runner_result)
+        if config_err:
+            logger.info(f"Coach caught CONFIG error: {config_err}")
+            return self._mock_fallback(
+                req, 
+                f"Quest Configuration Error: {config_err}\n\nThis is an issue with the quest definition, not your code.\nHint: python arcade_app/force_seed_standard.py --validate-only"
+            )
+
+        # 3. Call Gemini
 
         # 3. Call Gemini
         try:
@@ -182,6 +189,39 @@ class CoachService:
             confidence=0.0,
             safety=SafetyAssessment(solution_leak_risk="low", blocked=False)
         )
+
+    def _detect_config_error(self, runner_result: Optional[Dict[str, Any]]) -> Optional[str]:
+        """Scans runner result for CONFIG_INVALID_OBJECTIVES."""
+        if not runner_result:
+            return None
+            
+        # Strategy: Look for specific ID or Kind in the result structure
+        # Structure varies (might be raw list wrapped in dict, or dict of results)
+        
+        candidates = []
+        if isinstance(runner_result, dict):
+            # Check for direct keys
+            if runner_result.get("id") == "CONFIG_INVALID_OBJECTIVES" or runner_result.get("kind") == "config":
+                return runner_result.get("actual") or runner_result.get("detail")
+            
+            # Check 'objectives' list
+            if "objectives" in runner_result and isinstance(runner_result["objectives"], list):
+                candidates.extend(runner_result["objectives"])
+            
+            # Check if values are results (dict of dicts - less likely but possible)
+            for v in runner_result.values():
+                if isinstance(v, dict) or isinstance(v, list):
+                    if isinstance(v, list):
+                        candidates.extend(v)
+                    else:
+                        candidates.append(v)
+
+        for c in candidates:
+            if isinstance(c, dict):
+                if c.get("id") == "CONFIG_INVALID_OBJECTIVES" or c.get("kind") == "config":
+                    return c.get("actual") or c.get("detail") or "Invalid Quest Configuration"
+                    
+        return None
 
 # Global Instance
 coach_service = CoachService()

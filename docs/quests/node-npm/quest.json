@@ -16,5 +16,16 @@
         "command": "node --test grading/public/node-npm.public.test.mjs"
     },
     "content_source": "training_grade_v1",
-    "content_version": "1.0.0"
+    "content_version": "1.0.0",
+    "objectives": [
+        {
+            "id": "test_pass",
+            "kind": "tests_pass",
+            "text": "Correct solution implemented",
+            "why": "Functional requirement",
+            "rule": {
+                "must_pass": true
+            }
+        }
+    ]
 }

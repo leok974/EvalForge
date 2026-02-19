@@ -1,0 +1,246 @@
+[
+    {
+        "slug": "python-systems-observability-sli",
+        "world": "python"
+    },
+    {
+        "slug": "python-systems-performance-profile",
+        "world": "python"
+    },
+    {
+        "slug": "python-systems-platform-tooling",
+        "world": "python"
+    },
+    {
+        "slug": "python-systems-resilient-job-runner",
+        "world": "python"
+    },
+    {
+        "slug": "python-systems-service-boundaries",
+        "world": "python"
+    },
+    {
+        "slug": "quest-py-hidden",
+        "world": "python"
+    },
+    {
+        "slug": "quest-py-workspace",
+        "world": "python"
+    },
+    {
+        "slug": "agents-approvals-diffs",
+        "world": "js"
+    },
+    {
+        "slug": "agents-budgets",
+        "world": "js"
+    },
+    {
+        "slug": "agents-executor",
+        "world": "js"
+    },
+    {
+        "slug": "agents-memory",
+        "world": "js"
+    },
+    {
+        "slug": "agents-observability",
+        "world": "js"
+    },
+    {
+        "slug": "agents-planner",
+        "world": "js"
+    },
+    {
+        "slug": "agents-tools-basics",
+        "world": "js"
+    },
+    {
+        "slug": "agents-verifier",
+        "world": "js"
+    },
+    {
+        "slug": "js-arrays-q1-basics",
+        "world": "js"
+    },
+    {
+        "slug": "js-arrays-q2-map-filter-reduce",
+        "world": "js"
+    },
+    {
+        "slug": "js-async-q1-promises-basics",
+        "world": "js"
+    },
+    {
+        "slug": "js-control-q1-if-else-loops",
+        "world": "js"
+    },
+    {
+        "slug": "js-errors-q1-try-catch",
+        "world": "js"
+    },
+    {
+        "slug": "js-functions-q1-arrow-vs-regular",
+        "world": "js"
+    },
+    {
+        "slug": "js-modules-q1-import-export",
+        "world": "js"
+    },
+    {
+        "slug": "js-objects-q1-properties-methods",
+        "world": "js"
+    },
+    {
+        "slug": "quest-ts-hello-console",
+        "world": "js"
+    },
+    {
+        "slug": "quest-ts-hello-variable",
+        "world": "js"
+    },
+    {
+        "slug": "quest-ts-loop-countdown",
+        "world": "js"
+    },
+    {
+        "slug": "ts-arrays",
+        "world": "js"
+    },
+    {
+        "slug": "ts-control",
+        "world": "js"
+    },
+    {
+        "slug": "ts-functions",
+        "world": "js"
+    },
+    {
+        "slug": "ts-generics",
+        "world": "js"
+    },
+    {
+        "slug": "ts-generics-q2-result-type",
+        "world": "js"
+    },
+    {
+        "slug": "ts-ignition",
+        "world": "js"
+    },
+    {
+        "slug": "ts-ignition-q1-types-and-interfaces",
+        "world": "js"
+    },
+    {
+        "slug": "ts-interfaces",
+        "world": "js"
+    },
+    {
+        "slug": "ts-modules",
+        "world": "js"
+    },
+    {
+        "slug": "ts-narrowing-q2-unions-and-guards",
+        "world": "js"
+    },
+    {
+        "slug": "ts-objects",
+        "world": "js"
+    },
+    {
+        "slug": "ts-types",
+        "world": "js"
+    },
+    {
+        "slug": "ts-vars",
+        "world": "js"
+    },
+    {
+        "slug": "ml-classification-basics",
+        "world": "ml"
+    },
+    {
+        "slug": "ml-data-preprocessing",
+        "world": "ml"
+    },
+    {
+        "slug": "ml-linear-regression",
+        "world": "ml"
+    },
+    {
+        "slug": "ml-model-evaluation",
+        "world": "ml"
+    },
+    {
+        "slug": "ml-neural-networks-intro",
+        "world": "ml"
+    },
+    {
+        "slug": "ml-overfitting-regularization",
+        "world": "ml"
+    },
+    {
+        "slug": "ml-pandas-dataframes",
+        "world": "ml"
+    },
+    {
+        "slug": "ml-train-test-split",
+        "world": "ml"
+    },
+    {
+        "slug": "git-add-commit",
+        "world": "git"
+    },
+    {
+        "slug": "git-branch-merge",
+        "world": "git"
+    },
+    {
+        "slug": "git-branches",
+        "world": "git"
+    },
+    {
+        "slug": "git-log",
+        "world": "git"
+    },
+    {
+        "slug": "git-merge-conflict",
+        "world": "git"
+    },
+    {
+        "slug": "git-rebase-linear",
+        "world": "git"
+    },
+    {
+        "slug": "git-rebase-onto-main",
+        "world": "git"
+    },
+    {
+        "slug": "git-remote-push",
+        "world": "git"
+    },
+    {
+        "slug": "git-stash",
+        "world": "git"
+    },
+    {
+        "slug": "git-status-diff",
+        "world": "git"
+    },
+    {
+        "slug": "git-tag-release",
+        "world": "git"
+    },
+    {
+        "slug": "git-tags",
+        "world": "git"
+    },
+    {
+        "slug": "git-undo-revert",
+        "world": "git"
+    },
+    {
+        "slug": "first-sparks",
+        "world": "unknown"
+    }
+]

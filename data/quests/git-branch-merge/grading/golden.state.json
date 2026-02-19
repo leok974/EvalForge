@@ -1,0 +1,20 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "feature.txt",
+        "main.txt",
+        "outputs/parents.txt",
+        "task.sh",
+        "wrapper.sh"
+    ],
+    "git": {
+        "has_dot_git": true,
+        "status_porcelain": "?? README.md\n?? outputs/\n?? task.sh\n?? wrapper.sh\n",
+        "log_oneline": [
+            "03ea7ef Merge feature into main",
+            "53f000b Add feature",
+            "fb25372 Initial commit on main"
+        ]
+    }
+}

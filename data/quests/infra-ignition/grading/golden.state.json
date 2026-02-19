@@ -1,0 +1,18 @@
+{
+  "slug": "infra-ignition",
+  "captured_at": "2026-02-17T19:54:25.882677",
+  "mode": "state",
+  "state": {
+    "files_present": [
+      "README.md",
+      "main.py",
+      "preflight.txt",
+      "task.sh",
+      "tools.txt",
+      "which.txt"
+    ]
+  },
+  "solution_stdout": "Infra ignition simulated.\r\n",
+  "solution_stderr": "",
+  "solution_exit_code": 0
+}

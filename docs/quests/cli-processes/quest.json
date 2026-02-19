@@ -11,5 +11,16 @@
     "workspace": {
         "entrypoint": "task.sh",
         "files_from": "./workspace"
-    }
+    },
+    "objectives": [
+        {
+            "id": "test_pass",
+            "kind": "tests_pass",
+            "text": "Correct solution implemented",
+            "why": "Functional requirement",
+            "rule": {
+                "must_pass": true
+            }
+        }
+    ]
 }

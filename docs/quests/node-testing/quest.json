@@ -1,6 +1,6 @@
 {
     "slug": "node-testing",
-    "title": "Testing: Node’s Built-in Test Runner",
+    "title": "Testing: Node\u2019s Built-in Test Runner",
     "short_description": "Write unit test assertions with node:test and node:assert to catch regressions.",
     "description": "Implement two assertions in a Node test file and verify it passes under node --test.",
     "world_id": "world-node",
@@ -16,5 +16,16 @@
         "command": "node --test grading/public/node-testing.public.test.mjs"
     },
     "content_source": "training_grade_v1",
-    "content_version": "1.0.0"
+    "content_version": "1.0.0",
+    "objectives": [
+        {
+            "id": "test_pass",
+            "kind": "tests_pass",
+            "text": "Correct solution implemented",
+            "why": "Functional requirement",
+            "rule": {
+                "must_pass": true
+            }
+        }
+    ]
 }

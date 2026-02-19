@@ -221,7 +221,8 @@ async def run_quest(
                 stderr=stderr,
                 exit_code=exit_code,
                 timed_out=timed_out,
-                quest_def=quest
+                quest_def=quest,
+                state=getattr(r, "state", None) if EXECUTION_ENABLED and 'r' in locals() else None
             )
     except TimeoutError as e:
         # Validation timed out - return deterministic failure
@@ -622,7 +623,8 @@ async def submit_quest(
         stderr=stderr,
         exit_code=exit_code,
         timed_out=timed_out,
-        quest_def=quest
+        quest_def=quest,
+        state=getattr(r, "state", None) if EXECUTION_ENABLED and 'r' in locals() else None
     )
     
     objective_results = test_results

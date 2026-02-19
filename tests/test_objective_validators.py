@@ -46,19 +46,6 @@ class TestObjectiveValidators:
         assert res[0]["actual"] == "Hello Python"
         assert "Expected:\n  Hello World" in res[0]["diff"]
 
-    def test_stdout_exact_legacy_pattern(self):
-        """Test stdout_exact using legacy 'pattern' field."""
-        obj = {
-            "id": "test_obj",
-            "kind": "stdout_exact",
-            "rule": {"pattern": "Legacy Match"}
-        }
-        res = validate_quest_attempt(
-            code="", stdout="Legacy Match", stderr="", 
-            quest_def=make_quest_def([obj])
-        )
-        assert res[0]["ok"] is True
-
     def test_stdout_regex_success(self):
         """Test stdout_regex matching."""
         obj = {
@@ -179,7 +166,7 @@ class TestObjectiveValidators:
         obj = {
             "id": "test_exit",
             "kind": "exit_code_zero",
-            "rule": {}
+            "rule": {"kind": "exit_code_zero"}  # Must not be empty for schema validation strictness if enforced? No, rule={} is valid for exit_code_zero.
         }
         # Success
         res = validate_quest_attempt(

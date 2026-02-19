@@ -51,6 +51,15 @@ def apply_project_questline_spec(db: Session, spec: ProjectQuestlineSpec):
     # Quests
     for track in spec.tracks:
         for q in track.quests:
+            # Defensive Audit: If objectives ever added to spec
+            objectives = getattr(q, "objectives_json", []) or []
+            if objectives:
+                from arcade_app.services.quest_validate import audit_objective_schema
+                for obj in objectives:
+                    errors = audit_objective_schema(obj)
+                    if errors:
+                        raise ValueError(f"CRITICAL: Invalid Objective in Project Quest '{q.slug}': {', '.join(errors)}")
+
             existing = (
                 db.query(QuestDefinition)
                 .filter(QuestDefinition.slug == q.slug)

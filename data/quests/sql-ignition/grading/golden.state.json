@@ -1,0 +1,15 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/schema.sql",
+        "fixtures/seed.sql",
+        "main.py",
+        "query.sql",
+        "task.sql",
+        "task.txt"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

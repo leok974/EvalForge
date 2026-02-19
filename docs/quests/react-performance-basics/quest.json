@@ -8,5 +8,16 @@
     "order_index": 10,
     "base_xp_reward": 50,
     "language": "typescript",
-    "xp": 50
+    "xp": 50,
+    "objectives": [
+        {
+            "id": "test_pass",
+            "kind": "tests_pass",
+            "text": "Correct solution implemented",
+            "why": "Functional requirement",
+            "rule": {
+                "must_pass": true
+            }
+        }
+    ]
 }

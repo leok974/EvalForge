@@ -11,7 +11,7 @@ from arcade_app.models import QuestDefinition
 STANDARD_QUESTLINES: List[Dict[str, Any]] = [
     # === The Foundry (Python) ===
     {
-        "slug": "python-ignition",
+        "slug": "first-sparks",
         "world_id": "world-python",
         "track_id": "fundamentals",
         "order_index": 10,
@@ -351,7 +351,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
                 "rule": {"kind": "exit_code_zero"},
                 "text": "Query executes successfully",
                 "why": "Ensure SQL syntax is correct"
-            }
+            }, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/schema.sql', 'fixtures/seed.sql', 'main.py', 'query.sql', 'task.sql', 'task.txt']}}
         ],
         "runtime_rules_json": {
             "enabled": True,
@@ -390,7 +390,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
                 "rule": {"kind": "exit_code_zero"},
                 "text": "Query executes successfully",
                 "why": "Ensure syntax is correct"
-            }
+            }, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/schema.sql', 'fixtures/seed.sql', 'main.py', 'query.sql', 'task.sql', 'task.txt']}}
         ],
         "runtime_rules_json": {
             "enabled": True,
@@ -524,7 +524,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "mastery_xp_bonus": 20,
         "objectives_json": [
             {"id": "obj_git_init", "kind": "source_regex", "rule": {"kind": "source_regex", "pattern": "git\\s+(init|clone)"}, "text": "Use git init or clone", "why": "Learn repo initialization"},
-            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Command succeeds", "why": "Ensure syntax correct"}
+            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Command succeeds", "why": "Ensure syntax correct"}, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'main.py', 'task.sh']}}, {'id': 'git_status_clean', 'title': 'Verify git status', 'kind': 'git_status_clean', 'rule': {'expected_porcelain': '?? main.py\n?? task.sh'}}, {'id': 'git_log_contains', 'title': 'Verify commit history', 'kind': 'git_log_contains', 'rule': {'must_contain': ['a731329 Initial commit'], 'min_commits': 1}}
         ],
         "runtime_rules_json": {
             "enabled": True,
@@ -548,7 +548,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "mastery_xp_bonus": 25,
         "objectives_json": [
             {"id": "obj_git_clone", "kind": "source_regex", "rule": {"kind": "source_regex", "pattern": "git\\s+clone"}, "text": "Use git clone", "why": "Learn repository cloning"},
-            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Command succeeds", "why": "Ensure valid"}
+            {"id": "obj_exit_zero", "kind": "exit_code_zero", "rule": {"kind": "exit_code_zero"}, "text": "Command succeeds", "why": "Ensure valid"}, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/hello.txt', 'main.py', 'outputs/report.json', 'sandbox/clone/hello.txt', 'sandbox/remote.git/HEAD', 'sandbox/remote.git/config', 'sandbox/remote.git/description', 'sandbox/remote.git/hooks/applypatch-msg.sample', 'sandbox/remote.git/hooks/commit-msg.sample', 'sandbox/remote.git/hooks/fsmonitor-watchman.sample', 'sandbox/remote.git/hooks/post-update.sample', 'sandbox/remote.git/hooks/pre-applypatch.sample', 'sandbox/remote.git/hooks/pre-commit.sample', 'sandbox/remote.git/hooks/pre-merge-commit.sample', 'sandbox/remote.git/hooks/pre-push.sample', 'sandbox/remote.git/hooks/pre-rebase.sample', 'sandbox/remote.git/hooks/pre-receive.sample', 'sandbox/remote.git/hooks/prepare-commit-msg.sample', 'sandbox/remote.git/hooks/push-to-checkout.sample', 'sandbox/remote.git/hooks/sendemail-validate.sample', 'sandbox/remote.git/hooks/update.sample', 'sandbox/remote.git/info/exclude', 'sandbox/remote.git/objects/61/d679ca3bdc447b77658937e49e0f617dd07927', 'sandbox/remote.git/objects/ef/0493b275aa2080237f676d2ef6559246f56636', 'sandbox/remote.git/objects/f6/dec98feb4f9658abd72f82961dbf5978d0034b', 'sandbox/remote.git/refs/heads/main', 'sandbox/repo/hello.txt', 'task.sh', 'task.txt', 'test_public.py', 'wrapper.sh']}}
         ],
         "runtime_rules_json": {"enabled": True, "require_exit_code_zero": True, "require_no_timeout": True}
     },
@@ -597,12 +597,33 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
 ]
 
 
-def seed_standard_world_quests(db: Session) -> None:
+
+def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None:
     """
     Idempotently seed/update questlines for the 7 core worlds.
+    If validate_only is True, checks schema without writing to DB.
     """
+    validation_errors = []
+    
     for cfg in STANDARD_QUESTLINES:
         slug = cfg["slug"]
+        
+        # Validate Objectives Schema (Seed-Time Gate)
+        objectives = cfg.get("objectives_json", [])
+        if objectives:
+            from arcade_app.services.quest_validate import audit_objective_schema
+            for obj in objectives:
+                errors = audit_objective_schema(obj)
+                if errors:
+                    msg = f"CRITICAL: Invalid Objective in quest '{slug}' (Objective ID: {obj.get('id')}): {', '.join(errors)}"
+                    if validate_only:
+                        validation_errors.append(msg)
+                    else:
+                        raise ValueError(msg)
+        
+        if validate_only:
+             continue
+
         existing = (
             db.query(QuestDefinition)
             .filter(QuestDefinition.slug == slug)
@@ -622,6 +643,7 @@ def seed_standard_world_quests(db: Session) -> None:
             existing.unlocks_layout_id = cfg["unlocks_layout_id"]
             existing.base_xp_reward = cfg["base_xp_reward"]
             existing.mastery_xp_bonus = cfg["mastery_xp_bonus"]
+            existing.objectives_json = objectives # Explicitly update objectives
         else:
             q = QuestDefinition(
                 slug=slug,
@@ -637,7 +659,17 @@ def seed_standard_world_quests(db: Session) -> None:
                 unlocks_layout_id=cfg["unlocks_layout_id"],
                 base_xp_reward=cfg["base_xp_reward"],
                 mastery_xp_bonus=cfg["mastery_xp_bonus"],
+                objectives_json=objectives
             )
             db.add(q)
+
+    if validate_only:
+        if validation_errors:
+            for err in validation_errors:
+                print(err)
+            raise ValueError(f"Validation Failed: {len(validation_errors)} errors found.")
+        else:
+            print(f"✅ Validation Passed: Checked {len(STANDARD_QUESTLINES)} quests.")
+            return
 
     db.commit()

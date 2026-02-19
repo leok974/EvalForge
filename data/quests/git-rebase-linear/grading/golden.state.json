@@ -1,0 +1,20 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "feat.txt",
+        "outputs/log.txt",
+        "root.txt",
+        "task.sh",
+        "wrapper.sh"
+    ],
+    "git": {
+        "has_dot_git": true,
+        "status_porcelain": "?? README.md\n?? outputs/\n?? task.sh\n?? wrapper.sh\n",
+        "log_oneline": [
+            "0ad4ef6 Feature commit",
+            "7bfd5cd Main update",
+            "1e54705 Root commit"
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "query.sql",
+        "task.sql",
+        "task.txt"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

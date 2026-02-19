@@ -9,9 +9,12 @@
     "detailed_description": "Implement math helpers in one module and import them into task.ts to compute a deterministic total.\n",
     "objectives": [
         {
-            "id": "obj_modules_import_export",
-            "text": "Implement math.ts exports and use them from task.ts so all public tests pass.",
-            "why": "Modules + imports + named exports"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

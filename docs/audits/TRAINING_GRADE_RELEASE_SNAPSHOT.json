@@ -1,0 +1,22 @@
+{
+    "date": "2026-02-18",
+    "commit": "phase-l-ratchet",
+    "total_quests": 152,
+    "golden_breakdown": {
+        "run": 54,
+        "state": 58,
+        "spec": 40
+    },
+    "blocked_quests": [
+        "cli-globs-search",
+        "cli-ignition",
+        "react-*",
+        "cli-* (except env-vars)"
+    ],
+    "ci_gates": [
+        "objectives_schema",
+        "golden_coverage",
+        "drift_check",
+        "ratchet_budget"
+    ]
+}

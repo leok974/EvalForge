@@ -1,0 +1,13 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/request_origin.txt",
+        "fixtures/response_headers.txt",
+        "outputs/security_report.txt",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

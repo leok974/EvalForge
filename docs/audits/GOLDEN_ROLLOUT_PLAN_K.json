@@ -1,0 +1,612 @@
+[
+    {
+        "slug": "cli-env-vars",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-exit-codes",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-files-folders",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-globs-search",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-ignition",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-navigation",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-pipes",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-processes",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-redirection",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "cli-scripting",
+        "world": "CLI",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "css-box-model",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-cascade-inheritance",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-colors-backgrounds",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-flexbox",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-grid",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-ignition",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-position-zindex",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-responsive-media",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-selectors-specificity",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "css-units-typography",
+        "world": "CSS",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-accessibility-basics",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-debug-validate",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-forms-inputs",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-ignition",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-links-images",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-lists-tables",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-media-embed",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-meta-seo",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-semantic-layout",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "html-tags-attributes",
+        "world": "HTML",
+        "strategy": "fs_snapshot + source_regex/file_hash"
+    },
+    {
+        "slug": "docker-ignition",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "dockerfile-basics",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "dockerfile-copy-vs-add",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "dockerfile-healthcheck",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "dockerfile-layers-cache",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "dockerfile-multistage",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-cors-cookies",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-debug-playbook",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-docker-compose",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-env-config",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-healthchecks",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-logs-metrics",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-networking-dns",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-ports-and-localhost",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "infra-reverse-proxy",
+        "world": "Infra",
+        "strategy": "golden.state + fs_snapshot"
+    },
+    {
+        "slug": "node-async",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-deploy-basics",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-env-config",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-fs-path",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-http",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-ignition",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-middleware",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-modules",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-npm",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "node-testing",
+        "world": "Node",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-components",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-conditional-render",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-context-theme",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-effects-mount",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-ignition",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-lists",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-props",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-reducer-cart",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-state-counter",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "react-state-toggle",
+        "world": "React",
+        "strategy": "tests_pass (if tests exist) else stdout_regex"
+    },
+    {
+        "slug": "sql-aggregates",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-cte-subquery",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-groupby-having",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-ignition",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-insert-update-delete",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-joins",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-left-join-null",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-order-limit",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-select",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "sql-where",
+        "world": "SQL",
+        "strategy": "tests_pass (sql runner) or sql_exact"
+    },
+    {
+        "slug": "agents-ignition",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "agents-prompts-contracts",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "compose-basics",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "compose-env-secrets",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "compose-networks-depends",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "compose-volumes-and-prod-hardening",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "git-branches",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "git-log",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "git-merge-conflict",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "git-rebase-onto-main",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "git-tags",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "hello-variable",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-arrays-q1-basics",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-arrays-q2-map-filter-reduce",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-async-q1-promises-basics",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-control-q1-if-else-loops",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-errors-q1-try-catch",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-functions-q1-arrow-vs-regular",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-ignition-q1-console-and-functions",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-modules-q1-import-export",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-objects-q1-properties-methods",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "js-vars-q1-let-const-var",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ml-ignition",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ml-numpy-basics",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "python-data-forge",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "python-loop",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "python-systems-observability-sli",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "python-systems-performance-profile",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "python-systems-platform-tooling",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "python-systems-resilient-job-runner",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "python-systems-service-boundaries",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "quest-ts-hello-console",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "quest-ts-hello-variable",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "quest-ts-loop-countdown",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-arrays",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-control",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-functions",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-generics",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-generics-q2-result-type",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-ignition",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-ignition-q1-types-and-interfaces",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-interfaces",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-modules",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-narrowing-q2-unions-and-guards",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-objects",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-types",
+        "world": "unknown",
+        "strategy": "Unknown"
+    },
+    {
+        "slug": "ts-vars",
+        "world": "unknown",
+        "strategy": "Unknown"
+    }
+]

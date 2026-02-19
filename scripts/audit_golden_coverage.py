@@ -26,7 +26,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, os.path.abspath('.'))
 
-from arcade_app.seed_quests_standard_worlds import STANDARD_QUESTLINES
+from scripts.utils_questpacks import get_all_quest_slugs
 
 def audit_golden_coverage():
     """Audit all quests for golden capture coverage."""
@@ -39,13 +39,17 @@ def audit_golden_coverage():
         "summary": {}
     }
     
-    for quest in STANDARD_QUESTLINES:
-        slug = quest.get("slug", "unknown")
-        world_id = quest.get("world_id", "unknown")
+    all_slugs = sorted(list(get_all_quest_slugs()))
+    
+    for slug in all_slugs:
+        # Determine world from questpack metadata if possible? 
+        # For now, we just list slug.
+        world_id = "unknown" # Could improve this if needed
         report["total_quests"] += 1
         
         quest_dir = Path(f"data/quests/{slug}/grading")
         golden_run = quest_dir / "golden.run.json"
+        golden_state = quest_dir / "golden.state.json"
         golden_spec = quest_dir / "golden.spec.json"
         
         # Check regular golden.json (from previous implementation)
@@ -56,6 +60,13 @@ def audit_golden_coverage():
                 "slug": slug,
                 "world": world_id,
                 "path": str(golden_run)
+            })
+        elif golden_state.exists():
+            report["quests_with_golden_run"].append({
+                "slug": slug,
+                "world": world_id,
+                "path": str(golden_state),
+                "type": "state"
             })
         elif golden_legacy.exists():
             # Treat legacy golden.json as golden.run for now

@@ -1,0 +1,28 @@
+{
+  "slug": "git-ignition",
+  "captured_at": "2026-02-17T20:01:48.052085",
+  "type": "state",
+  "files": [
+    "README.md",
+    "main.py",
+    "task.sh"
+  ],
+  "git": {
+    "status_porcelain": "?? main.py\n?? task.sh",
+    "log_oneline": [
+      "a731329 Initial commit"
+    ],
+    "branch": "master",
+    "has_dot_git": true
+  },
+  "hashes": {
+    "main.py": "faf4f8f3d1276cf53e3c1c047a07cd4189fe13e0dd09470614af564127308c4c",
+    "README.md": "63558e6c095c64812b6bda2d57fa5f80d9c82253029674267d3f42fc7e2b1b79",
+    "task.sh": "4c18c88b5654fe6871a78a38927007c2aa836c38c3871a9432ecfe2533f11c88"
+  },
+  "_solution": {
+    "stdout": "Initialized empty Git repository in C:/Users/pierr/AppData/Local/Temp/golden-state-git-ignition-75ew97qx/.git/\n[master (root-commit) a731329] Initial commit\n 1 file changed, 1 insertion(+)\n create mode 100644 README.md\n",
+    "stderr": "",
+    "exit_code": 0
+  }
+}

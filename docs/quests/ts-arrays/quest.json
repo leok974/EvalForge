@@ -9,9 +9,12 @@
     "detailed_description": "Implement a deterministic array-cleaning pipeline.\n\n## Objective\nReturn cleaned scores (finite numbers only), rounded, bounded, deduped, and sorted.\n",
     "objectives": [
         {
-            "id": "obj_clean_scores",
-            "text": "Implement cleanScores(input) so all public tests pass.",
-            "why": "Array iteration + deterministic transforms"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

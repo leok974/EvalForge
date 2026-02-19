@@ -11,5 +11,56 @@
     "workspace": {
         "entrypoint": "task.sh",
         "files_from": "./starter"
-    }
+    },
+    "objectives": [
+        {
+            "id": "fs_snapshot",
+            "kind": "fs_snapshot",
+            "title": "Verify file structure",
+            "rule": {
+                "kind": "fs_snapshot",
+                "must_exist": [
+                    "README.md",
+                    "file.txt",
+                    "outputs/refs.txt",
+                    "remote.git/HEAD",
+                    "remote.git/config",
+                    "remote.git/description",
+                    "remote.git/hooks/applypatch-msg.sample",
+                    "remote.git/hooks/commit-msg.sample",
+                    "remote.git/hooks/fsmonitor-watchman.sample",
+                    "remote.git/hooks/post-update.sample",
+                    "remote.git/hooks/pre-applypatch.sample",
+                    "remote.git/hooks/pre-commit.sample",
+                    "remote.git/hooks/pre-merge-commit.sample",
+                    "remote.git/hooks/pre-push.sample",
+                    "remote.git/hooks/pre-rebase.sample",
+                    "remote.git/hooks/pre-receive.sample",
+                    "remote.git/hooks/prepare-commit-msg.sample",
+                    "remote.git/hooks/push-to-checkout.sample",
+                    "remote.git/hooks/sendemail-validate.sample",
+                    "remote.git/hooks/update.sample",
+                    "remote.git/info/exclude",
+                    "remote.git/objects/67/e3ddb6ebc7d11989f10475ae627ac9dac194c6",
+                    "remote.git/objects/6f/ebf4a6872d92b940b85406496b862626307f89",
+                    "remote.git/objects/d9/5f3ad14dee633a758d2e331151e950dd13e4ed",
+                    "remote.git/refs/heads/main",
+                    "task.sh",
+                    "wrapper.sh"
+                ]
+            }
+        },
+        {
+            "id": "git_log_contains",
+            "kind": "git_log_contains",
+            "title": "Verify commit history",
+            "rule": {
+                "kind": "git_log_contains",
+                "must_contain": [
+                    "Initial commit"
+                ],
+                "min_commits": 1
+            }
+        }
+    ]
 }

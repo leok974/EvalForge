@@ -9,9 +9,12 @@
     "detailed_description": "Implement normalizeConfig(input) to validate fields, apply defaults, normalize headers, and clamp numeric values.\n",
     "objectives": [
         {
-            "id": "obj_normalize_config",
-            "text": "Implement normalizeConfig(input) so all public tests pass.",
-            "why": "Object types + defaults + normalization"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

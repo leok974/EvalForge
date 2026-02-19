@@ -1,0 +1,12 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/docker-compose.yml",
+        "outputs/services.txt",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

@@ -9,9 +9,12 @@
     "detailed_description": "Write a reusable, type-safe pick() function that returns Pick<T, K> and does not mutate its input.\n",
     "objectives": [
         {
-            "id": "obj_pick",
-            "text": "Implement pick(obj, keys) so all public tests pass.",
-            "why": "Generics + keyof + Pick"
+            "id": "tests_pass",
+            "kind": "tests_pass",
+            "title": "Pass all tests",
+            "rule": {
+                "kind": "tests_pass"
+            }
         }
     ],
     "grading": {

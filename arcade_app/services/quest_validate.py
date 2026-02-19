@@ -31,6 +31,10 @@ VALIDATORS = {
     "stdout_json_eq": "validate_stdout_json_eq",
     "stdout_regex": "validate_stdout_regex",
     "tests_pass": "validate_tests_pass",
+    "fs_snapshot": "validate_fs_snapshot",
+    "git_status_clean": "validate_git_status_clean",
+    "git_log_contains": "validate_git_log_contains",
+    "file_hash_eq": "validate_file_hash_eq",
 }
 
 # Per-kind rule requirements (required fields in rule dict)
@@ -45,6 +49,56 @@ RULE_REQUIREMENTS = {
 }
 
 
+def audit_objective_schema(obj: Dict[str, Any]) -> List[str]:
+    """
+    Validate objective configuration schema (static check).
+    Returns list of error messages.
+    """
+    errors = []
+    
+    # Required fields
+    if not obj.get('id'):
+        errors.append("Missing 'id'")
+    
+    kind = obj.get('kind')
+    if not kind:
+        errors.append("Missing 'kind'")
+        return errors
+        
+    if not obj.get('rule'):
+        errors.append("Missing 'rule'")
+        return errors
+    
+    # Check kind is valid
+    if kind not in VALIDATORS:
+        errors.append(f"Unknown kind '{kind}'")
+        return errors
+    
+    # Check rule requirements
+    rule = obj['rule']
+    required = RULE_REQUIREMENTS.get(kind, [])
+    
+    if kind == "ast":
+        has_ast_check = any(
+            k in rule for k in 
+            ['must_define_function', 'must_assign_variable', 'must_import', 'must_use_for_loop', 'must_call_function']
+        )
+        if not has_ast_check and not rule:
+             errors.append("AST rule is empty. Hint: Add 'must_define_function' or 'must_assign_variable'.")
+    else:
+        for field in required:
+            if field not in rule:
+                hint = ""
+                if kind == "stdout_exact" and field == "expected":
+                    hint = " (Note: 'pattern' is deprecated, use 'expected')"
+                elif kind == "source_regex" and field == "pattern":
+                    hint = " (regex pattern required)"
+                
+                errors.append(f"Rule missing required field '{field}'{hint}")
+                
+    return errors
+
+
 def _find_main_func(tree: ast.AST):
     for node in ast.walk(tree):
         if isinstance(node, ast.FunctionDef) and node.name == "main":
@@ -57,7 +111,8 @@ def validate_quest_attempt(
     stderr: Optional[str], 
     exit_code: int = 0, 
     timed_out: bool = False,
-    quest_def: Any = None # QuestDefinition or dict
+    quest_def: Any = None, # QuestDefinition or dict
+    state: Optional[Dict[str, Any]] = None # Captured state (files, git, hashes)
 ) -> List[Dict]:
     """
     Generic validator engine.
@@ -96,6 +151,23 @@ def validate_quest_attempt(
     # 3. Process Objectives
     objectives = getattr(quest_def, "objectives_json", []) or []
     
+    # C1: Runtime Fallback Preflight
+    # Validate objective schema BEFORE running any validators
+    for obj in objectives:
+        schema_errors = audit_objective_schema(obj)
+        if schema_errors:
+            import json
+            oid = obj.get("id", "unknown")
+            return [ObjResult(
+                id="CONFIG_INVALID_OBJECTIVES",
+                ok=False,
+                kind="config", # Special kind for Coach to short-circuit
+                detail="Quest objectives are invalid or missing.",
+                expected="Valid objectives schema (id/kind/rule) for all objectives.",
+                actual=f"Invalid objective '{oid}': {', '.join(schema_errors)}",
+                diff=f"Fix quest spec: data/quests/{getattr(quest_def, 'slug', 'unknown')}/quest.json (or seed source)...\nErrors: {', '.join(schema_errors)}\nHint: Run --validate-only"
+            ).__dict__]
+
     # Tier-1 Strictness Gate
     tier = getattr(quest_def, "tier", 0)
     if tier >= 1:
@@ -340,6 +412,104 @@ def validate_quest_attempt(
                 res.ok = not timed_out
                 res.detail = "Timely execution"
             
+            # STATE VALIDATORS
+            elif kind == "fs_snapshot":
+                if not state:
+                    res.ok = False
+                    res.detail = "No state captured (runtime error?)"
+                else:
+                    required = rule.get("must_exist", [])
+                    forbidden = rule.get("must_not_exist", [])
+                    files = set(state.get("files", []))
+                    
+                    missing = [f for f in required if f not in files]
+                    present = [f for f in forbidden if f in files]
+                    
+                    if not missing and not present:
+                        res.ok = True
+                        res.detail = "File structure correct"
+                    else:
+                        res.ok = False
+                        details = []
+                        if missing: details.append(f"Missing: {missing}")
+                        if present: details.append(f"Forbidden: {present}")
+                        res.detail = "; ".join(details)
+                        res.diff = f"Expected Files:\n  {required}\nActual Files:\n  {state.get('files', [])}"
+
+            elif kind == "git_status_clean":
+                if not state:
+                    res.ok = False
+                    res.detail = "No state captured"
+                else:
+                    git_state = state.get("git", {})
+                    if not git_state.get("has_dot_git"):
+                        res.ok = False
+                        res.detail = "No .git directory found"
+                    else:
+                        actual = git_state.get("status_porcelain", "").strip()
+                        expected = (rule.get("expected_porcelain") or "").strip()
+                        
+                        if actual == expected:
+                            res.ok = True
+                            res.detail = "Git status matches expected state"
+                        else:
+                            res.ok = False
+                            res.detail = "Git status mismatch"
+                            res.diff = f"Expected Git Status:\n  {expected or '(clean)'}\nActual Git Status:\n  {actual or '(clean)'}"
+
+            elif kind == "git_log_contains":
+                if not state:
+                    res.ok = False
+                    res.detail = "No state captured"
+                else:
+                    git_state = state.get("git", {})
+                    if not git_state.get("has_dot_git"):
+                         res.ok = False
+                         res.detail = "No .git directory found"
+                    else:
+                         logs = git_state.get("log_oneline", [])
+                         must_contain = rule.get("must_contain", [])
+                         min_commits = rule.get("min_commits", 0)
+                         
+                         if len(logs) < min_commits:
+                             res.ok = False
+                             res.detail = f"Not enough commits (found {len(logs)}, expected {min_commits})"
+                         else:
+                             missing_patterns = []
+                             for pattern in must_contain:
+                                 if not any(pattern in line for line in logs):
+                                     missing_patterns.append(pattern)
+                                     
+                             if not missing_patterns:
+                                 res.ok = True
+                                 res.detail = "Git log contains required entries"
+                             else:
+                                 res.ok = False
+                                 res.detail = f"Missing commit log entries: {missing_patterns}"
+                                 res.diff = f"Expected Log to Contain:\n  {must_contain}\nActual Log:\n  {logs}"
+
+            elif kind == "file_hash_eq":
+                if not state:
+                    res.ok = False
+                    res.detail = "No state captured"
+                else:
+                    path = rule.get("path")
+                    expected_hash = rule.get("sha256")
+                    
+                    if not path or not expected_hash:
+                        res.detail = "Invalid rule (missing path or sha256)"
+                    else:
+                        hashes = state.get("hashes", {})
+                        actual_hash = hashes.get(path)
+                        
+                        if actual_hash == expected_hash:
+                            res.ok = True
+                            res.detail = f"File {path} matches golden hash"
+                        else:
+                            res.ok = False
+                            res.detail = f"File {path} hash mismatch"
+                            res.diff = f"Expected Hash ({path}):\n  {expected_hash}\nActual Hash:\n  {actual_hash or '(not found)'}"
+            
             elif kind == "tests_pass":
                 import json
                 
@@ -415,8 +585,6 @@ def validate_quest_attempt(
 
     return [r.__dict__ for r in results]
 
-# Deprecated but kept for backward compat import if needed
-def validate_first_sparks_with_runtime(code, stdout, stderr, exit_code=0, timed_out=False):
-    # This should be mapped to new generic validator via config
-    return [] 
+
+
 

@@ -11,5 +11,35 @@
     "workspace": {
         "entrypoint": "task.sh",
         "files_from": "./starter"
-    }
+    },
+    "objectives": [
+        {
+            "id": "fs_snapshot",
+            "kind": "fs_snapshot",
+            "title": "Verify file structure",
+            "rule": {
+                "kind": "fs_snapshot",
+                "must_exist": [
+                    "README.md",
+                    "feature.txt",
+                    "main.txt",
+                    "outputs/parents.txt",
+                    "task.sh",
+                    "wrapper.sh"
+                ]
+            }
+        },
+        {
+            "id": "git_log_contains",
+            "kind": "git_log_contains",
+            "title": "Verify commit history",
+            "rule": {
+                "kind": "git_log_contains",
+                "must_contain": [
+                    "Initial commit on main"
+                ],
+                "min_commits": 1
+            }
+        }
+    ]
 }

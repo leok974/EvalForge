@@ -9,9 +9,13 @@
     "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
     "objectives": [
         {
-            "id": "obj_default",
-            "text": "Complete the assignment as described in README.md",
-            "why": "Specification"
+            "id": "default_pass",
+            "kind": "tests_pass",
+            "text": "Tests pass",
+            "why": "Requirement",
+            "rule": {
+                "must_pass": true
+            }
         }
     ],
     "grading": {

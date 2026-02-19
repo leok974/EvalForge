@@ -1,0 +1,40 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/hello.txt",
+        "main.py",
+        "outputs/report.json",
+        "sandbox/clone/hello.txt",
+        "sandbox/remote.git/HEAD",
+        "sandbox/remote.git/config",
+        "sandbox/remote.git/description",
+        "sandbox/remote.git/hooks/applypatch-msg.sample",
+        "sandbox/remote.git/hooks/commit-msg.sample",
+        "sandbox/remote.git/hooks/fsmonitor-watchman.sample",
+        "sandbox/remote.git/hooks/post-update.sample",
+        "sandbox/remote.git/hooks/pre-applypatch.sample",
+        "sandbox/remote.git/hooks/pre-commit.sample",
+        "sandbox/remote.git/hooks/pre-merge-commit.sample",
+        "sandbox/remote.git/hooks/pre-push.sample",
+        "sandbox/remote.git/hooks/pre-rebase.sample",
+        "sandbox/remote.git/hooks/pre-receive.sample",
+        "sandbox/remote.git/hooks/prepare-commit-msg.sample",
+        "sandbox/remote.git/hooks/push-to-checkout.sample",
+        "sandbox/remote.git/hooks/sendemail-validate.sample",
+        "sandbox/remote.git/hooks/update.sample",
+        "sandbox/remote.git/info/exclude",
+        "sandbox/remote.git/objects/61/d679ca3bdc447b77658937e49e0f617dd07927",
+        "sandbox/remote.git/objects/ef/0493b275aa2080237f676d2ef6559246f56636",
+        "sandbox/remote.git/objects/f6/dec98feb4f9658abd72f82961dbf5978d0034b",
+        "sandbox/remote.git/refs/heads/main",
+        "sandbox/repo/hello.txt",
+        "task.sh",
+        "task.txt",
+        "test_public.py",
+        "wrapper.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

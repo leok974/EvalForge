@@ -9,9 +9,27 @@
     "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
     "objectives": [
         {
-            "id": "obj_default",
-            "text": "Complete the assignment as described in README.md",
-            "why": "Specification"
+            "id": "sql_check",
+            "kind": "tests_pass",
+            "text": "Query produces correct results",
+            "why": "Functional requirement",
+            "rule": {
+                "must_pass": true
+            }
+        },
+        {
+            "id": "fs_snapshot",
+            "kind": "fs_snapshot",
+            "title": "Verify file structure",
+            "rule": {
+                "kind": "fs_snapshot",
+                "must_exist": [
+                    "README.md",
+                    "query.sql",
+                    "task.sql",
+                    "task.txt"
+                ]
+            }
         }
     ],
     "grading": {

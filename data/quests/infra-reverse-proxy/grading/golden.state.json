@@ -1,0 +1,13 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/nginx.conf",
+        "nginx.conf",
+        "outputs/routes.txt",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}
