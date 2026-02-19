@@ -76,8 +76,9 @@ def certify_training_grade():
         elif has_state:
             stats["state"] += 1
         elif has_spec:
+            # Spec is now ILLEGAL in Training-Grade V2
             stats["spec"] += 1
-            spec_list.append(slug)
+            failures.append(f"Illegal Spec Artifact: {slug} (Must convert to Run/State)")
         else:
             stats["missing"] += 1
             missing_list.append(slug)
@@ -89,8 +90,9 @@ def certify_training_grade():
     # 3. Ratchet Check
     budget = load_budget()
     if budget:
-        if stats["spec"] > budget.get("max_spec", 999):
-            failures.append(f"Ratchet Fail: Current SPEC ({stats['spec']}) > max_spec ({budget['max_spec']})")
+        # max_spec should be 0, but if it exists in budget, we obey it (though we already failed above if spec > 0)
+        if stats["spec"] > budget.get("max_spec", 0):
+            failures.append(f"Ratchet Fail: Current SPEC ({stats['spec']}) > max_spec ({budget.get('max_spec', 0)})")
         if stats["run"] < budget.get("min_run", 0):
             failures.append(f"Ratchet Fail: Current RUN ({stats['run']}) < min_run ({budget['min_run']})")
         # Could also track min_state, but usually run/state are interchangeable "good" vs spec "blocked".

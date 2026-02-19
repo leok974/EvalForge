@@ -1,0 +1,16 @@
+{
+    "release": "training-grade-v2",
+    "date": "2026-02-19",
+    "stats": {
+        "total_quests": 152,
+        "run": 90,
+        "state": 62,
+        "spec": 0,
+        "missing": 0
+    },
+    "invariants": [
+        "No golden.spec.json allowed",
+        "All quests must have golden.run.json or golden.state.json",
+        "Drift checks must pass"
+    ]
+}

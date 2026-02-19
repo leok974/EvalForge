@@ -10,11 +10,10 @@ Checks:
 Outputs:
 - docs/audits/GOLDEN_COVERAGE_AUDIT.md
 - docs/audits/GOLDEN_COVERAGE_AUDIT.json
-- docs/audits/GOLDEN_BLOCKERS.md (spec-only quests + blockers)
 
 Exit codes:
-- 0: All quests have golden artifacts (run or spec)
-- 1: Some quests missing golden captures
+- 0: All quests have golden.run.json or golden.state.json
+- 1: Any quest missing golden OR using deprecated golden.spec.json
 """
 
 import sys
@@ -34,7 +33,7 @@ def audit_golden_coverage():
         "audit_date": datetime.now().isoformat(),
         "total_quests": 0,
         "quests_with_golden_run": [],
-        "quests_with_golden_spec": [],
+        "quests_with_illegal_spec": [],
         "quests_missing_golden": [],
         "summary": {}
     }
@@ -77,24 +76,13 @@ def audit_golden_coverage():
                 "note": "using legacy golden.json (should migrate to golden.run.json)"
             })
         elif golden_spec.exists():
-            # Load spec to get blocker info
-            try:
-                with open(golden_spec) as f:
-                    spec_data = json.load(f)
-                report["quests_with_golden_spec"].append({
-                    "slug": slug,
-                    "world": world_id,
-                    "blocked_reason": spec_data.get("blocked_reason", "unknown"),
-                    "required_fixtures": spec_data.get("required_fixtures", []),
-                    "path": str(golden_spec)
-                })
-            except Exception as e:
-                report["quests_with_golden_spec"].append({
-                    "slug": slug,
-                    "world": world_id,
-                    "error": f"Failed to parse golden.spec.json: {e}",
-                    "path": str(golden_spec)
-                })
+            # Spec is now illegal
+            report["quests_with_illegal_spec"].append({
+                "slug": slug,
+                "world": world_id,
+                "path": str(golden_spec),
+                "error": "Deprecated Spec Artifact Found"
+            })
         else:
             report["quests_missing_golden"].append({
                 "slug": slug,
@@ -105,9 +93,9 @@ def audit_golden_coverage():
     report["summary"] = {
         "total_quests": report["total_quests"],
         "with_golden_run": len(report["quests_with_golden_run"]),
-        "with_golden_spec": len(report["quests_with_golden_spec"]),
+        "with_illegal_spec": len(report["quests_with_illegal_spec"]),
         "missing_golden": len(report["quests_missing_golden"]),
-        "status": "PASS" if not report["quests_missing_golden"] else "FAIL"
+        "status": "PASS" if (not report["quests_missing_golden"] and not report["quests_with_illegal_spec"]) else "FAIL"
     }
     
     return report
@@ -124,8 +112,8 @@ def generate_markdown_report(report: dict) -> str:
 ## Summary
 
 - **Total Quests:** {report['total_quests']}
-- **With golden.run.json:** {report['summary']['with_golden_run']} ✅
-- **With golden.spec.json only:** {report['summary']['with_golden_spec']} 📋
+- **With golden.run.json / state:** {report['summary']['with_golden_run']} ✅
+- **With DEPRECATED spec:** {report['summary']['with_illegal_spec']} ❌
 - **Missing golden capture:** {report['summary']['missing_golden']} ❌
 
 ---
@@ -145,25 +133,13 @@ def generate_markdown_report(report: dict) -> str:
             md += f"- **{quest['slug']}** (World: {quest['world']}){note_str}\n"
         md += "\n---\n\n"
     
-    # Golden spec quests (blockers)
-    if report['quests_with_golden_spec']:
-        md += f"## 📋 Quests with Golden Spec Only ({len(report['quests_with_golden_spec'])})\n\n"
-        md += "These quests are blocked from golden run capture:\n\n"
-        for quest in report['quests_with_golden_spec']:
-            md += f"### {quest['slug']} (World: {quest['world']})\n\n"
-            if 'error' in quest:
-                md += f"❌ **Error:** {quest['error']}\n\n"
-            else:
-                md += f"**Blocked Reason:** {quest.get('blocked_reason', 'unknown')}\n\n"
-                fixtures = quest.get('required_fixtures', [])
-                if fixtures:
-                    md += "**Required Fixtures:**\n"
-                    for fixture in fixtures:
-                        md += f"- `{fixture}`\n"
-                    md += "\n"
-                md += f"**Path:** `{quest['path']}`\n\n"
-        md += "See [GOLDEN_BLOCKERS.md](GOLDEN_BLOCKERS.md) for resolution plan.\n\n"
-        md += "---\n\n"
+    # Golden spec quests (illegal)
+    if report['quests_with_illegal_spec']:
+        md += f"## ❌ Quests with Illegal Spec Artifacts ({len(report['quests_with_illegal_spec'])})\n\n"
+        md += "These quests have `golden.spec.json` which is deprecated. Convert to Run/State immediately.\n\n"
+        for quest in report['quests_with_illegal_spec']:
+            md += f"- **{quest['slug']}** (World: {quest['world']})\n"
+        md += "\n---\n\n"
     
     # Missing golden
     if report['quests_missing_golden']:
@@ -254,18 +230,22 @@ if __name__ == "__main__":
         f.write(md)
     print(f"📄 Markdown report: {md_path}")
     
-    # Generate Blockers doc
-    blockers = generate_blockers_doc(report)
-    blockers_path = "docs/audits/GOLDEN_BLOCKERS.md"
-    with open(blockers_path, "w", encoding='utf-8') as f:
-        f.write(blockers)
-    print(f"📄 Blockers doc: {blockers_path}")
+    # No Blockers doc anymore
+    # blockers = generate_blockers_doc(report)
+    # blockers_path = "docs/audits/GOLDEN_BLOCKERS.md"
+    # with open(blockers_path, "w", encoding='utf-8') as f:
+    #     f.write(blockers)
+    # print(f"📄 Blockers doc: {blockers_path}")
+    
+    # Remove old blockers doc if it exists
+    if os.path.exists("docs/audits/GOLDEN_BLOCKERS.md"):
+        os.remove("docs/audits/GOLDEN_BLOCKERS.md")
     
     # Print summary
     print(f"\n{'-'*60}")
     print(f"Status: {report['summary']['status']}")
     print(f"Golden Run: {report['summary']['with_golden_run']}/{report['total_quests']} quests")
-    print(f"Golden Spec (blockers): {report['summary']['with_golden_spec']}")
+    print(f"Golden Spec (ILLEGAL): {report['summary']['with_illegal_spec']}")
     print(f"Missing: {report['summary']['missing_golden']}")
     print(f"{'-'*60}")
     

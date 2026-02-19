@@ -1,5 +1,5 @@
 {
-  "audit_date": "2026-02-19T10:22:02.451722",
+  "audit_date": "2026-02-19T11:59:11.196950",
   "total_quests": 152,
   "quests_with_golden_run": [
     {
@@ -68,6 +68,12 @@
       "slug": "cli-files-folders",
       "world": "unknown",
       "path": "data\\quests\\cli-files-folders\\grading\\golden.run.json"
+    },
+    {
+      "slug": "cli-globs-search",
+      "world": "unknown",
+      "path": "data\\quests\\cli-globs-search\\grading\\golden.state.json",
+      "type": "state"
     },
     {
       "slug": "cli-ignition",
@@ -237,6 +243,12 @@
       "type": "state"
     },
     {
+      "slug": "git-branches",
+      "world": "unknown",
+      "path": "data\\quests\\git-branches\\grading\\golden.state.json",
+      "type": "state"
+    },
+    {
       "slug": "git-ignition",
       "world": "unknown",
       "path": "data\\quests\\git-ignition\\grading\\golden.state.json",
@@ -249,9 +261,26 @@
       "type": "state"
     },
     {
+      "slug": "git-log",
+      "world": "unknown",
+      "path": "data\\quests\\git-log\\grading\\golden.run.json"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "world": "unknown",
+      "path": "data\\quests\\git-merge-conflict\\grading\\golden.state.json",
+      "type": "state"
+    },
+    {
       "slug": "git-rebase-linear",
       "world": "unknown",
       "path": "data\\quests\\git-rebase-linear\\grading\\golden.state.json",
+      "type": "state"
+    },
+    {
+      "slug": "git-rebase-onto-main",
+      "world": "unknown",
+      "path": "data\\quests\\git-rebase-onto-main\\grading\\golden.state.json",
       "type": "state"
     },
     {
@@ -277,6 +306,11 @@
       "world": "unknown",
       "path": "data\\quests\\git-tag-release\\grading\\golden.state.json",
       "type": "state"
+    },
+    {
+      "slug": "git-tags",
+      "world": "unknown",
+      "path": "data\\quests\\git-tags\\grading\\golden.run.json"
     },
     {
       "slug": "git-undo-revert",
@@ -411,10 +445,50 @@
       "type": "state"
     },
     {
+      "slug": "js-arrays-q1-basics",
+      "world": "unknown",
+      "path": "data\\quests\\js-arrays-q1-basics\\grading\\golden.run.json"
+    },
+    {
+      "slug": "js-arrays-q2-map-filter-reduce",
+      "world": "unknown",
+      "path": "data\\quests\\js-arrays-q2-map-filter-reduce\\grading\\golden.run.json"
+    },
+    {
+      "slug": "js-async-q1-promises-basics",
+      "world": "unknown",
+      "path": "data\\quests\\js-async-q1-promises-basics\\grading\\golden.run.json"
+    },
+    {
+      "slug": "js-control-q1-if-else-loops",
+      "world": "unknown",
+      "path": "data\\quests\\js-control-q1-if-else-loops\\grading\\golden.run.json"
+    },
+    {
+      "slug": "js-errors-q1-try-catch",
+      "world": "unknown",
+      "path": "data\\quests\\js-errors-q1-try-catch\\grading\\golden.run.json"
+    },
+    {
+      "slug": "js-functions-q1-arrow-vs-regular",
+      "world": "unknown",
+      "path": "data\\quests\\js-functions-q1-arrow-vs-regular\\grading\\golden.run.json"
+    },
+    {
       "slug": "js-ignition-q1-console-and-functions",
       "world": "unknown",
       "path": "data\\quests\\js-ignition-q1-console-and-functions\\grading\\golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
+    },
+    {
+      "slug": "js-modules-q1-import-export",
+      "world": "unknown",
+      "path": "data\\quests\\js-modules-q1-import-export\\grading\\golden.run.json"
+    },
+    {
+      "slug": "js-objects-q1-properties-methods",
+      "world": "unknown",
+      "path": "data\\quests\\js-objects-q1-properties-methods\\grading\\golden.run.json"
     },
     {
       "slug": "js-vars-q1-let-const-var",
@@ -572,6 +646,71 @@
       "path": "data\\quests\\quest-py-workspace\\grading\\golden.run.json"
     },
     {
+      "slug": "quest-ts-hello-console",
+      "world": "unknown",
+      "path": "data\\quests\\quest-ts-hello-console\\grading\\golden.run.json"
+    },
+    {
+      "slug": "quest-ts-hello-variable",
+      "world": "unknown",
+      "path": "data\\quests\\quest-ts-hello-variable\\grading\\golden.run.json"
+    },
+    {
+      "slug": "quest-ts-loop-countdown",
+      "world": "unknown",
+      "path": "data\\quests\\quest-ts-loop-countdown\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-components",
+      "world": "unknown",
+      "path": "data\\quests\\react-components\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-conditional-render",
+      "world": "unknown",
+      "path": "data\\quests\\react-conditional-render\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-context-theme",
+      "world": "unknown",
+      "path": "data\\quests\\react-context-theme\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-effects-mount",
+      "world": "unknown",
+      "path": "data\\quests\\react-effects-mount\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-ignition",
+      "world": "unknown",
+      "path": "data\\quests\\react-ignition\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-lists",
+      "world": "unknown",
+      "path": "data\\quests\\react-lists\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-props",
+      "world": "unknown",
+      "path": "data\\quests\\react-props\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-reducer-cart",
+      "world": "unknown",
+      "path": "data\\quests\\react-reducer-cart\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-state-counter",
+      "world": "unknown",
+      "path": "data\\quests\\react-state-counter\\grading\\golden.run.json"
+    },
+    {
+      "slug": "react-state-toggle",
+      "world": "unknown",
+      "path": "data\\quests\\react-state-toggle\\grading\\golden.run.json"
+    },
+    {
       "slug": "sql-aggregates",
       "world": "unknown",
       "path": "data\\quests\\sql-aggregates\\grading\\golden.state.json",
@@ -630,295 +769,79 @@
       "world": "unknown",
       "path": "data\\quests\\sql-where\\grading\\golden.state.json",
       "type": "state"
-    }
-  ],
-  "quests_with_golden_spec": [
-    {
-      "slug": "cli-globs-search",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\cli-globs-search\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "git-branches",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\git-branches\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "git-log",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\git-log\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "git-merge-conflict",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\git-merge-conflict\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "git-rebase-onto-main",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\git-rebase-onto-main\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "git-tags",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\git-tags\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "js-arrays-q1-basics",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\js-arrays-q1-basics\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "js-arrays-q2-map-filter-reduce",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\js-arrays-q2-map-filter-reduce\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "js-async-q1-promises-basics",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\js-async-q1-promises-basics\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "js-control-q1-if-else-loops",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\js-control-q1-if-else-loops\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "js-errors-q1-try-catch",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\js-errors-q1-try-catch\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "js-functions-q1-arrow-vs-regular",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\js-functions-q1-arrow-vs-regular\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "js-modules-q1-import-export",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\js-modules-q1-import-export\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "js-objects-q1-properties-methods",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\js-objects-q1-properties-methods\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "quest-ts-hello-console",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\quest-ts-hello-console\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "quest-ts-hello-variable",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\quest-ts-hello-variable\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "quest-ts-loop-countdown",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\quest-ts-loop-countdown\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-components",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-components\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-conditional-render",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-conditional-render\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-context-theme",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-context-theme\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-effects-mount",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-effects-mount\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-ignition",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-ignition\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-lists",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-lists\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-props",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-props\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-reducer-cart",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-reducer-cart\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-state-counter",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-state-counter\\grading\\golden.spec.json"
-    },
-    {
-      "slug": "react-state-toggle",
-      "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\react-state-toggle\\grading\\golden.spec.json"
     },
     {
       "slug": "ts-arrays",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-arrays\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-arrays\\grading\\golden.run.json"
     },
     {
       "slug": "ts-control",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-control\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-control\\grading\\golden.run.json"
     },
     {
       "slug": "ts-functions",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-functions\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-functions\\grading\\golden.run.json"
     },
     {
       "slug": "ts-generics",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-generics\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-generics\\grading\\golden.run.json"
     },
     {
       "slug": "ts-generics-q2-result-type",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-generics-q2-result-type\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-generics-q2-result-type\\grading\\golden.run.json"
     },
     {
       "slug": "ts-ignition",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-ignition\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-ignition\\grading\\golden.run.json"
     },
     {
       "slug": "ts-ignition-q1-types-and-interfaces",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-ignition-q1-types-and-interfaces\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-ignition-q1-types-and-interfaces\\grading\\golden.run.json"
     },
     {
       "slug": "ts-interfaces",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-interfaces\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-interfaces\\grading\\golden.run.json"
     },
     {
       "slug": "ts-modules",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-modules\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-modules\\grading\\golden.run.json"
     },
     {
       "slug": "ts-narrowing-q2-unions-and-guards",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-narrowing-q2-unions-and-guards\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-narrowing-q2-unions-and-guards\\grading\\golden.run.json"
     },
     {
       "slug": "ts-objects",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-objects\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-objects\\grading\\golden.run.json"
     },
     {
       "slug": "ts-types",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-types\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-types\\grading\\golden.run.json"
     },
     {
       "slug": "ts-vars",
       "world": "unknown",
-      "blocked_reason": "Missing entrypoint",
-      "required_fixtures": [],
-      "path": "data\\quests\\ts-vars\\grading\\golden.spec.json"
+      "path": "data\\quests\\ts-vars\\grading\\golden.run.json"
     }
   ],
+  "quests_with_illegal_spec": [],
   "quests_missing_golden": [],
   "summary": {
     "total_quests": 152,
-    "with_golden_run": 112,
-    "with_golden_spec": 40,
+    "with_golden_run": 152,
+    "with_illegal_spec": 0,
     "missing_golden": 0,
     "status": "PASS"
   }

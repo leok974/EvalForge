@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": "=== Running 1 TS quests from data\\questpacks\\typescript_core.json in solution mode ===\n\u2705 PASS: ts-vars\nEF_RUNNER_RESULT_JSON={\"total\":1,\"passed\":1,\"failed\":0,\"errors\":[],\"slugs\":[{\"slug\":\"ts-vars\",\"status\":\"passed\"}]}\n\n\u2705 TS questpack OK (1/1 passed)\n\nEF_RUN_WORLD_SUMMARY: 1/1 public tests passed.\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T10:59:46",
+    "runner_used": "unified_via_capture_script"
+}

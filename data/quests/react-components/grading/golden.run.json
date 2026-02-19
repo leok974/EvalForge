@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": "TAP version 13\n# react-test-renderer is deprecated. See https://react.dev/warnings/react-test-renderer\n# The current testing environment is not configured to support act(...)\n# Subtest: Card renders CardBody nested inside\nok 1 - Card renders CardBody nested inside\n  ---\n  duration_ms: 6.6743\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 118.523\n\nEF_RUN_WORLD_SUMMARY: 1/1 quests passed.\nEF_RUNNER_RESULT_JSON={\"total\":1,\"passed\":1,\"failed\":0,\"errors\":[],\"slugs\":[{\"slug\":\"react-components\",\"status\":\"passed\"}]}\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T11:38:05",
+    "runner_used": "unified_via_capture_script"
+}

@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": "TAP version 13\n# react-test-renderer is deprecated. See https://react.dev/warnings/react-test-renderer\n# The current testing environment is not configured to support act(...)\n# react-test-renderer is deprecated. See https://react.dev/warnings/react-test-renderer\n# The current testing environment is not configured to support act(...)\n# Subtest: ThemeProvider provides theme value to ThemedButton\nok 1 - ThemeProvider provides theme value to ThemedButton\n  ---\n  duration_ms: 6.4978\n  type: 'test'\n  ...\n# Subtest: ThemedButton uses default theme when no provider present\nok 2 - ThemedButton uses default theme when no provider present\n  ---\n  duration_ms: 0.6798\n  type: 'test'\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 135.6875\n\nEF_RUN_WORLD_SUMMARY: 1/1 quests passed.\nEF_RUNNER_RESULT_JSON={\"total\":1,\"passed\":1,\"failed\":0,\"errors\":[],\"slugs\":[{\"slug\":\"react-context-theme\",\"status\":\"passed\"}]}\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T11:38:11",
+    "runner_used": "unified_via_capture_script"
+}

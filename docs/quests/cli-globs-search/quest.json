@@ -30,6 +30,23 @@
             "rule": {
                 "must_pass": true
             }
+        },
+        {
+            "id": "fs_snapshot",
+            "kind": "fs_snapshot",
+            "title": "Verify file structure",
+            "rule": {
+                "kind": "fs_snapshot",
+                "must_exist": [
+                    "README.md",
+                    "fixtures/logs/app.log",
+                    "fixtures/logs/db.log",
+                    "fixtures/logs/empty.log",
+                    "outputs/error_count.txt",
+                    "outputs/error_files.txt",
+                    "task.sh"
+                ]
+            }
         }
     ]
 }

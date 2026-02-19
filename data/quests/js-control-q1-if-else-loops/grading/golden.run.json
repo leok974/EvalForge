@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": "TAP version 13\n# Subtest: checkNumber\nok 1 - checkNumber\n  ---\n  duration_ms: 0.7887\n  type: 'test'\n  ...\n# Subtest: sumTo\nok 2 - sumTo\n  ---\n  duration_ms: 0.1766\n  type: 'test'\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 74.4934\n\nEF_RUN_WORLD_SUMMARY: 1/1 quests passed.\nEF_RUNNER_RESULT_JSON={\"total\":1,\"passed\":1,\"failed\":0,\"errors\":[],\"slugs\":[{\"slug\":\"js-control-q1-if-else-loops\",\"status\":\"passed\"}]}\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T11:16:22",
+    "runner_used": "unified_via_capture_script"
+}

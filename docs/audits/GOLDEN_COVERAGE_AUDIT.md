@@ -1,20 +1,20 @@
 # Golden Coverage Audit Report
 
-**Date:** 2026-02-19T10:22:02.451722  
+**Date:** 2026-02-19T11:59:11.196950  
 **Status:** ✅ PASS
 
 ## Summary
 
 - **Total Quests:** 152
-- **With golden.run.json:** 112 ✅
-- **With golden.spec.json only:** 40 📋
+- **With golden.run.json / state:** 152 ✅
+- **With DEPRECATED spec:** 0 ❌
 - **Missing golden capture:** 0 ❌
 
 ---
 
 ## ✅ All Quests Have Golden Captures!
 
-## ✅ Quests with Golden Run Captures (112)
+## ✅ Quests with Golden Run Captures (152)
 
 These quests have actual solution runs captured:
 
@@ -31,6 +31,7 @@ These quests have actual solution runs captured:
 - **cli-env-vars** (World: unknown)
 - **cli-exit-codes** (World: unknown)
 - **cli-files-folders** (World: unknown)
+- **cli-globs-search** (World: unknown)
 - **cli-ignition** (World: unknown)
 - **cli-navigation** (World: unknown)
 - **cli-pipes** (World: unknown)
@@ -60,13 +61,18 @@ These quests have actual solution runs captured:
 - **first-sparks** (World: unknown)
 - **git-add-commit** (World: unknown)
 - **git-branch-merge** (World: unknown)
+- **git-branches** (World: unknown)
 - **git-ignition** (World: unknown)
 - **git-init-clone** (World: unknown)
+- **git-log** (World: unknown)
+- **git-merge-conflict** (World: unknown)
 - **git-rebase-linear** (World: unknown)
+- **git-rebase-onto-main** (World: unknown)
 - **git-remote-push** (World: unknown)
 - **git-stash** (World: unknown)
 - **git-status-diff** (World: unknown)
 - **git-tag-release** (World: unknown)
+- **git-tags** (World: unknown)
 - **git-undo-revert** (World: unknown)
 - **hello-variable** (World: unknown) (using legacy golden.json (should migrate to golden.run.json))
 - **html-accessibility-basics** (World: unknown)
@@ -89,7 +95,15 @@ These quests have actual solution runs captured:
 - **infra-networking-dns** (World: unknown)
 - **infra-ports-and-localhost** (World: unknown)
 - **infra-reverse-proxy** (World: unknown)
+- **js-arrays-q1-basics** (World: unknown)
+- **js-arrays-q2-map-filter-reduce** (World: unknown)
+- **js-async-q1-promises-basics** (World: unknown)
+- **js-control-q1-if-else-loops** (World: unknown)
+- **js-errors-q1-try-catch** (World: unknown)
+- **js-functions-q1-arrow-vs-regular** (World: unknown)
 - **js-ignition-q1-console-and-functions** (World: unknown) (using legacy golden.json (should migrate to golden.run.json))
+- **js-modules-q1-import-export** (World: unknown)
+- **js-objects-q1-properties-methods** (World: unknown)
 - **js-vars-q1-let-const-var** (World: unknown) (using legacy golden.json (should migrate to golden.run.json))
 - **ml-classification-basics** (World: unknown)
 - **ml-data-preprocessing** (World: unknown)
@@ -120,6 +134,19 @@ These quests have actual solution runs captured:
 - **python-systems-service-boundaries** (World: unknown)
 - **quest-py-hidden** (World: unknown)
 - **quest-py-workspace** (World: unknown)
+- **quest-ts-hello-console** (World: unknown)
+- **quest-ts-hello-variable** (World: unknown)
+- **quest-ts-loop-countdown** (World: unknown)
+- **react-components** (World: unknown)
+- **react-conditional-render** (World: unknown)
+- **react-context-theme** (World: unknown)
+- **react-effects-mount** (World: unknown)
+- **react-ignition** (World: unknown)
+- **react-lists** (World: unknown)
+- **react-props** (World: unknown)
+- **react-reducer-cart** (World: unknown)
+- **react-state-counter** (World: unknown)
+- **react-state-toggle** (World: unknown)
 - **sql-aggregates** (World: unknown)
 - **sql-cte-subquery** (World: unknown)
 - **sql-groupby-having** (World: unknown)
@@ -130,254 +157,19 @@ These quests have actual solution runs captured:
 - **sql-order-limit** (World: unknown)
 - **sql-select** (World: unknown)
 - **sql-where** (World: unknown)
-
----
-
-## 📋 Quests with Golden Spec Only (40)
-
-These quests are blocked from golden run capture:
-
-### cli-globs-search (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\cli-globs-search\grading\golden.spec.json`
-
-### git-branches (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\git-branches\grading\golden.spec.json`
-
-### git-log (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\git-log\grading\golden.spec.json`
-
-### git-merge-conflict (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\git-merge-conflict\grading\golden.spec.json`
-
-### git-rebase-onto-main (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\git-rebase-onto-main\grading\golden.spec.json`
-
-### git-tags (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\git-tags\grading\golden.spec.json`
-
-### js-arrays-q1-basics (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\js-arrays-q1-basics\grading\golden.spec.json`
-
-### js-arrays-q2-map-filter-reduce (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\js-arrays-q2-map-filter-reduce\grading\golden.spec.json`
-
-### js-async-q1-promises-basics (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\js-async-q1-promises-basics\grading\golden.spec.json`
-
-### js-control-q1-if-else-loops (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\js-control-q1-if-else-loops\grading\golden.spec.json`
-
-### js-errors-q1-try-catch (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\js-errors-q1-try-catch\grading\golden.spec.json`
-
-### js-functions-q1-arrow-vs-regular (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\js-functions-q1-arrow-vs-regular\grading\golden.spec.json`
-
-### js-modules-q1-import-export (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\js-modules-q1-import-export\grading\golden.spec.json`
-
-### js-objects-q1-properties-methods (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\js-objects-q1-properties-methods\grading\golden.spec.json`
-
-### quest-ts-hello-console (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\quest-ts-hello-console\grading\golden.spec.json`
-
-### quest-ts-hello-variable (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\quest-ts-hello-variable\grading\golden.spec.json`
-
-### quest-ts-loop-countdown (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\quest-ts-loop-countdown\grading\golden.spec.json`
-
-### react-components (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-components\grading\golden.spec.json`
-
-### react-conditional-render (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-conditional-render\grading\golden.spec.json`
-
-### react-context-theme (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-context-theme\grading\golden.spec.json`
-
-### react-effects-mount (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-effects-mount\grading\golden.spec.json`
-
-### react-ignition (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-ignition\grading\golden.spec.json`
-
-### react-lists (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-lists\grading\golden.spec.json`
-
-### react-props (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-props\grading\golden.spec.json`
-
-### react-reducer-cart (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-reducer-cart\grading\golden.spec.json`
-
-### react-state-counter (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-state-counter\grading\golden.spec.json`
-
-### react-state-toggle (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\react-state-toggle\grading\golden.spec.json`
-
-### ts-arrays (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-arrays\grading\golden.spec.json`
-
-### ts-control (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-control\grading\golden.spec.json`
-
-### ts-functions (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-functions\grading\golden.spec.json`
-
-### ts-generics (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-generics\grading\golden.spec.json`
-
-### ts-generics-q2-result-type (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-generics-q2-result-type\grading\golden.spec.json`
-
-### ts-ignition (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-ignition\grading\golden.spec.json`
-
-### ts-ignition-q1-types-and-interfaces (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-ignition-q1-types-and-interfaces\grading\golden.spec.json`
-
-### ts-interfaces (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-interfaces\grading\golden.spec.json`
-
-### ts-modules (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-modules\grading\golden.spec.json`
-
-### ts-narrowing-q2-unions-and-guards (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-narrowing-q2-unions-and-guards\grading\golden.spec.json`
-
-### ts-objects (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-objects\grading\golden.spec.json`
-
-### ts-types (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-types\grading\golden.spec.json`
-
-### ts-vars (World: unknown)
-
-**Blocked Reason:** Missing entrypoint
-
-**Path:** `data\quests\ts-vars\grading\golden.spec.json`
-
-See [GOLDEN_BLOCKERS.md](GOLDEN_BLOCKERS.md) for resolution plan.
+- **ts-arrays** (World: unknown)
+- **ts-control** (World: unknown)
+- **ts-functions** (World: unknown)
+- **ts-generics** (World: unknown)
+- **ts-generics-q2-result-type** (World: unknown)
+- **ts-ignition** (World: unknown)
+- **ts-ignition-q1-types-and-interfaces** (World: unknown)
+- **ts-interfaces** (World: unknown)
+- **ts-modules** (World: unknown)
+- **ts-narrowing-q2-unions-and-guards** (World: unknown)
+- **ts-objects** (World: unknown)
+- **ts-types** (World: unknown)
+- **ts-vars** (World: unknown)
 
 ---
 

@@ -1,0 +1,15 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "fixtures/logs/app.log",
+        "fixtures/logs/db.log",
+        "fixtures/logs/empty.log",
+        "outputs/error_count.txt",
+        "outputs/error_files.txt",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

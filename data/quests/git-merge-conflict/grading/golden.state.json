@@ -1,0 +1,12 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "outputs/merge.txt",
+        "task.sh",
+        "tmp/repo/config.txt"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

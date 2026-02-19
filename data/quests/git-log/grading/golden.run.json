@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": "=== Running 1 Git quests from data\\questpacks\\_modern\\git_core.json in solution mode ===\nEF_RUNNER_RESULT_JSON={\"total\":1,\"passed\":1,\"failed\":0,\"errors\":[],\"slugs\":[{\"slug\":\"git-log\",\"status\":\"passed\"}]}\n\n\u2705 Git questpack OK (1/1 passed)\n\nEF_RUN_WORLD_SUMMARY: 1/1 public tests passed.\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T10:59:55",
+    "runner_used": "unified_via_capture_script"
+}

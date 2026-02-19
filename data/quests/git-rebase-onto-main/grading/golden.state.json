@@ -1,0 +1,11 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "outputs/rebase.txt",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": false
+    }
+}

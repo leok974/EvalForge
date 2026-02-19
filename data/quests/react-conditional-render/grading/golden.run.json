@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": "TAP version 13\n# react-test-renderer is deprecated. See https://react.dev/warnings/react-test-renderer\n# The current testing environment is not configured to support act(...)\n# react-test-renderer is deprecated. See https://react.dev/warnings/react-test-renderer\n# The current testing environment is not configured to support act(...)\n# react-test-renderer is deprecated. See https://react.dev/warnings/react-test-renderer\n# The current testing environment is not configured to support act(...)\n# Subtest: h2 always renders with title text\nok 1 - h2 always renders with title text\n  ---\n  duration_ms: 8.1815\n  type: 'test'\n  ...\n# Subtest: p renders when isVisible=true\nok 2 - p renders when isVisible=true\n  ---\n  duration_ms: 1.3641\n  type: 'test'\n  ...\n# Subtest: p does NOT render when isVisible=false\nok 3 - p does NOT render when isVisible=false\n  ---\n  duration_ms: 0.9367\n  type: 'test'\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 3\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 129.7166\n\nEF_RUN_WORLD_SUMMARY: 1/1 quests passed.\nEF_RUNNER_RESULT_JSON={\"total\":1,\"passed\":1,\"failed\":0,\"errors\":[],\"slugs\":[{\"slug\":\"react-conditional-render\",\"status\":\"passed\"}]}\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T11:38:08",
+    "runner_used": "unified_via_capture_script"
+}
