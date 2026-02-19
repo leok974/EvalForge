@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": ".                                                                        [100%]\n1 passed in 0.08s\n[PASS] sql-t2-analytics-pack\nEF_RUNNER_RESULT_JSON={\"total\": 1, \"passed\": 1, \"failed\": 0, \"errors\": [], \"slugs\": [{\"slug\": \"sql-t2-analytics-pack\", \"status\": \"passed\"}]}\n\nEF_RUN_WORLD_SUMMARY: 1/1 passed.\n\nEF_RUN_WORLD_SUMMARY: 1/1 public tests passed.\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T12:17:39",
+    "runner_used": "unified_via_capture_script"
+}

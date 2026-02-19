@@ -70,6 +70,11 @@ STAGES = [
         "name": "Certified Worlds Smoke",
         "cmd": [sys.executable, "-m", "pytest", "tests/test_certified_worlds_smoke.py"],
         "critical": True
+    },
+    {
+        "name": "Training Grade Certification",
+        "cmd": [sys.executable, "scripts/certify_training_grade.py"],
+        "critical": True
     }
 ]
 

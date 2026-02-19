@@ -1,0 +1,141 @@
+{
+    "quests": [
+        {
+            "slug": "git-t2-merge-conflict",
+            "title": "Merge Conflicts (T2)",
+            "tier": 2,
+            "world_id": "world-git",
+            "track_id": "core-git",
+            "language": "text",
+            "description": "Resolve a merge conflict between two branches.",
+            "starter_code": "# No starter code, git repo provided",
+            "objectives": [
+                {
+                    "id": "git_status_clean",
+                    "title": "Working tree clean (conflict resolved)",
+                    "kind": "git_status_clean"
+                },
+                {
+                    "id": "git_log_contains",
+                    "title": "Merge commit exists",
+                    "kind": "git_log_contains",
+                    "rule_json": {
+                        "pattern": "Merge branch"
+                    }
+                },
+                {
+                    "id": "fs_no_conflict_markers",
+                    "title": "No conflict markers in file.txt",
+                    "kind": "fs_file_content_regex",
+                    "rule_json": {
+                        "path": "file.txt",
+                        "pattern": "<<<<<<<",
+                        "negate": true
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/git/merge-conflict",
+                "glossary/git/branch",
+                "glossary/git/merge"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {}
+        },
+        {
+            "slug": "git-t2-rebase",
+            "title": "Linear History (Rebase) (T2)",
+            "tier": 2,
+            "world_id": "world-git",
+            "track_id": "core-git",
+            "language": "text",
+            "description": "Rebase feature branch onto main for a linear history.",
+            "starter_code": "# No starter code, git repo provided",
+            "objectives": [
+                {
+                    "id": "git_status_clean",
+                    "title": "Working tree clean",
+                    "kind": "git_status_clean"
+                },
+                {
+                    "id": "git_log_linear",
+                    "title": "Log is linear (no merge commits)",
+                    "kind": "git_log_regex",
+                    "rule_json": {
+                        "pattern": "Merge branch",
+                        "negate": true
+                    }
+                },
+                {
+                    "id": "fs_expected_files",
+                    "title": "Feature files exist",
+                    "kind": "fs_file_exists",
+                    "rule_json": {
+                        "path": "feature.txt"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/git/rebase",
+                "glossary/git/fast-forward",
+                "glossary/git/head"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {}
+        },
+        {
+            "slug": "git-t2-release",
+            "title": "BOSS: Release Workflow (T2)",
+            "tier": 2,
+            "world_id": "world-git",
+            "track_id": "core-git",
+            "language": "text",
+            "description": "Prepare a release: Commit changes, tag version, cleanup.",
+            "starter_code": "# No starter code, git repo provided",
+            "objectives": [
+                {
+                    "id": "git_status_clean",
+                    "title": "Working tree clean",
+                    "kind": "git_status_clean"
+                },
+                {
+                    "id": "git_log_contains",
+                    "title": "Release commit exists",
+                    "kind": "git_log_contains",
+                    "rule_json": {
+                        "pattern": "Release v1.0"
+                    }
+                },
+                {
+                    "id": "fs_release_notes",
+                    "title": "RELEASE_NOTES.md exists",
+                    "kind": "fs_file_exists",
+                    "rule_json": {
+                        "path": "RELEASE_NOTES.md"
+                    }
+                },
+                {
+                    "id": "git_has_tag",
+                    "title": "Tag 'v1.0' exists",
+                    "kind": "git_tag_exists",
+                    "rule_json": {
+                        "tag": "v1.0"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/git/annotated-tag",
+                "glossary/git/release-notes",
+                "glossary/git/main-branch"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {}
+        }
+    ]
+}

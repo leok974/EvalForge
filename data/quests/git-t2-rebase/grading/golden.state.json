@@ -1,0 +1,20 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "feature.txt",
+        "main.txt",
+        "setup.sh",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": true,
+        "status_porcelain": "?? README.md\n?? setup.sh\n?? task.sh\n?? wrapper.sh\n",
+        "log_oneline": [
+            "1f95e90 feat: commit D",
+            "ea08a5e chore: commit C",
+            "706fd12 chore: commit B",
+            "3a9951d chore: commit A"
+        ]
+    }
+}

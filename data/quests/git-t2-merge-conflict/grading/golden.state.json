@@ -1,0 +1,19 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "file.txt",
+        "setup.sh",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": true,
+        "status_porcelain": "?? README.md\n?? setup.sh\n?? task.sh\n?? wrapper.sh\n",
+        "log_oneline": [
+            "14ea67e Merge branch 'feature'",
+            "2afeef7 chore: update file on main",
+            "31189a9 feat: update file",
+            "72b65da chore: initial commit"
+        ]
+    }
+}

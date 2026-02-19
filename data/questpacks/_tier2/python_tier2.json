@@ -1,0 +1,253 @@
+{
+    "quests": [
+        {
+            "slug": "python-functions-contracts",
+            "title": "Functions & Contracts",
+            "tier": 2,
+            "world_id": "world-python",
+            "track_id": "core-python",
+            "language": "python",
+            "description": "Learn to write pure functions with strict type hints and validation.",
+            "starter_code": "def process_user_data(user: dict) -> dict:\n    \"\"\"\n    Take a user dict, validate fields, and return a sanitized dict.\n    Required fields: 'name' (str), 'age' (int).\n    If invalid, raise ValueError.\n    \"\"\"\n    # TODO\n    pass\n",
+            "objectives": [
+                {
+                    "id": "ast_function_contract",
+                    "title": "Function 'process_user_data' has correct signature",
+                    "kind": "ast_python_function",
+                    "rule_json": {
+                        "name": "process_user_data",
+                        "args": [
+                            "user"
+                        ],
+                        "returns": "dict"
+                    }
+                },
+                {
+                    "id": "tests_pass",
+                    "title": "Unit tests pass (happy path + edge cases)",
+                    "kind": "quest_pass_fail"
+                }
+            ],
+            "key_terms": [
+                "glossary/python/typing",
+                "glossary/python/variable",
+                "glossary/python/function"
+            ],
+            "workspace": {
+                "files_from": "../../quests/python-functions-contracts/workspace"
+            },
+            "grading_json": {
+                "entrypoint": "task.py"
+            }
+        },
+        {
+            "slug": "python-file-io-safe",
+            "title": "Safe File I/O",
+            "tier": 2,
+            "world_id": "world-python",
+            "track_id": "core-python",
+            "language": "python",
+            "description": "Read files safely handling missing files and encoding errors.",
+            "starter_code": "from pathlib import Path\n\ndef read_config(path_str: str) -> dict:\n    \"\"\"\n    Read a line-based config file.\n    Return dict {key: value} where lines are 'key=value'.\n    If file missing, return empty dict and print 'CONFIG_MISSING'.\n    \"\"\"\n    # TODO\n    pass\n",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Tests pass",
+                    "kind": "quest_pass_fail"
+                },
+                {
+                    "id": "exit_code_zero",
+                    "title": "Exits with 0",
+                    "kind": "process_exit_code",
+                    "rule_json": {
+                        "expected": 0
+                    }
+                },
+                {
+                    "id": "stdout_missing_warning",
+                    "title": "Prints 'CONFIG_MISSING' on FileNotFoundError",
+                    "kind": "stdout_regex",
+                    "rule_json": {
+                        "pattern": "CONFIG_MISSING"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/python/file-io",
+                "glossary/python/exception",
+                "glossary/python/variable"
+            ],
+            "workspace": {
+                "files_from": "../../quests/python-file-io-safe/workspace"
+            },
+            "grading_json": {
+                "entrypoint": "task.py"
+            }
+        },
+        {
+            "slug": "python-dicts-lists-transform",
+            "title": "Data Transformations",
+            "tier": 2,
+            "world_id": "world-python",
+            "track_id": "core-python",
+            "language": "python",
+            "description": "Transform complex data structures using comprehensions.",
+            "starter_code": "def transform_inventory(items: list[dict]) -> dict[str, int]:\n    \"\"\"\n    Input: [{'category': 'A', 'qty': 5}, {'category': 'A', 'qty': 2}, ...]\n    Output: {'A': 7, ...} (Sum qty by category)\n    Must use comprehensions or functional style.\n    \"\"\"\n    # TODO\n    pass\n",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Tests pass",
+                    "kind": "quest_pass_fail"
+                },
+                {
+                    "id": "ast_no_loops",
+                    "title": "Code uses comprehensions (no direct for/while loops preferred)",
+                    "kind": "ast_python_code",
+                    "rule_json": {
+                        "forbidden_nodes": [
+                            "For",
+                            "While"
+                        ]
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/python/dict-comprehension",
+                "glossary/python/dictionary",
+                "glossary/python/iteration"
+            ],
+            "workspace": {
+                "files_from": "../../quests/python-dicts-lists-transform/workspace"
+            },
+            "grading_json": {
+                "entrypoint": "task.py"
+            }
+        },
+        {
+            "slug": "python-cli-args",
+            "title": "Robust CLI Args",
+            "tier": 2,
+            "world_id": "world-python",
+            "track_id": "core-python",
+            "language": "python",
+            "description": "Build a robust CLI with argparse.",
+            "starter_code": "import argparse\nimport sys\n\ndef main():\n    # TODO: Implement argparse logic\n    # Support --verbose and --count N\n    # If --count < 0, print error and exit 1\n    pass\n\nif __name__ == '__main__':\n    main()\n",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Tests pass",
+                    "kind": "quest_pass_fail"
+                },
+                {
+                    "id": "stdout_help_msg",
+                    "title": "Prints help on --help",
+                    "kind": "stdout_regex",
+                    "rule_json": {
+                        "pattern": "usage:"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/python/argparse",
+                "glossary/python/variable",
+                "glossary/python/print"
+            ],
+            "workspace": {
+                "files_from": "../../quests/python-cli-args/workspace"
+            },
+            "grading_json": {
+                "entrypoint": "task.py"
+            }
+        },
+        {
+            "slug": "python-oop-mini",
+            "title": "Mini OOP System",
+            "tier": 2,
+            "world_id": "world-python",
+            "track_id": "core-python",
+            "language": "python",
+            "description": "Design a small class hierarchy with state management.",
+            "starter_code": "class Account:\n    def __init__(self, balance: int = 0):\n        self._balance = balance\n\n    def deposit(self, amount: int):\n        # TODO\n        pass\n        \n    def withdraw(self, amount: int):\n        # TODO\n        pass\n",
+            "objectives": [
+                {
+                    "id": "ast_class_def",
+                    "title": "Class 'Account' exists with methods",
+                    "kind": "ast_python_class",
+                    "rule_json": {
+                        "name": "Account",
+                        "methods": [
+                            "deposit",
+                            "withdraw"
+                        ]
+                    }
+                },
+                {
+                    "id": "tests_pass",
+                    "title": "Tests pass",
+                    "kind": "quest_pass_fail"
+                }
+            ],
+            "key_terms": [
+                "glossary/python/typing",
+                "glossary/python/variable",
+                "glossary/python/function"
+            ],
+            "workspace": {
+                "files_from": "../../quests/python-oop-mini/workspace"
+            },
+            "grading_json": {
+                "entrypoint": "task.py"
+            }
+        },
+        {
+            "slug": "python-boss-csv-report",
+            "title": "BOSS: CSV Reporter",
+            "tier": 2,
+            "world_id": "world-python",
+            "track_id": "core-python",
+            "language": "python",
+            "description": "Full end-to-end task: Read CSV, process data, generate report.",
+            "starter_code": "import csv\nfrom pathlib import Path\n\ndef generate_report(input_csv: str, output_report: str):\n    \"\"\"\n    1. Read input_csv\n    2. Calculate summary stats\n    3. Write report to output_report\n    \"\"\"\n    # TODO\n    pass\n",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Report generated correctly",
+                    "kind": "quest_pass_fail"
+                },
+                {
+                    "id": "source_csv",
+                    "title": "Uses csv module",
+                    "kind": "source_regex",
+                    "rule_json": {
+                        "pattern": "import csv"
+                    }
+                },
+                {
+                    "id": "not_timed_out",
+                    "title": "Completed within time limit",
+                    "kind": "process_not_timed_out"
+                },
+                {
+                    "id": "fs_report_exists",
+                    "title": "Report file created",
+                    "kind": "fs_file_exists",
+                    "rule_json": {
+                        "path": "report.csv"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/python/csv",
+                "glossary/python/file-io",
+                "glossary/python/exception",
+                "glossary/python/parse"
+            ],
+            "workspace": {
+                "files_from": "../../quests/python-boss-csv-report/workspace"
+            },
+            "grading_json": {
+                "entrypoint": "task.py"
+            }
+        }
+    ]
+}

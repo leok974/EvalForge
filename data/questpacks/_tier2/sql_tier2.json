@@ -1,0 +1,125 @@
+{
+    "quests": [
+        {
+            "slug": "sql-t2-groupby-having",
+            "title": "Groups & Filters (T2)",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Advanced aggregation with GROUP BY and HAVING.",
+            "starter_code": "-- Select category, count(*) as count\n-- From products\n-- Group by category\n-- Having count > 5\n",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "quest_pass_fail"
+                },
+                {
+                    "id": "source_groupby",
+                    "title": "Query uses GROUP BY and HAVING",
+                    "kind": "source_regex",
+                    "rule_json": {
+                        "patterns": [
+                            "GROUP BY",
+                            "HAVING"
+                        ]
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/group-by",
+                "glossary/sql/having",
+                "glossary/sql/select"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {}
+        },
+        {
+            "slug": "sql-t2-window-functions",
+            "title": "Window Functions (T2)",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Use ROW_NUMBER() and OVER() for analytics.",
+            "starter_code": "-- Select name, salary, and rank over department orders by salary desc\n",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "quest_pass_fail"
+                },
+                {
+                    "id": "source_window",
+                    "title": "Query uses Window Function (OVER/PARTITION)",
+                    "kind": "source_regex",
+                    "rule_json": {
+                        "patterns": [
+                            "OVER",
+                            "PARTITION BY"
+                        ]
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/window-function",
+                "glossary/sql/over",
+                "glossary/sql/partition-by"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {}
+        },
+        {
+            "slug": "sql-t2-analytics-pack",
+            "title": "BOSS: Analytics Pack (T2)",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Complex reporting using CTEs and Window Functions.",
+            "starter_code": "-- Write a query using CTEs (WITH clause) to calculate monthly growth.\n",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Core Correctness Passed",
+                    "kind": "quest_pass_fail"
+                },
+                {
+                    "id": "source_cte",
+                    "title": "Uses CTE (WITH clause)",
+                    "kind": "source_regex",
+                    "rule_json": {
+                        "pattern": "WITH"
+                    }
+                },
+                {
+                    "id": "source_window",
+                    "title": "Uses Window Function",
+                    "kind": "source_regex",
+                    "rule_json": {
+                        "pattern": "OVER"
+                    }
+                },
+                {
+                    "id": "not_timed_out",
+                    "title": "Completed within time limit",
+                    "kind": "process_not_timed_out"
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/cte-with",
+                "glossary/sql/window-function",
+                "glossary/sql/row-number"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {}
+        }
+    ]
+}

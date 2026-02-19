@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": "=== Running 1 quests from python_tier2.json in solution mode ===\n\ud83d\udc49 Running python-boss-csv-report [solution]...\nDEBUG: files_from=../../quests/python-boss-csv-report/workspace, resolved=D:\\EvalForge\\data\\quests\\python-boss-csv-report\\workspace\nDEBUG: Copied workspace from D:\\EvalForge\\data\\quests\\python-boss-csv-report\\workspace to C:\\Users\\pierr\\AppData\\Local\\Temp\\tmpnwh3ndhp\nDEBUG: Checking for solution overlay at data\\questpacks\\_tier2\\..\\..\\quests\\python-boss-csv-report\\grading\\solutions\n   Overlaying solution from data\\questpacks\\_tier2\\..\\..\\quests\\python-boss-csv-report\\grading\\solutions\nDEBUG: Checking for tests at data\\questpacks\\_tier2\\..\\..\\quests\\python-boss-csv-report\\grading\\public\nDEBUG: Copied tests from data\\questpacks\\_tier2\\..\\..\\quests\\python-boss-csv-report\\grading\\public\n   \u2705 PASSED\nEF_RUNNER_RESULT_JSON={\"total\": 1, \"passed\": 1, \"failed\": 0, \"errors\": [], \"slugs\": [{\"slug\": \"python-boss-csv-report\", \"status\": \"passed\"}]}\n\n========================================\n\u2705 SUCCESS: 1 quests passed.\n\nEF_RUN_WORLD_SUMMARY: 1/1 public tests passed.\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T12:15:24",
+    "runner_used": "unified_via_capture_script"
+}

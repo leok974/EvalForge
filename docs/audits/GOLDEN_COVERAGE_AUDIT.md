@@ -1,12 +1,12 @@
 # Golden Coverage Audit Report
 
-**Date:** 2026-02-19T11:59:11.196950  
+**Date:** 2026-02-19T13:09:19.649702  
 **Status:** ✅ PASS
 
 ## Summary
 
-- **Total Quests:** 152
-- **With golden.run.json / state:** 152 ✅
+- **Total Quests:** 164
+- **With golden.run.json / state:** 164 ✅
 - **With DEPRECATED spec:** 0 ❌
 - **Missing golden capture:** 0 ❌
 
@@ -14,7 +14,7 @@
 
 ## ✅ All Quests Have Golden Captures!
 
-## ✅ Quests with Golden Run Captures (152)
+## ✅ Quests with Golden Run Captures (164)
 
 These quests have actual solution runs captured:
 
@@ -71,6 +71,9 @@ These quests have actual solution runs captured:
 - **git-remote-push** (World: unknown)
 - **git-stash** (World: unknown)
 - **git-status-diff** (World: unknown)
+- **git-t2-merge-conflict** (World: unknown)
+- **git-t2-rebase** (World: unknown)
+- **git-t2-release** (World: unknown)
 - **git-tag-release** (World: unknown)
 - **git-tags** (World: unknown)
 - **git-undo-revert** (World: unknown)
@@ -125,8 +128,14 @@ These quests have actual solution runs captured:
 - **node-modules** (World: unknown)
 - **node-npm** (World: unknown)
 - **node-testing** (World: unknown)
+- **python-boss-csv-report** (World: unknown)
+- **python-cli-args** (World: unknown)
 - **python-data-forge** (World: unknown) (using legacy golden.json (should migrate to golden.run.json))
+- **python-dicts-lists-transform** (World: unknown)
+- **python-file-io-safe** (World: unknown)
+- **python-functions-contracts** (World: unknown)
 - **python-loop** (World: unknown) (using legacy golden.json (should migrate to golden.run.json))
+- **python-oop-mini** (World: unknown)
 - **python-systems-observability-sli** (World: unknown)
 - **python-systems-performance-profile** (World: unknown)
 - **python-systems-platform-tooling** (World: unknown)
@@ -156,6 +165,9 @@ These quests have actual solution runs captured:
 - **sql-left-join-null** (World: unknown)
 - **sql-order-limit** (World: unknown)
 - **sql-select** (World: unknown)
+- **sql-t2-analytics-pack** (World: unknown)
+- **sql-t2-groupby-having** (World: unknown)
+- **sql-t2-window-functions** (World: unknown)
 - **sql-where** (World: unknown)
 - **ts-arrays** (World: unknown)
 - **ts-control** (World: unknown)

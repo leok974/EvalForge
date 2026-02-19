@@ -68,12 +68,14 @@ def run_quest(
         
         if files_from:
             # Resolve relative to questpack
-            source_path = (questpack_path.parent / files_from).resolve()
-            if not source_path.exists():
-                print(f"   ❌ ERROR: Workspace path not found: {source_path}")
-                return QuestResult(slug, False, [{"error": f"Workspace path not found: {source_path}"}], "", "")
+            files_from_path_obj = (questpack_path.parent / files_from).resolve()
+            print(f"DEBUG: files_from={files_from}, resolved={files_from_path_obj}")
+            if not files_from_path_obj.exists():
+                print(f"   ❌ ERROR: Workspace path not found: {files_from_path_obj}")
+                return QuestResult(slug, False, [{"error": f"Workspace path not found: {files_from_path_obj}"}], "", "")
             
-            shutil.copytree(source_path, temp_path, dirs_exist_ok=True)
+            shutil.copytree(files_from_path_obj, temp_path, dirs_exist_ok=True)
+            print(f"DEBUG: Copied workspace from {files_from_path_obj} to {temp_path}")
         
         # B. Apply Solution Overlay (if mode=solution)
         if mode == "solution":
@@ -85,6 +87,7 @@ def run_quest(
                 files_from_path = (questpack_path.parent / files_from)
                 quest_root = files_from_path.parent
                 sol_dir = quest_root / "grading" / "solutions"
+                print(f"DEBUG: Checking for solution overlay at {sol_dir}")
                 if sol_dir.exists():
                     print(f"   Overlaying solution from {sol_dir}")
                     shutil.copytree(sol_dir, temp_path, dirs_exist_ok=True)
@@ -111,8 +114,10 @@ def run_quest(
             files_from_path = (questpack_path.parent / files_from)
             quest_root = files_from_path.parent
             test_dir = quest_root / "grading" / "public"
+            print(f"DEBUG: Checking for tests at {test_dir}")
             if test_dir.exists():
                 shutil.copytree(test_dir, temp_path, dirs_exist_ok=True)
+                print(f"DEBUG: Copied tests from {test_dir}")
                 
         # 2. Run Execution
         # Priority: pytest if tests exist, else entrypoint

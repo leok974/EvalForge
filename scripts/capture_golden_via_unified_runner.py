@@ -14,11 +14,8 @@ def strip_ansi(text: str) -> str:
 def find_questpack_for_slug(slug: str) -> Path | None:
     base_dir = Path("data/questpacks")
     
-    # Check all JSON files in data/questpacks (and subdirs if needed)
-    # We primarily check root and _modern if it exists
-    candidates = list(base_dir.glob("*.json"))
-    if (base_dir / "_modern").exists():
-        candidates.extend((base_dir / "_modern").glob("*.json"))
+    # Recursively find all json files
+    candidates = list(base_dir.rglob("*.json"))
         
     for p in candidates:
         try:

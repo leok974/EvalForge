@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": "=== Running 1 quests from python_tier2.json in solution mode ===\n\ud83d\udc49 Running python-cli-args [solution]...\nDEBUG: files_from=../../quests/python-cli-args/workspace, resolved=D:\\EvalForge\\data\\quests\\python-cli-args\\workspace\nDEBUG: Copied workspace from D:\\EvalForge\\data\\quests\\python-cli-args\\workspace to C:\\Users\\pierr\\AppData\\Local\\Temp\\tmpwjccumzw\nDEBUG: Checking for solution overlay at data\\questpacks\\_tier2\\..\\..\\quests\\python-cli-args\\grading\\solutions\n   Overlaying solution from data\\questpacks\\_tier2\\..\\..\\quests\\python-cli-args\\grading\\solutions\nDEBUG: Checking for tests at data\\questpacks\\_tier2\\..\\..\\quests\\python-cli-args\\grading\\public\nDEBUG: Copied tests from data\\questpacks\\_tier2\\..\\..\\quests\\python-cli-args\\grading\\public\n   \u2705 PASSED\nEF_RUNNER_RESULT_JSON={\"total\": 1, \"passed\": 1, \"failed\": 0, \"errors\": [], \"slugs\": [{\"slug\": \"python-cli-args\", \"status\": \"passed\"}]}\n\n========================================\n\u2705 SUCCESS: 1 quests passed.\n\nEF_RUN_WORLD_SUMMARY: 1/1 public tests passed.\n",
+    "stderr": "",
+    "generated_at": "2026-02-19T12:15:16",
+    "runner_used": "unified_via_capture_script"
+}

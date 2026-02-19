@@ -1,0 +1,19 @@
+{
+    "type": "state",
+    "files": [
+        "README.md",
+        "RELEASE_NOTES.md",
+        "app.py",
+        "setup.sh",
+        "task.sh"
+    ],
+    "git": {
+        "has_dot_git": true,
+        "status_porcelain": "?? setup.sh\n?? task.sh\n?? wrapper.sh\n",
+        "log_oneline": [
+            "60c1e1a docs: add release notes",
+            "bd3b11c feat: add app",
+            "7778079 chore: init"
+        ]
+    }
+}
