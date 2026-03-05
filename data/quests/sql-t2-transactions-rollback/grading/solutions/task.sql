@@ -1,0 +1,1 @@
+BEGIN; INSERT INTO employees (id, name) VALUES (99, 'Test'); ROLLBACK; SELECT COUNT(*) FROM employees WHERE id = 99;

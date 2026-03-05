@@ -1,0 +1,43 @@
+{
+  "wave": 4,
+  "n": 2,
+  "world_order": [
+    "world-docker"
+  ],
+  "quests": [
+    {
+      "slug": "compose-env-secrets",
+      "world": "world-docker",
+      "track": "docker-fundamentals",
+      "title": "Compose: Env & Secrets",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/compose-env-secrets"
+    },
+    {
+      "slug": "compose-volumes-and-prod-hardening",
+      "world": "world-docker",
+      "track": "docker-fundamentals",
+      "title": "Compose: Volumes & Prod Hardening",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/compose-volumes-and-prod-hardening"
+    }
+  ]
+}

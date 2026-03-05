@@ -1,0 +1,337 @@
+{
+  "wave": 2,
+  "n": 20,
+  "world_order": [
+    "world-infra",
+    "world-docker",
+    "world-git",
+    "world-python",
+    "world-sql",
+    "world-js",
+    "world-typescript",
+    "world-agents",
+    "world-ml",
+    "world-react",
+    "unknown"
+  ],
+  "quests": [
+    {
+      "slug": "infra-containment-q1-linux-shell-and-fs",
+      "world": "world-infra",
+      "track": "grid-containment",
+      "title": "Q1 \u2013 Map of the Machine",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": false,
+      "quest_folder": "docs/quests/infra-containment-q1-linux-shell-and-fs"
+    },
+    {
+      "slug": "infra-logs-metrics",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-logs-metrics",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-logs-metrics"
+    },
+    {
+      "slug": "infra-env-config",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-env-config",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-env-config"
+    },
+    {
+      "slug": "infra-healthchecks",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-healthchecks",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-healthchecks"
+    },
+    {
+      "slug": "infra-cors-cookies",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-cors-cookies",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-cors-cookies"
+    },
+    {
+      "slug": "infra-reverse-proxy",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-reverse-proxy",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-reverse-proxy"
+    },
+    {
+      "slug": "infra-debug-playbook",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-debug-playbook",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-debug-playbook"
+    },
+    {
+      "slug": "infra-ports-and-localhost",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-ports-and-localhost",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-ports-and-localhost"
+    },
+    {
+      "slug": "infra-networking-dns",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-networking-dns",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-networking-dns"
+    },
+    {
+      "slug": "infra-service-q1-dockerize-and-compose",
+      "world": "world-infra",
+      "track": "grid-service-link",
+      "title": "Q1 \u2013 Bottling the Service",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": false,
+      "quest_folder": "docs/quests/infra-service-q1-dockerize-and-compose"
+    },
+    {
+      "slug": "infra-ignition",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-ignition",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-ignition"
+    },
+    {
+      "slug": "infra-docker-compose",
+      "world": "world-infra",
+      "track": "track-infra",
+      "title": "infra-docker-compose",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/infra-docker-compose"
+    },
+    {
+      "slug": "docker-ignition",
+      "world": "world-docker",
+      "track": "docker-ignition",
+      "title": "Docker World Ignition",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/docker-ignition"
+    },
+    {
+      "slug": "dockerfile-basics",
+      "world": "world-docker",
+      "track": "docker-ignition",
+      "title": "Dockerfile Basics",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/dockerfile-basics"
+    },
+    {
+      "slug": "dockerfile-layers-cache",
+      "world": "world-docker",
+      "track": "docker-ignition",
+      "title": "Layers & Cache",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/dockerfile-layers-cache"
+    },
+    {
+      "slug": "dockerfile-copy-vs-add",
+      "world": "world-docker",
+      "track": "docker-ignition",
+      "title": "COPY vs ADD",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/dockerfile-copy-vs-add"
+    },
+    {
+      "slug": "dockerfile-multistage",
+      "world": "world-docker",
+      "track": "docker-ignition",
+      "title": "Multi-stage Builds",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/dockerfile-multistage"
+    },
+    {
+      "slug": "dockerfile-healthcheck",
+      "world": "world-docker",
+      "track": "docker-ignition",
+      "title": "Healthchecks",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/dockerfile-healthcheck"
+    },
+    {
+      "slug": "compose-basics",
+      "world": "world-docker",
+      "track": "docker-ignition",
+      "title": "Compose Basics",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/compose-basics"
+    },
+    {
+      "slug": "compose-networks-depends",
+      "world": "world-docker",
+      "track": "docker-ignition",
+      "title": "Networks & depends_on",
+      "missing_fields": [
+        "briefing",
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 4,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/compose-networks-depends"
+    }
+  ]
+}

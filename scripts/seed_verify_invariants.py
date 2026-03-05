@@ -88,9 +88,10 @@ def validate_objective(obj: dict, quest_slug: str) -> list[str]:
                 "Must have one of: must_define_function, must_assign_variable, must_import, forbid_import"
             )
     else:
-        # Standard required fields
+        # Standard required fields (fields may be OR-alternatives separated by '|')
         for field in required:
-            if field not in rule:
+            alternatives = field.split("|")
+            if not any(alt.strip() in rule for alt in alternatives):
                 errors.append(f"Rule missing required field '{field}' for kind '{kind}'")
     
     # Special validation: stdout_exact should use 'expected' not 'pattern'

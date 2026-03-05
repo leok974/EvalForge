@@ -107,42 +107,25 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             track_id = quest_data.get("track_id") or pack_track_id or "misc"
             title = quest_data.get("title") or slug
             
-            # Helper to hydrate files from disk if "files_from" is set
-            def hydrate_workspace(ws, base_dir):
-                if not ws or "files_from" not in ws:
-                    return ws
-                
-                # Check for files_from
-                rel_path = ws["files_from"]
-                target_dir = os.path.normpath(os.path.join(base_dir, rel_path))
-                
-                if not os.path.exists(target_dir):
-                    print(f"    ⚠️ Warning: files_from path '{target_dir}' does not exist. Skipping hydration.")
-                    return ws
-                    
-                if "files" not in ws:
-                    ws["files"] = []
-                    
-                for root, _, files in os.walk(target_dir):
-                    for fname in files:
-                        full_path = os.path.join(root, fname)
-                        # Relative to target_dir to keep structure inside workspace
-                        inner_path = os.path.relpath(full_path, target_dir)
-                        # Read content
-                        try:
-                            with open(full_path, "r", encoding="utf-8") as f:
-                                content = f.read()
-                                
-                            # Avoid duplicates
-                            if not any(f["path"] == inner_path for f in ws["files"]):
-                                ws["files"].append({
-                                    "path": inner_path,
-                                    "content": content,
-                                    "editable": True # Default to true for hydrated files
-                                })
-                        except Exception as e:
-                            print(f"    ⚠️ Failed to read {full_path}: {e}")
-                
+            # Phase Q Fix: Secure workspace hydration from data/quests/<slug>/workspace
+            def hydrate_workspace(q_slug):
+                ws = {"files": []}
+                root_d = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+                w_dir = os.path.join(root_d, "data", "quests", q_slug, "workspace")
+                if os.path.exists(w_dir):
+                    for root, _, files in os.walk(w_dir):
+                        for fname in files:
+                            full_path = os.path.join(root, fname)
+                            inner_path = os.path.relpath(full_path, w_dir)
+                            try:
+                                with open(full_path, "r", encoding="utf-8") as f:
+                                    ws["files"].append({
+                                        "path": inner_path.replace("\\", "/"),
+                                        "content": f.read(),
+                                        "editable": True
+                                    })
+                            except Exception as e:
+                                print(f"    ⚠️ Failed to read {full_path}: {e}")
                 return ws
 
             if not existing:
@@ -151,13 +134,16 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                     world_id=world_id,
                     track_id=track_id,
                     title=title,
-                    short_description=quest_data.get("short_description", "")
+                    short_description=quest_data.get("short_description", ""),
+                    language=quest_data.get("language", "python")
                 )
                 session.add(existing)
             else:
                  existing.world_id = world_id
                  existing.track_id = track_id
                  existing.title = title
+                 if "language" in quest_data:
+                     existing.language = quest_data["language"]
             
             # Context for relative paths
             json_dir = os.path.dirname(os.path.abspath(file_path))
@@ -267,6 +253,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                      # Simple parsing: split by header or bullets
                      # For now, just wrap in a simple dict structure compatible with frontend
                      existing.tiered_hints_json = {"markdown_source": raw_hints}
+            existing.workspace_json = hydrate_workspace(slug)
             
             session.add(existing)
         

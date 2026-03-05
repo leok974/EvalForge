@@ -1,7 +1,7 @@
 {
     "slug": "sql-select",
     "title": "sql-select",
-    "language": "txt",
+    "language": "sql",
     "world_id": "world-sql",
     "track_id": "core",
     "order_index": 1,

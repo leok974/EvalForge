@@ -31,6 +31,7 @@ export interface QuestSummary {
 
     // Phase 9.1: Tutorial Fields
     tutorial_md?: string;
+    workspace_files?: { path: string; content: string; editable?: boolean }[];
     key_terms?: {
         id: string;
         term: string;
@@ -268,7 +269,7 @@ export async function runQuest(
     slug: string,
     code: string,
     language: string = "python",
-    mode: "validate" | "execute" = "execute",
+    mode: "validate" | "execute" | "tests" = "execute",
     workspaceConfig?: { entrypoint: string; files: { path: string; content: string }[] }
 ): Promise<RunResult> {
     const payload: any = { code, language, mode };

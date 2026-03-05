@@ -42,7 +42,8 @@
             "workspace": {
                 "files": {}
             },
-            "grading_json": {}
+            "grading_json": {},
+            "quest_id": "git-t2-merge-conflict"
         },
         {
             "slug": "git-t2-rebase",
@@ -85,7 +86,8 @@
             "workspace": {
                 "files": {}
             },
-            "grading_json": {}
+            "grading_json": {},
+            "quest_id": "git-t2-rebase"
         },
         {
             "slug": "git-t2-release",
@@ -135,7 +137,8 @@
             "workspace": {
                 "files": {}
             },
-            "grading_json": {}
+            "grading_json": {},
+            "quest_id": "git-t2-release"
         }
     ]
 }

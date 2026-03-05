@@ -104,7 +104,8 @@ async def run_quest(
             "coach": existing.meta.get("coach"),  # May be None
             "debrief": existing.debrief_json if existing.debrief_json else None,
             "diagnostics": existing.diagnostics_json if existing.diagnostics_json else [],
-            "quick_fixes": existing.quick_fixes_json if existing.quick_fixes_json else []
+            "quick_fixes": existing.quick_fixes_json if existing.quick_fixes_json else [],
+            "artifacts": existing.artifacts_json if existing.artifacts_json else None
         }
     
     # Fetch Quest Def (for validation rules)
@@ -130,6 +131,7 @@ async def run_quest(
     timed_out = False
     duration_ms = 0
     exit_code = 0
+    artifacts = None
     
     EXECUTION_ENABLED = os.getenv("EXECUTION_ENABLED", "0") == "1"
     EXECUTION_TIMEOUT_MS = int(os.getenv("EXECUTION_TIMEOUT_MS", "2000"))
@@ -150,9 +152,36 @@ async def run_quest(
              # Fallback: Use payload workspace directly if no quest workspace defined
              run_workspace = {"files": payload.workspace}
         
-        # Use payload language if provided, else default to python (or quest language)
-        lang = payload.language or "python"
+        # Server defense-in-depth: enforce backend language over client payload
+        lang = getattr(quest, "language", None) or payload.language or "python"
         
+        # --- PHASE R: SQL Injection Rule ---
+        if lang == "sql":
+            if not payload.code or not payload.code.strip():
+                return {
+                    "passed": False,
+                    "objective_results": [{
+                        "id": "CONFIG_EMPTY_SQL",
+                        "ok": False,
+                        "detail": "SQL query cannot be empty.",
+                        "kind": "config"
+                    }],
+                    "stdout": "",
+                    "stderr": "Error: SQL query cannot be empty.",
+                    "ready_to_submit": False,
+                    "attempt_id": "err_empty_sql",
+                    "run_number": 0,
+                    "duration_ms": 0,
+                    "exit_code": 1,
+                    "timed_out": False,
+                    "debrief": None,
+                    "diagnostics": [],
+                    "quick_fixes": []
+                }
+            
+            from arcade_app.services.utils import inject_sql_task
+            run_workspace = inject_sql_task(run_workspace, payload.code)
+            
         # Pass workspace to runner
         r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=payload.mode if payload.mode == "tests" else "run", quest_slug=quest_id)
         
@@ -161,6 +190,7 @@ async def run_quest(
         stderr = sanitize_logs(r.stderr)
         timed_out, duration_ms = r.timed_out, r.duration_ms
         exit_code = r.exit_code if r.exit_code is not None else (1 if timed_out else 0)
+        artifacts = getattr(r, "sql_artifacts", None)
 
     # Resolve source code for static analysis (AST/Regex)
     # If payload.code is empty (workspace mode), use the entrypoint file content
@@ -314,6 +344,7 @@ async def run_quest(
         idempotency_key=payload.idempotency_key,  # Phase 8.x PR 3
         workspace_hash=workspace_hash,  # Phase 8.x PR 4
         execution_context_json=execution_context,  # Phase 8.x PR 4
+        artifacts_json=artifacts or {}, # Phase R
     )
     debrief_data = None
     diagnostics_data = []
@@ -436,7 +467,8 @@ async def run_quest(
                 "coach": existing.meta.get("coach"),
                 "debrief": existing.debrief_json if existing.debrief_json else None,
                 "diagnostics": existing.diagnostics_json if existing.diagnostics_json else [],
-                "quick_fixes": existing.quick_fixes_json if existing.quick_fixes_json else []
+                "quick_fixes": existing.quick_fixes_json if existing.quick_fixes_json else [],
+                "artifacts": existing.artifacts_json if existing.artifacts_json else None
             }
         # Unexpected: integrity error but no existing record
         raise
@@ -455,7 +487,8 @@ async def run_quest(
         "coach": coach_data,
         "debrief": debrief_data,
         "diagnostics": diagnostics_data,
-        "quick_fixes": q_fixes
+        "quick_fixes": q_fixes,
+        "artifacts": getattr(r, "artifacts", None) if EXECUTION_ENABLED and 'r' in locals() else None
     }
 
 @router.get("/{quest_id}/attempts", response_model=list[dict])

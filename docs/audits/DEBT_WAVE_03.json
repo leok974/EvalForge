@@ -1,0 +1,434 @@
+{
+  "wave": 3,
+  "n": 27,
+  "world_order": [
+    "world-ml",
+    "world-agents",
+    "world-react",
+    "world-python",
+    "world-sql",
+    "world-js",
+    "world-typescript",
+    "world-git",
+    "world-infra",
+    "world-docker",
+    "unknown"
+  ],
+  "quests": [
+    {
+      "slug": "ml-tensor-q1-numpy-and-shapes",
+      "world": "world-ml",
+      "track": "synapse-tensor",
+      "title": "Q1 \u2013 Shapes of Thought",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": false,
+      "quest_folder": "docs/quests/ml-tensor-q1-numpy-and-shapes"
+    },
+    {
+      "slug": "ml-gradient-q1-training-loop-and-metrics",
+      "world": "world-ml",
+      "track": "synapse-tensor-gradient",
+      "title": "Q1 \u2013 Step by Step",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": false,
+      "quest_folder": "docs/quests/ml-gradient-q1-training-loop-and-metrics"
+    },
+    {
+      "slug": "ml-ignition",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-ignition",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-ignition"
+    },
+    {
+      "slug": "ml-numpy-basics",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-numpy-basics",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-numpy-basics"
+    },
+    {
+      "slug": "ml-pandas-dataframes",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-pandas-dataframes",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-pandas-dataframes"
+    },
+    {
+      "slug": "ml-data-preprocessing",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-data-preprocessing",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-data-preprocessing"
+    },
+    {
+      "slug": "ml-train-test-split",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-train-test-split",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-train-test-split"
+    },
+    {
+      "slug": "ml-linear-regression",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-linear-regression",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-linear-regression"
+    },
+    {
+      "slug": "ml-classification-basics",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-classification-basics",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-classification-basics"
+    },
+    {
+      "slug": "ml-model-evaluation",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-model-evaluation",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-model-evaluation"
+    },
+    {
+      "slug": "ml-neural-networks-intro",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-neural-networks-intro",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-neural-networks-intro"
+    },
+    {
+      "slug": "ml-overfitting-regularization",
+      "world": "world-ml",
+      "track": "ml-fundamentals",
+      "title": "ml-overfitting-regularization",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/ml-overfitting-regularization"
+    },
+    {
+      "slug": "agents-ignition",
+      "world": "world-agents",
+      "track": "fundamentals",
+      "title": "Ignition",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "source_regex",
+      "is_referenced": true,
+      "quest_folder": "data/quests/agents-ignition"
+    },
+    {
+      "slug": "agents-prompts-contracts",
+      "world": "world-agents",
+      "track": "boss-prep",
+      "title": "Prompts & Contracts",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "source_regex",
+      "is_referenced": true,
+      "quest_folder": "data/quests/agents-prompts-contracts"
+    },
+    {
+      "slug": "agents-grounding-q1-rag-basics",
+      "world": "world-agents",
+      "track": "oracle-grounding",
+      "title": "Q1 \u2013 Voices from the Library",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "source_regex",
+      "is_referenced": false,
+      "quest_folder": "docs/quests/agents-grounding-q1-rag-basics"
+    },
+    {
+      "slug": "react-components",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-components",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-components"
+    },
+    {
+      "slug": "react-state-counter",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-state-counter",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-state-counter"
+    },
+    {
+      "slug": "react-props",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-props",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-props"
+    },
+    {
+      "slug": "react-lists",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-lists",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-lists"
+    },
+    {
+      "slug": "react-context-theme",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-context-theme",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-context-theme"
+    },
+    {
+      "slug": "react-reducer-cart",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-reducer-cart",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-reducer-cart"
+    },
+    {
+      "slug": "react-state-toggle",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-state-toggle",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-state-toggle"
+    },
+    {
+      "slug": "react-conditional-render",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-conditional-render",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-conditional-render"
+    },
+    {
+      "slug": "react-effects-mount",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-effects-mount",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-effects-mount"
+    },
+    {
+      "slug": "react-ignition",
+      "world": "world-react",
+      "track": "react-fundamentals",
+      "title": "react-ignition",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/react-ignition"
+    },
+    {
+      "slug": "python-ignition",
+      "world": "world-python",
+      "track": "fundamentals",
+      "title": "Ignition",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "ast",
+      "is_referenced": false,
+      "quest_folder": "data/quests/python-ignition"
+    },
+    {
+      "slug": "first-sparks",
+      "world": "world-python",
+      "track": "python-fundamentals",
+      "title": "Quest First Sparks",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "ast",
+      "is_referenced": true,
+      "quest_folder": "data/quests/first-sparks"
+    }
+  ]
+}

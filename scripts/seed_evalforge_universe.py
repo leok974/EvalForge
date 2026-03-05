@@ -33,7 +33,10 @@ TRACK_SPECS = [
     "evalforge_reactor_track_service_loop.json",
     # REMAINING (SQL, INFRA, AGENTS, GIT, ML)
     "evalforge_world_content_remaining.json",
-    "senior_tier_content.json"
+    "senior_tier_content.json",
+    "../data/questpacks/_tier2/python_tier2.json",
+    "../data/questpacks/_tier2/sql_tier2.json",
+    "../data/questpacks/_tier2/git_tier2.json"
 ]
 
 # List of Boss Definition Files
@@ -105,11 +108,37 @@ async def upsert_quest(session, world_slug, track_id, quest_data, seeded_slugs=N
     if not quest_slug and quest_db_id:
         quest_slug = quest_db_id  # fallback
         
+def build_quest_workspace(quest_dir: Path, quest_data: dict) -> dict:
+    """Extracts and builds the workspace payload consistently including nested fixtures."""
+    import copy
+    workspace_json = copy.deepcopy(quest_data.get("workspace") or {"files": []})
+    workspace_json["files"] = []
+    
+    workspace_dir = quest_dir / "workspace"
+    if workspace_dir.exists():
+        for p in workspace_dir.rglob("*"):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(workspace_dir).as_posix()
+            workspace_json["files"].append({
+                "path": rel,
+                "content": p.read_text(encoding="utf-8"),
+                "editable": True
+            })
+        
+    return workspace_json
+
+async def upsert_quest(session, quest_data, world_slug, track_id, seeded_slugs=None):
+    quest_slug = quest_data.get("slug")
+    if not quest_slug:
+        quest_slug = quest_data.get("quest_id")
+        
     if not quest_slug:
         # Should not happen as existing specs usually have one or the other
         print(f"Skipping quest {quest_data.get('title')} (no slug/id)")
         return
 
+    quest_db_id = quest_data.get("id") or quest_data.get("quest_id")
     # Use full ID if present, else derived from track + slug
     if not quest_db_id:
         quest_db_id = f"{track_id}-{quest_slug}"
@@ -122,6 +151,11 @@ async def upsert_quest(session, world_slug, track_id, quest_data, seeded_slugs=N
     existing = (await session.execute(stmt)).scalar_one_or_none()
     
     details = format_quest_description(quest_data)
+    quest_dir = BASE_DOCS / ".." / "data" / "quests" / quest_slug
+    
+    # Phase Q Fix: Inject tests into workspace if they exist on disk but not in JSON
+    # This is needed because some JSON snapshots don't bundle the tests.
+    workspace_json = build_quest_workspace(quest_dir, quest_data)
     
     if not existing:
         quest = QuestDefinition(
@@ -136,7 +170,15 @@ async def upsert_quest(session, world_slug, track_id, quest_data, seeded_slugs=N
             order_index=quest_data.get("order_index", 0),
             is_repeatable=True,
             tiered_hints_json=quest_data.get("tiered_hints"),
-            key_terms=quest_data.get("key_terms")
+            key_terms=quest_data.get("key_terms"),
+            objectives_json=quest_data.get("objectives"),
+            workspace_json=workspace_json,
+            grading_json=quest_data.get("grading_json"),
+            language=quest_data.get("language"),
+            starter_code=quest_data.get("starter_code"),
+            briefing_md=quest_data.get("briefing_md") or details or quest_data.get("description", "No briefing provided."),
+            tutorial_md=quest_data.get("tutorial_md"),
+            lore_md=quest_data.get("lore_md")
         )
         session.add(quest)
     else:
@@ -146,6 +188,15 @@ async def upsert_quest(session, world_slug, track_id, quest_data, seeded_slugs=N
         existing.order_index = quest_data.get("order_index", 0)
         existing.tiered_hints_json = quest_data.get("tiered_hints")
         existing.key_terms = quest_data.get("key_terms")
+        existing.objectives_json = quest_data.get("objectives")
+        existing.workspace_json = workspace_json
+        existing.grading_json = quest_data.get("grading_json")
+        existing.starter_code = quest_data.get("starter_code")
+        existing.briefing_md = quest_data.get("briefing_md") or details or quest_data.get("description", "No briefing provided.")
+        existing.tutorial_md = quest_data.get("tutorial_md")
+        existing.lore_md = quest_data.get("lore_md")
+        if "language" in quest_data:
+            existing.language = quest_data["language"]
         session.add(existing)
 
 async def upsert_boss(session, boss_data):
@@ -234,7 +285,7 @@ async def seed_universe():
                 await upsert_track(session, world_slug, track_data)
                 
                 for q in data["quests"]:
-                    await upsert_quest(session, world_slug, track_data["track_id"], q, seeded_slugs=seeded_slugs)
+                    await upsert_quest(session, q, world_slug, track_data["track_id"], seeded_slugs=seeded_slugs)
                     
                 # Boss Stubs in Track Spec?
                 if "boss_stub" in data:
@@ -251,7 +302,7 @@ async def seed_universe():
                         await upsert_track(session, world_slug, track)
                         
                         for q in track.get("quests", []):
-                            await upsert_quest(session, world_slug, track["track_id"], q, seeded_slugs=seeded_slugs)
+                            await upsert_quest(session, q, world_slug, track["track_id"], seeded_slugs=seeded_slugs)
                             
                         for boss in track.get("bosses", []):
                              # Need to make sure title -> name mapping is handled or assumes corrected key
@@ -264,6 +315,12 @@ async def seed_universe():
                         # upsert_boss expects 'title' in input data based on existing code:
                         # boss_data["title"] -> name
                         await upsert_boss(session, boss)
+                        
+            elif isinstance(data, dict) and "quests" in data and "snapshot_kind" not in data:
+                # Flat format (e.g. Tier 2 Packs)
+                for q in data["quests"]:
+                    # These flat quests must self-describe their world id and track id via json schema
+                    await upsert_quest(session, q, q.get("world_id", "world-sql"), q.get("track_id", "core-sql"), seeded_slugs=seeded_slugs)
             
         # 2. Seed Boss Definitions from Standalone Files
         for boss_spec in BOSS_SPECS:

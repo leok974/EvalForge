@@ -151,7 +151,12 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
                                                 "text-xs font-mono block mb-0.5",
                                                 objectivesState[obj.id] ? "text-emerald-200" : "text-zinc-300 group-hover:text-zinc-100"
                                             )}>
-                                                {obj.text}
+                                                {/* Belt-and-suspenders: text (normalised) || title (raw DB) || visible placeholder */}
+                                                {(obj as any).text || (obj as any).title || <span className="opacity-40 italic">(missing objective text)</span>}
+                                                {/* Dev-visible kind badge: helps catch future shape drift before it silences rows */}
+                                                {import.meta.env.DEV && !(obj as any).text && (
+                                                    <span className="ml-1 text-[9px] text-amber-500 font-mono">[no text — kind: {(obj as any).kind ?? obj.validator?.kind ?? '?'}]</span>
+                                                )}
                                             </span>
                                             {obj.why && (
                                                 <span className="text-[10px] text-zinc-500 block leading-tight">

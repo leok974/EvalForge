@@ -1,0 +1,2 @@
+INSERT INTO employees (id, name, manager_id) VALUES (99, 'Ghost Employee', 999);
+SELECT e.id, e.name, e.manager_id FROM employees e LEFT JOIN employees m ON e.manager_id = m.id WHERE e.manager_id IS NOT NULL AND m.id IS NULL ORDER BY e.id ASC;

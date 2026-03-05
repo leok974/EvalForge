@@ -16,6 +16,8 @@ def build_effective_workspace(base_workspace: Dict[str, Any], overlay_files: Lis
     
     # 1. Normalize Base
     base_files = base_workspace.get("files", [])
+    if isinstance(base_files, dict):
+        base_files = [{"path": k, "content": v, "editable": True} for k, v in base_files.items()]
     entrypoint = base_workspace.get("entrypoint", "main.py")
     
     # Map path -> file_def
@@ -33,6 +35,8 @@ def build_effective_workspace(base_workspace: Dict[str, Any], overlay_files: Lis
     # 2. Process Overlay
     # Validate limits on overlay first? Or on final result?
     # Let's validate overlay STRUCTURE first.
+    if isinstance(overlay_files, dict):
+        overlay_files = [{"path": k, "content": v} for k, v in overlay_files.items()]
     
     for of in overlay_files:
         path = safe_relpath(of["path"])
@@ -63,3 +67,36 @@ def build_effective_workspace(base_workspace: Dict[str, Any], overlay_files: Lis
         "entrypoint": entrypoint,
         "files": final_files
     }
+
+def inject_sql_task(workspace: Dict[str, Any], code: str) -> Dict[str, Any]:
+    """
+    Deterministically injects the student's SQL code as 'task.sql' into the workspace.
+    Overrides any existing 'task.sql' or 'workspace/task.sql' to ensure the runner
+    always executes the provided code.
+    """
+    if workspace is None:
+        workspace = {}
+        
+    run_files = workspace.get("files", [])
+    if isinstance(run_files, dict):
+        run_files = [{"path": k, "content": v} for k, v in run_files.items()]
+    
+    # Remove existing task.sql (normalize paths aggressively for this specific check)
+    filtered_files = []
+    for f in run_files:
+        p = f.get("path", "")
+        # Prevent both raw 'task.sql' and nested 'workspace/task.sql' tricks
+        if p == "task.sql" or p.endswith("/task.sql") or p.endswith("\\task.sql"):
+            continue
+        filtered_files.append(f)
+        
+    # Inject exactly "task.sql"
+    filtered_files.append({
+        "path": "task.sql",
+        "content": code
+    })
+    
+    workspace["files"] = filtered_files
+    workspace["entrypoint"] = "task.sql"
+    
+    return workspace

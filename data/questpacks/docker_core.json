@@ -1,5 +1,6 @@
 {
-    "world": "docker",
+    "world_id": "world-docker",
+    "track_id": "docker-ignition",
     "pack_slug": "docker_core",
     "title": "Docker Core (Training Grade)",
     "tier": 1,

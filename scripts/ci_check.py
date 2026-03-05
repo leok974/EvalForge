@@ -32,6 +32,16 @@ STAGES = [
         "critical": True
     },
     {
+        "name": "Objectives Shape Audit",
+        "cmd": [sys.executable, "scripts/audit_objectives_shape.py"],
+        "critical": True
+    },
+    {
+        "name": "Objectives Serializer Shape Tests",
+        "cmd": [sys.executable, "-m", "pytest", "tests/test_objectives_serializer_shape.py", "-v"],
+        "critical": True
+    },
+    {
         "name": "Seed Invariants",
         "cmd": [sys.executable, "scripts/seed_verify_invariants.py"],
         "critical": True
@@ -49,6 +59,11 @@ STAGES = [
     {
         "name": "Seed Logic Tests",
         "cmd": [sys.executable, "-m", "pytest", "tests/test_seed_validation.py"],
+        "critical": True
+    },
+    {
+        "name": "Seed Content Completeness Audit",
+        "cmd": [sys.executable, "scripts/audit_seed_content_completeness.py"],
         "critical": True
     },
     {

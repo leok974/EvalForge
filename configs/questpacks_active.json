@@ -14,6 +14,10 @@
         "data/questpacks/foundry_python.json",
         "data/questpacks/cli_core.json",
         "data/questpacks/react_core.json",
-        "data/questpacks/node_core.json"
+        "data/questpacks/node_core.json",
+        "data/questpacks/docker_core.json",
+        "data/questpacks/_tier2/python_tier2.json",
+        "data/questpacks/_tier2/sql_tier2.json",
+        "data/questpacks/_tier2/git_tier2.json"
     ]
 }

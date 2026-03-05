@@ -70,3 +70,6 @@ class RunResponse(BaseModel):
 
     # Phase 7.1.4: Quick Fixes
     quick_fixes: List[QuickFix] = []
+
+    # Phase R: SQL Execution Tracing
+    artifacts: Optional[dict] = None

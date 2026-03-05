@@ -11,8 +11,9 @@ import { DebriefData } from './DebriefPanel';
 import { ProblemsPanel } from './ProblemsPanel'; // Import
 import { Diagnostic, QuickFix } from '@/lib/questsApi';
 import { QuickFixBar } from './QuickFixBar';
+import { QueryInspector } from './QueryInspector';
 import { AnimatePresence } from 'framer-motion';
-import { Play, RotateCcw, CheckCircle2, Terminal as TerminalIcon, Copy, Info, AlertTriangle, Check, FileCode, History as HistoryIcon, Split, Download, X, Lock, Maximize2, Minimize2 } from 'lucide-react';
+import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle } from 'lucide-react';
 import { DiffEditor } from '@monaco-editor/react';
 import { useQuestStore } from '@/store/questStore';
 
@@ -58,6 +59,10 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
     const [quickFixes, setQuickFixes] = useState<QuickFix[]>([]);
     const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | undefined>(undefined);
+
+    // Query Inspector / Terminal State
+    const [activeTerminalTab, setActiveTerminalTab] = useState<'terminal' | 'trace' | 'result' | 'explain'>('terminal');
+
 
     // Codex State (Phase 9.1)
     // Removed local state in favor of URL params for Workshop Tools Panel
@@ -127,16 +132,17 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
     // Legacy support: sync single file to workspace
     useEffect(() => {
-        if (quest.workspace) {
+        const filesToLoad = quest.workspace_files || (quest.workspace ? quest.workspace.files : null);
+        if (filesToLoad && filesToLoad.length > 0) {
             const initial: Record<string, { content: string; editable: boolean }> = {};
             const initialBase: Record<string, string> = {};
-            quest.workspace.files.forEach(f => {
+            filesToLoad.forEach(f => {
                 initial[f.path] = { content: f.content, editable: f.editable ?? true };
                 if (f.editable !== false) initialBase[f.path] = f.content;
             });
             setFiles(initial);
             setBaseFiles(initialBase);
-            setActivePath(quest.workspace.entrypoint);
+            setActivePath(quest.workspace?.entrypoint || filesToLoad[0].path);
         } else {
             // Single File Mode
             const ext = quest.language || 'python'; // Use quest language logic in getSnapshot too
@@ -498,8 +504,17 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
         addLog('--- Starting Execution ---', 'info');
         setCoachData(null); // Reset coach
 
+        if (quest.language === 'sql') {
+            setActiveTerminalTab('result');
+        } else {
+            setActiveTerminalTab('terminal');
+        }
+
         try {
             const { runQuest } = await import('@/lib/questsApi');
+
+            const isTestMode = quest.language === 'sql' || quest.objectives?.some(o => o.validator?.kind === 'tests_pass' || (o as any).kind === 'tests_pass');
+            const mode = isTestMode ? "tests" : "execute";
 
             // Helper to get fresh content from Monaco models to preserve Tabs / exact state
             const getFreshContent = (filePath: string, fallback: string) => {
@@ -526,7 +541,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 quest.slug,
                 "",
                 quest.language || "python",
-                "execute",
+                mode,
                 workspacePayload
             );
 
@@ -1088,37 +1103,89 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                             readOnly={isReadOnly}
                         />
 
-                        {/* Rich Console */}
-                        <div className="flex-1 border-t border-zinc-800 bg-[#09090b] flex flex-col shrink-0 font-mono min-h-0">
-                            <div className="px-3 py-1.5 border-b border-zinc-800/50 flex justify-between items-center bg-black/20 shrink-0">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
-                                    <TerminalIcon className="w-3 h-3" /> Terminal Output
-                                </span>
-                                <div className="flex gap-2">
-                                    <button title="Copy Output" onClick={() => navigator.clipboard.writeText(output.map(o => o.content).join('\n'))} className="text-zinc-600 hover:text-zinc-400 p-1 hover:bg-zinc-800 rounded"><Copy className="w-3 h-3" /></button>
-                                    <button onClick={() => setOutput([])} className="text-zinc-600 hover:text-zinc-400 text-[10px] uppercase p-1 hover:bg-zinc-800 rounded">Clear</button>
+                        {/* Unified Terminal & Inspector Container */}
+                        <div className="flex-1 flex flex-col border-t border-zinc-800 min-h-0 bg-[#09090b]">
+                            {/* Terminal / Inspector Tab Bar */}
+                            <div className="border-b border-zinc-800/50 bg-black/20 shrink-0 flex items-center justify-between">
+                                <div className="flex items-center overflow-x-auto hide-scrollbar">
+                                    <button
+                                        onClick={() => setActiveTerminalTab('terminal')}
+                                        className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                            ${activeTerminalTab === 'terminal' ? 'text-cyan-400 border-cyan-400 bg-cyan-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                    >
+                                        <TerminalIcon className="w-3 h-3" /> Console
+                                    </button>
+                                    {quest.language === 'sql' && (
+                                        <>
+                                            <button
+                                                onClick={() => setActiveTerminalTab('result')}
+                                                className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                                    ${activeTerminalTab === 'result' ? 'text-workshop-cyan border-workshop-cyan bg-cyan-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                            >
+                                                <Table2 className="w-3 h-3" /> Query Result
+                                            </button>
+                                            <button
+                                                onClick={() => setActiveTerminalTab('trace')}
+                                                className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                                    ${activeTerminalTab === 'trace' ? 'text-workshop-cyan border-workshop-cyan bg-cyan-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                            >
+                                                <TerminalSquare className="w-3 h-3" /> Trace
+                                            </button>
+                                            <button
+                                                onClick={() => setActiveTerminalTab('explain')}
+                                                className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                                    ${activeTerminalTab === 'explain' ? 'text-workshop-cyan border-workshop-cyan bg-cyan-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                            >
+                                                <Layers className="w-3 h-3" /> Explain
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
-                            </div>
-                            <div className="flex-1 overflow-auto p-3 space-y-1">
-                                {!output.length && <div className="text-zinc-700 italic text-xs">// Ready to run...</div>}
-                                {output.map((entry, i) => (
-                                    <div key={i} className="flex gap-2 text-xs items-start animate-in fade-in slide-in-from-left-1 duration-200">
-                                        <span className="text-zinc-700 shrink-0 select-none">
-                                            {new Date(entry.timestamp).toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-                                        </span>
-                                        <div className="flex-1 break-all whitespace-pre-wrap">
-                                            {entry.type === 'info' && <span className="text-cyan-500 font-bold mr-2">INFO</span>}
-                                            {entry.type === 'success' && <span className="text-emerald-500 font-bold mr-2">SUCCESS</span>}
-                                            {entry.type === 'error' && <span className="text-red-500 font-bold mr-2">ERROR</span>}
-                                            <span className={
-                                                entry.type === 'success' ? 'text-emerald-200' :
-                                                    entry.type === 'error' ? 'text-red-200' :
-                                                        entry.type === 'info' ? 'text-cyan-200' :
-                                                            'text-zinc-300'
-                                            }>{entry.content}</span>
-                                        </div>
+
+                                {/* Right Side Actions (only show for terminal tab, Inspector handles its own actions in its top bar) */}
+                                {activeTerminalTab === 'terminal' && (
+                                    <div className="flex gap-2 pr-3">
+                                        <button title="Copy Output" onClick={() => navigator.clipboard.writeText(output.map(o => o.content).join('\n'))} className="text-zinc-600 hover:text-zinc-400 p-1 hover:bg-zinc-800 rounded"><Copy className="w-3 h-3" /></button>
+                                        <button onClick={() => setOutput([])} className="text-zinc-600 hover:text-zinc-400 text-[10px] uppercase p-1 hover:bg-zinc-800 rounded">Clear</button>
                                     </div>
-                                ))}
+                                )}
+                            </div>
+
+                            {/* Content Area */}
+                            <div className="flex-1 overflow-hidden relative">
+                                {activeTerminalTab === 'terminal' ? (
+                                    <div className="h-full overflow-auto p-3 space-y-1 font-mono">
+                                        {!output.length && <div className="text-zinc-700 italic text-xs">// Ready to run...</div>}
+                                        {output.map((entry, i) => (
+                                            <div key={i} className="flex gap-2 text-xs items-start animate-in fade-in slide-in-from-left-1 duration-200">
+                                                <span className="text-zinc-700 shrink-0 select-none">
+                                                    {new Date(entry.timestamp).toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                                                </span>
+                                                <div className="flex-1 break-all whitespace-pre-wrap">
+                                                    {entry.type === 'info' && <span className="text-cyan-500 font-bold mr-2">INFO</span>}
+                                                    {entry.type === 'success' && <span className="text-emerald-500 font-bold mr-2">SUCCESS</span>}
+                                                    {entry.type === 'error' && <span className="text-red-500 font-bold mr-2">ERROR</span>}
+                                                    <span className={
+                                                        entry.type === 'success' ? 'text-emerald-200' :
+                                                            entry.type === 'error' ? 'text-red-200' :
+                                                                entry.type === 'info' ? 'text-cyan-200' :
+                                                                    'text-zinc-300'
+                                                    }>{entry.content}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="h-full overflow-hidden">
+                                        {quest.language === 'sql' ? (
+                                            <QueryInspector activeTabOverride={activeTerminalTab as any} />
+                                        ) : (
+                                            <div className="flex items-center justify-center p-8 text-zinc-500 text-xs italic">
+                                                Inspector not available for this language.
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

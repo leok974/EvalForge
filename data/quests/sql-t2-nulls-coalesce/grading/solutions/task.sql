@@ -1,0 +1,1 @@
+SELECT id, name, salary + COALESCE(bonus, 0) AS total_comp FROM employees ORDER BY total_comp DESC, id ASC;

@@ -251,6 +251,63 @@ async def record_quest_submission(
     return qp
 
 
+def _normalize_objectives(objectives: list) -> list:
+    """
+    Bridge old DB format {id, title, kind, rule:{pattern,...}} to the
+    stable frontend contract {id, text, why, validator:{kind, value}}.
+
+    Also passes through quests already in the old frontend format
+    ({id, text, validator:{kind, value}}) untouched.
+    """
+    out = []
+    for obj in objectives:
+        if not isinstance(obj, dict):
+            continue
+
+        # Already in frontend format (has 'text' key)
+        if "text" in obj:
+            out.append(obj)
+            continue
+
+        # New DB format: {id, title, kind, rule:{pattern, description}, ...}
+        obj_id    = obj.get("id", "")
+        text      = obj.get("title", obj.get("id", ""))   # title → text
+        why       = obj.get("description", obj.get("why")) # optional
+        kind      = obj.get("kind", "")
+        rule      = obj.get("rule") or {}
+
+        # Derive a synthetic validator.value from the rule
+        if kind in ("source_regex", "stdout_regex"):
+            value = rule.get("pattern", "")
+        elif kind == "exit_code_zero":
+            value = "0"
+        elif kind == "ast":
+            # summarise AST checks as a synthetic contains value
+            checks = [
+                rule.get("must_define_function"),
+                rule.get("must_assign_variable"),
+                rule.get("must_import"),
+            ]
+            value = next((c for c in checks if c), "")
+        elif kind == "tests_pass":
+            value = rule.get("test_file", "")
+        else:
+            value = rule.get("pattern", rule.get("value", ""))
+
+        normalized = {
+            "id":  obj_id,
+            "text": text,
+            "validator": {
+                "kind":  kind,
+                "value": value,
+            },
+        }
+        if why:
+            normalized["why"] = why
+        out.append(normalized)
+    return out
+
+
 def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[str, Any]:
     ps_val = QuestState.LOCKED.value
     if state:
@@ -258,7 +315,28 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         if hasattr(state, "state"):
             s = state.state
             ps_val = s.value if hasattr(s, "value") else str(s)
-        
+            
+    # Phase C: Fix "No Starter Code" symptom by hydrating workspace 
+    workspace_files = []
+    if getattr(q, "workspace_json", None) and isinstance(q.workspace_json, dict):
+        if "files" in q.workspace_json:
+            workspace_files = q.workspace_json["files"]
+        else:
+            # Maybe it needs build_effective_workspace, but usually DB has literal files
+            workspace_files = []
+            
+    # Fallback to starter_code string mapped to typical entrypoint if completely empty
+    if not workspace_files and q.starter_code:
+        # Guessed based on lang
+        ext = "py"
+        if q.language == "sql": ext = "sql"
+        elif q.language == "javascript": ext = "js"
+        elif q.language == "typescript": ext = "ts"
+        elif q.language == "html": ext = "html"
+        elif q.language == "css": ext = "css"
+        fname = "task.sql" if q.language == "sql" else f"main.{ext}"
+        workspace_files = [{"path": fname, "content": q.starter_code, "editable": True}]
+
     return {
         "id": q.id,
         "slug": q.slug,
@@ -275,15 +353,18 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         "unlocks_layout_id": q.unlocks_layout_id,
         "base_xp_reward": q.base_xp_reward,
         "mastery_xp_bonus": q.mastery_xp_bonus,
+        "language": getattr(q, "language", "python"),
         # Config-Driven Fields
         "starter_code": q.starter_code,
-        "objectives": q.objectives_json or [],
+        "workspace_files": workspace_files, # Phase C hydration
+        "objectives": _normalize_objectives(q.objectives_json or []),
+
         "tiered_hints": q.tiered_hints_json or {},
         "hints": _transform_hints(q.tiered_hints_json or {}),
         "runtime": q.runtime_rules_json or {},
         # Phase 9.1: Tutorial System
         "tutorial_md": q.tutorial_md,
-        "key_terms": _inflate_key_terms(q.key_terms or []),
+        "key_terms": _inflate_key_terms(q.key_terms or [], q.world_id),
         "concept_tags": q.concept_tags or [],
         "codex_references": q.codex_references or [],
         # Phase 9.8 Parity
@@ -307,7 +388,7 @@ def _transform_hints(tiered: Dict[str, str]) -> list[Dict[str, str]]:
         out.append({"id": "hint-solution", "text": tiered["full_solution"], "type": "solution", "tier": 3})
     return out
 
-def _inflate_key_terms(terms: list) -> list[Dict[str, Any]]:
+def _inflate_key_terms(terms: list, world_id: str = "") -> list[Dict[str, Any]]:
     """
     Ensures key_terms are objects {id, term, codex_ref}.
     If DB has strings (legacy), inflates them.
@@ -318,14 +399,25 @@ def _inflate_key_terms(terms: list) -> list[Dict[str, Any]]:
     for i, t in enumerate(terms):
         if isinstance(t, str):
             # Inflate string to object
-            # e.g. "glossary/python/variable" -> term="variable", id="term-i"
-            # e.g. "codex:simple-term" -> term="Simple Term"
+            # e.g. "select" in world-sql -> codex_ref="world-sql/select", term="Select"
+            # If it already has slashes (e.g. "glossary/python/variable"), leave it alone.
             raw_val = t.replace("codex:", "")
             clean_term = raw_val.split('/')[-1].replace('-', ' ').title()
+            
+            if "/" in t:
+                ref = t
+            else:
+                if world_id and world_id.startswith("world-"):
+                    lang = world_id.replace("world-", "")
+                    prefix = f"glossary/{lang}"
+                else:
+                    prefix = "concepts"
+                ref = f"{prefix}/{raw_val}"
+                
             out.append({
                 "id": f"term-{i}", 
                 "term": clean_term, 
-                "codex_ref": t if t.startswith("glossary/") or t.startswith("codex:") else f"codex:{t}"
+                "codex_ref": ref
             })
         elif isinstance(t, dict):
             out.append(t)

@@ -1,5 +1,5 @@
 {
-  "total_quests": 164,
+  "total_quests": 173,
   "total_objectives": 183,
   "invalid_quests": [],
   "quests_with_no_objectives": [],
@@ -52,7 +52,16 @@
     "react-state-counter",
     "react-state-toggle",
     "sql-t2-analytics-pack",
+    "sql-t2-boss-data-quality-audit",
+    "sql-t2-cte-basics",
+    "sql-t2-dates-grouping",
     "sql-t2-groupby-having",
+    "sql-t2-indexes-explain",
+    "sql-t2-nulls-coalesce",
+    "sql-t2-recursive-cte-hierarchy",
+    "sql-t2-subqueries-exists",
+    "sql-t2-transactions-rollback",
+    "sql-t2-upsert-on-conflict",
     "sql-t2-window-functions"
   ],
   "valid_quests": 114

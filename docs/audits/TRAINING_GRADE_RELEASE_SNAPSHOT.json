@@ -15,8 +15,34 @@
     ],
     "ci_gates": [
         "objectives_schema",
+        "objectives_shape_audit",
+        "objectives_serializer_shape_tests",
         "golden_coverage",
         "drift_check",
         "ratchet_budget"
-    ]
+    ],
+    "hotfix_objectives_serializer": {
+        "date": "2026-02-25",
+        "root_cause": "Serializer shape mismatch: DB stores objectives as {title, kind, rule} (new authoring format) but UI expects {text, validator:{kind,value}}",
+        "fix": "arcade_app/quest_helper.py::_normalize_objectives() — maps title->text, kind->validator.kind, rule.pattern->validator.value. Supports all three DB shapes transparently.",
+        "no_db_changes": true,
+        "files_changed": [
+            "arcade_app/quest_helper.py",
+            "apps/web/src/components/quests/QuestDrawer.tsx"
+        ]
+    },
+    "incident_objectives_ui_blank_rows": {
+        "date": "2026-02-25",
+        "symptom": "Objectives count correct (e.g. '0/2') but rows render as empty shells in QuestDrawer. QuestIDE validator checks all fail silently.",
+        "root_cause": "Phase Debt-2 backfill wrote objectives in new format {title, kind, rule:{pattern}}. quest_to_dict() returned them raw; QuestDrawer reads obj.text (undefined in new format) giving blank content nodes.",
+        "fix": [
+            "Backend: _normalize_objectives() in arcade_app/quest_helper.py normalizes title->text, kind->validator.kind, rule.pattern->validator.value at serialization time.",
+            "Frontend: QuestDrawer.tsx falls back to obj.text || obj.title with DEV-mode diagnostic badge showing kind when text is missing."
+        ],
+        "prevention": [
+            "tests/test_objectives_serializer_shape.py — 12 tests + named incident test covering old format passthrough, new format normalization, all 5 kinds, and edge cases.",
+            "scripts/audit_objectives_shape.py — live DB scan added to CI, flags blank text or malformed validator objects.",
+            "docs/OBJECTIVE_CONTRACT.md — single source of truth for all three DB shapes and the stable API contract."
+        ]
+    }
 }

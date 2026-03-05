@@ -1,0 +1,331 @@
+{
+  "wave": 1,
+  "n": 20,
+  "world_order": [
+    "world-python",
+    "world-sql",
+    "world-js",
+    "world-typescript",
+    "world-git",
+    "world-infra",
+    "world-docker",
+    "world-agents",
+    "world-ml",
+    "world-react",
+    "unknown"
+  ],
+  "quests": [
+    {
+      "slug": "python-ignition",
+      "world": "world-python",
+      "track": "fundamentals",
+      "title": "Ignition",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "ast",
+      "is_referenced": false,
+      "quest_folder": "data/quests/python-ignition"
+    },
+    {
+      "slug": "first-sparks",
+      "world": "world-python",
+      "track": "python-fundamentals",
+      "title": "Quest First Sparks",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "ast",
+      "is_referenced": true,
+      "quest_folder": "data/quests/first-sparks"
+    },
+    {
+      "slug": "hello-variable",
+      "world": "world-python",
+      "track": "python-fundamentals",
+      "title": "Quest Hello Variable",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "ast",
+      "is_referenced": true,
+      "quest_folder": "data/quests/hello-variable"
+    },
+    {
+      "slug": "sql-retrieval-q1-select-from-basics",
+      "world": "world-sql",
+      "track": "archives-retrieval-analytics",
+      "title": "Q1 \u2013 Select from the Stacks",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": false,
+      "quest_folder": "docs/quests/sql-retrieval-q1-select-from-basics"
+    },
+    {
+      "slug": "sql-analytics-q1-window-functions",
+      "world": "world-sql",
+      "track": "archives-analytics-engine",
+      "title": "Q1 \u2013 Windows into Time",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": false,
+      "quest_folder": "docs/quests/sql-analytics-q1-window-functions"
+    },
+    {
+      "slug": "sql-ignition",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-ignition",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-ignition"
+    },
+    {
+      "slug": "sql-select",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-select",
+      "missing_fields": [
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-select"
+    },
+    {
+      "slug": "sql-where",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-where",
+      "missing_fields": [
+        "briefing",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-where"
+    },
+    {
+      "slug": "sql-groupby-having",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-groupby-having",
+      "missing_fields": [
+        "briefing",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-groupby-having"
+    },
+    {
+      "slug": "sql-joins",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-joins",
+      "missing_fields": [
+        "briefing",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-joins"
+    },
+    {
+      "slug": "sql-left-join-null",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-left-join-null",
+      "missing_fields": [
+        "briefing",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-left-join-null"
+    },
+    {
+      "slug": "sql-order-limit",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-order-limit",
+      "missing_fields": [
+        "briefing",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-order-limit"
+    },
+    {
+      "slug": "sql-aggregates",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-aggregates",
+      "missing_fields": [
+        "briefing",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-aggregates"
+    },
+    {
+      "slug": "sql-cte-subquery",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-cte-subquery",
+      "missing_fields": [
+        "briefing",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-cte-subquery"
+    },
+    {
+      "slug": "sql-insert-update-delete",
+      "world": "world-sql",
+      "track": "sql-fundamentals",
+      "title": "sql-insert-update-delete",
+      "missing_fields": [
+        "briefing",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/sql-insert-update-delete"
+    },
+    {
+      "slug": "js-ignition-q1-console-and-functions",
+      "world": "world-js",
+      "track": "fundamentals",
+      "title": "Ignition: Console & Functions",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/js-ignition-q1-console-and-functions"
+    },
+    {
+      "slug": "js-vars-q1-let-const-var",
+      "world": "world-js",
+      "track": "boss-prep",
+      "title": "Variables: Let, Const, Var",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "tests_pass",
+      "is_referenced": true,
+      "quest_folder": "data/quests/js-vars-q1-let-const-var"
+    },
+    {
+      "slug": "git-branch-q1-branching-strategies",
+      "world": "world-git",
+      "track": "timeline-branch",
+      "title": "Q1 \u2013 Forking Futures",
+      "missing_fields": [
+        "workspace",
+        "golden"
+      ],
+      "missing_count": 2,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": false,
+      "quest_folder": "docs/quests/git-branch-q1-branching-strategies"
+    },
+    {
+      "slug": "git-ignition",
+      "world": "world-git",
+      "track": "fundamentals",
+      "title": "Ignition",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/git-ignition"
+    },
+    {
+      "slug": "git-init-clone",
+      "world": "world-git",
+      "track": "boss-prep",
+      "title": "Init & Clone",
+      "missing_fields": [
+        "workspace",
+        "objectives",
+        "golden"
+      ],
+      "missing_count": 3,
+      "has_tests": false,
+      "recommended_strategy": "state",
+      "is_referenced": true,
+      "quest_folder": "data/quests/git-init-clone"
+    }
+  ]
+}

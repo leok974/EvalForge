@@ -1,55 +1,58 @@
-## Sql Select
+# SQL Select
 
-> [!NOTE]
-> **What you'll build:** Practice sql select concepts in a real-world scenario.
+## Task (do this first)
+Open `task.sql` and write **one SELECT query**.
 
----
+### Output shape (must match exactly)
+Return all rows, with **these columns in this exact order**:
 
-## 1) What You'll Build
-In this quest, you'll work with sql select to practice core concepts.
+1. `name`
+2. `city`
 
-## 2) The Concept in 30 Seconds
-Sql Select demonstrates fundamental programming patterns used in real-world applications.
+### Rules
+- Sort: `name` **ascending**
+- No `WHERE` filters and no `LIMIT` are needed for this query.
 
----
-
-## 4) Step-by-Step Walkthrough
-
-### **Setup**
-- Review the starting code
-- Identify the input and expected output
-
-### **Implementation**
-- Follow the objectives
-- Write your logic in the editor
-
-### **Testing**
-- Click **Run** to verify
-- Check different input cases
+> If the tests check ordering, `ORDER BY` is required. Assume they do.
 
 ---
 
-## 5) Example Implementation
-```python
-# Example logic
-def example():
-    pass
-```
+## Data you're given
+This quest uses a database that includes:
+
+### Table: `users`
+Columns:
+- `id` (integer)
+- `name` (text)
+- `email` (text)
+- `age` (integer)
+- `city` (text)
+- `is_active` (integer)
+
+> If you ever forget what tables exist, run:
+> `SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;`
 
 ---
 
-## 6) Common Pitfalls
+## How to verify quickly
+1) Click **Run**  
+2) Open **Query Inspector → Result**  
+3) Confirm:
+- column names and order are exactly `name`, `city`
+- sorted alphabetically by `name`
 
-> [!WARNING]
->
-> * Not reading error messages
-> * Missing edge case handling
-> * Syntax errors
+If failing:
+- **Trace** shows the exact SQL that was graded
+- **Result** shows what you actually returned
 
 ---
 
-## 7) Check Yourself
+## Common pitfalls
+- Wrong column order (tests are strict)
+- Missing sort (SQL tables are unordered by default)
+- Using `SELECT *` (fragile and will fail the shape check)
 
-* [ ] Does the code run?
-* [ ] Did you match the expected output?
-* [ ] Did you handle edge cases?
+---
+
+### Key terms (Codex)
+SELECT, FROM, ORDER BY

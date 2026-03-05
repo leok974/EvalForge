@@ -10,7 +10,7 @@ from arcade_app.auth_helper import get_current_user
 from arcade_app.models import QuestDefinition, QuestState, Profile
 from arcade_app.progress_models import QuestProgressV2, QuestAttempt
 from arcade_app.quest_helper import quest_to_dict
-from arcade_app.services.quest_validate import validate_first_sparks_with_runtime # We'll need this or generic runner
+# from arcade_app.services.quest_validate import validate_first_sparks_with_runtime # We'll need this or generic runner
 from arcade_app.services.security import sanitize_logs
 from arcade_app.services.utils import build_effective_workspace
 from arcade_app.services.quick_fix_generator import generate_quick_fixes

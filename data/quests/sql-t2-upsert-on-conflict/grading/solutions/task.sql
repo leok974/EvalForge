@@ -1,0 +1,1 @@
+INSERT INTO user_logins (user_id, login_count, last_login) VALUES (1, 1, '2023-10-10') ON CONFLICT(user_id) DO UPDATE SET login_count = user_logins.login_count + 1, last_login = excluded.last_login; SELECT * FROM user_logins ORDER BY user_id ASC;

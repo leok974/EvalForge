@@ -1,12 +1,12 @@
 # Golden Coverage Audit Report
 
-**Date:** 2026-02-19T13:09:19.649702  
+**Date:** 2026-02-25T23:40:35.262139  
 **Status:** ✅ PASS
 
 ## Summary
 
-- **Total Quests:** 164
-- **With golden.run.json / state:** 164 ✅
+- **Total Quests:** 173
+- **With golden.run.json / state:** 173 ✅
 - **With DEPRECATED spec:** 0 ❌
 - **Missing golden capture:** 0 ❌
 
@@ -14,7 +14,7 @@
 
 ## ✅ All Quests Have Golden Captures!
 
-## ✅ Quests with Golden Run Captures (164)
+## ✅ Quests with Golden Run Captures (173)
 
 These quests have actual solution runs captured:
 
@@ -166,7 +166,16 @@ These quests have actual solution runs captured:
 - **sql-order-limit** (World: unknown)
 - **sql-select** (World: unknown)
 - **sql-t2-analytics-pack** (World: unknown)
+- **sql-t2-boss-data-quality-audit** (World: unknown)
+- **sql-t2-cte-basics** (World: unknown)
+- **sql-t2-dates-grouping** (World: unknown)
 - **sql-t2-groupby-having** (World: unknown)
+- **sql-t2-indexes-explain** (World: unknown)
+- **sql-t2-nulls-coalesce** (World: unknown)
+- **sql-t2-recursive-cte-hierarchy** (World: unknown)
+- **sql-t2-subqueries-exists** (World: unknown)
+- **sql-t2-transactions-rollback** (World: unknown)
+- **sql-t2-upsert-on-conflict** (World: unknown)
 - **sql-t2-window-functions** (World: unknown)
 - **sql-where** (World: unknown)
 - **ts-arrays** (World: unknown)

@@ -1,0 +1,7 @@
+{
+    "exit_code": 0,
+    "stdout": ".                                                                        [100%]\n1 passed in 0.07s\n[PASS] sql-t2-dates-grouping\nEF_RUNNER_RESULT_JSON={\"total\": 1, \"passed\": 1, \"failed\": 0, \"errors\": [], \"slugs\": [{\"slug\": \"sql-t2-dates-grouping\", \"status\": \"passed\"}]}\n\nEF_RUN_WORLD_SUMMARY: 1/1 passed.\n\nEF_RUN_WORLD_SUMMARY: 1/1 public tests passed.\n",
+    "stderr": "",
+    "generated_at": "2026-02-20T14:35:02",
+    "runner_used": "unified_via_capture_script"
+}

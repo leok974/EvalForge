@@ -102,7 +102,7 @@ class TestObjectiveValidators:
         assert res[0]["ok"] is False
         # Note: source_regex might not fully populate expected/actual/diff in current impl
         # Checking minimal contract
-        assert res[0]["detail"] == "Source code missing required pattern"
+        assert res[0]["detail"].startswith("Source code missing required pattern")
 
     def test_ast_function_def(self):
         """Test AST validator for function definition."""

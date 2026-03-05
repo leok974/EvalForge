@@ -15,6 +15,7 @@ from arcade_app.routers import routes_codex  # Phase 9.1: Tutorial System
 from arcade_app.routers import routes_workshop
 from arcade_app.routers import routes_tools
 from arcade_app.routers import routes_coach
+from arcade_app.routers import intent_oracle_eval
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -56,6 +57,7 @@ app.include_router(routes_codex.router)  # Phase 9.1: Codex API
 app.include_router(routes_workshop.router) # Workshop Catalog API
 app.include_router(routes_tools.router) # Phase 9.12: Explain/Debug Tools
 app.include_router(routes_coach.router) # Phase 12: Coach Explainer (Gemini)
+app.include_router(intent_oracle_eval.router) # Intent Oracle Eval
 
 # Health Routes
 @app.get("/health")

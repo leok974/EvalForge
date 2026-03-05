@@ -16,6 +16,7 @@ class ExecResult:
     stderr: str
     timed_out: bool
     state: Optional[Dict[str, Any]] = None  # Captured state (files, git, etc.)
+    artifacts: Optional[Dict[str, Any]] = None # Captured JSON artifacts from harness
 
 def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, quest_slug: Optional[str] = None) -> ExecResult:
     """
@@ -159,12 +160,12 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
                 env=env,
                 timeout=max(0.1, timeout_ms / 1000.0),
             )
-            )
             
             dt = int((time.time() - t0) * 1000)
             
             # Capture state before cleanup
             state = _capture_state(td)
+            artifacts = _capture_artifacts(td)
             
             return ExecResult(
                 ok=(p.returncode == 0),
@@ -173,7 +174,8 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
                 stdout=p.stdout.decode("utf-8", errors="replace"),
                 stderr=p.stderr.decode("utf-8", errors="replace"),
                 timed_out=False,
-                state=state
+                state=state,
+                artifacts=artifacts
             )
         except subprocess.TimeoutExpired as e:
             dt = int((time.time() - t0) * 1000)
@@ -186,11 +188,27 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
                 stdout=out,
                 stderr=err + ("\n[Timed out]" if err else "[Timed out]"),
                 timed_out=True,
-                state=_capture_state(td) # Capture state even on timeout
+                state=_capture_state(td), # Capture state even on timeout
+                artifacts=_capture_artifacts(td)
             )
 
 import hashlib
 from pathlib import Path
+
+import json
+
+def _capture_artifacts(temp_dir_str: str) -> Dict[str, Any]:
+    temp_dir = Path(temp_dir_str)
+    artifacts = {}
+    for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
+        path = temp_dir / f"{aname}.json"
+        if path.exists():
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    artifacts[aname] = json.load(f)
+            except Exception:
+                pass
+    return artifacts if artifacts else None
 
 def _capture_state(temp_dir_str: str) -> Dict[str, Any]:
     """Capture state: files, hashes, git info."""

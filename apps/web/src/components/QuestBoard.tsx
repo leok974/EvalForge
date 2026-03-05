@@ -12,6 +12,7 @@ import type { QuestUpdatedDetail } from "@/lib/questsEvents";
 
 import { useNavigate } from "react-router-dom";
 import { useWorkshopCatalog } from "@/features/workshop/WorkshopCatalogContext";
+import { isGodModeEnabledFromEnv } from "@/config/devFlags";
 
 interface QuestBoardProps {
     worldId?: string;
@@ -69,10 +70,18 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                     // NORMALIZE TRACK IDs (Fundamentals -> Python Fundamentals)
                     // This allows the frontend to group quests under the canonical track
                     // even if the backend returns legacy IDs.
-                    const normalized = data.map(q => ({
-                        ...q,
-                        track_id: resolveCanonicalTrackId(q.track_id)
-                    }));
+                    const normalized = data.map(q => {
+                        let state = q.state;
+                        // Bypass locks locally if God Mode is ON
+                        if (state === 'locked' && isGodModeEnabledFromEnv()) {
+                            state = 'available';
+                        }
+                        return {
+                            ...q,
+                            state,
+                            track_id: resolveCanonicalTrackId(q.track_id)
+                        };
+                    });
                     setQuests(normalized);
                 }
             })

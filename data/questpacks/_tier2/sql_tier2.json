@@ -13,16 +13,17 @@
                 {
                     "id": "tests_pass",
                     "title": "Query returns correct result",
-                    "kind": "quest_pass_fail"
+                    "kind": "tests_pass"
                 },
                 {
-                    "id": "source_groupby",
-                    "title": "Query uses GROUP BY and HAVING",
+                    "id": "source_groupby_having_aggregate",
+                    "title": "Uses GROUP BY + HAVING on an aggregate",
                     "kind": "source_regex",
-                    "rule_json": {
+                    "rule": {
                         "patterns": [
-                            "GROUP BY",
-                            "HAVING"
+                            "(?is)\\bgroup\\s+by\\b",
+                            "(?is)\\bhaving\\b",
+                            "(?is)\\bhaving\\b[\\s\\S]*\\b(count|sum|avg|min|max)\\s*\\("
                         ]
                     }
                 }
@@ -35,7 +36,8 @@
             "workspace": {
                 "files": {}
             },
-            "grading_json": {}
+            "grading_json": {},
+            "quest_id": "sql-t2-groupby-having"
         },
         {
             "slug": "sql-t2-window-functions",
@@ -50,16 +52,17 @@
                 {
                     "id": "tests_pass",
                     "title": "Query returns correct result",
-                    "kind": "quest_pass_fail"
+                    "kind": "tests_pass"
                 },
                 {
-                    "id": "source_window",
-                    "title": "Query uses Window Function (OVER/PARTITION)",
+                    "id": "source_window_function_partition",
+                    "title": "Uses a window function with OVER + PARTITION BY",
                     "kind": "source_regex",
-                    "rule_json": {
+                    "rule": {
                         "patterns": [
-                            "OVER",
-                            "PARTITION BY"
+                            "(?is)\\b(over)\\s*\\(",
+                            "(?is)\\bpartition\\s+by\\b",
+                            "(?is)\\b(row_number|dense_rank|rank|ntile|lag|lead|first_value|last_value)\\s*\\(\\)\\s*over\\b|\\b(count|sum|avg|min|max)\\s*\\([\\s\\S]*?\\)\\s*over\\b"
                         ]
                     }
                 }
@@ -72,7 +75,8 @@
             "workspace": {
                 "files": {}
             },
-            "grading_json": {}
+            "grading_json": {},
+            "quest_id": "sql-t2-window-functions"
         },
         {
             "slug": "sql-t2-analytics-pack",
@@ -87,13 +91,13 @@
                 {
                     "id": "tests_pass",
                     "title": "Core Correctness Passed",
-                    "kind": "quest_pass_fail"
+                    "kind": "tests_pass"
                 },
                 {
                     "id": "source_cte",
                     "title": "Uses CTE (WITH clause)",
                     "kind": "source_regex",
-                    "rule_json": {
+                    "rule": {
                         "pattern": "WITH"
                     }
                 },
@@ -101,7 +105,7 @@
                     "id": "source_window",
                     "title": "Uses Window Function",
                     "kind": "source_regex",
-                    "rule_json": {
+                    "rule": {
                         "pattern": "OVER"
                     }
                 },
@@ -119,7 +123,333 @@
             "workspace": {
                 "files": {}
             },
-            "grading_json": {}
+            "grading_json": {},
+            "quest_id": "sql-t2-analytics-pack"
+        },
+        {
+            "slug": "sql-t2-subqueries-exists",
+            "title": "Correlated Subqueries & EXISTS",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Use EXISTS to find employees who manage other employees.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex",
+                    "title": "Query uses EXISTS",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)EXISTS"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/subquery",
+                "glossary/sql/exists",
+                "glossary/sql/correlated-subquery"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-subqueries-exists"
+        },
+        {
+            "slug": "sql-t2-cte-basics",
+            "title": "CTE Basics",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Use a Common Table Expression to simplify a query.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex",
+                    "title": "Query uses WITH",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)WITH "
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/cte-with",
+                "glossary/sql/alias",
+                "glossary/sql/query-planning"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-cte-basics"
+        },
+        {
+            "slug": "sql-t2-recursive-cte-hierarchy",
+            "title": "Recursive CTEs (Hierarchy)",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Use WITH RECURSIVE to traverse an organizational hierarchy.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex",
+                    "title": "Query uses RECURSIVE",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)RECURSIVE"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/cte-recursive",
+                "glossary/sql/hierarchy",
+                "glossary/sql/termination-condition"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-recursive-cte-hierarchy"
+        },
+        {
+            "slug": "sql-t2-nulls-coalesce",
+            "title": "NULL Semantics & COALESCE",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Use COALESCE to handle NULL values cleanly.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex",
+                    "title": "Query uses COALESCE",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)COALESCE"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/null",
+                "glossary/sql/coalesce",
+                "glossary/sql/case-when"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-nulls-coalesce"
+        },
+        {
+            "slug": "sql-t2-dates-grouping",
+            "title": "Date Bucketing & Grouping",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Use date functions to bucket rows.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex",
+                    "title": "Query uses strftime",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)strftime"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/date-functions",
+                "glossary/sql/group-by",
+                "glossary/sql/order-by"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-dates-grouping"
+        },
+        {
+            "slug": "sql-t2-upsert-on-conflict",
+            "title": "UPSERT & ON CONFLICT",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Use ON CONFLICT DO UPDATE to perform UPSERTs in SQLite.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex",
+                    "title": "Query uses ON CONFLICT DO UPDATE",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)ON CONFLICT.*DO UPDATE"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/upsert",
+                "glossary/sql/unique-constraint",
+                "glossary/sql/on-conflict"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-upsert-on-conflict"
+        },
+        {
+            "slug": "sql-t2-indexes-explain",
+            "title": "Indexes & EXPLAIN",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Create an index and use EXPLAIN QUERY PLAN.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query Plan shows Index usage",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex",
+                    "title": "Query uses CREATE INDEX and EXPLAIN",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": [
+                            "(?i)CREATE INDEX",
+                            "(?i)EXPLAIN QUERY PLAN"
+                        ]
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/index",
+                "glossary/sql/explain-query-plan",
+                "glossary/sql/performance"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-indexes-explain"
+        },
+        {
+            "slug": "sql-t2-transactions-rollback",
+            "title": "Transactions & Rollback",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Demonstrate atomicity using BEGIN and ROLLBACK.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex",
+                    "title": "Query uses ROLLBACK",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": [
+                            "(?i)BEGIN",
+                            "(?i)ROLLBACK"
+                        ]
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/transaction",
+                "glossary/sql/rollback",
+                "glossary/sql/atomicity"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-transactions-rollback"
+        },
+        {
+            "slug": "sql-t2-boss-data-quality-audit",
+            "title": "BOSS: Data Quality Audit",
+            "tier": 2,
+            "world_id": "world-sql",
+            "track_id": "core-sql",
+            "language": "sql",
+            "description": "Combine subqueries, CTEs, and JOINs to audit data.",
+            "objectives": [
+                {
+                    "id": "tests_pass",
+                    "title": "Query returns correct result",
+                    "kind": "tests_pass"
+                },
+                {
+                    "id": "source_regex_join",
+                    "title": "Uses JOIN or EXISTS/IN",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)JOIN|EXISTS|IN"
+                    }
+                },
+                {
+                    "id": "not_timed_out",
+                    "title": "Completed within time limit",
+                    "kind": "process_not_timed_out"
+                },
+                {
+                    "id": "source_regex_select",
+                    "title": "Uses SELECT",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)SELECT"
+                    }
+                }
+            ],
+            "key_terms": [
+                "glossary/sql/constraint",
+                "glossary/sql/anti-join",
+                "glossary/sql/data-quality"
+            ],
+            "workspace": {
+                "files": {}
+            },
+            "grading_json": {},
+            "quest_id": "sql-t2-boss-data-quality-audit"
         }
     ]
 }

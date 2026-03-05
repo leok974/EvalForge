@@ -1,0 +1,1 @@
+WITH RECURSIVE OrgChart AS ( SELECT id, name, manager_id, 0 as distance FROM employees WHERE manager_id IS NULL UNION ALL SELECT e.id, e.name, e.manager_id, o.distance + 1 FROM employees e JOIN OrgChart o ON e.manager_id = o.id ) SELECT id, name, distance FROM OrgChart ORDER BY distance ASC, id ASC;

@@ -31,6 +31,20 @@ class RunnerRegistry:
                 command=["python", "-u", "-I", "-B", entry_path]
             )
             
+        elif language == "sql":
+            if mode == "tests":
+                return RunnerSpec(
+                    docker_image="python:3.12-slim",
+                    file_name="task.sql",
+                    command=["python", "-u", "-I", "-B", "/workspace/.evalforge/run_unittest_json.py"]
+                )
+            # Default fallback for "run" mode in SQL
+            return RunnerSpec(
+                docker_image="python:3.12-slim",
+                file_name="task.sql",
+                command=["python", "-u", "-c", "print('SQL raw execution not supported without tests harness.')"]
+            )
+            
         elif language == "typescript":
             if mode == "tests":
                 return RunnerSpec(

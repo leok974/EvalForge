@@ -112,8 +112,18 @@ export function TutorialPanel({
                             ...pChildren.slice(1).map((child, i) => <React.Fragment key={i}>{child}</React.Fragment>)
                         ].filter(Boolean);
 
-                        const newFirstP = React.cloneElement(firstChild as React.ReactElement, { key: "first-p" }, ...newPChildren);
-                        content = [newFirstP, ...childrenArray.slice(1).map((child, i) => <React.Fragment key={`rest-${i}`}>{child}</React.Fragment>)];
+                        // CRITICAL FIX: React Markdown wraps blockquote text in a <p>.
+                        // But our Callout component renders <div>s which are invalid inside <p>.
+                        // We must clone it as a <div> instead.
+                        const newFirstP = React.createElement('div', { key: "first-p", ...firstChild.props, className: "mb-2 blockquote-p-replacement" }, ...newPChildren);
+
+                        content = [newFirstP, ...childrenArray.slice(1).map((child, i) => {
+                            // Also convert any subsequent <p> tags to <div> to be safe, since Callout children might contain nested blocks.
+                            if (React.isValidElement(child) && child.type === 'p') {
+                                return React.createElement('div', { key: `rest-${i}`, ...child.props, className: "mb-2 blockquote-p-replacement" }, child.props.children);
+                            }
+                            return <React.Fragment key={`rest-${i}`}>{child}</React.Fragment>;
+                        })];
                     }
                 }
             }
@@ -184,7 +194,7 @@ export function TutorialPanel({
                             return (
                                 <button
                                     key={`${ref}-${i}`}
-                                    onClick={() => onOpenCodexRef(`codex:${ref}`)}
+                                    onClick={() => onOpenCodexRef(ref)}
                                     className="text-left px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700
                              rounded-lg transition-colors flex items-center gap-2"
                                 >

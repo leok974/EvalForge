@@ -38,10 +38,12 @@ VALIDATORS = {
 }
 
 # Per-kind rule requirements (required fields in rule dict)
+# Use '|' to indicate OR (one of these fields must be present)
 RULE_REQUIREMENTS = {
     "exit_code": ["expected"],
     "json_output": ["expected"],
-    "source_regex": ["pattern"],
+    "source_regex": ["pattern|patterns"],
+    "stdout_regex": ["pattern|patterns"],
     "stdout_exact": ["expected"],  # CANONICAL: use 'expected' not 'pattern'
     "stdout_json_eq": ["expected"],
     "not_timed_out": [],
@@ -65,9 +67,11 @@ def audit_objective_schema(obj: Dict[str, Any]) -> List[str]:
         errors.append("Missing 'kind'")
         return errors
         
-    if not obj.get('rule'):
-        errors.append("Missing 'rule'")
-        return errors
+    if 'rule' not in obj:
+        if kind not in ["tests_pass", "not_timed_out", "ast"]:
+            errors.append("Missing 'rule'")
+            return errors
+        obj['rule'] = {}
     
     # Check kind is valid
     if kind not in VALIDATORS:
@@ -86,15 +90,21 @@ def audit_objective_schema(obj: Dict[str, Any]) -> List[str]:
         if not has_ast_check and not rule:
              errors.append("AST rule is empty. Hint: Add 'must_define_function' or 'must_assign_variable'.")
     else:
-        for field in required:
-            if field not in rule:
+        for field_req in required:
+            options = field_req.split("|")
+            
+            if not any(opt in rule for opt in options):
                 hint = ""
-                if kind == "stdout_exact" and field == "expected":
+                if kind == "stdout_exact" and "expected" in options:
                     hint = " (Note: 'pattern' is deprecated, use 'expected')"
-                elif kind == "source_regex" and field == "pattern":
+                elif kind in ["source_regex", "stdout_regex"] and "pattern" in options:
                     hint = " (regex pattern required)"
                 
-                errors.append(f"Rule missing required field '{field}'{hint}")
+                if len(options) == 1:
+                    errors.append(f"Rule missing required field '{options[0]}'{hint}")
+                else:
+                    opt_str = "' or '".join(options)
+                    errors.append(f"Rule missing required field '{opt_str}'{hint}")
                 
     return errors
 
@@ -265,16 +275,41 @@ def validate_quest_attempt(
         try:
             if kind == "source_regex":
                 # Language Agnostic: Regex on source code
-                pattern = rule.get("pattern", "")
-                if not pattern:
+                
+                quest_lang = getattr(quest_def, "language", None)
+                if not quest_lang and isinstance(quest_def, dict):
+                    quest_lang = quest_def.get("language")
+                    
+                code_to_check = code
+                if quest_lang == "sql":
+                    from arcade_app.services.sql_parser import strip_sql_comments
+                    code_to_check = strip_sql_comments(code)
+                
+                patterns = rule.get("pattern", [])
+                if not isinstance(patterns, list):
+                    patterns = [patterns]
+                if "patterns" in rule:
+                    patterns.extend(rule["patterns"])
+                
+                patterns = [p for p in patterns if p]
+                
+                if not patterns:
                     res.detail = "Invalid regex rule (empty)"
                 else:
                     try:
-                        if re.search(pattern, code, re.MULTILINE):
+                        all_matched = True
+                        failed_pattern = ""
+                        for pat in patterns:
+                            if not re.search(pat, code_to_check, re.MULTILINE | re.IGNORECASE):
+                                all_matched = False
+                                failed_pattern = pat
+                                break
+                                
+                        if all_matched:
                             res.ok = True
                             res.detail = "Source code matches pattern"
                         else:
-                            res.detail = "Source code missing required pattern"
+                            res.detail = f"Source code missing required pattern: {failed_pattern}"
                     except re.error as e:
                         res.detail = f"Invalid regex pattern: {str(e)}"
 
@@ -340,9 +375,15 @@ def validate_quest_attempt(
                         res.detail = f"JSON validation error: {str(e)}"
                     
             elif kind == "stdout_regex":
-                # stdout_regex uses 'pattern' (canonical)
-                pattern = rule.get("pattern", "")
-                if not pattern:
+                patterns = rule.get("pattern", [])
+                if not isinstance(patterns, list):
+                    patterns = [patterns]
+                if "patterns" in rule:
+                    patterns.extend(rule["patterns"])
+                
+                patterns = [p for p in patterns if p]
+                
+                if not patterns:
                     res.detail = "Invalid regex rule (empty pattern)"
                 else:
                     # Parse flags
@@ -356,10 +397,18 @@ def validate_quest_attempt(
                     txt = stdout_normalized or ""
                     
                     # Get human-readable description
-                    expected_desc = rule.get("expected") or rule.get("description") or title or f"Output matching pattern: {pattern[:50]}"
+                    expected_desc = rule.get("expected") or rule.get("description") or title or f"Output matching patterns"
                     
                     try:
-                        if re.search(pattern, txt, re_flags):
+                        all_matched = True
+                        failed_pattern = ""
+                        for pat in patterns:
+                            if not re.search(pat, txt, re_flags):
+                                all_matched = False
+                                failed_pattern = pat
+                                break
+                                
+                        if all_matched:
                              res.ok = True
                              res.detail = "Output matches expected pattern"
                         else:
@@ -367,9 +416,9 @@ def validate_quest_attempt(
                              res.kind = "objective"
                              res.expected = expected_desc
                              res.actual = txt[:200] if txt else "(empty)"
-                             res.detail = f"Expected {expected_desc}"
+                             res.detail = f"Output missing regex pattern: {failed_pattern}"
                              # Simple diff
-                             res.diff = f"Expected:\n  {expected_desc}\nActual:\n  {res.actual}"
+                             res.diff = f"Expected (missing):\n  {failed_pattern}\nActual:\n  {res.actual}"
                     except re.error as e:
                          res.detail = f"Invalid regex pattern: {e}"
             

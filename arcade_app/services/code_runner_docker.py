@@ -20,6 +20,7 @@ class ExecResult:
     stdout: str
     stderr: str
     timed_out: bool
+    artifacts: Optional[Dict[str, Any]] = None
 
 from typing import Optional, Dict, Any
 
@@ -97,7 +98,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                     wf.write(content)
 
             # Inject Python Test Runner
-            if mode == "tests" and language == "python":
+            if mode == "tests" and (language == "python" or language == "sql"):
                 runner_dir = os.path.join(td, ".evalforge")
                 os.makedirs(runner_dir, exist_ok=True)
                 runner_target = os.path.join(runner_dir, "run_unittest_json.py")
@@ -147,9 +148,8 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 effective_entrypoint = "task.py"
             elif "main.py" in listing:
                 effective_entrypoint = "main.py"
-        
-        # For other languages, we might want similar logic (e.g. task.js vs index.js), 
-        # but User specifically asked for this for Python.
+        elif language == "sql":
+            effective_entrypoint = "task.sql"
         
         # Check if resolved entrypoint exists
         if effective_entrypoint not in listing:
@@ -242,6 +242,10 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             stdout_str = logs_p.stdout.decode("utf-8", errors="replace")
             stderr_str = logs_p.stderr.decode("utf-8", errors="replace")
             
+            import logging
+            logging.error(f"DOCKER STDOUT: {stdout_str}")
+            logging.error(f"DOCKER STDERR: {stderr_str}")
+
             # Fallback for reports
             if not stdout_str.strip() or (mode == "tests" and not stdout_str.strip().startswith("{")):
                 try:
@@ -264,6 +268,23 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             )
             exit_code = int(inspect_p.stdout.decode().strip() or "0")
             
+            # G) Capture SQL artifacts
+            artifacts_out = {}
+            import json
+            for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
+                try:
+                    dest = os.path.join(td, f"{aname}.json")
+                    subprocess.run(
+                        ["docker", "cp", f"{container_name}:/workspace/{aname}.json", dest],
+                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                        timeout=3
+                    )
+                    if os.path.exists(dest):
+                        with open(dest, "r", encoding="utf-8") as f:
+                            artifacts_out[aname] = json.load(f)
+                except Exception:
+                    pass
+
             dt = int((time.time() - t0) * 1000)
             
             return ExecResult(
@@ -273,6 +294,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 stdout=stdout_str,
                 stderr=stderr_str,
                 timed_out=False,
+                artifacts=artifacts_out if artifacts_out else None,
             )
 
         except subprocess.TimeoutExpired:
@@ -281,6 +303,23 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             out = logs_p.stdout.decode("utf-8", errors="replace")
             err = logs_p.stderr.decode("utf-8", errors="replace")
             dt = int((time.time() - t0) * 1000)
+
+            artifacts_out = {}
+            import json
+            for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
+                try:
+                    dest = os.path.join(td, f"{aname}.json")
+                    subprocess.run(
+                        ["docker", "cp", f"{container_name}:/workspace/{aname}.json", dest],
+                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                        timeout=3
+                    )
+                    if os.path.exists(dest):
+                        with open(dest, "r", encoding="utf-8") as f:
+                            artifacts_out[aname] = json.load(f)
+                except Exception:
+                    pass
+
             return ExecResult(
                 ok=False,
                 exit_code=None,
@@ -288,6 +327,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 stdout=out,
                 stderr=err + "\n[Timed out]",
                 timed_out=True,
+                artifacts=artifacts_out if artifacts_out else None,
             )
         except Exception as e:
              return ExecResult(

@@ -328,5 +328,32 @@
             ],
             "analogy_prompt": "Use painting and architectural blueprints metaphors."
         }
+    },
+    {
+        "id": "world-docker",
+        "name": "Docker World",
+        "icon": "container",
+        "description": "Containers & Ops. Theme: The Shipping Yards.",
+        "default_tracks": [
+            "docker-ignition"
+        ],
+        "tags": [
+            "docker",
+            "devops",
+            "containers"
+        ],
+        "narrative_config": {
+            "alias": "THE DOCKS",
+            "theme": "Shipping containers, cranes, logistics, isolation.",
+            "role": "Harbor Master",
+            "vocabulary": [
+                "container",
+                "image",
+                "volume",
+                "network",
+                "compose"
+            ],
+            "analogy_prompt": "Use shipping and logistics metaphors."
+        }
     }
 ]

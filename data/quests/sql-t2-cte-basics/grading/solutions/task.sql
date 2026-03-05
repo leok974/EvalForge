@@ -1,0 +1,1 @@
+WITH EventCounts AS (SELECT event_type, COUNT(*) as num_events FROM events GROUP BY event_type) SELECT event_type, num_events FROM EventCounts WHERE num_events > 1 ORDER BY event_type ASC;

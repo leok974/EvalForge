@@ -45,6 +45,7 @@ class QuestAttempt(SQLModel, table=True):
     # Phase 8.x PR 4: Workspace Hash + Metadata
     workspace_hash: Optional[str] = Field(default=None)
     execution_context_json: Dict[str, Any] = Field(default={}, sa_type=JSON)
+    artifacts_json: Dict[str, Any] = Field(default={}, sa_type=JSON) # Phase R: Execution artifacts (SQL traces)
     model_id: Optional[str] = Field(default=None)
     prompt_version: Optional[str] = Field(default=None)
 

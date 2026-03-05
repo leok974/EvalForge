@@ -1,0 +1,2333 @@
+{
+  "total_debt_quests": 212,
+  "by_world": {
+    "world-sql": 37,
+    "world-python": 29,
+    "unknown": 13,
+    "world-infra": 24,
+    "world-typescript": 13,
+    "world-git": 19,
+    "world-ml": 24,
+    "world-react": 10,
+    "world-js": 4,
+    "world-agents": 16,
+    "world-java": 13,
+    "world-docker": 10
+  },
+  "by_missing_field": {
+    "missing_briefing": 54,
+    "missing_starter_code": 209,
+    "missing_workspace_files": 209,
+    "missing_objectives": 128,
+    "missing_key_terms": 0
+  },
+  "by_source_category": {
+    "has_folder": 67,
+    "zombie": 145
+  },
+  "by_reference": {
+    "referenced_in_questpack": 58,
+    "not_referenced": 154
+  },
+  "quests": [
+    {
+      "slug": "sql-retrieval-q1-select-from-basics",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-analytics-q1-window-functions",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "py-ignition-q1-warmup-script",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents/determinism",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-ignition-q2-control-the-flame",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-ignition-q3-collections",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-ignition-q4-errors-logging",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-loop-q1-csv-scraper",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-containment-q1-linux-shell-and-fs",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "agents/system-prompt",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-loop-q2-frequency-forge",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ts-refraction-q2-shape-the-spectrum",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-branch-q1-branching-strategies",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "py-loop-q3-grouping",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-data-forge-q1-file-io",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-data-forge-q2-json-validation",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-tensor-q1-numpy-and-shapes",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "ml-gradient-q1-training-loop-and-metrics",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "agents/instruction-hierarchy",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-logs-metrics",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "py-data-forge-q3-config-layer",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-ember-api-q1-hello-api",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-ember-api-q2-resource-forge",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-ember-api-q3-validation-errors",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "react-components",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "py-ember-async-q1-fanout",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-ember-async-q2-job-queue",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-toolsmith-q1-package-skeleton",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-toolsmith-q2-cli-entrypoint",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ts-refraction-q4-guard-rails",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "py-toolsmith-q3-lint-test",
+      "world_id": "world-python",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "react-state-counter",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ts-spectrum-q2-record-forge",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ts-spectrum-q4-mirror-types",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "js-light-source",
+      "world_id": "world-js",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "js-refraction",
+      "world_id": "world-js",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-retrieval",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-filter",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "react-props",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "infra-containment",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "react-lists",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "infra-service-link",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-invocation",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-grounding",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-commit",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-branch",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-tensor",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-gradient",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-env-config",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "react-context-theme",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "agents/user-prompt",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "python-ignition",
+      "world_id": "world-python",
+      "issues": [
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "java-core-q1-first-spark",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-healthchecks",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "java-core-q2-flow-and-failsafes",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "react-reducer-cart",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "js-ignition-q1-console-and-functions",
+      "world_id": "world-js",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "js-vars-q1-let-const-var",
+      "world_id": "world-js",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "infra-cors-cookies",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "agents-ignition",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "agents-prompts-contracts",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "git-ignition",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "git-init-clone",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-select",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ml-ignition",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "git/repository",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents/output-schema",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git/working-tree",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git/staging-area",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git/commit",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git/commit-message",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-reverse-proxy",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "infra-debug-playbook",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "java-core-q3-cores-and-shells",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-retrieval-q4-aggregate-and-group",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "first-sparks",
+      "world_id": "world-python",
+      "issues": [
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "java-core-q4-circuits-and-collections",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-ignition",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-where",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-order-limit",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-aggregates",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-groupby-having",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-joins",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-left-join-null",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-cte-subquery",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-insert-update-delete",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "infra-ignition",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "infra-ports-and-localhost",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "infra-docker-compose",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-retrieval-q3-joins-and-keys",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-numpy-basics",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ml-pandas-dataframes",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ml-data-preprocessing",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ts-refraction-q1-align-the-beam",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-train-test-split",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ml-linear-regression",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ts-refraction-q3-signal-splitter",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-networking-dns",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ts-spectrum-q1-typed-toolbox",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-classification-basics",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ts-spectrum-q3-shape-shifter",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "java-platform-bounded-contexts",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "java-service-q1-reactor-buildfile",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-model-evaluation",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ml-neural-networks-intro",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-retrieval-q2-where-and-order",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-overfitting-regularization",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "java-service-q2-fault-injection-tests",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "java-platform-resilient-apis",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "java-service-q3-signals-in-the-logs",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-grounding-q2-env-and-state",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-grounding-q3-multi-agent-orchestration",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "java-service-q4-environment-channels",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "react-state-toggle",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "sql-analytics-q2-ctes-and-views",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-analytics-q3-normalization-and-indexes",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-analytics-q4-query-tuning-basics",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-containment-q2-processes-and-ports",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-containment-q3-services-and-logs",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-service-q1-dockerize-and-compose",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "infra-service-q2-nginx-routing-and-tls",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-service-q3-healthchecks-and-restarts",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-service-q4-logs-and-metrics-pipeline",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-invocation-q1-prompt-anatomy",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-invocation-q2-tool-contracts",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-senior-tool-contracts",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-invocation-q3-single-agent-loop",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-grounding-q1-rag-basics",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": false,
+      "is_zombie": false
+    },
+    {
+      "slug": "agents-grounding-q4-guardrails-and-evals",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-commit-q1-init-and-first-commit",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "track-python-foundry-first-sparks",
+      "world_id": "world-python",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-commit-q2-history-and-diff",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "track-python-foundry-hello-variable",
+      "world_id": "world-python",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-commit-q3-undo-and-recover",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-branch-q2-merge-and-rebase",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-branch-q3-conflicts-and-resolutions",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-tensor-q2-vectorization",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-tensor-q3-linear-regression-from-scratch",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-gradient-q2-regularization-and-overfit",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-gradient-q3-model-selection-and-baselines",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ml-gradient-q4-serving-and-monitoring-basics",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ts-frontier-architecture",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "hello-variable",
+      "world_id": "world-python",
+      "issues": [
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "ts-frontier-performance",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ts-frontier-design-systems",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ts-frontier-typed-api-client",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "ts-frontier-dx-pipeline",
+      "world_id": "world-typescript",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "java-platform-data-consistency",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "java-platform-observability",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "java-platform-upgrade-runbook",
+      "world_id": "world-java",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-governance-metrics-contracts",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-warehouse-modeling",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-cost-and-performance",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-quality-monitoring",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "sql-analytics-selfservice",
+      "world_id": "world-sql",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-sre-sli-slo",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-sre-incident-drills",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-sre-capacity-planning",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-sre-multi-region",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "infra-sre-security-baseline",
+      "world_id": "world-infra",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-senior-task-decomposition",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-senior-evals",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-senior-guardrails",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "agents-senior-observability",
+      "world_id": "world-agents",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-senior-release-strategy",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-senior-migration-branch",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-senior-monorepo",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-senior-audit-trails",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-senior-emergency-fix",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "react-conditional-render",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "react-effects-mount",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "synapse-mlops-ci-cd",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "synapse-mlops-multi-model-strategy",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "docker-ignition",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "dockerfile-basics",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "dockerfile-layers-cache",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "dockerfile-copy-vs-add",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "dockerfile-multistage",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "dockerfile-healthcheck",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "compose-basics",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "compose-networks-depends",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "compose-env-secrets",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "compose-volumes-and-prod-hardening",
+      "world_id": "world-docker",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "react-ignition",
+      "world_id": "world-react",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": true,
+      "is_referenced": true,
+      "is_zombie": false
+    },
+    {
+      "slug": "core-python-python-functions-contracts",
+      "world_id": "world-python",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-python-python-file-io-safe",
+      "world_id": "world-python",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-python-python-dicts-lists-transform",
+      "world_id": "world-python",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-python-python-cli-args",
+      "world_id": "world-python",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-python-python-oop-mini",
+      "world_id": "world-python",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-python-python-boss-csv-report",
+      "world_id": "world-python",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-groupby-having",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-window-functions",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-analytics-pack",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-subqueries-exists",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-cte-basics",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-recursive-cte-hierarchy",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-nulls-coalesce",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-dates-grouping",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-upsert-on-conflict",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-indexes-explain",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-transactions-rollback",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-sql-sql-t2-boss-data-quality-audit",
+      "world_id": "world-sql",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-git-git-t2-merge-conflict",
+      "world_id": "world-git",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-git-git-t2-rebase",
+      "world_id": "world-git",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "core-git-git-t2-release",
+      "world_id": "world-git",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "git-branch-q4-pr-flows-and-reviews",
+      "world_id": "world-git",
+      "issues": [
+        "starter/workspace"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "synapse-mlops-feature-lifecycle",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "synapse-mlops-monitoring-drift",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "synapse-mlops-governance",
+      "world_id": "world-ml",
+      "issues": [
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "quest-js-debounce-b",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "quest-js-retry-i",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    },
+    {
+      "slug": "quest-ops-csp-i",
+      "world_id": "unknown",
+      "issues": [
+        "briefing",
+        "starter/workspace",
+        "objectives"
+      ],
+      "has_folder": false,
+      "is_referenced": false,
+      "is_zombie": true
+    }
+  ]
+}

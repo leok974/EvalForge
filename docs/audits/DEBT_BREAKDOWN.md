@@ -1,0 +1,246 @@
+# Debt Quests Breakdown
+**Total Debt Quests**: 212
+
+## Summary by World
+- **world-sql**: 37
+- **world-python**: 29
+- **world-infra**: 24
+- **world-ml**: 24
+- **world-git**: 19
+- **world-agents**: 16
+- **unknown**: 13
+- **world-typescript**: 13
+- **world-java**: 13
+- **world-react**: 10
+- **world-docker**: 10
+- **world-js**: 4
+
+## Summary by Missing Field
+- Missing Briefing: 54
+- Missing Starter/Workspace: 209
+- Missing Objectives: 128
+- Missing Key Terms (Tier 2): 0
+
+## Summary by Source Category
+- Has folder on disk: 67
+- DB-only Zombie (No folder, not referenced): 145
+
+## Summary by Reference
+- Referenced in Questpacks: 58
+- Not referenced anywhere: 154
+
+## Zombie Quests (Candidates for Pruning)
+- `py-ignition-q1-warmup-script` (world-python)
+- `agents/determinism` (unknown)
+- `py-ignition-q2-control-the-flame` (world-python)
+- `py-ignition-q3-collections` (world-python)
+- `py-ignition-q4-errors-logging` (world-python)
+- `py-loop-q1-csv-scraper` (world-python)
+- `agents/system-prompt` (unknown)
+- `py-loop-q2-frequency-forge` (world-python)
+- `ts-refraction-q2-shape-the-spectrum` (world-typescript)
+- `py-loop-q3-grouping` (world-python)
+- `py-data-forge-q1-file-io` (world-python)
+- `py-data-forge-q2-json-validation` (world-python)
+- `agents/instruction-hierarchy` (unknown)
+- `py-data-forge-q3-config-layer` (world-python)
+- `py-ember-api-q1-hello-api` (world-python)
+- `py-ember-api-q2-resource-forge` (world-python)
+- `py-ember-api-q3-validation-errors` (world-python)
+- `py-ember-async-q1-fanout` (world-python)
+- `py-ember-async-q2-job-queue` (world-python)
+- `py-toolsmith-q1-package-skeleton` (world-python)
+- `py-toolsmith-q2-cli-entrypoint` (world-python)
+- `ts-refraction-q4-guard-rails` (world-typescript)
+- `py-toolsmith-q3-lint-test` (world-python)
+- `ts-spectrum-q2-record-forge` (world-typescript)
+- `ts-spectrum-q4-mirror-types` (world-typescript)
+- `js-light-source` (world-js)
+- `js-refraction` (world-js)
+- `sql-retrieval` (world-sql)
+- `sql-filter` (world-sql)
+- `infra-containment` (world-infra)
+- `infra-service-link` (world-infra)
+- `agents-invocation` (world-agents)
+- `agents-grounding` (world-agents)
+- `git-commit` (world-git)
+- `git-branch` (world-git)
+- `ml-tensor` (world-ml)
+- `ml-gradient` (world-ml)
+- `agents/user-prompt` (unknown)
+- `java-core-q1-first-spark` (world-java)
+- `java-core-q2-flow-and-failsafes` (world-java)
+- `git/repository` (unknown)
+- `agents/output-schema` (unknown)
+- `git/working-tree` (unknown)
+- `git/staging-area` (unknown)
+- `git/commit` (unknown)
+- `git/commit-message` (unknown)
+- `java-core-q3-cores-and-shells` (world-java)
+- `sql-retrieval-q4-aggregate-and-group` (world-sql)
+- `java-core-q4-circuits-and-collections` (world-java)
+- `sql-retrieval-q3-joins-and-keys` (world-sql)
+- `ts-refraction-q1-align-the-beam` (world-typescript)
+- `ts-refraction-q3-signal-splitter` (world-typescript)
+- `ts-spectrum-q1-typed-toolbox` (world-typescript)
+- `ts-spectrum-q3-shape-shifter` (world-typescript)
+- `java-platform-bounded-contexts` (world-java)
+- `java-service-q1-reactor-buildfile` (world-java)
+- `sql-retrieval-q2-where-and-order` (world-sql)
+- `java-service-q2-fault-injection-tests` (world-java)
+- `java-platform-resilient-apis` (world-java)
+- `java-service-q3-signals-in-the-logs` (world-java)
+- `agents-grounding-q2-env-and-state` (world-agents)
+- `agents-grounding-q3-multi-agent-orchestration` (world-agents)
+- `java-service-q4-environment-channels` (world-java)
+- `sql-analytics-q2-ctes-and-views` (world-sql)
+- `sql-analytics-q3-normalization-and-indexes` (world-sql)
+- `sql-analytics-q4-query-tuning-basics` (world-sql)
+- `infra-containment-q2-processes-and-ports` (world-infra)
+- `infra-containment-q3-services-and-logs` (world-infra)
+- `infra-service-q2-nginx-routing-and-tls` (world-infra)
+- `infra-service-q3-healthchecks-and-restarts` (world-infra)
+- `infra-service-q4-logs-and-metrics-pipeline` (world-infra)
+- `agents-invocation-q1-prompt-anatomy` (world-agents)
+- `agents-invocation-q2-tool-contracts` (world-agents)
+- `agents-senior-tool-contracts` (world-agents)
+- `agents-invocation-q3-single-agent-loop` (world-agents)
+- `agents-grounding-q4-guardrails-and-evals` (world-agents)
+- `git-commit-q1-init-and-first-commit` (world-git)
+- `track-python-foundry-first-sparks` (world-python)
+- `git-commit-q2-history-and-diff` (world-git)
+- `track-python-foundry-hello-variable` (world-python)
+- `git-commit-q3-undo-and-recover` (world-git)
+- `git-branch-q2-merge-and-rebase` (world-git)
+- `git-branch-q3-conflicts-and-resolutions` (world-git)
+- `ml-tensor-q2-vectorization` (world-ml)
+- `ml-tensor-q3-linear-regression-from-scratch` (world-ml)
+- `ml-gradient-q2-regularization-and-overfit` (world-ml)
+- `ml-gradient-q3-model-selection-and-baselines` (world-ml)
+- `ml-gradient-q4-serving-and-monitoring-basics` (world-ml)
+- `ts-frontier-architecture` (world-typescript)
+- `ts-frontier-performance` (world-typescript)
+- `ts-frontier-design-systems` (world-typescript)
+- `ts-frontier-typed-api-client` (world-typescript)
+- `ts-frontier-dx-pipeline` (world-typescript)
+- `java-platform-data-consistency` (world-java)
+- `java-platform-observability` (world-java)
+- `java-platform-upgrade-runbook` (world-java)
+- `sql-governance-metrics-contracts` (world-sql)
+- `sql-warehouse-modeling` (world-sql)
+- `sql-cost-and-performance` (world-sql)
+- `sql-quality-monitoring` (world-sql)
+- `sql-analytics-selfservice` (world-sql)
+- `infra-sre-sli-slo` (world-infra)
+- `infra-sre-incident-drills` (world-infra)
+- `infra-sre-capacity-planning` (world-infra)
+- `infra-sre-multi-region` (world-infra)
+- `infra-sre-security-baseline` (world-infra)
+- `agents-senior-task-decomposition` (world-agents)
+- `agents-senior-evals` (world-agents)
+- `agents-senior-guardrails` (world-agents)
+- `agents-senior-observability` (world-agents)
+- `git-senior-release-strategy` (world-git)
+- `git-senior-migration-branch` (world-git)
+- `git-senior-monorepo` (world-git)
+- `git-senior-audit-trails` (world-git)
+- `git-senior-emergency-fix` (world-git)
+- `synapse-mlops-ci-cd` (world-ml)
+- `synapse-mlops-multi-model-strategy` (world-ml)
+- `core-python-python-functions-contracts` (world-python)
+- `core-python-python-file-io-safe` (world-python)
+- `core-python-python-dicts-lists-transform` (world-python)
+- `core-python-python-cli-args` (world-python)
+- `core-python-python-oop-mini` (world-python)
+- `core-python-python-boss-csv-report` (world-python)
+- `core-sql-sql-t2-groupby-having` (world-sql)
+- `core-sql-sql-t2-window-functions` (world-sql)
+- `core-sql-sql-t2-analytics-pack` (world-sql)
+- `core-sql-sql-t2-subqueries-exists` (world-sql)
+- `core-sql-sql-t2-cte-basics` (world-sql)
+- `core-sql-sql-t2-recursive-cte-hierarchy` (world-sql)
+- `core-sql-sql-t2-nulls-coalesce` (world-sql)
+- `core-sql-sql-t2-dates-grouping` (world-sql)
+- `core-sql-sql-t2-upsert-on-conflict` (world-sql)
+- `core-sql-sql-t2-indexes-explain` (world-sql)
+- `core-sql-sql-t2-transactions-rollback` (world-sql)
+- `core-sql-sql-t2-boss-data-quality-audit` (world-sql)
+- `core-git-git-t2-merge-conflict` (world-git)
+- `core-git-git-t2-rebase` (world-git)
+- `core-git-git-t2-release` (world-git)
+- `git-branch-q4-pr-flows-and-reviews` (world-git)
+- `synapse-mlops-feature-lifecycle` (world-ml)
+- `synapse-mlops-monitoring-drift` (world-ml)
+- `synapse-mlops-governance` (world-ml)
+- `quest-js-debounce-b` (unknown)
+- `quest-js-retry-i` (unknown)
+- `quest-ops-csp-i` (unknown)
+
+## On-Disk Quests (Candidates for Bulk Rehydration)
+- `sql-retrieval-q1-select-from-basics` (world-sql) - Issues: starter/workspace
+- `sql-analytics-q1-window-functions` (world-sql) - Issues: starter/workspace
+- `infra-containment-q1-linux-shell-and-fs` (world-infra) - Issues: starter/workspace
+- `git-branch-q1-branching-strategies` (world-git) - Issues: starter/workspace
+- `ml-tensor-q1-numpy-and-shapes` (world-ml) - Issues: starter/workspace
+- `ml-gradient-q1-training-loop-and-metrics` (world-ml) - Issues: starter/workspace
+- `infra-logs-metrics` (world-infra) - Issues: starter/workspace
+- `react-components` (world-react) - Issues: starter/workspace
+- `react-state-counter` (world-react) - Issues: starter/workspace
+- `react-props` (world-react) - Issues: starter/workspace
+- `react-lists` (world-react) - Issues: starter/workspace
+- `infra-env-config` (world-infra) - Issues: starter/workspace
+- `react-context-theme` (world-react) - Issues: starter/workspace
+- `python-ignition` (world-python) - Issues: objectives
+- `infra-healthchecks` (world-infra) - Issues: starter/workspace
+- `react-reducer-cart` (world-react) - Issues: starter/workspace
+- `js-ignition-q1-console-and-functions` (world-js) - Issues: starter/workspace,objectives
+- `js-vars-q1-let-const-var` (world-js) - Issues: starter/workspace,objectives
+- `infra-cors-cookies` (world-infra) - Issues: starter/workspace
+- `agents-ignition` (world-agents) - Issues: starter/workspace,objectives
+- `agents-prompts-contracts` (world-agents) - Issues: starter/workspace,objectives
+- `git-ignition` (world-git) - Issues: starter/workspace,objectives
+- `git-init-clone` (world-git) - Issues: starter/workspace,objectives
+- `sql-select` (world-sql) - Issues: starter/workspace,objectives
+- `ml-ignition` (world-ml) - Issues: starter/workspace,objectives
+- `infra-reverse-proxy` (world-infra) - Issues: starter/workspace
+- `infra-debug-playbook` (world-infra) - Issues: starter/workspace
+- `first-sparks` (world-python) - Issues: objectives
+- `sql-ignition` (world-sql) - Issues: starter/workspace,objectives
+- `sql-where` (world-sql) - Issues: briefing,starter/workspace,objectives
+- `sql-order-limit` (world-sql) - Issues: briefing,starter/workspace,objectives
+- `sql-aggregates` (world-sql) - Issues: briefing,starter/workspace,objectives
+- `sql-groupby-having` (world-sql) - Issues: briefing,starter/workspace,objectives
+- `sql-joins` (world-sql) - Issues: briefing,starter/workspace,objectives
+- `sql-left-join-null` (world-sql) - Issues: briefing,starter/workspace,objectives
+- `sql-cte-subquery` (world-sql) - Issues: briefing,starter/workspace,objectives
+- `sql-insert-update-delete` (world-sql) - Issues: briefing,starter/workspace,objectives
+- `infra-ignition` (world-infra) - Issues: starter/workspace,objectives
+- `infra-ports-and-localhost` (world-infra) - Issues: starter/workspace
+- `infra-docker-compose` (world-infra) - Issues: starter/workspace,objectives
+- `ml-numpy-basics` (world-ml) - Issues: starter/workspace,objectives
+- `ml-pandas-dataframes` (world-ml) - Issues: starter/workspace,objectives
+- `ml-data-preprocessing` (world-ml) - Issues: starter/workspace,objectives
+- `ml-train-test-split` (world-ml) - Issues: starter/workspace,objectives
+- `ml-linear-regression` (world-ml) - Issues: starter/workspace,objectives
+- `infra-networking-dns` (world-infra) - Issues: starter/workspace
+- `ml-classification-basics` (world-ml) - Issues: starter/workspace,objectives
+- `ml-model-evaluation` (world-ml) - Issues: starter/workspace,objectives
+- `ml-neural-networks-intro` (world-ml) - Issues: starter/workspace,objectives
+- `ml-overfitting-regularization` (world-ml) - Issues: starter/workspace,objectives
+- `react-state-toggle` (world-react) - Issues: starter/workspace
+- `infra-service-q1-dockerize-and-compose` (world-infra) - Issues: starter/workspace
+- `agents-grounding-q1-rag-basics` (world-agents) - Issues: starter/workspace
+- `hello-variable` (world-python) - Issues: objectives
+- `react-conditional-render` (world-react) - Issues: starter/workspace
+- `react-effects-mount` (world-react) - Issues: starter/workspace
+- `docker-ignition` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `dockerfile-basics` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `dockerfile-layers-cache` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `dockerfile-copy-vs-add` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `dockerfile-multistage` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `dockerfile-healthcheck` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `compose-basics` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `compose-networks-depends` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `compose-env-secrets` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `compose-volumes-and-prod-hardening` (world-docker) - Issues: briefing,starter/workspace,objectives
+- `react-ignition` (world-react) - Issues: starter/workspace

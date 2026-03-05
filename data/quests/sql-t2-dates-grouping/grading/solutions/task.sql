@@ -1,0 +1,1 @@
+SELECT strftime('%Y-%m-%d', event_date) AS event_date_only, COUNT(*) AS num_events FROM events GROUP BY event_date_only ORDER BY event_date_only ASC;

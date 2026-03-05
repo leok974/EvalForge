@@ -1,909 +1,954 @@
 {
-  "audit_date": "2026-02-19T13:09:19.649702",
-  "total_quests": 164,
+  "audit_date": "2026-02-25T23:40:35.262139",
+  "total_quests": 173,
   "quests_with_golden_run": [
     {
       "slug": "agents-approvals-diffs",
       "world": "unknown",
-      "path": "data\\quests\\agents-approvals-diffs\\grading\\golden.run.json"
+      "path": "data/quests/agents-approvals-diffs/grading/golden.run.json"
     },
     {
       "slug": "agents-budgets",
       "world": "unknown",
-      "path": "data\\quests\\agents-budgets\\grading\\golden.run.json"
+      "path": "data/quests/agents-budgets/grading/golden.run.json"
     },
     {
       "slug": "agents-executor",
       "world": "unknown",
-      "path": "data\\quests\\agents-executor\\grading\\golden.run.json"
+      "path": "data/quests/agents-executor/grading/golden.run.json"
     },
     {
       "slug": "agents-ignition",
       "world": "unknown",
-      "path": "data\\quests\\agents-ignition\\grading\\golden.json",
+      "path": "data/quests/agents-ignition/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "agents-memory",
       "world": "unknown",
-      "path": "data\\quests\\agents-memory\\grading\\golden.run.json"
+      "path": "data/quests/agents-memory/grading/golden.run.json"
     },
     {
       "slug": "agents-observability",
       "world": "unknown",
-      "path": "data\\quests\\agents-observability\\grading\\golden.run.json"
+      "path": "data/quests/agents-observability/grading/golden.run.json"
     },
     {
       "slug": "agents-planner",
       "world": "unknown",
-      "path": "data\\quests\\agents-planner\\grading\\golden.run.json"
+      "path": "data/quests/agents-planner/grading/golden.run.json"
     },
     {
       "slug": "agents-prompts-contracts",
       "world": "unknown",
-      "path": "data\\quests\\agents-prompts-contracts\\grading\\golden.json",
+      "path": "data/quests/agents-prompts-contracts/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "agents-tools-basics",
       "world": "unknown",
-      "path": "data\\quests\\agents-tools-basics\\grading\\golden.run.json"
+      "path": "data/quests/agents-tools-basics/grading/golden.run.json"
     },
     {
       "slug": "agents-verifier",
       "world": "unknown",
-      "path": "data\\quests\\agents-verifier\\grading\\golden.run.json"
+      "path": "data/quests/agents-verifier/grading/golden.run.json"
     },
     {
       "slug": "cli-env-vars",
       "world": "unknown",
-      "path": "data\\quests\\cli-env-vars\\grading\\golden.run.json"
+      "path": "data/quests/cli-env-vars/grading/golden.run.json"
     },
     {
       "slug": "cli-exit-codes",
       "world": "unknown",
-      "path": "data\\quests\\cli-exit-codes\\grading\\golden.run.json"
+      "path": "data/quests/cli-exit-codes/grading/golden.run.json"
     },
     {
       "slug": "cli-files-folders",
       "world": "unknown",
-      "path": "data\\quests\\cli-files-folders\\grading\\golden.run.json"
+      "path": "data/quests/cli-files-folders/grading/golden.run.json"
     },
     {
       "slug": "cli-globs-search",
       "world": "unknown",
-      "path": "data\\quests\\cli-globs-search\\grading\\golden.state.json",
+      "path": "data/quests/cli-globs-search/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "cli-ignition",
       "world": "unknown",
-      "path": "data\\quests\\cli-ignition\\grading\\golden.run.json"
+      "path": "data/quests/cli-ignition/grading/golden.run.json"
     },
     {
       "slug": "cli-navigation",
       "world": "unknown",
-      "path": "data\\quests\\cli-navigation\\grading\\golden.run.json"
+      "path": "data/quests/cli-navigation/grading/golden.run.json"
     },
     {
       "slug": "cli-pipes",
       "world": "unknown",
-      "path": "data\\quests\\cli-pipes\\grading\\golden.run.json"
+      "path": "data/quests/cli-pipes/grading/golden.run.json"
     },
     {
       "slug": "cli-processes",
       "world": "unknown",
-      "path": "data\\quests\\cli-processes\\grading\\golden.run.json"
+      "path": "data/quests/cli-processes/grading/golden.run.json"
     },
     {
       "slug": "cli-redirection",
       "world": "unknown",
-      "path": "data\\quests\\cli-redirection\\grading\\golden.run.json"
+      "path": "data/quests/cli-redirection/grading/golden.run.json"
     },
     {
       "slug": "cli-scripting",
       "world": "unknown",
-      "path": "data\\quests\\cli-scripting\\grading\\golden.run.json"
+      "path": "data/quests/cli-scripting/grading/golden.run.json"
     },
     {
       "slug": "compose-basics",
       "world": "unknown",
-      "path": "data\\quests\\compose-basics\\grading\\golden.state.json",
+      "path": "data/quests/compose-basics/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "compose-env-secrets",
       "world": "unknown",
-      "path": "data\\quests\\compose-env-secrets\\grading\\golden.state.json",
+      "path": "data/quests/compose-env-secrets/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "compose-networks-depends",
       "world": "unknown",
-      "path": "data\\quests\\compose-networks-depends\\grading\\golden.state.json",
+      "path": "data/quests/compose-networks-depends/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "compose-volumes-and-prod-hardening",
       "world": "unknown",
-      "path": "data\\quests\\compose-volumes-and-prod-hardening\\grading\\golden.state.json",
+      "path": "data/quests/compose-volumes-and-prod-hardening/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-box-model",
       "world": "unknown",
-      "path": "data\\quests\\css-box-model\\grading\\golden.state.json",
+      "path": "data/quests/css-box-model/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-cascade-inheritance",
       "world": "unknown",
-      "path": "data\\quests\\css-cascade-inheritance\\grading\\golden.state.json",
+      "path": "data/quests/css-cascade-inheritance/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-colors-backgrounds",
       "world": "unknown",
-      "path": "data\\quests\\css-colors-backgrounds\\grading\\golden.state.json",
+      "path": "data/quests/css-colors-backgrounds/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-flexbox",
       "world": "unknown",
-      "path": "data\\quests\\css-flexbox\\grading\\golden.state.json",
+      "path": "data/quests/css-flexbox/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-grid",
       "world": "unknown",
-      "path": "data\\quests\\css-grid\\grading\\golden.state.json",
+      "path": "data/quests/css-grid/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-ignition",
       "world": "unknown",
-      "path": "data\\quests\\css-ignition\\grading\\golden.state.json",
+      "path": "data/quests/css-ignition/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-position-zindex",
       "world": "unknown",
-      "path": "data\\quests\\css-position-zindex\\grading\\golden.state.json",
+      "path": "data/quests/css-position-zindex/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-responsive-media",
       "world": "unknown",
-      "path": "data\\quests\\css-responsive-media\\grading\\golden.state.json",
+      "path": "data/quests/css-responsive-media/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-selectors-specificity",
       "world": "unknown",
-      "path": "data\\quests\\css-selectors-specificity\\grading\\golden.state.json",
+      "path": "data/quests/css-selectors-specificity/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "css-units-typography",
       "world": "unknown",
-      "path": "data\\quests\\css-units-typography\\grading\\golden.state.json",
+      "path": "data/quests/css-units-typography/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "docker-ignition",
       "world": "unknown",
-      "path": "data\\quests\\docker-ignition\\grading\\golden.state.json",
+      "path": "data/quests/docker-ignition/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "dockerfile-basics",
       "world": "unknown",
-      "path": "data\\quests\\dockerfile-basics\\grading\\golden.state.json",
+      "path": "data/quests/dockerfile-basics/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "dockerfile-copy-vs-add",
       "world": "unknown",
-      "path": "data\\quests\\dockerfile-copy-vs-add\\grading\\golden.state.json",
+      "path": "data/quests/dockerfile-copy-vs-add/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "dockerfile-healthcheck",
       "world": "unknown",
-      "path": "data\\quests\\dockerfile-healthcheck\\grading\\golden.state.json",
+      "path": "data/quests/dockerfile-healthcheck/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "dockerfile-layers-cache",
       "world": "unknown",
-      "path": "data\\quests\\dockerfile-layers-cache\\grading\\golden.state.json",
+      "path": "data/quests/dockerfile-layers-cache/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "dockerfile-multistage",
       "world": "unknown",
-      "path": "data\\quests\\dockerfile-multistage\\grading\\golden.state.json",
+      "path": "data/quests/dockerfile-multistage/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "first-sparks",
       "world": "unknown",
-      "path": "data\\quests\\first-sparks\\grading\\golden.run.json"
+      "path": "data/quests/first-sparks/grading/golden.run.json"
     },
     {
       "slug": "git-add-commit",
       "world": "unknown",
-      "path": "data\\quests\\git-add-commit\\grading\\golden.state.json",
+      "path": "data/quests/git-add-commit/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-branch-merge",
       "world": "unknown",
-      "path": "data\\quests\\git-branch-merge\\grading\\golden.state.json",
+      "path": "data/quests/git-branch-merge/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-branches",
       "world": "unknown",
-      "path": "data\\quests\\git-branches\\grading\\golden.state.json",
+      "path": "data/quests/git-branches/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-ignition",
       "world": "unknown",
-      "path": "data\\quests\\git-ignition\\grading\\golden.state.json",
+      "path": "data/quests/git-ignition/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-init-clone",
       "world": "unknown",
-      "path": "data\\quests\\git-init-clone\\grading\\golden.state.json",
+      "path": "data/quests/git-init-clone/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-log",
       "world": "unknown",
-      "path": "data\\quests\\git-log\\grading\\golden.run.json"
+      "path": "data/quests/git-log/grading/golden.run.json"
     },
     {
       "slug": "git-merge-conflict",
       "world": "unknown",
-      "path": "data\\quests\\git-merge-conflict\\grading\\golden.state.json",
+      "path": "data/quests/git-merge-conflict/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-rebase-linear",
       "world": "unknown",
-      "path": "data\\quests\\git-rebase-linear\\grading\\golden.state.json",
+      "path": "data/quests/git-rebase-linear/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-rebase-onto-main",
       "world": "unknown",
-      "path": "data\\quests\\git-rebase-onto-main\\grading\\golden.state.json",
+      "path": "data/quests/git-rebase-onto-main/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-remote-push",
       "world": "unknown",
-      "path": "data\\quests\\git-remote-push\\grading\\golden.state.json",
+      "path": "data/quests/git-remote-push/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-stash",
       "world": "unknown",
-      "path": "data\\quests\\git-stash\\grading\\golden.state.json",
+      "path": "data/quests/git-stash/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-status-diff",
       "world": "unknown",
-      "path": "data\\quests\\git-status-diff\\grading\\golden.state.json",
+      "path": "data/quests/git-status-diff/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-t2-merge-conflict",
       "world": "unknown",
-      "path": "data\\quests\\git-t2-merge-conflict\\grading\\golden.state.json",
+      "path": "data/quests/git-t2-merge-conflict/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-t2-rebase",
       "world": "unknown",
-      "path": "data\\quests\\git-t2-rebase\\grading\\golden.state.json",
+      "path": "data/quests/git-t2-rebase/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-t2-release",
       "world": "unknown",
-      "path": "data\\quests\\git-t2-release\\grading\\golden.state.json",
+      "path": "data/quests/git-t2-release/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-tag-release",
       "world": "unknown",
-      "path": "data\\quests\\git-tag-release\\grading\\golden.state.json",
+      "path": "data/quests/git-tag-release/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "git-tags",
       "world": "unknown",
-      "path": "data\\quests\\git-tags\\grading\\golden.run.json"
+      "path": "data/quests/git-tags/grading/golden.run.json"
     },
     {
       "slug": "git-undo-revert",
       "world": "unknown",
-      "path": "data\\quests\\git-undo-revert\\grading\\golden.state.json",
+      "path": "data/quests/git-undo-revert/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "hello-variable",
       "world": "unknown",
-      "path": "data\\quests\\hello-variable\\grading\\golden.json",
+      "path": "data/quests/hello-variable/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "html-accessibility-basics",
       "world": "unknown",
-      "path": "data\\quests\\html-accessibility-basics\\grading\\golden.state.json",
+      "path": "data/quests/html-accessibility-basics/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-debug-validate",
       "world": "unknown",
-      "path": "data\\quests\\html-debug-validate\\grading\\golden.state.json",
+      "path": "data/quests/html-debug-validate/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-forms-inputs",
       "world": "unknown",
-      "path": "data\\quests\\html-forms-inputs\\grading\\golden.state.json",
+      "path": "data/quests/html-forms-inputs/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-ignition",
       "world": "unknown",
-      "path": "data\\quests\\html-ignition\\grading\\golden.state.json",
+      "path": "data/quests/html-ignition/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-links-images",
       "world": "unknown",
-      "path": "data\\quests\\html-links-images\\grading\\golden.state.json",
+      "path": "data/quests/html-links-images/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-lists-tables",
       "world": "unknown",
-      "path": "data\\quests\\html-lists-tables\\grading\\golden.state.json",
+      "path": "data/quests/html-lists-tables/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-media-embed",
       "world": "unknown",
-      "path": "data\\quests\\html-media-embed\\grading\\golden.state.json",
+      "path": "data/quests/html-media-embed/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-meta-seo",
       "world": "unknown",
-      "path": "data\\quests\\html-meta-seo\\grading\\golden.state.json",
+      "path": "data/quests/html-meta-seo/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-semantic-layout",
       "world": "unknown",
-      "path": "data\\quests\\html-semantic-layout\\grading\\golden.state.json",
+      "path": "data/quests/html-semantic-layout/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "html-tags-attributes",
       "world": "unknown",
-      "path": "data\\quests\\html-tags-attributes\\grading\\golden.state.json",
+      "path": "data/quests/html-tags-attributes/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-cors-cookies",
       "world": "unknown",
-      "path": "data\\quests\\infra-cors-cookies\\grading\\golden.state.json",
+      "path": "data/quests/infra-cors-cookies/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-debug-playbook",
       "world": "unknown",
-      "path": "data\\quests\\infra-debug-playbook\\grading\\golden.state.json",
+      "path": "data/quests/infra-debug-playbook/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-docker-compose",
       "world": "unknown",
-      "path": "data\\quests\\infra-docker-compose\\grading\\golden.state.json",
+      "path": "data/quests/infra-docker-compose/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-env-config",
       "world": "unknown",
-      "path": "data\\quests\\infra-env-config\\grading\\golden.state.json",
+      "path": "data/quests/infra-env-config/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-healthchecks",
       "world": "unknown",
-      "path": "data\\quests\\infra-healthchecks\\grading\\golden.state.json",
+      "path": "data/quests/infra-healthchecks/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-ignition",
       "world": "unknown",
-      "path": "data\\quests\\infra-ignition\\grading\\golden.state.json",
+      "path": "data/quests/infra-ignition/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-logs-metrics",
       "world": "unknown",
-      "path": "data\\quests\\infra-logs-metrics\\grading\\golden.state.json",
+      "path": "data/quests/infra-logs-metrics/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-networking-dns",
       "world": "unknown",
-      "path": "data\\quests\\infra-networking-dns\\grading\\golden.state.json",
+      "path": "data/quests/infra-networking-dns/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-ports-and-localhost",
       "world": "unknown",
-      "path": "data\\quests\\infra-ports-and-localhost\\grading\\golden.state.json",
+      "path": "data/quests/infra-ports-and-localhost/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "infra-reverse-proxy",
       "world": "unknown",
-      "path": "data\\quests\\infra-reverse-proxy\\grading\\golden.state.json",
+      "path": "data/quests/infra-reverse-proxy/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "js-arrays-q1-basics",
       "world": "unknown",
-      "path": "data\\quests\\js-arrays-q1-basics\\grading\\golden.run.json"
+      "path": "data/quests/js-arrays-q1-basics/grading/golden.run.json"
     },
     {
       "slug": "js-arrays-q2-map-filter-reduce",
       "world": "unknown",
-      "path": "data\\quests\\js-arrays-q2-map-filter-reduce\\grading\\golden.run.json"
+      "path": "data/quests/js-arrays-q2-map-filter-reduce/grading/golden.run.json"
     },
     {
       "slug": "js-async-q1-promises-basics",
       "world": "unknown",
-      "path": "data\\quests\\js-async-q1-promises-basics\\grading\\golden.run.json"
+      "path": "data/quests/js-async-q1-promises-basics/grading/golden.run.json"
     },
     {
       "slug": "js-control-q1-if-else-loops",
       "world": "unknown",
-      "path": "data\\quests\\js-control-q1-if-else-loops\\grading\\golden.run.json"
+      "path": "data/quests/js-control-q1-if-else-loops/grading/golden.run.json"
     },
     {
       "slug": "js-errors-q1-try-catch",
       "world": "unknown",
-      "path": "data\\quests\\js-errors-q1-try-catch\\grading\\golden.run.json"
+      "path": "data/quests/js-errors-q1-try-catch/grading/golden.run.json"
     },
     {
       "slug": "js-functions-q1-arrow-vs-regular",
       "world": "unknown",
-      "path": "data\\quests\\js-functions-q1-arrow-vs-regular\\grading\\golden.run.json"
+      "path": "data/quests/js-functions-q1-arrow-vs-regular/grading/golden.run.json"
     },
     {
       "slug": "js-ignition-q1-console-and-functions",
       "world": "unknown",
-      "path": "data\\quests\\js-ignition-q1-console-and-functions\\grading\\golden.json",
+      "path": "data/quests/js-ignition-q1-console-and-functions/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "js-modules-q1-import-export",
       "world": "unknown",
-      "path": "data\\quests\\js-modules-q1-import-export\\grading\\golden.run.json"
+      "path": "data/quests/js-modules-q1-import-export/grading/golden.run.json"
     },
     {
       "slug": "js-objects-q1-properties-methods",
       "world": "unknown",
-      "path": "data\\quests\\js-objects-q1-properties-methods\\grading\\golden.run.json"
+      "path": "data/quests/js-objects-q1-properties-methods/grading/golden.run.json"
     },
     {
       "slug": "js-vars-q1-let-const-var",
       "world": "unknown",
-      "path": "data\\quests\\js-vars-q1-let-const-var\\grading\\golden.json",
+      "path": "data/quests/js-vars-q1-let-const-var/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "ml-classification-basics",
       "world": "unknown",
-      "path": "data\\quests\\ml-classification-basics\\grading\\golden.run.json"
+      "path": "data/quests/ml-classification-basics/grading/golden.run.json"
     },
     {
       "slug": "ml-data-preprocessing",
       "world": "unknown",
-      "path": "data\\quests\\ml-data-preprocessing\\grading\\golden.run.json"
+      "path": "data/quests/ml-data-preprocessing/grading/golden.run.json"
     },
     {
       "slug": "ml-ignition",
       "world": "unknown",
-      "path": "data\\quests\\ml-ignition\\grading\\golden.json",
+      "path": "data/quests/ml-ignition/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "ml-linear-regression",
       "world": "unknown",
-      "path": "data\\quests\\ml-linear-regression\\grading\\golden.run.json"
+      "path": "data/quests/ml-linear-regression/grading/golden.run.json"
     },
     {
       "slug": "ml-model-evaluation",
       "world": "unknown",
-      "path": "data\\quests\\ml-model-evaluation\\grading\\golden.run.json"
+      "path": "data/quests/ml-model-evaluation/grading/golden.run.json"
     },
     {
       "slug": "ml-neural-networks-intro",
       "world": "unknown",
-      "path": "data\\quests\\ml-neural-networks-intro\\grading\\golden.run.json"
+      "path": "data/quests/ml-neural-networks-intro/grading/golden.run.json"
     },
     {
       "slug": "ml-numpy-basics",
       "world": "unknown",
-      "path": "data\\quests\\ml-numpy-basics\\grading\\golden.json",
+      "path": "data/quests/ml-numpy-basics/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "ml-overfitting-regularization",
       "world": "unknown",
-      "path": "data\\quests\\ml-overfitting-regularization\\grading\\golden.run.json"
+      "path": "data/quests/ml-overfitting-regularization/grading/golden.run.json"
     },
     {
       "slug": "ml-pandas-dataframes",
       "world": "unknown",
-      "path": "data\\quests\\ml-pandas-dataframes\\grading\\golden.run.json"
+      "path": "data/quests/ml-pandas-dataframes/grading/golden.run.json"
     },
     {
       "slug": "ml-train-test-split",
       "world": "unknown",
-      "path": "data\\quests\\ml-train-test-split\\grading\\golden.run.json"
+      "path": "data/quests/ml-train-test-split/grading/golden.run.json"
     },
     {
       "slug": "node-async",
       "world": "unknown",
-      "path": "data\\quests\\node-async\\grading\\golden.run.json"
+      "path": "data/quests/node-async/grading/golden.run.json"
     },
     {
       "slug": "node-deploy-basics",
       "world": "unknown",
-      "path": "data\\quests\\node-deploy-basics\\grading\\golden.run.json"
+      "path": "data/quests/node-deploy-basics/grading/golden.run.json"
     },
     {
       "slug": "node-env-config",
       "world": "unknown",
-      "path": "data\\quests\\node-env-config\\grading\\golden.run.json"
+      "path": "data/quests/node-env-config/grading/golden.run.json"
     },
     {
       "slug": "node-fs-path",
       "world": "unknown",
-      "path": "data\\quests\\node-fs-path\\grading\\golden.run.json"
+      "path": "data/quests/node-fs-path/grading/golden.run.json"
     },
     {
       "slug": "node-http",
       "world": "unknown",
-      "path": "data\\quests\\node-http\\grading\\golden.run.json"
+      "path": "data/quests/node-http/grading/golden.run.json"
     },
     {
       "slug": "node-ignition",
       "world": "unknown",
-      "path": "data\\quests\\node-ignition\\grading\\golden.run.json"
+      "path": "data/quests/node-ignition/grading/golden.run.json"
     },
     {
       "slug": "node-middleware",
       "world": "unknown",
-      "path": "data\\quests\\node-middleware\\grading\\golden.run.json"
+      "path": "data/quests/node-middleware/grading/golden.run.json"
     },
     {
       "slug": "node-modules",
       "world": "unknown",
-      "path": "data\\quests\\node-modules\\grading\\golden.run.json"
+      "path": "data/quests/node-modules/grading/golden.run.json"
     },
     {
       "slug": "node-npm",
       "world": "unknown",
-      "path": "data\\quests\\node-npm\\grading\\golden.run.json"
+      "path": "data/quests/node-npm/grading/golden.run.json"
     },
     {
       "slug": "node-testing",
       "world": "unknown",
-      "path": "data\\quests\\node-testing\\grading\\golden.run.json"
+      "path": "data/quests/node-testing/grading/golden.run.json"
     },
     {
       "slug": "python-boss-csv-report",
       "world": "unknown",
-      "path": "data\\quests\\python-boss-csv-report\\grading\\golden.run.json"
+      "path": "data/quests/python-boss-csv-report/grading/golden.run.json"
     },
     {
       "slug": "python-cli-args",
       "world": "unknown",
-      "path": "data\\quests\\python-cli-args\\grading\\golden.run.json"
+      "path": "data/quests/python-cli-args/grading/golden.run.json"
     },
     {
       "slug": "python-data-forge",
       "world": "unknown",
-      "path": "data\\quests\\python-data-forge\\grading\\golden.json",
+      "path": "data/quests/python-data-forge/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "python-dicts-lists-transform",
       "world": "unknown",
-      "path": "data\\quests\\python-dicts-lists-transform\\grading\\golden.run.json"
+      "path": "data/quests/python-dicts-lists-transform/grading/golden.run.json"
     },
     {
       "slug": "python-file-io-safe",
       "world": "unknown",
-      "path": "data\\quests\\python-file-io-safe\\grading\\golden.run.json"
+      "path": "data/quests/python-file-io-safe/grading/golden.run.json"
     },
     {
       "slug": "python-functions-contracts",
       "world": "unknown",
-      "path": "data\\quests\\python-functions-contracts\\grading\\golden.run.json"
+      "path": "data/quests/python-functions-contracts/grading/golden.run.json"
     },
     {
       "slug": "python-loop",
       "world": "unknown",
-      "path": "data\\quests\\python-loop\\grading\\golden.json",
+      "path": "data/quests/python-loop/grading/golden.json",
       "note": "using legacy golden.json (should migrate to golden.run.json)"
     },
     {
       "slug": "python-oop-mini",
       "world": "unknown",
-      "path": "data\\quests\\python-oop-mini\\grading\\golden.run.json"
+      "path": "data/quests/python-oop-mini/grading/golden.run.json"
     },
     {
       "slug": "python-systems-observability-sli",
       "world": "unknown",
-      "path": "data\\quests\\python-systems-observability-sli\\grading\\golden.run.json"
+      "path": "data/quests/python-systems-observability-sli/grading/golden.run.json"
     },
     {
       "slug": "python-systems-performance-profile",
       "world": "unknown",
-      "path": "data\\quests\\python-systems-performance-profile\\grading\\golden.run.json"
+      "path": "data/quests/python-systems-performance-profile/grading/golden.run.json"
     },
     {
       "slug": "python-systems-platform-tooling",
       "world": "unknown",
-      "path": "data\\quests\\python-systems-platform-tooling\\grading\\golden.run.json"
+      "path": "data/quests/python-systems-platform-tooling/grading/golden.run.json"
     },
     {
       "slug": "python-systems-resilient-job-runner",
       "world": "unknown",
-      "path": "data\\quests\\python-systems-resilient-job-runner\\grading\\golden.run.json"
+      "path": "data/quests/python-systems-resilient-job-runner/grading/golden.run.json"
     },
     {
       "slug": "python-systems-service-boundaries",
       "world": "unknown",
-      "path": "data\\quests\\python-systems-service-boundaries\\grading\\golden.run.json"
+      "path": "data/quests/python-systems-service-boundaries/grading/golden.run.json"
     },
     {
       "slug": "quest-py-hidden",
       "world": "unknown",
-      "path": "data\\quests\\quest-py-hidden\\grading\\golden.run.json"
+      "path": "data/quests/quest-py-hidden/grading/golden.run.json"
     },
     {
       "slug": "quest-py-workspace",
       "world": "unknown",
-      "path": "data\\quests\\quest-py-workspace\\grading\\golden.run.json"
+      "path": "data/quests/quest-py-workspace/grading/golden.run.json"
     },
     {
       "slug": "quest-ts-hello-console",
       "world": "unknown",
-      "path": "data\\quests\\quest-ts-hello-console\\grading\\golden.run.json"
+      "path": "data/quests/quest-ts-hello-console/grading/golden.run.json"
     },
     {
       "slug": "quest-ts-hello-variable",
       "world": "unknown",
-      "path": "data\\quests\\quest-ts-hello-variable\\grading\\golden.run.json"
+      "path": "data/quests/quest-ts-hello-variable/grading/golden.run.json"
     },
     {
       "slug": "quest-ts-loop-countdown",
       "world": "unknown",
-      "path": "data\\quests\\quest-ts-loop-countdown\\grading\\golden.run.json"
+      "path": "data/quests/quest-ts-loop-countdown/grading/golden.run.json"
     },
     {
       "slug": "react-components",
       "world": "unknown",
-      "path": "data\\quests\\react-components\\grading\\golden.run.json"
+      "path": "data/quests/react-components/grading/golden.run.json"
     },
     {
       "slug": "react-conditional-render",
       "world": "unknown",
-      "path": "data\\quests\\react-conditional-render\\grading\\golden.run.json"
+      "path": "data/quests/react-conditional-render/grading/golden.run.json"
     },
     {
       "slug": "react-context-theme",
       "world": "unknown",
-      "path": "data\\quests\\react-context-theme\\grading\\golden.run.json"
+      "path": "data/quests/react-context-theme/grading/golden.run.json"
     },
     {
       "slug": "react-effects-mount",
       "world": "unknown",
-      "path": "data\\quests\\react-effects-mount\\grading\\golden.run.json"
+      "path": "data/quests/react-effects-mount/grading/golden.run.json"
     },
     {
       "slug": "react-ignition",
       "world": "unknown",
-      "path": "data\\quests\\react-ignition\\grading\\golden.run.json"
+      "path": "data/quests/react-ignition/grading/golden.run.json"
     },
     {
       "slug": "react-lists",
       "world": "unknown",
-      "path": "data\\quests\\react-lists\\grading\\golden.run.json"
+      "path": "data/quests/react-lists/grading/golden.run.json"
     },
     {
       "slug": "react-props",
       "world": "unknown",
-      "path": "data\\quests\\react-props\\grading\\golden.run.json"
+      "path": "data/quests/react-props/grading/golden.run.json"
     },
     {
       "slug": "react-reducer-cart",
       "world": "unknown",
-      "path": "data\\quests\\react-reducer-cart\\grading\\golden.run.json"
+      "path": "data/quests/react-reducer-cart/grading/golden.run.json"
     },
     {
       "slug": "react-state-counter",
       "world": "unknown",
-      "path": "data\\quests\\react-state-counter\\grading\\golden.run.json"
+      "path": "data/quests/react-state-counter/grading/golden.run.json"
     },
     {
       "slug": "react-state-toggle",
       "world": "unknown",
-      "path": "data\\quests\\react-state-toggle\\grading\\golden.run.json"
+      "path": "data/quests/react-state-toggle/grading/golden.run.json"
     },
     {
       "slug": "sql-aggregates",
       "world": "unknown",
-      "path": "data\\quests\\sql-aggregates\\grading\\golden.state.json",
+      "path": "data/quests/sql-aggregates/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-cte-subquery",
       "world": "unknown",
-      "path": "data\\quests\\sql-cte-subquery\\grading\\golden.state.json",
+      "path": "data/quests/sql-cte-subquery/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-groupby-having",
       "world": "unknown",
-      "path": "data\\quests\\sql-groupby-having\\grading\\golden.state.json",
+      "path": "data/quests/sql-groupby-having/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-ignition",
       "world": "unknown",
-      "path": "data\\quests\\sql-ignition\\grading\\golden.state.json",
+      "path": "data/quests/sql-ignition/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-insert-update-delete",
       "world": "unknown",
-      "path": "data\\quests\\sql-insert-update-delete\\grading\\golden.state.json",
+      "path": "data/quests/sql-insert-update-delete/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-joins",
       "world": "unknown",
-      "path": "data\\quests\\sql-joins\\grading\\golden.state.json",
+      "path": "data/quests/sql-joins/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-left-join-null",
       "world": "unknown",
-      "path": "data\\quests\\sql-left-join-null\\grading\\golden.state.json",
+      "path": "data/quests/sql-left-join-null/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-order-limit",
       "world": "unknown",
-      "path": "data\\quests\\sql-order-limit\\grading\\golden.state.json",
+      "path": "data/quests/sql-order-limit/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-select",
       "world": "unknown",
-      "path": "data\\quests\\sql-select\\grading\\golden.state.json",
+      "path": "data/quests/sql-select/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "sql-t2-analytics-pack",
       "world": "unknown",
-      "path": "data\\quests\\sql-t2-analytics-pack\\grading\\golden.run.json"
+      "path": "data/quests/sql-t2-analytics-pack/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-boss-data-quality-audit",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-boss-data-quality-audit/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-cte-basics",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-cte-basics/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-dates-grouping",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-dates-grouping/grading/golden.run.json"
     },
     {
       "slug": "sql-t2-groupby-having",
       "world": "unknown",
-      "path": "data\\quests\\sql-t2-groupby-having\\grading\\golden.run.json"
+      "path": "data/quests/sql-t2-groupby-having/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-indexes-explain",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-indexes-explain/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-nulls-coalesce",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-nulls-coalesce/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-recursive-cte-hierarchy",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-recursive-cte-hierarchy/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-subqueries-exists",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-subqueries-exists/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-transactions-rollback",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-transactions-rollback/grading/golden.run.json"
+    },
+    {
+      "slug": "sql-t2-upsert-on-conflict",
+      "world": "unknown",
+      "path": "data/quests/sql-t2-upsert-on-conflict/grading/golden.run.json"
     },
     {
       "slug": "sql-t2-window-functions",
       "world": "unknown",
-      "path": "data\\quests\\sql-t2-window-functions\\grading\\golden.run.json"
+      "path": "data/quests/sql-t2-window-functions/grading/golden.run.json"
     },
     {
       "slug": "sql-where",
       "world": "unknown",
-      "path": "data\\quests\\sql-where\\grading\\golden.state.json",
+      "path": "data/quests/sql-where/grading/golden.state.json",
       "type": "state"
     },
     {
       "slug": "ts-arrays",
       "world": "unknown",
-      "path": "data\\quests\\ts-arrays\\grading\\golden.run.json"
+      "path": "data/quests/ts-arrays/grading/golden.run.json"
     },
     {
       "slug": "ts-control",
       "world": "unknown",
-      "path": "data\\quests\\ts-control\\grading\\golden.run.json"
+      "path": "data/quests/ts-control/grading/golden.run.json"
     },
     {
       "slug": "ts-functions",
       "world": "unknown",
-      "path": "data\\quests\\ts-functions\\grading\\golden.run.json"
+      "path": "data/quests/ts-functions/grading/golden.run.json"
     },
     {
       "slug": "ts-generics",
       "world": "unknown",
-      "path": "data\\quests\\ts-generics\\grading\\golden.run.json"
+      "path": "data/quests/ts-generics/grading/golden.run.json"
     },
     {
       "slug": "ts-generics-q2-result-type",
       "world": "unknown",
-      "path": "data\\quests\\ts-generics-q2-result-type\\grading\\golden.run.json"
+      "path": "data/quests/ts-generics-q2-result-type/grading/golden.run.json"
     },
     {
       "slug": "ts-ignition",
       "world": "unknown",
-      "path": "data\\quests\\ts-ignition\\grading\\golden.run.json"
+      "path": "data/quests/ts-ignition/grading/golden.run.json"
     },
     {
       "slug": "ts-ignition-q1-types-and-interfaces",
       "world": "unknown",
-      "path": "data\\quests\\ts-ignition-q1-types-and-interfaces\\grading\\golden.run.json"
+      "path": "data/quests/ts-ignition-q1-types-and-interfaces/grading/golden.run.json"
     },
     {
       "slug": "ts-interfaces",
       "world": "unknown",
-      "path": "data\\quests\\ts-interfaces\\grading\\golden.run.json"
+      "path": "data/quests/ts-interfaces/grading/golden.run.json"
     },
     {
       "slug": "ts-modules",
       "world": "unknown",
-      "path": "data\\quests\\ts-modules\\grading\\golden.run.json"
+      "path": "data/quests/ts-modules/grading/golden.run.json"
     },
     {
       "slug": "ts-narrowing-q2-unions-and-guards",
       "world": "unknown",
-      "path": "data\\quests\\ts-narrowing-q2-unions-and-guards\\grading\\golden.run.json"
+      "path": "data/quests/ts-narrowing-q2-unions-and-guards/grading/golden.run.json"
     },
     {
       "slug": "ts-objects",
       "world": "unknown",
-      "path": "data\\quests\\ts-objects\\grading\\golden.run.json"
+      "path": "data/quests/ts-objects/grading/golden.run.json"
     },
     {
       "slug": "ts-types",
       "world": "unknown",
-      "path": "data\\quests\\ts-types\\grading\\golden.run.json"
+      "path": "data/quests/ts-types/grading/golden.run.json"
     },
     {
       "slug": "ts-vars",
       "world": "unknown",
-      "path": "data\\quests\\ts-vars\\grading\\golden.run.json"
+      "path": "data/quests/ts-vars/grading/golden.run.json"
     }
   ],
   "quests_with_illegal_spec": [],
   "quests_missing_golden": [],
   "summary": {
-    "total_quests": 164,
-    "with_golden_run": 164,
+    "total_quests": 173,
+    "with_golden_run": 173,
     "with_illegal_spec": 0,
     "missing_golden": 0,
     "status": "PASS"
