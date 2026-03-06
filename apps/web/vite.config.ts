@@ -31,6 +31,13 @@ export default defineConfig(({ mode }) => {
     server: {
       host: true, // Needed for Docker port mapping
       port: 5173,
+      // usePolling: required for Vite HMR inside Docker on Windows.
+      // Without it, inotify events don't cross the volume boundary so Vite
+      // never detects edits made on the host — requiring a full restart.
+      watch: {
+        usePolling: true,
+        interval: 300,
+      },
       proxy: {
         // Proxy API requests to the Backend Container
         '/api': {
