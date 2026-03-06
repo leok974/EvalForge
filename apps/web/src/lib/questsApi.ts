@@ -127,6 +127,50 @@ export interface QuickFix {
     snippet?: string;
 }
 
+// ────────────────────────────────────────────────
+// SQL Preview Artifacts — canonical shapes (source of truth)
+// Backend: arcade_app/services/runners/sql_preview.py
+// ────────────────────────────────────────────────
+/** A single statement captured in the SQLite execution trace. */
+export interface SqlTraceEntry {
+    idx: number;
+    phase: 'setup' | 'student' | 'assert';
+    sql: string;
+    elapsed_ms: number;
+    row_count: number | null;
+    /** Column names present only when is_select=true */
+    columns: string[] | null;
+    /** Up to 25 preview rows, each an array of cell values */
+    preview_rows: unknown[][] | null;
+    error: string | null;
+    is_select: boolean;
+}
+
+/**
+ * The student's last SELECT result.
+ * IMPORTANT: rows is an array-of-arrays, NOT array-of-objects.
+ * UI must index by column position: row[colIdx].
+ */
+export interface SqlStudentResult {
+    columns: string[];
+    /** Array-of-arrays. Index by column position, not name. */
+    rows: unknown[][];
+    row_count: number;
+    note?: string;
+}
+
+export interface SqlExplain {
+    engine: 'sqlite' | string;
+    statement: string;
+    plan_rows: string[];
+}
+
+export interface SqlArtifacts {
+    sql_student_result: SqlStudentResult;
+    sql_trace: SqlTraceEntry[];
+    sql_explain: SqlExplain;
+}
+
 export interface RunResult {
     passed: boolean;
     objective_results: ObjectiveResult[];
@@ -143,7 +187,8 @@ export interface RunResult {
     debrief?: DebriefData;
     diagnostics?: Diagnostic[];
     quick_fixes?: QuickFix[];
-    artifacts?: any;
+    /** For SQL quests this is SqlArtifacts; other runners may extend this. */
+    artifacts?: SqlArtifacts | Record<string, unknown>;
 }
 
 export interface QuestSubmitResult {

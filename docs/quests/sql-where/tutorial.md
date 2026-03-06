@@ -1,55 +1,49 @@
-## Sql Where
+# Tutorial: The WHERE Clause
 
-> [!NOTE]
-> **What you'll build:** Practice sql where concepts in a real-world scenario.
+The `WHERE` clause filters rows **before** they reach your result set. Without it, every row is returned.
 
----
+## Basic syntax
 
-## 1) What You'll Build
-In this quest, you'll work with sql where to practice core concepts.
-
-## 2) The Concept in 30 Seconds
-Sql Where demonstrates fundamental programming patterns used in real-world applications.
-
----
-
-## 4) Step-by-Step Walkthrough
-
-### **Setup**
-- Review the starting code
-- Identify the input and expected output
-
-### **Implementation**
-- Follow the objectives
-- Write your logic in the editor
-
-### **Testing**
-- Click **Run** to verify
-- Check different input cases
-
----
-
-## 5) Example Implementation
-```python
-# Example logic
-def example():
-    pass
+```sql
+SELECT column1, column2
+FROM table_name
+WHERE condition;
 ```
 
----
+## Filtering with equality
 
-## 6) Common Pitfalls
+```sql
+SELECT name FROM users WHERE city = 'Detroit';
+-- Returns: Alice, Charlie
+```
 
-> [!WARNING]
->
-> * Not reading error messages
-> * Missing edge case handling
-> * Syntax errors
+## Filtering with a boolean flag
 
----
+SQLite stores booleans as integers (`1` = true, `0` = false):
 
-## 7) Check Yourself
+```sql
+SELECT name FROM users WHERE is_active = 1;
+```
 
-* [ ] Does the code run?
-* [ ] Did you match the expected output?
-* [ ] Did you handle edge cases?
+## Combining with ORDER BY
+
+Filters happen **before** sorting:
+
+```sql
+SELECT id, name, city
+FROM users
+WHERE is_active = 1
+ORDER BY name ASC;
+```
+
+## For this quest
+
+The `users` table has 6 rows. Two users (`Charlie`, `Evan`) have `is_active = 0`.
+Your query should return the **4 active users**, sorted alphabetically:
+
+| id | name  | city    |
+|----|-------|---------|
+| 1  | Alice | Detroit |
+| 2  | Bob   | Austin  |
+| 4  | Diana | Seattle |
+| 6  | Fay   | Miami   |

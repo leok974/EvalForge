@@ -1,20 +1,35 @@
 {
     "slug": "sql-where",
-    "title": "sql-where",
-    "language": "txt",
+    "title": "Filter the Data",
+    "language": "sql",
     "world_id": "world-sql",
-    "track_id": "core",
-    "order_index": 1,
-    "short_description": "A generated quest description.",
-    "detailed_description": "Use markdown here.\n\n# Objectives\n- Solve the problem.",
+    "track_id": "sql-fundamentals",
+    "order_index": 3,
+    "short_description": "Use the WHERE clause to filter rows by a condition.",
+    "detailed_description": "Query only the rows you need by adding a WHERE clause. You will filter active users from the Archive and learn how boolean flags work in SQLite.",
+    "key_terms": [
+        "where",
+        "filter",
+        "is_active",
+        "boolean"
+    ],
     "objectives": [
         {
             "id": "sql_check",
             "kind": "tests_pass",
-            "text": "Query produces correct results",
-            "why": "Functional requirement",
+            "text": "Query returns only active users",
+            "why": "WHERE clause filters correctly",
             "rule": {
                 "must_pass": true
+            }
+        },
+        {
+            "id": "uses_where",
+            "kind": "regex",
+            "text": "Query uses WHERE clause",
+            "why": "Enforces use of the target concept",
+            "rule": {
+                "pattern": "(?i)\\bWHERE\\b"
             }
         },
         {
@@ -25,33 +40,45 @@
                 "kind": "fs_snapshot",
                 "must_exist": [
                     "README.md",
-                    "query.sql",
-                    "task.sql",
-                    "task.txt"
+                    "fixtures/schema.sql",
+                    "fixtures/seed.sql",
+                    "task.sql"
                 ]
             }
         }
     ],
     "grading": {
-        "mode": "tests"
+        "mode": "run"
     },
     "workspace": {
-        "entrypoint": "main.py",
+        "entrypoint": "task.sql",
         "files_from": "../quests/sql-where/workspace"
     },
     "smoke": {
         "solution_workspace_files": []
     },
-    "briefing_md": "# Mission: sql-where\n\n**Objective:** sql-where.\n\nYou need to implement the solution in the workspace. Focus on meeting the requirements defined by the test suite.\n\n",
-    "lore_md": "## Query Log: sql-where\n\n> *Connected to primary data store...*\n>\n> Query Plan: sql-where\n> Optimization Level: High\n\nThe schema is inconsistent. Construct precise queries to retrieve the required dataset.",
-    "tiered_hints": {
-        "concept": "Review the workspace file structure.",
-        "guided": "Review the concept of **term-1** in the Codex.",
-        "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
-    },
-    "content_source": "generated_v1",
-    "content_version": "9.9.0",
+    "content_source": "sql_world_v1",
+    "content_version": "1.0.0",
     "runtime_rules_json": {
-        "objectives": []
+        "objectives": [
+            {
+                "id": "sql_check",
+                "kind": "exit_code_zero",
+                "text": "Query executes without errors",
+                "why": "Ensure SQL syntax is correct",
+                "rule": {
+                    "kind": "exit_code_zero"
+                }
+            },
+            {
+                "id": "uses_where",
+                "kind": "regex",
+                "text": "Query uses WHERE clause",
+                "why": "Enforces use of target concept",
+                "rule": {
+                    "pattern": "(?i)\\bWHERE\\b"
+                }
+            }
+        ]
     }
 }
