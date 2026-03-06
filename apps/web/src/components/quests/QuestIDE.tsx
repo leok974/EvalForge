@@ -679,24 +679,22 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     // See lines 33 for existing hook usage.
 
 
-    const handleSubmit = async () => {
-        if (!allPassed) return;
-        setCoachData(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-        // Auto-switch to Judge panel
-        const params = new URLSearchParams(window.location.search);
-        params.set('panel', 'judge');
-        navigate(`${window.location.pathname}?${params.toString()}`, { replace: true });
+    const handleSubmit = async () => {
+        if (!allPassed || isSubmitting) return;
+
+        setIsSubmitting(true);
+        setCoachData(null);
+        addLog('--- Submitting solution… ---', 'info');
 
         try {
             const { submitQuestSolution } = await import('@/lib/questsApi');
-            const { broadcastQuestUpdate } = await import('@/lib/questsEvents');
 
-            // Helper to get fresh content from Monaco models to preserve Tabs / exact state
+            // Helper to get fresh content from Monaco models
             const getFreshContent = (filePath: string, fallback: string) => {
                 const monaco = editorRef.current?.getMonaco();
                 if (!monaco) return fallback;
-
                 const models = monaco.editor.getModels();
                 const model = models.find((m: any) => m.uri.path.endsWith(filePath) || m.uri.path.endsWith('/' + filePath));
                 return model ? model.getValue() : fallback;
@@ -717,32 +715,50 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 workspacePayload
             );
 
-            if ((result as any).coach) {
-                setCoachData((result as any).coach);
-            }
-            if (result.debrief) {
-                setDebriefData(result.debrief);
-            }
+            if ((result as any).coach) setCoachData((result as any).coach);
+            if (result.debrief) setDebriefData(result.debrief);
             setDiagnostics(result.diagnostics || []);
-            const fixes = result.quick_fixes || (result as any).quick_fixes_json || (result as any).attempt?.quick_fixes_json || [];
+            const fixes = result.quick_fixes || (result as any).quick_fixes_json || [];
             if (fixes.length > 0) setQuickFixes(fixes);
 
             if (result.ok) {
-                // 1. Notify UI components (QuestBoard)
-                // broadcastQuestUpdate(result.quest); // Result doesn't have quest?
-                // Actually broadcastQuestUpdate expects QuestSummary.
-                // We might need to fetch it or construct it? 
-                // Or just refresh world progress.
-
-                // 2. Success Overlay
+                addLog('✅ Solution accepted!', 'success');
                 setShowSuccess(true);
+
+                // Update attempt history
+                if ((result as any).attempt_id) {
+                    const newAttempt: QuestAttemptSummary = {
+                        id: (result as any).attempt_id,
+                        created_at: new Date().toISOString(),
+                        run_number: attempts.length + 1,
+                        passed: true,
+                        is_submit: true,
+                        duration_ms: 0,
+                        timed_out: false,
+                        exit_code: 0,
+                    };
+                    setAttempts(prev => [newAttempt, ...prev]);
+                }
+
+                // Switch to results panel after success
+                const params = new URLSearchParams(window.location.search);
+                params.set('panel', 'judge');
+                navigate(`${window.location.pathname}?${params.toString()}`, { replace: true });
             } else {
-                addLog('Submission rejected by server.', 'error');
+                addLog('❌ Submission rejected by server.', 'error');
+                if (result.objective_results) {
+                    result.objective_results.filter(o => !o.ok).forEach(o => {
+                        addLog(`  [FAIL] ${o.id}: ${o.detail || 'Requirement not met'}`, 'error');
+                    });
+                }
             }
         } catch (e: any) {
-            addLog(`Submission Error: ${e.message}`, 'error');
+            addLog(`❌ Submission error: ${e?.message ?? 'Unknown error'}`, 'error');
+        } finally {
+            setIsSubmitting(false);
         }
     };
+
 
     // Auto-save (Files Map)
     useEffect(() => {
@@ -978,18 +994,18 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
                     <button
                         onClick={handleSubmit}
-                        disabled={!allPassed || isRunning || isReplay}
-                        title={isReplay ? "Exit replay to submit" : ""}
+                        disabled={!allPassed || isRunning || isSubmitting || isReplay}
+                        title={isReplay ? "Exit replay to submit" : !allPassed ? "Run first and pass all objectives" : ""}
                         className={`
                             flex items-center gap-2 px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all shadow-lg
-                            ${allPassed && !isReplay
+                            ${allPassed && !isReplay && !isSubmitting
                                 ? 'bg-emerald-500 hover:bg-emerald-400 text-black shadow-emerald-900/20'
                                 : 'bg-zinc-900 text-zinc-600 border border-zinc-800 cursor-not-allowed'
                             }
                         `}
                     >
-                        {allPassed ? <CheckCircle2 className="w-4 h-4" /> : <TerminalIcon className="w-4 h-4" />}
-                        Submit
+                        {isSubmitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : allPassed ? <CheckCircle2 className="w-4 h-4" /> : <TerminalIcon className="w-4 h-4" />}
+                        {isSubmitting ? "Submitting…" : "Submit"}
                     </button>
                 </div>
             </div>
