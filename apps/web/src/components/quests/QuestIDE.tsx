@@ -386,7 +386,25 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     // For local check, allPassed is rough heuristic. Real truth comes from server run.
     // If 'tests_pass' is present, we can't fully validate client-side.
     const hasServerSideObjs = quest.objectives?.some(o => o.validator?.kind === 'tests_pass' || o.validator?.kind === 'ast');
-    const allPassed = !hasServerSideObjs && totalCount > 0 && passedCount === totalCount;
+    const clientAllPassed = !hasServerSideObjs && totalCount > 0 && passedCount === totalCount;
+
+    // Server result is authoritative: use ready_to_submit (set after a real run).
+    // Fall back to client heuristic only if no server run has happened yet.
+    const serverReady = lastRunResult
+        ? !!(lastRunResult as any).ready_to_submit
+        : false;
+    const allPassed = serverReady || clientAllPassed;
+
+    // Build a map of server-verified objective results for the checklist.
+    const serverObjResults: Map<string, boolean> = new Map(
+        ((lastRunResult as any)?.objective_results ?? []).map((r: any) => [r.id, !!r.ok])
+    );
+    // Also include passed_objectives from debrief as a secondary source.
+    const serverPassedIds: string[] = (lastRunResult as any)?.debrief?.passed_objectives ?? [];
+    const isObjPassed = (id: string): boolean =>
+        serverObjResults.get(id) === true ||
+        serverPassedIds.includes(id) ||
+        (!lastRunResult && !!objectivesState[id]); // fallback to client heuristic pre-run
 
     const addLog = (content: string, type: ConsoleEntry['type'] = 'output') => {
         setOutput(prev => [...prev, { type, content, timestamp: Date.now() }]);
@@ -559,11 +577,17 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 workspacePayload
             );
 
-            // Show Output (prioritize stderr for visibility)
-            if (result.stderr) {
+            // Show stderr only when the run actually failed (no false "Runtime Error" on INFO logs)
+            const ranFailed = !result.passed || (result.exit_code !== undefined && result.exit_code !== 0);
+            if (result.stderr && ranFailed) {
                 addLog('--- Runtime Error ---', 'error');
                 result.stderr.split('\n').forEach(line => {
                     if (line.trim()) addLog(line, 'error');
+                });
+            } else if (result.stderr && !ranFailed) {
+                // Non-error stderr (e.g., INFO[sql-preview] logs) — show as plain output
+                result.stderr.split('\n').forEach(line => {
+                    if (line.trim() && !line.startsWith('INFO[')) addLog(line, 'output');
                 });
             }
 
@@ -1275,11 +1299,11 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                                     key={obj.id}
                                                     onClick={() => handleObjectiveClick(obj.id)}
                                                     className={`w-full text-left p-3 rounded-lg border bg-zinc-900/40 hover:bg-zinc-800/60 transition-colors group relative overflow-hidden flex items-start gap-3
-                                                        ${objectivesState[obj.id] ? 'border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.05)]' : 'border-zinc-800 hover:border-zinc-700'}
+                                                        ${isObjPassed(obj.id) ? 'border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.05)]' : 'border-zinc-800 hover:border-zinc-700'}
                                                     `}
                                                 >
                                                     <div className="mt-0.5 shrink-0">
-                                                        {objectivesState[obj.id] ? (
+                                                        {isObjPassed(obj.id) ? (
                                                             <CheckCircle2 className="w-4 h-4 text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                                                         ) : (
                                                             <div className="w-4 h-4 rounded-full border-2 border-zinc-700 bg-zinc-900 shadow-inner" />
@@ -1288,7 +1312,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                                     <div className="flex-1 min-w-0">
                                                         <span className={cn(
                                                             "text-xs font-mono block mb-0.5 leading-tight",
-                                                            objectivesState[obj.id] ? "text-emerald-200" : "text-zinc-300"
+                                                            isObjPassed(obj.id) ? "text-emerald-200" : "text-zinc-300"
                                                         )}>
                                                             {(obj as any).text || (obj as any).title || <span className="opacity-40 italic">(missing text)</span>}
                                                         </span>
