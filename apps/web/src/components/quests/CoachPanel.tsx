@@ -79,7 +79,34 @@ export function CoachPanel({ mode, quest, lastRunResult, attemptId, workspaceFil
         );
     }
 
+    // For debug mode: only show the CTA when the last run actually failed.
+    // Passed runs should show a calm success state, not "why did this fail?".
+    const isFailure =
+        lastRunResult != null &&
+        (lastRunResult.passed === false ||
+            ((lastRunResult.exit_code ?? 0) !== 0) ||
+            (lastRunResult.timed_out ?? false));
+
+    if (mode === 'debug' && !isFailure && !response && !loading) {
+        return (
+            <div className="flex flex-col items-center justify-center p-8 space-y-3 h-full">
+                <div className="p-4 rounded-full bg-emerald-500/10 mb-2">
+                    <Bot className="w-10 h-10 text-emerald-400 opacity-70" />
+                </div>
+                <h3 className="text-zinc-300 font-mono text-sm text-center max-w-xs leading-relaxed">
+                    {lastRunResult ? "Your last run passed — nothing to debug." : "Run the quest to see debug info."}
+                </h3>
+                {lastRunResult && (
+                    <p className="text-zinc-500 text-xs text-center max-w-xs">
+                        Debug Coach activates when a run fails. Keep going!
+                    </p>
+                )}
+            </div>
+        );
+    }
+
     if (!response && !loading) {
+
         return (
             <div className="flex flex-col items-center justify-center p-8 space-y-4 h-full">
                 <div className="p-4 rounded-full bg-indigo-500/10 mb-2">

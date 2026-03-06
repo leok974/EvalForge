@@ -609,8 +609,12 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     addLog("💡 Tip: Open the 'Debug' panel for analysis.", "info");
                     setActiveTerminalTab('results');
                 }
-            } else if (result.stderr || (result as any).error) {
+            } else if (!result.passed || (result.exit_code !== undefined && result.exit_code !== 0)) {
+                // Only auto-switch to Debug on a real failure, not on stderr-only (e.g. INFO logs)
                 setActiveTerminalTab('debug');
+            } else if (result.passed) {
+                // On a clean pass, stay on results tab (never land on Debug)
+                setActiveTerminalTab('results');
             }
 
             // Coach Data
