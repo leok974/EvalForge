@@ -109,6 +109,16 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                     with open(src_path, "r", encoding="utf-8") as rf:
                         with open(runner_target, "w", encoding="utf-8") as wf:
                             wf.write(rf.read())
+            elif mode == "run" and language == "sql":
+                runner_dir = os.path.join(td, ".evalforge")
+                os.makedirs(runner_dir, exist_ok=True)
+                runner_target = os.path.join(runner_dir, "sql_preview.py")
+                
+                src_path = os.path.join(os.path.dirname(__file__), "runners", "sql_preview.py")
+                if os.path.exists(src_path):
+                    with open(src_path, "r", encoding="utf-8") as rf:
+                        with open(runner_target, "w", encoding="utf-8") as wf:
+                            wf.write(rf.read())
             
             # 3. Permissions fix for Docker (since we run as non-root user)
             # Ensure the temp dir and all files are world-readable AND writable
@@ -189,7 +199,9 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
 
         # 5. Docker-in-Docker safe execution
         import uuid
-        container_name = f"runner-{uuid.uuid4()}"
+        attempt_id = os.getenv("EVALFORGE_ATTEMPT_ID", str(uuid.uuid4()))
+        artifacts_dir = os.getenv("EVALFORGE_ARTIFACTS_DIR", f"/tmp/evalforge_artifacts/{attempt_id}")
+        container_name = f"runner-{attempt_id}"
         
         # Base Create Command
         create_cmd = [
@@ -210,6 +222,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             *sum([["-e", f"{k}={v}"] for k, v in spec.env.items()], []),
             "-e", "PYTHONDONTWRITEBYTECODE=1",
             "-e", "PYTHONIOENCODING=utf-8",
+            "-e", f"EVALFORGE_ARTIFACTS_DIR={artifacts_dir}",
             image,
             *final_command # Use the updated command
         ]
@@ -251,7 +264,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 try:
                     report_dest = os.path.join(td, "test_results_fallback.json")
                     subprocess.check_call(
-                        ["docker", "cp", f"{container_name}:/workspace/.evalforge/test_results.json", report_dest],
+                        ["docker", "cp", f"{container_name}:{artifacts_dir}/test_results.json", report_dest],
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
                     )
                     with open(report_dest, "r", encoding="utf-8") as f:
@@ -271,19 +284,35 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             # G) Capture SQL artifacts
             artifacts_out = {}
             import json
-            for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
+            import re
+            
+            # 1. First try to extract from stdout marker
+            match = re.search(r'<<EVALFORGE_ARTIFACTS_START>>(.*?)<<EVALFORGE_ARTIFACTS_END>>', stdout_str, re.DOTALL)
+            if match:
                 try:
-                    dest = os.path.join(td, f"{aname}.json")
-                    subprocess.run(
-                        ["docker", "cp", f"{container_name}:/workspace/{aname}.json", dest],
-                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                        timeout=3
-                    )
-                    if os.path.exists(dest):
-                        with open(dest, "r", encoding="utf-8") as f:
-                            artifacts_out[aname] = json.load(f)
+                    memory_artifacts = json.loads(match.group(1))
+                    for k, v in memory_artifacts.items():
+                        artifacts_out[k] = v
                 except Exception:
                     pass
+                # Strip it from stdout so it doesn't clutter UI logs
+                stdout_str = re.sub(r'\n?<<EVALFORGE_ARTIFACTS_START>>.*?<<EVALFORGE_ARTIFACTS_END>>\n?', '', stdout_str, flags=re.DOTALL)
+                
+            # 2. Fallback to disk if not fully populated
+            for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
+                if not artifacts_out.get(aname):
+                    try:
+                        dest = os.path.join(td, f"{aname}.json")
+                        subprocess.run(
+                            ["docker", "cp", f"{container_name}:{artifacts_dir}/{aname}.json", dest],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                            timeout=3
+                        )
+                        if os.path.exists(dest):
+                            with open(dest, "r", encoding="utf-8") as f:
+                                artifacts_out[aname] = json.load(f)
+                    except Exception:
+                        pass
 
             dt = int((time.time() - t0) * 1000)
             
@@ -306,19 +335,35 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
 
             artifacts_out = {}
             import json
-            for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
+            import re
+            
+            # 1. First try to extract from stdout marker
+            match = re.search(r'<<EVALFORGE_ARTIFACTS_START>>(.*?)<<EVALFORGE_ARTIFACTS_END>>', out, re.DOTALL)
+            if match:
                 try:
-                    dest = os.path.join(td, f"{aname}.json")
-                    subprocess.run(
-                        ["docker", "cp", f"{container_name}:/workspace/{aname}.json", dest],
-                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                        timeout=3
-                    )
-                    if os.path.exists(dest):
-                        with open(dest, "r", encoding="utf-8") as f:
-                            artifacts_out[aname] = json.load(f)
+                    memory_artifacts = json.loads(match.group(1))
+                    for k, v in memory_artifacts.items():
+                        artifacts_out[k] = v
                 except Exception:
                     pass
+                # Strip it from stdout so it doesn't clutter UI logs
+                out = re.sub(r'\n?<<EVALFORGE_ARTIFACTS_START>>.*?<<EVALFORGE_ARTIFACTS_END>>\n?', '', out, flags=re.DOTALL)
+                
+            # 2. Fallback to disk if not fully populated
+            for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
+                if not artifacts_out.get(aname):
+                    try:
+                        dest = os.path.join(td, f"{aname}.json")
+                        subprocess.run(
+                            ["docker", "cp", f"{container_name}:{artifacts_dir}/{aname}.json", dest],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                            timeout=3
+                        )
+                        if os.path.exists(dest):
+                            with open(dest, "r", encoding="utf-8") as f:
+                                artifacts_out[aname] = json.load(f)
+                    except Exception:
+                        pass
 
             return ExecResult(
                 ok=False,

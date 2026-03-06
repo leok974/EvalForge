@@ -250,7 +250,7 @@ export function CodexDrawer({ isOpen, activeRef, onClose, onOpenCodex, questSlug
                                         {filteredSections.map((section, idx) => (
                                             <div key={`${section.world}-${section.section}-${idx}`}>
                                                 <h3 className="text-lg font-medium text-slate-200 mb-3 ml-1 border-l-4 border-blue-500 pl-3">
-                                                    {section.section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                                    {(section.section || "General").replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                                                 </h3>
                                                 <div className="grid grid-cols-1 gap-3">
                                                     {section.pages.map(page => (

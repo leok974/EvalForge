@@ -237,7 +237,7 @@ async def get_codex_index():
                     "id": page_id,
                     "title": title,
                     "world": normalized_world,
-                    "section": None  # Root-level file
+                    "section": "General"  # Root-level file
                 })
             except Exception:
                 pass
@@ -311,7 +311,7 @@ async def get_codex_index():
         if pages:
             index.append({
                 "world": world_name,
-                "section": None,
+                "section": "General",
                 "pages": sorted(pages, key=lambda x: x["title"])
             })
                 

@@ -329,7 +329,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "short_description": "Start your SQL engine.",
         "detailed_description": "Basic SQL selection.",
         "rubric_id": "sql_ignition",
-        "starting_code_path": "data/quests/sql-ignition/workspace/query.sql",
+        "starting_code_path": "data/quests/sql-ignition/workspace/task.sql",
         "unlocks_boss_id": None,
         "unlocks_layout_id": None,
         "base_xp_reward": 40,
@@ -351,7 +351,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
                 "rule": {"kind": "exit_code_zero"},
                 "text": "Query executes successfully",
                 "why": "Ensure SQL syntax is correct"
-            }, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/schema.sql', 'fixtures/seed.sql', 'main.py', 'query.sql', 'task.sql', 'task.txt']}}
+            }, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/schema.sql', 'fixtures/seed.sql', 'main.py', 'task.sql']}}
         ],
         "runtime_rules_json": {
             "enabled": True,
@@ -368,7 +368,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "short_description": "Refine your data retrieval.",
         "detailed_description": "Advanced SELECT.",
         "rubric_id": "sql_select",
-        "starting_code_path": "data/quests/sql-select/workspace/query.sql",
+        "starting_code_path": "data/quests/sql-select/workspace/task.sql",
         "unlocks_boss_id": "archive-warden",
         "unlocks_layout_id": None,
         "base_xp_reward": 60,
@@ -390,7 +390,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
                 "rule": {"kind": "exit_code_zero"},
                 "text": "Query executes successfully",
                 "why": "Ensure syntax is correct"
-            }, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/schema.sql', 'fixtures/seed.sql', 'main.py', 'query.sql', 'task.sql', 'task.txt']}}
+            }, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/schema.sql', 'fixtures/seed.sql', 'main.py', 'task.sql']}}
         ],
         "runtime_rules_json": {
             "enabled": True,

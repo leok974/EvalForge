@@ -100,20 +100,10 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [isSetupCollapsed, setIsSetupCollapsed] = useState(true);
 
-    if (!lastRunResult || !(lastRunResult as any).artifacts) {
-        return (
-            <div className="flex-1 flex flex-col items-center justify-center p-4 text-center text-zinc-500 h-full bg-[#09090b]">
-                <Database className="w-8 h-8 mb-2 opacity-50" />
-                <div className="font-bold uppercase tracking-wider text-[10px]">Query Inspector</div>
-                <div className="text-xs opacity-70">Run a SQL task to capture execution traces.</div>
-            </div>
-        );
-    }
-
-    const { artifacts } = lastRunResult as any;
-    const trace = artifacts.sql_trace || [];
-    const studentResult = artifacts.sql_student_result;
-    const explain = artifacts.sql_explain;
+    const { artifacts } = (lastRunResult as any) || {};
+    const trace = artifacts?.sql_trace || [];
+    const studentResult = artifacts?.sql_student_result;
+    const explain = artifacts?.sql_explain;
 
     const filteredTrace = useMemo(() => {
         if (!searchQuery) return trace;
@@ -125,16 +115,26 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
     const nonSetupTrace = filteredTrace.filter((t: any) => t.phase !== 'setup');
     const setupTrace = filteredTrace.filter((t: any) => t.phase === 'setup');
 
+    if (!lastRunResult || !(lastRunResult as any).artifacts) {
+        return (
+            <div className="flex-1 flex flex-col items-center justify-center p-4 text-center text-zinc-500 h-full bg-[#09090b]">
+                <Database className="w-8 h-8 mb-2 opacity-50" />
+                <div className="font-bold uppercase tracking-wider text-[10px]">Query Inspector</div>
+                <div className="text-xs opacity-70">Run a SQL task to capture execution traces.</div>
+            </div>
+        );
+    }
+
     const handleCopyCsv = () => {
-        if (!studentResult || !studentResult.columns || !studentResult.preview_rows) return;
+        if (!studentResult || !studentResult.columns || !studentResult.rows) return;
         const header = studentResult.columns.join(',');
-        const rows = studentResult.preview_rows.map((r: any[]) => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(','));
+        const rows = studentResult.rows.map((r: any[]) => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(','));
         navigator.clipboard.writeText([header, ...rows].join('\n'));
     };
 
     const handleCopyJson = () => {
-        if (!studentResult || !studentResult.columns || !studentResult.preview_rows) return;
-        const data = studentResult.preview_rows.map((r: any[]) => {
+        if (!studentResult || !studentResult.columns || !studentResult.rows) return;
+        const data = studentResult.rows.map((r: any[]) => {
             const rowObj: any = {};
             studentResult.columns.forEach((c: string, i: number) => {
                 rowObj[c] = r[i];
@@ -187,7 +187,7 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
                                 />
                             </div>
                         )}
-                        {internalTab === 'result' && studentResult?.preview_rows?.length > 0 && (
+                        {internalTab === 'result' && studentResult?.rows?.length > 0 && (
                             <div className="flex gap-1">
                                 <button onClick={handleCopyCsv} className="text-zinc-500 hover:text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded px-2 py-1 flex items-center gap-1 text-[10px] uppercase font-bold" title="Copy CSV"><Download className="w-3 h-3" /> CSV</button>
                                 <button onClick={handleCopyJson} className="text-zinc-500 hover:text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded px-2 py-1 flex items-center gap-1 text-[10px] uppercase font-bold" title="Copy JSON"><Copy className="w-3 h-3" /> JSON</button>
@@ -213,7 +213,7 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
                                 />
                             </div>
                         )}
-                        {activeTab === 'result' && studentResult?.preview_rows?.length > 0 && (
+                        {activeTab === 'result' && studentResult?.rows?.length > 0 && (
                             <div className="flex gap-1">
                                 <button onClick={handleCopyCsv} className="text-zinc-500 hover:text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded px-2 py-1 flex items-center gap-1 text-[10px] uppercase font-bold" title="Copy CSV"><Download className="w-3 h-3" /> CSV</button>
                                 <button onClick={handleCopyJson} className="text-zinc-500 hover:text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded px-2 py-1 flex items-center gap-1 text-[10px] uppercase font-bold" title="Copy JSON"><Copy className="w-3 h-3" /> JSON</button>
@@ -283,7 +283,7 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
                                 {studentResult.note && (
                                     <div className="flex gap-2 items-center text-[10px] text-cyan-400/80 bg-cyan-950/20 p-2 border border-cyan-900/30 rounded shrink-0 leading-relaxed">
                                         <Info className="w-3 h-3" /> {studentResult.note}
-                                        {studentResult.preview_rows?.length === 25 && " (Preview truncated to 25 rows)"}
+                                        {studentResult.rows?.length === 25 && " (Preview truncated to 25 rows)"}
                                     </div>
                                 )}
                                 <div className="flex-1 overflow-auto rounded border border-zinc-800 bg-black/20" style={{ minHeight: 0 }}>
@@ -299,14 +299,14 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {studentResult.preview_rows?.length === 0 ? (
+                                            {studentResult.rows?.length === 0 ? (
                                                 <tr>
                                                     <td colSpan={(studentResult.columns?.length || 0) + 1} className="px-3 py-4 text-center text-zinc-500 italic">
                                                         (No rows returned)
                                                     </td>
                                                 </tr>
                                             ) : (
-                                                studentResult.preview_rows?.map((row: any[], ri: number) => (
+                                                studentResult.rows?.map((row: any[], ri: number) => (
                                                     <tr key={ri} className="hover:bg-zinc-800/50 transition-colors border-b border-zinc-800/30 last:border-b-0">
                                                         <td className="px-3 py-1.5 border-r border-zinc-800/30 text-zinc-600 font-mono text-[10px]">
                                                             {ri + 1}

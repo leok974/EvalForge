@@ -53,5 +53,8 @@
         "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
     },
     "content_source": "generated_v1",
-    "content_version": "9.9.0"
+    "content_version": "9.9.0",
+    "runtime_rules_json": {
+        "objectives": []
+    }
 }

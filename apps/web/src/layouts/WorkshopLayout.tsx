@@ -150,8 +150,8 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
 
     // 1. Docked Rail Visibility
     // - Always visible in List View (!isWorkbench)
-    // - Visible in Quest View IF layout is Cyberdeck
-    const showDockedRail = !isWorkbench || isCyberdeck;
+    // - NEVER visible in Quest View (isWorkbench) -> features moved to terminal tabs
+    const showDockedRail = !isWorkbench;
 
     // 2. Orion Overlay Logic
     const [orionToolsOpen, setOrionToolsOpen] = React.useState(false);

@@ -157,7 +157,17 @@ async def run_quest(
         
         # --- PHASE R: SQL Injection Rule ---
         if lang == "sql":
-            if not payload.code or not payload.code.strip():
+            sql_text = (payload.code or "").strip()
+            
+            # Fallback to workspace file if payload code is empty
+            if not sql_text and run_workspace and "files" in run_workspace:
+                for f in run_workspace["files"]:
+                    f_path = f.get("path") if isinstance(f, dict) else getattr(f, "path", None)
+                    if f_path == "task.sql":
+                        sql_text = (f.get("content") if isinstance(f, dict) else getattr(f, "content", "")).strip()
+                        break
+                        
+            if not sql_text:
                 return {
                     "passed": False,
                     "objective_results": [{
@@ -179,18 +189,27 @@ async def run_quest(
                     "quick_fixes": []
                 }
             
+            payload.code = sql_text # Ensure payload has the resolved code
+            
             from arcade_app.services.utils import inject_sql_task
             run_workspace = inject_sql_task(run_workspace, payload.code)
             
+        exec_mode = payload.mode if payload.mode == "tests" else "run"
+        if lang == "sql":
+            exec_mode = "run"
+            
         # Pass workspace to runner
-        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=payload.mode if payload.mode == "tests" else "run", quest_slug=quest_id)
+        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=exec_mode, quest_slug=quest_id)
         
         # Sanitize logs
         stdout = sanitize_logs(r.stdout)
         stderr = sanitize_logs(r.stderr)
         timed_out, duration_ms = r.timed_out, r.duration_ms
         exit_code = r.exit_code if r.exit_code is not None else (1 if timed_out else 0)
-        artifacts = getattr(r, "sql_artifacts", None)
+        artifacts = getattr(r, "artifacts", None)
+        
+        # Flag if we forced the SQL runner explicitly
+        runner_id = "sql_preview" if lang == "sql" and exec_mode == "run" else None
 
     # Resolve source code for static analysis (AST/Regex)
     # If payload.code is empty (workspace mode), use the entrypoint file content
@@ -231,17 +250,24 @@ async def run_quest(
     
     @contextmanager
     def validation_timeout(seconds=20):
+        import sys
+        if sys.platform == "win32":
+            yield
+            return
+            
         def timeout_handler(signum, frame):
             raise TimeoutError(f"Validation timeout after {seconds}s")
         
-        # Set the signal handler and alarm
-        old_handler = signal.signal(signal.SIGALRM, timeout_handler)
-        signal.alarm(seconds)
-        try:
+        if hasattr(signal, "SIGALRM"):
+            old_handler = signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(seconds)
+            try:
+                yield
+            finally:
+                signal.alarm(0)
+                signal.signal(signal.SIGALRM, old_handler)
+        else:
             yield
-        finally:
-            signal.alarm(0)
-            signal.signal(signal.SIGALRM, old_handler)
     
     try:
         with validation_timeout(20):
@@ -348,6 +374,12 @@ async def run_quest(
     )
     debrief_data = None
     diagnostics_data = []
+    
+    # Expose runner identity
+    if EXECUTION_ENABLED and 'runner_id' in locals() and runner_id:
+        diagnostics_data.append({"kind": "runner", "runner": runner_id, "mode": "run"})
+        if runner_id == "sql_preview":
+            diagnostics_data.append({"kind": "sql_entrypoint", "path": "task.sql"})
     
     # Phase 7.1.3: Inline Diagnostics
     # Parse diagnostics if failed (or even if passed, for warnings?)
@@ -473,6 +505,18 @@ async def run_quest(
         # Unexpected: integrity error but no existing record
         raise
 
+    final_artifacts = (getattr(r, "artifacts", None) or {}) if EXECUTION_ENABLED and 'r' in locals() else {}
+    if payload.language == "sql":
+        if "sql_student_result" not in final_artifacts:
+            final_artifacts["sql_student_result"] = {
+                "columns": [], "rows": [], "row_count": 0,
+                "note": "Execution failed before artifacts could be collected."
+            }
+        if "sql_trace" not in final_artifacts:
+            final_artifacts["sql_trace"] = []
+        if "sql_explain" not in final_artifacts:
+            final_artifacts["sql_explain"] = {"engine": "sqlite", "statement": "", "plan_rows": []}
+
     return {
         "passed": passed,
         "objective_results": objective_results,
@@ -488,7 +532,7 @@ async def run_quest(
         "debrief": debrief_data,
         "diagnostics": diagnostics_data,
         "quick_fixes": q_fixes,
-        "artifacts": getattr(r, "artifacts", None) if EXECUTION_ENABLED and 'r' in locals() else None
+        "artifacts": final_artifacts
     }
 
 @router.get("/{quest_id}/attempts", response_model=list[dict])

@@ -27,5 +27,8 @@
     },
     "smoke": {
         "solution_workspace_files": []
+    },
+    "runtime_rules_json": {
+        "objectives": []
     }
 }

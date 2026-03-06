@@ -1,0 +1,26 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\EvalForge
+plugins: anyio-4.11.0, Faker-37.11.0, langsmith-0.4.38, asyncio-1.2.0, cov-7.0.0, env-1.2.0, httpx-0.35.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 0 items / 1 error
+
+=================================== ERRORS ====================================
+________ ERROR collecting tests/backend/test_sql_artifacts_fallback.py ________
+ImportError while importing test module 'D:\EvalForge\tests\backend\test_sql_artifacts_fallback.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\backend\test_sql_artifacts_fallback.py:3: in <module>
+    from arcade_app.schemas.quest_schemas import QuestSubmitRequest
+E   ModuleNotFoundError: No module named 'arcade_app.schemas.quest_schemas'
+------------------------------- Captured stdout -------------------------------
+[EvalForge Config] DATABASE_URL: postgresql+asyncpg://evalforge:evalforge@127.0.0.1:5435/evalforge
+[EvalForge Config] REDIS_URL: redis://127.0.0.1:6379/0
+[EvalForge Config] AUTO_INIT_DB: True
+=========================== short test summary info ===========================
+ERROR tests/backend/test_sql_artifacts_fallback.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+============================== 1 error in 0.29s ===============================

@@ -70,7 +70,7 @@ describe('QueryInspector', () => {
                 sql_trace: [],
                 sql_student_result: {
                     columns: ['id', 'name'],
-                    preview_rows: [[1, 'Alice'], [2, 'Bob']]
+                    rows: [[1, 'Alice'], [2, 'Bob']]
                 }
             }
         };

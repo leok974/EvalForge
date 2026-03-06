@@ -1,11 +1,9 @@
 # Briefing
 
-## Mission
-The Archives need a clean directory of our users and their locations.
+The Archives need a clean directory of users and where they live.
 
-## Requirements
-In `task.sql`, return **name, city** from the `users` table, sorted alphabetically by **name ASC**.
+In `task.sql`, write one query that returns:
 
-## Success criteria
-- All public tests pass
-- Output shape matches exactly (columns + row order)
+- Columns (in order): `name`, `city`
+- All rows from `users`
+- Sorted by `name ASC`

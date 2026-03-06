@@ -143,6 +143,7 @@ export interface RunResult {
     debrief?: DebriefData;
     diagnostics?: Diagnostic[];
     quick_fixes?: QuickFix[];
+    artifacts?: any;
 }
 
 export interface QuestSubmitResult {

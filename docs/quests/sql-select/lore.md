@@ -1,9 +1,6 @@
 # Lore — The Archives
 
-The Archives reject "close enough."
+A directory must be exact:
+right columns, right order, right rows.
 
-A single extra column.
-A missing sort.
-One row out of place.
-
-Return exactly what the Archivists requested — nothing more, nothing less.
+The Archivists don’t accept “close enough.”

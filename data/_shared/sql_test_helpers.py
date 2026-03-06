@@ -58,32 +58,25 @@ def execute_sql_script(cur: sqlite3.Cursor, sql_text: str, phase: str, trace: li
         }
         trace.append(entry)
         
-        stmt_upper = stmt.lstrip().upper()
-        is_select = (
-            stmt_upper.startswith("SELECT") or 
-            stmt_upper.startswith("WITH") or 
-            stmt_upper.startswith("PRAGMA") or 
-            stmt_upper.startswith("EXPLAIN") or 
-            " RETURNING " in stmt_upper
-        )
-        entry["is_select"] = is_select
+        # Remove heuristic string matching entirely
+        entry["is_select"] = False
         
         t0 = time.perf_counter()
         try:
             cur.execute(stmt)
             entry["elapsed_ms"] = round((time.perf_counter() - t0) * 1000, 2)
             
-            if is_select:
+            if cur.description:
+                entry["is_select"] = True
                 rows = cur.fetchmany(MAX_PREVIEW_ROWS)
                 last_rows = rows # For return value
-                if cur.description:
-                    entry["columns"] = [d[0] for d in cur.description][:MAX_PREVIEW_COLS]
-                    entry["preview_rows"] = [
-                        [safe_str(x) for x in list(row)[:MAX_PREVIEW_COLS]] 
-                        for row in rows
-                    ]
-                    # We fetched up to MAX_PREVIEW_ROWS, row_count is at least this.
-                    entry["row_count"] = len(rows) 
+                entry["columns"] = [d[0] for d in cur.description][:MAX_PREVIEW_COLS]
+                entry["preview_rows"] = [
+                    [safe_str(x) for x in list(row)[:MAX_PREVIEW_COLS]] 
+                    for row in rows
+                ]
+                # We fetched up to MAX_PREVIEW_ROWS, row_count is at least this.
+                entry["row_count"] = len(rows) 
             else:
                 entry["row_count"] = cur.rowcount
                 last_rows = []
@@ -104,8 +97,17 @@ def run_sql(task_sql_path: Path | str, schema_sql_path: Path | str, seed_sql_pat
     cur = con.cursor()
     
     trace = []
-    sql_student_result = None
-    sql_explain = None
+    sql_student_result = {
+        "columns": [],
+        "rows": [],
+        "row_count": 0,
+        "note": "No valid SELECT statement found."
+    }
+    sql_explain = {
+        "engine": "sqlite",
+        "statement": "",
+        "plan_rows": []
+    }
     
     try:
         # Load Schema
@@ -128,9 +130,9 @@ def run_sql(task_sql_path: Path | str, schema_sql_path: Path | str, seed_sql_pat
         if student_selects:
             student_stmt = student_selects[-1]
             sql_student_result = {
-                "columns": student_stmt["columns"],
-                "preview_rows": student_stmt["preview_rows"],
-                "row_count_preview": len(student_stmt["preview_rows"]) if student_stmt["preview_rows"] else 0,
+                "columns": student_stmt["columns"] or [],
+                "rows": student_stmt["preview_rows"] or [],
+                "row_count": len(student_stmt["preview_rows"]) if student_stmt["preview_rows"] else 0,
                 "note": f"Preview limited to {MAX_PREVIEW_ROWS} rows and {MAX_PREVIEW_COLS} columns"
             }
             
@@ -153,17 +155,17 @@ def run_sql(task_sql_path: Path | str, schema_sql_path: Path | str, seed_sql_pat
         
         # Write artifacts safely
         try:
-            cwd = Path(os.getenv("EF_ARTIFACTS_DIR", os.getcwd()))
+            art_dir = os.getenv("EVALFORGE_ARTIFACTS_DIR", os.getcwd())
+            os.makedirs(art_dir, exist_ok=True)
+            cwd = Path(art_dir)
             with open(cwd / "sql_trace.json", "w", encoding="utf-8") as f:
                 json.dump(trace, f)
                 
-            if sql_student_result:
-                with open(cwd / "sql_student_result.json", "w", encoding="utf-8") as f:
-                    json.dump(sql_student_result, f)
+            with open(cwd / "sql_student_result.json", "w", encoding="utf-8") as f:
+                json.dump(sql_student_result, f)
                     
-            if sql_explain:
-                with open(cwd / "sql_explain.json", "w", encoding="utf-8") as f:
-                    json.dump(sql_explain, f)
+            with open(cwd / "sql_explain.json", "w", encoding="utf-8") as f:
+                json.dump(sql_explain, f)
         except Exception as e:
             # If the artifact directory is read-only or missing (e.g. strict Docker modes), fail gracefully
             import sys

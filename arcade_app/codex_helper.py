@@ -35,11 +35,11 @@ def index_codex() -> List[Dict]:
                     index.append({
                         "id": post.metadata.get("id", default_id),
                         "title": post.metadata.get("title", "Untitled Entry"),
-                        "world": world,
-                        "world_id": world, # Alias for frontend consistency
+                        "world": world or "general",
+                        "world_id": world or "general", # Alias for frontend consistency
                         "tags": post.metadata.get("tags", []),
                         "source": post.metadata.get("source", "core"),
-                        "section": rel_path.split(os.path.sep)[0] if os.path.sep in rel_path else "general"
+                        "section": (rel_path.split(os.path.sep)[0] if os.path.sep in rel_path else "general") or "general"
                         # We don't send content here to keep the list lightweight
                     })
                 except Exception as e:
@@ -67,9 +67,9 @@ def build_codex_index() -> Dict:
     sections = []
     for (world, section), pages in grouped.items():
         sections.append({
-            "world": world,
-            "section": section,
-            "pages": sorted(pages, key=lambda x: x["title"])
+            "world": str(world) if world else "general",
+            "section": str(section) if section else "general",
+            "pages": sorted(pages, key=lambda x: x.get("title", ""))
         })
         
     # Sort sections by World then Section

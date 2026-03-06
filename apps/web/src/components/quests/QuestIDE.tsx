@@ -13,9 +13,11 @@ import { Diagnostic, QuickFix } from '@/lib/questsApi';
 import { QuickFixBar } from './QuickFixBar';
 import { QueryInspector } from './QueryInspector';
 import { AnimatePresence } from 'framer-motion';
-import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle } from 'lucide-react';
+import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle, Eye } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { DiffEditor } from '@monaco-editor/react';
 import { useQuestStore } from '@/store/questStore';
+import { CoachPanel } from './CoachPanel';
 
 interface QuestIDEProps {
     quest: QuestSummary;
@@ -31,7 +33,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const editorRef = useRef<QuestEditorRef>(null);
     const navigate = useNavigate();
     const { worldSlug } = useParams<{ worldSlug: string }>();
-    const { focusMode, toggleFocusMode, setLastRunResult } = useQuestStore();
+    const { focusMode, toggleFocusMode, lastRunResult, setLastRunResult } = useQuestStore();
 
     // Phase 9.5: Hydrate full quest details (tutorial_md, key_terms, etc.)
     const [quest, setQuest] = useState<QuestSummary>(initialQuest);
@@ -61,30 +63,30 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | undefined>(undefined);
 
     // Query Inspector / Terminal State
-    const [activeTerminalTab, setActiveTerminalTab] = useState<'terminal' | 'trace' | 'result' | 'explain'>('terminal');
+    const [activeTerminalTab, setActiveTerminalTab] = useState<'terminal' | 'trace' | 'result' | 'explain_plan' | 'explain_coach' | 'results' | 'debug' | 'raw' | 'oracle'>(() => {
+        const saved = localStorage.getItem(`terminalTab:${initialQuest.slug}`);
+        return (saved as any) || 'terminal';
+    });
 
+    useEffect(() => {
+        localStorage.setItem(`terminalTab:${quest.slug}`, activeTerminalTab);
+    }, [activeTerminalTab, quest.slug]);
 
     // Codex State (Phase 9.1)
-    // Removed local state in favor of URL params for Workshop Tools Panel
+    const [codexOpen, setCodexOpen] = useState(false);
+
+    useEffect(() => {
+        const panel = new URLSearchParams(location.search).get("panel");
+        if (panel === "codex") setCodexOpen(true);
+    }, [location.search]);
 
     const handleOpenCodex = (ref: string) => {
         console.log('📖 NAVIGATING TO CODEX:', ref);
         const params = new URLSearchParams(window.location.search);
         params.set('panel', 'codex');
-        // Clean ref if needed (remove 'codex:' prefix if the panel expects clean)
-        // Check CodexPanel expectation. It takes 'initialTerm'. 
-        // Let's pass the full ref or clean it? 
-        // Scaffolder used 'clean_ref'. The Panel just displays it.
-        // Let's keep 'codex:' prefix stripped for display consistency if needed, 
-        // but CodexResolver usually handles it.
-        // Let's pass as is, the Panel can handle cleaning if needed.
         params.set('term', ref);
-
         const newUrl = `${window.location.pathname}?${params.toString()}`;
         window.history.replaceState(null, '', newUrl);
-
-        // Force a navigate event or allow context to pick it up?
-        // React Router useSearchParams change should be detected by WorkshopLayout
         navigate(`${window.location.pathname}?${params.toString()}`, { replace: true });
     };
 
@@ -142,7 +144,12 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             });
             setFiles(initial);
             setBaseFiles(initialBase);
-            setActivePath(quest.workspace?.entrypoint || filesToLoad[0].path);
+            let defaultPath = filesToLoad[0].path;
+            if (quest.language === 'sql') {
+                const sqlFile = filesToLoad.find(f => f.path === 'task.sql');
+                if (sqlFile) defaultPath = sqlFile.path;
+            }
+            setActivePath(quest.workspace?.entrypoint || defaultPath);
         } else {
             // Single File Mode
             const ext = quest.language || 'python'; // Use quest language logic in getSnapshot too
@@ -537,9 +544,16 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 }))
             };
 
+            // Phase 9.9 Fast Fix: Explicitly send SQL code string for runner
+            let primaryCode = "";
+            if (quest.language === 'sql') {
+                const sqlFile = workspacePayload.files.find(f => f.path === 'task.sql');
+                primaryCode = sqlFile ? sqlFile.content : "";
+            }
+
             const result = await runQuest(
                 quest.slug,
-                "",
+                primaryCode,
                 quest.language || "python",
                 mode,
                 workspacePayload
@@ -559,7 +573,9 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             setLastRunResult(result);
 
             // Show Test Summary if available
-            if (result.test_summary) {
+            if (quest.language === 'sql' && result.artifacts?.sql_student_result) {
+                setActiveTerminalTab('result');
+            } else if (result.test_summary) {
                 const ts = result.test_summary;
                 if (ts.failed === 0) {
                     addLog(`[TESTS] All ${ts.total} tests passed!`, 'success');
@@ -567,7 +583,10 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     addLog(`[TESTS] ${ts.failed}/${ts.total} tests failed.`, 'error');
                     ts.failures.forEach((f: any) => addLog(`  - ${f.name}: ${f.message}`, 'error'));
                     addLog("💡 Tip: Open the 'Debug' panel for analysis.", "info");
+                    setActiveTerminalTab('results');
                 }
+            } else if (result.stderr || (result as any).error) {
+                setActiveTerminalTab('debug');
             }
 
             // Coach Data
@@ -1022,28 +1041,48 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     <div className="min-h-0 relative flex flex-col">
                         {/* Tab Bar if multiple files */}
                         {Object.keys(files).length > 1 && (
-                            <div className="flex items-center border-b border-zinc-800 bg-black/40 overflow-x-auto hide-scrollbar shrink-0">
-                                {Object.keys(files).sort().map(path => (
-                                    <button
-                                        key={path}
-                                        onClick={() => setActivePath(path)}
-                                        className={`flex-shrink-0 px-4 py-2 text-xs font-mono border-r border-zinc-800 transition-colors flex items-center gap-2
-                                             ${activePath === path
-                                                ? 'bg-zinc-900 text-zinc-200 border-t-2 border-t-cyan-500'
-                                                : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50 border-t-2 border-t-transparent'
-                                            }`}
-                                    >
-                                        {!files[path].editable && <Lock className="w-3 h-3 opacity-50" />}
-                                        {path}
-                                        {files[path].editable && files[path].content !== baseFiles[path] && (
-                                            <span className="text-amber-400">●</span>
-                                        )}
-                                    </button>
-                                ))}
+                            <div className="flex items-center justify-between border-b border-zinc-800 bg-black/40 overflow-x-auto hide-scrollbar shrink-0 pr-4">
+                                <div className="flex items-center">
+                                    {Object.keys(files).sort().map(path => (
+                                        <button
+                                            key={path}
+                                            onClick={() => setActivePath(path)}
+                                            className={`flex-shrink-0 px-4 py-2 text-xs font-mono border-r border-zinc-800 transition-colors flex items-center gap-2
+                                                ${activePath === path
+                                                    ? 'bg-zinc-900 text-zinc-200 border-t-2 border-t-cyan-500'
+                                                    : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50 border-t-2 border-t-transparent'
+                                                }`}
+                                        >
+                                            {!files[path].editable && <Lock className="w-3 h-3 opacity-50" />}
+                                            {path}
+                                            {files[path].editable && files[path].content !== baseFiles[path] && (
+                                                <span className="text-amber-400">●</span>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                                {quest.language === 'sql' && (
+                                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-workshop-cyan/20 bg-workshop-cyan/10 shrink-0 ml-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-workshop-cyan animate-pulse" />
+                                        <span className="text-[10px] uppercase tracking-wider font-bold text-workshop-cyan">Entrypoint: task.sql</span>
+                                    </div>
+                                )}
                             </div>
                         )}
 
                         <div className="flex-1 min-h-0 relative">
+                            {/* Entrypoint Chip */}
+                            {activePath !== (quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py')) && (
+                                <div className="absolute top-2 right-4 z-10 flex animate-in fade-in zoom-in-95 duration-200">
+                                    <button
+                                        onClick={() => setActivePath(quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py'))}
+                                        className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-500 rounded-full text-xs font-mono shadow-lg hover:bg-amber-500/20 transition-colors cursor-pointer"
+                                    >
+                                        <AlertTriangle className="w-3 h-3" />
+                                        Entrypoint: {quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py')}
+                                    </button>
+                                </div>
+                            )}
                             <QuestEditor
                                 ref={editorRef}
                                 value={displayCode || ""} // Show replay code or active file
@@ -1132,13 +1171,51 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                                 <TerminalSquare className="w-3 h-3" /> Trace
                                             </button>
                                             <button
-                                                onClick={() => setActiveTerminalTab('explain')}
+                                                onClick={() => setActiveTerminalTab('explain_plan')}
                                                 className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
-                                                    ${activeTerminalTab === 'explain' ? 'text-workshop-cyan border-workshop-cyan bg-cyan-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                                    ${activeTerminalTab === 'explain_plan' ? 'text-workshop-cyan border-workshop-cyan bg-cyan-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
                                             >
-                                                <Layers className="w-3 h-3" /> Explain
+                                                <Layers className="w-3 h-3" /> Explain (Plan)
                                             </button>
                                         </>
+                                    )}
+                                    <button
+                                        onClick={() => setActiveTerminalTab('results')}
+                                        className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                            ${activeTerminalTab === 'results' ? 'text-amber-400 border-amber-400 bg-amber-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                    >
+                                        <CheckCircle2 className="w-3 h-3" /> Results
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveTerminalTab('explain_coach')}
+                                        className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                            ${activeTerminalTab === 'explain_coach' ? 'text-indigo-400 border-indigo-400 bg-indigo-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                    >
+                                        <Sparkles className="w-3 h-3" /> Explain (Coach)
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveTerminalTab('debug')}
+                                        className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                            ${activeTerminalTab === 'debug' ? 'text-orange-400 border-orange-400 bg-orange-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                    >
+                                        <Bug className="w-3 h-3" /> Debug
+                                    </button>
+                                    {/* Will render Oracle conditionally later but keep tab mapped for now */}
+                                    <button
+                                        onClick={() => setActiveTerminalTab('oracle')}
+                                        className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                            ${activeTerminalTab === 'oracle' ? 'text-purple-400 border-purple-400 bg-purple-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                    >
+                                        <Sparkles className="w-3 h-3" /> Intent Oracle
+                                    </button>
+                                    {import.meta.env.DEV && (
+                                        <button
+                                            onClick={() => setActiveTerminalTab('raw')}
+                                            className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                                ${activeTerminalTab === 'raw' ? 'text-zinc-300 border-zinc-500 bg-zinc-800/50' : 'text-zinc-600 border-transparent hover:text-zinc-400 hover:bg-zinc-900/50'}`}
+                                        >
+                                            <Code2 className="w-3 h-3" /> Raw
+                                        </button>
                                     )}
                                 </div>
 
@@ -1153,7 +1230,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
                             {/* Content Area */}
                             <div className="flex-1 overflow-hidden relative">
-                                {activeTerminalTab === 'terminal' ? (
+                                {activeTerminalTab === 'terminal' && (
                                     <div className="h-full overflow-auto p-3 space-y-1 font-mono">
                                         {!output.length && <div className="text-zinc-700 italic text-xs">// Ready to run...</div>}
                                         {output.map((entry, i) => (
@@ -1175,15 +1252,94 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                             </div>
                                         ))}
                                     </div>
-                                ) : (
+                                )}
+
+                                {(['result', 'trace', 'explain_plan'].includes(activeTerminalTab)) && (
                                     <div className="h-full overflow-hidden">
                                         {quest.language === 'sql' ? (
-                                            <QueryInspector activeTabOverride={activeTerminalTab as any} />
+                                            <QueryInspector activeTabOverride={activeTerminalTab === 'explain_plan' ? 'explain' : activeTerminalTab as any} />
                                         ) : (
                                             <div className="flex items-center justify-center p-8 text-zinc-500 text-xs italic">
                                                 Inspector not available for this language.
                                             </div>
                                         )}
+                                    </div>
+                                )}
+
+                                {activeTerminalTab === 'results' && (
+                                    <div className="h-full overflow-y-auto p-4 space-y-4">
+                                        <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Objective Verification</h4>
+                                        <div className="space-y-2">
+                                            {quest.objectives?.map((obj) => (
+                                                <button
+                                                    key={obj.id}
+                                                    onClick={() => handleObjectiveClick(obj.id)}
+                                                    className={`w-full text-left p-3 rounded-lg border bg-zinc-900/40 hover:bg-zinc-800/60 transition-colors group relative overflow-hidden flex items-start gap-3
+                                                        ${objectivesState[obj.id] ? 'border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.05)]' : 'border-zinc-800 hover:border-zinc-700'}
+                                                    `}
+                                                >
+                                                    <div className="mt-0.5 shrink-0">
+                                                        {objectivesState[obj.id] ? (
+                                                            <CheckCircle2 className="w-4 h-4 text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                                                        ) : (
+                                                            <div className="w-4 h-4 rounded-full border-2 border-zinc-700 bg-zinc-900 shadow-inner" />
+                                                        )}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <span className={cn(
+                                                            "text-xs font-mono block mb-0.5 leading-tight",
+                                                            objectivesState[obj.id] ? "text-emerald-200" : "text-zinc-300"
+                                                        )}>
+                                                            {(obj as any).text || (obj as any).title || <span className="opacity-40 italic">(missing text)</span>}
+                                                        </span>
+                                                        {obj.why && (
+                                                            <span className="text-[10px] text-zinc-500 block leading-tight">
+                                                                {obj.why}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </button>
+                                            ))}
+                                            {!quest.objectives?.length && (
+                                                <div className="text-xs text-zinc-500 italic p-4 text-center border border-zinc-800 rounded-lg">No objectives listed.</div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {activeTerminalTab === 'debug' && (
+                                    <div className="h-full overflow-y-auto">
+                                        <CoachPanel mode="debug" quest={quest} lastRunResult={lastRunResult} attemptId={lastRunResult?.attempt?.id} workspaceFiles={files} />
+                                    </div>
+                                )}
+
+                                {activeTerminalTab === 'explain_coach' && (
+                                    <div className="h-full overflow-y-auto">
+                                        <CoachPanel mode="explain" quest={quest} lastRunResult={lastRunResult} attemptId={lastRunResult?.attempt?.id} workspaceFiles={files} />
+                                    </div>
+                                )}
+
+                                {activeTerminalTab === 'raw' && import.meta.env.DEV && (
+                                    <div className="h-full overflow-y-auto p-4 bg-zinc-950/50 font-mono text-[10px]">
+                                        <div className="space-y-4">
+                                            <div>
+                                                <h4 className="text-amber-500 font-bold uppercase mb-1">Raw Run Payload</h4>
+                                                <div className="bg-black/50 p-2 rounded border border-zinc-800 text-zinc-400 whitespace-pre-wrap overflow-x-auto">
+                                                    {lastRunResult ? JSON.stringify(lastRunResult, null, 2) : "No run recorded yet in this session."}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {activeTerminalTab === 'oracle' && (
+                                    <div className="h-full overflow-y-auto p-4 space-y-6">
+                                        <div className="max-w-xl mx-auto space-y-4">
+                                            {/* We'll import BossHud if needed or omit it if it breaks here... */}
+                                            <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/50 flex flex-col items-center text-zinc-500 italic text-sm">
+                                                Oracle functionality is handled in IntentPanel natively, moved back to side panel? (Fallback rendering here for now)
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             </div>

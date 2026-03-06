@@ -42,7 +42,8 @@ if __name__ == "__main__":
     }
 
     # Write to file for robust extraction (Docker CP friendly)
-    report_path = os.path.join(start_dir, ".evalforge", "test_results.json")
+    artifacts_dir = os.getenv("EVALFORGE_ARTIFACTS_DIR", os.path.join(start_dir, ".evalforge"))
+    report_path = os.path.join(artifacts_dir, "test_results.json")
     try:
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
         with open(report_path, "w", encoding="utf-8") as f:
