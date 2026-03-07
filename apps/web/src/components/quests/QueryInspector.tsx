@@ -89,6 +89,13 @@ function TraceRow({ entry, index, defaultExpanded = false, forceExpanded = false
     );
 }
 
+export interface SqlStudentResult {
+    columns: string[];
+    rows: unknown[][];
+    row_count: number;
+    note?: string;
+}
+
 export interface QueryInspectorProps {
     activeTabOverride?: 'trace' | 'result' | 'explain';
 }
@@ -102,7 +109,20 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
 
     const { artifacts } = (lastRunResult as any) || {};
     const trace = artifacts?.sql_trace || [];
-    const studentResult = artifacts?.sql_student_result;
+
+    // --- SQL API Contract Normalization ---
+    const rawStudentResult = artifacts?.sql_student_result;
+    const studentResult: SqlStudentResult | undefined = useMemo(() => {
+        if (!rawStudentResult) return undefined;
+        return {
+            columns: rawStudentResult.columns || [],
+            // Fallback: Use 'rows' if present, otherwise 'preview_rows' (compat)
+            rows: rawStudentResult.rows || rawStudentResult.preview_rows || [],
+            row_count: rawStudentResult.row_count ?? (rawStudentResult.rows?.length || rawStudentResult.preview_rows?.length || 0),
+            note: rawStudentResult.note
+        };
+    }, [rawStudentResult]);
+
     const explain = artifacts?.sql_explain;
 
     const filteredTrace = useMemo(() => {
@@ -187,7 +207,7 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
                                 />
                             </div>
                         )}
-                        {internalTab === 'result' && studentResult?.rows?.length > 0 && (
+                        {internalTab === 'result' && studentResult?.rows && studentResult.rows.length > 0 && (
                             <div className="flex gap-1">
                                 <button onClick={handleCopyCsv} className="text-zinc-500 hover:text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded px-2 py-1 flex items-center gap-1 text-[10px] uppercase font-bold" title="Copy CSV"><Download className="w-3 h-3" /> CSV</button>
                                 <button onClick={handleCopyJson} className="text-zinc-500 hover:text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded px-2 py-1 flex items-center gap-1 text-[10px] uppercase font-bold" title="Copy JSON"><Copy className="w-3 h-3" /> JSON</button>
@@ -213,7 +233,7 @@ export function QueryInspector({ activeTabOverride }: QueryInspectorProps) {
                                 />
                             </div>
                         )}
-                        {activeTab === 'result' && studentResult?.rows?.length > 0 && (
+                        {activeTab === 'result' && studentResult?.rows && studentResult.rows.length > 0 && (
                             <div className="flex gap-1">
                                 <button onClick={handleCopyCsv} className="text-zinc-500 hover:text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded px-2 py-1 flex items-center gap-1 text-[10px] uppercase font-bold" title="Copy CSV"><Download className="w-3 h-3" /> CSV</button>
                                 <button onClick={handleCopyJson} className="text-zinc-500 hover:text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded px-2 py-1 flex items-center gap-1 text-[10px] uppercase font-bold" title="Copy JSON"><Copy className="w-3 h-3" /> JSON</button>

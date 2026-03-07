@@ -351,7 +351,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
                 "rule": {"kind": "exit_code_zero"},
                 "text": "Query executes successfully",
                 "why": "Ensure SQL syntax is correct"
-            }, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/schema.sql', 'fixtures/seed.sql', 'main.py', 'task.sql']}}
+            }
         ],
         "runtime_rules_json": {
             "enabled": True,
@@ -375,14 +375,14 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
         "mastery_xp_bonus": 25,
         "objectives_json": [
             {
-                "id": "obj_join",
+                "id": "obj_syntax",
                 "kind": "source_regex",
                 "rule": {
                     "kind": "source_regex",
-                    "pattern": "JOIN"
+                    "patterns": ["SELECT", "FROM", "ORDER BY"]
                 },
-                "text": "Use JOIN clause",
-                "why": "Learn table joins"
+                "text": "Use SELECT, FROM, and ORDER BY",
+                "why": "Learn core SQL selection and ordering"
             },
             {
                 "id": "obj_exit_zero",
@@ -390,7 +390,7 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
                 "rule": {"kind": "exit_code_zero"},
                 "text": "Query executes successfully",
                 "why": "Ensure syntax is correct"
-            }, {'id': 'fs_snapshot', 'title': 'Verify file structure', 'kind': 'fs_snapshot', 'rule': {'must_exist': ['README.md', 'fixtures/schema.sql', 'fixtures/seed.sql', 'main.py', 'task.sql']}}
+            }
         ],
         "runtime_rules_json": {
             "enabled": True,

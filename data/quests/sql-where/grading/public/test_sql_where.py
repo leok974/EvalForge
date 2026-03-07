@@ -6,8 +6,8 @@ from data._shared.sql_test_helpers import run_sql as base_run_sql, assert_rows_m
 QUEST_DIR = Path(__file__).resolve().parents[2]
 # Using task.sql in workspace (swapped in solution mode)
 TASK_SQL = QUEST_DIR / "workspace" / "task.sql"
-SCHEMA_SQL = QUEST_DIR / "fixtures" / "schema.sql"
-SEED_SQL = QUEST_DIR / "fixtures" / "seed.sql"
+SCHEMA_SQL = QUEST_DIR / "workspace" / "fixtures" / "schema.sql"
+SEED_SQL = QUEST_DIR / "workspace" / "fixtures" / "seed.sql"
 
 @pytest.fixture
 def run_sql():

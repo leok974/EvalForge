@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Header, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 import os
+import sys
 
 from arcade_app.database import get_session as get_db
 from arcade_app.auth_helper import get_current_user
@@ -16,6 +17,7 @@ from arcade_app.services.security import sanitize_logs
 from arcade_app.services.utils import build_effective_workspace
 from arcade_app.services.quick_fix_generator import generate_quick_fixes
 from sqlalchemy.exc import IntegrityError
+from arcade_app.services.code_runner import run_code
 
 router = APIRouter(prefix="/api/quests", tags=["quests-runtime"])
 
@@ -139,7 +141,6 @@ async def run_quest(
     run_workspace = None
 
     if (payload.mode in ["execute", "tests"]) and EXECUTION_ENABLED:
-        from arcade_app.services.code_runner import run_code
         
         # Construct effective workspace if needed
         workspace_def = getattr(quest, "workspace_json", None)
@@ -370,48 +371,58 @@ async def run_quest(
         idempotency_key=payload.idempotency_key,  # Phase 8.x PR 3
         workspace_hash=workspace_hash,  # Phase 8.x PR 4
         execution_context_json=execution_context,  # Phase 8.x PR 4
-        artifacts_json=artifacts or {}, # Phase R
+        artifacts_json=artifacts if artifacts else {}, # Phase R
     )
     debrief_data = None
     diagnostics_data = []
     
     # Expose runner identity
     if EXECUTION_ENABLED and 'runner_id' in locals() and runner_id:
-        diagnostics_data.append({"kind": "runner", "runner": runner_id, "mode": "run"})
+        diagnostics_data.append({
+            "kind": "runner", 
+            "runner": runner_id,
+            "path": "task.sql" if runner_id == "sql_preview" else "main.py",
+            "line": 1,
+            "message": f"Execution started with {runner_id} runner"
+        })
         if runner_id == "sql_preview":
-            diagnostics_data.append({"kind": "sql_entrypoint", "path": "task.sql"})
+            diagnostics_data.append({
+                "kind": "sql_entrypoint", 
+                "path": "task.sql",
+                "line": 1,
+                "message": "SQL execution anchored to task.sql"
+            })
     
     # Phase 7.1.3: Inline Diagnostics
     # Parse diagnostics if failed (or even if passed, for warnings?)
     # Usually only relevant if exit_code != 0 or generic error
     if exit_code != 0 or (stderr and len(stderr) > 0):
-       from arcade_app.services.diagnostics_parser import parse_diagnostics
-       # Gather workspace files from payload or quest def? 
-       # payload.workspace has files.
-       workspace_paths = []
-       if run_workspace and "files" in run_workspace:
-           workspace_paths = [f["path"] for f in run_workspace["files"]]
-        
-       if not workspace_paths and payload.code:
+        from arcade_app.services.diagnostics_parser import parse_diagnostics
+        # Gather workspace files from payload or quest def? 
+        # payload.workspace has files.
+        workspace_paths = []
+        if run_workspace and "files" in run_workspace:
+            workspace_paths = [f["path"] for f in run_workspace["files"]]
+         
+        if not workspace_paths and payload.code:
             # Fallback for single file execution
             fname = "main.py"
             if payload.language == "javascript": fname = "main.js"
             elif payload.language == "typescript": fname = "main.ts"
             workspace_paths.append(fname)
-       
-       # Also include active files if singular?
-       # The parser handles cleaning paths.
-       
-       diagnostics_data = parse_diagnostics(
-           stderr or "", 
-           payload.language, 
-           workspace_paths
-       )
+        
+        # Also include active files if singular?
+        # The parser handles cleaning paths.
+        
+        diagnostics_data.extend(parse_diagnostics(
+            stderr or "", 
+            payload.language, 
+            workspace_paths
+        ))
        
     attempt.diagnostics_json = diagnostics_data
 
     # Phase 7.1.4: Quick Fixes
-    # Reconstruct workspace for generator (run_workspace has the effective structure)
     # But run_workspace format is dict with "files": [list]. 
     # Generator expects workspace_snapshot dict {path: {content}}.
     
@@ -505,7 +516,8 @@ async def run_quest(
         # Unexpected: integrity error but no existing record
         raise
 
-    final_artifacts = (getattr(r, "artifacts", None) or {}) if EXECUTION_ENABLED and 'r' in locals() else {}
+    # 4. Final artifacts check for SQL
+    final_artifacts = (artifacts if artifacts else {}) if (EXECUTION_ENABLED and 'artifacts' in locals()) else {}
     if payload.language == "sql":
         if "sql_student_result" not in final_artifacts:
             final_artifacts["sql_student_result"] = {

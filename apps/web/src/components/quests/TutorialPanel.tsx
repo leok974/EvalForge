@@ -44,6 +44,7 @@ export function TutorialPanel({
     }, [keyTerms]);
 
     const components = React.useMemo(() => ({
+        p: ({ children }: any) => <div className="mb-4">{children}</div>,
         // Custom Code Block (with Copy + optional Paste)
         code({ node, inline, className, children, ...props }: any) {
             if (inline) {

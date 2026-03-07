@@ -449,7 +449,8 @@ from arcade_app.routers import (
     routes_quests_runtime as quests_runtime,
     routes_qa as qa,
     routes_workshop as workshop,  # Workshop Catalog refactor
-    routes_coach as coach  # Phase 12: Coach Explainer
+    routes_coach as coach,  # Phase 12: Coach Explainer
+    intent_oracle_eval
 )
 
 
@@ -476,6 +477,7 @@ app.include_router(boss_runs.router)
 app.include_router(project_codex.router)
 app.include_router(boss_codex.router)
 app.include_router(qa.router)
+app.include_router(intent_oracle_eval.router)
 
 # ... (routes) ...
 

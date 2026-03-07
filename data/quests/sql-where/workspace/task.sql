@@ -1,9 +1,11 @@
--- Task: Retrieve active users only.
--- Return: id, name, city for all users where is_active = 1,
--- ordered by name ascending.
+-- Task: Retrieve active users in Detroit, age 25 or older.
+-- Return: id, name, age
+-- Order: By id ascending.
 
 -- TODO: Write your SELECT statement below
-SELECT id, name, city
+SELECT id, name, age
 FROM users
-WHERE is_active = 1
-ORDER BY name ASC;
+WHERE is_active = 1 
+  AND city = 'Detroit' 
+  AND age >= 25
+ORDER BY id ASC;

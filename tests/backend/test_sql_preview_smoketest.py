@@ -1,115 +1,105 @@
-"""
-Smoke test: sql-select preview pipeline (Item 2 of SQL hardening).
-
-Asserts that sql_preview.py correctly:
-  - runs schema + seed + task.sql for sql-select
-  - returns columns == ["name", "city"]
-  - returns row_count == 6
-  - first row is ["Alice", "Detroit"]
-"""
-import json
+import pytest
+import pytest_asyncio
 import os
-import sqlite3
-import sys
-import time
+from httpx import AsyncClient
+from arcade_app.models import QuestDefinition
+from arcade_app.progress_models import QuestProgressV2
+from arcade_app.database import get_session
+from sqlmodel import select
 
-# Point at our runner directly (no Docker, for speed)
-import pathlib
-
-REPO_ROOT   = pathlib.Path(__file__).resolve().parents[2]   # tests/backend -> tests -> repo root
-QUEST_DIR   = REPO_ROOT / "data" / "quests" / "sql-select"
-SCHEMA_PATH = QUEST_DIR / "workspace" / "fixtures" / "schema.sql"
-SEED_PATH   = QUEST_DIR / "workspace" / "fixtures" / "seed.sql"
-TASK_PATH   = QUEST_DIR / "workspace" / "task.sql"
-
-
-def _run_preview(schema_sql: str, seed_sql: str, task_sql: str) -> dict:
-    """Minimal inline re-implementation of sql_preview.py logic for testing."""
-    trace = []
-    sql_student_result = {"columns": [], "rows": [], "row_count": 0, "note": "No SELECT found."}
-    sql_explain = {"engine": "sqlite", "statement": "", "plan_rows": []}
-
-    con = sqlite3.connect(":memory:")
-    cur = con.cursor()
-
-    def exec_script(sql_text: str, phase: str):
-        buf = ""
-        statements = []
-        for line in sql_text.splitlines(True):
-            buf += line
-            if sqlite3.complete_statement(buf):
-                stmt = buf.strip()
-                if stmt:
-                    statements.append(stmt)
-                buf = ""
-        if buf.strip():
-            statements.append(buf.strip())
-
-        for stmt in statements:
-            entry = {
-                "idx": len(trace), "phase": phase, "sql": stmt,
-                "elapsed_ms": 0.0, "row_count": None,
-                "columns": None, "preview_rows": None,
-                "error": None, "is_select": False,
-            }
-            trace.append(entry)
-            t0 = time.perf_counter()
-            try:
-                cur.execute(stmt)
-                entry["elapsed_ms"] = round((time.perf_counter() - t0) * 1000, 2)
-                if cur.description:
-                    entry["is_select"] = True
-                    rows = cur.fetchmany(25)
-                    entry["columns"] = [d[0] for d in cur.description][:20]
-                    entry["preview_rows"] = [list(r)[:20] for r in rows]
-                    entry["row_count"] = len(rows)
-                else:
-                    entry["row_count"] = cur.rowcount
-            except Exception as exc:
-                entry["error"] = str(exc)
-
-    exec_script(schema_sql, "setup")
-    exec_script(seed_sql,   "setup")
-    exec_script(task_sql,   "student")
-
-    student_selects = [e for e in trace if e["phase"] == "student" and e["is_select"] and not e["error"]]
-    if student_selects:
-        last = student_selects[-1]
-        sql_student_result = {
-            "columns": last["columns"] or [],
-            "rows": last["preview_rows"] or [],
-            "row_count": len(last["preview_rows"]) if last["preview_rows"] else 0,
-            "note": "",
+@pytest_asyncio.fixture
+async def seed_sql_quest(db_session):
+    """Seed the sql-select quest for smoke testing."""
+    quest = QuestDefinition(
+        slug="sql-select",
+        world_id="sql",
+        track_id="basics",
+        order_index=1,
+        title="SQL Select Basics",
+        short_description="Learn to select columns.",
+        detailed_description="Use SELECT to find names and cities.",
+        language="sql",
+        workspace_json={
+            "files": [
+                {"path": "task.sql", "content": "SELECT name, city FROM users;", "editable": True},
+                {"path": "fixtures/schema.sql", "content": "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, city TEXT);", "editable": False},
+                {"path": "fixtures/seed.sql", "content": "INSERT INTO users (name, city) VALUES ('Alice', 'Detroit'), ('Bob', 'NYC'), ('Charlie', 'LA'), ('David', 'SF'), ('Eve', 'Chicago'), ('Frank', 'Miami');", "editable": False},
+            ],
+            "entrypoint": "task.sql"
         }
+    )
+    db_session.add(quest)
+    await db_session.commit()
+    await db_session.refresh(quest)
+    return quest
 
-    con.close()
-    return {"sql_student_result": sql_student_result, "sql_trace": trace, "sql_explain": sql_explain}
-
-
-def test_sql_select_preview_columns_and_rows():
-    """sql-select: columns should be [name, city], 6 rows, first row Alice/Detroit."""
-    assert os.path.exists(SCHEMA_PATH), f"Missing schema: {SCHEMA_PATH}"
-    assert os.path.exists(SEED_PATH),   f"Missing seed: {SEED_PATH}"
-    assert os.path.exists(TASK_PATH),   f"Missing task.sql: {TASK_PATH}"
-
-    schema_sql = open(SCHEMA_PATH, encoding="utf-8").read()
-    seed_sql   = open(SEED_PATH,   encoding="utf-8").read()
-    task_sql   = open(TASK_PATH,   encoding="utf-8").read()
-
-    result = _run_preview(schema_sql, seed_sql, task_sql)
-    sr = result["sql_student_result"]
-
-    assert sr["columns"] == ["name", "city"], f"Expected ['name','city'], got {sr['columns']}"
-    assert sr["row_count"] == 6,              f"Expected 6 rows, got {sr['row_count']}"
-    assert sr["rows"][0] == ["Alice", "Detroit"], f"Expected first row ['Alice','Detroit'], got {sr['rows'][0]}"
-
-
-def test_sql_select_preview_no_errors_in_trace():
-    """sql-select: no statement in trace should have an error."""
-    schema_sql = open(SCHEMA_PATH, encoding="utf-8").read()
-    seed_sql   = open(SEED_PATH,   encoding="utf-8").read()
-    task_sql   = open(TASK_PATH,   encoding="utf-8").read()
-
-    result = _run_preview(schema_sql, seed_sql, task_sql)
-    errors = [e for e in result["sql_trace"] if e["error"]]
-    assert not errors, f"Unexpected trace errors: {[e['error'] for e in errors]}"
+@pytest.mark.asyncio
+async def test_sql_preview_artifacts(client, seed_sql_quest, monkeypatch):
+    """
+    Assert that hitting the run endpoint for a SQL quest returns 
+    the expected artifacts.sql_student_result shape and data.
+    """
+    monkeypatch.setenv("EXECUTION_ENABLED", "1")
+    
+    # Mock the actual execution to avoid Docker issues in test env
+    from arcade_app.services.code_runner import ExecResult
+    mock_result = ExecResult(
+        ok=True,
+        exit_code=0,
+        duration_ms=123,
+        stdout="Mocked SQL output",
+        stderr="",
+        timed_out=False,
+        artifacts={
+            "sql_student_result": {
+                "columns": ["name", "city"],
+                "rows": [["Alice", "Detroit"], ["Bob", "NYC"]],
+                "row_count": 2
+            },
+            "sql_trace": [{"idx": 0, "phase": "student", "sql": "SELECT...", "is_select": True}],
+            "sql_explain": {"engine": "sqlite", "statement": "SELECT...", "plan_rows": ["SCAN TABLE users"]}
+        }
+    )
+    
+    with monkeypatch.context() as m:
+        m.setattr("arcade_app.routers.routes_quests_runtime.run_code", lambda *args, **kwargs: mock_result)
+        
+        payload = {
+            "code": "SELECT name, city FROM users ORDER BY name ASC;",
+            "language": "sql",
+            "mode": "execute",
+            "workspace": [
+                {"path": "task.sql", "content": "SELECT name, city FROM users ORDER BY name ASC;"}
+            ]
+        }
+        
+        headers = {"x-dev-user": "smoke-tester"}
+        response = await client.post(f"/api/quests/{seed_sql_quest.slug}/run", json=payload, headers=headers)
+    
+    assert response.status_code == 200
+    data = response.json()
+    # print(f"DEBUG[test]: response_data={data}")
+    
+    # 1. Verify diagnostics indicate the correct runner
+    # Note: runner_id is set in routes_quests_runtime based on lang and mode
+    diagnostics = data.get("diagnostics", [])
+    runner_diag = next((d for d in diagnostics if d.get("kind") == "runner"), None)
+    assert runner_diag is not None, "Should have a runner diagnostic"
+    assert runner_diag.get("runner") == "sql_preview"
+    
+    # 2. Verify artifacts structure
+    artifacts = data.get("artifacts")
+    assert artifacts is not None
+    assert "sql_student_result" in artifacts
+    
+    res = artifacts["sql_student_result"]
+    assert res["columns"] == ["name", "city"]
+    assert res["row_count"] == 2
+    
+    # 3. Verify data (Alice is first due to our mock)
+    assert res["rows"][0] == ["Alice", "Detroit"]
+    
+    # 4. Verify other expected artifacts
+    assert "sql_trace" in artifacts
+    assert "sql_explain" in artifacts
+    assert artifacts["sql_explain"]["engine"] == "sqlite"

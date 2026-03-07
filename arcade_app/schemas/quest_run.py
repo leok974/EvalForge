@@ -29,11 +29,9 @@ class Diagnostic(BaseModel):
     line: int
     column: int = 1
     severity: str = "error"
-    kind: str = "runtime" # syntax, runtime, test
+    kind: str = "runtime" # syntax, runtime, test, runner, sql_entrypoint
     message: str
-
-    kind: str = "runtime" # syntax, runtime, test
-    message: str
+    runner: Optional[str] = None # For runner identity diagnostics
 
 class QuickFix(BaseModel):
     id: str

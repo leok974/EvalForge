@@ -714,9 +714,18 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 }))
             };
 
+            // Phase 9.9 Fast Fix: Explicitly send SQL code string for runner
+            let primaryCode = "";
+            if (quest.language === 'sql') {
+                const sqlFile = workspacePayload.files.find(f => f.path === 'task.sql');
+                primaryCode = sqlFile ? sqlFile.content : "";
+            } else if (workspacePayload.files.length === 1) {
+                primaryCode = workspacePayload.files[0].content;
+            }
+
             const result = await submitQuestSolution(
                 quest.slug,
-                "",
+                primaryCode,
                 quest.language || "python",
                 workspacePayload
             );
@@ -1357,13 +1366,27 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
                                 {activeTerminalTab === 'debug' && (
                                     <div className="h-full overflow-y-auto">
-                                        <CoachPanel mode="debug" quest={quest} lastRunResult={lastRunResult} attemptId={lastRunResult?.attempt?.id} workspaceFiles={files} />
+                                        <CoachPanel
+                                            mode="debug"
+                                            quest={quest}
+                                            lastRunResult={lastRunResult}
+                                            attemptId={lastRunResult?.attempt_id || lastRunResult?.attempt?.id}
+                                            workspaceFiles={files}
+                                            entrypointPath={quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'task.py')}
+                                        />
                                     </div>
                                 )}
 
                                 {activeTerminalTab === 'explain_coach' && (
                                     <div className="h-full overflow-y-auto">
-                                        <CoachPanel mode="explain" quest={quest} lastRunResult={lastRunResult} attemptId={lastRunResult?.attempt?.id} workspaceFiles={files} />
+                                        <CoachPanel
+                                            mode="explain"
+                                            quest={quest}
+                                            lastRunResult={lastRunResult}
+                                            attemptId={lastRunResult?.attempt_id || lastRunResult?.attempt?.id}
+                                            workspaceFiles={files}
+                                            entrypointPath={quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'task.py')}
+                                        />
                                     </div>
                                 )}
 

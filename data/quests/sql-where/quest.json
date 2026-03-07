@@ -1,0 +1,66 @@
+{
+    "slug": "sql-where",
+    "title": "Filtering: The WHERE Clause",
+    "short_description": "Learn to filter rows using logical conditions.",
+    "detailed_description": "In this quest, you will learn how to use the `WHERE` clause to filter data from a table. You'll apply multiple conditions (AND/OR) and handle basic data types.",
+    "world_id": "world-sql",
+    "track_id": "track-sql",
+    "order_index": 25,
+    "language": "sql",
+    "base_xp_reward": 50,
+    "mastery_xp_bonus": 20,
+    "workspace": {
+        "entrypoint": "task.sql",
+        "files": []
+    },
+    "objectives": [
+        {
+            "id": "obj_where_clause",
+            "title": "Use WHERE clause",
+            "kind": "source_regex",
+            "rule": {
+                "kind": "source_regex",
+                "pattern": "(?i)WHERE\\s+"
+            },
+            "text": "Filter results using a WHERE clause",
+            "why": "The WHERE clause is used to filter records that fulfill a specified condition."
+        },
+        {
+            "id": "obj_active_detroit",
+            "title": "Correct Filters",
+            "kind": "source_regex",
+            "rule": {
+                "kind": "source_regex",
+                "pattern": "(?i)is_active\\s*=\\s*1.*city\\s*=\\s*'Detroit'.*age\\s*>=\\s*25"
+            },
+            "text": "Filter by is_active=1, city='Detroit', and age >= 25",
+            "why": "We need precisely matched active users in the Detroit region."
+        },
+        {
+            "id": "obj_correct_columns",
+            "title": "Return Correct Columns",
+            "kind": "source_regex",
+            "rule": {
+                "kind": "source_regex",
+                "pattern": "(?i)SELECT\\s+id,\\s*name,\\s*age"
+            },
+            "text": "Return id, name, and age",
+            "why": "The spec requires precisely these three columns."
+        },
+        {
+            "id": "obj_exit_zero",
+            "title": "Query executes successfully",
+            "kind": "exit_code_zero",
+            "rule": {
+                "kind": "exit_code_zero"
+            },
+            "text": "Ensure SQL syntax is correct",
+            "why": "The database must be able to parse and run your query."
+        }
+    ],
+    "runtime_rules": {
+        "enabled": true,
+        "require_exit_code_zero": true,
+        "require_no_timeout": true
+    }
+}

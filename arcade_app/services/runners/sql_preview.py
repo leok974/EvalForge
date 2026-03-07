@@ -12,7 +12,7 @@ def main():
 
     artifacts_dir = os.getenv("EVALFORGE_ARTIFACTS_DIR", os.path.join(start_dir, ".evalforge"))
 
-    print("INFO[sql-preview] active (Run Mode) — executing fixtures + task.sql", file=sys.stderr)
+    print("INFO[sql-preview] active (Run Mode) — executing fixtures + task.sql", file=sys.stdout)
 
     trace = []
     sql_student_result = {"columns": [], "rows": [], "row_count": 0, "note": "No valid SELECT statement found."}
@@ -113,7 +113,7 @@ def main():
                 written.append(f"{n}.json")
             except Exception as e: 
                 print(f"WARN[sql-preview]: Failed writing {n}.json to {artifacts_dir}: {e}", file=sys.stderr)
-        print(f"INFO[sql-preview] Artifacts written: {written}", file=sys.stderr)
+        print(f"INFO[sql-preview] Artifacts written: {written}", file=sys.stdout)
 
 if __name__ == "__main__":
     main()
