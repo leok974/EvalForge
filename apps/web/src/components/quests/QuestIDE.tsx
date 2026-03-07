@@ -18,6 +18,8 @@ import { cn } from '@/lib/utils';
 import { DiffEditor } from '@monaco-editor/react';
 import { useQuestStore } from '@/store/questStore';
 import { CoachPanel } from './CoachPanel';
+import { IntentOracleEvalButton } from '@/components/devtools/IntentOracleEvalButton';
+import { IntentOracleEvalHistory } from '@/components/devtools/IntentOracleEvalHistory';
 
 interface QuestIDEProps {
     quest: QuestSummary;
@@ -1244,14 +1246,16 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                     >
                                         <Bug className="w-3 h-3" /> Debug
                                     </button>
-                                    {/* Will render Oracle conditionally later but keep tab mapped for now */}
-                                    <button
-                                        onClick={() => setActiveTerminalTab('oracle')}
-                                        className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
-                                            ${activeTerminalTab === 'oracle' ? 'text-purple-400 border-purple-400 bg-purple-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
-                                    >
-                                        <Sparkles className="w-3 h-3" /> Intent Oracle
-                                    </button>
+                                    {/* Intent Oracle tab — DEV only */}
+                                    {import.meta.env.DEV && (
+                                        <button
+                                            onClick={() => setActiveTerminalTab('oracle')}
+                                            className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                             ${activeTerminalTab === 'oracle' ? 'text-purple-400 border-purple-400 bg-purple-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                        >
+                                            <Sparkles className="w-3 h-3" /> Intent Oracle
+                                        </button>
+                                    )}
                                     {import.meta.env.DEV && (
                                         <button
                                             onClick={() => setActiveTerminalTab('raw')}
@@ -1377,11 +1381,22 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                 )}
 
                                 {activeTerminalTab === 'oracle' && (
-                                    <div className="h-full overflow-y-auto p-4 space-y-6">
-                                        <div className="max-w-xl mx-auto space-y-4">
-                                            {/* We'll import BossHud if needed or omit it if it breaks here... */}
-                                            <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/50 flex flex-col items-center text-zinc-500 italic text-sm">
-                                                Oracle functionality is handled in IntentPanel natively, moved back to side panel? (Fallback rendering here for now)
+                                    <div className="h-full overflow-y-auto p-4 md:p-6">
+                                        <div className="max-w-2xl mx-auto space-y-6">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Sparkles className="w-4 h-4 text-purple-400" />
+                                                <span className="text-xs font-bold uppercase tracking-widest text-purple-400">Intent Oracle</span>
+                                                <span className="ml-auto text-[10px] text-zinc-600 font-mono">DEV TOOL</span>
+                                            </div>
+                                            <div className="p-4 rounded-xl border border-purple-900/40 bg-purple-950/10">
+                                                <IntentOracleEvalButton
+                                                    endpoint={`/api/agents/intent-oracle/eval`}
+                                                />
+                                            </div>
+                                            <div className="border-t border-zinc-800 pt-4">
+                                                <IntentOracleEvalHistory
+                                                    endpoint="/api/agents/intent-oracle/eval/history"
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -1389,6 +1404,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
