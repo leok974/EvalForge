@@ -61,17 +61,19 @@ class CoachService:
         # 1. Resolve Mode
         effective_mode = req.mode
         if effective_mode == "auto":
-            # Heuristic: If tests failed or failing_tests_text populated -> DEBUG
-            # Else -> EXPLAIN
             has_failures = False
             if req.failing_tests_text and len(req.failing_tests_text.strip()) > 10:
                 has_failures = True
-            
             if req.runner_result:
-                 # Check generic runner result indicators if standardized
-                 pass 
-                 
+                rr = req.runner_result
+                if rr.get("passed") is False or (rr.get("exit_code") or 0) != 0:
+                    has_failures = True
             effective_mode = "debug" if has_failures else "explain"
+
+        # G0: Pass-gating — debug mode on a passing run is a no-op
+        if req.run_passed is True and effective_mode == "debug":
+            logger.info("Coach: run_passed=True in debug mode, returning deterministic 'nothing to debug' response.")
+            return self._passed_fallback(req)
 
         # 2. Prepare Prompt & Schema
         user_prompt = coach_prompts.build_user_prompt(req.model_dump())
@@ -123,31 +125,53 @@ class CoachService:
             )
             
             parsed: CoachResponse = response.parsed
-            
+
             # 4. Enforce Guardrails
+            coach_diagnostics = []
             if parsed:
-                # Force mode match (in case model hallucinated wrong mode string)
-                parsed.mode = effective_mode 
-                
-                # Student Mode Safety
+                # Force mode match
+                parsed.mode = effective_mode
+
+                # G1: Explain-on-pass — strip edit actions and patch
+                if req.run_passed is True:
+                    if parsed.patch is not None:
+                        logger.info("Coach: Guardrail stripped patch (run_passed=True).")
+                        parsed.patch = None
+                    edited_steps = [s for s in (parsed.next_steps or []) if s.action == "edit"]
+                    if edited_steps:
+                        logger.info(f"Coach: Guardrail stripped {len(edited_steps)} edit step(s) (run_passed=True).")
+                        parsed.next_steps = [s for s in parsed.next_steps if s.action != "edit"]
+                        coach_diagnostics.append("coach_guardrail:stripped_edit_on_pass")
+
+                # G2: Student-mode patch strip
                 if req.student_mode:
                     if parsed.patch is not None:
                         logger.warning("Coach: Guardrail intercepted a patch in student mode. Stripping it.")
                         parsed.patch = None
-                    
-                    # Content safety check
                     if "diff --git" in parsed.summary_md or "+++" in parsed.summary_md:
-                         logger.warning("Coach: Guardrail detected diff markers in summary. Redacting.")
-                         parsed.summary_md = "(Summary redacted regarding code patch due to student mode protections)"
-                         parsed.safety.blocked = True
-                         parsed.safety.solution_leak_risk = "high"
-                
-                # Evidence Guardrail
+                        logger.warning("Coach: Guardrail detected diff markers in summary. Redacting.")
+                        parsed.summary_md = "(Summary redacted due to student mode protections)"
+                        parsed.safety.blocked = True
+                        parsed.safety.solution_leak_risk = "high"
+
+                # G3: Target enforcement — any edit must target the entrypoint
+                entrypoint = req.entrypoint_path or "task.sql"
+                if parsed.next_steps:
+                    for step in parsed.next_steps:
+                        if step.action == "edit" and step.target and step.target != entrypoint:
+                            logger.warning(f"Coach: Guardrail corrected edit target '{step.target}' → '{entrypoint}'.")
+                            step.target = entrypoint
+                            coach_diagnostics.append(f"coach_guardrail:edit_target_overridden_to_{entrypoint}")
+
+                # G4: Evidence guardrail
                 if failure_class and not parsed.evidence:
-                    # If we detected a failure but model gave no evidence, force it
-                     logger.warning("Coach: Model failed to cite evidence for detected system failure.")
-                     parsed.evidence = ["(System detected error but Coach failed to cite specific log line)"]
-                     parsed.confidence = 0.5
+                    logger.warning("Coach: Model failed to cite evidence for detected system failure.")
+                    parsed.evidence = ["(System detected error but Coach failed to cite specific log line)"]
+                    parsed.confidence = 0.5
+
+                # Attach diagnostics to failure_class string (visible in response)
+                if coach_diagnostics:
+                    parsed.failure_class = (parsed.failure_class or "") + "|" + "|".join(coach_diagnostics)
 
                 return parsed
             else:
@@ -188,6 +212,19 @@ class CoachService:
             patch=None,
             confidence=0.0,
             safety=SafetyAssessment(solution_leak_risk="low", blocked=False)
+        )
+
+    def _passed_fallback(self, req: CoachRequest) -> CoachResponse:
+        """Deterministic response when debug is requested but the run already passed."""
+        return CoachResponse(
+            mode="debug",
+            summary_md="## ✅ Nothing to Debug\n\nYour last run passed all objectives. Debug Coach only activates when a run fails.\n\nIf you want to understand *why* your solution works, switch to the **Explain** tab.",
+            hypotheses=[],
+            next_steps=[NextStep(label="Submit your solution", action="run", target=None)],
+            patch=None,
+            confidence=1.0,
+            safety=SafetyAssessment(solution_leak_risk="low", blocked=False),
+            failure_class="PASS_NO_DEBUG_NEEDED"
         )
 
     def _detect_config_error(self, runner_result: Optional[Dict[str, Any]]) -> Optional[str]:

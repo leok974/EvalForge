@@ -10,14 +10,28 @@ interface CoachPanelProps {
     lastRunResult: any;
     attemptId?: string;
     workspaceFiles: Record<string, { content: string; editable?: boolean }>;
+    entrypointPath?: string;   // canonical entrypoint (e.g. "task.sql")
 }
 
-export function CoachPanel({ mode, quest, lastRunResult, attemptId, workspaceFiles }: CoachPanelProps) {
+export function CoachPanel({ mode, quest, lastRunResult, attemptId, workspaceFiles, entrypointPath }: CoachPanelProps) {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState<CoachResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    // Deterministic check for empty SQL
+    // Resolve entrypoint: explicit prop > quest workspace entrypoint > language default
+    const resolvedEntrypoint = entrypointPath
+        || quest.workspace?.entrypoint
+        || (quest.language === 'sql' ? 'task.sql' : 'task.py');
+
+    // Derive failure state from last run result
+    const isFailure =
+        lastRunResult != null &&
+        (lastRunResult.passed === false ||
+            ((lastRunResult.exit_code ?? 0) !== 0) ||
+            (lastRunResult.timed_out ?? false));
+    const runPassed = lastRunResult != null && !isFailure;
+
+    // Deterministic check for empty SQL entrypoint
     const isConfigEmptySql = mode === 'debug' && quest.language === 'sql' && lastRunResult && (
         (lastRunResult.stdout && lastRunResult.stdout.includes('CONFIG_EMPTY_SQL')) ||
         (lastRunResult.stderr && lastRunResult.stderr.includes('CONFIG_EMPTY_SQL')) ||
@@ -28,7 +42,6 @@ export function CoachPanel({ mode, quest, lastRunResult, attemptId, workspaceFil
         setLoading(true);
         setError(null);
         try {
-            // Prepare workspace files
             const files = Object.entries(workspaceFiles).map(([path, f]) => ({
                 path,
                 content: f.content
@@ -42,7 +55,11 @@ export function CoachPanel({ mode, quest, lastRunResult, attemptId, workspaceFil
                 runner_result: lastRunResult,
                 terminal_output_text: lastRunResult.stdout || lastRunResult.stderr || '',
                 workspace_files: files,
-                attempt_id: attemptId
+                attempt_id: attemptId,
+                // Context anchoring — prevents model picking wrong file
+                entrypoint_path: resolvedEntrypoint,
+                language: quest.language || undefined,
+                run_passed: runPassed,
             };
 
             const res = await fetchCoachFeedback(payload);
@@ -79,13 +96,6 @@ export function CoachPanel({ mode, quest, lastRunResult, attemptId, workspaceFil
         );
     }
 
-    // For debug mode: only show the CTA when the last run actually failed.
-    // Passed runs should show a calm success state, not "why did this fail?".
-    const isFailure =
-        lastRunResult != null &&
-        (lastRunResult.passed === false ||
-            ((lastRunResult.exit_code ?? 0) !== 0) ||
-            (lastRunResult.timed_out ?? false));
 
     if (mode === 'debug' && !isFailure && !response && !loading) {
         return (

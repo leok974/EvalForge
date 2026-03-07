@@ -12,6 +12,10 @@ export interface CoachRequest {
     selected_paths?: string[];
     workspace_files: { path: string; content: string }[];
     attempt_id?: string;
+    // Context anchoring — must match backend CoachRequest fields
+    entrypoint_path?: string;   // e.g. "task.sql" or "task.py"
+    language?: string;           // e.g. "sql", "python"
+    run_passed?: boolean;        // true = last run was a clean pass
 }
 
 export interface CoachResponse {

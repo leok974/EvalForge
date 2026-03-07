@@ -18,6 +18,10 @@ class CoachRequest(BaseModel):
     workspace_files: List[WorkspaceFile] = []
     attempt_id: Optional[str] = None
     quest_id: Optional[str] = None
+    # Context anchoring (prevents model picking wrong file)
+    entrypoint_path: Optional[str] = None   # e.g. "task.sql" or "task.py"
+    language: Optional[str] = None           # e.g. "sql", "python"
+    run_passed: Optional[bool] = None        # True = last run was a clean pass
     
     @field_validator('workspace_files')
     @classmethod
