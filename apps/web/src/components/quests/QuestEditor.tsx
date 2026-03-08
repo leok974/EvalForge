@@ -35,9 +35,78 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
     // Toggle for "Optical Enhancer" (Stub)
     const [enhancedMode, setEnhancedMode] = useState(true);
 
+    const KEYWORD_REGEX = /\b(select|from|where|group by|having|order by|limit|offset|join|inner|left|right|full|on|as|distinct|union|all|insert|into|values|update|set|delete|create|table|drop|alter|and|or|not|is|null|asc|desc|by)\b/gi;
+
+    function uppercaseSqlKeywordsInLine(line: string): string {
+        let out = '';
+        let i = 0;
+        let buffer = '';
+
+        const flushBuffer = () => {
+            if (!buffer) return;
+            out += buffer.replace(KEYWORD_REGEX, (match) => match.toUpperCase());
+            buffer = '';
+        };
+
+        while (i < line.length) {
+            if (line[i] === '-' && line[i + 1] === '-') {
+                flushBuffer();
+                out += line.slice(i);
+                break;
+            }
+            if (line[i] === "'") {
+                flushBuffer();
+                out += "'";
+                i++;
+                while (i < line.length && line[i] !== "'") {
+                    out += line[i];
+                    i++;
+                }
+                if (i < line.length) {
+                    out += "'";
+                    i++;
+                }
+                continue;
+            }
+            buffer += line[i];
+            i++;
+        }
+        flushBuffer();
+        return out;
+    }
+
     const handleEditorDidMount: OnMount = (editor, monaco) => {
         editorRef.current = editor;
         monacoRef.current = monaco;
+
+        // Auto-uppercase SQL keywords
+        if (language === 'sql') {
+            const isEnabled = localStorage.getItem('SQL_AUTO_UPPERCASE') !== '0';
+            if (isEnabled) {
+                let timeoutId: any;
+                editor.onDidChangeModelContent(() => {
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        const position = editor.getPosition();
+                        const model = editor.getModel();
+                        if (!position || !model) return;
+
+                        const lineNumber = position.lineNumber;
+                        const lineContent = model.getLineContent(lineNumber);
+                        const newContent = uppercaseSqlKeywordsInLine(lineContent);
+
+                        if (newContent !== lineContent) {
+                            const range = new monaco.Range(lineNumber, 1, lineNumber, lineContent.length + 1);
+                            editor.executeEdits("sql-auto-uppercase", [{
+                                range,
+                                text: newContent,
+                                forceMoveMarkers: true
+                            }]);
+                        }
+                    }, 150);
+                });
+            }
+        }
     };
 
     // Apply Diagnostics

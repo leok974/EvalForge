@@ -10,6 +10,7 @@ import { EyeIcon } from "lucide-react";
 import { WorkshopToolsPanel } from "../components/workshop/WorkshopToolsPanel";
 import { PanelId } from "../features/workshop/workshopPanels";
 import { OrionMap } from "./OrionMap";
+import { CodexDrawer } from "../components/codex/CodexDrawer";
 
 // Re-export type for compatibility, though we use PanelId internally now
 export type WorkshopMode = PanelId | 'quest'; // 'quest' is legacy default, mapped to a panel or ignored
@@ -110,6 +111,26 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
 
     // Extract Codex Term from URL
     const activeCodexTerm = searchParams.get('term') || undefined;
+    const codexIsOpen = activePanel === 'codex' || !!activeCodexTerm;
+
+    const handleCodexClose = () => {
+        setSearchParams(prev => {
+            const copy = new URLSearchParams(prev);
+            // Revert to 'judge' if panel was codex, or leave as is if they just had term set
+            if (copy.get('panel') === 'codex') copy.set('panel', 'judge');
+            copy.delete('term');
+            return copy;
+        });
+    };
+
+    const handleOpenCodex = (ref: string) => {
+        setSearchParams(prev => {
+            const copy = new URLSearchParams(prev);
+            copy.set('panel', 'codex');
+            copy.set('term', ref);
+            return copy;
+        });
+    };
 
     // Local state for hit effects only
     const [benchHit, setBenchHit] = React.useState<BenchHit>("none");
@@ -358,6 +379,15 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                     )}
                 </div>
             </section>
+
+            {/* GLOBAL CODEX DRAWER */}
+            <CodexDrawer
+                isOpen={codexIsOpen}
+                activeRef={activeCodexTerm || null}
+                onClose={handleCodexClose}
+                onOpenCodex={handleOpenCodex}
+                questSlug={params.questId}
+            />
         </main>
     );
 };
