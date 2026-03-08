@@ -4,7 +4,7 @@ import { ArrowRight, LayoutGrid, HelpCircle, Columns2, TableIcon } from 'lucide-
 
 // ── Schema ──────────────────────────────────────────────────────────────────
 export type QuickFixAction =
-    | { kind: 'open_tab'; tab: 'query_result' | 'trace' | 'explain' | 'hints' | 'results' | 'console'; label?: string }
+    | { kind: 'open_tab'; tab: 'query_result' | 'result' | 'results' | 'trace' | 'explain' | 'hints' | 'console'; label?: string }
     | { kind: 'jump_file'; path: string; line?: number; label?: string }
     | { kind: 'reveal_hint'; hintIndex: number; label?: string }   // 0-based
     | { kind: 'compare_columns'; expected: string[]; actual: string[]; label?: string };
@@ -45,7 +45,7 @@ export function generateQuickFixes(opts: {
     add({
         id: 'open_query_result',
         title: 'See your output',
-        action: { kind: 'open_tab', tab: 'query_result' },
+        action: { kind: 'open_tab', tab: 'result' },  // must match activeTerminalTab values
     });
 
     // Column mismatch: compare expected vs actual
