@@ -1280,7 +1280,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                             </div>
                         )}
 
-                        <div className="flex-1 min-h-0 relative">
+                        <div className="flex-1 min-h-0 relative flex flex-col overflow-hidden">
                             {/* Entrypoint Chip */}
                             {activePath !== (quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py')) && (
                                 <div className="absolute top-2 right-4 z-10 flex animate-in fade-in zoom-in-95 duration-200">
@@ -1293,42 +1293,46 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                     </button>
                                 </div>
                             )}
-                            {/* Read-Only Banner */}
+
+                            {/* Read-Only Banner - Reserve space or shrink */}
                             {(!files[activePath]?.editable || isReadOnlyPath(activePath)) && (
-                                <div className="text-xs text-zinc-400 px-3 py-1.5 border-b border-zinc-800 bg-zinc-950/40 flex items-center gap-2">
+                                <div className="shrink-0 text-xs text-zinc-400 px-3 py-1.5 border-b border-zinc-800 bg-zinc-950/40 flex items-center gap-2">
                                     <Lock className="w-3 h-3" />
                                     <span>Read-only reference file — you can copy, but edits are disabled.</span>
                                 </div>
                             )}
 
-                            <QuestEditor
-                                ref={editorRef}
-                                value={displayCode || ""} // Show replay code or active file
-                                path={activePath}
-                                onChange={v => {
-                                    if (isReadOnlyPath(activePath) || !files[activePath]?.editable) return; // Double guard
+                            {/* Monaco Editor Wrapper - Must be rigidly constrained */}
+                            <div className="flex-1 min-h-0 overflow-hidden relative">
+                                <QuestEditor
+                                    ref={editorRef}
+                                    value={displayCode || ""} // Show replay code or active file
+                                    path={activePath}
+                                    onChange={v => {
+                                        if (isReadOnlyPath(activePath) || !files[activePath]?.editable) return; // Double guard
 
-                                    if (!isReplay && files[activePath]?.editable) {
-                                        setFiles(prev => ({
-                                            ...prev,
-                                            [activePath]: { ...prev[activePath], content: v }
-                                        }));
-                                        setAutosaveStatus('unsaved');
+                                        if (!isReplay && files[activePath]?.editable) {
+                                            setFiles(prev => ({
+                                                ...prev,
+                                                [activePath]: { ...prev[activePath], content: v }
+                                            }));
+                                            setAutosaveStatus('unsaved');
+                                        }
+                                    }}
+                                    language={
+                                        // Naive lang detection
+                                        activePath.endsWith('.ts') ? 'typescript' :
+                                            activePath.endsWith('.js') ? 'javascript' :
+                                                activePath.endsWith('.css') ? 'css' :
+                                                    activePath.endsWith('.html') ? 'html' :
+                                                        activePath.endsWith('.json') ? 'json' :
+                                                            quest.language || "python"
                                     }
-                                }}
-                                language={
-                                    // Naive lang detection
-                                    activePath.endsWith('.ts') ? 'typescript' :
-                                        activePath.endsWith('.js') ? 'javascript' :
-                                            activePath.endsWith('.css') ? 'css' :
-                                                activePath.endsWith('.html') ? 'html' :
-                                                    activePath.endsWith('.json') ? 'json' :
-                                                        quest.language || "python"
-                                }
-                                isSaving={autosaveStatus === 'saving'}
-                                readOnly={!files[activePath]?.editable || isReadOnlyPath(activePath)}
-                                diagnostics={diagnostics.filter(d => d.path === activePath)}
-                            />
+                                    isSaving={autosaveStatus === 'saving'}
+                                    readOnly={!files[activePath]?.editable || isReadOnlyPath(activePath)}
+                                    diagnostics={diagnostics.filter(d => d.path === activePath)}
+                                />
+                            </div>
                         </div>
                         {/* Problems Panel */}
                         <ProblemsPanel
