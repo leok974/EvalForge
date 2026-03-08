@@ -57,6 +57,15 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
     const [unlockedHints, setUnlockedHints] = useState<Record<string, boolean>>({});
     // Accordion index for hints_md mode
     const [openHintIdx, setOpenHintIdx] = useState<number | null>(null);
+    // Gated unlock count — persisted per quest in localStorage
+    const hintsKey = `hints:unlocked:${quest.slug}`;
+    const [unlockedCount, setUnlockedCount] = useState(() => {
+        const v = Number(localStorage.getItem(`hints:unlocked:${quest.slug}`));
+        return Number.isFinite(v) && v > 0 ? v : 1;
+    });
+    useEffect(() => {
+        localStorage.setItem(hintsKey, String(unlockedCount));
+    }, [hintsKey, unlockedCount]);
 
     // Init unlocked hints from quest prop if available (Backend 7.1)
     useEffect(() => {
@@ -235,38 +244,89 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
                     </div>
                 )}
 
-                {/* HINTS TAB — accordion when hints_md present */}
+                {/* HINTS TAB — accordion + gated unlock */}
                 {activeTab === 'hints' && (() => {
                     const hintsMd = (quest as any).hints_md as string | undefined;
                     if (hintsMd) {
                         const { intro, hints } = parseHints(hintsMd);
+                        const total = hints.length;
+                        const allUnlocked = unlockedCount >= total;
+
+                        function unlockNext() {
+                            const next = Math.min(total, unlockedCount + 1);
+                            setUnlockedCount(next);
+                            setOpenHintIdx(next - 1); // auto-open the newly unlocked hint
+                        }
+
+                        const unlockLabel = unlockedCount === 1
+                            ? 'I need a hint'
+                            : allUnlocked
+                                ? 'All hints unlocked'
+                                : 'One more hint, please';
+
                         return (
                             <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
                                 {intro && (
-                                    <div className="prose prose-invert prose-sm max-w-none prose-p:text-zinc-400 mb-3">
+                                    <div className="prose prose-invert prose-sm max-w-none prose-p:text-zinc-400 mb-1">
                                         <ReactMarkdown>{intro}</ReactMarkdown>
                                     </div>
                                 )}
+
+                                {/* Unlock progress + button */}
+                                <div className="flex items-center justify-between gap-3 py-1">
+                                    <span className="text-[10px] text-zinc-600 tabular-nums">
+                                        {unlockedCount}/{total} hints available
+                                    </span>
+                                    <button
+                                        disabled={allUnlocked}
+                                        onClick={unlockNext}
+                                        className="flex items-center gap-1.5 px-3 py-1 rounded-md text-[11px] font-semibold border transition-all
+                                            bg-cyan-600/15 text-cyan-300 border-cyan-700/40 hover:bg-cyan-600/25
+                                            disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:bg-cyan-600/15"
+                                    >
+                                        {!allUnlocked && <HelpCircle className="w-3 h-3" />}
+                                        {unlockLabel}
+                                    </button>
+                                </div>
+
+                                {/* Hint cards */}
                                 {hints.map((h, idx) => {
-                                    const isOpen = openHintIdx === idx;
+                                    const isUnlocked = idx < unlockedCount;
+                                    const isOpen = openHintIdx === idx && isUnlocked;
                                     return (
-                                        <div key={idx} className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/20">
+                                        <div
+                                            key={idx}
+                                            className={cn(
+                                                'border rounded-lg overflow-hidden transition-opacity',
+                                                isUnlocked ? 'border-zinc-800 bg-zinc-900/20' : 'border-zinc-900 bg-zinc-950/40 opacity-50'
+                                            )}
+                                        >
                                             <button
+                                                disabled={!isUnlocked}
                                                 onClick={() => setOpenHintIdx(isOpen ? null : idx)}
-                                                className="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-zinc-800/50 transition-colors group"
+                                                title={!isUnlocked ? 'Unlock this hint to view it.' : undefined}
+                                                className={cn(
+                                                    'w-full flex items-center justify-between px-3 py-2.5 text-left transition-colors group',
+                                                    isUnlocked ? 'hover:bg-zinc-800/50 cursor-pointer' : 'cursor-not-allowed'
+                                                )}
                                             >
                                                 <div className="flex items-center gap-2 min-w-0">
-                                                    <span className="text-[10px] font-bold text-cyan-600 tabular-nums shrink-0">
-                                                        {String(idx + 1).padStart(2, '0')}
-                                                    </span>
-                                                    <span className="text-xs font-semibold text-zinc-300 group-hover:text-zinc-100 truncate">
+                                                    {isUnlocked
+                                                        ? <span className="text-[10px] font-bold text-cyan-600 tabular-nums shrink-0">{String(idx + 1).padStart(2, '0')}</span>
+                                                        : <Lock className="w-3 h-3 text-zinc-600 shrink-0" />
+                                                    }
+                                                    <span className={cn(
+                                                        'text-xs font-semibold truncate',
+                                                        isUnlocked ? 'text-zinc-300 group-hover:text-zinc-100' : 'text-zinc-600'
+                                                    )}>
                                                         {h.title}
                                                     </span>
                                                 </div>
-                                                {isOpen
-                                                    ? <ChevronUp className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-                                                    : <ChevronDown className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
-                                                }
+                                                {isUnlocked && (
+                                                    isOpen
+                                                        ? <ChevronUp className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                                                        : <ChevronDown className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
+                                                )}
                                             </button>
                                             {isOpen && (
                                                 <div className="px-4 pb-4 pt-1 border-t border-zinc-800/50 bg-black/20 animate-in slide-in-from-top-1 duration-150">
