@@ -88,15 +88,15 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
     ];
 
     return (
-        <div className="h-full flex flex-col bg-zinc-950/50">
+        <div className="flex-1 min-h-0 min-w-0 flex flex-col bg-zinc-950/50">
             {/* Tabs Header */}
-            <div className="flex items-center border-b border-zinc-800 bg-zinc-900/40 overflow-x-auto scrollbar-hide">
+            <div className="shrink-0 min-h-[40px] flex items-center border-b border-zinc-800 bg-zinc-900/40 overflow-x-auto scrollbar-hide">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => handleTabClick(tab.id)}
                         className={cn(
-                            "flex-1 flex items-center justify-center gap-2 py-3 px-2 text-[10px] font-bold uppercase tracking-wider transition-all border-b-2 min-w-[80px]",
+                            "flex-none flex items-center justify-center gap-2 py-2 px-2 leading-none text-[10px] font-bold uppercase tracking-wider transition-all border-b-2 min-w-[80px]",
                             activeTab === tab.id
                                 ? "text-cyan-400 border-cyan-500 bg-cyan-950/10"
                                 : "text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900"
@@ -109,7 +109,7 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
+            <div className="flex-1 min-h-0 min-w-0 overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
 
                 {/* BRIEFING TAB */}
                 {activeTab === 'briefing' && (

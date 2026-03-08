@@ -16,7 +16,6 @@ import { WorkshopLayout, WorkshopMode } from '../layouts/WorkshopLayout';
 import { CyberdeckLayout } from '../layouts/CyberdeckLayout';
 import { OrionLayout } from '../layouts/OrionLayout';
 import { BossHud } from '../components/BossHud';
-import { LayoutSwitcher } from '../components/LayoutSwitcher';
 import { LayoutProvider, useCurrentLayout } from '../hooks/useCurrentLayout';
 import { WorkshopGuide } from '../features/workshop/WorkshopGuide';
 import { QuestBoard } from '../components/QuestBoard';
@@ -324,18 +323,6 @@ function DevUIContent() {
     activityFeed,
     extraTopRight: (
       <div className="flex flex-col items-end gap-2">
-        {/* Layout Switcher Tile */}
-        <div
-          className={`
-              rounded-2xl border border-amber-500/50 bg-slate-950/90
-              px-2.5 py-2 text-[11px]
-              shadow-[0_16px_30px_rgba(245,158,11,0.4)]
-              backdrop-blur-xl
-              transform rotate-1 hover:-rotate-0.5 transition-transform duration-150
-            `}
-        >
-          <LayoutSwitcher />
-        </div>
 
         {/* Workshop Guide (only shows if not dismissed) */}
         {layout === 'workshop' && <WorkshopGuide />}

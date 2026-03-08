@@ -211,47 +211,49 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                 )}
             </div>
 
-            {/* Top HUD */}
-            <header className="relative z-20 px-6 pt-4 pb-2 bg-workshop-bg/50 backdrop-blur-sm border-b border-white/5">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                    {/* Left Group */}
-                    <div className="flex flex-wrap items-center gap-3">
-                        <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-workshop-subtle tracking-wide uppercase">
-                                World
-                            </span>
-                            <div className="rounded-full bg-workshop-panel border border-white/10 shadow-workshop-neon overflow-hidden">
-                                {worldSelector}
+            {/* Top HUD (Hidden in Quests) */}
+            {!isWorkbench && (
+                <header className="relative z-20 px-6 pt-4 pb-2 bg-workshop-bg/50 backdrop-blur-sm border-b border-white/5">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        {/* Left Group */}
+                        <div className="flex flex-wrap items-center gap-3">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-semibold text-workshop-subtle tracking-wide uppercase">
+                                    World
+                                </span>
+                                <div className="rounded-full bg-workshop-panel border border-white/10 shadow-workshop-neon overflow-hidden">
+                                    {worldSelector}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Right Group: Project + Extras */}
-                    <div className="flex flex-wrap items-center gap-3">
-                        {/* Project Badge - Contextual */}
-                        <div className="hidden md:flex items-center gap-3">
-                            {activeTrack ? (
-                                <div className="rounded-full bg-workshop-panel border border-white/10 px-4 py-1.5 text-xs font-medium text-workshop-text shadow-workshop-violet flex items-center gap-2">
-                                    <span className="text-workshop-subtle">Project:</span>
-                                    <span className="text-workshop-violet">{activeTrack.label || activeTrack.trackSlug}</span>
-                                </div>
-                            ) : null}
+                        {/* Right Group: Project + Extras */}
+                        <div className="flex flex-wrap items-center gap-3">
+                            {/* Project Badge - Contextual */}
+                            <div className="hidden md:flex items-center gap-3">
+                                {activeTrack ? (
+                                    <div className="rounded-full bg-workshop-panel border border-white/10 px-4 py-1.5 text-xs font-medium text-workshop-text shadow-workshop-violet flex items-center gap-2">
+                                        <span className="text-workshop-subtle">Project:</span>
+                                        <span className="text-workshop-violet">{activeTrack.label || activeTrack.trackSlug}</span>
+                                    </div>
+                                ) : null}
+                            </div>
+                            {extraTopRight}
+
+                            {/* Layout-Specific Header Controls (Orion Tools Toggle) */}
+                            {isWorkbench && isOrion && (
+                                <button
+                                    onClick={() => setOrionToolsOpen(true)}
+                                    data-testid="orion-tools-toggle"
+                                    className="px-3 py-1.5 rounded border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider hover:bg-cyan-500/20"
+                                >
+                                    Tools
+                                </button>
+                            )}
                         </div>
-                        {extraTopRight}
-
-                        {/* Layout-Specific Header Controls (Orion Tools Toggle) */}
-                        {isWorkbench && isOrion && (
-                            <button
-                                onClick={() => setOrionToolsOpen(true)}
-                                data-testid="orion-tools-toggle"
-                                className="px-3 py-1.5 rounded border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider hover:bg-cyan-500/20"
-                            >
-                                Tools
-                            </button>
-                        )}
                     </div>
-                </div>
-            </header>
+                </header>
+            )}
 
             {/* Main Grid */}
             <section className="relative z-10 flex-1 px-6 pb-6 pt-2 overflow-hidden">
