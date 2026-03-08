@@ -678,13 +678,18 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 primaryCode = sqlFile ? sqlFile.content : "";
             }
 
+            // For SQL quests: detect whether we're running the grading entrypoint or a reference file
+            const sqlEntrypoint = quest.workspace?.entrypoint || 'task.sql';
+            const isEntrypointRun = quest.language !== 'sql' || activePath === sqlEntrypoint;
+
             const result = await runQuest(
                 quest.slug,
                 primaryCode,
                 quest.language || "python",
                 mode,
                 workspacePayload,
-                (quest.language === 'sql' && activePath.endsWith('.sql')) ? activePath : undefined
+                (quest.language === 'sql' && activePath.endsWith('.sql')) ? activePath : undefined,
+                isEntrypointRun  // evaluate_objectives
             );
 
             // Show stderr only when the run actually failed (no false "Runtime Error" on INFO logs)
@@ -706,9 +711,17 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             // Sync to Store for Tools Panel
             setLastRunResult(result);
 
+            // Detect preview run (non-graded reference file execution)
+            const isPreviewRun = (result.diagnostics || []).some(
+                (d: any) => d.kind === 'preview' && d.evaluated_objectives === false
+            );
+
             // Show Test Summary if available
             if (quest.language === 'sql' && result.artifacts?.sql_student_result) {
                 setActiveTerminalTab('result');
+                if (isPreviewRun) {
+                    addLog(`ℹ️  Reference run (not graded) — running ${activePath}`, 'info');
+                }
             } else if (result.test_summary) {
                 const ts = result.test_summary;
                 if (ts.failed === 0) {
@@ -721,22 +734,24 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 }
             } else if (!result.passed || (result.exit_code !== undefined && result.exit_code !== 0)) {
                 // Only auto-switch to Debug on a real failure, not on stderr-only (e.g. INFO logs)
-                setActiveTerminalTab('debug');
+                if (!isPreviewRun) setActiveTerminalTab('debug');
             } else if (result.passed) {
                 // On a clean pass, stay on results tab (never land on Debug)
-                setActiveTerminalTab('results');
+                if (!isPreviewRun) setActiveTerminalTab('results');
             }
 
-            // Coach Data
-            if ((result as any).coach) {
-                setCoachData((result as any).coach);
-            }
-            if ((result as any).debrief) {
-                setDebriefData((result as any).debrief);
+            // Coach Data — skip for preview runs
+            if (!isPreviewRun) {
+                if ((result as any).coach) {
+                    setCoachData((result as any).coach);
+                }
+                if ((result as any).debrief) {
+                    setDebriefData((result as any).debrief);
+                }
             }
             setDiagnostics(result.diagnostics || []);
-            // Safe fallback for various payload shapes
-            const fixes = result.quick_fixes || (result as any).quick_fixes_json || (result as any).attempt?.quick_fixes_json || [];
+            // Safe fallback for various payload shapes — skip quick fixes for preview
+            const fixes = isPreviewRun ? [] : (result.quick_fixes || (result as any).quick_fixes_json || (result as any).attempt?.quick_fixes_json || []);
             if (fixes.length > 0) setQuickFixes(fixes);
 
             // Add to history if we got an artifact back
@@ -754,30 +769,32 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 setAttempts(prev => [newAttempt, ...prev]);
             }
 
-            if (result.passed) {
-                addLog('SUCCESS All objectives verified.', 'success');
-                addLog('Ready for submission.', 'info');
-            } else {
-                // Show objective failures with details
-                addLog('--- Test Results ---', 'info');
-                result.objective_results.forEach(obj => {
-                    if (!obj.ok) {
-                        addLog(`[FAIL] ${obj.id}: ${obj.detail || 'Requirement not met'}`, 'error');
+            if (!isPreviewRun) {
+                if (result.passed) {
+                    addLog('SUCCESS All objectives verified.', 'success');
+                    addLog('Ready for submission.', 'info');
+                } else {
+                    // Show objective failures with details
+                    addLog('--- Test Results ---', 'info');
+                    result.objective_results.forEach(obj => {
+                        if (!obj.ok) {
+                            addLog(`[FAIL] ${obj.id}: ${obj.detail || 'Requirement not met'}`, 'error');
 
-                        // Show expected vs actual if available
-                        if (obj.expected || obj.actual) {
-                            if (obj.expected) addLog(`  Expected: ${obj.expected}`, 'info');
-                            if (obj.actual) addLog(`  Actual:   ${obj.actual}`, 'info');
-                        }
+                            // Show expected vs actual if available
+                            if (obj.expected || obj.actual) {
+                                if (obj.expected) addLog(`  Expected: ${obj.expected}`, 'info');
+                                if (obj.actual) addLog(`  Actual:   ${obj.actual}`, 'info');
+                            }
 
-                        // Show diff if available
-                        if (obj.diff) {
-                            obj.diff.split('\n').forEach((line: string) => {
-                                if (line.trim()) addLog(`  ${line}`, 'output');
-                            });
+                            // Show diff if available
+                            if (obj.diff) {
+                                obj.diff.split('\n').forEach((line: string) => {
+                                    if (line.trim()) addLog(`  ${line}`, 'output');
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         } catch (e: any) {
             addLog(`Runtime Error: ${e.message}`, 'error');

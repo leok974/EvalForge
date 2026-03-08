@@ -273,39 +273,60 @@ async def run_quest(
         else:
             yield
     
-    try:
-        with validation_timeout(20):
-            objective_results = validate_quest_attempt(
-                code=validation_code,
-                stdout=stdout,
-                stderr=stderr,
-                exit_code=exit_code,
-                timed_out=timed_out,
-                quest_def=quest,
-                state=getattr(r, "state", None) if EXECUTION_ENABLED and 'r' in locals() else None
-            )
-    except TimeoutError as e:
-        # Validation timed out - return deterministic failure
-        stderr += f"\n{str(e)}"
-        objective_results = [{
-            "id": "validation_timeout",
-            "ok": False,
-            "detail": "Validation exceeded time limit (20s). Please simplify your code or contact support."
-        }]
+    # ── Objective evaluation ──────────────────────────────────────────────────
+    # Skip grading when this is a preview / reference-file run
+    evaluate_objectives = getattr(payload, "evaluate_objectives", True)
     
-    passed = False
-    if objective_results:
-        passed = all(o.get("ok") for o in objective_results)
+    if not evaluate_objectives:
+        # Preview run: no grading, no mismatch, just show artifacts
+        objective_results = []
+        passed = True  # neutral — not a failure
+        
+        # Inject a preview diagnostic so the UI knows to suppress mismatch panels
+        diagnostics_data = [
+            {
+                "kind": "preview",
+                "path": getattr(payload, "run_target_path", None) or "task.sql",
+                "line": 1,
+                "column": 1,
+                "severity": "info",
+                "message": "Reference run (not graded) — objectives were not evaluated for this file.",
+                "runner": "sql_preview",
+                "evaluated_objectives": False
+            }
+        ]
     else:
-        # No objectives? Passed if run ok
-        if payload.mode == "execute":
-            passed = not timed_out
+        try:
+            with validation_timeout(20):
+                objective_results = validate_quest_attempt(
+                    code=validation_code,
+                    stdout=stdout,
+                    stderr=stderr,
+                    exit_code=exit_code,
+                    timed_out=timed_out,
+                    quest_def=quest,
+                    state=getattr(r, "state", None) if EXECUTION_ENABLED and 'r' in locals() else None
+                )
+        except TimeoutError as e:
+            # Validation timed out - return deterministic failure
+            stderr += f"\n{str(e)}"
+            objective_results = [{
+                "id": "validation_timeout",
+                "ok": False,
+                "detail": "Validation exceeded time limit (20s). Please simplify your code or contact support."
+            }]
+        
+        passed = False
+        if objective_results:
+            passed = all(o.get("ok") for o in objective_results)
         else:
-            pass  # AST only? defaults to ok if no checks? 
-            # If no quest def, maybe passed=False?
-            # Let's verify: Generic validator returns empty list if no rules.
-            # If nothing to check, it's a pass?
-            passed = True  # Optimistic for playground
+            # No objectives? Passed if run ok
+            if payload.mode == "execute":
+                passed = not timed_out
+            else:
+                passed = True  # Optimistic for playground
+        
+        diagnostics_data = []
             
     # Persist attempt + progress
 

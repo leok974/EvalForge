@@ -317,9 +317,10 @@ export async function runQuest(
     language: string = "python",
     mode: "validate" | "execute" | "tests" = "execute",
     workspaceConfig?: { entrypoint: string; files: { path: string; content: string }[] },
-    run_target_path?: string
+    run_target_path?: string,
+    evaluate_objectives: boolean = true
 ): Promise<RunResult> {
-    const payload: any = { code, language, mode };
+    const payload: any = { code, language, mode, evaluate_objectives };
     if (workspaceConfig) {
         payload.entrypoint = workspaceConfig.entrypoint;
         payload.workspace = workspaceConfig.files;

@@ -9,6 +9,7 @@ class RunRequest(BaseModel):
     workspace: Optional[List[Any]] = None # List of {path, content}
     idempotency_key: Optional[str] = None  # Phase 8.x PR 3: Idempotency
     run_target_path: Optional[str] = None  # Optional target file to run (e.g. example.sql)
+    evaluate_objectives: bool = True  # False = preview run (no grading)
 
 class ObjectiveResult(BaseModel):
     id: str
@@ -72,3 +73,6 @@ class RunResponse(BaseModel):
 
     # Phase R: SQL Execution Tracing
     artifacts: Optional[dict] = None
+
+    # Preview vs Graded run
+    evaluated_objectives: bool = True
