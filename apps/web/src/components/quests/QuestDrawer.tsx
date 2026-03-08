@@ -221,46 +221,53 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
                 {/* HINTS TAB */}
                 {activeTab === 'hints' && (
                     <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        {/* ... existing hints content ... */}
-                        <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Field Manual</h4>
-
-                        <div className="space-y-3">
-                            {quest.hints?.map((hint) => (
-                                <div key={hint.id} className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/20">
-                                    <button
-                                        onClick={() => toggleHint(hint.id, hint.type)}
-                                        className="w-full flex items-center justify-between p-3 text-left hover:bg-zinc-800/50 transition-colors"
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            {hint.type === 'concept' && <div className="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 uppercase tracking-wide">Concept</div>}
-                                            {hint.type === 'snippet' && <div className="text-[10px] bg-amber-900/30 text-amber-400 px-2 py-0.5 rounded border border-amber-500/20 uppercase tracking-wide">Snippet</div>}
-                                            {hint.type === 'solution' && <div className="text-[10px] bg-red-900/30 text-red-400 px-2 py-0.5 rounded border border-red-500/20 uppercase tracking-wide">Solution</div>}
-                                            <span className="text-xs text-zinc-400 font-mono">
-                                                {unlockedHints[hint.id] ? "Access Granted" : "Encrypted Data"}
-                                            </span>
+                        {(quest as any).hints_md ? (
+                            // Rich markdown hints (preferred when hints.md exists)
+                            <div className="prose prose-invert prose-sm max-w-none prose-p:text-zinc-300 prose-headings:text-cyan-100 prose-strong:text-cyan-200 prose-code:text-amber-300 prose-li:text-zinc-300">
+                                <ReactMarkdown>{(quest as any).hints_md}</ReactMarkdown>
+                            </div>
+                        ) : quest.hints?.length ? (
+                            // Legacy tiered-hint UI (fallback)
+                            <>
+                                <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Field Manual</h4>
+                                <div className="space-y-3">
+                                    {quest.hints.map((hint) => (
+                                        <div key={hint.id} className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/20">
+                                            <button
+                                                onClick={() => toggleHint(hint.id, hint.type)}
+                                                className="w-full flex items-center justify-between p-3 text-left hover:bg-zinc-800/50 transition-colors"
+                                            >
+                                                <div className="flex items-center gap-2">
+                                                    {hint.type === 'concept' && <div className="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 uppercase tracking-wide">Concept</div>}
+                                                    {hint.type === 'snippet' && <div className="text-[10px] bg-amber-900/30 text-amber-400 px-2 py-0.5 rounded border border-amber-500/20 uppercase tracking-wide">Snippet</div>}
+                                                    {hint.type === 'solution' && <div className="text-[10px] bg-red-900/30 text-red-400 px-2 py-0.5 rounded border border-red-500/20 uppercase tracking-wide">Solution</div>}
+                                                    <span className="text-xs text-zinc-400 font-mono">
+                                                        {unlockedHints[hint.id] ? "Access Granted" : "Encrypted Data"}
+                                                    </span>
+                                                </div>
+                                                <div className="text-zinc-600">
+                                                    {unlockedHints[hint.id] ? <ChevronUp className="w-4 h-4" /> : <div className="flex items-center gap-1 text-[10px] uppercase font-bold text-zinc-600"><Lock className="w-3 h-3" /> Unlock</div>}
+                                                </div>
+                                            </button>
+                                            {unlockedHints[hint.id] && (
+                                                <div className="p-3 border-t border-zinc-800/50 bg-black/20 animate-in slide-in-from-top-2">
+                                                    <div className="text-sm text-zinc-300 font-mono whitespace-pre-wrap">
+                                                        <ReactMarkdown>{hint.text}</ReactMarkdown>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="text-zinc-600">
-                                            {unlockedHints[hint.id] ? <ChevronUp className="w-4 h-4" /> : <div className="flex items-center gap-1 text-[10px] uppercase font-bold text-zinc-600"><Lock className="w-3 h-3" /> Unlock</div>}
-                                        </div>
-                                    </button>
-
-                                    {unlockedHints[hint.id] && (
-                                        <div className="p-3 border-t border-zinc-800/50 bg-black/20 animate-in slide-in-from-top-2">
-                                            <div className="text-sm text-zinc-300 font-mono whitespace-pre-wrap">
-                                                <ReactMarkdown>{hint.text}</ReactMarkdown>
-                                            </div>
-                                        </div>
-                                    )}
+                                    ))}
                                 </div>
-                            ))}
-                            {!quest.hints?.length && (
-                                <div className="text-zinc-500 italic text-xs text-center py-8">
-                                    No hints available for this mission.
-                                </div>
-                            )}
-                        </div>
+                            </>
+                        ) : (
+                            <div className="text-zinc-500 italic text-xs text-center py-8">
+                                No hints available for this mission.
+                            </div>
+                        )}
                     </div>
                 )}
+
 
                 {/* LORE TAB */}
                 {activeTab === 'lore' && (

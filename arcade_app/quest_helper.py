@@ -361,6 +361,7 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
 
         "tiered_hints": q.tiered_hints_json or {},
         "hints": _transform_hints(q.tiered_hints_json or {}),
+        "hints_md": (q.tiered_hints_json or {}).get("markdown_source") if isinstance(q.tiered_hints_json, dict) else None,
         "runtime": q.runtime_rules_json or {},
         # Phase 9.1: Tutorial System
         "tutorial_md": q.tutorial_md,
