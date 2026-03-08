@@ -8,9 +8,9 @@ import { TutorialPanel } from './TutorialPanel'; // Phase 9.1
 import { QuestSuccessOverlay } from './QuestSuccessOverlay';
 import { CoachBanner, CoachData } from './CoachBanner';
 import { DebriefData } from './DebriefPanel';
-import { ProblemsPanel } from './ProblemsPanel'; // Import
-import { Diagnostic, QuickFix } from '@/lib/questsApi';
-import { QuickFixBar } from './QuickFixBar';
+import { ProblemsPanel } from './ProblemsPanel';
+import { Diagnostic } from '@/lib/questsApi';
+import { QuickFixBar, QuickFixCard, QuickFixAction, generateQuickFixes } from './QuickFixBar';
 import { QueryInspector } from './QueryInspector';
 import { AnimatePresence } from 'framer-motion';
 import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, ChevronLeft, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle, Eye, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
@@ -159,7 +159,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const [coachData, setCoachData] = useState<CoachData | null>(null);
     const [debriefData, setDebriefData] = useState<DebriefData | undefined>(undefined);
     const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
-    const [quickFixes, setQuickFixes] = useState<QuickFix[]>([]);
+    const [quickFixes, setQuickFixes] = useState<QuickFixCard[]>([]);
     const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | undefined>(undefined);
 
     // Query Inspector / Terminal State
@@ -588,50 +588,33 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
         }
     };
 
-    const handleApplyFix = (fix: QuickFix) => {
-        if (isReplay || !fix.patch) return;
-
-        const { path, replacement_full_content } = fix.patch;
-
-        // Verify file exists
-        if (!files[path]) {
-            addLog(`Failed to apply fix: File ${path} not found`, 'error');
-            return;
-        }
-
-        // Verify file is editable
-        if (files[path].editable === false) { // Could be undefined (true)
-            addLog(`Failed to apply fix: File ${path} is read-only`, 'error');
-            return;
-        }
-
-        try {
-            setFiles(prev => ({
-                ...prev,
-                [path]: { ...prev[path], content: replacement_full_content, editable: prev[path]?.editable ?? true }
-            }));
-
-            // If file not active, switch to it?
-            if (path !== activePath) setActivePath(path);
-
-            setAutosaveStatus('unsaved');
-            addLog(`Applied fix: ${fix.title}`, 'success');
-
-            // Only remove on success
-            setQuickFixes(prev => prev.filter(f => f.id !== fix.id));
-        } catch (e: any) {
-            addLog(`Error applying fix: ${e.message}`, 'error');
+    // Unified Quick Fix action handler
+    const handleQuickFixAction = (action: QuickFixAction) => {
+        switch (action.kind) {
+            case 'open_tab':
+                if (action.tab === 'hints') {
+                    setDrawerTab('hints');
+                } else {
+                    setActiveTerminalTab(action.tab as any);
+                }
+                break;
+            case 'jump_file':
+                if (action.path) setActivePath(action.path);
+                if (action.line) {
+                    setTimeout(() => editorRef.current?.jumpToLine(action.line!), 50);
+                }
+                break;
+            case 'reveal_hint':
+                setDrawerTab('hints');
+                // The QuestDrawer accordion will auto-open via openHintIdx — we'd need to lift that state.
+                // For now just open the hints tab; the user can click.
+                break;
+            case 'compare_columns':
+                // ColDiff is rendered inline in QuickFixBar dropdown — no extra navigation needed
+                break;
         }
     };
 
-    const handleNavigateFix = (fix: QuickFix) => {
-        if (fix.locator) {
-            setActivePath(fix.locator.path);
-            setTimeout(() => {
-                editorRef.current?.jumpToLine(fix.locator!.line);
-            }, 50);
-        }
-    };
 
     const handleRun = async () => {
         setIsRunning(true);
@@ -753,9 +736,18 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 }
             }
             setDiagnostics(result.diagnostics || []);
-            // Safe fallback for various payload shapes — skip quick fixes for preview
-            const fixes = isPreviewRun ? [] : (result.quick_fixes || (result as any).quick_fixes_json || (result as any).attempt?.quick_fixes_json || []);
-            if (fixes.length > 0) setQuickFixes(fixes);
+            // Generate quick fixes client-side from objective results + artifacts (deterministic)
+            const expectedCols = (quest as any).grading?.expected_columns
+                || (quest as any).objectives?.find((o: any) => o.kind === 'column_match')?.expected_columns
+                || [];
+            const clientFixes = generateQuickFixes({
+                evaluated_objectives: (result as any).evaluated_objectives !== false,
+                objective_results: result.objective_results || [],
+                sql_student_result: result.artifacts?.sql_student_result as any,
+                quest_expected_columns: expectedCols,
+                entrypoint: quest.workspace?.entrypoint || 'task.sql',
+            });
+            setQuickFixes(clientFixes);
 
             // Add to history if we got an artifact back
             if (result.attempt_id) {
@@ -1365,16 +1357,16 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                 />
                             </div>
                         </div>
-                        {/* Problems Panel */}
-                        <ProblemsPanel
-                            diagnostics={diagnostics}
-                            onDiagnosticClick={(path, line) => {
-                                setActivePath(path);
-                                setTimeout(() => {
-                                    editorRef.current?.jumpToLine(line);
-                                }, 50);
-                            }}
-                        />
+                        {/* Problems Panel — only show real error diagnostics, never preview/runner info */}
+                        {diagnostics.some(d => d.severity === 'error' || (!['preview', 'runner', 'sql_entrypoint'].includes((d as any).kind))) && (
+                            <ProblemsPanel
+                                diagnostics={diagnostics.filter(d => d.severity === 'error' || (!['preview', 'runner', 'sql_entrypoint'].includes((d as any).kind)))}
+                                onDiagnosticClick={(path, line) => {
+                                    setActivePath(path);
+                                    setTimeout(() => { editorRef.current?.jumpToLine(line); }, 50);
+                                }}
+                            />
+                        )}
 
                         {/* Coach Banner */}
                         <div className="shrink-0 z-20">
@@ -1406,9 +1398,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 >
                     <QuickFixBar
                         fixes={quickFixes}
-                        onApplyPatch={handleApplyFix}
-                        onNavigate={handleNavigateFix}
-                        readOnly={isReadOnly}
+                        onAction={handleQuickFixAction}
                     />
 
                     {/* Unified Terminal & Inspector Container */}
