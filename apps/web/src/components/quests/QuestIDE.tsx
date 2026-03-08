@@ -1357,10 +1357,10 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                 />
                             </div>
                         </div>
-                        {/* Problems Panel — only show real error diagnostics, never preview/runner info */}
-                        {diagnostics.some(d => d.severity === 'error' || (!['preview', 'runner', 'sql_entrypoint'].includes((d as any).kind))) && (
+                        {/* Problems Panel — only real syntax/runtime errors, never info diagnostics */}
+                        {diagnostics.some(d => d.severity === 'error') && (
                             <ProblemsPanel
-                                diagnostics={diagnostics.filter(d => d.severity === 'error' || (!['preview', 'runner', 'sql_entrypoint'].includes((d as any).kind)))}
+                                diagnostics={diagnostics.filter(d => d.severity === 'error')}
                                 onDiagnosticClick={(path, line) => {
                                     setActivePath(path);
                                     setTimeout(() => { editorRef.current?.jumpToLine(line); }, 50);

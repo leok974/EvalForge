@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Lightbulb, Key, X, GraduationCap, AlertTriangle } from 'lucide-react';
+import { HelpCircle, X, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export interface CoachData {
@@ -20,7 +20,7 @@ interface CoachBannerProps {
 
 export function CoachBanner({ coach, onAction }: CoachBannerProps) {
     const [isVisible, setIsVisible] = useState(false);
-    const [lastCoachJson, setLastCoachJson] = useState<string>("");
+    const [lastCoachJson, setLastCoachJson] = useState<string>('');
 
     useEffect(() => {
         if (coach) {
@@ -36,90 +36,38 @@ export function CoachBanner({ coach, onAction }: CoachBannerProps) {
 
     if (!coach || !isVisible) return null;
 
-    const { stuck_level, recommended_hint_tier, cta } = coach;
+    const { recommended_hint_tier, cta } = coach;
+    const failCount = cta.body?.match(/\d+/)?.[0] ?? '';
+
+    // How many objectives are failing
+    const failLabel = failCount ? `${failCount} objectives failing` : 'Some objectives failing';
 
     const handleDismiss = () => {
         setIsVisible(false);
         onAction('dismiss', recommended_hint_tier);
     };
 
-    const isConcept = recommended_hint_tier === 'concept';
-    const isGuided = recommended_hint_tier === 'guided';
-    const isSolution = recommended_hint_tier === 'full_solution';
-
     return (
+        // Slim inline strip — NOT a blocking modal
         <div className={cn(
-            "p-3 mx-4 mb-2 rounded-lg border flex items-start gap-4 shadow-lg animate-in slide-in-from-top-2 duration-300 relative overflow-hidden",
-            stuck_level >= 3 ? "bg-amber-950/40 border-amber-500/50" :
-                stuck_level === 2 ? "bg-blue-950/40 border-blue-500/50" :
-                    "bg-zinc-900/80 border-zinc-700"
+            'flex items-center gap-2 px-3 py-1.5 border-b text-xs shrink-0',
+            'bg-red-950/30 border-red-900/40 text-red-300'
         )}>
-            {/* Background Glow */}
-            <div className={cn(
-                "absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-20 pointer-events-none",
-                stuck_level >= 3 ? "bg-amber-500" : "bg-blue-500"
-            )} />
+            <span className="font-semibold text-red-400 shrink-0">✗ {failLabel}</span>
+            <span className="text-zinc-500 truncate flex-1">{cta.body}</span>
 
-            {/* Icon */}
-            <div className={cn(
-                "p-2 rounded-full shrink-0 border",
-                stuck_level >= 3 ? "bg-amber-500/10 border-amber-500/30 text-amber-400" : "bg-blue-500/10 border-blue-500/30 text-blue-400"
-            )}>
-                {stuck_level >= 3 ? <AlertTriangle className="w-5 h-5" /> : <GraduationCap className="w-5 h-5" />}
-            </div>
+            {/* Open Hints CTA */}
+            {(cta.actions.includes('open_hint') || cta.actions.includes('unlock_hint')) && (
+                <button
+                    onClick={() => onAction('open_hint', recommended_hint_tier)}
+                    className="flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-zinc-100 hover:bg-zinc-700 transition-colors shrink-0"
+                >
+                    <HelpCircle className="w-3 h-3" /> Open Hints <ChevronRight className="w-3 h-3" />
+                </button>
+            )}
 
-            {/* Content */}
-            <div className="flex-1 min-w-0 z-10">
-                <h4 className={cn(
-                    "text-sm font-bold uppercase tracking-wide mb-1 flex items-center gap-2",
-                    stuck_level >= 3 ? "text-amber-400" : "text-blue-300"
-                )}>
-                    {cta.title}
-                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-black/30 border border-white/10 opacity-70">
-                        Level {stuck_level}
-                    </span>
-                </h4>
-                <p className="text-xs text-zinc-300 leading-relaxed max-w-prose">
-                    {cta.body}
-                </p>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2 mt-3">
-                    {cta.actions.includes("open_hint") && (
-                        <button
-                            onClick={() => onAction('open_hint', recommended_hint_tier)}
-                            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded flex items-center gap-1.5 transition-colors shadow-sm"
-                        >
-                            <Lightbulb className="w-3.5 h-3.5" />
-                            View Hint
-                        </button>
-                    )}
-
-                    {cta.actions.includes("unlock_hint") && !cta.actions.includes("open_hint") && (
-                        <button
-                            onClick={() => onAction('unlock_hint', recommended_hint_tier)}
-                            className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-600 hover:border-zinc-500 text-xs font-bold rounded flex items-center gap-1.5 transition-all"
-                        >
-                            <Key className="w-3.5 h-3.5" />
-                            Unlock {isConcept ? "Concept" : isGuided ? "Guide" : "Solution"}
-                        </button>
-                    )}
-
-                    <button
-                        onClick={handleDismiss}
-                        className="px-3 py-1.5 text-zinc-500 hover:text-zinc-300 text-xs font-medium transition-colors"
-                    >
-                        Dismiss
-                    </button>
-                </div>
-            </div>
-
-            {/* Close X */}
-            <button
-                onClick={handleDismiss}
-                className="text-zinc-600 hover:text-white transition-colors"
-            >
-                <X className="w-4 h-4" />
+            <button onClick={handleDismiss} className="text-zinc-600 hover:text-zinc-400 shrink-0 ml-1">
+                <X className="w-3.5 h-3.5" />
             </button>
         </div>
     );
