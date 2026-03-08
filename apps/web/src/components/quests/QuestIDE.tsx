@@ -13,7 +13,7 @@ import { Diagnostic, QuickFix } from '@/lib/questsApi';
 import { QuickFixBar } from './QuickFixBar';
 import { QueryInspector } from './QueryInspector';
 import { AnimatePresence } from 'framer-motion';
-import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle, Eye } from 'lucide-react';
+import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, ChevronLeft, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle, Eye, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DiffEditor } from '@monaco-editor/react';
 import { useQuestStore } from '@/store/questStore';
@@ -38,34 +38,60 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const { focusMode, toggleFocusMode, lastRunResult, setLastRunResult } = useQuestStore();
 
     // Mission Control & Layout State
+    const LEFT_DEFAULT = 380;
+    const LEFT_MIN = 300;
+    const LEFT_MAX = 520;
+
     const [leftWidthPx, setLeftWidthPx] = useState(() => {
-        const saved = localStorage.getItem('ide:leftWidthPx');
-        return saved ? parseInt(saved, 10) : 380;
+        const saved = Number(localStorage.getItem('ide:leftWidthPx'));
+        return Number.isFinite(saved) ? saved : LEFT_DEFAULT;
     });
+
+    const [lastOpenLeftWidthPx, setLastOpenLeftWidthPx] = useState(() => {
+        const saved = Number(localStorage.getItem('ide:lastOpenLeftWidthPx'));
+        return Number.isFinite(saved) ? saved : LEFT_DEFAULT;
+    });
+
     const [terminalHeightPx, setTerminalHeightPx] = useState(() => {
-        const saved = localStorage.getItem('ide:terminalHeightPx');
-        return saved ? parseInt(saved, 10) : 340;
+        const saved = Number(localStorage.getItem('ide:terminalHeightPx'));
+        return Number.isFinite(saved) ? saved : 340;
     });
-    const [isLeftCollapsed, setIsLeftCollapsed] = useState(false);
 
-    useEffect(() => {
-        localStorage.setItem('ide:leftWidthPx', leftWidthPx.toString());
-    }, [leftWidthPx]);
+    const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
 
-    useEffect(() => {
-        localStorage.setItem('ide:terminalHeightPx', terminalHeightPx.toString());
-    }, [terminalHeightPx]);
+    const toggleMissionControl = () => {
+        setLeftWidthPx((cur) => {
+            if (cur > 0) {
+                // Collapse and remember last open width
+                const remembered = clamp(cur, LEFT_MIN, LEFT_MAX);
+                setLastOpenLeftWidthPx(remembered);
+                localStorage.setItem("ide:lastOpenLeftWidthPx", String(remembered));
+                localStorage.setItem("ide:leftWidthPx", "0");
+                return 0;
+            }
+            // Expand to last open width
+            const restored = clamp(lastOpenLeftWidthPx || LEFT_DEFAULT, LEFT_MIN, LEFT_MAX);
+            localStorage.setItem("ide:leftWidthPx", String(restored));
+            return restored;
+        });
+    };
 
     const handleLeftDrag = (e: React.MouseEvent) => {
         e.preventDefault();
-        if (isLeftCollapsed) return;
+        if (leftWidthPx === 0) return; // Prevent drag if collapsed
+
         const startX = e.clientX;
         const startWidth = leftWidthPx;
 
         const onMouseMove = (moveEvent: MouseEvent) => {
-            let newWidth = startWidth + (moveEvent.clientX - startX);
-            newWidth = Math.max(300, Math.min(newWidth, 520));
-            setLeftWidthPx(newWidth);
+            let next = startWidth + (moveEvent.clientX - startX);
+            const clamped = clamp(next, LEFT_MIN, LEFT_MAX);
+
+            setLeftWidthPx(clamped);
+            setLastOpenLeftWidthPx(clamped);
+
+            // Need to save continuously during drag or at end? Doing it in state effect is cleaner,
+            // but for immediate persistence we can do it here. The effects will also catch it.
         };
         const onMouseUp = () => {
             document.removeEventListener('mousemove', onMouseMove);
@@ -76,6 +102,18 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
     };
+
+    useEffect(() => {
+        localStorage.setItem('ide:leftWidthPx', leftWidthPx.toString());
+    }, [leftWidthPx]);
+
+    useEffect(() => {
+        localStorage.setItem('ide:lastOpenLeftWidthPx', lastOpenLeftWidthPx.toString());
+    }, [lastOpenLeftWidthPx]);
+
+    useEffect(() => {
+        localStorage.setItem('ide:terminalHeightPx', terminalHeightPx.toString());
+    }, [terminalHeightPx]);
 
     const handleTerminalDrag = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -1089,9 +1127,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             <div
                 className="flex-1 min-h-0 w-full grid transition-all duration-300 relative"
                 style={{
-                    gridTemplateColumns: isLeftCollapsed
-                        ? `56px 0px 8px 1fr`
-                        : `56px ${leftWidthPx}px 8px 1fr`,
+                    gridTemplateColumns: `56px ${leftWidthPx}px 8px 1fr`,
                     gridTemplateRows: `1fr 8px ${terminalHeightPx}px`,
                 }}
             >
@@ -1101,11 +1137,11 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     style={{ gridColumn: "1", gridRow: "1 / span 3" }}
                 >
                     <button
-                        onClick={() => setIsLeftCollapsed(!isLeftCollapsed)}
-                        className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-xl transition-colors"
-                        title={isLeftCollapsed ? "Expand Mission Control" : "Collapse Mission Control"}
+                        onClick={toggleMissionControl}
+                        className={`p-2 rounded-xl transition-colors ${leftWidthPx === 0 ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`}
+                        title={leftWidthPx === 0 ? "Expand Mission Control" : "Collapse Mission Control"}
                     >
-                        {isLeftCollapsed ? <ChevronRight className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                        {leftWidthPx === 0 ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
                     </button>
                     {/* Placeholder space for future rail icons */}
                     <div className="flex-1" />
@@ -1120,7 +1156,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 {/* Mission Control */}
                 <div
                     className="hidden lg:flex flex-col min-w-0 border-r border-zinc-800 bg-zinc-950/30 min-h-0 overflow-hidden"
-                    style={{ gridColumn: "2", gridRow: "1 / span 3" }}
+                    style={{ gridColumn: "2", gridRow: "1 / span 3", opacity: leftWidthPx > 0 ? 1 : 0 }}
                 >
                     <div className="flex-1 min-w-0 min-h-0 flex flex-col h-full relative w-full pt-1">
                         {/* 1) File Explorer (Header Row) */}
@@ -1191,10 +1227,11 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 {/* Vertical Resize Handle */}
                 <div
                     onMouseDown={handleLeftDrag}
-                    className="w-4 -ml-2 bg-transparent hover:bg-cyan-500/10 transition-colors flex items-center justify-center group cursor-col-resize z-20"
-                    style={{ gridColumn: "3", gridRow: "1 / span 3" }}
+                    onDoubleClick={toggleMissionControl}
+                    className="w-4 -ml-2 bg-transparent hover:bg-cyan-500/10 transition-colors flex items-center justify-center group z-20"
+                    style={{ gridColumn: "3", gridRow: "1 / span 3", cursor: leftWidthPx === 0 ? 'default' : 'col-resize' }}
                 >
-                    <div className="w-0.5 h-8 bg-zinc-700 group-hover:bg-cyan-400 rounded-full transition-colors" />
+                    <div className={`w-0.5 h-8 rounded-full transition-colors ${leftWidthPx === 0 ? 'bg-zinc-800' : 'bg-zinc-700 group-hover:bg-cyan-400'}`} />
                 </div>
 
                 {/* Editor */}
