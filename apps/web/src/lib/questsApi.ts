@@ -316,12 +316,16 @@ export async function runQuest(
     code: string,
     language: string = "python",
     mode: "validate" | "execute" | "tests" = "execute",
-    workspaceConfig?: { entrypoint: string; files: { path: string; content: string }[] }
+    workspaceConfig?: { entrypoint: string; files: { path: string; content: string }[] },
+    run_target_path?: string
 ): Promise<RunResult> {
     const payload: any = { code, language, mode };
     if (workspaceConfig) {
         payload.entrypoint = workspaceConfig.entrypoint;
         payload.workspace = workspaceConfig.files;
+    }
+    if (run_target_path) {
+        payload.run_target_path = run_target_path;
     }
 
     // Phase 8.x PR 3: Generate idempotency key

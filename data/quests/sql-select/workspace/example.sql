@@ -1,9 +1,9 @@
--- example.sql
--- A correct solution example for sql-select.
--- Goal: return each user's name and city, sorted by name.
+-- example.sql (reference)
+-- This is a worked example of SELECT + FROM + ORDER BY.
+-- It is NOT the quest answer.
 
 SELECT
   name,
-  city
+  age
 FROM users
-ORDER BY name ASC;
+ORDER BY age DESC;

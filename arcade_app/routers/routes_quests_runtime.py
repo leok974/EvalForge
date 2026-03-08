@@ -162,9 +162,12 @@ async def run_quest(
             
             # Fallback to workspace file if payload code is empty
             if not sql_text and run_workspace and "files" in run_workspace:
+                # If run_target_path is provided, try to find that file first
+                target_filename = payload.run_target_path if getattr(payload, "run_target_path", None) and payload.run_target_path.endswith(".sql") else "task.sql"
+                
                 for f in run_workspace["files"]:
                     f_path = f.get("path") if isinstance(f, dict) else getattr(f, "path", None)
-                    if f_path == "task.sql":
+                    if f_path == target_filename:
                         sql_text = (f.get("content") if isinstance(f, dict) else getattr(f, "content", "")).strip()
                         break
                         

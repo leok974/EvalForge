@@ -8,13 +8,10 @@
 -- Rules:
 -- - Include all rows (no WHERE needed)
 -- - Sort by name ascending
-
--- TODO: Write your query below.
--- Hint: You need SELECT, FROM, and ORDER BY.
+--
+-- TODO:
+-- Update the query below so it matches the required output exactly.
 
 SELECT
-  -- name,
-  -- city
-FROM users
--- ORDER BY name ASC;
-;
+  name
+FROM users;

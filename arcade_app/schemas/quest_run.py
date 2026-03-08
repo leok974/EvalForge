@@ -8,6 +8,7 @@ class RunRequest(BaseModel):
     entrypoint: Optional[str] = None
     workspace: Optional[List[Any]] = None # List of {path, content}
     idempotency_key: Optional[str] = None  # Phase 8.x PR 3: Idempotency
+    run_target_path: Optional[str] = None  # Optional target file to run (e.g. example.sql)
 
 class ObjectiveResult(BaseModel):
     id: str

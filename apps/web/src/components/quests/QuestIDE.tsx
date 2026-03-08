@@ -683,7 +683,8 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 primaryCode,
                 quest.language || "python",
                 mode,
-                workspacePayload
+                workspacePayload,
+                (quest.language === 'sql' && activePath.endsWith('.sql')) ? activePath : undefined
             );
 
             // Show stderr only when the run actually failed (no false "Runtime Error" on INFO logs)
@@ -1281,9 +1282,19 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                         )}
 
                         <div className="flex-1 min-h-0 relative flex flex-col overflow-hidden">
-                            {/* Entrypoint Chip */}
+                            {/* Entrypoint Chip & Run Active File */}
                             {activePath !== (quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py')) && (
-                                <div className="absolute top-2 right-4 z-10 flex animate-in fade-in zoom-in-95 duration-200">
+                                <div className="absolute top-2 right-4 z-10 flex gap-2 animate-in fade-in zoom-in-95 duration-200">
+                                    {quest.language === 'sql' && activePath.endsWith('.sql') && (
+                                        <button
+                                            onClick={handleRun}
+                                            disabled={isRunning}
+                                            className="flex items-center gap-2 px-3 py-1.5 bg-workshop-cyan/10 border border-workshop-cyan/50 text-workshop-cyan rounded-full text-xs font-mono shadow-lg hover:bg-workshop-cyan/20 transition-colors cursor-pointer disabled:opacity-50"
+                                        >
+                                            <Play className="w-3 h-3" />
+                                            Run this file
+                                        </button>
+                                    )}
                                     <button
                                         onClick={() => setActivePath(quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py'))}
                                         className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-500 rounded-full text-xs font-mono shadow-lg hover:bg-amber-500/20 transition-colors cursor-pointer"

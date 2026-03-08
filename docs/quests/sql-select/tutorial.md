@@ -1,100 +1,88 @@
 **SQL Select — Building a Directory (name + city)**
 
-**What you’re practicing**
-In this quest, you’re learning the basic shape of a SQL query:
-**SELECT → FROM → ORDER BY**.
+### What we’re practicing
 
-Think of it like asking the database a very specific question:
+Today’s goal is to learn the *shape* of a basic SQL query:
 
-> “Show me each user’s name and city, sorted alphabetically by name.”
+**SELECT → FROM → ORDER BY**
 
----
-
-### Step 1 — Read the required output
-
-Your result must have **exactly two columns**, in this order:
-
-1. `name`
-2. `city`
-
-No extra columns. No missing columns. Column order matters.
+A database is not a spreadsheet — rows do not have a “natural order.”
+If you want sorted output, you must **ask** for it using `ORDER BY`.
 
 ---
 
-### Step 2 — Choose the table
+### The task in one sentence
 
-All the data you need is in the `users` table.
-
-**Schema (for reference):**
-
-* `users(id, name, email, age, city, is_active)`
-
-You only need **name** and **city** for this quest.
-
----
-
-### Step 3 — Write the query (the three required parts)
-
-**A. SELECT** the two columns:
+Return a directory of users showing:
 
 * `name`
 * `city`
 
-**B. FROM** the correct table:
-
-* `users`
-
-**C. ORDER BY** `name` ascending:
-
-* This is important because tables are not “naturally sorted.”
+…and sort the rows alphabetically by `name`.
 
 ---
 
-### A worked example (read-only reference)
+### Step 1 — Confirm the data source
 
-Open `example.sql` to see a correct, fully formatted query.
-Your job is **not** to copy it blindly — it’s to understand why each line exists.
+You will query the `users` table.
 
-```sql
--- example.sql
--- A correct solution example for sql-select.
--- Goal: return each user's name and city, sorted by name.
+**Schema (you don’t need every column):**
+`users(id, name, email, age, city, is_active)`
 
-SELECT
-  name,
-  city
-FROM users
-ORDER BY name ASC;
-```
+For this quest, you only need **name** and **city**.
 
 ---
 
-### Common mistakes (and how to avoid them)
+### Step 2 — Build the query in three parts
 
-* **Using `SELECT *`**
-  This returns extra columns and will fail the output shape check.
-* **Forgetting `ORDER BY`**
-  Your rows may appear “random” and tests may fail.
-* **Wrong column order**
-  `city, name` is not the same as `name, city`.
+1. **SELECT** the columns you want
+2. **FROM** the table they live in
+3. **ORDER BY** the column that defines the sort order
+
+For this quest:
+
+* Columns: `name`, `city`
+* Table: `users`
+* Sort: `ORDER BY name ASC`
 
 ---
 
-### How to verify quickly
+### Worked example (concept demo)
+
+Open `example.sql`.
+It demonstrates the same query shape (SELECT/FROM/ORDER BY), but it is **not** the quest answer.
+
+**What to notice in the example:**
+
+* Two explicit column names
+* A clear `FROM` table
+* An `ORDER BY` that controls the row order
+
+---
+
+### Your job
+
+Open `task.sql` and modify the starter query so it matches the quest requirements exactly:
+
+* Columns: `name`, `city` (in that order)
+* All rows (no `WHERE`)
+* `ORDER BY name ASC`
+
+---
+
+### Common mistakes
+
+* Using `SELECT *` (extra columns fail the shape check)
+* Returning columns in the wrong order (`city, name`)
+* Forgetting `ORDER BY` (tests may fail due to unordered rows)
+
+---
+
+### How to verify
 
 1. Click **Run**
 2. Open **Query Result**
 3. Confirm:
 
-   * Columns are `name`, then `city`
-   * Rows are sorted alphabetically by `name`
-
----
-
-### Key terms for this quest
-
-* `SELECT`
-* `FROM`
-* `ORDER BY`
-* `WHERE` (not needed here)
-* `LIMIT` (not needed here)
+* Columns are `name`, then `city`
+* Rows are sorted by `name` ascending
