@@ -398,12 +398,13 @@ async def run_quest(
         artifacts_json=artifacts if artifacts else {}, # Phase R
     )
     debrief_data = None
-    diagnostics_data = []
-    
-    # Expose runner identity
-    if EXECUTION_ENABLED and 'runner_id' in locals() and runner_id:
+    # NOTE: diagnostics_data was already set above inside the evaluate_objectives block
+    #       Do NOT reset it here.
+
+    # Expose runner identity — only for graded runs (not preview)
+    if evaluate_objectives and EXECUTION_ENABLED and 'runner_id' in locals() and runner_id:
         diagnostics_data.append({
-            "kind": "runner", 
+            "kind": "runner",
             "runner": runner_id,
             "path": "task.sql" if runner_id == "sql_preview" else "main.py",
             "line": 1,
@@ -411,36 +412,28 @@ async def run_quest(
         })
         if runner_id == "sql_preview":
             diagnostics_data.append({
-                "kind": "sql_entrypoint", 
+                "kind": "sql_entrypoint",
                 "path": "task.sql",
                 "line": 1,
                 "message": "SQL execution anchored to task.sql"
             })
     
-    # Phase 7.1.3: Inline Diagnostics
-    # Parse diagnostics if failed (or even if passed, for warnings?)
-    # Usually only relevant if exit_code != 0 or generic error
-    if exit_code != 0 or (stderr and len(stderr) > 0):
+    # Phase 7.1.3: Inline Diagnostics — only for graded runs
+    if evaluate_objectives and (exit_code != 0 or (stderr and len(stderr) > 0)):
         from arcade_app.services.diagnostics_parser import parse_diagnostics
-        # Gather workspace files from payload or quest def? 
-        # payload.workspace has files.
         workspace_paths = []
         if run_workspace and "files" in run_workspace:
             workspace_paths = [f["path"] for f in run_workspace["files"]]
-         
+
         if not workspace_paths and payload.code:
-            # Fallback for single file execution
             fname = "main.py"
             if payload.language == "javascript": fname = "main.js"
             elif payload.language == "typescript": fname = "main.ts"
             workspace_paths.append(fname)
-        
-        # Also include active files if singular?
-        # The parser handles cleaning paths.
-        
+
         diagnostics_data.extend(parse_diagnostics(
-            stderr or "", 
-            payload.language, 
+            stderr or "",
+            payload.language,
             workspace_paths
         ))
        
@@ -558,17 +551,18 @@ async def run_quest(
         "objective_results": objective_results,
         "stdout": stdout,
         "stderr": stderr,
-        "ready_to_submit": passed and not timed_out,
+        "ready_to_submit": (passed and not timed_out) if evaluate_objectives else False,
         "attempt_id": str(attempt.id),
         "run_number": prog.runs_count,
         "duration_ms": duration_ms,
         "exit_code": exit_code,
         "timed_out": timed_out,
-        "coach": coach_data,
+        "coach": coach_data if evaluate_objectives else None,
         "debrief": debrief_data,
         "diagnostics": diagnostics_data,
         "quick_fixes": q_fixes,
-        "artifacts": final_artifacts
+        "artifacts": final_artifacts,
+        "evaluated_objectives": evaluate_objectives,
     }
 
 @router.get("/{quest_id}/attempts", response_model=list[dict])

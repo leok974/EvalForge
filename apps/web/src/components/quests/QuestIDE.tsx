@@ -708,13 +708,17 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
             if (result.stdout) addLog(result.stdout, 'output');
 
-            // Sync to Store for Tools Panel
-            setLastRunResult(result);
-
             // Detect preview run (non-graded reference file execution)
-            const isPreviewRun = (result.diagnostics || []).some(
-                (d: any) => d.kind === 'preview' && d.evaluated_objectives === false
-            );
+            // Must be detected BEFORE updating store, to block allPassed bleed
+            const isPreviewRun = (result as any).evaluated_objectives === false
+                || (result.diagnostics || []).some(
+                    (d: any) => d.kind === 'preview' && d.evaluated_objectives === false
+                );
+
+            // Sync to store for Tools Panel — skip for preview runs to avoid flipping allPassed/Submit
+            if (!isPreviewRun) {
+                setLastRunResult(result);
+            }
 
             // Show Test Summary if available
             if (quest.language === 'sql' && result.artifacts?.sql_student_result) {
