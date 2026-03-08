@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, Lock, History, Check, X, Clock, GraduationCap } from 'lucide-react';
+import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, ChevronDown, Lock, History, Check, X, Clock, GraduationCap } from 'lucide-react';
 import { QuestSummary, QuestAttemptSummary } from '@/lib/questsApi';
 import ReactMarkdown from 'react-markdown';
+
+// Parse a hints.md file with "## Hint N — title" sections into structured accordion data
+function parseHints(md: string): { intro: string; hints: { title: string; body: string }[] } {
+    const parts = md.split(/\n(?=##\s)/);
+    const introPart = parts[0] ?? '';
+    const intro = introPart.replace(/^#[^\n]*\n/, '').trim(); // strip h1 title
+    const hints = parts.slice(1).map(chunk => {
+        const [rawTitle, ...rest] = chunk.split('\n');
+        return {
+            title: rawTitle.replace(/^##\s+/, '').trim(),
+            body: rest.join('\n').trim(),
+        };
+    });
+    return { intro, hints };
+}
 
 interface QuestDrawerProps {
     quest: QuestSummary;
@@ -40,6 +55,8 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
 
     // Simple verification for "Unlockable" hints (mocked for now)
     const [unlockedHints, setUnlockedHints] = useState<Record<string, boolean>>({});
+    // Accordion index for hints_md mode
+    const [openHintIdx, setOpenHintIdx] = useState<number | null>(null);
 
     // Init unlocked hints from quest prop if available (Backend 7.1)
     useEffect(() => {
@@ -218,55 +235,79 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
                     </div>
                 )}
 
-                {/* HINTS TAB */}
-                {activeTab === 'hints' && (
-                    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        {(quest as any).hints_md ? (
-                            // Rich markdown hints (preferred when hints.md exists)
-                            <div className="prose prose-invert prose-sm max-w-none prose-p:text-zinc-300 prose-headings:text-cyan-100 prose-strong:text-cyan-200 prose-code:text-amber-300 prose-li:text-zinc-300">
-                                <ReactMarkdown>{(quest as any).hints_md}</ReactMarkdown>
-                            </div>
-                        ) : quest.hints?.length ? (
-                            // Legacy tiered-hint UI (fallback)
-                            <>
-                                <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Field Manual</h4>
-                                <div className="space-y-3">
-                                    {quest.hints.map((hint) => (
-                                        <div key={hint.id} className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/20">
+                {/* HINTS TAB — accordion when hints_md present */}
+                {activeTab === 'hints' && (() => {
+                    const hintsMd = (quest as any).hints_md as string | undefined;
+                    if (hintsMd) {
+                        const { intro, hints } = parseHints(hintsMd);
+                        return (
+                            <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                {intro && (
+                                    <div className="prose prose-invert prose-sm max-w-none prose-p:text-zinc-400 mb-3">
+                                        <ReactMarkdown>{intro}</ReactMarkdown>
+                                    </div>
+                                )}
+                                {hints.map((h, idx) => {
+                                    const isOpen = openHintIdx === idx;
+                                    return (
+                                        <div key={idx} className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/20">
                                             <button
-                                                onClick={() => toggleHint(hint.id, hint.type)}
-                                                className="w-full flex items-center justify-between p-3 text-left hover:bg-zinc-800/50 transition-colors"
+                                                onClick={() => setOpenHintIdx(isOpen ? null : idx)}
+                                                className="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-zinc-800/50 transition-colors group"
                                             >
-                                                <div className="flex items-center gap-2">
-                                                    {hint.type === 'concept' && <div className="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 uppercase tracking-wide">Concept</div>}
-                                                    {hint.type === 'snippet' && <div className="text-[10px] bg-amber-900/30 text-amber-400 px-2 py-0.5 rounded border border-amber-500/20 uppercase tracking-wide">Snippet</div>}
-                                                    {hint.type === 'solution' && <div className="text-[10px] bg-red-900/30 text-red-400 px-2 py-0.5 rounded border border-red-500/20 uppercase tracking-wide">Solution</div>}
-                                                    <span className="text-xs text-zinc-400 font-mono">
-                                                        {unlockedHints[hint.id] ? "Access Granted" : "Encrypted Data"}
+                                                <div className="flex items-center gap-2 min-w-0">
+                                                    <span className="text-[10px] font-bold text-cyan-600 tabular-nums shrink-0">
+                                                        {String(idx + 1).padStart(2, '0')}
+                                                    </span>
+                                                    <span className="text-xs font-semibold text-zinc-300 group-hover:text-zinc-100 truncate">
+                                                        {h.title}
                                                     </span>
                                                 </div>
-                                                <div className="text-zinc-600">
-                                                    {unlockedHints[hint.id] ? <ChevronUp className="w-4 h-4" /> : <div className="flex items-center gap-1 text-[10px] uppercase font-bold text-zinc-600"><Lock className="w-3 h-3" /> Unlock</div>}
-                                                </div>
+                                                {isOpen
+                                                    ? <ChevronUp className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                                                    : <ChevronDown className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
+                                                }
                                             </button>
-                                            {unlockedHints[hint.id] && (
-                                                <div className="p-3 border-t border-zinc-800/50 bg-black/20 animate-in slide-in-from-top-2">
-                                                    <div className="text-sm text-zinc-300 font-mono whitespace-pre-wrap">
-                                                        <ReactMarkdown>{hint.text}</ReactMarkdown>
+                                            {isOpen && (
+                                                <div className="px-4 pb-4 pt-1 border-t border-zinc-800/50 bg-black/20 animate-in slide-in-from-top-1 duration-150">
+                                                    <div className="prose prose-invert prose-sm max-w-none prose-p:text-zinc-300 prose-strong:text-cyan-200 prose-code:text-amber-300 prose-code:bg-zinc-800/60 prose-code:px-1 prose-code:rounded prose-li:text-zinc-300">
+                                                        <ReactMarkdown>{h.body}</ReactMarkdown>
                                                     </div>
                                                 </div>
                                             )}
                                         </div>
-                                    ))}
-                                </div>
-                            </>
-                        ) : (
-                            <div className="text-zinc-500 italic text-xs text-center py-8">
-                                No hints available for this mission.
+                                    );
+                                })}
                             </div>
-                        )}
-                    </div>
-                )}
+                        );
+                    }
+                    if (quest.hints?.length) {
+                        return (
+                            <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Field Manual</h4>
+                                {quest.hints.map((hint) => (
+                                    <div key={hint.id} className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/20">
+                                        <button onClick={() => toggleHint(hint.id, hint.type)} className="w-full flex items-center justify-between p-3 text-left hover:bg-zinc-800/50 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                                {hint.type === 'concept' && <div className="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 uppercase tracking-wide">Concept</div>}
+                                                {hint.type === 'snippet' && <div className="text-[10px] bg-amber-900/30 text-amber-400 px-2 py-0.5 rounded border border-amber-500/20 uppercase tracking-wide">Snippet</div>}
+                                                {hint.type === 'solution' && <div className="text-[10px] bg-red-900/30 text-red-400 px-2 py-0.5 rounded border border-red-500/20 uppercase tracking-wide">Solution</div>}
+                                                <span className="text-xs text-zinc-400 font-mono">{unlockedHints[hint.id] ? "Access Granted" : "Encrypted Data"}</span>
+                                            </div>
+                                            <div className="text-zinc-600">{unlockedHints[hint.id] ? <ChevronUp className="w-4 h-4" /> : <div className="flex items-center gap-1 text-[10px] uppercase font-bold text-zinc-600"><Lock className="w-3 h-3" /> Unlock</div>}</div>
+                                        </button>
+                                        {unlockedHints[hint.id] && (
+                                            <div className="p-3 border-t border-zinc-800/50 bg-black/20 animate-in slide-in-from-top-2">
+                                                <div className="prose prose-invert prose-sm max-w-none"><ReactMarkdown>{hint.text}</ReactMarkdown></div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        );
+                    }
+                    return <div className="text-zinc-500 italic text-xs text-center py-8">No hints available for this mission.</div>;
+                })()}
 
 
                 {/* LORE TAB */}
