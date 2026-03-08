@@ -715,10 +715,9 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     (d: any) => d.kind === 'preview' && d.evaluated_objectives === false
                 );
 
-            // Sync to store for Tools Panel — skip for preview runs to avoid flipping allPassed/Submit
-            if (!isPreviewRun) {
-                setLastRunResult(result);
-            }
+            // Sync to store for Tools Panel (always — artifacts drive the Query Result table)
+            // allPassed is safe because backend returns ready_to_submit=false for preview runs
+            setLastRunResult(result);
 
             // Show Test Summary if available
             if (quest.language === 'sql' && result.artifacts?.sql_student_result) {
