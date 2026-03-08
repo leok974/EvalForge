@@ -232,6 +232,15 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const [baseFiles, setBaseFiles] = useState<Record<string, string>>({});
     const [activePath, setActivePath] = useState<string>("");
 
+    // Read-Only Enforcement Rule
+    const isReadOnlyPath = (path: string) => {
+        const p = path.toLowerCase();
+        if (p.startsWith("fixtures/")) return true;
+        if (p === "example.sql") return true;
+        if (p === "readme.md") return true;
+        return false;
+    };
+
     // Legacy support: sync single file to workspace
     useEffect(() => {
         const filesToLoad = quest.workspace_files || (quest.workspace ? quest.workspace.files : null);
@@ -1174,14 +1183,14 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                                     : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200 border border-transparent'
                                                 }`}
                                         >
-                                            <span className="flex items-center gap-2 min-w-0">
-                                                {!files[path].editable ? <Lock className="w-3 h-3 opacity-50 shrink-0" /> : <FileCode className="w-3 h-3 opacity-75 shrink-0" />}
-                                                <span className={`truncate ${!files[path].editable ? "opacity-75" : ""}`}>{path}</span>
-                                                {files[path].editable && files[path].content !== baseFiles[path] && (
+                                            <span className="flex items-center gap-2 min-w-0" title={(!files[path].editable || isReadOnlyPath(path)) ? "Read-only" : undefined}>
+                                                {!files[path].editable || isReadOnlyPath(path) ? <Lock className="w-3 h-3 text-zinc-500 shrink-0" /> : <FileCode className="w-3 h-3 opacity-75 shrink-0" />}
+                                                <span className={cn("truncate min-w-0", (!files[path].editable || isReadOnlyPath(path)) ? "text-zinc-400" : "")}>{path}</span>
+                                                {files[path].editable && !isReadOnlyPath(path) && files[path].content !== baseFiles[path] && (
                                                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80 shrink-0" />
                                                 )}
                                             </span>
-                                            {!files[path].editable && <span className="text-[9px] opacity-30 uppercase shrink-0 ml-2">Lock</span>}
+                                            {(!files[path].editable || isReadOnlyPath(path)) && <span className="text-[9px] opacity-30 uppercase shrink-0 ml-2">Lock</span>}
                                         </button>
                                     ))}
                                 </div>
@@ -1254,9 +1263,9 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                                     : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50 border-t-2 border-t-transparent'
                                                 }`}
                                         >
-                                            {!files[path].editable && <Lock className="w-3 h-3 opacity-50" />}
-                                            {path}
-                                            {files[path].editable && files[path].content !== baseFiles[path] && (
+                                            {(!files[path].editable || isReadOnlyPath(path)) && <Lock className="w-3 h-3 text-zinc-500" />}
+                                            <span className={cn((!files[path].editable || isReadOnlyPath(path)) && "text-zinc-400")} title={(!files[path].editable || isReadOnlyPath(path)) ? "Read-only" : undefined}>{path}</span>
+                                            {files[path].editable && !isReadOnlyPath(path) && files[path].content !== baseFiles[path] && (
                                                 <span className="text-amber-400">●</span>
                                             )}
                                         </button>
@@ -1284,11 +1293,21 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                     </button>
                                 </div>
                             )}
+                            {/* Read-Only Banner */}
+                            {(!files[activePath]?.editable || isReadOnlyPath(activePath)) && (
+                                <div className="text-xs text-zinc-400 px-3 py-1.5 border-b border-zinc-800 bg-zinc-950/40 flex items-center gap-2">
+                                    <Lock className="w-3 h-3" />
+                                    <span>Read-only reference file — you can copy, but edits are disabled.</span>
+                                </div>
+                            )}
+
                             <QuestEditor
                                 ref={editorRef}
                                 value={displayCode || ""} // Show replay code or active file
                                 path={activePath}
                                 onChange={v => {
+                                    if (isReadOnlyPath(activePath) || !files[activePath]?.editable) return; // Double guard
+
                                     if (!isReplay && files[activePath]?.editable) {
                                         setFiles(prev => ({
                                             ...prev,
@@ -1307,7 +1326,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                                         quest.language || "python"
                                 }
                                 isSaving={autosaveStatus === 'saving'}
-                                readOnly={isReadOnly}
+                                readOnly={!files[activePath]?.editable || isReadOnlyPath(activePath)}
                                 diagnostics={diagnostics.filter(d => d.path === activePath)}
                             />
                         </div>

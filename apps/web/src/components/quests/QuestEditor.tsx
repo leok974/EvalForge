@@ -126,6 +126,9 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
                         guides: { indentation: enhancedMode },
                         folding: enhancedMode,
                         readOnly: readOnly,
+                        domReadOnly: readOnly,
+                        cursorStyle: readOnly ? "line-thin" : "line",
+                        renderValidationDecorations: "on"
                     }}
                 />
             </div>
