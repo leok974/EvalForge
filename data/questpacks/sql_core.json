@@ -27,7 +27,14 @@
             "track_id": "sql-fundamentals",
             "tier": 1,
             "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "content_version": "1.0.0",
+            "key_terms": [
+                "select",
+                "from",
+                "where",
+                "and",
+                "order-by"
+            ]
         },
         {
             "slug": "sql-order-limit",

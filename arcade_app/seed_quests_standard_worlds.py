@@ -398,6 +398,67 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
             "require_no_timeout": True
         }
     },
+    {
+        "slug": "sql-where",
+        "world_id": "world-sql",
+        "track_id": "boss-prep",
+        "order_index": 30,
+        "title": "Filter Rows",
+        "short_description": "Filtering with Purpose",
+        "detailed_description": "Return only ACTIVE users from Detroit.",
+        "rubric_id": "sql_where",
+        "starting_code_path": "data/quests/sql-where/workspace/task.sql",
+        "unlocks_boss_id": None,
+        "unlocks_layout_id": None,
+        "base_xp_reward": 60,
+        "mastery_xp_bonus": 25,
+        "objectives_json": [
+            {
+                "id": "obj_runs",
+                "kind": "exit_code_zero",
+                "text": "Query executes successfully",
+                "why": "Functional requirement",
+                "rule": {
+                    "kind": "exit_code_zero"
+                }
+            },
+            {
+                "id": "obj_has_where",
+                "kind": "source_regex",
+                "text": "Query uses WHERE clause",
+                "why": "Required for filtering",
+                "rule": {
+                    "kind": "source_regex",
+                    "pattern": "(?i)\\bWHERE\\b"
+                }
+            },
+            {
+                "id": "obj_filters",
+                "kind": "source_regex",
+                "text": "Query filters by city and active status",
+                "why": "Requires multiple conditions",
+                "rule": {
+                    "kind": "source_regex",
+                    "patterns": ["(?i)city\\s*=\\s*'Detroit'", "(?i)AND", "(?i)is_active\\s*=\\s*1"]
+                }
+            },
+            {
+                "id": "obj_order",
+                "kind": "source_regex",
+                "text": "Query sorts by name ascending",
+                "why": "Sorting requirement",
+                "rule": {
+                    "kind": "source_regex",
+                    "pattern": "(?i)ORDER\\s+BY\\s+name\\s+(?:ASC)?"
+                }
+            }
+        ],
+        "runtime_rules_json": {
+            "enabled": True,
+            "require_exit_code_zero": True,
+            "require_no_timeout": True
+        }
+    },
 
     # === The Grid (Infra) ===
     {

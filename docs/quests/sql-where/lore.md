@@ -1,9 +1,6 @@
-## Query Log: Where Have All the Actives Gone?
+# Lore — The City Gate
 
-> *Connecting to Archive Node 7...*
-> *Scanning `users` table...*
-> *6 agents found. 2 flagged as inactive.*
+Detroit’s records are guarded by a simple rule: only verified, active entries may pass.
 
-In the Archive, `is_active = 0` marks an agent as suspended. Their records persist but must never be surfaced in ops reports.
-
-The data waits. The filter is yours to write.
+You’re not changing the data — you’re choosing the correct slice of it.
+That is the power of `WHERE`: precision without destruction.

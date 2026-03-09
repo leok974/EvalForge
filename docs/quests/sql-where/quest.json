@@ -1,54 +1,59 @@
 {
     "slug": "sql-where",
-    "title": "Filter the Data",
+    "title": "Filter Rows",
     "language": "sql",
     "world_id": "world-sql",
-    "track_id": "sql-fundamentals",
-    "order_index": 3,
-    "short_description": "Use the WHERE clause to filter rows by a condition.",
-    "detailed_description": "Query only the rows you need by adding a WHERE clause. You will filter active users from the Archive and learn how boolean flags work in SQLite.",
-    "key_terms": [
-        "where",
-        "filter",
-        "is_active",
-        "boolean"
-    ],
+    "track_id": "core",
+    "order_index": 2,
+    "short_description": "Filtering with Purpose",
+    "detailed_description": "Return only ACTIVE users from Detroit.",
     "objectives": [
         {
-            "id": "sql_check",
+            "id": "obj_runs",
             "kind": "tests_pass",
-            "text": "Query returns only active users",
-            "why": "WHERE clause filters correctly",
+            "text": "Query executes successfully",
+            "why": "Functional requirement",
             "rule": {
                 "must_pass": true
             }
         },
         {
-            "id": "uses_where",
-            "kind": "regex",
+            "id": "obj_has_where",
+            "kind": "source_regex",
             "text": "Query uses WHERE clause",
-            "why": "Enforces use of the target concept",
+            "why": "Required for filtering",
             "rule": {
-                "pattern": "(?i)\\bWHERE\\b"
+                "regex": "(?i)\\bWHERE\\b",
+                "must_match": true
             }
         },
         {
-            "id": "fs_snapshot",
-            "kind": "fs_snapshot",
-            "title": "Verify file structure",
+            "id": "obj_filters",
+            "kind": "source_regex",
+            "text": "Query filters by city and active status",
+            "why": "Requires multiple conditions",
             "rule": {
-                "kind": "fs_snapshot",
-                "must_exist": [
-                    "README.md",
-                    "fixtures/schema.sql",
-                    "fixtures/seed.sql",
-                    "task.sql"
-                ]
+                "regex": "(?i)city\\s*=\s*'Detroit'.*(?i)AND.*(?i)is_active\\s*=\s*1|(?i)is_active\\s*=\s*1.*(?i)AND.*(?i)city\\s*=\s*'Detroit'",
+                "must_match": true
+            }
+        },
+        {
+            "id": "obj_order",
+            "kind": "source_regex",
+            "text": "Query sorts by name ascending",
+            "why": "Sorting requirement",
+            "rule": {
+                "regex": "(?i)ORDER\\s+BY\\s+name\\s+(?:ASC)?",
+                "must_match": true
             }
         }
     ],
     "grading": {
-        "mode": "run"
+        "mode": "tests",
+        "expected_columns": [
+            "name",
+            "city"
+        ]
     },
     "workspace": {
         "entrypoint": "task.sql",
@@ -57,28 +62,11 @@
     "smoke": {
         "solution_workspace_files": []
     },
-    "content_source": "sql_world_v1",
-    "content_version": "1.0.0",
-    "runtime_rules_json": {
-        "objectives": [
-            {
-                "id": "sql_check",
-                "kind": "exit_code_zero",
-                "text": "Query executes without errors",
-                "why": "Ensure SQL syntax is correct",
-                "rule": {
-                    "kind": "exit_code_zero"
-                }
-            },
-            {
-                "id": "uses_where",
-                "kind": "regex",
-                "text": "Query uses WHERE clause",
-                "why": "Enforces use of target concept",
-                "rule": {
-                    "pattern": "(?i)\\bWHERE\\b"
-                }
-            }
-        ]
-    }
+    "key_terms": [
+        "select",
+        "from",
+        "where",
+        "and",
+        "order-by"
+    ]
 }

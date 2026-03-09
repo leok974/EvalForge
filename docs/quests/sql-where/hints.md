@@ -1,26 +1,41 @@
-# Hints: Filter the Data
+# Hints — SQL Where (Office Hours)
 
-## Hint 1 — Concept
-Use the `WHERE` clause to restrict which rows are returned. Place it **after** `FROM` and **before** `ORDER BY`.
+Try one hint, **Run**, then check **Query Result** before opening the next.
 
-## Hint 2 — Structure
+## Hint 1 — Identify the two filters
+The prompt requires *two* conditions:
+- city must be Detroit
+- user must be active
 
-```sql
-SELECT id, name, city
-FROM users
-WHERE ___
-ORDER BY name ASC;
-```
+You will need both conditions in your `WHERE` clause.
 
-Fill in the blank: what condition filters out inactive users?
+## Hint 2 — Use AND, not OR
+If you write:
 
-## Hint 3 — Full solution
+`city = 'Detroit' OR is_active = 1`
 
-```sql
-SELECT id, name, city
-FROM users
-WHERE is_active = 1
-ORDER BY name ASC;
-```
+…you will get far too many rows.
 
-Expected: 4 rows — Alice (Detroit), Bob (Austin), Diana (Seattle), Fay (Miami).
+Use `AND` so a row must satisfy both conditions.
+
+## Hint 3 — Remember quotes for text
+Detroit is text, so it must be written as:
+
+`city = 'Detroit'`
+
+## Hint 4 — Confirm the output columns
+Even if your filter is correct, your output can still fail if:
+- you return extra columns
+- you swap the column order
+
+The correct order is: `name`, then `city`.
+
+## Hint 5 — Sorting is still required
+Filtering doesn’t sort.
+
+Add:
+`ORDER BY name ASC`
+
+## Hint 6 — Use the example as a pattern
+`example.sql` demonstrates the structure of `WHERE + ORDER BY`.  
+Apply the same structure, but with the quest’s required filters.
