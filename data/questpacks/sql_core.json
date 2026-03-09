@@ -5,85 +5,318 @@
     "quests": [
         {
             "slug": "sql-ignition",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "title": "SQL Ignition",
+            "short_description": "Start your SQL engine.",
+            "detailed_description": "Basic SQL selection.",
+            "order_index": 10,
+            "language": "sql",
+            "base_xp_reward": 40,
+            "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-ignition/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_select_statement",
+                    "kind": "source_regex",
+                    "title": "Write SELECT FROM query",
+                    "rule": {
+                        "pattern": "SELECT.*FROM"
+                    }
+                },
+                {
+                    "id": "obj_exit_zero",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes successfully",
+                    "rule": {}
+                }
+            ]
         },
         {
             "slug": "sql-select",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0",
-            "key_terms": [
-                "select",
-                "from",
-                "order-by"
+            "title": "SQL Select",
+            "short_description": "Refine your data retrieval.",
+            "detailed_description": "Advanced SELECT.",
+            "order_index": 20,
+            "language": "sql",
+            "base_xp_reward": 60,
+            "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-select/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_syntax",
+                    "kind": "source_regex",
+                    "title": "Use SELECT, FROM, and ORDER BY",
+                    "rule": {
+                        "patterns": [
+                            "SELECT",
+                            "FROM",
+                            "ORDER BY"
+                        ]
+                    }
+                },
+                {
+                    "id": "obj_exit_zero",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes successfully",
+                    "rule": {}
+                }
             ]
         },
         {
             "slug": "sql-where",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0",
-            "key_terms": [
-                "select",
-                "from",
-                "where",
-                "and",
-                "order-by"
+            "title": "SQL Where (Filtering)",
+            "short_description": "Filtering with Purpose",
+            "detailed_description": "Return only ACTIVE users from Detroit.",
+            "order_index": 30,
+            "language": "sql",
+            "base_xp_reward": 60,
+            "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-where/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes successfully",
+                    "rule": {}
+                },
+                {
+                    "id": "obj_has_where",
+                    "kind": "source_regex",
+                    "title": "Query uses WHERE clause",
+                    "rule": {
+                        "pattern": "(?i)\\bWHERE\\b"
+                    }
+                },
+                {
+                    "id": "obj_filters",
+                    "kind": "source_regex",
+                    "title": "Query filters by city and active status",
+                    "rule": {
+                        "patterns": [
+                            "(?i)city\\s*=\\s*'Detroit'",
+                            "(?i)AND",
+                            "(?i)is_active\\s*=\\s*1"
+                        ]
+                    }
+                },
+                {
+                    "id": "obj_order",
+                    "kind": "source_regex",
+                    "title": "Query sorts by name ascending",
+                    "rule": {
+                        "pattern": "(?i)ORDER\\s+BY\\s+name\\s+(?:ASC)?"
+                    }
+                }
             ]
         },
         {
-            "slug": "sql-order-limit",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "slug": "sql-order-by",
+            "title": "SQL Order By — Sorting with Two Keys",
+            "short_description": "Sorting with Two Keys",
+            "detailed_description": "Produce a clean directory of users sorted for a printed roster.",
+            "order_index": 40,
+            "language": "sql",
+            "base_xp_reward": 60,
+            "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-order-by/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/order-by"
+            ],
+            "objectives": [
+                {
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes successfully",
+                    "rule": {}
+                },
+                {
+                    "id": "obj_has_order_by",
+                    "kind": "source_regex",
+                    "title": "Query uses ORDER BY",
+                    "rule": {
+                        "pattern": "(?i)\\bORDER\\s+BY\\b"
+                    }
+                },
+                {
+                    "id": "obj_multi_key",
+                    "kind": "source_regex",
+                    "title": "Query sorts by city and name",
+                    "rule": {
+                        "pattern": "(?i)ORDER\\s+BY\\s+city.*,\\s*name"
+                    }
+                },
+                {
+                    "id": "obj_shape",
+                    "kind": "source_regex",
+                    "title": "Query returns city and name",
+                    "rule": {
+                        "pattern": "(?i)SELECT\\s+city\\s*,\\s*name"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "sql-limit",
+            "title": "Top N: The LIMIT Clause",
+            "short_description": "Use LIMIT to cap your result set to the top 3 most expensive products.",
+            "order_index": 50,
+            "language": "sql",
+            "base_xp_reward": 50,
+            "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-limit/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "columns_correct",
+                    "title": "Selected columns are correct (id, name, category, price_cents)",
+                    "kind": "stdout_regex",
+                    "rule": {
+                        "pattern": "(?i)id\\s*\\|\\s*name\\s*\\|\\s*category\\s*\\|\\s*price_cents",
+                        "description": "Ensure your SELECT columns match the required order: id, name, category, price_cents"
+                    }
+                },
+                {
+                    "id": "active_only",
+                    "title": "Only active products are shown (is_discontinued = FALSE)",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)WHERE\\s+is_discontinued\\s*=\\s*(FALSE|0)",
+                        "description": "Filter for products where is_discontinued is FALSE."
+                    }
+                },
+                {
+                    "id": "sorting_correct",
+                    "title": "Rows are sorted by price_cents DESC then name ASC",
+                    "kind": "source_regex",
+                    "rule": {
+                        "pattern": "(?i)ORDER\\s+BY\\s+price_cents\\s+DESC\\s*,\\s*name(\\s+ASC)?",
+                        "description": "Sort the results from most expensive to least expensive."
+                    }
+                },
+                {
+                    "id": "limit_count",
+                    "title": "Only 3 rows are returned",
+                    "kind": "stdout_regex",
+                    "rule": {
+                        "pattern": "(?s)^.*\\|.*\\|.*\\|.*\\n.*\\|.*\\|.*\\|.*\\n.*\\|.*\\|.*\\|.*\\n(?!.*\\|.*\\|.*\\|.*)",
+                        "description": "Use LIMIT 3 to return exactly three rows."
+                    }
+                }
+            ]
         },
         {
             "slug": "sql-aggregates",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "title": "SQL Aggregates",
+            "short_description": "Count, Sum, and Summarize",
+            "detailed_description": "Use COUNT, SUM, and AVG.",
+            "order_index": 60,
+            "language": "sql",
+            "base_xp_reward": 50,
+            "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-aggregates/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes",
+                    "rule": {}
+                }
+            ]
         },
         {
             "slug": "sql-groupby-having",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "title": "SQL Grouped Analytics",
+            "short_description": "Grouped Analytics",
+            "detailed_description": "Advanced grouping with HAVING.",
+            "order_index": 70,
+            "language": "sql",
+            "base_xp_reward": 50,
+            "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-groupby-having/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes",
+                    "rule": {}
+                }
+            ]
         },
         {
             "slug": "sql-joins",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "title": "SQL Joins",
+            "short_description": "Relational Mastery",
+            "detailed_description": "Master INNER and OUTER joins.",
+            "order_index": 80,
+            "language": "sql",
+            "base_xp_reward": 50,
+            "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-joins/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes",
+                    "rule": {}
+                }
+            ]
         },
         {
             "slug": "sql-left-join-null",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "title": "Left Joins & NULLs",
+            "short_description": "Handling Missing Data",
+            "detailed_description": "Use LEFT JOIN to find missing relationships.",
+            "order_index": 90,
+            "language": "sql",
+            "base_xp_reward": 50,
+            "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-left-join-null/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes",
+                    "rule": {}
+                }
+            ]
         },
         {
             "slug": "sql-cte-subquery",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "title": "CTEs & Subqueries",
+            "short_description": "Composable Queries",
+            "detailed_description": "Simplify complex queries with CTEs.",
+            "order_index": 100,
+            "language": "sql",
+            "base_xp_reward": 50,
+            "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-cte-subquery/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes",
+                    "rule": {}
+                }
+            ]
         },
         {
             "slug": "sql-insert-update-delete",
-            "track_id": "sql-fundamentals",
-            "tier": 1,
-            "content_source": "sql_world_v1",
-            "content_version": "1.0.0"
+            "title": "Data Mutation",
+            "short_description": "Mutate the Archives",
+            "detailed_description": "Insert, update, and remove records safely.",
+            "order_index": 110,
+            "language": "sql",
+            "base_xp_reward": 50,
+            "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-insert-update-delete/workspace/task.sql",
+            "objectives": [
+                {
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes",
+                    "rule": {}
+                }
+            ]
         }
     ]
 }

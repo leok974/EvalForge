@@ -1,0 +1,68 @@
+{
+    "slug": "sql-limit",
+    "title": "Top N: The LIMIT Clause",
+    "short_description": "Use LIMIT to cap your result set to the top 3 most expensive products.",
+    "world_id": "world-sql",
+    "track_id": "core-sql",
+    "order_index": 7,
+    "base_xp_reward": 50,
+    "mastery_xp_bonus": 25,
+    "language": "sql",
+    "starting_code_path": "data/quests/sql-limit/workspace/task.sql",
+    "objectives_json": [
+        {
+            "id": "columns_correct",
+            "title": "Selected columns are correct (id, name, category, price_cents)",
+            "kind": "stdout_regex",
+            "rule": {
+                "pattern": "(?i)id\\s*\\|\\s*name\\s*\\|\\s*category\\s*\\|\\s*price_cents",
+                "description": "Ensure your SELECT columns match the required order: id, name, category, price_cents"
+            }
+        },
+        {
+            "id": "active_only",
+            "title": "Only active products are shown (is_discontinued = FALSE)",
+            "kind": "source_regex",
+            "rule": {
+                "pattern": "(?i)WHERE\\s+is_discontinued\\s*=\\s*(FALSE|0)",
+                "description": "Filter for products where is_discontinued is FALSE."
+            }
+        },
+        {
+            "id": "sorting_correct",
+            "title": "Rows are sorted by price_cents DESC then name ASC",
+            "kind": "source_regex",
+            "rule": {
+                "pattern": "(?i)ORDER\\s+BY\\s+price_cents\\s+DESC\\s*,\\s*name(\\s+ASC)?",
+                "description": "Sort the results from most expensive to least expensive."
+            }
+        },
+        {
+            "id": "limit_count",
+            "title": "Only 3 rows are returned",
+            "kind": "stdout_regex",
+            "rule": {
+                "pattern": "(?s)^.*\\|.*\\|.*\\|.*\\n.*\\|.*\\|.*\\|.*\\n.*\\|.*\\|.*\\|.*\\n(?!.*\\|.*\\|.*\\|.*)",
+                "description": "Use LIMIT 3 to return exactly three rows."
+            }
+        }
+    ],
+    "key_terms": [
+        "SELECT",
+        "FROM",
+        "WHERE",
+        "ORDER BY",
+        "LIMIT",
+        "DESC",
+        "ASC"
+    ],
+    "runtime_rules_json": {
+        "sql_grader": {
+            "fixtures": [
+                "workspace/fixtures/schema.sql",
+                "workspace/fixtures/seed.sql"
+            ],
+            "entrypoint": "task.sql"
+        }
+    }
+}
