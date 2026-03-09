@@ -3,7 +3,7 @@
 ## What we’re practicing
 Today you’re learning that sorting often requires **more than one key**.
 
-A database will only sort by what you explicitly request. If two rows tie on the first sort key, you must provide a **second key** to guarantee a stable order.
+A database will only sort by what you explicitly request. If two [rows](glossary/sql/row) tie on the first sort key, you must provide a **second key** to guarantee a stable [order](glossary/sql/order-by).
 
 Think of this as “alphabetize by city, then alphabetize by name within each city.”
 
@@ -16,8 +16,8 @@ Return a directory of users showing:
 - `name`
 
 …and sort:
-1) by `city` ascending  
-2) then by `name` ascending
+1) by `city` [ascending](glossary/sql/asc)  
+2) then by `name` [ascending](glossary/sql/asc)
 
 ---
 
@@ -32,7 +32,7 @@ Column order is part of the contract.
 ---
 
 ## Step 2 — Multi-key ORDER BY
-A multi-key sort looks like:
+A multi-key [ORDER BY](glossary/sql/order-by) looks like:
 
 `ORDER BY first_key ASC, second_key ASC`
 
@@ -45,7 +45,7 @@ For this quest:
 ---
 
 ## Worked example (concept demo)
-Open `example.sql`. It demonstrates multi-key sorting:
+Open `example.sql`. It demonstrates multi-key [sorting](glossary/sql/order-by):
 
 ```sql
 SELECT
@@ -57,7 +57,7 @@ ORDER BY age DESC, name ASC;
 
 Notice:
 
-* two keys in the ORDER BY clause
+* two keys in the [ORDER BY](glossary/sql/order-by) clause
 * the second key resolves ties on the first
 
 This example is **not** the quest answer. Your quest requires a different output and different keys.
@@ -70,7 +70,7 @@ Open `task.sql` and ensure:
 
 * Columns are `city, name` (in that order)
 * All rows included
-* ORDER BY includes **two keys**: `city ASC, name ASC`
+* [ORDER BY](glossary/sql/order-by) includes **two keys**: `city ASC, name ASC`
 
 ---
 

@@ -13,22 +13,36 @@
             "base_xp_reward": 40,
             "mastery_xp_bonus": 20,
             "starting_code_path": "data/quests/sql-ignition/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/table"
+            ],
             "objectives": [
                 {
-                    "id": "obj_select_statement",
-                    "kind": "source_regex",
-                    "title": "Write SELECT FROM query",
-                    "rule": {
-                        "pattern": "SELECT.*FROM"
-                    }
-                },
-                {
-                    "id": "obj_exit_zero",
+                    "id": "obj_runs",
                     "kind": "exit_code_zero",
                     "title": "Query executes successfully",
                     "rule": {}
+                },
+                {
+                    "id": "obj_select_all",
+                    "kind": "source_regex",
+                    "title": "Select all columns (*)",
+                    "rule": {
+                        "pattern": "(?i)SELECT\\s+\\*\\s+FROM\\s+users"
+                    }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-select",
@@ -148,20 +162,29 @@
                 {
                     "id": "obj_multi_key",
                     "kind": "source_regex",
-                    "title": "Query sorts by city and name",
+                    "title": "Sort by city and then by name",
                     "rule": {
-                        "pattern": "(?i)ORDER\\s+BY\\s+city.*,\\s*name"
+                        "pattern": "(?i)ORDER\\s+BY\\s+city.*name"
                     }
                 },
                 {
                     "id": "obj_shape",
-                    "kind": "source_regex",
-                    "title": "Query returns city and name",
+                    "kind": "stdout_regex",
+                    "title": "Returns city and name columns",
                     "rule": {
-                        "pattern": "(?i)SELECT\\s+city\\s*,\\s*name"
+                        "pattern": "(?i)city\\s*\\|\\s*name"
                     }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-limit",
@@ -172,44 +195,53 @@
             "base_xp_reward": 50,
             "mastery_xp_bonus": 25,
             "starting_code_path": "data/quests/sql-limit/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/order-by",
+                "glossary/sql/limit"
+            ],
             "objectives": [
                 {
-                    "id": "columns_correct",
-                    "title": "Selected columns are correct (id, name, category, price_cents)",
-                    "kind": "stdout_regex",
-                    "rule": {
-                        "pattern": "(?i)id\\s*\\|\\s*name\\s*\\|\\s*category\\s*\\|\\s*price_cents",
-                        "description": "Ensure your SELECT columns match the required order: id, name, category, price_cents"
-                    }
+                    "id": "obj_runs",
+                    "kind": "exit_code_zero",
+                    "title": "Query executes successfully",
+                    "rule": {}
                 },
                 {
-                    "id": "active_only",
-                    "title": "Only active products are shown (is_discontinued = FALSE)",
+                    "id": "obj_has_limit",
                     "kind": "source_regex",
+                    "title": "Use LIMIT to cap results",
                     "rule": {
-                        "pattern": "(?i)WHERE\\s+is_discontinued\\s*=\\s*(FALSE|0)",
-                        "description": "Filter for products where is_discontinued is FALSE."
+                        "pattern": "(?i)LIMIT\\s+3"
                     }
                 },
                 {
-                    "id": "sorting_correct",
-                    "title": "Rows are sorted by price_cents DESC then name ASC",
-                    "kind": "source_regex",
-                    "rule": {
-                        "pattern": "(?i)ORDER\\s+BY\\s+price_cents\\s+DESC\\s*,\\s*name(\\s+ASC)?",
-                        "description": "Sort the results from most expensive to least expensive."
-                    }
-                },
-                {
-                    "id": "limit_count",
-                    "title": "Only 3 rows are returned",
+                    "id": "obj_columns",
                     "kind": "stdout_regex",
+                    "title": "Returns correct product columns",
                     "rule": {
-                        "pattern": "(?s)^.*\\|.*\\|.*\\|.*\\n.*\\|.*\\|.*\\|.*\\n.*\\|.*\\|.*\\|.*\\n(?!.*\\|.*\\|.*\\|.*)",
-                        "description": "Use LIMIT 3 to return exactly three rows."
+                        "pattern": "(?i)id\\s*\\|\\s*name\\s*\\|\\s*category\\s*\\|\\s*price_cents"
+                    }
+                },
+                {
+                    "id": "obj_count",
+                    "kind": "stdout_regex",
+                    "title": "Returns exactly 3 rows",
+                    "rule": {
+                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+\\n.*\\|.*\\n.*\\|.*\\n.*\\|.*\\n(?!.*\\|)"
                     }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-aggregates",
@@ -220,15 +252,46 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
-            "starting_code_path": "data/quests/sql-aggregates/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/count",
+                "glossary/sql/sum",
+                "glossary/sql/avg"
+            ],
             "objectives": [
                 {
                     "id": "obj_runs",
                     "kind": "exit_code_zero",
-                    "title": "Query executes",
+                    "title": "Query executes successfully",
                     "rule": {}
+                },
+                {
+                    "id": "obj_count",
+                    "kind": "stdout_regex",
+                    "title": "Columns are named total_count and total_value_cents",
+                    "rule": {
+                        "pattern": "(?i)total_count\\s*\\|\\s*total_value_cents"
+                    }
+                },
+                {
+                    "id": "obj_single_row",
+                    "kind": "stdout_regex",
+                    "title": "Returns exactly one row",
+                    "rule": {
+                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+\\n(?!.*\\|)"
+                    }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-groupby-having",
@@ -239,15 +302,49 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
-            "starting_code_path": "data/quests/sql-groupby-having/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/group-by",
+                "glossary/sql/having",
+                "glossary/sql/avg"
+            ],
             "objectives": [
                 {
                     "id": "obj_runs",
                     "kind": "exit_code_zero",
-                    "title": "Query executes",
+                    "title": "Query executes successfully",
                     "rule": {}
+                },
+                {
+                    "id": "obj_has_groupby",
+                    "kind": "source_regex",
+                    "title": "Correctly use GROUP BY and HAVING",
+                    "rule": {
+                        "patterns": [
+                            "(?i)GROUP\\s+BY\\s+category",
+                            "(?i)HAVING\\s+average_price\\s*>"
+                        ]
+                    }
+                },
+                {
+                    "id": "obj_columns",
+                    "kind": "stdout_regex",
+                    "title": "Returns category and average_price columns",
+                    "rule": {
+                        "pattern": "(?i)category\\s*\\|\\s*average_price"
+                    }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-joins",
@@ -258,15 +355,49 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
-            "starting_code_path": "data/quests/sql-joins/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/join",
+                "glossary/sql/on",
+                "glossary/sql/table"
+            ],
             "objectives": [
                 {
                     "id": "obj_runs",
                     "kind": "exit_code_zero",
-                    "title": "Query executes",
+                    "title": "Query executes successfully",
                     "rule": {}
+                },
+                {
+                    "id": "obj_has_join",
+                    "kind": "source_regex",
+                    "title": "Correctly use JOIN and ON",
+                    "rule": {
+                        "patterns": [
+                            "(?i)JOIN\\s+users",
+                            "(?i)ON\\s+orders\\.user_id\\s*=\\s*users\\.id"
+                        ]
+                    }
+                },
+                {
+                    "id": "obj_columns",
+                    "kind": "stdout_regex",
+                    "title": "Returns order_id and user_name columns",
+                    "rule": {
+                        "pattern": "(?i)order_id\\s*\\|\\s*user_name"
+                    }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-left-join-null",
@@ -277,15 +408,49 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
-            "starting_code_path": "data/quests/sql-left-join-null/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/join",
+                "glossary/sql/where",
+                "glossary/sql/null"
+            ],
             "objectives": [
                 {
                     "id": "obj_runs",
                     "kind": "exit_code_zero",
-                    "title": "Query executes",
+                    "title": "Query executes successfully",
                     "rule": {}
+                },
+                {
+                    "id": "obj_has_left_join",
+                    "kind": "source_regex",
+                    "title": "Correctly use LEFT JOIN and IS NULL",
+                    "rule": {
+                        "patterns": [
+                            "(?i)LEFT\\s+JOIN\\s+orders",
+                            "(?i)WHERE\\s+.*IS\\s+NULL"
+                        ]
+                    }
+                },
+                {
+                    "id": "obj_columns",
+                    "kind": "stdout_regex",
+                    "title": "Returns user_name column",
+                    "rule": {
+                        "pattern": "(?i)user_name"
+                    }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-cte-subquery",
@@ -296,15 +461,46 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
-            "starting_code_path": "data/quests/sql-cte-subquery/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/join",
+                "glossary/sql/cte",
+                "glossary/sql/sum"
+            ],
             "objectives": [
                 {
                     "id": "obj_runs",
                     "kind": "exit_code_zero",
-                    "title": "Query executes",
+                    "title": "Query executes successfully",
                     "rule": {}
+                },
+                {
+                    "id": "obj_has_cte",
+                    "kind": "source_regex",
+                    "title": "Use a WITH clause (CTE)",
+                    "rule": {
+                        "pattern": "(?i)WITH\\s+active_users\\s+AS"
+                    }
+                },
+                {
+                    "id": "obj_columns",
+                    "kind": "stdout_regex",
+                    "title": "Returns user_name and total_spend columns",
+                    "rule": {
+                        "pattern": "(?i)user_name\\s*\\|\\s*total_spend"
+                    }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-insert-update-delete",
@@ -315,15 +511,50 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
-            "starting_code_path": "data/quests/sql-insert-update-delete/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/insert",
+                "glossary/sql/update",
+                "glossary/sql/delete"
+            ],
             "objectives": [
                 {
                     "id": "obj_runs",
                     "kind": "exit_code_zero",
-                    "title": "Query executes",
+                    "title": "Query executes successfully",
                     "rule": {}
+                },
+                {
+                    "id": "obj_has_mutations",
+                    "kind": "source_regex",
+                    "title": "Use INSERT, UPDATE, and DELETE",
+                    "rule": {
+                        "patterns": [
+                            "(?i)INSERT\\s+INTO\\s+users",
+                            "(?i)UPDATE\\s+users\\s+SET",
+                            "(?i)DELETE\\s+FROM\\s+orders"
+                        ]
+                    }
+                },
+                {
+                    "id": "obj_final_select",
+                    "kind": "stdout_regex",
+                    "title": "Show the updated user list",
+                    "rule": {
+                        "pattern": "(?i)Grace.*London"
+                    }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         }
     ]
 }
