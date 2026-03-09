@@ -616,9 +616,19 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     };
 
 
-    const handleRun = async () => {
+    const runEntrypoint = () => handleRun(true);
+    const runActiveFile = () => handleRun(false);
+
+    const handleRun = async (isEntrypoint: boolean = true) => {
         setIsRunning(true);
-        addLog('--- Starting Execution ---', 'info');
+        const entrypoint = quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py');
+        const targetPath = isEntrypoint ? entrypoint : activePath;
+        const isActuallyEntrypoint = targetPath === entrypoint;
+
+        addLog(`--- Starting Execution (${isActuallyEntrypoint ? 'Entrypoint' : 'Reference'}) ---`, 'info');
+        if (!isActuallyEntrypoint) {
+            console.log(`[run] reference: path=${targetPath} eval=false`);
+        }
         setCoachData(null); // Reset coach
 
         if (quest.language === 'sql') {
@@ -647,23 +657,19 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             };
 
             const workspacePayload = {
-                entrypoint: quest.workspace?.entrypoint || activePath,
+                entrypoint: entrypoint,
                 files: Object.entries(files).map(([path, f]) => ({
                     path,
                     content: getFreshContent(path, f.content)
                 }))
             };
 
-            // Phase 9.9 Fast Fix: Explicitly send SQL code string for runner
+            // SQL: Use the content of the target file as primaryCode
             let primaryCode = "";
             if (quest.language === 'sql') {
-                const sqlFile = workspacePayload.files.find(f => f.path === 'task.sql');
-                primaryCode = sqlFile ? sqlFile.content : "";
+                const targetFile = workspacePayload.files.find(f => f.path === targetPath);
+                primaryCode = targetFile ? targetFile.content : "";
             }
-
-            // For SQL quests: detect whether we're running the grading entrypoint or a reference file
-            const sqlEntrypoint = quest.workspace?.entrypoint || 'task.sql';
-            const isEntrypointRun = quest.language !== 'sql' || activePath === sqlEntrypoint;
 
             const result = await runQuest(
                 quest.slug,
@@ -671,8 +677,8 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 quest.language || "python",
                 mode,
                 workspacePayload,
-                (quest.language === 'sql' && activePath.endsWith('.sql')) ? activePath : undefined,
-                isEntrypointRun  // evaluate_objectives
+                targetPath,
+                isActuallyEntrypoint // evaluate_objectives
             );
 
             // Show stderr only when the run actually failed (no false "Runtime Error" on INFO logs)
@@ -706,7 +712,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             if (quest.language === 'sql' && result.artifacts?.sql_student_result) {
                 setActiveTerminalTab('result');
                 if (isPreviewRun) {
-                    addLog(`ℹ️  Reference run (not graded) — running ${activePath}`, 'info');
+                    addLog(`ℹ️  Reference run (not graded) — running ${targetPath}`, 'info');
                 }
             } else if (result.test_summary) {
                 const ts = result.test_summary;
@@ -996,7 +1002,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                             <FileCode className="w-3 h-3" /> Restore All
                         </button>
                         <button
-                            onClick={handleRun} // Runs THIS replay code as new attempt
+                            onClick={runActiveFile} // Runs THIS replay code as new attempt
                             className="px-3 py-1 bg-cyan-900/30 hover:bg-cyan-900/50 text-cyan-400 text-[10px] font-bold uppercase tracking-wider rounded border border-cyan-500/30 transition-all flex items-center gap-1"
                         >
                             <Play className="w-3 h-3" /> Rerun
@@ -1113,7 +1119,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     <div className="h-6 w-px bg-zinc-800 mx-1" />
 
                     <button
-                        onClick={handleRun}
+                        onClick={runEntrypoint}
                         disabled={isRunning}
                         className={`
                             flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all
@@ -1299,7 +1305,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                 <div className="absolute top-2 right-4 z-10 flex gap-2 animate-in fade-in zoom-in-95 duration-200">
                                     {quest.language === 'sql' && activePath.endsWith('.sql') && (
                                         <button
-                                            onClick={handleRun}
+                                            onClick={runActiveFile}
                                             disabled={isRunning}
                                             className="flex items-center gap-2 px-3 py-1.5 bg-workshop-cyan/10 border border-workshop-cyan/50 text-workshop-cyan rounded-full text-xs font-mono shadow-lg hover:bg-workshop-cyan/20 transition-colors cursor-pointer disabled:opacity-50"
                                         >
@@ -1479,6 +1485,16 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                     </button>
                                 )}
                             </div>
+
+                            {lastRunResult && (lastRunResult as any).evaluated_objectives === false && (
+                                <div className="px-4 flex items-center gap-2 border-l border-zinc-800 animate-in fade-in slide-in-from-right-2">
+                                    <div className="flex items-center gap-1.5 px-2 py-0.5 bg-amber-500/10 border border-amber-500/30 rounded text-[9px] font-bold text-amber-500 uppercase tracking-widest leading-none">
+                                        <HistoryIcon className="w-2.5 h-2.5" />
+                                        Reference Run
+                                    </div>
+                                    <span className="text-[10px] text-zinc-600 font-mono">{(lastRunResult as any).run_target_path}</span>
+                                </div>
+                            )}
 
                             {/* Right Side Actions (only show for terminal tab, Inspector handles its own actions in its top bar) */}
                             {activeTerminalTab === 'terminal' && (

@@ -140,29 +140,28 @@ async def run_quest(
     
     run_workspace = None
 
-    if (payload.mode in ["execute", "tests"]) and EXECUTION_ENABLED:
-        
-        # Construct effective workspace if needed
-        workspace_def = getattr(quest, "workspace_json", None)
-        
-        if workspace_def:
-             # Merge overlay
-             user_overlay = payload.workspace or []
-             run_workspace = build_effective_workspace(workspace_def, user_overlay)
-        elif payload.workspace:
-             # Fallback: Use payload workspace directly if no quest workspace defined
-             run_workspace = {"files": payload.workspace}
-        
-        # Server defense-in-depth: enforce backend language over client payload
-        lang = getattr(quest, "language", None) or payload.language or "python"
-        
+    # Construct effective workspace if needed
+    workspace_def = getattr(quest, "workspace_json", None)
+    
+    if workspace_def:
+         # Merge overlay
+         user_overlay = payload.workspace or []
+         run_workspace = build_effective_workspace(workspace_def, user_overlay)
+    elif payload.workspace:
+         # Fallback: Use payload workspace directly if no quest workspace defined
+         run_workspace = {"files": payload.workspace}
+    
+    # Server defense-in-depth: enforce backend language over client payload
+    lang = getattr(quest, "language", None) or payload.language or "python"
+
+    if (payload.mode in ["execute", "tests", "validate"]) and EXECUTION_ENABLED:
         # --- PHASE R: SQL Injection Rule ---
         if lang == "sql":
             sql_text = (payload.code or "").strip()
             
             # Fallback to workspace file if payload code is empty
-            if not sql_text and run_workspace and "files" in run_workspace:
-                # If run_target_path is provided, try to find that file first
+            if (not sql_text or getattr(payload, "run_target_path", None)) and run_workspace and "files" in run_workspace:
+                # Use run_target_path if provided, else default to task.sql
                 target_filename = payload.run_target_path if getattr(payload, "run_target_path", None) and payload.run_target_path.endswith(".sql") else "task.sql"
                 
                 for f in run_workspace["files"]:
@@ -283,15 +282,25 @@ async def run_quest(
         passed = True  # neutral — not a failure
         
         # Inject a preview diagnostic so the UI knows to suppress mismatch panels
+        target_path = getattr(payload, "run_target_path", None) or "task.sql"
         diagnostics_data = [
             {
                 "kind": "preview",
-                "path": getattr(payload, "run_target_path", None) or "task.sql",
+                "path": target_path,
                 "line": 1,
                 "column": 1,
                 "severity": "info",
-                "message": "Reference run (not graded) — objectives were not evaluated for this file.",
+                "message": f"Reference run (not graded) — running {target_path}",
                 "runner": "sql_preview",
+                "evaluated_objectives": False
+            },
+            {
+                "kind": "sql_run_target",
+                "path": target_path,
+                "line": 1,
+                "column": 1,
+                "severity": "info",
+                "message": f"SQL execution target: {target_path}",
                 "evaluated_objectives": False
             }
         ]
@@ -563,6 +572,7 @@ async def run_quest(
         "quick_fixes": q_fixes,
         "artifacts": final_artifacts,
         "evaluated_objectives": evaluate_objectives,
+        "run_target_path": getattr(payload, "run_target_path", None)
     }
 
 @router.get("/{quest_id}/attempts", response_model=list[dict])

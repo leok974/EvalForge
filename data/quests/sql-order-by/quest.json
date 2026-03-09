@@ -1,0 +1,72 @@
+{
+    "slug": "sql-order-by",
+    "title": "SQL Order By — Sorting with Two Keys",
+    "short_description": "Produce a clean directory of users sorted for a printed roster.",
+    "detailed_description": "Today you’re learning that sorting often requires more than one key. A database will only sort by what you explicitly request. If two rows tie on the first sort key, you must provide a second key to guarantee a stable order.",
+    "world_id": "world-sql",
+    "track_id": "core-sql",
+    "order_index": 30,
+    "language": "sql",
+    "base_xp_reward": 50,
+    "mastery_xp_bonus": 25,
+    "key_terms": [
+        "select",
+        "from",
+        "order-by",
+        "asc"
+    ],
+    "workspace": {
+        "entrypoint": "task.sql",
+        "files": []
+    },
+    "objectives": [
+        {
+            "id": "obj_runs",
+            "title": "Query executes successfully",
+            "kind": "exit_code_zero",
+            "rule": {
+                "kind": "exit_code_zero"
+            },
+            "text": "Ensure SQL syntax is correct",
+            "why": "The database must be able to parse and run your query."
+        },
+        {
+            "id": "obj_has_order_by",
+            "title": "Use ORDER BY clause",
+            "kind": "source_regex",
+            "rule": {
+                "kind": "source_regex",
+                "pattern": "(?i)ORDER\\s+BY\\s+"
+            },
+            "text": "Sort results using an ORDER BY clause",
+            "why": "Sorting is required for this quest."
+        },
+        {
+            "id": "obj_multi_key",
+            "title": "Multi-key Ordering",
+            "kind": "source_regex",
+            "rule": {
+                "kind": "source_regex",
+                "pattern": "(?i)ORDER\\s+BY\\s+city\\b.*,\\s*name\\b"
+            },
+            "text": "Sort by city ASC, then name ASC",
+            "why": "We need stable ordering within each city."
+        },
+        {
+            "id": "obj_shape",
+            "title": "Correct Columns",
+            "kind": "source_regex",
+            "rule": {
+                "kind": "source_regex",
+                "pattern": "(?i)SELECT\\s+city\\s*,\\s*name\\b"
+            },
+            "text": "Return city and name in that order",
+            "why": "The spec requires precisely these two columns."
+        }
+    ],
+    "runtime_rules": {
+        "enabled": true,
+        "require_exit_code_zero": true,
+        "require_no_timeout": true
+    }
+}

@@ -1,5 +1,8 @@
 # arcade_app/seed_quests_standard_worlds.py
 from __future__ import annotations
+import json
+import os
+from pathlib import Path
 
 from typing import List, Dict, Any
 
@@ -320,145 +323,6 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
     },
 
     # === The Archives (SQL) ===
-    {
-        "slug": "sql-ignition",
-        "world_id": "world-sql",
-        "track_id": "sql-fundamentals",
-        "order_index": 10,
-        "title": "SQL Ignition",
-        "short_description": "Start your SQL engine.",
-        "detailed_description": "Basic SQL selection.",
-        "rubric_id": "sql_ignition",
-        "starting_code_path": "data/quests/sql-ignition/workspace/task.sql",
-        "unlocks_boss_id": None,
-        "unlocks_layout_id": None,
-        "base_xp_reward": 40,
-        "mastery_xp_bonus": 20,
-        "objectives_json": [
-            {
-                "id": "obj_select_statement",
-                "kind": "source_regex",
-                "rule": {
-                    "kind": "source_regex",
-                    "pattern": "SELECT.*FROM"
-                },
-                "text": "Write SELECT FROM query",
-                "why": "Learn basic SQL query structure"
-            },
-            {
-                "id": "obj_exit_zero",
-                "kind": "exit_code_zero",
-                "rule": {"kind": "exit_code_zero"},
-                "text": "Query executes successfully",
-                "why": "Ensure SQL syntax is correct"
-            }
-        ],
-        "runtime_rules_json": {
-            "enabled": True,
-            "require_exit_code_zero": True,
-            "require_no_timeout": True
-        }
-    },
-    {
-        "slug": "sql-select",
-        "world_id": "world-sql",
-        "track_id": "sql-fundamentals",
-        "order_index": 20,
-        "title": "SQL Select",
-        "short_description": "Refine your data retrieval.",
-        "detailed_description": "Advanced SELECT.",
-        "rubric_id": "sql_select",
-        "starting_code_path": "data/quests/sql-select/workspace/task.sql",
-        "unlocks_boss_id": "archive-warden",
-        "unlocks_layout_id": None,
-        "base_xp_reward": 60,
-        "mastery_xp_bonus": 25,
-        "objectives_json": [
-            {
-                "id": "obj_syntax",
-                "kind": "source_regex",
-                "rule": {
-                    "kind": "source_regex",
-                    "patterns": ["SELECT", "FROM", "ORDER BY"]
-                },
-                "text": "Use SELECT, FROM, and ORDER BY",
-                "why": "Learn core SQL selection and ordering"
-            },
-            {
-                "id": "obj_exit_zero",
-                "kind": "exit_code_zero",
-                "rule": {"kind": "exit_code_zero"},
-                "text": "Query executes successfully",
-                "why": "Ensure syntax is correct"
-            }
-        ],
-        "runtime_rules_json": {
-            "enabled": True,
-            "require_exit_code_zero": True,
-            "require_no_timeout": True
-        }
-    },
-    {
-        "slug": "sql-where",
-        "world_id": "world-sql",
-        "track_id": "sql-fundamentals",
-        "order_index": 30,
-        "title": "SQL Where (Filtering)",
-        "short_description": "Filtering with Purpose",
-        "detailed_description": "Return only ACTIVE users from Detroit.",
-        "rubric_id": "sql_where",
-        "starting_code_path": "data/quests/sql-where/workspace/task.sql",
-        "unlocks_boss_id": None,
-        "unlocks_layout_id": None,
-        "base_xp_reward": 60,
-        "mastery_xp_bonus": 25,
-        "objectives_json": [
-            {
-                "id": "obj_runs",
-                "kind": "exit_code_zero",
-                "text": "Query executes successfully",
-                "why": "Functional requirement",
-                "rule": {
-                    "kind": "exit_code_zero"
-                }
-            },
-            {
-                "id": "obj_has_where",
-                "kind": "source_regex",
-                "text": "Query uses WHERE clause",
-                "why": "Required for filtering",
-                "rule": {
-                    "kind": "source_regex",
-                    "pattern": "(?i)\\bWHERE\\b"
-                }
-            },
-            {
-                "id": "obj_filters",
-                "kind": "source_regex",
-                "text": "Query filters by city and active status",
-                "why": "Requires multiple conditions",
-                "rule": {
-                    "kind": "source_regex",
-                    "patterns": ["(?i)city\\s*=\\s*'Detroit'", "(?i)AND", "(?i)is_active\\s*=\\s*1"]
-                }
-            },
-            {
-                "id": "obj_order",
-                "kind": "source_regex",
-                "text": "Query sorts by name ascending",
-                "why": "Sorting requirement",
-                "rule": {
-                    "kind": "source_regex",
-                    "pattern": "(?i)ORDER\\s+BY\\s+name\\s+(?:ASC)?"
-                }
-            }
-        ],
-        "runtime_rules_json": {
-            "enabled": True,
-            "require_exit_code_zero": True,
-            "require_no_timeout": True
-        }
-    },
 
     # === The Grid (Infra) ===
     {
@@ -659,6 +523,63 @@ STANDARD_QUESTLINES: List[Dict[str, Any]] = [
 
 
 
+def load_questpacks() -> List[Dict[str, Any]]:
+    """Loads all questpacks defined in data/questpacks/*.json"""
+    packs = [
+        "data/questpacks/sql_core.json",
+        "data/questpacks/_tier2/sql_tier2.json"
+    ]
+    all_quests = []
+    for p in packs:
+        if not os.path.exists(p):
+            print(f"WARNING: Questpack not found: {p}")
+            continue
+        with open(p, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            # Questpacks might have global world_id/track_id
+            global_world = data.get("world_id")
+            global_track = data.get("track_id")
+            for q in data.get("quests", []):
+                if global_world and "world_id" not in q:
+                    q["world_id"] = global_world
+                if global_track and "track_id" not in q:
+                    q["track_id"] = global_track
+                
+                # Format transition: 'objectives' -> 'objectives_json'
+                if "objectives" in q:
+                    q["objectives_json"] = q.pop("objectives")
+                # Format transition: 'description' -> 'short_description'
+                if "description" in q and "short_description" not in q:
+                    q["short_description"] = q.pop("description")
+                
+                all_quests.append(q)
+    return all_quests
+
+def validate_strict(cfg: Dict[str, Any]) -> List[str]:
+    """Strict validation for required quest fields to prevent silent drift."""
+    errors = []
+    required = ["slug", "world_id", "track_id", "order_index", "title", "short_description"]
+    for field in required:
+        if not cfg.get(field):
+            errors.append(f"Missing required field: '{field}'")
+    
+    # SQL specific strictness
+    if cfg.get("world_id") == "world-sql":
+        if cfg.get("language") != "sql":
+            errors.append(f"SQL quest must have 'language: sql'")
+        
+        # Check workspace entrypoint if starting_code_path is provided
+        start_path = cfg.get("starting_code_path")
+        if start_path and not os.path.exists(start_path):
+             errors.append(f"Starting code path does not exist: {start_path}")
+             
+        # Check objectives (must have at least one)
+        objs = cfg.get("objectives_json", [])
+        if not objs:
+            errors.append(f"Quest must have at least one objective")
+            
+    return errors
+
 def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None:
     """
     Idempotently seed/update questlines for the 7 core worlds.
@@ -666,10 +587,28 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
     """
     validation_errors = []
     
-    for cfg in STANDARD_QUESTLINES:
+    # Combine static list + dynamic questpacks
+    all_configs = STANDARD_QUESTLINES + load_questpacks()
+    
+    # Strict mode toggle (could be env var)
+    STRICT_MODE = os.getenv("EF_SEED_STRICT", "true").lower() == "true"
+    
+    for cfg in all_configs:
         slug = cfg["slug"]
         
-        # Validate Objectives Schema (Seed-Time Gate)
+        # 1. Strict Metadata Check
+        strict_errors = validate_strict(cfg)
+        if strict_errors:
+            msg = f"STRICT ERROR in quest '{slug}': {'; '.join(strict_errors)}"
+            if STRICT_MODE:
+                if validate_only:
+                    validation_errors.append(msg)
+                else:
+                    raise ValueError(msg)
+            else:
+                 print(f"WARNING: {msg}")
+
+        # 2. Validate Objectives Schema (Seed-Time Gate)
         objectives = cfg.get("objectives_json", [])
         if objectives:
             from arcade_app.services.quest_validate import audit_objective_schema
@@ -682,6 +621,34 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
                     else:
                         raise ValueError(msg)
         
+        # 3. Disk-based Doc Rehydration (Phase 9.8 Strategy)
+        start_path = cfg.get("starting_code_path")
+        if start_path:
+            # starting_code_path: data/quests/sql-order-by/workspace/task.sql
+            # quest_base_dir: data/quests/sql-order-by
+            quest_base_dir = Path(start_path).parent.parent
+            docs_dir = quest_base_dir / "docs"
+            if docs_dir.exists():
+                tutorial_file = docs_dir / "tutorial.md"
+                if tutorial_file.exists():
+                    cfg["tutorial_md"] = tutorial_file.read_text(encoding="utf-8")
+                
+                briefing_file = docs_dir / "briefing.md"
+                if briefing_file.exists():
+                    cfg["briefing_md"] = briefing_file.read_text(encoding="utf-8")
+                
+                lore_file = docs_dir / "lore.md"
+                if lore_file.exists():
+                    cfg["lore_md"] = lore_file.read_text(encoding="utf-8")
+                
+                hints_file = docs_dir / "hints.md"
+                if hints_file.exists():
+                    # Check if hints are already in tiered_hints_json
+                    if not cfg.get("tiered_hints_json"):
+                        # If hints.md exists, we might want to store it or parse it
+                        # For now, let's treat it as a raw doc if not already structured
+                        cfg["hints_md"] = hints_file.read_text(encoding="utf-8")
+
         if validate_only:
              continue
 
@@ -692,35 +659,63 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
         )
         if existing:
             # Update fields if they changed (safe for dev iteration)
-            existing.world_id = cfg["world_id"]
-            existing.track_id = cfg["track_id"]
-            existing.order_index = cfg["order_index"]
-            existing.title = cfg["title"]
-            existing.short_description = cfg["short_description"]
-            existing.detailed_description = cfg["detailed_description"]
-            existing.rubric_id = cfg["rubric_id"]
-            existing.starting_code_path = cfg["starting_code_path"]
-            existing.unlocks_boss_id = cfg["unlocks_boss_id"]
-            existing.unlocks_layout_id = cfg["unlocks_layout_id"]
-            existing.base_xp_reward = cfg["base_xp_reward"]
-            existing.mastery_xp_bonus = cfg["mastery_xp_bonus"]
+            existing.world_id = cfg.get("world_id")
+            existing.track_id = cfg.get("track_id")
+            existing.order_index = cfg.get("order_index")
+            existing.title = cfg.get("title")
+            existing.short_description = cfg.get("short_description")
+            existing.detailed_description = cfg.get("detailed_description", "")
+            existing.rubric_id = cfg.get("rubric_id")
+            existing.starting_code_path = cfg.get("starting_code_path")
+            existing.unlocks_boss_id = cfg.get("unlocks_boss_id")
+            existing.unlocks_layout_id = cfg.get("unlocks_layout_id")
+            existing.base_xp_reward = cfg.get("base_xp_reward", 50)
+            existing.mastery_xp_bonus = cfg.get("mastery_xp_bonus", 0)
             existing.objectives_json = objectives # Explicitly update objectives
+            existing.language = cfg.get("language", "python")
+            if "workspace_json" in cfg:
+                existing.workspace_json = cfg["workspace_json"]
+            if "key_terms" in cfg:
+                existing.key_terms = cfg["key_terms"]
+            if "concept_tags" in cfg:
+                existing.concept_tags = cfg["concept_tags"]
+            if "codex_references" in cfg:
+                existing.codex_references = cfg["codex_references"]
+            
+            # Rehydrated docs
+            if "tutorial_md" in cfg:
+                existing.tutorial_md = cfg["tutorial_md"]
+            if "briefing_md" in cfg:
+                existing.briefing_md = cfg["briefing_md"]
+            if "lore_md" in cfg:
+                existing.lore_md = cfg["lore_md"]
+            if "hints_md" in cfg:
+                existing.tiered_hints_json = {"markdown_source": cfg["hints_md"]}
         else:
             q = QuestDefinition(
                 slug=slug,
-                world_id=cfg["world_id"],
-                track_id=cfg["track_id"],
-                order_index=cfg["order_index"],
-                title=cfg["title"],
-                short_description=cfg["short_description"],
-                detailed_description=cfg["detailed_description"],
-                rubric_id=cfg["rubric_id"],
-                starting_code_path=cfg["starting_code_path"],
-                unlocks_boss_id=cfg["unlocks_boss_id"],
-                unlocks_layout_id=cfg["unlocks_layout_id"],
-                base_xp_reward=cfg["base_xp_reward"],
-                mastery_xp_bonus=cfg["mastery_xp_bonus"],
-                objectives_json=objectives
+                world_id=cfg.get("world_id"),
+                track_id=cfg.get("track_id"),
+                order_index=cfg.get("order_index"),
+                title=cfg.get("title"),
+                short_description=cfg.get("short_description"),
+                detailed_description=cfg.get("detailed_description", ""),
+                rubric_id=cfg.get("rubric_id"),
+                starting_code_path=cfg.get("starting_code_path"),
+                unlocks_boss_id=cfg.get("unlocks_boss_id"),
+                unlocks_layout_id=cfg.get("unlocks_layout_id"),
+                base_xp_reward=cfg.get("base_xp_reward", 50),
+                mastery_xp_bonus=cfg.get("mastery_xp_bonus", 0),
+                objectives_json=objectives,
+                language=cfg.get("language", "python"),
+                workspace_json=cfg.get("workspace_json", {}),
+                key_terms=cfg.get("key_terms", []),
+                concept_tags=cfg.get("concept_tags", []),
+                codex_references=cfg.get("codex_references", []),
+                tutorial_md=cfg.get("tutorial_md"),
+                briefing_md=cfg.get("briefing_md"),
+                lore_md=cfg.get("lore_md"),
+                tiered_hints_json={"markdown_source": cfg["hints_md"]} if "hints_md" in cfg else cfg.get("tiered_hints_json", {})
             )
             db.add(q)
 
@@ -734,3 +729,29 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
             return
 
     db.commit()
+
+
+if __name__ == "__main__":
+    import asyncio
+    from arcade_app.database import engine
+    from arcade_app.config import DATABASE_URL
+    from sqlalchemy.orm import sessionmaker
+    from sqlalchemy import create_engine as create_sync_engine
+    
+    # We need a sync engine for the seeder which uses a sync Session
+    if "postgresql" in DATABASE_URL:
+        SYNC_URL = DATABASE_URL.replace("asyncpg", "psycopg2")
+    elif "sqlite" in DATABASE_URL:
+        SYNC_URL = DATABASE_URL.replace("+aiosqlite", "")
+    else:
+        SYNC_URL = DATABASE_URL
+        
+    sync_engine = create_sync_engine(SYNC_URL)
+    
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=sync_engine)
+    db = SessionLocal()
+    try:
+        seed_standard_world_quests(db)
+        print("✅ Seeding complete.")
+    finally:
+        db.close()
