@@ -1,8 +1,8 @@
 # Tutorial: The LIMIT Clause
 
-`LIMIT` tells SQL to return only the first **N rows** from the result set.
+[LIMIT](glossary/sql/limit) tells SQL to return only the first **N rows** from the result set.
 
-That sounds simple, but there is an important catch: without an `ORDER BY`, SQL is free to return rows in whatever order the database happens to produce them. That means `LIMIT 3` by itself does **not** reliably mean “top 3” or “first 3 alphabetically.”
+That sounds simple, but there is an important catch: without an [ORDER BY](glossary/sql/order-by), SQL is free to return rows in whatever order the database happens to produce them. That means `LIMIT 3` by itself does **not** reliably mean “top 3” or “first 3 alphabetically.”
 
 ## The Standard Pipeline
 
@@ -18,12 +18,12 @@ LIMIT N;
 
 Think of it as a three-step pipeline:
 
-1.  **Filter**: Use `WHERE` to include only the rows you care about (e.g., active products).
-2.  **Sort**: Use `ORDER BY` to put them in the desired order (e.g., price descending).
-3.  **Trim**: Use `LIMIT` to cap the result to a specific number of rows.
+1.  **Filter**: Use [WHERE](glossary/sql/where) to include only the [rows](glossary/sql/row) you care about (e.g., active products).
+2.  **Sort**: Use [ORDER BY](glossary/sql/order-by) to put them in the desired order (e.g., price [descending](glossary/sql/desc)).
+3.  **Trim**: Use [LIMIT](glossary/sql/limit) to cap the result to a specific number of rows.
 
 ## Why Order Matters
 
 Imagine you have a list of all students and you want the "top 3 by grade." If you forget `ORDER BY grade DESC`, the database might just hand you the first 3 students it found in its files, regardless of their grades.
 
-In this quest, you are not just returning products — you are returning the **top 3 most expensive active products**.
+In this quest, you are not just returning products — you are returning the **top 3 most expensive active [products](glossary/sql/table)**.

@@ -649,6 +649,28 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
                         # For now, let's treat it as a raw doc if not already structured
                         cfg["hints_md"] = hints_file.read_text(encoding="utf-8")
 
+            # 4. Workspace Rehydration
+            quest_workspace_dir = Path(start_path).parent
+            if quest_workspace_dir.exists() and not cfg.get("workspace_json"):
+                workspace_files = []
+                for file_path in quest_workspace_dir.rglob("*"):
+                    if file_path.is_file():
+                        rel_path = file_path.relative_to(quest_workspace_dir).as_posix()
+                        # Skip common ignore patterns
+                        if ".pytest_cache" in rel_path or "golden.run.json" in rel_path:
+                            continue
+                        try:
+                            content = file_path.read_text(encoding="utf-8")
+                            workspace_files.append({
+                                "path": rel_path,
+                                "content": content,
+                                "editable": not rel_path.startswith("fixtures/")
+                            })
+                        except Exception:
+                            continue
+                if workspace_files:
+                    cfg["workspace_json"] = {"files": workspace_files}
+
         if validate_only:
              continue
 
@@ -681,6 +703,8 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
                 existing.concept_tags = cfg["concept_tags"]
             if "codex_references" in cfg:
                 existing.codex_references = cfg["codex_references"]
+            if "workspace_json" in cfg:
+                existing.workspace_json = cfg["workspace_json"]
             
             # Rehydrated docs
             if "tutorial_md" in cfg:
