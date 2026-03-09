@@ -1,9 +1,9 @@
 {
     "slug": "sql-where",
-    "title": "Filter Rows",
+    "title": "SQL Where (Filtering)",
     "language": "sql",
     "world_id": "world-sql",
-    "track_id": "core",
+    "track_id": "sql-fundamentals",
     "order_index": 2,
     "short_description": "Filtering with Purpose",
     "detailed_description": "Return only ACTIVE users from Detroit.",
@@ -33,7 +33,7 @@
             "text": "Query filters by city and active status",
             "why": "Requires multiple conditions",
             "rule": {
-                "regex": "(?i)city\\s*=\s*'Detroit'.*(?i)AND.*(?i)is_active\\s*=\s*1|(?i)is_active\\s*=\s*1.*(?i)AND.*(?i)city\\s*=\s*'Detroit'",
+                "regex": "(?i)city\\s*=\\s*'Detroit'.*(?i)AND.*(?i)is_active\\s*=\\s*1|(?i)is_active\\s*=\\s*1.*(?i)AND.*(?i)city\\s*=\\s*'Detroit'",
                 "must_match": true
             }
         },
