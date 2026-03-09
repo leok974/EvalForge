@@ -71,6 +71,13 @@
             "base_xp_reward": 60,
             "mastery_xp_bonus": 25,
             "starting_code_path": "data/quests/sql-where/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/where",
+                "glossary/sql/order-by",
+                "glossary/sql/and"
+            ],
             "objectives": [
                 {
                     "id": "obj_runs",
