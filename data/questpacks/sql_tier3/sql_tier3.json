@@ -17,6 +17,17 @@
             "starting_code_path": "data/questpacks/sql_tier3/postgres-schema-explorer/workspace/task.sql",
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "key_terms": [
+                "database",
+                "table",
+                "column",
+                "sql"
+            ],
+            "concept_tags": [
+                "exploration",
+                "metadata",
+                "postgres"
+            ],
             "objectives": [
                 {
                     "id": "list_engineering",
