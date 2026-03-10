@@ -19,7 +19,7 @@ The condition is a boolean expression that must be true for a row to be included
 -   **Equals (`=`)**: Matches an exact value. Strings must be enclosed in single quotes (e.g., `city = 'Detroit'`).
 -   **Not Equals (`<>` or `!=`)**: Matches anything except the value.
 -   **Comparison (`>`, `<`, `>=`, `<=`)**: Used for numbers or dates.
--   **Logical AND**: Combines two conditions; both must be true.
+-   **Logical [AND](glossary/sql/and)**: Combines two conditions; both must be true.
 -   **Logical OR**: Combines two conditions; at least one must be true.
 
 ## Order of Operations

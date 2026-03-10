@@ -7,7 +7,7 @@ Today’s goal is to learn the *shape* of a basic SQL query:
 **SELECT → FROM → ORDER BY**
 
 A database is not a spreadsheet — rows do not have a “natural order.”
-If you want sorted output, you must **ask** for it using `ORDER BY`.
+If you want sorted output, you must **ask** for it using [ORDER BY](glossary/sql/order-by).
 
 ---
 
@@ -35,9 +35,9 @@ For this quest, you only need **name** and **city**.
 
 ### Step 2 — Build the query in three parts
 
-1. **SELECT** the columns you want
-2. **FROM** the table they live in
-3. **ORDER BY** the column that defines the sort order
+1. **[SELECT](glossary/sql/select)** the columns you want
+2. **[FROM](glossary/sql/from)** the table they live in
+3. **[ORDER BY](glossary/sql/order-by)** the column that defines the sort order
 
 For this quest:
 
