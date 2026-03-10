@@ -527,7 +527,8 @@ def load_questpacks() -> List[Dict[str, Any]]:
     """Loads all questpacks defined in data/questpacks/*.json"""
     packs = [
         "data/questpacks/sql_core.json",
-        "data/questpacks/_tier2/sql_tier2.json"
+        "data/questpacks/_tier2/sql_tier2.json",
+        "data/questpacks/sql_tier3/sql_tier3.json"
     ]
     all_quests = []
     for p in packs:
@@ -641,6 +642,10 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
                 if lore_file.exists():
                     cfg["lore_md"] = lore_file.read_text(encoding="utf-8")
                 
+                debrief_file = docs_dir / "debrief.md"
+                if debrief_file.exists():
+                    cfg["debrief_md"] = debrief_file.read_text(encoding="utf-8")
+                
                 hints_file = docs_dir / "hints.md"
                 if hints_file.exists():
                     # Check if hints are already in tiered_hints_json
@@ -706,6 +711,14 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
             if "workspace_json" in cfg:
                 existing.workspace_json = cfg["workspace_json"]
             
+            # Phase 9: Database Workbench Fields
+            if "db_engine" in cfg:
+                existing.db_engine = cfg["db_engine"]
+            if "db_explorer_enabled" in cfg:
+                existing.db_explorer_enabled = cfg["db_explorer_enabled"]
+            if "db_allow_mutation" in cfg:
+                existing.db_allow_mutation = cfg["db_allow_mutation"]
+            
             # Rehydrated docs
             if "tutorial_md" in cfg:
                 existing.tutorial_md = cfg["tutorial_md"]
@@ -713,6 +726,8 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
                 existing.briefing_md = cfg["briefing_md"]
             if "lore_md" in cfg:
                 existing.lore_md = cfg["lore_md"]
+            if "debrief_md" in cfg:
+                existing.debrief_md = cfg["debrief_md"]
             if "hints_md" in cfg:
                 existing.tiered_hints_json = {"markdown_source": cfg["hints_md"]}
         else:
@@ -739,7 +754,12 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
                 tutorial_md=cfg.get("tutorial_md"),
                 briefing_md=cfg.get("briefing_md"),
                 lore_md=cfg.get("lore_md"),
-                tiered_hints_json={"markdown_source": cfg["hints_md"]} if "hints_md" in cfg else cfg.get("tiered_hints_json", {})
+                debrief_md=cfg.get("debrief_md"),
+                tiered_hints_json={"markdown_source": cfg["hints_md"]} if "hints_md" in cfg else cfg.get("tiered_hints_json", {}),
+                # Phase 9: Database Workbench Fields
+                db_engine=cfg.get("db_engine", "sqlite"),
+                db_explorer_enabled=cfg.get("db_explorer_enabled", False),
+                db_allow_mutation=cfg.get("db_allow_mutation", False)
             )
             db.add(q)
 

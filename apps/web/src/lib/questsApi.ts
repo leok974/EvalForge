@@ -55,6 +55,8 @@ export interface QuestSummary {
         mode: "run" | "tests";
         // Hidden tests not leaked to client
     };
+    db_engine?: 'sqlite' | 'postgres';
+    db_explorer_enabled?: boolean;
 
     objectives?: {
         id: string;
@@ -218,6 +220,38 @@ export interface QuestAttemptDetail {
     debrief?: DebriefData;
     diagnostics?: Diagnostic[];
     quick_fixes?: QuickFix[];
+}
+
+// Phase 9.2: SQL Tier 3 Database Explorer
+export interface DbSchema {
+    name: string;
+    tables: {
+        name: string;
+        columns: { name: string; type: string }[];
+    }[];
+}
+
+export interface DbIntrospection {
+    engine: 'sqlite' | 'postgres';
+    schemas: DbSchema[];
+}
+
+export interface DbPreview {
+    columns: string[];
+    rows: any[][];
+    row_count: number;
+}
+
+export async function introspectDb(questId: string): Promise<DbIntrospection> {
+    const res = await fetch(`/api/db/introspect?quest_id=${encodeURIComponent(questId)}`);
+    if (!res.ok) throw new Error("Failed to introspect database");
+    return res.json();
+}
+
+export async function previewTable(questId: string, table: string, schema: string = "public"): Promise<DbPreview> {
+    const res = await fetch(`/api/db/preview?quest_id=${encodeURIComponent(questId)}&table=${encodeURIComponent(table)}&schema=${encodeURIComponent(schema)}`);
+    if (!res.ok) throw new Error("Failed to preview table");
+    return res.json();
 }
 
 export async function fetchQuests(worldId?: string): Promise<QuestSummary[]> {

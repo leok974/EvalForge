@@ -1,12 +1,17 @@
 ---
-title: "Performance"
-tags: ["sql", "intermediate"]
+id: glossary/sql/performance
+title: performance
+world: sql
 ---
 
-# Performance
+# performance
 
-This entry describes the concept of **Performance** in SQL.
+In SQL, **performance** refers to how quickly a database can execute a query and return results. 
 
-## Usage
+## Key Factors
 
-Example goes here...
+- **Scanning vs. Searching**: A "Table Scan" checks every row (slow). Using an [index](glossary/sql/index) allows the database to "Search" (fast).
+- **Complexity**: Deeply nested subqueries or joins across huge tables increase processing time.
+- **Resources**: CPU, Memory (RAM), and Disk Speed all play a role.
+
+The primary tool for analyzing performance is the [EXPLAIN QUERY PLAN](glossary/sql/explain-query-plan) command.

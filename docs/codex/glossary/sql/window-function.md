@@ -1,43 +1,33 @@
 ---
-title: Window Function
 id: glossary/sql/window-function
+title: window-function
 world: sql
-level: intermediate
-tags: [analytics, advanced, functions]
-related:
-  - codex:glossary/sql/over
-  - codex:glossary/sql/partition-by
-  - codex:glossary/sql/row-number
 ---
 
-# Window Function
+# window-function
 
-## Definition
-A **window function** performs calculations across a set of rows related to the current row, without collapsing groups (unlike `GROUP BY`). Common window functions include `ROW_NUMBER()`, `RANK()`, `SUM()`, `AVG()`, `LAG()`, and `LEAD()`.
+A **window function** performs a calculation across a set of table rows that are somehow related to the current row. Unlike aggregate functions, window functions do not collapse rows into a single output; they retain the identity of each row.
 
-## Usage
-- Calculate running totals, moving averages, and rankings.
-- Access previous/next rows with `LAG()`/`LEAD()`.
-- Compare rows within partitions.
+## Key Concept: OVER()
 
-## Example
+The `OVER()` clause defines the "window" of rows that the function operates on.
+
+## Syntax
+
 ```sql
-SELECT
-  user_id,
-  order_date,
-  amount,
-  SUM(amount) OVER (PARTITION BY user_id ORDER BY order_date) AS running_total,
-  LAG(amount) OVER (PARTITION BY user_id ORDER BY order_date) AS prev_amount
-FROM orders;
+FUNCTION_NAME() OVER (
+    [PARTITION BY partition_col]
+    [ORDER BY sort_col]
+)
 ```
 
-## Pitfalls
+## Common Window Functions
 
-* Window functions can't be used in `WHERE` (use subqueries instead).
-* Forgetting `ORDER BY` inside `OVER` when order matters for the calculation.
+- `RANK()`: Assigns a rank to each row within a partition.
+- `ROW_NUMBER()`: Assigns a unique sequential integer to rows.
+- `LAG()`: Accesses data from a previous row.
+- `LEAD()`: Accesses data from a subsequent row.
 
-## Related
+## Usage
 
-* OVER: window functions use OVER to define windows.
-* PARTITION BY: PARTITION BY groups rows for window calculations.
-* ROW_NUMBER: ROW_NUMBER is a common window function.
+Window functions are essential for advanced analytics, such as running totals, moving averages, and ranking data within categories (e.g., "Top 3 employees per department").

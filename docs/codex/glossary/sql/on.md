@@ -1,41 +1,19 @@
 ---
-title: ON
 id: glossary/sql/on
+title: 'on'
 world: sql
-level: beginner
-tags: [fundamentals, syntax, relations]
-related:
-  - codex:glossary/sql/join
-  - codex:glossary/sql/where
 ---
 
-# ON
+# on
 
-## Definition
-The `ON` clause specifies the **join condition**—the rule used to determine which rows from one table match rows in another. It serves as the "logical bridge" between tables.
+The `ON` keyword is used with `JOIN` to specify the relationship between two tables—usually matching a primary key in one table to a foreign key in another.
 
-## Why It Matters
-Without an `ON` clause, a join has no instructions on how to link data. An incorrect `ON` clause will either return no data or, more dangerously, link the wrong records together (e.g., showing the wrong customer for an order).
+## Usage
 
-## Mental Model
-Compare `ON` to `WHERE`:
-- `ON` describes how to **combine** tables.
-- `WHERE` describes how to **filter** the resulting rows.
-
-## Example
 ```sql
--- Linking order items to their parent products
-SELECT 
-  order_items.qty,
-  products.name
-FROM order_items
-JOIN products ON order_items.product_id = products.id;
+SELECT *
+FROM orders
+JOIN customers ON orders.customer_id = customers.id;
 ```
 
-## Pitfalls
-- **Linking wrong columns**: Ensure you are linking Primary Keys to Foreign Keys (e.g., `users.id = orders.user_id`).
-- **Filtering in ON**: While you *can* put filters in `ON`, it is usually cleaner to keep them in `WHERE` unless you are dealing with specific `LEFT JOIN` logic.
-
-## Related
-- JOIN: The clause that requires the ON condition.
-- WHERE: Used to filter rows after they have been joined.
+The `ON` clause acts like a filter specifically for the relationship between the two tables.

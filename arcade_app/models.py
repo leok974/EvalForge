@@ -402,6 +402,7 @@ class QuestDefinition(SQLModel, table=True):
     # Phase 9.8: Content Parity
     briefing_md: Optional[str] = None
     lore_md: Optional[str] = None
+    debrief_md: Optional[str] = None
 
     rubric_id: Optional[str] = None
     starting_code_path: Optional[str] = None
@@ -428,6 +429,11 @@ class QuestDefinition(SQLModel, table=True):
     # Phase 9.1: Tutorial System
     tutorial_md: Optional[str] = Field(default=None)
     key_terms: List[Dict[str, Any]] = Field(default=[], sa_type=JSON)
+    # Phase 9.2: SQL Tier 3 / PostgreSQL Workbench
+    db_engine: str = Field(default="sqlite") # "sqlite" | "postgres"
+    db_explorer_enabled: bool = Field(default=False)
+    db_allow_mutation: bool = Field(default=False)
+
     # Structure: [{"id": "python/function", "term": "Function", "one_liner": "...", "codex_ref": "..."}]
     concept_tags: List[str] = Field(default=[], sa_type=JSON)
     codex_references: List[str] = Field(default=[], sa_type=JSON)

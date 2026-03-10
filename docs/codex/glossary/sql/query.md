@@ -1,9 +1,11 @@
 ---
 id: glossary/sql/query
+source: core
+tags:
+- sql
+- fundamentals
 title: Query
 world: sql
-tags: [sql, fundamentals]
-source: core
 ---
 
 # Query

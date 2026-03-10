@@ -1,41 +1,24 @@
 ---
-title: OVER
 id: glossary/sql/over
+title: over
 world: sql
-level: intermediate
-tags: [window-functions, analytics, advanced]
-related:
-  - codex:glossary/sql/window-function
-  - codex:glossary/sql/partition-by
-  - codex:glossary/sql/row-number
 ---
 
-# OVER
+# over
 
-## Definition
-`OVER` defines a window for window functions, specifying how rows are grouped and ordered for calculations that span multiple rows (like running totals, rankings, and moving averages).
+The `OVER` clause is what turns a regular function into a [window function](glossary/sql/window-function). It defines the "window" or range of rows that the function should consider when calculating its value.
 
 ## Usage
-- Use `OVER ()` for calculations over all rows.
-- Use `OVER (PARTITION BY ...)` to group rows.
-- Use `OVER (ORDER BY ...)` for ranked or cumulative calculations.
 
-## Example
 ```sql
-SELECT
-  id,
-  amount,
-  SUM(amount) OVER (ORDER BY created_at) AS running_total
-FROM transactions;
+SELECT 
+  name, 
+  RANK() OVER (ORDER BY salary DESC) as rank
+FROM employees;
 ```
 
-## Pitfalls
+## Clauses within OVER
 
-* Empty `OVER ()` applies to all rows—can be expensive on large tables.
-* Order matters: `ORDER BY` inside `OVER` affects ranking/cumulative calculations.
-
-## Related
-
-* Window Function: OVER is used with window functions.
-* PARTITION BY: PARTITION BY groups rows within OVER.
-* ROW_NUMBER: ROW_NUMBER uses OVER for ranking.
+- [PARTITION BY](glossary/sql/partition-by): Divides rows into groups.
+- [ORDER BY](glossary/sql/order-by): Sorts rows within the window.
+- **ROWS/RANGE**: (Advanced) Defines a specific physical or logical range within the partition.

@@ -1,0 +1,1 @@
+"To write in pencil is to respect the possibility of error," the Chronicler says, holding an eraser. "A transaction is a pencil-sketch on the world. You can refine it until it is perfect, or wipe the slate clean as if the ink had never touched the page."

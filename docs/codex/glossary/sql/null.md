@@ -1,12 +1,15 @@
 ---
-title: NULL
 id: glossary/sql/null
-world: sql
 level: beginner
-tags: [fundamentals, data-types, logic]
 related:
-  - codex:glossary/sql/where
-  - codex:glossary/sql/join
+- codex:glossary/sql/where
+- codex:glossary/sql/join
+tags:
+- fundamentals
+- data-types
+- logic
+title: 'NULL'
+world: sql
 ---
 
 # NULL

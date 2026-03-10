@@ -1,6 +1,0 @@
-PID COMMAND
-101 init
-102 python app.py
-103 ignored
-104 python worker.py
-105 bash

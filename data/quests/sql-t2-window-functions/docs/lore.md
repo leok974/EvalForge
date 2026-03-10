@@ -1,0 +1,1 @@
+"A window is a view into a subset of the whole," the Chronicler explains, looking through a stained-glass pane. "You can see the individual bird while knowing its place in the flock. Do not crush the rows into one; let them breathe, but let them know their rank."

@@ -76,3 +76,4 @@ class RunResponse(BaseModel):
 
     # Preview vs Graded run
     evaluated_objectives: bool = True
+    run_target_path: Optional[str] = None

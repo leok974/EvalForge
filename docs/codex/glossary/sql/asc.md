@@ -1,40 +1,18 @@
 ---
-title: ASC
 id: glossary/sql/asc
+title: asc
 world: sql
-level: beginner
-tags: [fundamentals, syntax, sorting]
-related:
-  - codex:glossary/sql/order-by
-  - codex:glossary/sql/desc
 ---
 
-# ASC
+# asc
 
-## Definition
-The `ASC` keyword is used in an `ORDER BY` clause to sort data in **ascending order** (lowest to highest, A to Z).
+`ASC` (short for "Ascending") is a keyword used in the `ORDER BY` clause to sort data from lowest to highest (e.g., A to Z, or 1 to 100).
 
-## Why It Matters
-`ASC` is the default sorting direction in SQL. Whether you're listing products alphabetically or sorting customers from oldest to newest, `ASC` ensures your output is predictable and organized.
+## Usage
 
-## Core Syntax
 ```sql
-SELECT ... FROM ...
-ORDER BY column_name ASC;
+-- Sort users alphabetically
+SELECT * FROM users ORDER BY name ASC;
 ```
 
-## Example
-```sql
--- List products sorted by price from cheapest to most expensive
-SELECT name, price_cents
-FROM products
-ORDER BY price_cents ASC;
-```
-
-## Pitfalls
-- **Default Behavior**: Since `ASC` is the default, you don't *have* to type it, but doing so can make your code clearer to others.
-- **NULL Placement**: By default, `NULL` values usually appear at the top in ascending order, though this can vary by database type.
-
-## Related
-- ORDER BY: The clause that uses ASC for sorting.
-- DESC: The opposite keyword used for descending (highest to lowest) order.
+In most databases (including SQLite), **Ascending is the default**. If you don't specify `ASC` or `DESC`, the database will use `ASC`.

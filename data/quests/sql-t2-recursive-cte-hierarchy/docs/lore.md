@@ -1,0 +1,1 @@
+"A tree is not built of leaves," the Chronicler whispers, tracing a root deep into the soil. "It is built of connections. To find the fruit, you must start at the seed; to find the soldier, you must find the general. Follow the threads of authority until the whole map is unrolled."

@@ -1,15 +1,23 @@
-### Database Exploration Guide
+## Concept
+**Schema Exploration** is the act of navigating a database structure without a prior map. In **PostgreSQL**, this is often done using the `information_schema` or specialized tools like the **Database Explorer**.
 
-Welcome to the PostgreSQL Workbench! In this mission, you'll be using the **Database Explorer** to understand the structure of the `archives` database.
+## Why It Matters
+In real-world engineering, you are rarely handed the full schema on your first day. Mastering the ability to "interrogate" a database to find tables, columns, and relationships is what separates senior analysts from juniors.
 
-#### How to use the Database Explorer
-1. Click the **Database** tab in the left-hand pane (Quest Drawer).
-2. You will see a list of schemas (e.g., `public`, `inventory`, `analytics`).
-3. Click a table (e.g., `users`, `events`) to see its column definitions and types.
-4. Use the **Preview** button to see a sample of the actual data in that table.
+## Syntax Pattern
+```sql
+SELECT column_name, data_type 
+FROM information_schema.columns 
+WHERE table_name = 'your_table';
+```
 
-#### Why this matters
-Real-world database work often starts with a "blank screen" and an unfamiliar schema. Learning to navigate schemas without a map is a core skill for any senior engineer.
+## Example
+If you wanted to see the columns in the `users` table:
+```sql
+SELECT column_name, data_type 
+FROM information_schema.columns 
+WHERE table_name = 'users';
+```
 
-#### pgvector Support
-This environment has `pgvector` enabled! You can inspect vector columns just like any other data type. Look for columns with the type `vector(N)`.
+## Common Mistake
+Assuming column names or types without checking. For example, assuming an `email` column exists when it might be named `email_address` or `user_email`. Always verify the schema first!

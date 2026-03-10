@@ -1,8 +1,0 @@
-{
-    "name": "node-modules",
-    "private": true,
-    "scripts": {
-        "start": "node src/app.js",
-        "test": "node --test"
-    }
-}

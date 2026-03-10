@@ -1,12 +1,15 @@
 ---
-title: AS (Aliasing)
 id: glossary/sql/as
-world: sql
 level: beginner
-tags: [fundamentals, syntax, readability]
 related:
-  - codex:glossary/sql/select
-  - codex:glossary/sql/from
+- codex:glossary/sql/select
+- codex:glossary/sql/from
+tags:
+- fundamentals
+- syntax
+- readability
+title: AS (Aliasing)
+world: sql
 ---
 
 # AS (Aliasing)

@@ -1,0 +1,1 @@
+"A map is only as good as the roads it depicts," the Chronicler says, surveying the Archive's network of references. "A road that leads nowhere is a trap for the unwary. Find the loose ends, tie them off, or let them be known. A ghost in the machinery is a ghost in the truth."

@@ -1,0 +1,1 @@
+"The Archive is cluttered," the Chronicler sighs, looking at a stack of overflow reports. "We can't watch every grain of sand. Focus on the dunes—the collections that have grown too vast to ignore. Filter the groups, or drown in the details."

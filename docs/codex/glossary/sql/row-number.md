@@ -1,13 +1,16 @@
 ---
-title: ROW_NUMBER
 id: glossary/sql/row-number
-world: sql
 level: intermediate
-tags: [window-functions, ranking, analytics]
 related:
-  - codex:glossary/sql/over
-  - codex:glossary/sql/partition-by
-  - codex:glossary/sql/window-function
+- codex:glossary/sql/over
+- codex:glossary/sql/partition-by
+- codex:glossary/sql/window-function
+tags:
+- window-functions
+- ranking
+- analytics
+title: ROW_NUMBER
+world: sql
 ---
 
 # ROW_NUMBER

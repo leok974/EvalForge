@@ -1,3 +1,0 @@
-# Git Ignition
-
-This file is tracked (eventually).

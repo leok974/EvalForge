@@ -1,0 +1,38 @@
+{
+    "slug": "postgres-schema-explorer",
+    "title": "PostgreSQL: Schema Explorer",
+    "world_slug": "sql_tier3",
+    "language": "sql",
+    "db_engine": "postgres",
+    "db_explorer_enabled": true,
+    "difficulty": "intro",
+    "tags": ["postgres", "workbench", "explorer"],
+    "briefing_md_file": "docs/briefing.md",
+    "starter_code_file": "task.sql",
+    "workspace": {
+        "files": [
+            { "path": "task.sql", "editable": true },
+            { "path": "fixtures/schema.sql", "editable": false },
+            { "path": "fixtures/seed.sql", "editable": false }
+        ],
+        "entrypoint": "task.sql"
+    },
+    "objectives": [
+        {
+            "id": "list_engineering",
+            "text": "Correctly lists name and email for Engineering employees",
+            "validator": {
+                "kind": "column_match",
+                "expected_columns": ["name", "email"]
+            }
+        },
+        {
+            "id": "count_check",
+            "text": "Returns exactly 2 employees (Alice and Bob)",
+            "validator": {
+                "kind": "row_count",
+                "count": 2
+            }
+        }
+    ]
+}

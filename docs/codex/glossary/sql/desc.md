@@ -1,41 +1,21 @@
 ---
-title: DESC
 id: glossary/sql/desc
+title: desc
 world: sql
-level: beginner
-tags: [fundamentals, syntax, sorting]
-related:
-  - codex:glossary/sql/order-by
-  - codex:glossary/sql/asc
 ---
 
-# DESC
+# desc
 
-## Definition
-The `DESC` keyword is used in an `ORDER BY` clause to sort data in **descending order** (highest to lowest, Z to A).
+`DESC` (short for "Descending") is a keyword used in the `ORDER BY` clause to sort data from highest to lowest (e.g., Z to A, or 100 to 1).
 
-## Why It Matters
-`DESC` is essential whenever you want to see the "top" items first—such as the most recent orders, the highest-spending customers, or the most expensive products in your store.
+## Usage
 
-## Core Syntax
 ```sql
-SELECT ... FROM ...
-ORDER BY column_name DESC;
+-- See most recent events first
+SELECT * FROM events ORDER BY event_date DESC;
+
+-- See highest salaries first
+SELECT * FROM employees ORDER BY salary DESC;
 ```
 
-## Example
-```sql
--- Show the 5 most expensive products first
-SELECT name, price_cents
-FROM products
-ORDER BY price_cents DESC
-LIMIT 5;
-```
-
-## Pitfalls
-- **Multi-column Sort**: If you are sorting by multiple columns (e.g., `ORDER BY city ASC, name DESC`), remember that each column needs its own direction keyword.
-- **NULL Placement**: In descending order, `NULL` values usually appear at the bottom by default.
-
-## Related
-- ORDER BY: The clause that uses DESC for sorting.
-- ASC: The opposite keyword used for ascending (lowest to highest) order.
+`DESC` is the opposite of [ASC](glossary/sql/asc).

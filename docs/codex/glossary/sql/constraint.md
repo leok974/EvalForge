@@ -1,6 +1,10 @@
 ---
-title: "Constraint"
-tags: ["sql", "intermediate"]
+id: glossary/sql/constraint
+tags:
+- sql
+- intermediate
+title: Constraint
+world: sql
 ---
 
 # Constraint

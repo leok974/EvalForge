@@ -1,0 +1,1 @@
+"Speed is a function of preparation," the Chronicler remarks, sharpening a lead pencil. "The Archive is too vast to traverse by foot every time a question is asked. Build the pathways, map the shortcuts, and ensure the light finds the answer before the candle burns out."

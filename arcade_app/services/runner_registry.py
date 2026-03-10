@@ -39,6 +39,8 @@ class RunnerRegistry:
                     command=["python", "-u", "-I", "-B", "/workspace/.evalforge/run_unittest_json.py"]
                 )
             
+            # Phase 9.3: Tier 3 Postgres Support
+            # Note: code_runner_docker will decide which .evalforge script to use
             return RunnerSpec(
                 docker_image="python:3.12-slim",
                 file_name="task.sql",

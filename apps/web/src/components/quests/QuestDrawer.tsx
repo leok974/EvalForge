@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, ChevronDown, Lock, History, Check, X, Clock, GraduationCap } from 'lucide-react';
+import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, ChevronDown, Lock, History, Check, X, Clock, GraduationCap, Database } from 'lucide-react';
 import { QuestSummary, QuestAttemptSummary } from '@/lib/questsApi';
 import ReactMarkdown from 'react-markdown';
 
@@ -32,10 +32,11 @@ interface QuestDrawerProps {
     // Phase 9.1: Custom Panels (Tutorial)
     customPanels?: {
         tutorial?: React.ReactNode;
+        database?: React.ReactNode;
     };
 }
 
-type Tab = 'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial';
+type Tab = 'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | 'database';
 
 export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts = [], onSelectAttempt, controlTab, onTabChange, customPanels }: QuestDrawerProps) {
     const [activeTab, setActiveTab] = useState<Tab>('briefing');
@@ -109,6 +110,8 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
         { id: 'briefing', label: 'Briefing', icon: FileText },
         { id: 'objectives', label: 'Objectives', icon: ListChecks },
         { id: 'hints', label: 'Hints', icon: HelpCircle },
+        // Phase 9.2: Database Tab
+        ...(customPanels?.database ? [{ id: 'database' as Tab, label: 'Database', icon: Database }] : []),
         { id: 'history', label: 'History', icon: History },
         { id: 'lore', label: 'Lore', icon: Scroll },
     ];
@@ -389,6 +392,12 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
                 {activeTab === 'tutorial' && customPanels?.tutorial && (
                     <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                         {customPanels.tutorial}
+                    </div>
+                )}
+                {/* DATABASE TAB (Phase 9.2) */}
+                {activeTab === 'database' && customPanels?.database && (
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 h-full">
+                        {customPanels.database}
                     </div>
                 )}
             </div>

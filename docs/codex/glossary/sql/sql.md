@@ -1,9 +1,11 @@
 ---
 id: glossary/sql/sql
+source: core
+tags:
+- sql
+- fundamentals
 title: SQL
 world: sql
-tags: [sql, fundamentals]
-source: core
 ---
 
 # SQL (Structured Query Language)

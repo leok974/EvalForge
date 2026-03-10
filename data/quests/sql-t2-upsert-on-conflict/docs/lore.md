@@ -1,0 +1,1 @@
+"The timeline is stubborn," the Chronicler remarks, dipping a quill. "You cannot simply write over what has already been etched unless you acknowledge the conflict. Merge the new truth with the old, or the Archive will reject your ink."

@@ -109,47 +109,8 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                     with open(src_path, "r", encoding="utf-8") as rf:
                         with open(runner_target, "w", encoding="utf-8") as wf:
                             wf.write(rf.read())
-            elif mode == "run" and language == "sql":
-                runner_dir = os.path.join(td, ".evalforge")
-                os.makedirs(runner_dir, exist_ok=True)
-                runner_target = os.path.join(runner_dir, "sql_preview.py")
-                
-                src_path = os.path.join(os.path.dirname(__file__), "runners", "sql_preview.py")
-                if os.path.exists(src_path):
-                    with open(src_path, "r", encoding="utf-8") as rf:
-                        with open(runner_target, "w", encoding="utf-8") as wf:
-                            wf.write(rf.read())
-            
-            # 3. Permissions fix for Docker (since we run as non-root user)
-            # Ensure the temp dir and all files are world-readable AND writable
-            os.chmod(td, 0o777)
-            for root, dirs, files_in_dir in os.walk(td):
-                for d in dirs:
-                    os.chmod(os.path.join(root, d), 0o777)
-                for f in files_in_dir:
-                    os.chmod(os.path.join(root, f), 0o666)
-
-        # 4. PREFLIGHT CHECK & ENTRYPOINT RESOLUTION
-        # List files to verify
-        listing = []
-        for root, _, filenames in os.walk(td):
-            for f in filenames:
-                listing.append(os.path.relpath(os.path.join(root, f), td))
-        
-        # Determine Entrypoint dynamically if not strictly enforced by workspace config
-        # The user says: "Prefer configured entrypoint only if present, else task.py, else main.py"
-        
-        # spec.file_name came from Registry (defaults to main.py/main.ts). 
-        # But if the workspace has 'task.py' and we are python, we should switch.
-        
-        effective_entrypoint = spec.file_name # Default (e.g. main.py)
-        
-        # If workspace explicitly requested an entrypoint, check if it exists
-        found_configured = False
-        if workspace and workspace.get("entrypoint"):
-             if workspace["entrypoint"] in listing:
-                 effective_entrypoint = workspace["entrypoint"]
-                 found_configured = True
+        # Determine Runner Script
+        is_postgres = getattr(workspace, "db_engine", "sqlite") == "postgres"
         
         # Else, if we haven't found a configured one, AND we are in Python (or generally), 
         # try to detect 'task.py' vs 'main.py'
@@ -160,6 +121,28 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 effective_entrypoint = "main.py"
         elif language == "sql":
             effective_entrypoint = "task.sql"
+        
+        # Inject runners
+        if mode == "run" and language == "sql":
+            runner_dir = os.path.join(td, ".evalforge")
+            os.makedirs(runner_dir, exist_ok=True)
+            
+            if is_postgres:
+                runner_file = "postgres_runner.py"
+                src_path = os.path.join(os.path.dirname(__file__), "runners", "postgres_runner.py")
+                final_command = ["python", "-u", "-I", "-B", "/workspace/.evalforge/postgres_runner.py"]
+            else:
+                runner_file = "sql_preview.py"
+                src_path = os.path.join(os.path.dirname(__file__), "runners", "sql_preview.py")
+                final_command = ["python", "-u", "-I", "-B", "/workspace/.evalforge/sql_preview.py"]
+
+            runner_target = os.path.join(runner_dir, runner_file)
+            if os.path.exists(src_path):
+                with open(src_path, "r", encoding="utf-8") as rf:
+                    with open(runner_target, "w", encoding="utf-8") as wf:
+                        wf.write(rf.read())
+        
+        # Check if resolved entrypoint exists
         
         # Check if resolved entrypoint exists
         if effective_entrypoint not in listing:
@@ -197,17 +180,13 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
              if final_command and final_command[-1] == spec.file_name:
                  final_command[-1] = effective_entrypoint
 
-        # 5. Docker-in-Docker safe execution
-        import uuid
-        attempt_id = os.getenv("EVALFORGE_ATTEMPT_ID", str(uuid.uuid4()))
-        artifacts_dir = os.getenv("EVALFORGE_ARTIFACTS_DIR", f"/tmp/evalforge_artifacts/{attempt_id}")
-        container_name = f"runner-{attempt_id}"
+        # Phase 9.3: Docker networking and env vars for Postgres
+        network_name = os.getenv("EVALFORGE_RUNNER_NETWORK", "evalforge_evalforge")
         
-        # Base Create Command
         create_cmd = [
             "docker", "create",
             "--name", container_name,
-            "--network", "none",
+            "--network", network_name if is_postgres else "none",
             "--cpus", "1",
             "--memory", "256m",
             "-e", "GIT_EDITOR=true",
@@ -223,6 +202,9 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             "-e", "PYTHONDONTWRITEBYTECODE=1",
             "-e", "PYTHONIOENCODING=utf-8",
             "-e", f"EVALFORGE_ARTIFACTS_DIR={artifacts_dir}",
+            # Pass PG Config if needed
+            "-e", f"PG_DB_URL=host=db dbname=evalforge user=evalforge password=evalforge",
+            "-e", f"PG_TEMP_SCHEMA=run_{attempt_id[:8]}",
             image,
             *final_command # Use the updated command
         ]

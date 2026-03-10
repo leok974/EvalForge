@@ -1,6 +1,10 @@
 ---
-title: "Unique Constraint"
-tags: ["sql", "intermediate"]
+id: glossary/sql/unique-constraint
+tags:
+- sql
+- intermediate
+title: Unique Constraint
+world: sql
 ---
 
 # Unique Constraint

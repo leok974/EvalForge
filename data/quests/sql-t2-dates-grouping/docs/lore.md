@@ -1,0 +1,1 @@
+"Time is a granular sediment," the Chronicler remarks, watching a clock's hands spin. "A single second is too small to study. Sieve the day from the hour, the month from the day. Only when you bucket the moments can you see the shape of the flow."

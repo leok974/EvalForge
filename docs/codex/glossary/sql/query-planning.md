@@ -1,6 +1,10 @@
 ---
-title: "Query Planning"
-tags: ["sql", "intermediate"]
+id: glossary/sql/query-planning
+tags:
+- sql
+- intermediate
+title: Query Planning
+world: sql
 ---
 
 # Query Planning

@@ -1,0 +1,1 @@
+"A leader is mirrors and shadows," the Chronicler muses, tracing the lines of an organizational chart. "You cannot find them in their own cell; you must look at the cells of others to see whose hand guides them. Existence is proven by the presence of those who follow."

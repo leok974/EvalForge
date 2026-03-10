@@ -1,42 +1,29 @@
 ---
-title: PARTITION BY
 id: glossary/sql/partition-by
+title: partition-by
 world: sql
-level: intermediate
-tags: [window-functions, grouping, analytics]
-related:
-  - codex:glossary/sql/over
-  - codex:glossary/sql/window-function
-  - codex:glossary/sql/row-number
 ---
 
-# PARTITION BY
+# partition-by
 
-## Definition
-`PARTITION BY` divides rows into groups (partitions) for window functions, so calculations are performed independently within each group rather than across all rows.
+The `PARTITION BY` clause is used within [window functions](glossary/sql/window-function) to divide the result set into partitions to which the function is applied separately.
 
-## Usage
-- Use inside `OVER (PARTITION BY column)` to group rows.
-- Common for ranking, running totals, or comparisons within categories.
-- Multiple columns can partition together.
+## How it works
+
+If you think of a window function as calculating a value over a "window" of rows, `PARTITION BY` allows you to reset that window whenever the value in a specific column changes.
 
 ## Example
+
 ```sql
-SELECT
-  user_id,
-  created_at,
-  amount,
-  ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at) AS user_order_num
-FROM orders;
+SELECT 
+    name, 
+    department, 
+    salary,
+    RANK() OVER (PARTITION BY department ORDER BY salary DESC) as dept_rank
+FROM employees;
 ```
 
-## Pitfalls
-
-* Partitioning by high-cardinality columns (like IDs) can create many tiny partitions.
-* Forgetting `ORDER BY` inside `OVER` when needed for rankings.
-
-## Related
-
-* OVER: PARTITION BY is used inside OVER clauses.
-* Window Function: PARTITION BY groups rows for window functions.
-* ROW_NUMBER: ROW_NUMBER often uses PARTITION BY for per-group ranking.
+In this example:
+1. The rows are divided into groups based on their `department`.
+2. The `RANK()` function calculates the salary rank **within each department**.
+3. When the query moves to a new department, the rank starts over at 1.

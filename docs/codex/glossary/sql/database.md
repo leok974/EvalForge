@@ -1,9 +1,11 @@
 ---
 id: glossary/sql/database
+source: core
+tags:
+- sql
+- fundamentals
 title: Database
 world: sql
-tags: [sql, fundamentals]
-source: core
 ---
 
 # Database

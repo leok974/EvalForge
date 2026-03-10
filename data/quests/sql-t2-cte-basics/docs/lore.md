@@ -1,0 +1,1 @@
+"Order is the shadow of clarity," the Chronicler whispers, neatly stacking scrolls. "A messy query is a mind in disarray. Name your sub-thoughts, define your stages, and the answer will reveal itself within the name you gave it."

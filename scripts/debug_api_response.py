@@ -1,63 +1,49 @@
-
 import asyncio
-import httpx
 import os
+import json
+from sqlmodel import select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import sessionmaker
+
 import sys
+sys.path.insert(0, os.path.abspath('.'))
 
-# Add root to path so we can import arcade_app
-sys.path.append(os.getcwd())
-
+from arcade_app.database import engine
+from arcade_app.models import QuestDefinition, Profile
+from arcade_app.progress_models import QuestProgressV2
 from arcade_app.services.quest_visibility import get_active_quest_config
+from arcade_app.quest_helper import quest_to_dict
 
-async def check_api():
-    print("--- DEBUGGING QUEST VISIBILITY ---")
+async def debug_api():
+    os.environ["DATABASE_URL"] = "postgresql+asyncpg://evalforge:evalforge@localhost:5435/evalforge"
     
-    # 1. Check Internal Service Logic
-    try:
-        active_slugs, active_packs = get_active_quest_config()
-        print(f"✅ Service: Loaded {len(active_slugs)} active slugs.")
-        print(f"   Sample: {list(active_slugs)[:5]}")
+    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+    
+    async with async_session() as session:
+        # Mock user data (admin/leo)
+        user_id = "leo"
         
-        target_slugs = ["first-sparks", "hello-variable"]
-        for slug in target_slugs:
-            status = "✅ FOUND" if slug in active_slugs else "❌ MISSING"
-            print(f"   Target '{slug}': {status}")
-    except Exception as e:
-        print(f"❌ Service: Failed to load config: {e}")
-        import traceback
-        traceback.print_exc()
-
-    # 2. Check Live API (Default)
-    async with httpx.AsyncClient() as client:
-        try:
-            # Try Docker internal port if running inside container, else localhost
-            # But here we are running ON HOST (likely), so localhost:8092
-            url = "http://localhost:8092/api/quests"
-            print(f"👉 Requesting: {url}")
-            res = await client.get(url)
-            print(f"   Status: {res.status_code}")
-            if res.status_code == 200:
-                quests = res.json()
-                print(f"   Count: {len(quests)}")
-                if len(quests) > 0:
-                     print(f"   Sample: {[q['slug'] for q in quests[:3]]}")
-            else:
-                 print(f"   Error: {res.text}")
-        except Exception as e:
-             print(f"❌ API Request Failed: {e}")
-
-    # 3. Check Live API (Admin)
-    async with httpx.AsyncClient() as client:
-        try:
-            url = "http://localhost:8092/api/quests?include_inactive=true"
-            print(f"👉 Requesting (Admin): {url}")
-            res = await client.get(url)
-            print(f"   Status: {res.status_code}")
-            if res.status_code == 200:
-                quests = res.json()
-                print(f"   Count: {len(quests)}")
-        except Exception as e:
-             print(f"❌ API Request Failed: {e}")
+        # Get active config
+        active_slugs, slug_to_pack = get_active_quest_config()
+        print(f"Active slugs total: {len(active_slugs)}")
+        print(f"sql-order-by in active: {'sql-order-by' in active_slugs}")
+        
+        # Exact logic from routes_quests.py
+        world_id = "world-sql"
+        query = select(QuestDefinition).where(QuestDefinition.world_id == world_id)
+        query = query.where(QuestDefinition.slug.in_(active_slugs))
+        query = query.order_by(
+            QuestDefinition.world_id,
+            QuestDefinition.track_id,
+            QuestDefinition.order_index
+        )
+        
+        result = await session.execute(query)
+        quests = result.scalars().all()
+        
+        print(f"Quests returned for world-sql: {len(quests)}")
+        for i, q in enumerate(quests):
+            print(f"{i+1}. {q.slug} (track: {q.track_id}, order: {q.order_index})")
 
 if __name__ == "__main__":
-    asyncio.run(check_api())
+    asyncio.run(debug_api())

@@ -1,12 +1,15 @@
 ---
-title: "Termination Condition"
-tags: ["sql", "intermediate"]
+id: glossary/sql/termination-condition
+title: termination-condition
+world: sql
 ---
 
-# Termination Condition
+# termination-condition
 
-This entry describes the concept of **Termination Condition** in SQL.
+Recursive systems, like a [recursive CTE](glossary/sql/cte-recursive), must have a **termination condition** to prevent them from running forever (infinite loops).
 
-## Usage
+## SQL Specifics
 
-Example goes here...
+In SQL, a recursive CTE automatically stops when the recursive member returns **no more rows**.
+
+For example, when walking down an organizational chart, the recursion terminates when it reaches an employee who manages nobody—the "leaf nodes" of the tree.

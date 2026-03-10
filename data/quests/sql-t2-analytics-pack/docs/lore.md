@@ -1,0 +1,1 @@
+"A point in time is static," the Chronicler remarks, tracing a line on a ledger. "To see movement, you must look at where you were and where you are now. Bridge the gap between the then and the now, and you will see the speed of the world's turning."

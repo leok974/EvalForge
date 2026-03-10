@@ -11,6 +11,7 @@
             "order_index": 210,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-groupby-having/workspace/task.sql",
             "starter_code": "-- Select category, count(*) as count\n-- From products\n-- Group by category\n-- Having count > 5\n",
             "objectives": [
                 {
@@ -34,7 +35,7 @@
             "key_terms": [
                 "glossary/sql/group-by",
                 "glossary/sql/having",
-                "glossary/sql/select"
+                "glossary/sql/count"
             ],
             "workspace": {
                 "files": {}
@@ -53,6 +54,7 @@
             "order_index": 220,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-window-functions/workspace/task.sql",
             "starter_code": "-- Select name, salary, and rank over department orders by salary desc\n",
             "objectives": [
                 {
@@ -95,6 +97,7 @@
             "order_index": 230,
             "base_xp_reward": 100,
             "mastery_xp_bonus": 50,
+            "starting_code_path": "data/quests/sql-t2-analytics-pack/workspace/task.sql",
             "starter_code": "-- Write a query using CTEs (WITH clause) to calculate monthly growth.\n",
             "objectives": [
                 {
@@ -127,7 +130,7 @@
             "key_terms": [
                 "glossary/sql/cte-with",
                 "glossary/sql/window-function",
-                "glossary/sql/row-number"
+                "glossary/sql/lag"
             ],
             "workspace": {
                 "files": {}
@@ -146,6 +149,7 @@
             "order_index": 240,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-subqueries-exists/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -183,6 +187,7 @@
             "order_index": 250,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-cte-basics/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -201,7 +206,7 @@
             "key_terms": [
                 "glossary/sql/cte-with",
                 "glossary/sql/alias",
-                "glossary/sql/query-planning"
+                "glossary/sql/table"
             ],
             "workspace": {
                 "files": {}
@@ -220,6 +225,7 @@
             "order_index": 260,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-recursive-cte-hierarchy/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -257,6 +263,7 @@
             "order_index": 270,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-nulls-coalesce/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -275,7 +282,7 @@
             "key_terms": [
                 "glossary/sql/null",
                 "glossary/sql/coalesce",
-                "glossary/sql/case-when"
+                "glossary/sql/desc"
             ],
             "workspace": {
                 "files": {}
@@ -294,6 +301,7 @@
             "order_index": 280,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-dates-grouping/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -331,6 +339,7 @@
             "order_index": 290,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-upsert-on-conflict/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -348,8 +357,8 @@
             ],
             "key_terms": [
                 "glossary/sql/upsert",
-                "glossary/sql/unique-constraint",
-                "glossary/sql/on-conflict"
+                "glossary/sql/on-conflict",
+                "glossary/sql/update"
             ],
             "workspace": {
                 "files": {}
@@ -368,6 +377,7 @@
             "order_index": 300,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-indexes-explain/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -408,6 +418,7 @@
             "order_index": 310,
             "base_xp_reward": 75,
             "mastery_xp_bonus": 25,
+            "starting_code_path": "data/quests/sql-t2-transactions-rollback/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -448,6 +459,7 @@
             "order_index": 320,
             "base_xp_reward": 100,
             "mastery_xp_bonus": 50,
+            "starting_code_path": "data/quests/sql-t2-boss-data-quality-audit/workspace/task.sql",
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -477,9 +489,9 @@
                 }
             ],
             "key_terms": [
-                "glossary/sql/constraint",
                 "glossary/sql/anti-join",
-                "glossary/sql/data-quality"
+                "glossary/sql/data-quality",
+                "glossary/sql/null"
             ],
             "workspace": {
                 "files": {}

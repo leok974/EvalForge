@@ -1,36 +1,30 @@
 ---
-title: FROM
 id: glossary/sql/from
-world: sql
 level: beginner
-tags: [queries, fundamentals, tables]
-related:
-  - codex:glossary/sql/select
-  - codex:glossary/sql/join
+source: core
+tags:
+- fundamentals
+- query
+title: FROM
+world: sql
 ---
 
-# FROM
+The `FROM` clause specifies the database table from which you want to retrieve data. It is used in combination with the [SELECT](codex:glossary/sql/select) statement.
 
-## Definition
-The `FROM` clause identifies the **source table** or tables that you want to pull data from. It tells the database exactly where the columns you listed in the `SELECT` clause are located.
+## Usage
 
-## Why It Matters
-Without `FROM`, the database doesn't know which dataset you are talking about. It is the starting point for almost every query, defining the "universe" of data you are currently exploring.
-
-## Mental Model
-If a database is a library, the `FROM` clause is like picking a specific **book** (table) off the shelf. Everything else in your query refers to the pages and information *inside* that specific book.
-
-## Example
 ```sql
--- Open the users table to retrieve all email addresses
-SELECT email
-FROM users;
+SELECT name FROM employees;
 ```
 
-## Pitfalls
-- **Misspelled Table Names**: If you misspell the table name, the query will fail. Always double-check your schema (e.g., `user` vs. `users`).
-- **Missing Join Logic**: If you pull from multiple tables without a `JOIN` or `WHERE` clause to link them, you will get a "Cartesian product," matching every row in Table A with every row in Table B.
+In this example, `employees` is the source table.
 
-## Related
-- SELECT: The clause that pulls columns from the table specified in FROM.
-- JOIN: Used within the FROM context to combine multiple tables.
+## Joining Tables
+
+`FROM` is also where you define [JOIN](codex:glossary/sql/join) operations to combine data from multiple tables.
+
+```sql
+SELECT users.name, orders.amount
+FROM users
+JOIN orders ON users.id = orders.user_id;
+```

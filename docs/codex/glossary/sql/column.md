@@ -1,12 +1,14 @@
 ---
-title: Column
 id: glossary/sql/column
-world: sql
 level: beginner
-tags: [fundamentals, structure]
 related:
-  - codex:glossary/sql/table
-  - codex:glossary/sql/row
+- codex:glossary/sql/table
+- codex:glossary/sql/row
+tags:
+- fundamentals
+- structure
+title: Column
+world: sql
 ---
 
 # Column

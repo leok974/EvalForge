@@ -16,6 +16,7 @@ from arcade_app.routers import routes_workshop
 from arcade_app.routers import routes_tools
 from arcade_app.routers import routes_coach
 from arcade_app.routers import intent_oracle_eval
+from arcade_app.routers import routes_db  # Phase 9.2: SQL Tier 3
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -58,6 +59,7 @@ app.include_router(routes_workshop.router) # Workshop Catalog API
 app.include_router(routes_tools.router) # Phase 9.12: Explain/Debug Tools
 app.include_router(routes_coach.router) # Phase 12: Coach Explainer (Gemini)
 app.include_router(intent_oracle_eval.router) # Intent Oracle Eval
+app.include_router(routes_db.router) # Phase 9.2: SQL Tier 3
 
 # Health Routes
 @app.get("/health")

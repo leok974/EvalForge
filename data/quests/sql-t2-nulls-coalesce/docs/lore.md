@@ -1,0 +1,1 @@
+"The archives are bleeding," the Chronicler mutters, pointing to a column of empty cells. "Missing data isn't just a gap; it's a void that consumes calculations. Coalesce the fragments or the totals will vanish."

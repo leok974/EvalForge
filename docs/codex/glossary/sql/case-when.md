@@ -1,6 +1,10 @@
 ---
-title: "Case When"
-tags: ["sql", "intermediate"]
+id: glossary/sql/case-when
+tags:
+- sql
+- intermediate
+title: Case When
+world: sql
 ---
 
 # Case When
