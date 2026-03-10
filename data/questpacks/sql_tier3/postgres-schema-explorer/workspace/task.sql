@@ -1,11 +1,11 @@
--- Mission: Verify the PostgreSQL Workbench capabilities.
--- 1. Use the "Database" tab on the left to explore the schema.
--- 2. Find the "employees" table and note its columns.
--- 3. Write a query to list all employees in 'Engineering'.
+-- Mission: Audit the Engineering department contact list.
+-- 1. Use the "Database" tab to explore the 'employees' and 'departments' tables.
+-- 2. Resolve the 'department_id' for 'Engineering'.
+-- 3. Return the 'name' and 'email' of all matching employees.
 
--- Write your query below:
 SELECT 
-    -- TODO: return name and email
-FROM employees
-WHERE -- TODO: filter by 'Engineering' department
+    name, 
+    email 
+FROM employees 
+WHERE department_id = 0 -- TODO: Filter by 'Engineering' department
 ORDER BY name;

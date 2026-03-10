@@ -1,14 +1,14 @@
 ## What You Practiced
-You successfully navigated an unfamiliar **PostgreSQL** schema using the **Database Explorer** and performed a multi-table lookup.
+You successfully performed **Schema Exploration** on an unfamiliar **PostgreSQL** database and implemented a filtered result set using normalized table relationships.
 
 ## Why This Works
-By first inspecting the metadata, you avoided "syntax errors" caused by incorrect column names. Using a subquery allowed you to filter by a human-readable name while respecting the database's normalized structure.
+By first inspecting the metadata, you avoided "hidden" errors caused by incorrect column names. Using a subquery allowed you to filter by the human-readable string `'Engineering'` while maintaining optimal database performance.
 
 ## Common Pitfall
-Forgetting to account for case sensitivity in string filters. In **PostgreSQL**, `'Engineering'` is not the same as `'engineering'`.
+**Case Sensitivity**. In **PostgreSQL**, string comparisons are case-sensitive by default. Searching for `'engineering'` instead of `'Engineering'` would return zero results in this schema.
 
 ## Job-Style Takeaway
-Database exploration is 50% of the job. Before writing a line of code, senior engineers spend time understanding the "Metal" of the database.
+Database exploration is 50% of the job. Senior engineers spend more time understanding the **"Metal"** of the schema than they do writing the final `SELECT` statement.
 
 ## Next Skill
-Next, you'll learn to handle **Table Relationships** and many-to-many joins in the Deep Archives.
+Next, you'll tackle **Table Relationships** and complex many-to-many joins in the Deep Archives.
