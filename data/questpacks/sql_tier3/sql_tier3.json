@@ -1,0 +1,40 @@
+{
+    "id": "sql_tier3",
+    "name": "SQL Tier 3: PostgreSQL Workbench",
+    "description": "Master PostgreSQL, schema exploration, and vector databases.",
+    "world_id": "world-sql",
+    "track_id": "core-sql",
+    "quests": [
+        {
+            "slug": "postgres-schema-explorer",
+            "title": "PostgreSQL: Schema Explorer",
+            "language": "sql",
+            "db_engine": "postgres",
+            "db_explorer_enabled": true,
+            "order_index": 330,
+            "short_description": "Explore a real PostgreSQL schema using the new Database Explorer.",
+            "detailed_description": "Master the SQL Tier 3 workbench. Inspect tables, columns, and relationships in a PostgreSQL environment.",
+            "starting_code_path": "data/questpacks/sql_tier3/postgres-schema-explorer/workspace/task.sql",
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
+            "objectives": [
+                {
+                    "id": "list_engineering",
+                    "kind": "column_match",
+                    "text": "Correctly lists name and email for Engineering employees",
+                    "rule": {
+                        "expected_columns": ["name", "email"]
+                    }
+                },
+                {
+                    "id": "count_check",
+                    "kind": "row_count",
+                    "text": "Returns exactly 2 employees (Alice and Bob)",
+                    "rule": {
+                        "count": 2
+                    }
+                }
+            ]
+        }
+    ]
+}

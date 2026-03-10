@@ -450,6 +450,7 @@ from arcade_app.routers import (
     routes_qa as qa,
     routes_workshop as workshop,  # Workshop Catalog refactor
     routes_coach as coach,  # Phase 12: Coach Explainer
+    routes_db as db_router,
     intent_oracle_eval
 )
 
@@ -460,6 +461,7 @@ app.include_router(quests.router)
 app.include_router(workshop.router) # Workshop Catalog API
 app.include_router(routes_tools.router) # Assist API
 app.include_router(coach.router) # Coach API
+app.include_router(db_router.router)
 
 app.include_router(universe.router)
 app.include_router(boss.router)

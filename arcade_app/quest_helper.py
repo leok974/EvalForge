@@ -371,6 +371,10 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         # Phase 9.8 Parity
         "briefing_md": q.briefing_md,
         "lore_md": q.lore_md,
+        # Phase 9: Database Workbench Fields
+        "db_engine": getattr(q, "db_engine", "sqlite"),
+        "db_explorer_enabled": getattr(q, "db_explorer_enabled", False),
+        "db_allow_mutation": getattr(q, "db_allow_mutation", False),
         # Locks & Versioning
         "schema_version": "v2", 
         "content_version": getattr(q, "content_version", "1.0.0"),

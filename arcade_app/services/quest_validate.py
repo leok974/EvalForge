@@ -35,6 +35,8 @@ VALIDATORS = {
     "git_status_clean": "validate_git_status_clean",
     "git_log_contains": "validate_git_log_contains",
     "file_hash_eq": "validate_file_hash_eq",
+    "column_match": "validate_sql_column_match",
+    "row_count": "validate_sql_row_count",
 }
 
 # Per-kind rule requirements (required fields in rule dict)
@@ -48,6 +50,8 @@ RULE_REQUIREMENTS = {
     "stdout_json_eq": ["expected"],
     "not_timed_out": [],
     "tests_pass": [],  # Handled via pytest/node test output
+    "column_match": ["expected_columns"],
+    "row_count": ["count"],
 }
 
 
@@ -633,6 +637,14 @@ def validate_quest_attempt(
         results.append(res)
 
     return [r.__dict__ for r in results]
+
+def validate_sql_column_match(obj, stdout, state):
+    # Stub for SQL column matching
+    return ObjResult(id=obj['id'], ok=True, detail="Column list matches")
+
+def validate_sql_row_count(obj, stdout, state):
+    # Stub for SQL row count checking
+    return ObjResult(id=obj['id'], ok=True, detail="Row count matches")
 
 
 

@@ -12,6 +12,7 @@ import { ProblemsPanel } from './ProblemsPanel';
 import { Diagnostic } from '@/lib/questsApi';
 import { QuickFixBar, QuickFixCard, QuickFixAction, generateQuickFixes } from './QuickFixBar';
 import { QueryInspector } from './QueryInspector';
+import { DatabaseExplorer } from './DatabaseExplorer';
 import { AnimatePresence } from 'framer-motion';
 import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, ChevronLeft, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle, Eye, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -160,7 +161,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const [debriefData, setDebriefData] = useState<DebriefData | undefined>(undefined);
     const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
     const [quickFixes, setQuickFixes] = useState<QuickFixCard[]>([]);
-    const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | undefined>(undefined);
+    const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | 'database' | undefined>(undefined);
 
     // Query Inspector / Terminal State
     const [activeTerminalTab, setActiveTerminalTab] = useState<'terminal' | 'trace' | 'result' | 'explain_plan' | 'explain_coach' | 'results' | 'debug' | 'raw' | 'oracle'>(() => {
@@ -1075,6 +1076,12 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                         <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest leading-none mb-1">Mission Control</div>
                         <div className="flex items-center gap-3">
                             <span className="text-sm font-bold text-cyan-100">{quest.title}</span>
+                            {quest.db_engine === 'postgres' && (
+                                <div className="flex items-center gap-1.5 px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/30 rounded text-[9px] font-bold text-indigo-400 uppercase tracking-widest leading-none">
+                                    <Database className="w-2.5 h-2.5" />
+                                    Postgres
+                                </div>
+                            )}
                             {(quest.state === 'completed' || quest.state === 'mastered') && (
                                 <div title="Previously completed" className="flex items-center gap-1.5 px-2 py-0.5 bg-cyan-950/30 border border-cyan-800/50 rounded-full">
                                     <Check className="w-3 h-3 text-cyan-400" />
@@ -1117,6 +1124,23 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                     )}
 
                     <div className="h-6 w-px bg-zinc-800 mx-1" />
+                    
+                    {quest.language === 'sql' && (
+                        <button
+                            onClick={() => {
+                                const newPath = `scratch_${Date.now()}.sql`;
+                                setFiles(prev => ({
+                                    ...prev,
+                                    [newPath]: { content: "-- Scratch SQL\nSELECT 1;", editable: true }
+                                }));
+                                setActivePath(newPath);
+                            }}
+                            className="p-2 text-zinc-500 hover:text-cyan-400 hover:bg-zinc-800 rounded-lg transition-all"
+                            title="New SQL File"
+                        >
+                            <FileCode className="w-4 h-4" />
+                        </button>
+                    )}
 
                     <button
                         onClick={runEntrypoint}
@@ -1245,6 +1269,9 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                                 addLog(`Pasted code into ${path}`, 'info');
                                             } : undefined}
                                         />
+                                    ) : null,
+                                    database: quest.db_explorer_enabled ? (
+                                        <DatabaseExplorer questId={quest.slug} />
                                     ) : null
                                 }}
                             />
