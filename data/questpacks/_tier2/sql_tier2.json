@@ -8,6 +8,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Advanced aggregation with GROUP BY and HAVING.",
+            "order_index": 210,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "starter_code": "-- Select category, count(*) as count\n-- From products\n-- Group by category\n-- Having count > 5\n",
             "objectives": [
                 {
@@ -47,6 +50,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Use ROW_NUMBER() and OVER() for analytics.",
+            "order_index": 220,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "starter_code": "-- Select name, salary, and rank over department orders by salary desc\n",
             "objectives": [
                 {
@@ -86,6 +92,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Complex reporting using CTEs and Window Functions.",
+            "order_index": 230,
+            "base_xp_reward": 100,
+            "mastery_xp_bonus": 50,
             "starter_code": "-- Write a query using CTEs (WITH clause) to calculate monthly growth.\n",
             "objectives": [
                 {
@@ -112,7 +121,7 @@
                 {
                     "id": "not_timed_out",
                     "title": "Completed within time limit",
-                    "kind": "process_not_timed_out"
+                    "kind": "not_timed_out"
                 }
             ],
             "key_terms": [
@@ -134,6 +143,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Use EXISTS to find employees who manage other employees.",
+            "order_index": 240,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -168,6 +180,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Use a Common Table Expression to simplify a query.",
+            "order_index": 250,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -202,6 +217,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Use WITH RECURSIVE to traverse an organizational hierarchy.",
+            "order_index": 260,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -236,6 +254,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Use COALESCE to handle NULL values cleanly.",
+            "order_index": 270,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -270,6 +291,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Use date functions to bucket rows.",
+            "order_index": 280,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -304,6 +328,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Use ON CONFLICT DO UPDATE to perform UPSERTs in SQLite.",
+            "order_index": 290,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -338,6 +365,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Create an index and use EXPLAIN QUERY PLAN.",
+            "order_index": 300,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -375,6 +405,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Demonstrate atomicity using BEGIN and ROLLBACK.",
+            "order_index": 310,
+            "base_xp_reward": 75,
+            "mastery_xp_bonus": 25,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -412,6 +445,9 @@
             "track_id": "core-sql",
             "language": "sql",
             "description": "Combine subqueries, CTEs, and JOINs to audit data.",
+            "order_index": 320,
+            "base_xp_reward": 100,
+            "mastery_xp_bonus": 50,
             "objectives": [
                 {
                     "id": "tests_pass",
@@ -429,7 +465,7 @@
                 {
                     "id": "not_timed_out",
                     "title": "Completed within time limit",
-                    "kind": "process_not_timed_out"
+                    "kind": "not_timed_out"
                 },
                 {
                     "id": "source_regex_select",

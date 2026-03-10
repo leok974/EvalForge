@@ -3,38 +3,42 @@ title: ORDER BY
 id: glossary/sql/order-by
 world: sql
 level: beginner
-tags: [queries, sorting, ordering]
+tags: [queries, fundamentals, sorting]
 related:
+  - codex:glossary/sql/asc
+  - codex:glossary/sql/desc
   - codex:glossary/sql/limit
-  - codex:glossary/sql/select
-  - codex:glossary/sql/where
 ---
 
 # ORDER BY
 
 ## Definition
-`ORDER BY` sorts the result set by one or more columns/expressions. Sorting is applied after filtering and grouping.
+The `ORDER BY` clause is used to **sort** your result set in either ascending or descending order. Without it, the order in which rows are returned is not guaranteed.
 
-## Usage
-- Use `ASC` (default) or `DESC`.
-- You can order by aliases or column positions in some DBs, but aliases are clearer.
-- Combine with LIMIT for "top N" queries.
+## Why It Matters
+Sorted data is much easier for humans to read and understand. Whether you want to see your highest-paying customers at the top of a list or organize products alphabetically, `ORDER BY` is the tool for the job.
+
+## Core Syntax
+```sql
+SELECT ... FROM ...
+ORDER BY column1 [ASC|DESC], column2 [ASC|DESC];
+```
+- **ASC**: Ascending (default).
+- **DESC**: Descending.
 
 ## Example
 ```sql
-SELECT id, created_at
-FROM transactions
-ORDER BY created_at DESC
-LIMIT 20;
+-- Sort users by city (A-Z) and then by age (oldest first)
+SELECT name, city, age
+FROM users
+ORDER BY city ASC, age DESC;
 ```
 
 ## Pitfalls
-
-* Sorting large datasets is expensive—pair with `LIMIT` when appropriate.
-* Ordering without a deterministic tie-breaker can produce unstable "top N" results.
+- **Impact on Performance**: Sorting thousands or millions of rows can be slow. Ensure your database has "Indexes" on columns that you sort by frequently.
+- **Nondeterministic Sort**: If you sort by a column with many identical values (like `city`) and don't provide a second sort key (like `id`), the order of rows within each city might change every time you run the query.
 
 ## Related
-
-* LIMIT: ORDER BY is often paired with LIMIT.
-* SELECT: SELECT results are ordered by ORDER BY.
-* WHERE: WHERE filters before ORDER BY sorts.
+- ASC: The keyword for ascending order.
+- DESC: The keyword for descending order.
+- LIMIT: Often used after sorting to get the "Top N" results.

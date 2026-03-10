@@ -12,27 +12,26 @@ related:
 # LIMIT
 
 ## Definition
-`LIMIT` restricts how many rows are returned. It's often used for previews and pagination.
+The `LIMIT` clause specifies the **maximum number of rows** that the database should return. It "caps" the output at a certain count.
 
-## Usage
-- Commonly paired with `ORDER BY` to get the "top N" newest/highest values.
-- Use for previewing large result sets.
-- Combine with OFFSET for pagination (though keyset pagination is better for large tables).
+## Why It Matters
+If a table has a million rows, trying to see all of them at once will crash your browser or slow down your computer. `LIMIT` allows you to safely preview data or create "Top 10" lists.
+
+## Mental Model
+Think of `LIMIT` as a **safety valve** at the very end of your query pipe. No matter how much data passed through the filters earlier, only the first few rows are allowed to exit the pipe.
 
 ## Example
 ```sql
-SELECT *
-FROM logs
-ORDER BY created_at DESC
-LIMIT 50;
+-- Get a quick preview of the first 5 records in the orders table
+SELECT * 
+FROM orders 
+LIMIT 5;
 ```
 
 ## Pitfalls
-
-* `LIMIT` without `ORDER BY` is nondeterministic.
-* Pagination with `OFFSET` can get slow; prefer keyset pagination for big tables.
+- **Unpredictable Results**: `LIMIT` is almost useless without an `ORDER BY` clause. Without sorting, `LIMIT 1` will give you a "random" row from the table every time.
+- **Placement**: `LIMIT` must always be the very last clause in your query (except for potentially an `OFFSET`).
 
 ## Related
-
-* ORDER BY: LIMIT is usually paired with ORDER BY.
-* WHERE: WHERE filters before LIMIT restricts.
+- ORDER BY: Used to ensure the rows capped by LIMIT are the ones you actually wanted (e.g., the newest or most expensive).
+- WHERE: Filters the data *before* the LIMIT is applied.

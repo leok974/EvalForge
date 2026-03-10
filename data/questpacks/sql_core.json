@@ -54,6 +54,11 @@
             "base_xp_reward": 60,
             "mastery_xp_bonus": 25,
             "starting_code_path": "data/quests/sql-select/workspace/task.sql",
+            "key_terms": [
+                "glossary/sql/select",
+                "glossary/sql/from",
+                "glossary/sql/order-by"
+            ],
             "objectives": [
                 {
                     "id": "obj_syntax",
@@ -73,7 +78,16 @@
                     "title": "Query executes successfully",
                     "rule": {}
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-where",
@@ -127,7 +141,16 @@
                         "pattern": "(?i)ORDER\\s+BY\\s+name\\s+(?:ASC)?"
                     }
                 }
-            ]
+            ],
+            "runtime_rules": {
+                "sql_grader": {
+                    "fixtures": [
+                        "workspace/fixtures/schema.sql",
+                        "workspace/fixtures/seed.sql"
+                    ],
+                    "entrypoint": "task.sql"
+                }
+            }
         },
         {
             "slug": "sql-order-by",
@@ -252,6 +275,7 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-aggregates/workspace/task.sql",
             "key_terms": [
                 "glossary/sql/select",
                 "glossary/sql/from",
@@ -302,6 +326,7 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-groupby-having/workspace/task.sql",
             "key_terms": [
                 "glossary/sql/select",
                 "glossary/sql/from",
@@ -355,6 +380,7 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-joins/workspace/task.sql",
             "key_terms": [
                 "glossary/sql/select",
                 "glossary/sql/from",
@@ -408,6 +434,7 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-left-join-null/workspace/task.sql",
             "key_terms": [
                 "glossary/sql/select",
                 "glossary/sql/from",
@@ -461,6 +488,7 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-cte-subquery/workspace/task.sql",
             "key_terms": [
                 "glossary/sql/select",
                 "glossary/sql/from",
@@ -511,6 +539,7 @@
             "language": "sql",
             "base_xp_reward": 50,
             "mastery_xp_bonus": 20,
+            "starting_code_path": "data/quests/sql-insert-update-delete/workspace/task.sql",
             "key_terms": [
                 "glossary/sql/select",
                 "glossary/sql/from",

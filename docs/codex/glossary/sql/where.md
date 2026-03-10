@@ -5,36 +5,34 @@ world: sql
 level: beginner
 tags: [queries, filtering, conditions]
 related:
-  - codex:glossary/sql/from
+  - codex:glossary/sql/and
+  - codex:glossary/sql/null
   - codex:glossary/sql/select
-  - codex:glossary/world-sql/term-3
 ---
 
 # WHERE
 
 ## Definition
-`WHERE` filters rows before grouping or aggregation. It limits the dataset early, which is usually good for performance and correctness.
+The `WHERE` clause is used to **filter rows** based on a specific condition. It ensures that the database only returns the records that meet your criteria.
 
-## Usage
-- Filter by equality, ranges, and patterns.
-- Combine predicates with `AND` / `OR`.
-- Use parentheses to control logic.
+## Why It Matters
+Most databases contain millions of rows, but you usually only care about a few. `WHERE` allows you to zoom in on specific data, such as "users who live in Seattle" or "orders over $100."
+
+## Mental Model
+Think of `WHERE` as a **gatekeeper for rows**. It inspects every row in the table and only allows those that pass its "test" to move forward to the final result set.
 
 ## Example
 ```sql
-SELECT *
-FROM transactions
-WHERE amount > 100
-  AND created_at >= '2026-01-01';
+-- Filter for products that are currently discontinued
+SELECT name, price_cents
+FROM products
+WHERE is_discontinued = 1;
 ```
 
 ## Pitfalls
-
-* `OR` conditions can be easy to misread—use parentheses.
-* Filtering on a `LEFT JOIN` table in `WHERE` may turn it into an `INNER JOIN`.
+- **Quotes on Strings**: In SQL, text values (strings) **must** be surrounded by single quotes (e.g., `'Seattle'`), while numbers are not.
+- **NULL Comparisons**: You cannot use `=` to check for `NULL`. You must use the special `IS NULL` or `IS NOT NULL` operators.
 
 ## Related
-
-* FROM: WHERE filters FROM results.
-* SELECT: SELECT processes WHERE-filtered rows.
-* HAVING: HAVING filters groups; WHERE filters rows (Term 3).
+- AND: Used to combine multiple conditions in a single WHERE clause.
+- SELECT: Retrieves columns from the rows that pass the WHERE filter.
