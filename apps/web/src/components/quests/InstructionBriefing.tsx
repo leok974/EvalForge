@@ -20,21 +20,39 @@ export function InstructionBriefing({ md, onPasteCode, components, remarkPlugins
     const sections = useMemo(() => {
         if (!md) return [];
 
-        // Split by H1 or H2 headers
-        // Matches: # Title, ## Title, ### Title
-        const parts = md.split(/\n?(?=#{1,3}\s)/);
+        // Split by H1, H2, or H3 headers. 
+        // Matches headers with OR without trailing spaces (e.g., "## Title" or "##")
+        const parts = md.split(/\n?(?=#{1,3}(?:\s|$))/);
         
         const result: Section[] = [];
         let currentIntro = "";
 
         parts.forEach((part, index) => {
-            const lines = part.trim().split('\n');
+            const trimmedPart = part.trim();
+            if (!trimmedPart) return;
+
+            const lines = trimmedPart.split('\n');
             const firstLine = lines[0] || "";
             
             if (firstLine.startsWith('#')) {
-                const title = firstLine.replace(/^#{1,3}\s+/, '').trim();
+                // Remove leading # characters and trim whitespace
+                const title = firstLine.replace(/^#{1,3}/, '').trim();
                 const content = lines.slice(1).join('\n').trim();
                 
+                // Rule: If heading text is empty (e.g., just "###"), do NOT create a card.
+                // If there is content following the empty header, we'll either discard it 
+                // or it naturally becomes part of the intro/previous section if we change splitting logic.
+                // With the current split, content following an empty header is in this 'part'.
+                if (!title) {
+                    if (index === 0) {
+                        currentIntro = (currentIntro + '\n' + content).trim();
+                    } else if (result.length > 0) {
+                        // Merge content into the previous valid card's body
+                        result[result.length - 1].content = (result[result.length - 1].content + '\n\n' + content).trim();
+                    }
+                    return;
+                }
+
                 if (!content && index === 0) {
                      // Just an intro title without content yet
                      return;
@@ -46,7 +64,7 @@ export function InstructionBriefing({ md, onPasteCode, components, remarkPlugins
                     variant: mapTitleToVariant(title)
                 });
             } else if (index === 0) {
-                currentIntro = part.trim();
+                currentIntro = trimmedPart;
             }
         });
 
