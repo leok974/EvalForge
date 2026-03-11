@@ -10,6 +10,7 @@ import { remarkCoachCallouts } from '../../markdown/remark-coach-callouts';
 import { TermLink } from '../markdown/TermLink';
 import { Callout } from '../markdown/Callout';
 import { CodeBlock } from '../markdown/CodeBlock';
+import { InstructionBriefing } from './InstructionBriefing';
 
 export interface KeyTerm {
     id: string;
@@ -139,14 +140,14 @@ export function TutorialPanel({
 
     return (
         <div className="tutorial-panel overflow-y-auto p-6 max-w-4xl mx-auto">
-            {/* Tutorial Markdown */}
-            <div className="prose prose-sm max-w-none dark:prose-invert mb-8">
-                <ReactMarkdown
-                    remarkPlugins={plugins as any}
-                    components={components as any}
-                >
-                    {tutorialMd}
-                </ReactMarkdown>
+            {/* Tutorial Markdown Wrapped in Cards */}
+            <div className="mb-8">
+                <InstructionBriefing 
+                    md={tutorialMd}
+                    remarkPlugins={plugins}
+                    components={components}
+                    onPasteCode={onPasteCode}
+                />
             </div>
 
             {/* Key Terms Section */}

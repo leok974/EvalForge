@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { FileText, ListChecks, Scroll, Library, HelpCircle, ChevronUp, ChevronDown, Lock, History, Check, X, Clock, GraduationCap, Database } from 'lucide-react';
 import { QuestSummary, QuestAttemptSummary } from '@/lib/questsApi';
 import ReactMarkdown from 'react-markdown';
+import { InstructionBriefing } from './InstructionBriefing';
 
 // Parse a hints.md file with "## Hint N — title" sections into structured accordion data
 function parseHints(md: string): { intro: string; hints: { title: string; body: string }[] } {
@@ -142,10 +143,8 @@ export function QuestDrawer({ quest, objectivesState, onObjectiveClick, attempts
 
                 {/* BRIEFING TAB */}
                 {activeTab === 'briefing' && (
-                    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <div className="prose prose-invert prose-sm max-w-none prose-p:text-zinc-300 prose-headings:text-cyan-100 prose-strong:text-cyan-200">
-                            <ReactMarkdown>{quest.briefing_md || "*Encrypted Transmission...*"}</ReactMarkdown>
-                        </div>
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <InstructionBriefing md={quest.briefing_md || "*Encrypted Transmission...*"} />
                     </div>
                 )}
 
