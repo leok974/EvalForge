@@ -2,12 +2,25 @@ import json
 import sys
 import os
 import time
-import psycopg2
-from psycopg2 import sql
+import re
+try:
+    import psycopg2
+    from psycopg2 import sql
+except ImportError:
+    print("FATAL[postgres-preview]: Missing 'psycopg2' dependency. Runner image mismatch.", file=sys.stderr)
+    # Emit emergency artifact
+    payload = {
+        "sql_trace": [],
+        "sql_student_result": {"columns": [], "rows": [], "row_count": 0, "note": "BOOTSTRAP_ERROR: Missing psycopg2 driver in runner environment."},
+        "sql_explain": {"engine": "postgres", "statement": "", "plan_rows": []}
+    }
+    print(f"\n<<EVALFORGE_ARTIFACTS_START>>{json.dumps(payload)}<<EVALFORGE_ARTIFACTS_END>>\n")
+    sys.exit(1)
 
 def main():
     start_dir = '/workspace'
-    task_sql_path = os.path.join(start_dir, "task.sql")
+    task_sql_name = os.getenv("EVALFORGE_SQL_ENTRYPOINT", "task.sql")
+    task_sql_path = os.path.join(start_dir, task_sql_name)
     schema_sql_path = os.path.join(start_dir, "fixtures", "schema.sql")
     seed_sql_path = os.path.join(start_dir, "fixtures", "seed.sql")
 
@@ -15,7 +28,8 @@ def main():
     
     # DB Config from Env (Passed by code_runner_docker)
     db_url = os.getenv("PG_DB_URL", "host=db dbname=evalforge user=evalforge password=evalforge")
-    temp_schema = os.getenv("PG_TEMP_SCHEMA", f"run_{int(time.time())}")
+    surrogate_id = str(int(time.time()*1000))
+    temp_schema = os.getenv("PG_TEMP_SCHEMA", f"run_{surrogate_id}")
 
     print(f"INFO[postgres-preview] active — schema: {temp_schema}", file=sys.stdout)
 
@@ -30,20 +44,36 @@ def main():
         cur = con.cursor()
 
         # 1. Setup Isolated Schema
+        # Safety: Drop if already exists (highly unlikely with ms-based surrogate, but good for idempotency)
+        cur.execute(sql.SQL("DROP SCHEMA IF EXISTS {} CASCADE").format(sql.Identifier(temp_schema)))
         cur.execute(sql.SQL("CREATE SCHEMA {}").format(sql.Identifier(temp_schema)))
         cur.execute(sql.SQL("SET search_path TO {}, public").format(sql.Identifier(temp_schema)))
+
+        def strip_sql_comments(sql_text):
+            # 1. Remove multi-line comments /* ... */
+            sql_text = re.sub(r'/\*.*?\*/', '', sql_text, flags=re.DOTALL)
+            # 2. Remove single-line comments -- ...
+            sql_text = re.sub(r'--.*?\n', '\n', sql_text)
+            sql_text = re.sub(r'--.*?$', '', sql_text)
+            return sql_text.strip()
 
         def execute_sql_text(sql_text, phase):
             # Simple splits for now, psycopg2 doesn't have a direct 'complete_statement' helper like sqlite
             # We'll split by semicolon and filter empty.
-            statements = [s.strip() for s in sql_text.split(";") if s.strip()]
+            raw_statements = [s.strip() for s in sql_text.split(";") if s.strip()]
             
-            for stmt in statements:
+            for raw_stmt in raw_statements:
+                # IMPORTANT: Strip comments and check if anything meaningful remains
+                clean_stmt = strip_sql_comments(raw_stmt)
+                if not clean_stmt:
+                    # Pure comment/whitespace block - skip execution
+                    continue
+
                 if len(trace) >= 200: break
                 entry = {
                     "idx": len(trace), 
                     "phase": phase, 
-                    "sql": stmt[:4000], 
+                    "sql": raw_stmt[:4000], # Keep original for trace visibility
                     "elapsed_ms": 0.0, 
                     "row_count": None, 
                     "columns": None, 
@@ -55,7 +85,7 @@ def main():
                 
                 t0 = time.perf_counter()
                 try:
-                    cur.execute(stmt)
+                    cur.execute(clean_stmt)
                     entry["elapsed_ms"] = round((time.perf_counter() - t0) * 1000, 2)
                     
                     if cur.description:
@@ -109,12 +139,12 @@ def main():
     finally:
         if con:
             try:
-                # Cleanup schema? Usually we want to keep it per-run for inspection? 
-                # For Phase 1, we leave it or clean it. 
-                # Instructions say "schema isolation strategy", usually temp is better.
-                # cur.execute(sql.SQL("DROP SCHEMA {} CASCADE").format(sql.Identifier(temp_schema)))
+                # Cleanup schema (Mandatory for Tier 3 isolation)
+                cur = con.cursor()
+                cur.execute(sql.SQL("DROP SCHEMA IF EXISTS {} CASCADE").format(sql.Identifier(temp_schema)))
                 con.close()
-            except Exception: pass
+            except Exception as e:
+                print(f"WARN[postgres-preview]: Cleanup failed: {e}", file=sys.stderr)
 
         # Artifact Serialization (identical to sql_preview.py)
         payload = {"sql_trace": trace, "sql_student_result": sql_student_result, "sql_explain": sql_explain}

@@ -42,7 +42,7 @@ class RunnerRegistry:
             # Phase 9.3: Tier 3 Postgres Support
             # Note: code_runner_docker will decide which .evalforge script to use
             return RunnerSpec(
-                docker_image="python:3.12-slim",
+                docker_image="evalforge-backend:latest",
                 file_name="task.sql",
                 command=["python", "-u", "-I", "-B", "/workspace/.evalforge/sql_preview.py"]
             )

@@ -6,7 +6,8 @@ import time
 
 def main():
     start_dir = '/workspace'
-    task_sql_path = os.path.join(start_dir, "task.sql")
+    task_sql_name = os.getenv("EVALFORGE_SQL_ENTRYPOINT", "task.sql")
+    task_sql_path = os.path.join(start_dir, task_sql_name)
     schema_sql_path = os.path.join(start_dir, "fixtures", "schema.sql")
     seed_sql_path = os.path.join(start_dir, "fixtures", "seed.sql")
 

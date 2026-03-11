@@ -1,3 +1,4 @@
+from arcade_app.services.logging_helper import debug_log
 import hashlib
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Header, Request
@@ -154,7 +155,7 @@ async def run_quest(
     # Server defense-in-depth: enforce backend language over client payload
     lang = getattr(quest, "language", None) or payload.language or "python"
 
-    if (payload.mode in ["execute", "tests", "validate"]) and EXECUTION_ENABLED:
+    if (payload.mode in ["execute", "tests", "validate", "run"]) and EXECUTION_ENABLED:
         # --- PHASE R: SQL Injection Rule ---
         if lang == "sql":
             sql_text = (payload.code or "").strip()
@@ -202,7 +203,16 @@ async def run_quest(
             exec_mode = "run"
             
         # Pass workspace to runner
-        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=exec_mode, quest_slug=quest_id)
+
+        # CRITICAL: Inject db_engine into workspace so runner knows to use Postgres networking/image
+        if quest and quest.db_engine:
+            if run_workspace is None:
+                run_workspace = {"files": []}
+            run_workspace["db_engine"] = quest.db_engine
+            run_workspace["is_postgres"] = (quest.db_engine == "postgres")
+            
+        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=exec_mode, entrypoint=payload.run_target_path or payload.entrypoint, quest_slug=quest_id)
+
         
         # Sanitize logs
         stdout = sanitize_logs(r.stdout)
@@ -546,9 +556,17 @@ async def run_quest(
     final_artifacts = (artifacts if artifacts else {}) if (EXECUTION_ENABLED and 'artifacts' in locals()) else {}
     if payload.language == "sql":
         if "sql_student_result" not in final_artifacts:
+            error_note = "Execution failed before artifacts could be collected."
+            # Surface specific bootstrap error if available in stderr
+            if stderr:
+                if "FATAL[postgres-preview]" in stderr:
+                    error_note = f"Postgres Bootstrap Error: {stderr.split('FATAL[postgres-preview]:')[-1].strip().splitlines()[0]}"
+                elif "OperationalError" in stderr:
+                    error_note = f"Database Connection Error: {stderr.split('OperationalError:')[-1].strip().splitlines()[0]}"
+            
             final_artifacts["sql_student_result"] = {
                 "columns": [], "rows": [], "row_count": 0,
-                "note": "Execution failed before artifacts could be collected."
+                "note": error_note
             }
         if "sql_trace" not in final_artifacts:
             final_artifacts["sql_trace"] = []

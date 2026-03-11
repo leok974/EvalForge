@@ -4,6 +4,7 @@ import sys
 import time
 import tempfile
 import subprocess
+from arcade_app.services.logging_helper import debug_log
 from dataclasses import dataclass
 
 
@@ -381,7 +382,7 @@ def run_javascript_local(code: str, stdin: str = "", timeout_ms: int = 2000, wor
 
 from typing import Optional, Dict, Any
 
-def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, mode: str = "run", quest_slug: Optional[str] = None) -> ExecResult:
+def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, mode: str = "run", entrypoint: Optional[str] = None, quest_slug: Optional[str] = None) -> ExecResult:
     """
     Dispatcher for code execution.
     - Python: Supports 'local' (dev) or 'docker'.
@@ -392,10 +393,11 @@ def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, 
     
     # Force docker for non-supported local languages or tests mode
     use_docker = (backend == "docker") or (language not in ["python", "javascript"]) or (mode == "tests")
+    debug_log(f"DEBUG[code_runner.run_code]: lang={language} backend={backend} use_docker={use_docker}")
 
     if use_docker:
         from arcade_app.services.code_runner_docker import run_code_docker
-        return run_code_docker(language, code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, mode=mode, quest_slug=quest_slug)
+        return run_code_docker(language, code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, mode=mode, entrypoint=entrypoint, quest_slug=quest_slug)
     
     if language == "javascript":
         return run_javascript_local(code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, quest_slug=quest_slug)

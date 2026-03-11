@@ -432,7 +432,12 @@ class QuestDefinition(SQLModel, table=True):
     # Phase 9.2: SQL Tier 3 / PostgreSQL Workbench
     db_engine: str = Field(default="sqlite") # "sqlite" | "postgres"
     db_explorer_enabled: bool = Field(default=False)
+    db_explorer_mode: str = Field(default="full") # "quest_scoped" | "full"
     db_allow_mutation: bool = Field(default=False)
+
+    featured_tables: List[str] = Field(default=[], sa_type=JSON)
+    related_tables: List[str] = Field(default=[], sa_type=JSON)
+    hidden_tables: List[str] = Field(default=[], sa_type=JSON)
 
     # Structure: [{"id": "python/function", "term": "Function", "one_liner": "...", "codex_ref": "..."}]
     concept_tags: List[str] = Field(default=[], sa_type=JSON)

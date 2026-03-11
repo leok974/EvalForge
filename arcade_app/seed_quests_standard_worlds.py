@@ -728,6 +728,17 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
                 existing.lore_md = cfg["lore_md"]
             if "debrief_md" in cfg:
                 existing.debrief_md = cfg["debrief_md"]
+            
+            # Phase 11: Explorer Scoping
+            if "db_explorer_mode" in cfg:
+                existing.db_explorer_mode = cfg["db_explorer_mode"]
+            if "featured_tables" in cfg:
+                existing.featured_tables = cfg["featured_tables"]
+            if "related_tables" in cfg:
+                existing.related_tables = cfg["related_tables"]
+            if "hidden_tables" in cfg:
+                existing.hidden_tables = cfg["hidden_tables"]
+
             if "hints_md" in cfg:
                 existing.tiered_hints_json = {"markdown_source": cfg["hints_md"]}
         else:
@@ -759,7 +770,12 @@ def seed_standard_world_quests(db: Session, validate_only: bool = False) -> None
                 # Phase 9: Database Workbench Fields
                 db_engine=cfg.get("db_engine", "sqlite"),
                 db_explorer_enabled=cfg.get("db_explorer_enabled", False),
-                db_allow_mutation=cfg.get("db_allow_mutation", False)
+                db_allow_mutation=cfg.get("db_allow_mutation", False),
+                # Phase 11: Explorer Scoping
+                db_explorer_mode=cfg.get("db_explorer_mode", "full"),
+                featured_tables=cfg.get("featured_tables", []),
+                related_tables=cfg.get("related_tables", []),
+                hidden_tables=cfg.get("hidden_tables", []),
             )
             db.add(q)
 

@@ -375,7 +375,11 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         # Phase 9: Database Workbench Fields
         "db_engine": getattr(q, "db_engine", "sqlite"),
         "db_explorer_enabled": getattr(q, "db_explorer_enabled", False),
+        "db_explorer_mode": getattr(q, "db_explorer_mode", "full"),
         "db_allow_mutation": getattr(q, "db_allow_mutation", False),
+        "featured_tables": getattr(q, "featured_tables", []),
+        "related_tables": getattr(q, "related_tables", []),
+        "hidden_tables": getattr(q, "hidden_tables", []),
         # Locks & Versioning
         "schema_version": "v2", 
         "content_version": getattr(q, "content_version", "1.0.0"),

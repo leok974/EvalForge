@@ -225,15 +225,25 @@ export interface QuestAttemptDetail {
 // Phase 9.2: SQL Tier 3 Database Explorer
 export interface DbSchema {
     name: string;
-    tables: {
-        name: string;
-        columns: { name: string; type: string }[];
-    }[];
+    tables: DbTable[];
+}
+
+export interface DbColumn {
+    name: string;
+    type: string;
+}
+
+export interface DbTable {
+    name: string;
+    columns: DbColumn[];
+    relevance?: 'featured' | 'related' | 'other';
 }
 
 export interface DbIntrospection {
     engine: 'sqlite' | 'postgres';
     schemas: DbSchema[];
+    mode?: 'quest_scoped' | 'full';
+    has_hidden?: boolean;
 }
 
 export interface DbPreview {
@@ -242,8 +252,8 @@ export interface DbPreview {
     row_count: number;
 }
 
-export async function introspectDb(questId: string): Promise<DbIntrospection> {
-    const res = await fetch(`/api/db/introspect?quest_id=${encodeURIComponent(questId)}`);
+export async function introspectDb(questId: string, includeAll: boolean = false): Promise<DbIntrospection> {
+    const res = await fetch(`/api/db/introspect?quest_id=${encodeURIComponent(questId)}&include_all=${includeAll}`);
     if (!res.ok) throw new Error("Failed to introspect database");
     return res.json();
 }

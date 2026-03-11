@@ -43,9 +43,12 @@ def build_effective_workspace(base_workspace: Dict[str, Any], overlay_files: Lis
         content = of["content"]
         
         if path not in effective_map:
-            # Reject new files for now
-            # In future we might allow if size permits, but hardening plan says restrictive.
-            # "Overlay cannot add new files unless explicitly allowed later"
+            # Allow new files (e.g. scratch files)
+            effective_map[path] = {
+                "path": path,
+                "content": content,
+                "editable": True
+            }
             continue 
             
         base_def = effective_map[path]
@@ -63,10 +66,11 @@ def build_effective_workspace(base_workspace: Dict[str, Any], overlay_files: Lis
     # 4. Global Limit Check
     validate_workspace_limits(final_files)
     
-    return {
-        "entrypoint": entrypoint,
-        "files": final_files
-    }
+    # Preserve metadata fields (db_engine, featured_tables, etc.)
+    res = dict(base_workspace)
+    res["entrypoint"] = entrypoint
+    res["files"] = final_files
+    return res
 
 def inject_sql_task(workspace: Dict[str, Any], code: str) -> Dict[str, Any]:
     """
@@ -97,6 +101,8 @@ def inject_sql_task(workspace: Dict[str, Any], code: str) -> Dict[str, Any]:
     })
     
     workspace["files"] = filtered_files
-    workspace["entrypoint"] = "task.sql"
+    # Only force task.sql as entrypoint if none exists
+    if not workspace.get("entrypoint"):
+        workspace["entrypoint"] = "task.sql"
     
     return workspace

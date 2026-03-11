@@ -36,7 +36,8 @@ TRACK_SPECS = [
     "senior_tier_content.json",
     "../data/questpacks/_tier2/python_tier2.json",
     "../data/questpacks/_tier2/sql_tier2.json",
-    "../data/questpacks/_tier2/git_tier2.json"
+    "../data/questpacks/_tier2/git_tier2.json",
+    "../data/questpacks/sql_tier3/sql_tier3.json"
 ]
 
 # List of Boss Definition Files
@@ -126,6 +127,11 @@ def build_quest_workspace(quest_dir: Path, quest_data: dict) -> dict:
                 "editable": True
             })
         
+    # Preserve metadata fields
+    for key in ["db_engine", "featured_tables", "db_explorer_mode"]:
+        if key in quest_data:
+            workspace_json[key] = quest_data[key]
+            
     return workspace_json
 
 async def upsert_quest(session, quest_data, world_slug, track_id, seeded_slugs=None):
@@ -151,10 +157,26 @@ async def upsert_quest(session, quest_data, world_slug, track_id, seeded_slugs=N
     existing = (await session.execute(stmt)).scalar_one_or_none()
     
     details = format_quest_description(quest_data)
-    quest_dir = BASE_DOCS / ".." / "data" / "quests" / quest_slug
     
-    # Phase Q Fix: Inject tests into workspace if they exist on disk but not in JSON
-    # This is needed because some JSON snapshots don't bundle the tests.
+    # Smart quest_dir discovery
+    quest_dir = None
+    scp = quest_data.get("starting_code_path")
+    if scp:
+        # e.g. data/questpacks/sql_tier3/postgres-schema-explorer/workspace/task.sql
+        # quest_dir should be up 2 levels from the file in 'workspace'
+        p = (BASE_DOCS / ".." / scp).parent
+        if p.name == "workspace":
+            quest_dir = p.parent
+            
+    if not quest_dir or not quest_dir.exists():
+        # Fallback 1: data/quests/
+        quest_dir = BASE_DOCS / ".." / "data" / "quests" / quest_slug
+        
+    if not quest_dir.exists():
+        # Fallback 2: Check for quest.json in tier packs
+        # (This is more complex, but scp check usually wins for evalforge)
+        pass
+        
     workspace_json = build_quest_workspace(quest_dir, quest_data)
     
     if not existing:

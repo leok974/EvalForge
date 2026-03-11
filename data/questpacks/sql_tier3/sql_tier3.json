@@ -11,6 +11,8 @@
             "language": "sql",
             "db_engine": "postgres",
             "db_explorer_enabled": true,
+            "db_explorer_mode": "quest_scoped",
+            "featured_tables": ["employees", "departments"],
             "order_index": 330,
             "short_description": "Explore a real PostgreSQL schema using the new Database Explorer.",
             "detailed_description": "Master the SQL Tier 3 workbench. Inspect tables, columns, and relationships in a PostgreSQL environment.",

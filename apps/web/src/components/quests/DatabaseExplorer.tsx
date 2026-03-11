@@ -10,6 +10,7 @@ interface DatabaseExplorerProps {
 export function DatabaseExplorer({ questId }: DatabaseExplorerProps) {
     const [data, setData] = useState<DbIntrospection | null>(null);
     const [loading, setLoading] = useState(false);
+    const [showAll, setShowAll] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [expandedSchemas, setExpandedSchemas] = useState<Record<string, boolean>>({ "public": true });
     const [expandedTables, setExpandedTables] = useState<Record<string, boolean>>({});
@@ -17,11 +18,12 @@ export function DatabaseExplorer({ questId }: DatabaseExplorerProps) {
     const [preview, setPreview] = useState<{ table: string; data: DbPreview } | null>(null);
     const [previewLoading, setPreviewLoading] = useState(false);
 
-    const loadData = async () => {
+    const loadData = async (forceShowAll?: boolean) => {
         setLoading(true);
         setError(null);
         try {
-            const result = await introspectDb(questId);
+            const actualShowAll = forceShowAll !== undefined ? forceShowAll : showAll;
+            const result = await introspectDb(questId, actualShowAll);
             setData(result);
         } catch (e: any) {
             setError(e.message);
@@ -32,7 +34,11 @@ export function DatabaseExplorer({ questId }: DatabaseExplorerProps) {
 
     useEffect(() => {
         loadData();
-    }, [questId]);
+    }, [questId, showAll]);
+
+    const toggleShowAll = () => {
+        setShowAll(!showAll);
+    };
 
     const toggleSchema = (name: string) => {
         setExpandedSchemas(prev => ({ ...prev, [name]: !prev[name] }));
@@ -68,7 +74,7 @@ export function DatabaseExplorer({ questId }: DatabaseExplorerProps) {
             <div className="p-6 text-red-400 text-xs font-mono bg-red-950/20 rounded-lg border border-red-900/30 m-4">
                 <p className="font-bold mb-1">INTROSPECTION_ERROR</p>
                 <p>{error}</p>
-                <button onClick={loadData} className="mt-4 flex items-center gap-2 text-red-300 hover:text-white">
+                <button onClick={() => loadData()} className="mt-4 flex items-center gap-2 text-red-300 hover:text-white">
                     <RefreshCw className="w-3 h-3" /> Retry
                 </button>
             </div>
@@ -80,7 +86,7 @@ export function DatabaseExplorer({ questId }: DatabaseExplorerProps) {
             <div className="p-8 text-center text-zinc-500">
                 <Database className="w-12 h-12 mx-auto mb-4 opacity-20" />
                 <p className="text-sm">No tables found in this context.</p>
-                <button onClick={loadData} className="mt-4 text-xs text-cyan-500 hover:underline">Refresh</button>
+                <button onClick={() => loadData()} className="mt-4 text-xs text-cyan-500 hover:underline">Refresh</button>
             </div>
         );
     }
@@ -88,24 +94,46 @@ export function DatabaseExplorer({ questId }: DatabaseExplorerProps) {
     return (
         <div className="flex flex-col h-full bg-zinc-950/50">
             {/* Header */}
-            <div className="p-3 border-b border-white/5 flex items-center justify-between bg-zinc-900/30">
-                <div className="flex items-center gap-2">
-                    <Database className="w-4 h-4 text-cyan-400" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Explorer</span>
-                    <span className={cn(
-                        "text-[9px] px-1.5 py-0.5 rounded border leading-none font-mono",
-                        data.engine === 'postgres' ? "bg-indigo-950/30 border-indigo-500/50 text-indigo-300" : "bg-zinc-800 border-zinc-700 text-zinc-400"
-                    )}>
-                        {data.engine.toUpperCase()}
-                    </span>
+            <div className="p-3 border-b border-white/5 flex flex-col gap-2 bg-zinc-900/30">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <Database className="w-4 h-4 text-cyan-400" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Explorer</span>
+                        <span className={cn(
+                            "text-[9px] px-1.5 py-0.5 rounded border leading-none font-mono",
+                            data.engine === 'postgres' ? "bg-indigo-950/30 border-indigo-500/50 text-indigo-300" : "bg-zinc-800 border-zinc-700 text-zinc-400"
+                        )}>
+                            {data.engine.toUpperCase()}
+                        </span>
+                    </div>
+                    <button 
+                        onClick={() => loadData()} 
+                        title="Refresh Schema"
+                        className="p-1 hover:bg-white/5 rounded transition-colors text-zinc-500 hover:text-cyan-400"
+                    >
+                        <RefreshCw className={cn("w-3.5 h-3.5", loading && "animate-spin")} />
+                    </button>
                 </div>
-                <button 
-                    onClick={loadData} 
-                    title="Refresh Schema"
-                    className="p-1 hover:bg-white/5 rounded transition-colors text-zinc-500 hover:text-cyan-400"
-                >
-                    <RefreshCw className={cn("w-3.5 h-3.5", loading && "animate-spin")} />
-                </button>
+
+                {/* Show All Toggle */}
+                {data.engine === 'postgres' && (
+                    <div className="flex items-center justify-between px-1">
+                        <span className="text-[9px] text-zinc-500 font-medium uppercase tracking-tight">
+                            {data.mode === 'quest_scoped' ? "Quest Scoped View" : "Full Schema Explorer"}
+                        </span>
+                        <button 
+                            onClick={toggleShowAll}
+                            className={cn(
+                                "flex items-center gap-1.5 px-2 py-0.5 rounded-full border text-[9px] font-bold transition-all",
+                                showAll 
+                                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.1)]" 
+                                    : "bg-zinc-800 border-zinc-700 text-zinc-500 hover:border-zinc-600"
+                            )}
+                        >
+                            {showAll ? "REVEALING ALL" : "SHOW ALL"}
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Tree View */}
@@ -124,13 +152,29 @@ export function DatabaseExplorer({ questId }: DatabaseExplorerProps) {
                             <div className="pl-4 space-y-1">
                                 {schema.tables.map(table => (
                                     <div key={table.name} className="space-y-1">
-                                        <div className="flex items-center justify-between group rounded hover:bg-white/5 pr-1">
+                                        <div className="flex items-center justify-between group rounded hover:bg-white/5 pr-1 transition-all">
                                             <button 
                                                 onClick={() => toggleTable(table.name)}
                                                 className="flex items-center gap-2 flex-1 text-left p-1"
                                             >
-                                                <Table2 className="w-3.5 h-3.5 text-cyan-600/70" />
-                                                <span className="text-xs text-zinc-300 group-hover:text-white truncate">{table.name}</span>
+                                                <Table2 className={cn(
+                                                    "w-3.5 h-3.5 transition-colors",
+                                                    table.relevance === 'featured' ? "text-cyan-400" : (table.relevance === 'related' ? "text-indigo-400" : "text-zinc-600")
+                                                )} />
+                                                <span className={cn(
+                                                    "text-xs transition-colors truncate",
+                                                    table.relevance === 'featured' ? "text-zinc-100 font-medium" : "text-zinc-400 group-hover:text-white"
+                                                )}>
+                                                    {table.name}
+                                                </span>
+                                                
+                                                {/* Relevance Badges */}
+                                                {table.relevance === 'featured' && (
+                                                    <span className="text-[8px] bg-cyan-950/40 text-cyan-500 border border-cyan-500/30 px-1 rounded leading-tight font-bold uppercase tracking-tighter shadow-[0_0_5px_rgba(6,182,212,0.2)]">Mission</span>
+                                                )}
+                                                {table.relevance === 'related' && (
+                                                    <span className="text-[8px] bg-indigo-950/40 text-indigo-400 border border-indigo-500/30 px-1 rounded leading-tight font-bold uppercase tracking-tighter">Related</span>
+                                                )}
                                             </button>
                                             <button 
                                                 onClick={() => handlePreview(schema.name, table.name)}

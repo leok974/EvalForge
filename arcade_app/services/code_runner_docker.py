@@ -7,6 +7,7 @@ import glob
 import logging
 from dataclasses import dataclass
 from arcade_app.services.runner_registry import RunnerRegistry
+from arcade_app.services.logging_helper import debug_log
 
 # Startup Log
 print(f"DEBUG: code_runner_docker initialized. Version: Hardening-v1")
@@ -24,27 +25,22 @@ class ExecResult:
 
 from typing import Optional, Dict, Any
 
-def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int = 2500, workspace: Optional[Dict[str, Any]] = None, mode: str = "run", quest_slug: Optional[str] = None) -> ExecResult:
+def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int = 2500, workspace: Optional[Dict[str, Any]] = None, mode: str = "run", entrypoint: Optional[str] = None, quest_slug: Optional[str] = None) -> ExecResult:
     """
     Safer execution: docker container, no network, capped resources, non-root, read-only.
     Requires docker installed + daemon running.
     """
-    # 1. Determine Entrypoint
-    entrypoint = "main.py"
-    if language == "typescript": entrypoint = "main.ts"
-    
-    if workspace:
-        entrypoint = workspace.get("entrypoint", entrypoint)
-    elif code:
-        pass # Legacy single file, defaults apply
-    
-    spec = RunnerRegistry.get_runner(language, mode=mode, entrypoint=entrypoint)
-    image = os.getenv(f"EXECUTION_DOCKER_IMAGE_{language.upper()}", spec.docker_image)
-    
+    container_name = f"evalforge-run-{int(time.time()*1000)}"
     t0 = time.time()
 
+    # 1. Determine Internal Entrypoint (for registry lookups)
+    resolved_entrypoint = entrypoint or "task.sql" if language == "sql" else (workspace.get("entrypoint") if workspace else "main.py")
+    if language == "typescript" and not entrypoint: resolved_entrypoint = "main.ts"
+    
+    spec = RunnerRegistry.get_runner(language, mode=mode, entrypoint=resolved_entrypoint)
+    image = os.getenv(f"EXECUTION_DOCKER_IMAGE_{language.upper()}", spec.docker_image)
+
     with tempfile.TemporaryDirectory(prefix="evalforge-docker-run-") as td:
-        
         # 2. Write Files
         files = workspace.get("files", []) if workspace else []
         
@@ -110,18 +106,24 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                         with open(runner_target, "w", encoding="utf-8") as wf:
                             wf.write(rf.read())
         # Determine Runner Script
-        is_postgres = getattr(workspace, "db_engine", "sqlite") == "postgres"
+        is_postgres = workspace.get("db_engine", "sqlite") == "postgres" if workspace else False
+        print(f"DEBUG[code_runner_docker]: db_engine={workspace.get('db_engine') if workspace else 'NONE'} is_postgres={is_postgres}", flush=True)
+        listing = [f["path"] for f in files]
+        found_configured = bool(workspace.get("entrypoint")) if workspace else False
         
-        # Else, if we haven't found a configured one, AND we are in Python (or generally), 
-        # try to detect 'task.py' vs 'main.py'
-        if not found_configured and language == "python":
-            if "task.py" in listing:
-                effective_entrypoint = "task.py"
-            elif "main.py" in listing:
-                effective_entrypoint = "main.py"
-        elif language == "sql":
-            effective_entrypoint = "task.sql"
+        effective_entrypoint = entrypoint
         
+        if not effective_entrypoint:
+            if language == "sql":
+                effective_entrypoint = "task.sql"
+            elif not found_configured and language == "python":
+                if "task.py" in listing:
+                    effective_entrypoint = "task.py"
+                elif "main.py" in listing:
+                    effective_entrypoint = "main.py"
+        
+        final_command = None
+
         # Inject runners
         if mode == "run" and language == "sql":
             runner_dir = os.path.join(td, ".evalforge")
@@ -166,7 +168,8 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
         # Python runner command is typically ["python", "-B", "main.py"] (or similar in registry)
         # We will reconstruct it.
         
-        final_command = list(spec.command)
+        if not final_command:
+            final_command = list(spec.command)
         # If the last argument looks like a filename, replace it? 
         # Or just specific knowledge of python runner?
         if language == "python":
@@ -180,8 +183,15 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
              if final_command and final_command[-1] == spec.file_name:
                  final_command[-1] = effective_entrypoint
 
+        debug_log(f"DEBUG[code_runner_docker]: final_command={final_command}")
+
         # Phase 9.3: Docker networking and env vars for Postgres
         network_name = os.getenv("EVALFORGE_RUNNER_NETWORK", "evalforge_evalforge")
+        artifacts_dir = "/workspace/.evalforge"
+        
+        # High-entropy surrogate ID (ms + random)
+        import random
+        surrogate_id = f"{int(time.time()*1000)}_{random.randint(1000, 9999)}"
         
         create_cmd = [
             "docker", "create",
@@ -203,28 +213,34 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             "-e", "PYTHONIOENCODING=utf-8",
             "-e", f"EVALFORGE_ARTIFACTS_DIR={artifacts_dir}",
             # Pass PG Config if needed
-            "-e", f"PG_DB_URL=host=db dbname=evalforge user=evalforge password=evalforge",
-            "-e", f"PG_TEMP_SCHEMA=run_{attempt_id[:8]}",
+            "-e", f"PG_DB_URL=postgresql://evalforge:evalforge@db:5432/evalforge",
+            "-e", f"PG_TEMP_SCHEMA=run_{surrogate_id[:8]}",
+            "-e", f"EVALFORGE_SQL_ENTRYPOINT={effective_entrypoint}",
             image,
             *final_command # Use the updated command
         ]
 
         try:
             # A) Create
+            debug_log(f"Phase 9.4: Creating container {container_name} with image {image}")
             subprocess.check_call(create_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
             # B) Copy files
+            debug_log(f"Phase 9.5: Copying workspace files from {td}")
             cp_cmd = ["docker", "cp", f"{td}/.", f"{container_name}:/workspace/"]
             subprocess.check_call(cp_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
             # C) Start (Detached)
+            debug_log(f"Phase 9.6: Starting container {container_name}")
             subprocess.check_call(["docker", "start", container_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
             # D) Wait
+            debug_log(f"Phase 9.7: Waiting for container completion (timeout {timeout_ms}ms)")
             wait_cmd = ["docker", "wait", container_name]
             try:
                 subprocess.run(wait_cmd, timeout=max(0.1, (timeout_ms + 1000) / 1000.0), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except subprocess.TimeoutExpired:
+                 debug_log(f"Phase 9.8: Container {container_name} timed out")
                  pass
             
             # E) Logs
@@ -366,4 +382,6 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 timed_out=False
              )
         finally:
-            subprocess.run(["docker", "rm", "-f", container_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # G) Cleanup (TEMPORARILY DISABLED FOR DEBUG)
+            # subprocess.run(["docker", "rm", "-f", container_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            pass
