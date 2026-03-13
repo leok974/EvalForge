@@ -4,6 +4,7 @@ from sqlalchemy import text
 from arcade_app.database import get_session
 from arcade_app.auth_helper import get_current_user
 from typing import List, Dict, Any
+import json
 
 router = APIRouter(prefix="/api/db", tags=["database"])
 
@@ -27,11 +28,11 @@ async def introspect_db(
     if not quest or quest.db_engine != "postgres":
         return {"engine": "sqlite", "schemas": []}
 
-    # 2. Extract scoping metadata
+    # 2. Extract scoping metadata (Normalize to lowercase for robust matching)
     mode = getattr(quest, "db_explorer_mode", "full")
-    featured = set(getattr(quest, "featured_tables", []) or [])
-    related = set(getattr(quest, "related_tables", []) or [])
-    hidden = set(getattr(quest, "hidden_tables", []) or [])
+    featured = {t.lower() for t in (getattr(quest, "featured_tables", []) or [])}
+    related = {t.lower() for t in (getattr(quest, "related_tables", []) or [])}
+    hidden = {t.lower() for t in (getattr(quest, "hidden_tables", []) or [])}
 
     # Global platform tables to hide by default
     INTERNAL_TABLES = {
@@ -58,10 +59,11 @@ async def introspect_db(
         # Build tree: schema -> table -> column
         tree = {}
         for s_name, t_name, c_name, c_type in rows:
-            # Filtering Logic
-            is_featured = t_name in featured
-            is_related = t_name in related
-            is_hidden = t_name in hidden
+            # Filtering Logic (Postgres names are typically lowercase internally)
+            t_name_lower = t_name.lower()
+            is_featured = t_name_lower in featured
+            is_related = t_name_lower in related
+            is_hidden = t_name_lower in hidden
             
             # If in quest_scoped mode and not include_all:
             # - Show ONLY featured and related
@@ -125,7 +127,18 @@ async def preview_table(
     try:
         result = await db.execute(text(query), {"limit": limit})
         columns = list(result.keys())
-        rows = [list(row) for row in result.fetchall()]
+        raw_rows = result.fetchall()
+        
+        # Normalize rows: stringify dicts/lists for UI compatibility
+        rows = []
+        for row in raw_rows:
+            normalized_row = []
+            for val in row:
+                if isinstance(val, (dict, list)):
+                    normalized_row.append(json.dumps(val))
+                else:
+                    normalized_row.append(val)
+            rows.append(normalized_row)
         
         return {
             "columns": columns,

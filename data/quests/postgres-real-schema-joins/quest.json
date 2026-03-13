@@ -1,0 +1,76 @@
+{
+    "slug": "postgres-real-schema-joins",
+    "title": "PostgreSQL: Real Schema Joins",
+    "language": "sql",
+    "db_engine": "postgres",
+    "db_explorer_enabled": true,
+    "difficulty": "intermediate",
+    "tags": [
+        "postgres",
+        "joins",
+        "schema"
+    ],
+    "briefing_md_file": "docs/briefing.md",
+    "tutorial_md_file": "docs/tutorial.md",
+    "lore_md_file": "docs/lore.md",
+    "hints_md_file": "docs/hints.md",
+    "starter_code_file": "task.sql",
+    "workspace": {
+        "files": [
+            {
+                "path": "task.sql",
+                "editable": true
+            },
+            {
+                "path": "example.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/schema.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/seed.sql",
+                "editable": false
+            }
+        ],
+        "entrypoint": "task.sql"
+    },
+    "featured_tables": [
+        "employees",
+        "departments",
+        "projects",
+        "employee_assignments"
+    ],
+    "objectives": [
+        {
+            "id": "correct_columns",
+            "text": "Correctly returns name, department, project, and role",
+            "validator": {
+                "kind": "column_match",
+                "expected_columns": [
+                    "employee_name",
+                    "department_name",
+                    "project_name",
+                    "role"
+                ]
+            }
+        },
+        {
+            "id": "high_budget_filter",
+            "text": "Only includes projects with budget > 50000",
+            "validator": {
+                "kind": "row_count",
+                "count": 3
+            }
+        }
+    ],
+    "key_terms": [
+        "codex:glossary/sql/inner-join",
+        "codex:glossary/sql/on",
+        "codex:glossary/sql/alias",
+        "codex:glossary/sql/foreign-key"
+    ],
+    "world_id": "world-sql",
+    "track_id": "core-sql"
+}

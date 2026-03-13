@@ -103,8 +103,17 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             existing = (await session.exec(stmt)).first()
             
             # Defaults
-            world_id = quest_data.get("world_id") or pack_world_id or "unknown"
-            track_id = quest_data.get("track_id") or pack_track_id or "misc"
+            world_id = quest_data.get("world_id") or quest_data.get("world_slug") or pack_world_id
+            track_id = quest_data.get("track_id") or quest_data.get("track_slug") or pack_track_id
+            
+            # If we are upserting and have existing, don't overwrite with None/Defaults if existing is valid
+            if existing:
+                world_id = world_id or existing.world_id
+                track_id = track_id or existing.track_id
+            
+            # Final fallback
+            world_id = world_id or "unknown"
+            track_id = track_id or "misc"
             title = quest_data.get("title") or slug
             
             # Phase Q Fix: Secure workspace hydration from data/quests/<slug>/workspace
@@ -144,6 +153,10 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                  existing.title = title
                  if "language" in quest_data:
                      existing.language = quest_data["language"]
+                 if "key_terms" in quest_data:
+                     existing.key_terms = quest_data["key_terms"]
+                 if "concept_tags" in quest_data:
+                     existing.concept_tags = quest_data["concept_tags"]
             
             # Context for relative paths
             json_dir = os.path.dirname(os.path.abspath(file_path))
@@ -173,49 +186,85 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                     if os.path.exists(files_from_dir):
                         search_dirs.append(files_from_dir)
                 
-                # 3. JSON directory (fallback)
+                # 3. Data Quests Directory (modern source)
+                data_q_dir = os.path.join(root_dir, "data", "quests", slug)
+                if os.path.exists(data_q_dir):
+                    search_dirs.append(data_q_dir)
+                    print(f"    Checking data directory: {data_q_dir}")
+
+                # 4. JSON directory (fallback)
                 search_dirs.append(base_dir)
                 
                 # Look for tutorial.md
+                found_tutorial = False
                 for d in search_dirs:
-                    tut_path = os.path.join(d, "tutorial.md")
-                    if os.path.exists(tut_path):
-                        print(f"    ✅ Found tutorial.md in {d}")
-                        try:
-                            with open(tut_path, "r", encoding="utf-8") as f:
-                                q_obj.tutorial_md = f.read()
-                            break  # Stop after first match
-                        except Exception as e:
-                            print(f"    ⚠️ Failed to read tutorial {tut_path}: {e}")
+                    if found_tutorial: break
+                    # Priority A: Check for tutorial.md in a 'docs' subfolder
+                    docs_sub = os.path.join(d, "docs")
+                    tut_paths = [
+                        os.path.join(docs_sub, "tutorial.md"),
+                        os.path.join(d, "tutorial.md")
+                    ]
+                    
+                    for tut_path in tut_paths:
+                        if os.path.exists(tut_path):
+                            print(f"    ✅ Found tutorial.md in {os.path.dirname(tut_path)}")
+                            try:
+                                with open(tut_path, "r", encoding="utf-8") as f:
+                                    q_obj.tutorial_md = f.read()
+                                found_tutorial = True
+                                break # Found it
+                            except Exception as e:
+                                print(f"    ⚠️ Failed to read tutorial {tut_path}: {e}")
 
                 # Look for terms.json
                 for d in search_dirs:
-                    terms_path = os.path.join(d, "terms.json")
-                    if os.path.exists(terms_path):
-                        print(f"    ✅ Found terms.json in {d}")
-                        try:
-                            with open(terms_path, "r", encoding="utf-8") as f:
-                                terms_data = json.load(f)
-                                q_obj.key_terms = terms_data
-                                q_obj.key_terms = terms_data
-                                q_obj.key_terms = terms_data
-                                
-                                # Auto-derive refs (Handle List vs Dict)
-                                derived = []
-                                if isinstance(terms_data, list):
-                                    derived = [t.get("codex_ref") for t in terms_data if isinstance(t, dict) and t.get("codex_ref")]
-                                elif isinstance(terms_data, dict):
-                                    # Dict format: check codex_references key or derived from key_terms objects if they were objects (nested?)
-                                    # Standard Dict format: { "codex_references": ["ref1", ...] }
-                                    if "codex_references" in terms_data:
-                                        derived = terms_data["codex_references"]
-                                    # Fallback: if key_terms has objects? usually key_terms is list of strings in dict format?
-                                    # Let's assume codex_references top-level key is the source.
-                                
-                                q_obj.codex_references = list(set(derived))  # Unique
-                            break  # Stop after first match
-                        except Exception as e:
-                            print(f"    ⚠️ Failed to read terms {terms_path}: {e}")
+                    docs_sub = os.path.join(d, "docs")
+                    terms_paths = [
+                        os.path.join(docs_sub, "terms.json"),
+                        os.path.join(d, "terms.json")
+                    ]
+                    for terms_path in terms_paths:
+                        if os.path.exists(terms_path):
+                            print(f"    ✅ Found terms.json in {os.path.dirname(terms_path)}")
+                            try:
+                                with open(terms_path, "r", encoding="utf-8") as f:
+                                    terms_data = json.load(f)
+                                    
+                                    # Auto-derive refs (Handle List vs Dict)
+                                    derived = []
+                                    if isinstance(terms_data, list):
+                                        for t in terms_data:
+                                            if isinstance(t, dict) and t.get("codex_ref"):
+                                                ref = t["codex_ref"]
+                                                # Smart Prefixing logic
+                                                if not ref.startswith("codex:"):
+                                                    # If it looks like a glossary term and no path, try to guess
+                                                    if "/" not in ref:
+                                                        if q_obj.world_id == "world-sql":
+                                                            ref = f"glossary/sql/{ref}"
+                                                        else:
+                                                            ref = f"concepts/{ref}"
+                                                    ref = f"codex:{ref}"
+                                                t["codex_ref"] = ref # Update in-place
+                                                derived.append(ref)
+                                    elif isinstance(terms_data, dict):
+                                        if "codex_references" in terms_data:
+                                            for i, ref in enumerate(terms_data["codex_references"]):
+                                                if not ref.startswith("codex:"):
+                                                    if "/" not in ref:
+                                                        if q_obj.world_id == "world-sql":
+                                                            ref = f"glossary/sql/{ref}"
+                                                        else:
+                                                            ref = f"concepts/{ref}"
+                                                    terms_data["codex_references"][i] = f"codex:{ref}"
+                                            derived = terms_data["codex_references"]
+                                    
+                                    q_obj.key_terms = terms_data # Re-assign updated
+                                    q_obj.codex_references = list(set(derived))  # Unique
+                                break  # Stop after first match
+                            except Exception as e:
+                                print(f"    ⚠️ Failed to read terms {terms_path}: {e}")
 
             # Hydrate Tutorial (Standard Logic)
             if "tutorial_md" not in quest_data: 
@@ -225,34 +274,81 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             # We use the same search logic as hydrate_tutorial but for other files
             root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
             overlay_dir = os.path.join(root_dir, "docs", "quests", slug)
-            
+
             # Briefing
-            briefing_path = os.path.join(overlay_dir, "briefing.md")
-            if os.path.exists(briefing_path):
-                print(f"    ✅ Found briefing.md in overlay")
-                with open(briefing_path, "r", encoding="utf-8") as f:
-                    existing.briefing_md = f.read()
-            elif "briefing_md" in quest_data:
-                existing.briefing_md = quest_data["briefing_md"]
+            briefing_paths = [
+                os.path.join(overlay_dir, "docs", "briefing.md"),
+                os.path.join(overlay_dir, "briefing.md"),
+                os.path.join(root_dir, "data", "quests", slug, "docs", "briefing.md"),
+                os.path.join(root_dir, "data", "quests", slug, "briefing.md")
+            ]
+            for bp in briefing_paths:
+                if os.path.exists(bp):
+                    print(f"    ✅ Found briefing.md in {os.path.dirname(bp)}")
+                    with open(bp, "r", encoding="utf-8") as f:
+                        existing.briefing_md = f.read()
+                    break
+            else:
+                 if "briefing_md" in quest_data:
+                    existing.briefing_md = quest_data["briefing_md"]
 
             # Lore
-            lore_path = os.path.join(overlay_dir, "lore.md")
-            if os.path.exists(lore_path):
-                print(f"    ✅ Found lore.md in overlay")
-                with open(lore_path, "r", encoding="utf-8") as f:
-                    existing.lore_md = f.read()
-            elif "lore_md" in quest_data:
-                existing.lore_md = quest_data["lore_md"]
+            lore_paths = [
+                os.path.join(overlay_dir, "docs", "lore.md"),
+                os.path.join(overlay_dir, "lore.md"),
+                os.path.join(root_dir, "data", "quests", slug, "docs", "lore.md"),
+                os.path.join(root_dir, "data", "quests", slug, "lore.md")
+            ]
+            for lp in lore_paths:
+                if os.path.exists(lp):
+                    print(f"    ✅ Found lore.md in {os.path.dirname(lp)}")
+                    with open(lp, "r", encoding="utf-8") as f:
+                        existing.lore_md = f.read()
+                    break
+            else:
+                if "lore_md" in quest_data:
+                    existing.lore_md = quest_data["lore_md"]
             
             # Hints (Parse markdown to JSON)
-            hints_path = os.path.join(overlay_dir, "hints.md")
-            if os.path.exists(hints_path):
-                 print(f"    ✅ Found hints.md in overlay")
-                 with open(hints_path, "r", encoding="utf-8") as f:
-                     raw_hints = f.read()
-                     # Simple parsing: split by header or bullets
-                     # For now, just wrap in a simple dict structure compatible with frontend
-                     existing.tiered_hints_json = {"markdown_source": raw_hints}
+            hints_paths = [
+                os.path.join(overlay_dir, "docs", "hints.md"),
+                os.path.join(overlay_dir, "hints.md"),
+                os.path.join(root_dir, "data", "quests", slug, "docs", "hints.md"),
+                os.path.join(root_dir, "data", "quests", slug, "hints.md")
+            ]
+            for hp in hints_paths:
+                if os.path.exists(hp):
+                     print(f"    ✅ Found hints.md in {os.path.dirname(hp)}")
+                     with open(hp, "r", encoding="utf-8") as f:
+                         raw_hints = f.read()
+                         existing.tiered_hints_json = {"markdown_source": raw_hints}
+                     break
+            
+            # Featured Tables & DB explorer fields
+            if "featured_tables" in quest_data:
+                existing.featured_tables = quest_data["featured_tables"]
+            if "db_engine" in quest_data:
+                existing.db_engine = quest_data["db_engine"]
+            
+            # Engine Safety: Quests starting with 'postgres-' MUST use postgres engine
+            if slug.startswith("postgres-"):
+                existing.db_engine = "postgres"
+
+            if "db_explorer_enabled" in quest_data:
+                existing.db_explorer_enabled = quest_data["db_explorer_enabled"]
+            if "db_explorer_mode" in quest_data:
+                existing.db_explorer_mode = quest_data["db_explorer_mode"]
+            if "objectives" in quest_data:
+                existing.objectives_json = quest_data["objectives"]
+            
+            # Ensure key_terms from quest_data are synced if present (explicit override)
+            if "key_terms" in quest_data:
+                existing.key_terms = quest_data["key_terms"]
+            if "concept_tags" in quest_data:
+                existing.concept_tags = quest_data["concept_tags"]
+            if "codex_references" in quest_data:
+                existing.codex_references = quest_data["codex_references"]
+
             existing.workspace_json = hydrate_workspace(slug)
             
             session.add(existing)

@@ -39,9 +39,9 @@ def validate_and_resolve_ref(ref: str) -> Path:
         - Rejects path traversal (.., //, leading /, backslashes)
         - Ensures resolved path stays within CODEX_ROOT
     """
-    # Must start with "codex:"
+    # Auto-prepend prefix if missing (Phase 9.5 Safe-fail)
     if not ref.startswith("codex:"):
-        raise HTTPException(400, f"Invalid ref format: must start with 'codex:'")
+        ref = f"codex:{ref}"
     
     # Remove prefix
     path_part = ref[6:]  # Remove "codex:"

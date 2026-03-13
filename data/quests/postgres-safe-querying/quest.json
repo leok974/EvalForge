@@ -1,0 +1,70 @@
+{
+    "slug": "postgres-safe-querying",
+    "title": "PostgreSQL: Safe Querying",
+    "language": "sql",
+    "db_engine": "postgres",
+    "db_explorer_enabled": true,
+    "difficulty": "intro",
+    "tags": [
+        "postgres",
+        "safety",
+        "catalog"
+    ],
+    "briefing_md_file": "docs/briefing.md",
+    "tutorial_md_file": "docs/tutorial.md",
+    "lore_md_file": "docs/lore.md",
+    "hints_md_file": "docs/hints.md",
+    "starter_code_file": "task.sql",
+    "workspace": {
+        "files": [
+            {
+                "path": "task.sql",
+                "editable": true
+            },
+            {
+                "path": "example.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/schema.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/seed.sql",
+                "editable": false
+            }
+        ],
+        "entrypoint": "task.sql"
+    },
+    "featured_tables": [
+        "employees"
+    ],
+    "objectives": [
+        {
+            "id": "list_columns",
+            "text": "Correctly lists column metadata from information_schema",
+            "validator": {
+                "kind": "column_match",
+                "expected_columns": [
+                    "column_name",
+                    "data_type",
+                    "is_nullable"
+                ]
+            }
+        },
+        {
+            "id": "safe_preview",
+            "text": "Performs a safe preview limited to 5 rows",
+            "validator": {
+                "kind": "row_count",
+                "count": 5
+            }
+        }
+    ],
+    "key_terms": [
+        "codex:glossary/sql/limit",
+        "codex:glossary/sql/select"
+    ],
+    "world_id": "world-sql",
+    "track_id": "core-sql"
+}
