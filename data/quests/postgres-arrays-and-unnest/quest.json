@@ -1,0 +1,28 @@
+{
+  "quest_id": "postgres-arrays-and-unnest",
+  "title": "PostgreSQL: Arrays and Unnest",
+  "world_slug": "world-sql",
+  "track_id": "core-sql",
+  "difficulty": "intermediate",
+  "xp": 50,
+  "summary": "Summary here",
+  "description": "Description here",
+  "objective_text": "Objective here",
+  "tags": [],
+  "db_engine": "postgres",
+  "starting_code_path": "task.sql",
+  "instruction_markdown": "briefing.md",
+  "tutorial_markdown": "tutorial.md",
+  "featured_tables": [
+    "employees"
+  ],
+  "related_tables": [],
+  "hidden_tables": [],
+  "concept_tags": [
+    "sql",
+    "postgres",
+    "arrays",
+    "unnest"
+  ],
+  "codex_references": []
+}

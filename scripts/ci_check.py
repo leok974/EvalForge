@@ -87,6 +87,11 @@ STAGES = [
         "critical": True
     },
     {
+        "name": "SQL Examples Audit",
+        "cmd": [sys.executable, "scripts/audit_sql_examples.py"],
+        "critical": True
+    },
+    {
         "name": "Training Grade Certification",
         "cmd": [sys.executable, "scripts/certify_training_grade.py"],
         "critical": True

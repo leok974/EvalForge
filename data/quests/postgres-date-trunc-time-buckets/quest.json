@@ -1,0 +1,68 @@
+{
+    "slug": "postgres-date-trunc-time-buckets",
+    "title": "PostgreSQL: Date Trunc & Time Buckets",
+    "language": "sql",
+    "db_engine": "postgres",
+    "db_explorer_enabled": true,
+    "difficulty": "intermediate",
+    "tags": [
+        "postgres",
+        "date_trunc",
+        "time-series"
+    ],
+    "briefing_md_file": "docs/briefing.md",
+    "tutorial_md_file": "docs/tutorial.md",
+    "lore_md_file": "docs/lore.md",
+    "hints_md_file": "docs/hints.md",
+    "starter_code_file": "task.sql",
+    "workspace": {
+        "files": [
+            {
+                "path": "task.sql",
+                "editable": true
+            },
+            {
+                "path": "example.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/schema.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/seed.sql",
+                "editable": false
+            }
+        ],
+        "entrypoint": "task.sql"
+    },
+    "featured_tables": [
+        "sensor_readings"
+    ],
+    "objectives": [
+        {
+            "id": "uses_date_trunc",
+            "text": "Uses DATE_TRUNC function",
+            "validator": {
+                "kind": "source_regex",
+                "rule": {
+                    "pattern": "(?i)date_trunc"
+                }
+            }
+        },
+        {
+            "id": "correct_grouping",
+            "text": "Correctly buckets by hour for the target day",
+            "validator": {
+                "kind": "row_count",
+                "count": 4
+            }
+        }
+    ],
+    "key_terms": [
+        "glossary/sql/date-trunc",
+        "glossary/sql/timestamptz"
+    ],
+    "world_id": "world-sql",
+    "track_id": "core-sql"
+}

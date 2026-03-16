@@ -1,0 +1,21 @@
+{
+  "quest_id": "sql-vector-q4-hybrid-search",
+  "title": "Q4 – Hybrid Search",
+  "world_slug": "world-sql",
+  "track_id": "archives-vector-vault",
+  "difficulty": "intermediate",
+  "xp": 60,
+  "summary": "Combine relational filters with vector search.",
+  "description": "True power comes from combining logic. In the Archive, we often need to filter by a category (like 'Astronomy') and then rank by semantic similarity. This is called Hybrid Search.",
+  "objective_text": "Find the most similar 'Astronomy' fragment to the vector [0.9, 0.1, 0.1].",
+  "tags": ["pgvector", "hybrid-search", "filtering"],
+  "db_engine": "postgres",
+  "starting_code_path": "task.sql",
+  "instruction_markdown": "briefing.md",
+  "tutorial_markdown": "tutorial.md",
+  "key_terms": ["pgvector-fundamentals", "top-k-retrieval"],
+  "verification": {
+    "type": "sql",
+    "query": "SELECT fragment_id FROM historical_fragments WHERE category = 'Astronomy' ORDER BY embedding <=> '[0.9, 0.1, 0.1]'::vector LIMIT 1;"
+  }
+}

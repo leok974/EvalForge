@@ -1,0 +1,28 @@
+{
+  "quest_id": "postgres-safe-updates",
+  "title": "PostgreSQL: Safe Updates",
+  "world_slug": "world-sql",
+  "track_id": "core-sql",
+  "difficulty": "intermediate",
+  "xp": 50,
+  "summary": "Modify existing records accurately without collateral damage.",
+  "description": "Description here",
+  "objective_text": "PostgreSQL: Safe Updates",
+  "tags": [],
+  "db_engine": "postgres",
+  "starting_code_path": "task.sql",
+  "instruction_markdown": "briefing.md",
+  "tutorial_markdown": "tutorial.md",
+  "featured_tables": [
+    "employees"
+  ],
+  "related_tables": [],
+  "hidden_tables": [],
+  "concept_tags": [
+    "sql",
+    "postgres",
+    "mutation",
+    "update"
+  ],
+  "codex_references": []
+}

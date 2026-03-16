@@ -1,0 +1,21 @@
+{
+  "quest_id": "sql-vector-q1-mental-model",
+  "title": "Q1 – The Mental Model",
+  "world_slug": "world-sql",
+  "track_id": "archives-vector-vault",
+  "difficulty": "beginner",
+  "xp": 30,
+  "summary": "Understand embeddings as semantic positions in space.",
+  "description": "Welcome to the Vector Vault. Here, knowledge is stored not just by title, but by meaning. In this quest, you'll learn that a 'vector' is simply a coordinate that represents the theme of a text. 'Closer' coordinates mean 'more similar' meanings.",
+  "objective_text": "Verify the contents of the Archive and find the position of a celestial fragment.",
+  "tags": ["pgvector", "embeddings", "basics"],
+  "db_engine": "postgres",
+  "starting_code_path": "task.sql",
+  "instruction_markdown": "briefing.md",
+  "tutorial_markdown": "tutorial.md",
+  "key_terms": ["pgvector-fundamentals", "embedding"],
+  "verification": {
+    "type": "sql",
+    "query": "SELECT fragment_id, content, embedding FROM historical_fragments WHERE fragment_id = 1;"
+  }
+}

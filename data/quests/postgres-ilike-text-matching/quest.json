@@ -1,0 +1,48 @@
+{
+    "slug": "postgres-ilike-text-matching",
+    "title": "PostgreSQL: Text Matching with ILIKE",
+    "short_description": "Cleanse and search employee email data using case-insensitive SQL matching.",
+    "detailed_description": "In this quest, you will search the `employees` table for members of a specific domain, ignoring case.",
+    "world_id": "world-sql",
+    "track_id": "core-sql",
+    "difficulty": "easy",
+    "quest_kind": "integration",
+    "base_xp_reward": 40,
+    "mastery_xp_bonus": 15,
+    "db_engine": "postgres",
+    "db_explorer_enabled": true,
+    "db_explorer_mode": "quest_scoped",
+    "featured_tables": ["employees"],
+    "starting_code_path": "data/quests/postgres-ilike-text-matching/workspace/task.sql",
+    "workspace_json": {
+        "files": [
+            {"path": "task.sql", "editable": true},
+            {"path": "example.sql", "editable": true},
+            {"path": "fixtures/schema.sql", "editable": false},
+            {"path": "fixtures/seed.sql", "editable": false}
+        ]
+    },
+    "key_terms": [
+        { "id": "ilike", "term": "ILIKE", "one_liner": "Case-insensitive pattern matching.", "codex_ref": "codex:world-sql/ilike" }
+    ],
+    "concept_tags": [
+        "sql",
+        "postgres",
+        "text-matching",
+        "ilike"
+    ],
+    "objectives": [
+        {
+            "id": "uses_ilike",
+            "kind": "source_regex",
+            "text": "Query uses the ILIKE keyword",
+            "rule": { "pattern": "(?i)ILIKE" }
+        },
+        {
+            "id": "correct_email_match",
+            "kind": "row_count",
+            "text": "Correctly matches domains, ignoring case",
+            "rule": { "count": 1 } 
+        }
+    ]
+}

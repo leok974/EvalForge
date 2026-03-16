@@ -1,0 +1,21 @@
+{
+  "quest_id": "sql-vector-q3-top-k-retrieval",
+  "title": "Q3 – Top-K Retrieval",
+  "world_slug": "world-sql",
+  "track_id": "archives-vector-vault",
+  "difficulty": "intermediate",
+  "xp": 50,
+  "summary": "Perform a real nearest-neighbor search.",
+  "description": "It's time to find the needle in the haystack. In this quest, you will use a query vector to find the most relevant fragments in the Archive.",
+  "objective_text": "Find the top 2 most semantically similar fragments to the vector [0.1, 0.1, 0.9].",
+  "tags": ["pgvector", "top-k", "sematic-search"],
+  "db_engine": "postgres",
+  "starting_code_path": "task.sql",
+  "instruction_markdown": "briefing.md",
+  "tutorial_markdown": "tutorial.md",
+  "key_terms": ["top-k-retrieval", "pgvector-fundamentals"],
+  "verification": {
+    "type": "sql",
+    "query": "SELECT fragment_id FROM historical_fragments ORDER BY embedding <=> '[0.1, 0.1, 0.9]'::vector LIMIT 2;"
+  }
+}

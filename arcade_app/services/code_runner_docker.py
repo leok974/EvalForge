@@ -5,6 +5,7 @@ import tempfile
 import subprocess
 import glob
 import logging
+import json
 from dataclasses import dataclass
 from arcade_app.services.runner_registry import RunnerRegistry
 from arcade_app.services.logging_helper import debug_log
@@ -66,13 +67,8 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                  # This is harder without the map. But audit script fixed paths.
                  pass
 
-        # If still no files and we have 'code', use legacy mode
-        if not files and code:
-             # Legacy Single File
-            main_file = os.path.join(td, spec.file_name)
-            with open(main_file, "w", encoding="utf-8") as f:
-                f.write(code)
-        else:
+        # 3. Handle other files from workspace/fallback
+        if files:
             for f in files:
                 path = f["path"]
                 content = f["content"]
@@ -93,6 +89,15 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 with open(full_path, "w", encoding="utf-8") as wf:
                     wf.write(content)
 
+        # 4. Always write 'code' to the entrypoint if provided (overriding or as main)
+        # We do this LAST so it overrides any file from the workspace with the same name
+        if code:
+            # We use resolved_entrypoint which was determined at the start
+            main_file = os.path.join(td, resolved_entrypoint or "task.sql")
+            os.makedirs(os.path.dirname(main_file), exist_ok=True)
+            with open(main_file, "w", encoding="utf-8") as f:
+                f.write(code)
+
             # Inject Python Test Runner
             if mode == "tests" and (language == "python" or language == "sql"):
                 runner_dir = os.path.join(td, ".evalforge")
@@ -106,8 +111,22 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                         with open(runner_target, "w", encoding="utf-8") as wf:
                             wf.write(rf.read())
         # Determine Runner Script
-        is_postgres = workspace.get("db_engine", "sqlite") == "postgres" if workspace else False
-        print(f"DEBUG[code_runner_docker]: db_engine={workspace.get('db_engine') if workspace else 'NONE'} is_postgres={is_postgres}", flush=True)
+        db_engine = workspace.get("db_engine", "sqlite") if workspace else "sqlite"
+        
+        # Fallback for db_engine if quest_slug is provided
+        if not workspace and quest_slug:
+             # Look for quest.json to find db_engine
+             quest_json_path = os.path.join("d:\\EvalForge\\data\\quests", quest_slug, "quest.json")
+             if os.path.exists(quest_json_path):
+                 try:
+                     with open(quest_json_path, "r", encoding="utf-8") as f:
+                         qdata = json.load(f)
+                         db_engine = qdata.get("db_engine", "sqlite")
+                         logger.info(f"Fallback: Loaded db_engine '{db_engine}' from {quest_json_path}")
+                 except Exception as e:
+                     logger.error(f"Fallback Error: Failed to load quest.json for engine: {e}")
+
+        is_postgres = db_engine == "postgres"
         listing = [f["path"] for f in files]
         found_configured = bool(workspace.get("entrypoint")) if workspace else False
         
@@ -143,6 +162,15 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 with open(src_path, "r", encoding="utf-8") as rf:
                     with open(runner_target, "w", encoding="utf-8") as wf:
                         wf.write(rf.read())
+            
+            # Phase 9.8: Ensure artifacts dir is writable by container user
+            try:
+                if os.name == 'nt':
+                     # On Windows bit manipulation is tricky, but we can try
+                     pass 
+                else:
+                     subprocess.run(["chmod", "-R", "777", runner_dir], check=True)
+            except Exception: pass
         
         # Check if resolved entrypoint exists
         
@@ -281,7 +309,6 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             
             # G) Capture SQL artifacts
             artifacts_out = {}
-            import json
             import re
             
             # 1. First try to extract from stdout marker
@@ -332,7 +359,6 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             dt = int((time.time() - t0) * 1000)
 
             artifacts_out = {}
-            import json
             import re
             
             # 1. First try to extract from stdout marker

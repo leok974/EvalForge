@@ -1,0 +1,21 @@
+{
+  "quest_id": "sql-vector-q2-distance-metrics",
+  "title": "Q2 – Distance Metrics",
+  "world_slug": "world-sql",
+  "track_id": "archives-vector-vault",
+  "difficulty": "beginner",
+  "xp": 40,
+  "summary": "Compare L2, Cosine, and Inner Product distances.",
+  "description": "In the Vector Vault, 'similarity' isn't just one number. Depending on the math you use, the vault might suggest different answers. Learn to choose the right ruler for the job.",
+  "objective_text": "Calculate the Cosine distance between fragments and a target vector.",
+  "tags": ["pgvector", "distance-metrics", "cosine-distance"],
+  "db_engine": "postgres",
+  "starting_code_path": "task.sql",
+  "instruction_markdown": "briefing.md",
+  "tutorial_markdown": "tutorial.md",
+  "key_terms": ["pgvector-fundamentals", "cosine-distance"],
+  "verification": {
+    "type": "sql",
+    "query": "SELECT fragment_id, content, embedding <=> '[0.5, 0.5, 0.5]'::vector as distance FROM historical_fragments ORDER BY distance LIMIT 1;"
+  }
+}

@@ -1,0 +1,71 @@
+{
+    "slug": "postgres-explain-basics",
+    "title": "PostgreSQL: Explain Basics",
+    "language": "sql",
+    "db_engine": "postgres",
+    "db_explorer_enabled": true,
+    "difficulty": "intermediate",
+    "tags": [
+        "postgres",
+        "explain",
+        "performance",
+        "index"
+    ],
+    "briefing_md_file": "docs/briefing.md",
+    "tutorial_md_file": "docs/tutorial.md",
+    "lore_md_file": "docs/lore.md",
+    "hints_md_file": "docs/hints.md",
+    "starter_code_file": "task.sql",
+    "workspace": {
+        "files": [
+            {
+                "path": "task.sql",
+                "editable": true
+            },
+            {
+                "path": "example.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/schema.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/seed.sql",
+                "editable": false
+            }
+        ],
+        "entrypoint": "task.sql"
+    },
+    "featured_tables": [
+        "audit_logs"
+    ],
+    "objectives": [
+        {
+            "id": "uses_explain",
+            "text": "Uses EXPLAIN keyword",
+            "validator": {
+                "kind": "source_regex",
+                "rule": {
+                    "pattern": "(?i)EXPLAIN"
+                }
+            }
+        },
+        {
+            "id": "uses_index",
+            "text": "Correctly creates an index for optimization",
+            "validator": {
+                "kind": "source_regex",
+                "rule": {
+                    "pattern": "(?i)CREATE INDEX"
+                }
+            }
+        }
+    ],
+    "key_terms": [
+        "glossary/sql/explain-query-plan",
+        "glossary/sql/index"
+    ],
+    "world_id": "world-sql",
+    "track_id": "core-sql"
+}

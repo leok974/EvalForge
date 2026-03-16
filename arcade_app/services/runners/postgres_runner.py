@@ -50,21 +50,21 @@ def main():
         cur.execute(sql.SQL("SET search_path TO {}, public").format(sql.Identifier(temp_schema)))
 
         def strip_sql_comments(sql_text):
-            # 1. Remove multi-line comments /* ... */
-            sql_text = re.sub(r'/\*.*?\*/', '', sql_text, flags=re.DOTALL)
+            # 1. Remove block comments /* ... */
+            sql_text = re.sub(r'/\*.*?\*/', ' ', sql_text, flags=re.DOTALL)
             # 2. Remove single-line comments -- ...
-            sql_text = re.sub(r'--.*?\n', '\n', sql_text)
+            sql_text = re.sub(r'--.*?\r?\n', '\n', sql_text)
             sql_text = re.sub(r'--.*?$', '', sql_text)
             return sql_text.strip()
 
         def execute_sql_text(sql_text, phase):
-            # Simple splits for now, psycopg2 doesn't have a direct 'complete_statement' helper like sqlite
-            # We'll split by semicolon and filter empty.
-            raw_statements = [s.strip() for s in sql_text.split(";") if s.strip()]
+            # IMPORTANT: Strip comments BEFORE splitting, otherwise semicolons in comments will break the split
+            clean_text = strip_sql_comments(sql_text)
             
-            for raw_stmt in raw_statements:
-                # IMPORTANT: Strip comments and check if anything meaningful remains
-                clean_stmt = strip_sql_comments(raw_stmt)
+            # Now split the cleaned text by semicolon
+            statements = [s.strip() for s in clean_text.split(";") if s.strip()]
+            
+            for clean_stmt in statements:
                 if not clean_stmt:
                     # Pure comment/whitespace block - skip execution
                     continue
@@ -73,7 +73,7 @@ def main():
                 entry = {
                     "idx": len(trace), 
                     "phase": phase, 
-                    "sql": raw_stmt[:4000], # Keep original for trace visibility
+                    "sql": clean_stmt[:4000], # Log the clean version
                     "elapsed_ms": 0.0, 
                     "row_count": None, 
                     "columns": None, 
@@ -125,8 +125,10 @@ def main():
             }
             try:
                 # Optimized for Postgres
-                cur.execute(f"EXPLAIN {student_stmt['sql']}")
-                sql_explain = {"engine": "postgres", "statement": student_stmt["sql"], "plan_rows": [str(r[0]) for r in cur.fetchall()]}
+                # Use a cleaned statement for explain to avoid comment-related syntax confusion
+                explain_stmt = strip_sql_comments(student_stmt['sql'])
+                cur.execute(f"EXPLAIN {explain_stmt}")
+                sql_explain = {"engine": "postgres", "statement": explain_stmt, "plan_rows": [str(r[0]) for r in cur.fetchall()]}
             except Exception: pass
         else:
             student_errors = [e for e in trace if e["phase"] == "student" and e["error"]]

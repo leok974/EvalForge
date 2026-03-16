@@ -1,0 +1,29 @@
+{
+  "quest_id": "postgres-transactions-savepoints",
+  "title": "PostgreSQL: Transactions and Savepoints",
+  "world_slug": "world-sql",
+  "track_id": "core-sql",
+  "difficulty": "intermediate",
+  "xp": 50,
+  "summary": "Use transaction savepoints for partial rollbacks.",
+  "description": "Description here",
+  "objective_text": "PostgreSQL: Transactions and Savepoints",
+  "tags": [],
+  "db_engine": "postgres",
+  "starting_code_path": "task.sql",
+  "instruction_markdown": "briefing.md",
+  "tutorial_markdown": "tutorial.md",
+  "featured_tables": [
+    "employees"
+  ],
+  "related_tables": [],
+  "hidden_tables": [],
+  "concept_tags": [
+    "sql",
+    "postgres",
+    "mutation",
+    "transactions",
+    "savepoints"
+  ],
+  "codex_references": []
+}

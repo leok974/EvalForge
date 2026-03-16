@@ -1,0 +1,28 @@
+{
+  "quest_id": "postgres-timestamptz-timezones",
+  "title": "PostgreSQL: Timezones and Timestamptz",
+  "world_slug": "world-sql",
+  "track_id": "core-sql",
+  "difficulty": "intermediate",
+  "xp": 50,
+  "summary": "Safely convert global UTC timestamps to local timezones.",
+  "description": "Description here",
+  "objective_text": "PostgreSQL: Timezones and Timestamptz",
+  "tags": [],
+  "db_engine": "postgres",
+  "starting_code_path": "task.sql",
+  "instruction_markdown": "briefing.md",
+  "tutorial_markdown": "tutorial.md",
+  "featured_tables": [
+    "employees"
+  ],
+  "related_tables": [],
+  "hidden_tables": [],
+  "concept_tags": [
+    "sql",
+    "postgres",
+    "timezones",
+    "timestamptz"
+  ],
+  "codex_references": []
+}

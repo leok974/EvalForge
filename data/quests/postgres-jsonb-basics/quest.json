@@ -1,0 +1,67 @@
+{
+    "slug": "postgres-jsonb-basics",
+    "title": "PostgreSQL: JSONB Basics",
+    "language": "sql",
+    "db_engine": "postgres",
+    "db_explorer_enabled": true,
+    "difficulty": "intermediate",
+    "tags": [
+        "postgres",
+        "jsonb",
+        "semi-structured"
+    ],
+    "briefing_md_file": "docs/briefing.md",
+    "tutorial_md_file": "docs/tutorial.md",
+    "lore_md_file": "docs/lore.md",
+    "hints_md_file": "docs/hints.md",
+    "starter_code_file": "task.sql",
+    "workspace": {
+        "files": [
+            {
+                "path": "task.sql",
+                "editable": true
+            },
+            {
+                "path": "example.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/schema.sql",
+                "editable": false
+            },
+            {
+                "path": "fixtures/seed.sql",
+                "editable": false
+            }
+        ],
+        "entrypoint": "task.sql"
+    },
+    "featured_tables": [
+        "webhook_events"
+    ],
+    "objectives": [
+        {
+            "id": "uses_jsonb_operator",
+            "text": "Uses JSONB extraction operator (-> or ->>)",
+            "validator": {
+                "kind": "source_regex",
+                "rule": {
+                    "pattern": "->|->>"
+                }
+            }
+        },
+        {
+            "id": "correct_json_filter",
+            "text": "Correctly filters by nested JSON key",
+            "validator": {
+                "kind": "row_count",
+                "count": 2
+            }
+        }
+    ],
+    "key_terms": [
+        "glossary/sql/jsonb"
+    ],
+    "world_id": "world-sql",
+    "track_id": "core-sql"
+}
