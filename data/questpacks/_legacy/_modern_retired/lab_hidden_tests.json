@@ -1,0 +1,20 @@
+{
+    "questpack_id": "lab_hidden_tests",
+    "title": "Lab Hidden Tests",
+    "world_id": "world-infra",
+    "track_id": "lab-hidden",
+    "quests": [
+        {
+            "slug": "quest-py-hidden",
+            "title": "Hidden Tests Verification",
+            "track_id": "lab-hidden",
+            "order": 1,
+            "briefing_md": "# Hidden Tests Verification\n\nVerify hidden test isolation.",
+            "workspace": {
+                "files_from": "../../quests/quest-py-hidden/workspace"
+            },
+            "language": "python",
+            "content_source": "modern_upgrade"
+        }
+    ]
+}

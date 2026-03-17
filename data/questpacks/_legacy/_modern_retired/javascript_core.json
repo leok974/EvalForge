@@ -1,0 +1,128 @@
+{
+    "questpack_id": "javascript_core",
+    "title": "JavaScript Foundations",
+    "world_id": "world-javascript",
+    "track_id": "track-javascript-core",
+    "quests": [
+        {
+            "slug": "js-ignition-q1-console-and-functions",
+            "title": "Ignition: Console & Functions",
+            "track_id": "track-javascript-core",
+            "order": 1,
+            "briefing_md": "# js-ignition\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-ignition-q1-console-and-functions/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-vars-q1-let-const-var",
+            "title": "Variables: Let, Const, Var",
+            "track_id": "track-javascript-core",
+            "order": 2,
+            "briefing_md": "# js-vars\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-vars-q1-let-const-var/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-control-q1-if-else-loops",
+            "title": "Control Flow: If & Loops",
+            "track_id": "track-javascript-core",
+            "order": 3,
+            "briefing_md": "# js-control\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-control-q1-if-else-loops/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-arrays-q1-basics",
+            "title": "Arrays: Basics",
+            "track_id": "track-javascript-core",
+            "order": 4,
+            "briefing_md": "# js-arrays-basics\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-arrays-q1-basics/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-arrays-q2-map-filter-reduce",
+            "title": "Arrays: Map, Filter, Reduce",
+            "track_id": "track-javascript-core",
+            "order": 5,
+            "briefing_md": "# js-arrays-methods\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-arrays-q2-map-filter-reduce/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-objects-q1-properties-methods",
+            "title": "Objects: Properties & Methods",
+            "track_id": "track-javascript-core",
+            "order": 6,
+            "briefing_md": "# js-objects\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-objects-q1-properties-methods/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-functions-q1-arrow-vs-regular",
+            "title": "Functions: Arrow vs Regular",
+            "track_id": "track-javascript-core",
+            "order": 7,
+            "briefing_md": "# js-functions\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-functions-q1-arrow-vs-regular/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-async-q1-promises-basics",
+            "title": "Async: Promises & Async/Await",
+            "track_id": "track-javascript-core",
+            "order": 8,
+            "briefing_md": "# js-async\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-async-q1-promises-basics/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-errors-q1-try-catch",
+            "title": "Errors: Try/Catch & Testing",
+            "track_id": "track-javascript-core",
+            "order": 9,
+            "briefing_md": "# js-errors\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-errors-q1-try-catch/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "js-modules-q1-import-export",
+            "title": "Modules: Import & Export",
+            "track_id": "track-javascript-core",
+            "order": 10,
+            "briefing_md": "# js-modules\n\nSee workspace/README.md",
+            "workspace": {
+                "files_from": "../../quests/js-modules-q1-import-export/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        }
+    ]
+}

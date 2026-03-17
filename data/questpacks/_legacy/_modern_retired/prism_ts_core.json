@@ -1,0 +1,80 @@
+{
+    "questpack_id": "prism_ts_core",
+    "title": "Prism TS",
+    "world_id": "world-prism",
+    "track_id": "track-prism-ts",
+    "quests": [
+        {
+            "slug": "quest-ts-hello-console",
+            "title": "Quest Quest Ts Hello Console",
+            "track_id": "track-prism-ts",
+            "order": 1,
+            "briefing_md": "# Hello Console\n\nWelcome to TypeScript! Your first task is to ensure your development environment is correctly configured. In professional engineering, we use the **console** for debugging and heartbeat telemetry.\n\n### Your Objective\nWrite a simple TypeScript script that uses `console.log()` to print the message: `\"Hello TypeScript\"`.\n",
+            "workspace": {
+                "files_from": "../../quests/quest-ts-hello-console/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "quest-ts-hello-variable",
+            "title": "Quest Quest Ts Hello Variable",
+            "track_id": "track-prism-ts",
+            "order": 2,
+            "briefing_md": "# Variables and Types\n\nTypeScript enhances JavaScript by adding **Static Typing**. This allows you to catch errors during development rather than at runtime.\n\n### Your Objective\n1. Declare a variable named `status` with the type `string`.\n2. Assign it the value `\"Operational\"`.\n3. Log the variable to the console.\n",
+            "workspace": {
+                "files_from": "../../quests/quest-ts-hello-variable/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "quest-ts-loop-countdown",
+            "title": "Quest Quest Ts Loop Countdown",
+            "track_id": "track-prism-ts",
+            "order": 3,
+            "briefing_md": "# Loop Countdown\n\nIteration is the backbone of data processing. In this quest, you will implement a simple countdown loop.\n\n### Your Objective\nWrite a `for` loop that counts down from 5 to 1 and logs each number to the console.\n",
+            "workspace": {
+                "files_from": "../../quests/quest-ts-loop-countdown/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-ignition-q1-types-and-interfaces",
+            "title": "Quest Ts Ignition Q1 Types And Interfaces",
+            "track_id": "track-prism-ts",
+            "order": 4,
+            "briefing_md": "# Types and Interfaces\n\nStructuring data is critical for building scalable systems. TypeScript provides **Interfaces** to define the shape of objects.\n\n### Your Objective\n1. Define an interface `User` with `id: number` and `name: string`.\n2. Create a constant `activeUser` that implements this interface.\n3. Log the user's name to the console.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-ignition-q1-types-and-interfaces/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-narrowing-q2-unions-and-guards",
+            "title": "Quest Ts Narrowing Q2 Unions And Guards",
+            "track_id": "track-prism-ts",
+            "order": 5,
+            "briefing_md": "# Unions and Guards\n\nType safety often requires handling multiple possible types for a single variable. This is handled via **Unions** and **Type Guards**.\n\n### Your Objective\nCreate a function `formatInput` that takes a `string | number`. If it's a number, return it as a string with a `$` prefix. If it's a string, return it as uppercase.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-narrowing-q2-unions-and-guards/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-generics-q2-result-type",
+            "title": "Quest Ts Generics Q2 Result Type",
+            "track_id": "track-prism-ts",
+            "order": 6,
+            "briefing_md": "# Result Type with Generics\n\nGenerics allow you to create reusable components that work with a variety of types while maintaining strict type safety.\n\n### Your Objective\nImplement a `Result<T>` type that can represent either a success (with data of type `T`) or an error (with a message string).\n",
+            "workspace": {
+                "files_from": "../../quests/ts-generics-q2-result-type/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+  "excluded_slugs": [
+    "first-sparks",
+    "hello-variable",
+    "quest-py-hidden",
+    "quest-py-workspace",
+    "python-dicts-and-json",
+    "selenium-find-elements",
+    "python-ignition",
+    "selenium-take-screenshot",
+    "python-pytest-basics",
+    "python-write-a-regression-test",
+    "python-find-the-bug",
+    "selenium-open-page",
+    "python-variables-and-conditions",
+    "selenium-read-text-and-assert",
+    "python-explain-side-effects",
+    "python-file-processing",
+    "python-trace-data-flow",
+    "selenium-click-and-type",
+    "python-errors-and-logging",
+    "python-functions-and-helpers",
+    "python-follow-imports",
+    "python-config-and-env",
+    "python-loops-and-records",
+    "python-read-a-script",
+    "legacy-quest-1",
+    "deprecated-quest-2"
+  ]
+}

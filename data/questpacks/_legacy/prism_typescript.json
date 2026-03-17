@@ -1,0 +1,250 @@
+[
+    {
+        "slug": "quest-ts-hello-console",
+        "world_id": "world-typescript",
+        "track_id": "ts-fundamentals",
+        "order_index": 0,
+        "title": "Hello Console",
+        "short_description": "Print a message to the console.",
+        "detailed_description": "The Prism's core is silent. Awaken it by printing 'Hello, Prism' to the console.\n\nUse `console.log()` to output the message exactly.",
+        "language": "typescript",
+        "starter_code": "// Print 'Hello, Prism' to the console\n\n",
+        "base_xp_reward": 100,
+        "mastery_xp_bonus": 50,
+        "objectives_json": [
+            {
+                "id": "source",
+                "kind": "source_regex",
+                "rule": {
+                    "pattern": "console\\.log"
+                },
+                "title": "Use console.log"
+            },
+            {
+                "id": "output",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "Hello, Prism"
+                },
+                "title": "Output 'Hello, Prism'"
+            },
+            {
+                "id": "runtime",
+                "kind": "not_timed_out",
+                "title": "Execution Successful"
+            }
+        ],
+        "tiered_hints_json": {
+            "1": "Use the `console.log(\"message\")` function.",
+            "2": "Ensure the string matches 'Hello, Prism' exactly (case-sensitive)."
+        },
+        "runtime_rules_json": {
+            "enabled": true,
+            "timeout_ms": 10000,
+            "require_exit_code_zero": true,
+            "require_no_timeout": true
+        },
+        "smoke": {
+            "expect_starter_pass": false,
+            "solution_code": "console.log('Hello, Prism');"
+        },
+        "workspace": {
+            "files_from": "../quests/quest-ts-hello-console/workspace"
+        },
+        "briefing_md": "# Mission: Hello Console\n\n# Hello Console\n        \nRequirements:\n1. Implement the solution in the provided starter file.\n2. Ensure usage of standard library features where appropriate.\n3. Verify output matches expected format.\n\n",
+        "objectives": [
+            {
+                "id": "obj_1",
+                "text": "Implement the solution in the provided starter file.",
+                "why": "Specification requirement"
+            },
+            {
+                "id": "obj_2",
+                "text": "Ensure usage of standard library features where appropriate.",
+                "why": "Specification requirement"
+            },
+            {
+                "id": "obj_3",
+                "text": "Verify output matches expected format.",
+                "why": "Specification requirement"
+            }
+        ],
+        "lore_md": "## System Log: Hello Console\n\n> *Establishing secure uplink...*\n>\n> Target: Hello Console\n> Status: Pending Authorization\n> User ID: **AUTH_REQUIRED**\n\nThe mission parameters are set. \nInitialize the workspace to begin the assignment.\n"
+    },
+    {
+        "slug": "quest-ts-hello-variable",
+        "world_id": "world-typescript",
+        "track_id": "ts-fundamentals",
+        "order_index": 1,
+        "title": "Variable Energy",
+        "short_description": "Store and emit energy readings.",
+        "detailed_description": "The Prism needs a stable energy source. \n1. Declare a variable named `energy` using `let`.\n2. Assign it a value.\n3. Print 'Energy: ' followed by the value.",
+        "language": "typescript",
+        "starter_code": "// Declare 'energy' using let\n\n",
+        "base_xp_reward": 100,
+        "mastery_xp_bonus": 50,
+        "objectives_json": [
+            {
+                "id": "use_let",
+                "kind": "source_regex",
+                "rule": {
+                    "pattern": "\\blet\\b"
+                },
+                "title": "Use 'let' keyword"
+            },
+            {
+                "id": "output",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "Energy:"
+                },
+                "title": "Output contains 'Energy:'"
+            },
+            {
+                "id": "runtime",
+                "kind": "not_timed_out",
+                "title": "Execution Successful"
+            }
+        ],
+        "tiered_hints_json": {
+            "1": "Use `let energy = 100;` to declare the variable.",
+            "2": "Passed variables to console.log: `console.log('Energy:', energy)`."
+        },
+        "runtime_rules_json": {
+            "enabled": true,
+            "timeout_ms": 10000,
+            "require_exit_code_zero": true,
+            "require_no_timeout": true
+        },
+        "smoke": {
+            "expect_starter_pass": false,
+            "solution_code": "let energy = 50;\nconsole.log('Energy:', energy);"
+        },
+        "workspace": {
+            "files_from": "../quests/quest-ts-hello-variable/workspace"
+        },
+        "briefing_md": "# Mission: Variable Energy\n\n# Variable Energy\n        \nRequirements:\n1. Implement the solution in the provided starter file.\n2. Ensure usage of standard library features where appropriate.\n3. Verify output matches expected format.\n\n",
+        "objectives": [
+            {
+                "id": "obj_1",
+                "text": "Implement the solution in the provided starter file.",
+                "why": "Specification requirement"
+            },
+            {
+                "id": "obj_2",
+                "text": "Ensure usage of standard library features where appropriate.",
+                "why": "Specification requirement"
+            },
+            {
+                "id": "obj_3",
+                "text": "Verify output matches expected format.",
+                "why": "Specification requirement"
+            }
+        ],
+        "lore_md": "## System Log: Variable Energy\n\n> *Establishing secure uplink...*\n>\n> Target: Variable Energy\n> Status: Pending Authorization\n> User ID: **AUTH_REQUIRED**\n\nThe mission parameters are set. \nInitialize the workspace to begin the assignment.\n"
+    },
+    {
+        "slug": "quest-ts-loop-countdown",
+        "world_id": "world-typescript",
+        "track_id": "ts-fundamentals",
+        "order_index": 2,
+        "title": "Ignition Sequence",
+        "short_description": "Implement a countdown loop.",
+        "detailed_description": "Initiate the ignition sequence. Create a loop that prints 'T-minus' at least once, followed by a final 'Liftoff!'.",
+        "language": "typescript",
+        "starter_code": "// Write a loop for the countdown\n\nconsole.log('Liftoff!');",
+        "base_xp_reward": 150,
+        "mastery_xp_bonus": 75,
+        "objectives_json": [
+            {
+                "id": "loop_construct",
+                "kind": "source_regex",
+                "rule": {
+                    "pattern": "for\\s*\\(|while\\s*\\("
+                },
+                "title": "Use a for or while loop"
+            },
+            {
+                "id": "countdown",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "T-minus"
+                },
+                "title": "Output 'T-minus'"
+            },
+            {
+                "id": "liftoff",
+                "kind": "stdout_regex",
+                "rule": {
+                    "pattern": "Liftoff!"
+                },
+                "title": "Output 'Liftoff!'"
+            },
+            {
+                "id": "runtime",
+                "kind": "not_timed_out",
+                "title": "Execution Successful"
+            }
+        ],
+        "tiered_hints_json": {
+            "1": "A basic loop: `for (let i=10; i>0; i--) { ... }`",
+            "2": "Inside the loop, use `console.log('T-minus ' + i)`."
+        },
+        "runtime_rules_json": {
+            "enabled": true,
+            "timeout_ms": 10000,
+            "require_exit_code_zero": true,
+            "require_no_timeout": true
+        },
+        "smoke": {
+            "expect_starter_pass": false,
+            "solution_code": "for(let i=3; i>0; i--) { console.log('T-minus ' + i); }\nconsole.log('Liftoff!');"
+        },
+        "workspace": {
+            "files_from": "../quests/quest-ts-loop-countdown/workspace"
+        },
+        "briefing_md": "# Mission: Ignition Sequence\n\n# Ignition Sequence\n        \nRequirements:\n1. Implement the solution in the provided starter file.\n2. Ensure usage of standard library features where appropriate.\n3. Verify output matches expected format.\n\n",
+        "objectives": [
+            {
+                "id": "obj_1",
+                "text": "Implement the solution in the provided starter file.",
+                "why": "Specification requirement"
+            },
+            {
+                "id": "obj_2",
+                "text": "Ensure usage of standard library features where appropriate.",
+                "why": "Specification requirement"
+            },
+            {
+                "id": "obj_3",
+                "text": "Verify output matches expected format.",
+                "why": "Specification requirement"
+            }
+        ],
+        "lore_md": "## System Log: Ignition Sequence\n\n> *Establishing secure uplink...*\n>\n> Target: Ignition Sequence\n> Status: Pending Authorization\n> User ID: **AUTH_REQUIRED**\n\nThe mission parameters are set. \nInitialize the workspace to begin the assignment.\n"
+    },
+    {
+        "slug": "ts-ignition-q1-types-and-interfaces",
+        "title": "TS Ignition: Types & Interfaces",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "short_description": "Initialize your first TypeScript workspace.",
+        "language": "typescript"
+    },
+    {
+        "slug": "ts-narrowing-q2-unions-and-guards",
+        "title": "Narrowing & Type Guards",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "short_description": "Use type guards to narrow down variable types.",
+        "language": "typescript"
+    },
+    {
+        "slug": "ts-generics-q2-result-type",
+        "title": "Universal Patterns: Generics",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "short_description": "Build reusable, type-safe components with generics.",
+        "language": "typescript"
+    }
+]

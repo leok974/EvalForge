@@ -1,0 +1,92 @@
+{
+    "questpack_id": "python_systems_core",
+    "title": "Python Systems",
+    "world_id": "world-python",
+    "track_id": "track-python-systems",
+    "quests": [
+        {
+            "slug": "python-data-forge",
+            "title": "Quest Python Data Forge",
+            "track_id": "track-python-systems",
+            "order": 1,
+            "briefing_md": "# Data Forge\n\nMessy data is the enemy of stable systems. In this quest, you will build a **Data Forge** to normalize raw, inconsistent record entries into a canonical format.\n\n### Your Objective\nImplement `normalize_record` to:\n1.  Ensure all IDs are integers.\n2.  Sanitize names (trim whitespace).\n3.  Default missing phone numbers to `null`.\n",
+            "workspace": {
+                "files_from": "../../quests/python-data-forge/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "python-loop",
+            "title": "Quest Python Loop",
+            "track_id": "track-python-systems",
+            "order": 2,
+            "briefing_md": "# Python Loops\n\nAutomation starts with **Iteration**. You will use Python's `for` loops and range logic to process a sequence of numbers and calculate aggregate statistics.\n\n### Your Objective\nWrite a loop that identifies even numbers between 1 and 10 and prints a final count of matching records.\n",
+            "workspace": {
+                "files_from": "../../quests/python-loop/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "python-systems-service-boundaries",
+            "title": "Quest Python Systems Service Boundaries",
+            "track_id": "track-python-systems",
+            "order": 3,
+            "briefing_md": "# Service Boundaries\n\nArchitectural integrity depends on strict **Service Boundaries**. You will implement a Repository pattern to abstract data storage away from business logic.\n\n### Your Objective\nImplement an `InMemoryTicketRepo` and a `close_ticket` service that ensures data only enters the system through established contracts.\n",
+            "workspace": {
+                "files_from": "../../quests/python-systems-service-boundaries/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "python-systems-resilient-job-runner",
+            "title": "Quest Python Systems Resilient Job Runner",
+            "track_id": "track-python-systems",
+            "order": 4,
+            "briefing_md": "# Resilient Job Runner\n\nDistributed systems are flaky. You must build a **Resilient Job Runner** that handles transient network failures using sophisticated retry strategies.\n\n### Your Objective\nImplement a retry loop that differentiates between `TransientError` (should retry) and `FatalError` (should stop immediately).\n",
+            "workspace": {
+                "files_from": "../../quests/python-systems-resilient-job-runner/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "python-systems-observability-sli",
+            "title": "Quest Python Systems Observability Sli",
+            "track_id": "track-python-systems",
+            "order": 5,
+            "briefing_md": "# Observability & SLIs\n\nYou can't fix what you can't measure. In this quest, you will implement **Service Level Indicators (SLIs)** to monitor the health of your processing engine.\n\n### Your Objective\nCalculate availability and latency SLIs based on a stream of system execution logs.\n",
+            "workspace": {
+                "files_from": "../../quests/python-systems-observability-sli/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "python-systems-performance-profile",
+            "title": "Quest Python Systems Performance Profile",
+            "track_id": "track-python-systems",
+            "order": 6,
+            "briefing_md": "# Performance Profiling\n\nOptimization without measurement is a guess. You will use **Profiling** techniques to identify the \"Hot Path\" in a slow data processing script.\n\n### Your Objective\nIdentify the O(n²) bottleneck in the provided script and optimize it using set-based lookups to reach O(n) efficiency.\n",
+            "workspace": {
+                "files_from": "../../quests/python-systems-performance-profile/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        },
+        {
+            "slug": "python-systems-platform-tooling",
+            "title": "Quest Python Systems Platform Tooling",
+            "track_id": "track-python-systems",
+            "order": 7,
+            "briefing_md": "# Platform Tooling\n\nEmpower your team by building **Internal Tooling**. You will create a suite of utility functions to automate developer friction points like slugification and unique sorting.\n\n### Your Objective\nDevelop a robust `slugify` utility and a `unique_sorted` helper that follows strict engineering rules.\n",
+            "workspace": {
+                "files_from": "../../quests/python-systems-platform-tooling/workspace"
+            },
+            "language": "python",
+            "content_source": "legacy_wrapper"
+        }
+    ]
+}

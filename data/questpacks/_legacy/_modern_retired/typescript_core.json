@@ -1,0 +1,128 @@
+{
+    "questpack_id": "typescript_core",
+    "title": "TypeScript Core",
+    "world_id": "world-typescript",
+    "track_id": "track-ts-core",
+    "quests": [
+        {
+            "slug": "ts-ignition",
+            "title": "Quest Ts Ignition",
+            "track_id": "track-ts-core",
+            "order": 1,
+            "briefing_md": "# TypeScript Ignition\n\nWelcome to the TypeScript Core! TypeScript is a typed superset of JavaScript that scales. This ignition quest ensures your environment is ready to catch bugs before they reach production.\n\n### Your Objective\nWrite a TypeScript program that logs `\"TS_CORE_IGNITION\"` to the console.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-ignition/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-vars",
+            "title": "Quest Ts Vars",
+            "track_id": "track-ts-core",
+            "order": 2,
+            "briefing_md": "# Variables and Declarations\n\nIn TypeScript, we use `let` and `const` just like JavaScript, but with the added power of explicit type annotations.\n\n### Your Objective\nDeclare a constant `apiVersion` of type `number` and set it to `1`. Declare a variable `isReady` of type `boolean` and set it to `true`.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-vars/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-types",
+            "title": "Quest Ts Types",
+            "track_id": "track-ts-core",
+            "order": 3,
+            "briefing_md": "# Primitive Types\n\nTypeScript helps you manage the most basic building blocks of any program: strings, numbers, and booleans.\n\n### Your Objective\nCreate a function `formatPrice(price: number)` that returns the price as a string prefixed with a currency symbol (e.g., `$10`).\n",
+            "workspace": {
+                "files_from": "../../quests/ts-types/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-control",
+            "title": "Quest Ts Control",
+            "track_id": "track-ts-core",
+            "order": 4,
+            "briefing_md": "# Control Flow\n\nControl flow in TypeScript works identically to JavaScript, but the type system often helps you narrow down types within `if` blocks.\n\n### Your Objective\nWrite a function that takes a number and returns `\"positive\"`, `\"negative\"`, or `\"zero\"` using an `if/else` block.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-control/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-arrays",
+            "title": "Quest Ts Arrays",
+            "track_id": "track-ts-core",
+            "order": 5,
+            "briefing_md": "# Arrays and Tuples\n\nTypeScript allows you to define the exact type of elements in an array, or even the exact composition of a fixed-length array (a Tuple).\n\n### Your Objective\nDefine an array of strings named `tags` and a tuple named `coordinates` that holds exactly two numbers (latitude and longitude).\n",
+            "workspace": {
+                "files_from": "../../quests/ts-arrays/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-objects",
+            "title": "Quest Ts Objects",
+            "track_id": "track-ts-core",
+            "order": 6,
+            "briefing_md": "# Objects and Shapes\n\nDefining the shape of an object is one of TypeScript's most common use cases. You can use inline types or interfaces.\n\n### Your Objective\nCreate an object `config` that must have a `timeout` (number) and an optional `retries` (number).\n",
+            "workspace": {
+                "files_from": "../../quests/ts-objects/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-functions",
+            "title": "Quest Ts Functions",
+            "track_id": "track-ts-core",
+            "order": 7,
+            "briefing_md": "# Typed Functions\n\nFunctions are first-class citizens in TypeScript. You can type parameters, return values, and even the function itself.\n\n### Your Objective\nWrite a function `multiply` that takes two numbers and returns their product, ensuring all types are explicitly declared.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-functions/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-interfaces",
+            "title": "Quest Ts Interfaces",
+            "track_id": "track-ts-core",
+            "order": 8,
+            "briefing_md": "# Interfaces\n\nInterfaces are the primary way to define reusable object structures in TypeScript. They are powerful, extensible, and central to clean TS architecture.\n\n### Your Objective\nDefine an interface `Logger` with a method `log(message: string): void`. Implement this interface in a simple object.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-interfaces/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-generics",
+            "title": "Quest Ts Generics",
+            "track_id": "track-ts-core",
+            "order": 9,
+            "briefing_md": "# Generics\n\nGenerics allow you to write code that is flexible enough to handle multiple types while remaining strictly type-safe.\n\n### Your Objective\nImplement a generic function `identity<T>(arg: T): T` that returns the same value it receives, maintaining the type information.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-generics/workspace"
+            },
+            "language": "javascript",
+            "content_source": "modern_upgrade"
+        },
+        {
+            "slug": "ts-modules",
+            "title": "Quest Ts Modules",
+            "track_id": "track-ts-core",
+            "order": 10,
+            "briefing_md": "# Modules and Exports\n\nIn modern TS production systems, code is organized into modules. Use `export` to share code and `import` to consume it.\n\n### Your Objective\nCreate a file that exports a constant `PI` and a function `calculateArea`, then import them into your main file.\n",
+            "workspace": {
+                "files_from": "../../quests/ts-modules/workspace"
+            },
+            "language": "javascript",
+            "content_source": "legacy_wrapper"
+        }
+    ]
+}

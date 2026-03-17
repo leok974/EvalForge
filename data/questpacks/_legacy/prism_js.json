@@ -1,0 +1,18 @@
+[
+    {
+        "slug": "js-ignition-q1-console-and-functions",
+        "title": "JS Ignition: Console & Functions",
+        "world_id": "world-js",
+        "track_id": "js-fundamentals",
+        "short_description": "Master console output and basic function syntax.",
+        "language": "javascript"
+    },
+    {
+        "slug": "js-arrays-q2-map-filter-reduce",
+        "title": "Functional Arrays: Map, Filter, Reduce",
+        "world_id": "world-js",
+        "track_id": "js-fundamentals",
+        "short_description": "Process data using functional array methods.",
+        "language": "javascript"
+    }
+]

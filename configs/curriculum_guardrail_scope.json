@@ -1,0 +1,22 @@
+{
+  "active_worlds": [
+    "world-python"
+  ],
+  "active_tracks": [
+    "track-python-systems",
+    "track-python-ignition",
+    "track-python-foundry"
+  ],
+  "active_questpacks": [
+    "data/questpacks/python_systems.json",
+    "data/questpacks/_tier2/python_tier2.json",
+    "data/questpacks/foundry_python.json"
+  ],
+  "warning_only_worlds": [
+    "world-sql",
+    "world-js",
+    "world-ts",
+    "world-web"
+  ],
+  "excluded_worlds": []
+}

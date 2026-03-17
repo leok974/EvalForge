@@ -1,0 +1,33 @@
+name: Curriculum Audit
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: Run Curriculum Validator
+        run: |
+          python scripts/curriculum_validator.py
+          
+      - name: Run Population Audit
+        run: |
+          python scripts/curriculum_population_audit.py
+
+      - name: Run UI Smoke Tests
+        run: |
+          # Playwright requires backend and frontend running, 
+          # so we might skip this in standard CI if dev server is not up,
+          # but we'll include it as a step that runs if environment is ready.
+          pnpm exec playwright test tests/e2e/workshop_smoke.spec.ts
