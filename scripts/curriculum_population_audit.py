@@ -3,6 +3,7 @@ import requests
 import os
 from pathlib import Path
 import sys
+from datetime import datetime, date
 
 # --- Configuration Loading ---
 SCOPE_PATH = Path("configs/curriculum_guardrail_scope.json")
@@ -14,10 +15,31 @@ def load_json(path, default):
         return json.load(f)
 
 SCOPE = load_json(SCOPE_PATH, {})
-EXCLUSIONS = load_json(EXCLUSIONS_PATH, {}).get("excluded_slugs", [])
+
+def load_exclusions():
+    if not EXCLUSIONS_PATH.exists(): return {}
+    data = load_json(EXCLUSIONS_PATH, {})
+    if "excluded_slugs" in data:
+        return {slug: {"slug": slug, "reason": "Legacy", "added_at": "2026-01-01"} for slug in data["excluded_slugs"]}
+    if "excluded_quests" in data:
+        return {item["slug"]: item for item in data["excluded_quests"]}
+    return {}
+
+EXCLUSIONS_MAP = load_exclusions()
+
+def get_exclusion_age(slug):
+    exclusion = EXCLUSIONS_MAP.get(slug)
+    if not exclusion: return 0
+    added_at_str = exclusion.get("added_at", "2026-01-01")
+    try:
+        added_at = datetime.strptime(added_at_str, "%Y-%m-%d").date()
+        today = date(2026, 3, 17) # Reference date
+        return (today - added_at).days
+    except:
+        return 999
 
 def is_active(slug, quest_data=None):
-    if slug in EXCLUSIONS: return False
+    if slug in EXCLUSIONS_MAP: return False
     
     # If we have quest_data (from JSON), we can check world/track
     if quest_data:
@@ -26,8 +48,6 @@ def is_active(slug, quest_data=None):
         if world_id in SCOPE.get("active_worlds", []): return True
         if track_id in SCOPE.get("active_tracks", []): return True
     
-    # Fallback to general slug-based active check if needed, 
-    # but usually we want to know if it's in an active world.
     return False
 
 def audit_population():
@@ -49,11 +69,28 @@ def audit_population():
     
     print(f"Source (JSON) Quests: {len(json_quests)}")
     
-    # 2. DB / API (Requires backend running)
+    # 2. Check Exclusion Aging
     global_errors = []
     active_errors = []
     warnings = []
     
+    for slug, exclusion in EXCLUSIONS_MAP.items():
+        age = get_exclusion_age(slug)
+        q_data = json_quests.get(slug)
+        # Determine if active for failure threshold
+        is_q_active = False
+        if q_data:
+            world_id = q_data.get("world_id")
+            track_id = q_data.get("track_id")
+            if world_id in SCOPE.get("active_worlds", []): is_q_active = True
+            if track_id in SCOPE.get("active_tracks", []): is_q_active = True
+            
+        if age > 90 and is_q_active:
+            active_errors.append(f"Exclusion expired: {slug} ({age} days old)")
+        elif age > 30:
+            warnings.append(f"Exclusion aging: {slug} ({age} days old)")
+
+    # 3. DB / API (Requires backend running)
     try:
         r = requests.get("http://localhost:8092/api/quests", timeout=5)
         api_quests = {q["slug"] for q in r.json()}
@@ -63,9 +100,9 @@ def audit_population():
         missing_in_api = json_slugs - api_quests
         phantom_in_api = api_quests - json_slugs
         
-        # Filter exclusions
-        missing_in_api = {s for s in missing_in_api if s not in EXCLUSIONS}
-        phantom_in_api = {s for s in phantom_in_api if s not in EXCLUSIONS}
+        # Filter exclusions for population mismatch reporting
+        missing_in_api = {s for s in missing_in_api if s not in EXCLUSIONS_MAP}
+        phantom_in_api = {s for s in phantom_in_api if s not in EXCLUSIONS_MAP}
 
         if missing_in_api:
             for slug in missing_in_api:

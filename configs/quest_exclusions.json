@@ -1,30 +1,160 @@
 {
-  "excluded_slugs": [
-    "first-sparks",
-    "hello-variable",
-    "quest-py-hidden",
-    "quest-py-workspace",
-    "python-dicts-and-json",
-    "selenium-find-elements",
-    "python-ignition",
-    "selenium-take-screenshot",
-    "python-pytest-basics",
-    "python-write-a-regression-test",
-    "python-find-the-bug",
-    "selenium-open-page",
-    "python-variables-and-conditions",
-    "selenium-read-text-and-assert",
-    "python-explain-side-effects",
-    "python-file-processing",
-    "python-trace-data-flow",
-    "selenium-click-and-type",
-    "python-errors-and-logging",
-    "python-functions-and-helpers",
-    "python-follow-imports",
-    "python-config-and-env",
-    "python-loops-and-records",
-    "python-read-a-script",
-    "legacy-quest-1",
-    "deprecated-quest-2"
+  "excluded_quests": [
+    {
+      "slug": "first-sparks",
+      "reason": "Pending content enrichment",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "hello-variable",
+      "reason": "Missing example.py",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "quest-py-hidden",
+      "reason": "Internal test quest",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "quest-py-workspace",
+      "reason": "Internal test quest",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-dicts-and-json",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "selenium-find-elements",
+      "reason": "Legacy Selenium",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-ignition",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "selenium-take-screenshot",
+      "reason": "Legacy Selenium",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-pytest-basics",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-write-a-regression-test",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-find-the-bug",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "selenium-open-page",
+      "reason": "Legacy Selenium",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-variables-and-conditions",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "selenium-read-text-and-assert",
+      "reason": "Legacy Selenium",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-explain-side-effects",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-file-processing",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-trace-data-flow",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "selenium-click-and-type",
+      "reason": "Legacy Selenium",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-errors-and-logging",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-functions-and-helpers",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-follow-imports",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-config-and-env",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-loops-and-records",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "python-read-a-script",
+      "reason": "Legacy Python",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "legacy-quest-1",
+      "reason": "Placeholder",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    },
+    {
+      "slug": "deprecated-quest-2",
+      "reason": "Placeholder",
+      "added_at": "2026-03-17",
+      "owner": "leo"
+    }
   ]
 }

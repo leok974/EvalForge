@@ -3,6 +3,7 @@ import os
 import re
 from pathlib import Path
 import sys
+from datetime import datetime, date
 
 # --- Configuration Loading ---
 SCOPE_PATH = Path("configs/curriculum_guardrail_scope.json")
@@ -33,11 +34,28 @@ def is_active(quest, json_file: Path):
 
 EXCLUSIONS_PATH = Path("configs/quest_exclusions.json")
 def load_exclusions():
-    if not EXCLUSIONS_PATH.exists(): return []
+    if not EXCLUSIONS_PATH.exists(): return {}
     with open(EXCLUSIONS_PATH, "r", encoding="utf-8") as f:
-        return json.load(f).get("excluded_slugs", [])
+        data = json.load(f)
+        # Handle both old format (list of strings) and new format (list of objects)
+        if "excluded_slugs" in data:
+            return {slug: {"slug": slug, "reason": "Legacy", "added_at": "2026-01-01"} for slug in data["excluded_slugs"]}
+        if "excluded_quests" in data:
+            return {item["slug"]: item for item in data["excluded_quests"]}
+    return {}
 
-EXCLUSIONS = load_exclusions()
+EXCLUSIONS_MAP = load_exclusions()
+
+def get_exclusion_age(slug):
+    exclusion = EXCLUSIONS_MAP.get(slug)
+    if not exclusion: return 0
+    added_at_str = exclusion.get("added_at", "2026-01-01")
+    try:
+        added_at = datetime.strptime(added_at_str, "%Y-%m-%d").date()
+        today = date(2026, 3, 17) # Reference date from metadata
+        return (today - added_at).days
+    except:
+        return 999 # Treat malformed dates as very old
 
 def get_quest_content(quest, json_file: Path):
     briefing = quest.get("briefing_md", "") or quest.get("description", "")
@@ -117,7 +135,19 @@ def validate_curriculum():
                     # Might be a pack definition without slug, skip internal objects
                     continue
                 
-                if slug in EXCLUSIONS: continue
+                # Check Exclusions & Aging
+                if slug in EXCLUSIONS_MAP:
+                    age = get_exclusion_age(slug)
+                    # Check if active for potential failure
+                    # We need to compute q_active early here
+                    is_q_active = is_active(quest, json_file)
+                    
+                    if age > 90 and is_q_active:
+                        active_errors.append(f"[{json_file.name}] {slug}: Exclusion expired ({age} days old). Please refresh or resolve.")
+                    elif age > 30:
+                        warnings.append(f"[{json_file.name}] {slug}: Exclusion aging ({age} days old).")
+                    
+                    continue
 
                 # --- TIER 1: GLOBAL STRUCTURAL CHECKS ---
                 if slug in slugs:
