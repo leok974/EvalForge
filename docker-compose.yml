@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: evalforge-backend
-    command: uvicorn arcade_app.agent:app --host 0.0.0.0 --port 8092 --reload
+    command: uvicorn arcade_app.agent:app --host 0.0.0.0 --port 8092
     ports:
       - "8092:8092"
     environment:
@@ -35,6 +35,7 @@ services:
       - ./scripts:/app/scripts       # Scripts
       - ./seed:/app/seed             # Seed data
       - ./configs:/app/configs       # Configs (added for quest visibility)
+      - ./runtimes:/app/runtimes     # Phase 18: Selenium helpers & step logger
       - C:/Users/pierr/AppData/Roaming/gcloud/application_default_credentials.json:/app/credentials.json
       - //var/run/docker.sock:/var/run/docker.sock # Allow spawning runners
     depends_on:

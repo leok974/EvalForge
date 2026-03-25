@@ -18,6 +18,7 @@ class ExecResult:
     timed_out: bool
     state: Optional[Dict[str, Any]] = None  # Captured state (files, git, etc.)
     artifacts: Optional[Dict[str, Any]] = None # Captured JSON artifacts from harness
+    selenium_trace: Optional[list] = None  # Phase 18: Step trace
 
 def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, quest_slug: Optional[str] = None, entrypoint: Optional[str] = None) -> ExecResult:
     """
@@ -180,30 +181,35 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
             # Capture state before cleanup
             state = _capture_state(td)
             artifacts = _capture_artifacts(td)
+            raw_stdout = p.stdout.decode("utf-8", errors="replace")
+            selenium_trace = _parse_selenium_trace(raw_stdout)
             
             return ExecResult(
                 ok=(p.returncode == 0),
                 exit_code=p.returncode,
                 duration_ms=dt,
-                stdout=p.stdout.decode("utf-8", errors="replace"),
+                stdout=_strip_selenium_trace_sentinel(raw_stdout),
                 stderr=p.stderr.decode("utf-8", errors="replace"),
                 timed_out=False,
                 state=state,
-                artifacts=artifacts
+                artifacts=artifacts,
+                selenium_trace=selenium_trace
             )
         except subprocess.TimeoutExpired as e:
             dt = int((time.time() - t0) * 1000)
             out = (e.stdout or b"").decode("utf-8", errors="replace")
             err = (e.stderr or b"").decode("utf-8", errors="replace")
+            selenium_trace = _parse_selenium_trace(out)
             return ExecResult(
                 ok=False,
                 exit_code=None,
                 duration_ms=dt,
-                stdout=out,
+                stdout=_strip_selenium_trace_sentinel(out),
                 stderr=err + ("\n[Timed out]" if err else "[Timed out]"),
                 timed_out=True,
-                state=_capture_state(td), # Capture state even on timeout
-                artifacts=_capture_artifacts(td)
+                state=_capture_state(td),
+                artifacts=_capture_artifacts(td),
+                selenium_trace=selenium_trace
             )
 
 import hashlib
@@ -223,6 +229,36 @@ def _capture_artifacts(temp_dir_str: str) -> Dict[str, Any]:
             except Exception:
                 pass
     return artifacts if artifacts else None
+
+
+_TRACE_START = "<<EVALFORGE_SELENIUM_TRACE_START>>"
+_TRACE_END = "<<EVALFORGE_SELENIUM_TRACE_END>>"
+
+
+def _parse_selenium_trace(stdout: str) -> list | None:
+    """Extract and parse the selenium step trace sentinel from stdout."""
+    try:
+        s = stdout.find(_TRACE_START)
+        e = stdout.find(_TRACE_END)
+        if s == -1 or e == -1:
+            return None
+        payload = stdout[s + len(_TRACE_START):e]
+        data = json.loads(payload)
+        return data.get("steps")
+    except Exception:
+        return None
+
+
+def _strip_selenium_trace_sentinel(stdout: str) -> str:
+    """Remove the selenium trace sentinel from the stdout string."""
+    try:
+        s = stdout.find(_TRACE_START)
+        e = stdout.find(_TRACE_END)
+        if s == -1 or e == -1:
+            return stdout
+        return stdout[:s].rstrip() + stdout[e + len(_TRACE_END):]
+    except Exception:
+        return stdout
 
 def _capture_state(temp_dir_str: str) -> Dict[str, Any]:
     """Capture state: files, hashes, git info."""

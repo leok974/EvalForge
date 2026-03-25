@@ -77,3 +77,6 @@ class RunResponse(BaseModel):
     # Preview vs Graded run
     evaluated_objectives: bool = True
     run_target_path: Optional[str] = None
+
+    # Phase 18: Selenium Step Trace
+    selenium_trace: Optional[List[dict]] = None

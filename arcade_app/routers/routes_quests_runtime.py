@@ -220,6 +220,7 @@ async def run_quest(
         timed_out, duration_ms = r.timed_out, r.duration_ms
         exit_code = r.exit_code if r.exit_code is not None else (1 if timed_out else 0)
         artifacts = getattr(r, "artifacts", None)
+        selenium_trace = getattr(r, "selenium_trace", None)  # Phase 18
         
         # Flag if we forced the SQL runner explicitly
         runner_id = "sql_preview" if lang == "sql" and exec_mode == "run" else None
@@ -416,6 +417,31 @@ async def run_quest(
         execution_context_json=execution_context,  # Phase 8.x PR 4
         artifacts_json=artifacts if artifacts else {}, # Phase R
     )
+
+    # Phase R: Persist Selenium Artifacts (Screenshots/DOM)
+    if artifacts and "_local_dir" in artifacts:
+        local_dir = Path(artifacts.pop("_local_dir"))
+        from arcade_app.services.artifact_manager import save_artifact
+        
+        attempt_id_str = str(attempt.id)
+        
+        # Persist Selenium specific files
+        if "selenium" in artifacts:
+            for item in artifacts["selenium"].get("screenshots", []):
+                filename = item["path"] # e.g. "screenshots/login.png"
+                src = local_dir / filename
+                if src.exists():
+                    item["url"] = save_artifact(attempt_id_str, filename, src)
+            
+            for item in artifacts["selenium"].get("dom_snapshots", []):
+                filename = item["path"]
+                src = local_dir / filename
+                if src.exists():
+                    item["url"] = save_artifact(attempt_id_str, filename, src)
+        
+        # update attempt with refined URLs
+        attempt.artifacts_json = artifacts
+
     debrief_data = None
     # NOTE: diagnostics_data was already set above inside the evaluate_objectives block
     #       Do NOT reset it here.
@@ -590,7 +616,8 @@ async def run_quest(
         "quick_fixes": q_fixes,
         "artifacts": final_artifacts,
         "evaluated_objectives": evaluate_objectives,
-        "run_target_path": getattr(payload, "run_target_path", None)
+        "run_target_path": getattr(payload, "run_target_path", None),
+        "selenium_trace": selenium_trace if 'selenium_trace' in locals() else None,  # Phase 18
     }
 
 @router.get("/{quest_id}/attempts", response_model=list[dict])

@@ -14,11 +14,12 @@ import { QuickFixBar, QuickFixCard, QuickFixAction, generateQuickFixes } from '.
 import { QueryInspector } from './QueryInspector';
 import { DatabaseExplorer } from './DatabaseExplorer';
 import { AnimatePresence } from 'framer-motion';
-import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, ChevronLeft, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle, Eye, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Terminal as TerminalIcon, Play, RefreshCw, CheckCircle2, XCircle, Code2, Database, BookOpen, Bug, Sparkles, ChevronRight, ChevronLeft, Copy, Menu, Share2, MessageSquare, Info, History, ShieldAlert, Zap, X, AlertOctagon, Lock, Unlock, FileCode, Check, PenLine, ArrowLeft, MoreVertical, Compass, Globe, ExternalLink, Beaker, Wrench, Shield, ArrowUpRight, ChevronDown, Rocket, Table2, TerminalSquare, Layers, History as HistoryIcon, Download, Split, RotateCcw, Minimize2, Maximize2, AlertTriangle, Eye, PanelLeftClose, PanelLeftOpen, Camera } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DiffEditor } from '@monaco-editor/react';
 import { useQuestStore } from '@/store/questStore';
 import { CoachPanel } from './CoachPanel';
+import { SeleniumTracePanel } from './SeleniumTracePanel';
 import { IntentOracleEvalButton } from '@/components/devtools/IntentOracleEvalButton';
 import { IntentOracleEvalHistory } from '@/components/devtools/IntentOracleEvalHistory';
 
@@ -161,10 +162,11 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const [debriefData, setDebriefData] = useState<DebriefData | undefined>(undefined);
     const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
     const [quickFixes, setQuickFixes] = useState<QuickFixCard[]>([]);
-    const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | 'database' | undefined>(undefined);
+    const [drawerTab, setDrawerTab] = useState<'briefing' | 'objectives' | 'lore' | 'hints' | 'history' | 'tutorial' | 'database' | 'app_preview' | undefined>(undefined);
+    const [seleniumTrace, setSeleniumTrace] = useState<any[] | null>(null); // Phase 18: Selenium step trace
 
     // Query Inspector / Terminal State
-    const [activeTerminalTab, setActiveTerminalTab] = useState<'terminal' | 'trace' | 'result' | 'explain_plan' | 'explain_coach' | 'results' | 'debug' | 'raw' | 'oracle'>(() => {
+    const [activeTerminalTab, setActiveTerminalTab] = useState<'terminal' | 'trace' | 'result' | 'explain_plan' | 'explain_coach' | 'results' | 'debug' | 'raw' | 'oracle' | 'screenshots'>(() => {
         const saved = localStorage.getItem(`terminalTab:${initialQuest.slug}`);
         return (saved as any) || 'terminal';
     });
@@ -191,17 +193,19 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
         navigate(`${window.location.pathname}?${params.toString()}`, { replace: true });
     };
 
-    // Default Tab Logic including Tutorial
+    // Default Tab Logic including Tutorial and App Preview
     useEffect(() => {
         if (!drawerTab) {
-            // Priority: Tutorial (if exists) -> Briefing
+            // Priority: Tutorial -> App Preview -> Briefing
             if (quest.tutorial_md) {
                 setDrawerTab('tutorial');
+            } else if ((quest as any).requires_app_preview) {
+                setDrawerTab('app_preview');
             } else {
                 setDrawerTab('briefing');
             }
         }
-    }, [quest.id, quest.tutorial_md]);
+    }, [quest.id, quest.tutorial_md, (quest as any).requires_app_preview]);
 
     // Sync state to URL (Tutorial only now)
     useEffect(() => {
@@ -626,7 +630,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
         const targetPath = isEntrypoint ? entrypoint : activePath;
         const isActuallyEntrypoint = targetPath === entrypoint;
 
-        addLog(`--- Starting Execution (${isActuallyEntrypoint ? 'Entrypoint' : 'Reference'}) ---`, 'info');
+        addLog(`--- Running ${targetPath} (${isActuallyEntrypoint ? 'Entrypoint' : 'Reference'}) ---`, 'info');
         if (!isActuallyEntrypoint) {
             console.log(`[run] reference: path=${targetPath} eval=false`);
         }
@@ -653,7 +657,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
                 const models = monaco.editor.getModels();
                 // Find model ending with path (handle / vs \ maybe? usually uri uses /)
-                const model = models.find((m: any) => m.uri.path.endsWith(filePath) || m.uri.path.endsWith('/' + filePath));
+                const model = models.find((m: any) => m.uri?.path?.endsWith(filePath) || m.uri?.path?.endsWith('/' + filePath));
                 return model ? model.getValue() : fallback;
             };
 
@@ -697,6 +701,10 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             }
 
             if (result.stdout) addLog(result.stdout, 'output');
+
+            // Phase 18: Capture and display Selenium step trace
+            const trace = (result as any).selenium_trace;
+            setSeleniumTrace(trace && trace.length > 0 ? trace : null);
 
             // Detect preview run (non-graded reference file execution)
             // Must be detected BEFORE updating store, to block allPassed bleed
@@ -1272,6 +1280,36 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                     ) : null,
                                     database: quest.db_explorer_enabled ? (
                                         <DatabaseExplorer questId={quest.slug} />
+                                    ) : null,
+                                    app_preview: (quest as any).requires_app_preview ? (
+                                        <div className="h-full flex flex-col bg-zinc-950 rounded-lg overflow-hidden border border-zinc-800">
+                                            <div className="flex items-center justify-between px-3 py-2 bg-zinc-900 border-b border-zinc-800 shrink-0">
+                                                <div className="flex items-center gap-2">
+                                                    <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                                                    <span className="text-[10px] font-mono text-zinc-400 truncate max-w-[200px]">
+                                                        {(quest as any).app_entry_path || '/'}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                     <a 
+                                                        href={`http://127.0.0.1:8765${(quest as any).app_entry_path || '/'}`} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer"
+                                                        className="p-1 text-zinc-500 hover:text-cyan-400 transition-colors"
+                                                        title="Open in new tab"
+                                                    >
+                                                        <ExternalLink className="w-3 h-3" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div className="flex-1 w-full bg-white relative">
+                                                <iframe 
+                                                    src={`http://127.0.0.1:8765${(quest as any).app_entry_path || '/'}`} 
+                                                    className="absolute inset-0 w-full h-full border-none"
+                                                    title="App Preview"
+                                                />
+                                            </div>
+                                        </div>
                                     ) : null
                                 }}
                             />
@@ -1330,7 +1368,8 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                             {/* Entrypoint Chip & Run Active File */}
                             {activePath !== (quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py')) && (
                                 <div className="absolute top-2 right-4 z-10 flex gap-2 animate-in fade-in zoom-in-95 duration-200">
-                                    {quest.language === 'sql' && activePath.endsWith('.sql') && (
+                                    {((quest.language === 'sql' && activePath.endsWith('.sql')) || 
+                                      (quest.language === 'python' && activePath.endsWith('.py'))) && (
                                         <button
                                             onClick={runActiveFile}
                                             disabled={isRunning}
@@ -1478,6 +1517,15 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                 >
                                     <CheckCircle2 className="w-3 h-3" /> Results
                                 </button>
+                                {(lastRunResult as any)?.artifacts?.selenium?.screenshots?.length > 0 && (
+                                    <button
+                                        onClick={() => setActiveTerminalTab('screenshots')}
+                                        className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
+                                                ${activeTerminalTab === 'screenshots' ? 'text-pink-400 border-pink-400 bg-pink-950/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'}`}
+                                    >
+                                        <Camera className="w-3 h-3" /> Screenshots
+                                    </button>
+                                )}
                                 <button
                                     onClick={() => setActiveTerminalTab('explain_coach')}
                                     className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap
@@ -1555,6 +1603,10 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                             </div>
                                         </div>
                                     ))}
+                                    {/* Phase 18: Selenium Step Trace — appears below console output */}
+                                    {seleniumTrace && seleniumTrace.length > 0 && (
+                                        <SeleniumTracePanel steps={seleniumTrace} />
+                                    )}
                                 </div>
                             )}
 
@@ -1607,6 +1659,38 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                         {!quest.objectives?.length && (
                                             <div className="text-xs text-zinc-500 italic p-4 text-center border border-zinc-800 rounded-lg">No objectives listed.</div>
                                         )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTerminalTab === 'screenshots' && (lastRunResult as any)?.artifacts?.selenium && (
+                                <div className="h-full overflow-y-auto p-4 space-y-4">
+                                    <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Captured Screenshots</h4>
+                                    <div className="grid grid-cols-1 gap-4 max-w-4xl">
+                                        {(lastRunResult as any)?.artifacts?.selenium?.screenshots?.map((s: any, i: number) => (
+                                            <div key={i} className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/50">
+                                                <div className="px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-[10px] font-mono text-zinc-400 flex justify-between">
+                                                    <span>{s.id || `Screenshot ${i+1}`}</span>
+                                                    <span>{s.timestamp ? new Date(s.timestamp * 1000).toLocaleTimeString() : ''}</span>
+                                                </div>
+                                                <div className="p-2 border-b border-zinc-800/50 bg-black text-[9px] text-zinc-600 font-mono break-all">
+                                                    Raw Path: {s.path}
+                                                </div>
+                                                <img 
+                                                    src={`/api/artifacts/${(lastRunResult as any).attempt_id}/${s.path}`} 
+                                                    alt={s.id || "Screenshot"}
+                                                    className="w-full h-auto"
+                                                    onError={(e) => { 
+                                                        const target = e.target as HTMLImageElement;
+                                                        target.style.display = 'none'; 
+                                                        const div = document.createElement('div');
+                                                        div.className = 'p-4 text-xs text-red-500 font-mono italic text-center w-full';
+                                                        div.innerText = 'Image load failed. Artifact may not exist on disk.';
+                                                        target.parentElement?.appendChild(div);
+                                                    }}
+                                                />
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}
