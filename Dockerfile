@@ -14,10 +14,13 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install system dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     docker.io \
     docker-cli \
+    chromium \
+    chromium-driver \
     && rm -rf /var/lib/apt/lists/*
 
 # Install python dependencies

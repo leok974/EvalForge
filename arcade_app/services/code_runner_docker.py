@@ -157,6 +157,12 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 src_path = os.path.join(os.path.dirname(__file__), "runners", "sql_preview.py")
                 final_command = ["python", "-u", "-I", "-B", "/workspace/.evalforge/sql_preview.py"]
 
+            # Phase R: Selenium Runner
+            elif language == "selenium":
+                runner_file = "selenium_runner.py"
+                src_path = os.path.join(os.path.dirname(__file__), "runners", "selenium_runner.py")
+                final_command = ["python", "-u", "-I", "-B", "/workspace/.evalforge/selenium_runner.py"]
+
             runner_target = os.path.join(runner_dir, runner_file)
             if os.path.exists(src_path):
                 with open(src_path, "r", encoding="utf-8") as rf:
@@ -244,6 +250,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             "-e", f"PG_DB_URL=postgresql://evalforge:evalforge@db:5432/evalforge",
             "-e", f"PG_TEMP_SCHEMA=run_{surrogate_id[:8]}",
             "-e", f"EVALFORGE_SQL_ENTRYPOINT={effective_entrypoint}",
+            "-e", f"EVALFORGE_APP_URL={os.getenv('EVALFORGE_APP_URL', 'http://host.docker.internal:8765')}",
             image,
             *final_command # Use the updated command
         ]
@@ -307,11 +314,21 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             )
             exit_code = int(inspect_p.stdout.decode().strip() or "0")
             
-            # G) Capture SQL artifacts
+            # G) Capture artifacts
             artifacts_out = {}
-            import re
             
-            # 1. First try to extract from stdout marker
+            # Recursive copy of .evalforge directory to capture everything (SQL + Selenium + Screenshots)
+            try:
+                subprocess.run(
+                    ["docker", "cp", f"{container_name}:{artifacts_dir}/.", td],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                    timeout=5
+                )
+            except Exception:
+                pass
+
+            # 1. First try to extract from stdout marker (fast path for small JSON)
+            import re
             match = re.search(r'<<EVALFORGE_ARTIFACTS_START>>(.*?)<<EVALFORGE_ARTIFACTS_END>>', stdout_str, re.DOTALL)
             if match:
                 try:
@@ -323,21 +340,26 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 # Strip it from stdout so it doesn't clutter UI logs
                 stdout_str = re.sub(r'\n?<<EVALFORGE_ARTIFACTS_START>>.*?<<EVALFORGE_ARTIFACTS_END>>\n?', '', stdout_str, flags=re.DOTALL)
                 
-            # 2. Fallback to disk if not fully populated
+            # 2. Load artifacts from the copied directory
+            # SQL
             for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
                 if not artifacts_out.get(aname):
-                    try:
-                        dest = os.path.join(td, f"{aname}.json")
-                        subprocess.run(
-                            ["docker", "cp", f"{container_name}:{artifacts_dir}/{aname}.json", dest],
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                            timeout=3
-                        )
-                        if os.path.exists(dest):
-                            with open(dest, "r", encoding="utf-8") as f:
+                    p = os.path.join(td, f"{aname}.json")
+                    if os.path.exists(p):
+                        try:
+                            with open(p, "r", encoding="utf-8") as f:
                                 artifacts_out[aname] = json.load(f)
-                    except Exception:
-                        pass
+                        except Exception: pass
+            
+            # Selenium
+            p_sel = os.path.join(td, "selenium_artifacts.json")
+            if os.path.exists(p_sel):
+                try:
+                    with open(p_sel, "r", encoding="utf-8") as f:
+                        artifacts_out["selenium"] = json.load(f)
+                        # We also want to keep the local 'td' path for persistence later
+                        artifacts_out["_local_dir"] = td 
+                except Exception: pass
 
             dt = int((time.time() - t0) * 1000)
             

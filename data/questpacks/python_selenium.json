@@ -1,0 +1,110 @@
+[
+  {
+    "slug": "selenium-open-page",
+    "title": "Eyes on the Target",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Use Selenium to navigate to the mock CMS and verify the page title.",
+    "app_fixture": "login-basic",
+    "app_entry_path": "/login",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 100,
+    "learning_objective": "Master the basic navigation command in Selenium.",
+    "objectives": [
+      {
+        "id": "navigate_to_login",
+        "title": "Navigate to the Login Page",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "TITLE_MATCH: CMS Login",
+            "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/selenium-open-page/workspace"
+    }
+  },
+  {
+    "slug": "selenium-find-elements",
+    "title": "The Hunt for ID",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Locate the username and password fields using data-testid selectors.",
+    "app_fixture": "login-basic",
+    "app_entry_path": "/login",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 150,
+    "learning_objective": "Understand how to locate elements using the By.CSS_SELECTOR and data-testid.",
+    "objectives": [
+      {
+        "id": "find_elements",
+        "title": "Find Input Fields",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "STATUS_VALUE",
+            "flags": "i"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/selenium-find-elements/workspace"
+    }
+  },
+  {
+    "slug": "selenium-click-and-type",
+    "title": "Data Entry Specialist",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Enter credentials and click the login button.",
+    "app_fixture": "login-basic",
+    "app_entry_path": "/login",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 200,
+    "learning_objective": "Master send_keys and click interactions in Selenium.",
+    "workspace": {
+      "files_from": "../quests/selenium-click-and-type/workspace"
+    }
+  },
+  {
+    "slug": "selenium-read-text-and-assert",
+    "title": "The Truth in Text",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Verify the successful login by reading the dashboard title.",
+    "app_fixture": "login-basic",
+    "app_entry_path": "/login",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 250,
+    "learning_objective": "Extract text from elements and use assertions to verify state.",
+    "workspace": {
+      "files_from": "../quests/selenium-read-text-and-assert/workspace"
+    }
+  },
+  {
+    "slug": "selenium-take-screenshot",
+    "title": "Evidence Gatherer",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Capture a screenshot of the dashboard for audit purposes.",
+    "app_fixture": "login-basic",
+    "app_entry_path": "/login",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 150,
+    "artifact_modes": ["screenshot"],
+    "learning_objective": "Learn how to capture and save screenshots using Selenium.",
+    "workspace": {
+      "files_from": "../quests/selenium-take-screenshot/workspace"
+    }
+  }
+]

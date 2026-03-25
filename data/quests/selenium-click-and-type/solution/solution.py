@@ -1,0 +1,31 @@
+import os
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+
+APP_URL = os.environ.get("EVALFORGE_APP_URL")
+
+options = Options()
+options.add_argument("--headless=new")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+
+    from selenium.webdriver.chrome.service import Service
+    driver = webdriver.Chrome(
+        service=Service("/usr/bin/chromedriver"),
+        options=options
+    )
+
+try:
+    driver.get(APP_URL)
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='login-username']").send_keys("admin")
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='login-password']").send_keys("secret123")
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='login-submit']").click()
+    
+    # Wait for dashboard (implicit wait helps here)
+    title = driver.find_element(By.CSS_SELECTOR, "[data-testid='dashboard-title']")
+    assert "Welcome, Admin" in title.text
+    print("Verified: Login successful and dashboard loaded.")
+finally:
+    driver.quit()

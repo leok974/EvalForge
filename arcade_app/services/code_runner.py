@@ -19,7 +19,7 @@ class ExecResult:
     state: Optional[Dict[str, Any]] = None  # Captured state (files, git, etc.)
     artifacts: Optional[Dict[str, Any]] = None # Captured JSON artifacts from harness
 
-def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, quest_slug: Optional[str] = None) -> ExecResult:
+def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, quest_slug: Optional[str] = None, entrypoint: Optional[str] = None) -> ExecResult:
     """
     DEV ONLY. Not safe for untrusted code. Use docker backend for prod.
     Runs python with:
@@ -111,15 +111,26 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
             for f in filenames:
                 listing.append(os.path.relpath(os.path.join(root, f), td))
 
-        effective_entrypoint = "main.py"
-        found_configured = False
-        if workspace and workspace.get("entrypoint"):
-             if workspace["entrypoint"] in listing:
-                 effective_entrypoint = workspace["entrypoint"]
-                 found_configured = True
+        effective_entrypoint = entrypoint or "main.py"
+        found_entry = False
+        
+        # Priority 1: Use explicitly provided entrypoint (if it exists in workspace)
+        if entrypoint and entrypoint in listing:
+            effective_entrypoint = entrypoint
+            found_entry = True
+            
+        # Priority 2: Fallback to workspace metadata entrypoint
+        if not found_entry and workspace and workspace.get("entrypoint"):
+             normalized_ws_entry = workspace["entrypoint"]
+             if normalized_ws_entry.startswith("workspace/") or normalized_ws_entry.startswith("workspace\\"):
+                 normalized_ws_entry = normalized_ws_entry[10:]
+             
+             if normalized_ws_entry in listing:
+                 effective_entrypoint = normalized_ws_entry
+                 found_entry = True
                  
-        if not found_configured:
-            # Auto-detect for Python local runner
+        # Priority 3: Auto-detection
+        if not found_entry:
             if "task.py" in listing:
                 effective_entrypoint = "task.py"
             elif "main.py" in listing:
@@ -149,6 +160,8 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
             "PYTHONPATH": td, # explicitly add cwd to path? python adds script dir by default.
             "GIT_EDITOR": "true",
             "GIT_TERMINAL_PROMPT": "0",
+            # Inject host.docker.internal if not set, to reach mock app on host from container
+            "EVALFORGE_APP_URL": os.getenv("EVALFORGE_APP_URL", "http://host.docker.internal:8765"),
         })
 
         try:
@@ -268,7 +281,7 @@ def _capture_state(temp_dir_str: str) -> Dict[str, Any]:
 
 from typing import Optional, Dict, Any
 
-def run_javascript_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, quest_slug: Optional[str] = None) -> ExecResult:
+def run_javascript_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, quest_slug: Optional[str] = None, entrypoint: Optional[str] = None) -> ExecResult:
     """
     DEV ONLY. Runs javascript locally using 'node'.
     """
@@ -328,17 +341,38 @@ def run_javascript_local(code: str, stdin: str = "", timeout_ms: int = 2000, wor
              has_entry = True
              
         # Determine entrypoint
-        target_file = "main.js"
-        if workspace and workspace.get("entrypoint"):
-            target_file = workspace["entrypoint"]
-            if target_file.startswith("workspace/") or target_file.startswith("workspace\\"):
-                target_file = target_file[10:]
-        elif "index.js" in [f.get("path") for f in files]: # simplified check
-             target_file = "index.js"
+        # Priority 1: Explicit target (example.py mode)
+        effective_entrypoint = entrypoint or "main.js"
+        found_entry = False
         
-        path = os.path.join(td, target_file)
+        listing = []
+        for root, _, filenames in os.walk(td):
+            for f in filenames:
+                listing.append(os.path.relpath(os.path.join(root, f), td))
+
+        if entrypoint and entrypoint in listing:
+            effective_entrypoint = entrypoint
+            found_entry = True
+
+        # Priority 2: Workspace metadata
+        if not found_entry and workspace and workspace.get("entrypoint"):
+            ws_entry = workspace["entrypoint"]
+            if ws_entry.startswith("workspace/") or ws_entry.startswith("workspace\\"):
+                ws_entry = ws_entry[10:]
+            if ws_entry in listing:
+                effective_entrypoint = ws_entry
+                found_entry = True
+        
+        # Priority 3: Auto-detection
+        if not found_entry:
+            if "index.js" in listing:
+                 effective_entrypoint = "index.js"
+            elif "main.js" in listing:
+                 effective_entrypoint = "main.js"
+        
+        path = os.path.join(td, effective_entrypoint)
         if not os.path.exists(path):
-             return ExecResult(ok=False, exit_code=2, duration_ms=0, stdout="", stderr=f"Entrypoint '{target_file}' not found.", timed_out=False)
+             return ExecResult(ok=False, exit_code=2, duration_ms=0, stdout="", stderr=f"Entrypoint '{effective_entrypoint}' not found.", timed_out=False)
 
         cmd = ["node", path]
         env = os.environ.copy() # Inherit for node/npm
@@ -400,9 +434,9 @@ def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, 
         return run_code_docker(language, code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, mode=mode, entrypoint=entrypoint, quest_slug=quest_slug)
     
     if language == "javascript":
-        return run_javascript_local(code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, quest_slug=quest_slug)
+        return run_javascript_local(code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, quest_slug=quest_slug, entrypoint=entrypoint)
         
-    return run_python_local(code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, quest_slug=quest_slug)
+    return run_python_local(code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, quest_slug=quest_slug, entrypoint=entrypoint)
 
 # Alias for backward compatibility if needed, but we should switch callers
 run_python = lambda c, s="", t=2000: run_code("python", c, s, t)
