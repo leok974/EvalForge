@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CMS Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 2rem; }
+        .stat-card { background: #1e293b; padding: 1rem; border-radius: 8px; border-left: 4px solid #38bdf8; display: inline-block; margin: 1rem; min-width: 200px; }
+        .status-stable { color: #4ade80; }
+        .status-warning { color: #fbbf24; }
+    </style>
+</head>
+<body>
+    <h1 data-testid="dashboard-title">CMS Dashboard</h1>
+    <div class="stat-card">
+        <h3>Core Reactor</h3>
+        <p class="status-stable" data-testid="core-status">ONLINE / STABLE</p>
+    </div>
+    <div class="stat-card">
+        <h3>Steam Pressure</h3>
+        <p class="status-stable">82 PSI</p>
+    </div>
+    <br>
+    <nav>
+        <a href="/search" style="color: #38bdf8;">Search Records</a> |
+        <a href="/latency" style="color: #38bdf8;">Latency Test</a> |
+        <a href="/modals" style="color: #38bdf8;">Modals</a>
+    </nav>
+</body>
+</html>
