@@ -635,6 +635,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             console.log(`[run] reference: path=${targetPath} eval=false`);
         }
         setCoachData(null); // Reset coach
+        setSeleniumTrace(null); // Phase 18: Clear stale step trace
 
         if (quest.language === 'sql') {
             setActiveTerminalTab('result');

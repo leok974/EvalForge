@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 try:
     sys.path.insert(0, '/app/runtimes/python/selenium')
     from step_logger import SeleniumStepLogger
-    from helpers import open_page, find
+    from helpers import open_page, type_text, click
 except ImportError:
     class SeleniumStepLogger:
         def step(self, *a, **k): pass
@@ -18,11 +18,15 @@ except ImportError:
         def emit(self): pass
     def open_page(driver, url, logger, label=None):
         driver.get(url)
-    def find(driver, selector, logger, label=None, by=By.CSS_SELECTOR):
-        return driver.find_element(by, selector)
+    def type_text(driver, selector, text, logger, label=None, by=By.CSS_SELECTOR):
+        el = driver.find_element(by, selector)
+        el.clear()
+        el.send_keys(text)
+    def click(driver, selector, logger, label=None, by=By.CSS_SELECTOR):
+        driver.find_element(by, selector).click()
 
 
-def check_status():
+def do_login():
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
@@ -37,18 +41,23 @@ def check_status():
     try:
         app_url = os.environ.get("EVALFORGE_APP_URL", "http://localhost:8765")
 
-        open_page(driver, f"{app_url}/dashboard", logger, label="Open page: /dashboard")
+        open_page(driver, app_url, logger, label="Open page: CMS Login")
 
-        logger.step("find", "Find element: [data-testid='core-status']",
-                    selector="[data-testid='core-status']", url=driver.current_url)
-        status_element = driver.find_element(By.CSS_SELECTOR, "[data-testid='core-status']")
+        type_text(driver, "[data-testid='login-username']", "admin",
+                  logger, label="Type username: admin")
+
+        type_text(driver, "[data-testid='login-password']", "secret123",
+                  logger, label="Type password: ••••••••")
+
+        click(driver, "[data-testid='login-submit']",
+              logger, label="Click: Login button")
+
+        logger.step("assert", "Verify redirect to dashboard", url=driver.current_url)
+        assert "/dashboard" in driver.current_url, \
+            f"Expected /dashboard in URL, got: {driver.current_url}"
         logger.pass_step()
 
-        logger.step("assert", "Read status value", url=driver.current_url)
-        value = status_element.text.strip()
-        logger.pass_step()
-
-        print(f"STATUS_VALUE: {value}")
+        print(f"LOGIN_SUCCESS: {driver.current_url}")
     except Exception as e:
         logger.fail_step(str(e)[:200])
         raise
@@ -58,4 +67,4 @@ def check_status():
 
 
 if __name__ == "__main__":
-    check_status()
+    do_login()
