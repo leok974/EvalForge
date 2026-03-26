@@ -161,7 +161,8 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
             "PYTHONPATH": td, # explicitly add cwd to path? python adds script dir by default.
             "GIT_EDITOR": "true",
             "GIT_TERMINAL_PROMPT": "0",
-            # Inject host.docker.internal if not set, to reach mock app on host from container
+            # EVALFORGE_APP_URL is set to http://mock-cms:8765 by docker-compose.yml (compose dev stack).
+            # Falls back to host.docker.internal for non-compose local dev only.
             "EVALFORGE_APP_URL": os.getenv("EVALFORGE_APP_URL", "http://host.docker.internal:8765"),
         })
 

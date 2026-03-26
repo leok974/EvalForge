@@ -27,6 +27,8 @@ services:
       - EF_COACH_ENABLED=1
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - DOCKER_HOST=unix:///var/run/docker.sock
+      # Mock CMS reachable from inside the backend container via Docker network
+      - EVALFORGE_APP_URL=http://mock-cms:8765
     volumes:
       - ./arcade_app:/app/arcade_app # Hot reload code
       - ./docs:/app/docs             # Ladder specs & codex
@@ -41,8 +43,34 @@ services:
     depends_on:
       - db
       - redis
+      - mock-cms
     networks:
       - evalforge
+
+  # 1.5 Mock CMS — auto-started with the dev stack, no manual restart needed
+  mock-cms:
+    image: python:3.11-slim
+    container_name: evalforge-mock-cms
+    working_dir: /app
+    command: >-
+      bash -c "pip install fastapi uvicorn jinja2 python-multipart -q &&
+               python scripts/mock_cms_app.py"
+    volumes:
+      - ./scripts:/app/scripts
+      - ./data:/app/data
+    ports:
+      - "8765:8765"  # Exposed so the browser's App Preview iframe reaches localhost:8765
+    environment:
+      - MOCK_CMS_PORT=8765
+    networks:
+      - evalforge
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8765/healthz')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   # 2. The Face (Frontend - React + Vite)
   frontend:

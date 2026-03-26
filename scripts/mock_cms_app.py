@@ -1,7 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
 
@@ -10,55 +9,45 @@ app = FastAPI(title="EvalForge Mock CMS")
 # In-memory session-like state for deterministic testing
 sessions = {}
 
+# Resolve templates relative to this script so it works anywhere (host or Docker)
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_TEMPLATES_DIR = os.environ.get(
+    "MOCK_CMS_TEMPLATES_DIR",
+    os.path.join(_HERE, "..", "data", "quests", "_shared", "mock_app", "templates")
+)
+templates = Jinja2Templates(directory=_TEMPLATES_DIR)
+
 @app.get("/healthz")
 async def healthz():
     return {"status": "ok", "service": "evalforge-mock-cms"}
 
 @app.get("/", response_class=HTMLResponse)
 @app.get("/login", response_class=HTMLResponse)
-async def login_page():
-    return """
-    <html>
-        <head><title>CMS Login</title></head>
-        <body>
-            <h1>CMS Portal</h1>
-            <form action="/login" method="post">
-                <div>
-                    <label>Username:</label>
-                    <input type="text" name="username" data-testid="login-username" />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" name="password" data-testid="login-password" />
-                </div>
-                <button type="submit" data-testid="login-submit">Login</button>
-            </form>
-        </body>
-    </html>
-    """
+async def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/login", response_class=HTMLResponse)
-async def login(username: str = Form(...), password: str = Form(...)):
+async def login(request: Request, username: str = Form(...), password: str = Form(...)):
     if username == "admin" and password == "secret123":
-        return """
-        <html>
-            <head><title>Dashboard</title></head>
-            <body>
-                <h1 data-testid="dashboard-title">Welcome, Admin</h1>
-                <p data-testid="core-status">Status: All systems operational.</p>
-                <a href="/disputes" data-testid="nav-disputes">Manage Disputes</a>
-            </body>
-        </html>
-        """
+        return templates.TemplateResponse("dashboard.html", {"request": request})
     else:
-        return """
-        <html>
-            <body>
-                <p style="color: red;" data-testid="login-error">Invalid credentials</p>
-                <a href="/login">Try again</a>
-            </body>
-        </html>
-        """
+        return templates.TemplateResponse("login.html", {"request": request, "error": "Invalid credentials"})
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    return templates.TemplateResponse("dashboard.html", {"request": request})
+
+@app.get("/latency", response_class=HTMLResponse)
+async def latency(request: Request, delay: float = 3.0):
+    return templates.TemplateResponse("latency.html", {"request": request, "delay": delay})
+
+@app.get("/modals", response_class=HTMLResponse)
+async def modals(request: Request):
+    return templates.TemplateResponse("modals.html", {"request": request})
+
+@app.get("/search", response_class=HTMLResponse)
+async def search(request: Request, q: str = ""):
+    return templates.TemplateResponse("search.html", {"request": request, "query": q})
 
 @app.get("/disputes", response_class=HTMLResponse)
 async def disputes():
@@ -101,8 +90,8 @@ async def dispute_detail(dispute_id: str):
 
 # Mock fixtures for specific quest scenarios
 @app.get("/mock/login-basic", response_class=HTMLResponse)
-async def mock_login_basic():
-    return await login_page()
+async def mock_login_basic(request: Request):
+    return await login_page(request)
 
 @app.get("/mock/activity-history", response_class=HTMLResponse)
 async def mock_activity_history():
@@ -121,4 +110,5 @@ async def mock_activity_history():
     """
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8765)
+    port = int(os.environ.get("MOCK_CMS_PORT", "8765"))
+    uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
