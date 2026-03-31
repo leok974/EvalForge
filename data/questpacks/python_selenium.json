@@ -13,7 +13,7 @@
     "base_xp_reward": 100,
     "tier": 2,
     "learning_objective": "Master the basic navigation command in Selenium.",
-    "key_terms": ["glossary/python/selenium-webdriver"],
+    "key_terms": ["glossary/python/selenium-webdriver", "guides/selenium/debugging"],
     "concept_tags": ["selenium", "automation", "python", "navigation"],
     "objectives": [
       {
@@ -44,7 +44,7 @@
     "base_xp_reward": 150,
     "tier": 2,
     "learning_objective": "Understand how to locate elements using the By.CSS_SELECTOR and data-testid.",
-    "key_terms": ["glossary/python/selenium-by"],
+    "key_terms": ["glossary/python/selenium-by", "guides/selenium/debugging"],
     "concept_tags": ["selenium", "selectors", "dom", "data-testid"],
     "objectives": [
       {
@@ -75,7 +75,7 @@
     "base_xp_reward": 200,
     "tier": 2,
     "learning_objective": "Master send_keys and click interactions in Selenium.",
-    "key_terms": ["glossary/python/selenium-webdriver"],
+    "key_terms": ["glossary/python/selenium-webdriver", "guides/selenium/debugging"],
     "concept_tags": ["selenium", "interaction", "forms", "input"],
     "objectives": [
       {
@@ -106,7 +106,7 @@
     "base_xp_reward": 250,
     "tier": 2,
     "learning_objective": "Extract text from elements and use assertions to verify state.",
-    "key_terms": ["glossary/python/selenium-explicit-waits"],
+    "key_terms": ["glossary/python/selenium-explicit-waits", "guides/selenium/debugging"],
     "concept_tags": ["selenium", "assertions", "scraping", "waits"],
     "objectives": [
       {
@@ -138,7 +138,7 @@
     "tier": 2,
     "artifact_modes": ["screenshot"],
     "learning_objective": "Learn how to capture and save screenshots using Selenium.",
-    "key_terms": ["glossary/python/selenium-screenshots"],
+    "key_terms": ["glossary/python/selenium-screenshots", "guides/selenium/debugging"],
     "concept_tags": ["selenium", "artifacts", "visual-verification"],
     "objectives": [
       {
