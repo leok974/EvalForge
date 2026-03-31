@@ -23,6 +23,9 @@ class ExecResult:
     stderr: str
     timed_out: bool
     artifacts: Optional[Dict[str, Any]] = None
+    selenium_trace: Optional[list] = None
+
+from arcade_app.services.code_runner import _parse_selenium_trace, _strip_selenium_trace_sentinel
 
 from typing import Optional, Dict, Any
 
@@ -157,12 +160,6 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 src_path = os.path.join(os.path.dirname(__file__), "runners", "sql_preview.py")
                 final_command = ["python", "-u", "-I", "-B", "/workspace/.evalforge/sql_preview.py"]
 
-            # Phase R: Selenium Runner
-            elif language == "selenium":
-                runner_file = "selenium_runner.py"
-                src_path = os.path.join(os.path.dirname(__file__), "runners", "selenium_runner.py")
-                final_command = ["python", "-u", "-I", "-B", "/workspace/.evalforge/selenium_runner.py"]
-
             runner_target = os.path.join(runner_dir, runner_file)
             if os.path.exists(src_path):
                 with open(src_path, "r", encoding="utf-8") as rf:
@@ -176,6 +173,23 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                      pass 
                 else:
                      subprocess.run(["chmod", "-R", "777", runner_dir], check=True)
+            except Exception: pass
+            
+        if language == "python":
+            runner_dir = os.path.join(td, ".evalforge")
+            os.makedirs(runner_dir, exist_ok=True)
+            sel_src = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "runtimes", "python", "selenium"))
+            if os.path.exists(sel_src):
+                for file_name in ["step_logger.py", "helpers.py"]:
+                    sf = os.path.join(sel_src, file_name)
+                    df = os.path.join(runner_dir, file_name)
+                    if os.path.exists(sf):
+                        with open(sf, "r", encoding="utf-8") as rf:
+                            with open(df, "w", encoding="utf-8") as wf:
+                                wf.write(rf.read())
+            try:
+                if os.name != 'nt':
+                    subprocess.run(["chmod", "-R", "777", runner_dir], check=True)
             except Exception: pass
         
         # Check if resolved entrypoint exists
@@ -245,6 +259,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             *sum([["-e", f"{k}={v}"] for k, v in spec.env.items()], []),
             "-e", "PYTHONDONTWRITEBYTECODE=1",
             "-e", "PYTHONIOENCODING=utf-8",
+            "-e", "PYTHONPATH=/workspace:/workspace/.evalforge",
             "-e", f"EVALFORGE_ARTIFACTS_DIR={artifacts_dir}",
             # Pass PG Config if needed
             "-e", f"PG_DB_URL=postgresql://evalforge:evalforge@db:5432/evalforge",
@@ -340,6 +355,10 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 # Strip it from stdout so it doesn't clutter UI logs
                 stdout_str = re.sub(r'\n?<<EVALFORGE_ARTIFACTS_START>>.*?<<EVALFORGE_ARTIFACTS_END>>\n?', '', stdout_str, flags=re.DOTALL)
                 
+            # Parse and strip Phase 18 Selenium trace
+            selenium_trace = _parse_selenium_trace(stdout_str)
+            stdout_str = _strip_selenium_trace_sentinel(stdout_str)
+                
             # 2. Load artifacts from the copied directory
             # SQL
             for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
@@ -371,6 +390,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 stderr=stderr_str,
                 timed_out=False,
                 artifacts=artifacts_out if artifacts_out else None,
+                selenium_trace=selenium_trace
             )
 
         except subprocess.TimeoutExpired:
@@ -394,6 +414,10 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                     pass
                 # Strip it from stdout so it doesn't clutter UI logs
                 out = re.sub(r'\n?<<EVALFORGE_ARTIFACTS_START>>.*?<<EVALFORGE_ARTIFACTS_END>>\n?', '', out, flags=re.DOTALL)
+                
+            # Parse and strip Phase 18 Selenium trace for timeout path
+            selenium_trace = _parse_selenium_trace(out)
+            out = _strip_selenium_trace_sentinel(out)
                 
             # 2. Fallback to disk if not fully populated
             for aname in ["sql_trace", "sql_student_result", "sql_explain"]:
@@ -419,6 +443,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 stderr=err + "\n[Timed out]",
                 timed_out=True,
                 artifacts=artifacts_out if artifacts_out else None,
+                selenium_trace=selenium_trace
             )
         except Exception as e:
              return ExecResult(

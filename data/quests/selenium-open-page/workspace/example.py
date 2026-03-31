@@ -6,8 +6,6 @@ from selenium import webdriver
 # --- EvalForge Step Logger ---
 # Provides structured automation trace for the learner view
 try:
-    import sys
-    sys.path.insert(0, '/app/runtimes/python/selenium')
     from step_logger import SeleniumStepLogger
     from helpers import open_page
     _use_helpers = True

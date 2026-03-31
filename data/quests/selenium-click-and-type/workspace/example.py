@@ -1,5 +1,5 @@
 import os
-import sys
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -7,7 +7,6 @@ from selenium.webdriver.chrome.options import Options
 
 # --- EvalForge Step Logger (graceful fallback) ---
 try:
-    sys.path.insert(0, '/app/runtimes/python/selenium')
     from step_logger import SeleniumStepLogger
     from helpers import open_page, type_text, click
 except ImportError:

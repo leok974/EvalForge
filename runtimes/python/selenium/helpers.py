@@ -7,7 +7,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from .step_logger import SeleniumStepLogger
+from step_logger import SeleniumStepLogger
 
 
 def open_page(driver: WebDriver, url: str, logger: SeleniumStepLogger, label: str = None) -> None:

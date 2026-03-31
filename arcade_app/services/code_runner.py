@@ -155,10 +155,11 @@ def run_python_local(code: str, stdin: str = "", timeout_ms: int = 2000, workspa
 
         # Inherit system environment (critical for Windows DLLs/PATH)
         env = os.environ.copy()
+        sel_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "runtimes", "python", "selenium"))
         env.update({
             "PYTHONIOENCODING": "utf-8",
             "PYTHONDONTWRITEBYTECODE": "1",
-            "PYTHONPATH": td, # explicitly add cwd to path? python adds script dir by default.
+            "PYTHONPATH": f"{td}{os.pathsep}{sel_path}",
             "GIT_EDITOR": "true",
             "GIT_TERMINAL_PROMPT": "0",
             # EVALFORGE_APP_URL is set to http://mock-cms:8765 by docker-compose.yml (compose dev stack).
