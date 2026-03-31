@@ -1,9 +1,9 @@
 import os
-import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
 
 # --- EvalForge Step Logger (graceful fallback) ---
 try:
@@ -50,6 +50,9 @@ def do_login():
 
         click(driver, "[data-testid='login-submit']",
               logger, label="Click: Login button")
+
+        # Wait for the login redirect to process
+        WebDriverWait(driver, 5).until(lambda d: "/dashboard" in d.current_url)
 
         logger.step("assert", "Verify redirect to dashboard", url=driver.current_url)
         assert "/dashboard" in driver.current_url, \
