@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 import os
 
@@ -24,30 +24,30 @@ async def healthz():
 @app.get("/", response_class=HTMLResponse)
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request, "login.html")
 
 @app.post("/login", response_class=HTMLResponse)
 async def login(request: Request, username: str = Form(...), password: str = Form(...)):
     if username == "admin" and password == "secret123":
-        return templates.TemplateResponse("dashboard.html", {"request": request})
+        return RedirectResponse(url="/dashboard", status_code=303)
     else:
-        return templates.TemplateResponse("login.html", {"request": request, "error": "Invalid credentials"})
+        return templates.TemplateResponse(request, "login.html", {"error": "Invalid credentials"})
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
-    return templates.TemplateResponse("dashboard.html", {"request": request})
+    return templates.TemplateResponse(request, "dashboard.html")
 
 @app.get("/latency", response_class=HTMLResponse)
 async def latency(request: Request, delay: float = 3.0):
-    return templates.TemplateResponse("latency.html", {"request": request, "delay": delay})
+    return templates.TemplateResponse(request, "latency.html", {"delay": delay})
 
 @app.get("/modals", response_class=HTMLResponse)
 async def modals(request: Request):
-    return templates.TemplateResponse("modals.html", {"request": request})
+    return templates.TemplateResponse(request, "modals.html")
 
 @app.get("/search", response_class=HTMLResponse)
 async def search(request: Request, q: str = ""):
-    return templates.TemplateResponse("search.html", {"request": request, "query": q})
+    return templates.TemplateResponse(request, "search.html", {"query": q})
 
 @app.get("/disputes", response_class=HTMLResponse)
 async def disputes():
