@@ -77,6 +77,17 @@
     "learning_objective": "Master send_keys and click interactions in Selenium.",
     "key_terms": ["glossary/python/selenium-webdriver"],
     "concept_tags": ["selenium", "interaction", "forms", "input"],
+    "objectives": [
+      {
+        "id": "login_submit",
+        "title": "Perform Login",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "LOGIN_SUCCESS",
+            "flags": "i"
+        }
+      }
+    ],
     "workspace": {
       "files_from": "../quests/selenium-click-and-type/workspace"
     }
@@ -97,6 +108,17 @@
     "learning_objective": "Extract text from elements and use assertions to verify state.",
     "key_terms": ["glossary/python/selenium-explicit-waits"],
     "concept_tags": ["selenium", "assertions", "scraping", "waits"],
+    "objectives": [
+      {
+        "id": "read_and_assert",
+        "title": "Verify Dashboard Title",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "Dashboard Title",
+            "flags": "i"
+        }
+      }
+    ],
     "workspace": {
       "files_from": "../quests/selenium-read-text-and-assert/workspace"
     }
@@ -118,6 +140,17 @@
     "learning_objective": "Learn how to capture and save screenshots using Selenium.",
     "key_terms": ["glossary/python/selenium-screenshots"],
     "concept_tags": ["selenium", "artifacts", "visual-verification"],
+    "objectives": [
+      {
+        "id": "take_screenshot",
+        "title": "Capture Dashboard Screenshot",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "SCREENSHOT_SAVED",
+            "flags": "i"
+        }
+      }
+    ],
     "workspace": {
       "files_from": "../quests/selenium-take-screenshot/workspace"
     }
