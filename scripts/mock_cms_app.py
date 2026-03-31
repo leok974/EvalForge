@@ -47,7 +47,21 @@ async def modals(request: Request):
 
 @app.get("/search", response_class=HTMLResponse)
 async def search(request: Request, q: str = ""):
-    return templates.TemplateResponse(request, "search.html", {"query": q})
+    results = []
+    if q.lower() == "dispute":
+        results = [
+            {"id": "782", "status": "Archived", "desc": "Account Termination"},
+            {"id": "893", "status": "Active", "desc": "Billing Dispute"}
+        ]
+    elif q.lower() == "admin":
+        results = [
+            {"id": "001", "status": "Active", "desc": "Administrator Node"}
+        ]
+    elif q:
+        results = [
+            {"id": "999", "status": "Pending", "desc": f"Mock result for {q}"}
+        ]
+    return templates.TemplateResponse(request, "search.html", {"query": q, "results": results})
 
 @app.get("/disputes", response_class=HTMLResponse)
 async def disputes():
@@ -83,7 +97,20 @@ async def dispute_detail(dispute_id: str):
                 <p>Amount: $1,200.00</p>
                 <p>Reason: Unauthorized Transaction</p>
             </div>
-            <button data-testid="dispute-resolve-btn">Resolve</button>
+            <button data-testid="dispute-resolve-btn" onclick="resolveDispute()">Resolve</button>
+            <div id="status-msg" style="display:none; color: #4ade80; margin-top: 10px;" data-testid="resolve-status">Resolved successfully</div>
+            
+            <script>
+                function resolveDispute() {{
+                    const btn = document.querySelector('[data-testid="dispute-resolve-btn"]');
+                    btn.disabled = true;
+                    btn.innerText = 'Resolving...';
+                    setTimeout(() => {{
+                        btn.style.display = 'none';
+                        document.getElementById('status-msg').style.display = 'block';
+                    }}, 1000);
+                }}
+            </script>
         </body>
     </html>
     """
