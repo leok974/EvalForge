@@ -31,20 +31,8 @@
       "owner": "leo"
     },
     {
-      "slug": "selenium-find-elements",
-      "reason": "Legacy Selenium",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
       "slug": "python-ignition",
       "reason": "Legacy Python",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
-      "slug": "selenium-take-screenshot",
-      "reason": "Legacy Selenium",
       "added_at": "2026-03-17",
       "owner": "leo"
     },
@@ -67,20 +55,8 @@
       "owner": "leo"
     },
     {
-      "slug": "selenium-open-page",
-      "reason": "Legacy Selenium",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
       "slug": "python-variables-and-conditions",
       "reason": "Legacy Python",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
-      "slug": "selenium-read-text-and-assert",
-      "reason": "Legacy Selenium",
       "added_at": "2026-03-17",
       "owner": "leo"
     },
@@ -99,12 +75,6 @@
     {
       "slug": "python-trace-data-flow",
       "reason": "Legacy Python",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
-      "slug": "selenium-click-and-type",
-      "reason": "Legacy Selenium",
       "added_at": "2026-03-17",
       "owner": "leo"
     },

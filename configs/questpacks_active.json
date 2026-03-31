@@ -19,6 +19,7 @@
         "data/questpacks/_tier2/python_tier2.json",
         "data/questpacks/_tier2/sql_tier2.json",
         "data/questpacks/_tier2/git_tier2.json",
-        "data/questpacks/sql_tier3/sql_tier3.json"
+        "data/questpacks/sql_tier3/sql_tier3.json",
+        "data/questpacks/python_selenium.json"
     ]
 }

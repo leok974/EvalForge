@@ -5,12 +5,14 @@
   "active_tracks": [
     "track-python-systems",
     "track-python-ignition",
-    "track-python-foundry"
+    "track-python-foundry",
+    "track-python-selenium"
   ],
   "active_questpacks": [
     "data/questpacks/python_systems.json",
     "data/questpacks/_tier2/python_tier2.json",
-    "data/questpacks/foundry_python.json"
+    "data/questpacks/foundry_python.json",
+    "data/questpacks/python_selenium.json"
   ],
   "warning_only_worlds": [
     "world-sql",
