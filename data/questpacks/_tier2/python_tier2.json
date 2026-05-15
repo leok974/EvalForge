@@ -3,6 +3,7 @@
         {
             "slug": "python-functions-contracts",
             "title": "Functions & Contracts",
+            "short_description": "Write pure functions with strict type hints and input validation.",
             "tier": 2,
             "world_id": "world-python",
             "track_id": "core-python",
@@ -44,6 +45,7 @@
         {
             "slug": "python-file-io-safe",
             "title": "Safe File I/O",
+            "short_description": "Read config files safely, handling missing files and encoding errors.",
             "tier": 2,
             "world_id": "world-python",
             "track_id": "core-python",
@@ -89,6 +91,7 @@
         {
             "slug": "python-dicts-lists-transform",
             "title": "Data Transformations",
+            "short_description": "Transform nested data structures using dict and list comprehensions.",
             "tier": 2,
             "world_id": "world-python",
             "track_id": "core-python",
@@ -129,6 +132,7 @@
         {
             "slug": "python-cli-args",
             "title": "Robust CLI Args",
+            "short_description": "Parse command-line arguments with argparse, including validation and help text.",
             "tier": 2,
             "world_id": "world-python",
             "track_id": "core-python",
@@ -166,6 +170,7 @@
         {
             "slug": "python-oop-mini",
             "title": "Mini OOP System",
+            "short_description": "Design a small class hierarchy with encapsulated state and deposit/withdraw methods.",
             "tier": 2,
             "world_id": "world-python",
             "track_id": "core-python",
@@ -207,6 +212,7 @@
         {
             "slug": "python-boss-csv-report",
             "title": "BOSS: CSV Reporter",
+            "short_description": "Read a CSV, compute summary statistics, and write a formatted report file.",
             "tier": 2,
             "world_id": "world-python",
             "track_id": "core-python",
