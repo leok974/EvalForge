@@ -83,7 +83,7 @@ ENV PYTHONUNBUFFERED=1
 # Expose port (Cloud Run will set PORT env var)
 EXPOSE 8080
 
-# Start FastAPI with uvicorn (includes all routes: ADK + DevDiag proxy)
+# Start FastAPI with uvicorn
 CMD ["sh", "-c", "python -m uvicorn arcade_app.agent:app --host 0.0.0.0 --port ${PORT:-8080}"]
 '@
 
