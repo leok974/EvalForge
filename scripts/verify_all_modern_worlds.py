@@ -2,12 +2,12 @@
 import os
 import json
 import subprocess
-import glob
 from pathlib import Path
 from datetime import datetime
 
 # Configuration
-MODERN_PACKS_DIR = Path("data/questpacks/_modern")
+# Single source of truth: only packs listed in questpacks_active.json are verified.
+ACTIVE_PACKS_CONFIG = Path("configs/questpacks_active.json")
 RUNNER_SCRIPT = "scripts/run_world_public_tests.mjs"
 OUTPUT_JSON = Path("docs/audits/FINAL_SWEEP_VERIFICATION.json")
 OUTPUT_MD = Path("docs/audits/FINAL_SWEEP_VERIFICATION.md")
@@ -88,10 +88,18 @@ def generate_markdown(results):
     return md
 
 def main():
-    packs = sorted(list(MODERN_PACKS_DIR.glob("*.json")))
-    
+    with open(ACTIVE_PACKS_CONFIG, "r", encoding="utf-8") as f:
+        config = json.load(f)
+    packs = sorted([Path(p) for p in config["active_questpacks"]], key=lambda p: p.name)
+
+    missing = [p for p in packs if not p.exists()]
+    if missing:
+        print(f"⚠️ WARNING: {len(missing)} active pack(s) not found on disk:")
+        for m in missing:
+            print(f"   - {m}")
+
     all_results = []
-    
+
     print(f"=== Starting Final Sweep on {len(packs)} Modern Packs ===")
     
     for pack in packs:
