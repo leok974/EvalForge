@@ -8,6 +8,7 @@
         "description": "Shape messy data into something Reactor Core can consume.",
         "short_description": "Shape messy data into something Reactor Core can consume.",
         "summary": "Shape messy data into something Reactor Core can consume.",
+        "key_terms": ["glossary/python/dictionary", "glossary/python/iteration", "glossary/python/typing"],
         "language": "python",
         "xp_base": 70,
         "starter_code": "import json\nfrom pathlib import Path\n\ndef normalize_record(record: dict) -> dict:\n    \"\"\"\n    Normalize a single raw record.\n    \"\"\"\n    # TODO: Implement normalization rules\n    return {}\n\ndef main() -> None:\n    # 1. Read input\n    fixture_path = Path(\"fixtures/raw_contacts.json\")\n    if not fixture_path.exists():\n        # Fallback for some runner contexts\n        fixture_path = Path(\"workspace/fixtures/raw_contacts.json\")\n        \n    with open(fixture_path, \"r\") as f:\n        raw_data = json.load(f)\n\n    # 2. Process\n    normalized = []\n    for item in raw_data:\n        normalized.append(normalize_record(item))\n\n    # 3. Sort by ID (ensure int)\n    # normalized.sort(key=...)\n\n    # 4. Print Canonical JSON\n    # print(json.dumps(normalized, sort_keys=True, separators=(\",\",\":\")))\n    pass\n\nif __name__ == \"__main__\":\n    main()\n",
@@ -79,6 +80,7 @@
         "description": "Learn loops and conditionals to process collections of data.",
         "short_description": "Learn loops and conditionals to process collections of data.",
         "summary": "Learn loops and conditionals to process collections of data.",
+        "key_terms": ["glossary/python/iteration", "glossary/python/variable", "glossary/python/print"],
         "language": "python",
         "xp_base": 50,
         "starter_code": "def main() -> None:\n    # Print even numbers from 1..10 inclusive, each on its own line.\n    # Then print the summary line: EVEN_COUNT=5\n    pass\n\nif __name__ == \"__main__\":\n    main()\n",
@@ -117,9 +119,11 @@
         "title": "Service Boundaries & Contracts",
         "world_id": "world-python",
         "track_id": "foundry-senior-systems",
-        "description": "",
-        "short_description": "",
-        "summary": "",
+        "description": "Design a pure request handler that enforces strict input contracts and returns structured ok/error responses.",
+        "short_description": "Implement a pure request handler with strict input contracts and structured ok/error responses.",
+        "briefing_md": "Design a `handle_request` function that acts as a strict service boundary. It takes a request dict with an `action` field and returns a structured response with `ok`, `value`, and `error` keys. All validation and error handling happens inside the function — no exceptions escape the boundary.",
+        "summary": "Design a pure request handler that enforces strict input contracts and returns structured ok/error responses.",
+        "key_terms": ["glossary/python/function", "glossary/python/exception", "glossary/python/typing"],
         "language": "python",
         "xp_base": 50,
         "starter_code": "from __future__ import annotations\n\nfrom typing import Any\n\n\ndef coerce_id(value: Any) -> int:\n    \"\"\"\n    Convert string/number ids into an int.\n    Examples: \"002\" -> 2, 1 -> 1\n    \"\"\"\n    try:\n        return int(str(value).strip())\n    except Exception:\n        return 0\n\n\ndef _bad(action: str, req_id: Any, code: str) -> dict:\n    return {\n        \"id\": coerce_id(req_id),\n        \"action\": action,\n        \"ok\": False,\n        \"value\": None,\n        \"error\": code,\n    }\n\n\ndef _ok(action: str, req_id: Any, value: Any) -> dict:\n    return {\n        \"id\": coerce_id(req_id),\n        \"action\": action,\n        \"ok\": True,\n        \"value\": value,\n        \"error\": None,\n    }\n\n\ndef handle_request(req: dict) -> dict:\n    \"\"\"\n    Pure core function: takes a request dict and returns a response dict.\n\n    Must not print, read files, or rely on globals.\n    \"\"\"\n    req_id = req.get(\"id\")\n    action = req.get(\"action\")\n    \n    # TODO: Implement request handling logic\n    # 1. Validate action and inputs\n    # 2. Return _ok or _bad response\n    \n    return _bad(str(action), req_id, \"EF_BOUNDARY_NOT_IMPLEMENTED\")\n",
@@ -173,7 +177,7 @@
             "require_exit_code_zero": true
         },
         "workspace": {
-            "files_from": "../../docs/quests/python-systems-service-boundaries/workspace"
+            "files_from": "../quests/python-systems-service-boundaries/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -190,9 +194,11 @@
         "title": "Resilient Job Runner",
         "world_id": "world-python",
         "track_id": "foundry-senior-systems",
-        "description": "",
-        "short_description": "",
-        "summary": "",
+        "description": "Build a retry-capable job runner that handles transient failures and fatal errors with a deterministic retry policy.",
+        "short_description": "Build a job runner with retry logic: up to 3 attempts for transient errors, immediate abort for fatal ones.",
+        "briefing_md": "Implement `run_jobs` to execute a list of jobs with a retry policy: up to 3 attempts for `TransientError`, immediately stop on `FatalError`. Return a list of result dicts with `id`, `ok`, `attempts`, `value`, and `error` fields.",
+        "summary": "Build a retry-capable job runner that handles transient failures and fatal errors with a deterministic retry policy.",
+        "key_terms": ["glossary/python/exception", "glossary/python/iteration", "glossary/python/function"],
         "language": "python",
         "xp_base": 50,
         "starter_code": "from __future__ import annotations\n\nfrom dataclasses import dataclass\nfrom typing import Any\n\n\nclass TransientError(Exception):\n    pass\n\n\nclass FatalError(Exception):\n    pass\n\n\ndef coerce_id(value: Any) -> int:\n    try:\n        return int(str(value).strip())\n    except Exception:\n        return 0\n\n\ndef execute_job(job: dict, attempt: int) -> int:\n    \"\"\"\n    Execute a single job attempt.\n\n    Kinds:\n      - add: always succeeds\n      - flaky_add: fails TransientError for first `fail_times` attempts\n      - fatal: always fails FatalError\n    \"\"\"\n    # TODO: Implement job execution logic\n    pass\n\n\ndef run_jobs(jobs: list[dict]) -> list[dict]:\n    \"\"\"\n    Pure core runner. Does not print, does not read files.\n\n    Retry policy:\n      - max_attempts = 3\n      - retry only TransientError\n      - FatalError is never retried\n    \"\"\"\n    results: list[dict] = []\n    max_attempts = 3\n    \n    # TODO: Implement retry loop\n    \n    return results\n",
@@ -239,7 +245,7 @@
             "require_exit_code_zero": true
         },
         "workspace": {
-            "files_from": "../../docs/quests/python-systems-resilient-job-runner/workspace"
+            "files_from": "../quests/python-systems-resilient-job-runner/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -256,9 +262,11 @@
         "title": "Observability & SLIs",
         "world_id": "world-python",
         "track_id": "foundry-senior-systems",
-        "description": "",
-        "short_description": "",
-        "summary": "",
+        "description": "Compute SLI metrics (success rate, error rate, p95 latency) from a stream of HTTP events.",
+        "short_description": "Compute SLI metrics including success rate, error rate, and p95 latency from a list of HTTP events.",
+        "briefing_md": "Implement `compute_sli_report` to aggregate a list of HTTP events into a metrics report. Calculate total requests, success and error rates (3 decimal places), p95 latency using the nearest-rank method, an SLO pass/fail flag, and per-route breakdowns.",
+        "summary": "Compute SLI metrics (success rate, error rate, p95 latency) from a stream of HTTP events.",
+        "key_terms": ["glossary/python/dictionary", "glossary/python/iteration", "glossary/python/function"],
         "language": "python",
         "xp_base": 50,
         "starter_code": "from __future__ import annotations\n\nimport math\nfrom typing import Any\n\n\ndef _is_success(status: Any) -> bool:\n    return isinstance(status, int) and 200 <= status <= 399\n\n\ndef _is_5xx(status: Any) -> bool:\n    return isinstance(status, int) and 500 <= status <= 599\n\n\ndef _p95_nearest_rank(latencies: list[int]) -> int:\n    if not latencies:\n        return 0\n    xs = sorted(latencies)\n    n = len(xs)\n    k = math.ceil(0.95 * n)\n    return xs[k - 1]\n\n\ndef compute_sli_report(events: list[dict]) -> dict:\n    \"\"\"\n    Pure function: compute a deterministic SLI report from raw events.\n\n    Must not print or read files.\n    \"\"\"\n    # TODO: Implement metrics per README.\n    #\n    # Return shape:\n    # {\n    #   \"total_requests\": int,\n    #   \"success_rate\": float,   # rounded to 3 decimals\n    #   \"error_rate\": float,     # rounded to 3 decimals (5xx only)\n    #   \"p95_latency_ms\": int,\n    #   \"slo_ok\": bool,\n    #   \"routes\": [\n    #       {\"route\": str, \"requests\": int, \"errors_5xx\": int, \"avg_latency_ms\": int},\n    #       ...\n    #   ]\n    # }\n    return {}\n",
@@ -302,7 +310,7 @@
             "require_exit_code_zero": true
         },
         "workspace": {
-            "files_from": "../../docs/quests/python-systems-observability-sli/workspace"
+            "files_from": "../quests/python-systems-observability-sli/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -319,9 +327,11 @@
         "title": "Performance & Profiling",
         "world_id": "world-python",
         "track_id": "foundry-senior-systems",
-        "description": "",
-        "short_description": "",
-        "summary": "",
+        "description": "Compare naive vs. set-based membership strategies using a deterministic cost model and choose the cheaper one.",
+        "short_description": "Model naive vs. set-based membership costs and choose the cheaper strategy for a given dataset.",
+        "briefing_md": "Implement a deterministic performance profiler for membership lookups. For each test case, compute the cost of a naive O(n*m) scan and a set-based O(n+m) approach, then pick the winner. Return hit count, chosen strategy, and both cost figures.",
+        "summary": "Compare naive vs. set-based membership strategies using a deterministic cost model and choose the cheaper one.",
+        "key_terms": ["glossary/python/iteration", "glossary/python/dictionary", "glossary/python/function"],
         "language": "python",
         "xp_base": 50,
         "starter_code": "from __future__ import annotations\n\nfrom typing import Any\n\n\ndef count_hits(items: list[str], queries: list[str]) -> int:\n    \"\"\"\n    Return how many queries are present in items.\n    Use a set for membership checks (deterministic).\n    \"\"\"\n    # TODO\n    return 0\n\n\ndef naive_comparisons(items: list[str], queries: list[str]) -> int:\n    \"\"\"\n    Deterministic cost model for naive membership:\n    comparisons += number of item==query checks performed.\n    \"\"\"\n    # TODO\n    return 0\n\n\ndef set_ops(items: list[str], queries: list[str]) -> int:\n    \"\"\"\n    Deterministic cost model for set membership:\n    build_ops = len(items)\n    membership_ops = len(queries)\n    set_ops = build_ops + membership_ops\n    \"\"\"\n    # TODO\n    return 0\n\n\ndef choose_strategy(naive_cost: int, set_cost: int) -> str:\n    \"\"\"\n    Choose cheaper strategy. Tie-break: choose \"set\".\n    \"\"\"\n    # TODO\n    return \"set\"\n\n\ndef profile_membership_case(case: dict[str, Any]) -> dict:\n    \"\"\"\n    Pure function: read case dict and return report dict.\n\n    Required report shape:\n    {\n      \"hits\": int,\n      \"strategy\": \"naive\"|\"set\",\n      \"cost\": {\"naive_comparisons\": int, \"set_ops\": int}\n    }\n    \"\"\"\n    items = case.get(\"items\", [])\n    queries = case.get(\"queries\", [])\n\n    # Basic input validation (keep deterministic)\n    if not isinstance(items, list) or not all(isinstance(x, str) for x in items):\n        items = []\n    if not isinstance(queries, list) or not all(isinstance(x, str) for x in queries):\n        queries = []\n\n    ncost = naive_comparisons(items, queries)\n    scost = set_ops(items, queries)\n    strategy = choose_strategy(ncost, scost)\n    hits = count_hits(items, queries)\n\n    return {\n        \"hits\": hits,\n        \"strategy\": strategy,\n        \"cost\": {\n            \"naive_comparisons\": ncost,\n            \"set_ops\": scost,\n        },\n    }\n",
@@ -346,7 +356,7 @@
             "require_exit_code_zero": true
         },
         "workspace": {
-            "files_from": "../../docs/quests/python-systems-performance-profile/workspace"
+            "files_from": "../quests/python-systems-performance-profile/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",
@@ -363,9 +373,11 @@
         "title": "Internal Tooling & DX",
         "world_id": "world-python",
         "track_id": "foundry-senior-systems",
-        "description": "",
-        "short_description": "",
-        "summary": "",
+        "description": "Build pure utility functions for slugification, deduplication, and dispatching tool requests.",
+        "short_description": "Build pure utility functions for slug generation, unique-sorted dedup, and a tool dispatcher.",
+        "briefing_md": "Implement three pure utility functions — `slugify`, `unique_sorted`, and `run_tool_request` — that form the backbone of an internal developer toolbox. No I/O: inputs come in, results come out. Each function must pass deterministic tests covering edge cases.",
+        "summary": "Build pure utility functions for slugification, deduplication, and dispatching tool requests.",
+        "key_terms": ["glossary/python/function", "glossary/python/variable", "glossary/python/typing"],
         "language": "python",
         "xp_base": 50,
         "starter_code": "from __future__ import annotations\n\nimport re\nfrom typing import Any\n\n\ndef _bad(tool: str, code: str) -> dict:\n    return {\"tool\": tool, \"ok\": False, \"result\": None, \"error\": code}\n\n\ndef _ok(tool: str, result: Any) -> dict:\n    return {\"tool\": tool, \"ok\": True, \"result\": result, \"error\": None}\n\n\ndef slugify(text: str) -> str:\n    \"\"\"\n    Rules:\n    - lowercase\n    - trim\n    - collapse whitespace to single spaces\n    - spaces -> \"-\"\n    - remove all chars except a-z, 0-9, \"-\"\n    - collapse multiple \"-\" to one\n    - strip leading/trailing \"-\"\n    \"\"\"\n    # TODO\n    return \"\"\n\n\ndef unique_sorted(items: list[str]) -> list[str]:\n    \"\"\"\n    - trim, lowercase\n    - drop empty\n    - unique + sorted\n    \"\"\"\n    # TODO\n    return []\n\n\ndef run_tool_request(req: dict) -> dict:\n    \"\"\"\n    Pure function: no IO.\n    \"\"\"\n    tool = req.get(\"tool\")\n    payload = req.get(\"payload\")\n\n    if not isinstance(tool, str) or not tool.strip():\n        return _bad(\"unknown\", \"EF_TOOL_BAD_INPUT\")\n\n    tool = tool.strip()\n\n    if not isinstance(payload, dict):\n        return _bad(tool, \"EF_TOOL_BAD_INPUT\")\n\n    if tool == \"slugify\":\n        text = payload.get(\"text\")\n        if not isinstance(text, str):\n            return _bad(tool, \"EF_TOOL_BAD_INPUT\")\n        return _ok(tool, slugify(text))\n\n    if tool == \"sum\":\n        nums = payload.get(\"numbers\")\n        if not isinstance(nums, list) or any(not isinstance(n, int) for n in nums):\n            return _bad(tool, \"EF_TOOL_BAD_INPUT\")\n        return _ok(tool, sum(nums))\n\n    if tool == \"unique_sorted\":\n        items = payload.get(\"items\")\n        if not isinstance(items, list) or any(not isinstance(x, str) for x in items):\n            return _bad(tool, \"EF_TOOL_BAD_INPUT\")\n        return _ok(tool, unique_sorted(items))\n\n    return _bad(tool, \"EF_TOOL_UNKNOWN\")\n",
@@ -392,7 +404,7 @@
             "require_exit_code_zero": true
         },
         "workspace": {
-            "files_from": "../../docs/quests/python-systems-platform-tooling/workspace"
+            "files_from": "../quests/python-systems-platform-tooling/workspace"
         },
         "tiered_hints": {
             "concept": "Review the workspace file structure.",

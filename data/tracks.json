@@ -131,5 +131,27 @@
             "meta",
             "ops"
         ]
-    }
+    },
+    {"id": "track-python-systems", "world_id": "world-python", "name": "Python Systems", "source": "fundamentals", "description": "Resilient job runners, service boundaries, and observability.", "tags": ["python", "systems", "devops"]},
+    {"id": "track-python-ignition", "world_id": "world-python", "name": "Python Ignition", "source": "fundamentals", "description": "Python onboarding: scripts, environment, and first programs.", "tags": ["python", "basics"]},
+    {"id": "track-python-foundry", "world_id": "world-python", "name": "Python Foundry", "source": "fundamentals", "description": "Intermediate Python: functions, OOP, file I/O, and data transforms.", "tags": ["python", "intermediate"]},
+    {"id": "track-python-selenium", "world_id": "world-python", "name": "Python Selenium", "source": "fundamentals", "description": "Browser automation with Selenium WebDriver.", "tags": ["python", "selenium", "automation"]},
+    {"id": "python-selenium", "world_id": "world-python", "name": "Selenium Automation", "source": "fundamentals", "description": "Automate browser interactions using Selenium.", "tags": ["python", "selenium"]},
+    {"id": "core-python", "world_id": "world-python", "name": "Core Python", "source": "fundamentals", "description": "Core Python concepts: functions, OOP, file I/O, and CLI tools.", "tags": ["python", "intermediate"]},
+    {"id": "boss-prep", "world_id": "world-python", "name": "Boss Preparation", "source": "fundamentals", "description": "Capstone boss quests combining multiple Python skills.", "tags": ["python", "boss"]},
+    {"id": "foundry-senior-systems", "world_id": "world-python", "name": "Foundry Senior Systems", "source": "fundamentals", "description": "Senior-level Python systems engineering challenges.", "tags": ["python", "systems", "senior"]},
+    {"id": "fundamentals", "world_id": "world-python", "name": "Fundamentals", "source": "fundamentals", "description": "Core programming fundamentals.", "tags": ["python", "basics"]},
+    {"id": "core-sql", "world_id": "world-sql", "name": "Core SQL", "source": "fundamentals", "description": "Core SQL patterns: joins, aggregates, CTEs, and indexing.", "tags": ["sql", "postgres"]},
+    {"id": "track-sql", "world_id": "world-sql", "name": "SQL Fundamentals Track", "source": "fundamentals", "description": "SQL from SELECT to advanced query patterns.", "tags": ["sql"]},
+    {"id": "archives-vector-vault", "world_id": "world-sql", "name": "Vector Vault", "source": "fundamentals", "description": "pgvector and semantic search using SQL.", "tags": ["sql", "vector", "postgres"]},
+    {"id": "core-git", "world_id": "world-git", "name": "Core Git", "source": "fundamentals", "description": "Advanced Git: merge conflicts, rebase, and release tagging.", "tags": ["git", "workflow"]},
+    {"id": "track-infra", "world_id": "world-infra", "name": "Infra Core", "source": "fundamentals", "description": "Infra fundamentals: env config, healthchecks, and networking.", "tags": ["infra", "devops"]},
+    {"id": "docker-ignition", "world_id": "world-docker", "name": "Docker Ignition", "source": "fundamentals", "description": "Dockerfiles, multi-stage builds, Compose networks, and secrets.", "tags": ["docker", "containers"]},
+    {"id": "cli-fundamentals", "world_id": "world-cli", "name": "CLI Fundamentals", "source": "fundamentals", "description": "Terminal basics: navigation, files, and environment setup.", "tags": ["linux", "bash", "cli"]},
+    {"id": "track-cli-core", "world_id": "world-cli", "name": "CLI Core", "source": "fundamentals", "description": "Shell scripting, pipes, redirection, and process management.", "tags": ["linux", "bash", "scripting"]},
+    {"id": "node-fundamentals", "world_id": "world-node", "name": "Node Fundamentals", "source": "fundamentals", "description": "Node.js runtime: modules, streams, and async I/O.", "tags": ["node", "javascript", "backend"]},
+    {"id": "track-node-core", "world_id": "world-node", "name": "Node Core", "source": "fundamentals", "description": "Node.js core APIs and server-side JavaScript patterns.", "tags": ["node", "javascript"]},
+    {"id": "react-fundamentals", "world_id": "world-react", "name": "React Fundamentals", "source": "fundamentals", "description": "React components, props, state, hooks, and context.", "tags": ["react", "javascript", "frontend"]},
+    {"id": "track-html", "world_id": "world-web", "name": "HTML Core", "source": "fundamentals", "description": "Semantic HTML, forms, accessibility, and document structure.", "tags": ["html", "web"]},
+    {"id": "track-css", "world_id": "world-web", "name": "CSS Core", "source": "fundamentals", "description": "CSS selectors, box model, flexbox, grid, and responsive design.", "tags": ["css", "web"]}
 ]
