@@ -11,8 +11,6 @@ exercises/js/coverage/
 exercises/js/node_modules/
 logs/error-journal.ndjson
 
-# DevDiag artifacts
-mcp-devdiag-artifacts/
 test-results/
 
 # IDE

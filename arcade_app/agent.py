@@ -429,8 +429,7 @@ app.websocket("/ws/game_events")(websocket_endpoint)
 
 # --- 4.6 Routers ---
 from arcade_app.routers import (
-    auth, 
-    avatars, 
+    avatars,
     routes_quests as quests,
     routes_universe as universe,
     routes_profile as profile,
@@ -477,7 +476,6 @@ app.include_router(ladders.router)
 app.include_router(world_progress.router)
 app.include_router(boss_runs.router)
 app.include_router(project_codex.router)
-app.include_router(boss_codex.router)
 app.include_router(qa.router)
 app.include_router(intent_oracle_eval.router)
 

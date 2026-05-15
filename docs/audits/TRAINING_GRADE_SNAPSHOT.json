@@ -1,94 +1,39 @@
 {
-    "metadata": {
-        "generated_at": "2026-02-13T23:00:00Z",
-        "git_commit": "8b5e324a9184033f2b6aa2bb58498d681e7f3e7f",
-        "python_version": "3.13.7",
-        "runner_version": "v1-unified",
-        "description": "EvalForge Training-Grade Snapshot V1"
-    },
-    "canonical_questpacks": [
-        "data/questpacks/_modern/agents_core.json",
-        "data/questpacks/_modern/git_core.json",
-        "data/questpacks/_modern/javascript_core.json",
-        "data/questpacks/_modern/lab_hidden_tests.json",
-        "data/questpacks/_modern/lab_workspace.json",
-        "data/questpacks/_modern/ml_core.json",
-        "data/questpacks/_modern/prism_js_core.json",
-        "data/questpacks/_modern/prism_ts_core.json",
-        "data/questpacks/_modern/python_foundry_core.json",
-        "data/questpacks/_modern/python_systems_core.json",
-        "data/questpacks/_modern/typescript_core.json"
-    ],
-    "legacy_mapping": {
-        "agents_core.json": "data/questpacks/_modern/agents_core.json",
-        "cli_core.json": "data/questpacks/_modern/cli_core.json",
-        "git_core.json": "data/questpacks/_modern/git_core.json",
-        "infra_core.json": "data/questpacks/_modern/infra_core.json",
-        "javascript_core.json": "data/questpacks/_modern/javascript_core.json",
-        "ml_core": "data/questpacks/_modern/ml_core.json",
-        "node_core.json": "data/questpacks/_modern/node_core.json",
-        "prism_js.json": "data/questpacks/_modern/prism_js_core.json",
-        "prism_typescript.json": "data/questpacks/_modern/prism_ts_core.json",
-        "python_foundry.json": "data/questpacks/_modern/python_foundry_core.json",
-        "python_systems.json": "data/questpacks/_modern/python_systems_core.json",
-        "react_core.json": "data/questpacks/_modern/react_core.json",
-        "sql_core.json": "data/questpacks/_modern/sql_core.json",
-        "typescript_core.json": "data/questpacks/_modern/typescript_core.json",
-        "web_core.json": "data/questpacks/_modern/web_core.json",
-        "web_css_core.json": "data/questpacks/_modern/web_css_core.json",
-        "web_html_core.json": "data/questpacks/_modern/web_html_core.json",
-        "lab_workspace.json": "data/questpacks/_modern/lab_workspace.json",
-        "lab_hidden_tests.json": "data/questpacks/_modern/lab_hidden_tests.json"
-    },
-    "verification_summary": {
-        "agents_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "git_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "javascript_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "lab_hidden_tests.json": {
-            "solution_pass": true,
-            "student_pass": true
-        },
-        "lab_workspace.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "ml_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "prism_js_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "prism_ts_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "python_foundry_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "python_systems_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        },
-        "typescript_core.json": {
-            "solution_pass": true,
-            "student_pass": false
-        }
-    },
-    "reference_files": [
-        "docs/audits/FINAL_SWEEP_VERIFICATION.json",
-        "docs/audits/FINAL_SWEEP_VERIFICATION.md",
-        "docs/audits/LEGACY_PACKS_DEPRECATION.md"
-    ]
+  "metadata": {
+    "generated_at": "2026-02-13T23:00:00Z",
+    "git_commit": "8b5e324a9184033f2b6aa2bb58498d681e7f3e7f",
+    "python_version": "3.13.7",
+    "runner_version": "v1-unified",
+    "description": "EvalForge Training-Grade Snapshot V1",
+    "note": "verification_summary cleared 2026-05-15 after _modern/ directory removal. Regenerate by running verify_all_modern_worlds.py with a live test environment."
+  },
+  "canonical_questpacks": [
+    "data/questpacks/python_systems.json",
+    "data/questpacks/javascript_core.json",
+    "data/questpacks/typescript_core.json",
+    "data/questpacks/sql_core.json",
+    "data/questpacks/git_core.json",
+    "data/questpacks/infra_core.json",
+    "data/questpacks/ml_core.json",
+    "data/questpacks/agents_core.json",
+    "data/questpacks/web_html_core.json",
+    "data/questpacks/web_css_core.json",
+    "data/questpacks/foundry_python.json",
+    "data/questpacks/cli_core.json",
+    "data/questpacks/react_core.json",
+    "data/questpacks/node_core.json",
+    "data/questpacks/docker_core.json",
+    "data/questpacks/_tier2/python_tier2.json",
+    "data/questpacks/_tier2/sql_tier2.json",
+    "data/questpacks/_tier2/git_tier2.json",
+    "data/questpacks/sql_tier3/sql_tier3.json",
+    "data/questpacks/python_selenium.json"
+  ],
+  "legacy_mapping": {},
+  "verification_summary": {},
+  "reference_files": [
+    "docs/audits/FINAL_SWEEP_VERIFICATION.json",
+    "docs/audits/FINAL_SWEEP_VERIFICATION.md",
+    "docs/audits/LEGACY_PACKS_DEPRECATION.md"
+  ]
 }

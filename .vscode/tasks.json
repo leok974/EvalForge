@@ -28,8 +28,7 @@
           "GOOGLE_CLOUD_PROJECT": "291179078777",
           "GOOGLE_CLOUD_LOCATION": "us-central1",
           "GOOGLE_CLOUD_AGENT_ENGINE_ID": "",
-          "DEVDIAG_BASE": "http://127.0.0.1:8023",
-          "DEVDIAG_JWT": ""
+
         }
       },
       "isBackground": true,

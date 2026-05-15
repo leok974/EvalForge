@@ -1,3 +1,8 @@
+# STATUS: unregistered — not mounted in agent.py
+# Contains: GET /api/auth/login, GET /api/auth/github/callback, GET /api/auth/me, POST /api/auth/logout
+# To activate: add app.include_router(auth.router) in agent.py after the GitHub OAuth
+# env vars (GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, SECRET_KEY) are confirmed present in config.py
+
 from fastapi import APIRouter, Depends, HTTPException, Response, Request
 from fastapi.responses import RedirectResponse, JSONResponse
 from arcade_app.auth_helper import (
