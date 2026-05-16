@@ -1,2 +1,6 @@
-# Define a variable named `energy` and set it to 100.
-energy = 100
+def main():
+    message = "System Online"
+    print(message)
+
+if __name__ == '__main__':
+    main()
