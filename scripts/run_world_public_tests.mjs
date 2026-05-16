@@ -178,7 +178,9 @@ async function main() {
     // 4. ML
     function isMlQuestpack(p) {
         const b = path.basename(p);
-        return b.startsWith("ml_") || b.includes("ml_core");
+        // Use startsWith("ml_") only — b.includes("ml_core") would false-positive on
+        // "web_html_core.json" (htm**l_core** contains the substring "ml_core").
+        return b.startsWith("ml_");
     }
     if (isMlQuestpack(questpackPath)) {
         await dispatchPython("scripts/run_ml_questpack.py");

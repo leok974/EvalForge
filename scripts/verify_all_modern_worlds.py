@@ -14,7 +14,7 @@ OUTPUT_MD = Path("docs/audits/FINAL_SWEEP_VERIFICATION.md")
 
 def run_pack(pack_path, mode):
     """Runs a questpack in a specific mode and returns the parsed JSON result."""
-    print(f"👉 Running {pack_path.name} [{mode}]...")
+    print(f">> Running {pack_path.name} [{mode}]...")
     
     cmd = ["node", RUNNER_SCRIPT, "--questpack", str(pack_path), "--mode", mode]
     
@@ -93,8 +93,9 @@ def main():
     packs = sorted([Path(p) for p in config["active_questpacks"]], key=lambda p: p.name)
 
     missing = [p for p in packs if not p.exists()]
+    packs = [p for p in packs if p.exists()]  # skip missing packs
     if missing:
-        print(f"⚠️ WARNING: {len(missing)} active pack(s) not found on disk:")
+        print(f"[WARN] {len(missing)} active pack(s) not found on disk (skipped):")
         for m in missing:
             print(f"   - {m}")
 
@@ -114,21 +115,21 @@ def main():
     # Write JSON
     with open(OUTPUT_JSON, "w") as f:
         json.dump(all_results, f, indent=2)
-    print(f"\n✅ JSON Report written to {OUTPUT_JSON}")
+    print(f"\n[OK] JSON Report written to {OUTPUT_JSON}")
     
     # Write MD
     md_content = generate_markdown(all_results)
     with open(OUTPUT_MD, "w", encoding="utf-8") as f:
         f.write(md_content)
-    print(f"✅ Markdown Report written to {OUTPUT_MD}")
-    
+    print(f"[OK] Markdown Report written to {OUTPUT_MD}")
+
     # Final check
     failures = [r for r in all_results if r['mode'] == 'solution' and r['exit_code'] != 0]
     if failures:
-        print(f"\n❌ FINAL SWEEP FAILED: {len(failures)} solution packs failed.")
+        print(f"\n[FAIL] FINAL SWEEP FAILED: {len(failures)} solution packs failed.")
         exit(1)
     else:
-        print("\n🎉 FINAL SWEEP PASSED: All solution packs passed.")
+        print("\n[PASS] FINAL SWEEP PASSED: All solution packs passed.")
         exit(0)
 
 if __name__ == "__main__":

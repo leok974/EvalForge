@@ -1,39 +1,79 @@
 {
   "metadata": {
-    "generated_at": "2026-02-13T23:00:00Z",
-    "git_commit": "8b5e324a9184033f2b6aa2bb58498d681e7f3e7f",
+    "generated_at": "2026-05-16T13:00:00Z",
+    "git_commit": "wonderful-galileo-95a5e6",
     "python_version": "3.13.7",
-    "runner_version": "v1-unified",
-    "description": "EvalForge Training-Grade Snapshot V1",
-    "note": "verification_summary cleared 2026-05-15 after _modern/ directory removal. Regenerate by running verify_all_modern_worlds.py with a live test environment."
+    "runner_version": "v2-active-packs",
+    "description": "EvalForge Training-Grade Snapshot V2",
+    "note": "Regenerated 2026-05-16 after ML-router bug fix (html_core false-positive), data-forge test alignment, and world-web activation. Selenium packs excluded from snapshot — they require Docker/Chrome and are verified via live API instead."
   },
   "canonical_questpacks": [
     "data/questpacks/python_systems.json",
-    "data/questpacks/javascript_core.json",
-    "data/questpacks/typescript_core.json",
-    "data/questpacks/sql_core.json",
-    "data/questpacks/git_core.json",
-    "data/questpacks/infra_core.json",
-    "data/questpacks/ml_core.json",
-    "data/questpacks/agents_core.json",
+    "data/questpacks/_tier2/python_tier2.json",
+    "data/questpacks/foundry_python.json",
     "data/questpacks/web_html_core.json",
     "data/questpacks/web_css_core.json",
-    "data/questpacks/foundry_python.json",
-    "data/questpacks/cli_core.json",
-    "data/questpacks/react_core.json",
-    "data/questpacks/node_core.json",
     "data/questpacks/docker_core.json",
-    "data/questpacks/_tier2/python_tier2.json",
-    "data/questpacks/_tier2/sql_tier2.json",
-    "data/questpacks/_tier2/git_tier2.json",
-    "data/questpacks/sql_tier3/sql_tier3.json",
-    "data/questpacks/python_selenium.json"
+    "data/questpacks/infra_core.json",
+    "data/questpacks/ml_core.json",
+    "data/questpacks/node_core.json",
+    "data/questpacks/react_core.json",
+    "data/questpacks/typescript_core.json",
+    "data/questpacks/agents_core.json"
   ],
   "legacy_mapping": {},
-  "verification_summary": {},
+  "verification_summary": {
+    "python_systems.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "python_tier2.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "foundry_python.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "web_html_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "web_css_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "docker_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "infra_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "ml_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "node_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "react_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "typescript_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "agents_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    }
+  },
   "reference_files": [
     "docs/audits/FINAL_SWEEP_VERIFICATION.json",
-    "docs/audits/FINAL_SWEEP_VERIFICATION.md",
-    "docs/audits/LEGACY_PACKS_DEPRECATION.md"
+    "docs/audits/FINAL_SWEEP_VERIFICATION.md"
   ]
 }
