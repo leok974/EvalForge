@@ -9,7 +9,8 @@ APP_URL = os.environ.get("EVALFORGE_APP_URL", "http://127.0.0.1:8765/login")
 options = Options()
 options.add_argument("--headless=new")
 options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")from selenium.webdriver.chrome.service import Service
+options.add_argument("--disable-dev-shm-usage")
+
 driver = webdriver.Chrome(
     service=Service("/usr/bin/chromedriver"),
     options=options
@@ -17,14 +18,14 @@ driver = webdriver.Chrome(
 
 try:
     driver.get(APP_URL)
-    
+
     # TODO: Find username field and type "admin"
-    
+
     # TODO: Find password field and type "secret123"
-    
+
     # TODO: Click login button
-    
-    # TODO: Assert driver.current_url or check dashboard title
+
+    # TODO: Wait for dashboard and print LOGIN_SUCCESS
     pass
 
 finally:
