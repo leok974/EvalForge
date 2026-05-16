@@ -1,18 +1,6 @@
 {
   "excluded_quests": [
     {
-      "slug": "first-sparks",
-      "reason": "Pending content enrichment",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
-      "slug": "hello-variable",
-      "reason": "Missing example.py",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
       "slug": "quest-py-hidden",
       "reason": "Internal test quest",
       "added_at": "2026-03-17",

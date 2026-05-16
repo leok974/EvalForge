@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  age INTEGER NOT NULL,
+  city TEXT NOT NULL,
+  is_active INTEGER NOT NULL CHECK (is_active IN (0,1))
+);
