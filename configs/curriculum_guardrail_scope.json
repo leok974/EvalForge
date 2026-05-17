@@ -1,7 +1,8 @@
 {
   "active_worlds": [
     "world-python",
-    "world-web"
+    "world-web",
+    "world-sql"
   ],
   "active_tracks": [
     "track-python-systems",
@@ -17,10 +18,10 @@
     "data/questpacks/foundry_python.json",
     "data/questpacks/python_selenium.json",
     "data/questpacks/web_html_core.json",
-    "data/questpacks/web_css_core.json"
+    "data/questpacks/web_css_core.json",
+    "data/questpacks/sql_core.json"
   ],
   "warning_only_worlds": [
-    "world-sql",
     "world-js",
     "world-ts"
   ],
