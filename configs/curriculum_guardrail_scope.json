@@ -3,7 +3,8 @@
     "world-python",
     "world-web",
     "world-sql",
-    "world-js"
+    "world-js",
+    "world-ts"
   ],
   "active_tracks": [
     "track-python-systems",
@@ -21,10 +22,11 @@
     "data/questpacks/web_html_core.json",
     "data/questpacks/web_css_core.json",
     "data/questpacks/sql_core.json",
-    "data/questpacks/javascript_core.json"
+    "data/questpacks/javascript_core.json",
+    "data/questpacks/typescript_core.json"
   ],
   "warning_only_worlds": [
-    "world-ts"
+    "world-git"
   ],
   "excluded_worlds": []
 }
