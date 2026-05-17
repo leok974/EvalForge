@@ -60,5 +60,12 @@ class RunnerRegistry:
                 file_name=entrypoint,
                 command=["bun", "run", entry_path]
             )
-            
+
+        elif language == "javascript":
+            return RunnerSpec(
+                docker_image="node:20-slim",
+                command=["node", entry_path],
+                file_name="main.js",
+            )
+
         raise ValueError(f"Unsupported language: {language}")

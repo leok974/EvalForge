@@ -1,11 +1,11 @@
 {
   "metadata": {
-    "generated_at": "2026-05-16T20:00:00Z",
+    "generated_at": "2026-05-17T18:00:00Z",
     "git_commit": "main",
     "python_version": "3.13.7",
     "runner_version": "v2-active-packs",
-    "description": "EvalForge Training-Grade Snapshot V3",
-    "note": "Sprint 3: added sql_core.json (11/11, fixtures + grading created for all 11 quests). sql-order-by and sql-limit grading created from scratch; shared fixture deployed to remaining 6 quests."
+    "description": "EvalForge Training-Grade Snapshot V4",
+    "note": "Sprint 4: added javascript_core.json (10/10). Node.js 20 installed in Dockerfile; RunnerRegistry JS entry added."
   },
   "canonical_questpacks": [
     "data/questpacks/python_systems.json",
@@ -20,7 +20,8 @@
     "data/questpacks/react_core.json",
     "data/questpacks/typescript_core.json",
     "data/questpacks/agents_core.json",
-    "data/questpacks/sql_core.json"
+    "data/questpacks/sql_core.json",
+    "data/questpacks/javascript_core.json"
   ],
   "legacy_mapping": {},
   "verification_summary": {
@@ -73,6 +74,10 @@
       "student_pass": false
     },
     "sql_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "javascript_core.json": {
       "solution_pass": true,
       "student_pass": false
     }
