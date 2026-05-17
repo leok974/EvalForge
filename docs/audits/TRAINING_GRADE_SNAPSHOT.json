@@ -1,11 +1,11 @@
 {
   "metadata": {
-    "generated_at": "2026-05-16T13:00:00Z",
-    "git_commit": "wonderful-galileo-95a5e6",
+    "generated_at": "2026-05-16T20:00:00Z",
+    "git_commit": "main",
     "python_version": "3.13.7",
     "runner_version": "v2-active-packs",
-    "description": "EvalForge Training-Grade Snapshot V2",
-    "note": "Regenerated 2026-05-16 Sprint 2: added python_selenium.json (5/5, structural pytest tests); removed infra_core.json (not active scope, bash scripts fail in WSL environment); foundry quest grading aligned to questpack objectives; first-sparks + hello-variable un-excluded."
+    "description": "EvalForge Training-Grade Snapshot V3",
+    "note": "Sprint 3: added sql_core.json (11/11, fixtures + grading created for all 11 quests). sql-order-by and sql-limit grading created from scratch; shared fixture deployed to remaining 6 quests."
   },
   "canonical_questpacks": [
     "data/questpacks/python_systems.json",
@@ -19,7 +19,8 @@
     "data/questpacks/node_core.json",
     "data/questpacks/react_core.json",
     "data/questpacks/typescript_core.json",
-    "data/questpacks/agents_core.json"
+    "data/questpacks/agents_core.json",
+    "data/questpacks/sql_core.json"
   ],
   "legacy_mapping": {},
   "verification_summary": {
@@ -68,6 +69,10 @@
       "student_pass": false
     },
     "agents_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "sql_core.json": {
       "solution_pass": true,
       "student_pass": false
     }
