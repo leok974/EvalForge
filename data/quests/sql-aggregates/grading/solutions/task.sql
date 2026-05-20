@@ -1,1 +1,1 @@
-SELECT COUNT(*) AS paid_order_count, SUM(total_cents) AS paid_total_cents_sum, ROUND(AVG(total_cents)) AS paid_total_cents_avg FROM orders WHERE status = 'paid';
+SELECT COUNT(*) AS total_count, SUM(total_cents) AS total_value_cents FROM orders WHERE status = 'paid';

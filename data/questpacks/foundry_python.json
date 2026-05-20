@@ -9,7 +9,7 @@
         "summary": "Ignite the Foundry core.",
         "description": "Initialize the Python runtime by printing the launch sequence.",
         "lore": "The core is cold. We need a spark to get the systems online.",
-        "language": "txt",
+        "language": "python",
         "xp_base": 50,
         "starter_code": "def main():\n    # TODO: Print T-minus 3, 2, 1...\n    pass\n\nif __name__ == '__main__':\n    main()\n",
         "objectives": [

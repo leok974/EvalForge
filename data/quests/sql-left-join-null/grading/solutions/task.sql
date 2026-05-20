@@ -1,1 +1,5 @@
-SELECT u.id, u.name FROM users u LEFT JOIN orders o ON o.user_id = u.id WHERE u.is_active = 1 AND o.id IS NULL ORDER BY u.id ASC;
+SELECT u.id, u.name AS user_name
+FROM users u
+LEFT JOIN orders o ON o.user_id = u.id
+WHERE u.is_active = 1 AND o.id IS NULL
+ORDER BY u.id ASC;

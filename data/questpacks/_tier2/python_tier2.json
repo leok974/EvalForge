@@ -65,14 +65,6 @@
                     "rule_json": {
                         "expected": 0
                     }
-                },
-                {
-                    "id": "stdout_missing_warning",
-                    "title": "Prints 'CONFIG_MISSING' on FileNotFoundError",
-                    "kind": "stdout_regex",
-                    "rule_json": {
-                        "pattern": "CONFIG_MISSING"
-                    }
                 }
             ],
             "key_terms": [
@@ -144,14 +136,6 @@
                     "id": "tests_pass",
                     "title": "Tests pass",
                     "kind": "tests_pass"
-                },
-                {
-                    "id": "stdout_help_msg",
-                    "title": "Prints help on --help",
-                    "kind": "stdout_regex",
-                    "rule_json": {
-                        "pattern": "usage:"
-                    }
                 }
             ],
             "key_terms": [

@@ -13,7 +13,7 @@ def main():
 
     artifacts_dir = os.getenv("EVALFORGE_ARTIFACTS_DIR", os.path.join(start_dir, ".evalforge"))
 
-    print("INFO[sql-preview] active (Run Mode) — executing fixtures + task.sql", file=sys.stdout)
+    print("INFO[sql-preview] active (Run Mode) — executing fixtures + task.sql", file=sys.stderr)
 
     trace = []
     sql_student_result = {"columns": [], "rows": [], "row_count": 0, "note": "No valid SELECT statement found."}
@@ -95,6 +95,17 @@ def main():
             con.close()
         except Exception:
             pass
+        # Print tabular result to stdout so stdout_regex objectives can check column names and values
+        try:
+            cols = sql_student_result.get("columns", [])
+            rows = sql_student_result.get("rows", [])
+            if cols:
+                print(" | ".join(str(c) for c in cols))
+                for row in rows:
+                    print(" | ".join("NULL" if v is None else str(v) for v in row))
+        except Exception as e:
+            print(f"WARN[sql-preview]: Failed to print tabular result: {e}", file=sys.stderr)
+
         try:
             payload = {
                 "sql_trace": trace,
@@ -114,7 +125,7 @@ def main():
                 written.append(f"{n}.json")
             except Exception as e: 
                 print(f"WARN[sql-preview]: Failed writing {n}.json to {artifacts_dir}: {e}", file=sys.stderr)
-        print(f"INFO[sql-preview] Artifacts written: {written}", file=sys.stdout)
+        print(f"INFO[sql-preview] Artifacts written: {written}", file=sys.stderr)
 
 if __name__ == "__main__":
     main()

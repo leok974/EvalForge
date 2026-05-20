@@ -1,11 +1,11 @@
 {
   "metadata": {
-    "generated_at": "2026-05-17T18:00:00Z",
-    "git_commit": "main",
-    "python_version": "3.13.7",
+    "generated_at": "2026-05-20T13:00:00Z",
+    "git_commit": "fix/questpack-content-audit",
+    "python_version": "3.11.15",
     "runner_version": "v2-active-packs",
-    "description": "EvalForge Training-Grade Snapshot V5",
-    "note": "Sprint 5: added git_core.json (10/10). Created grading/public test files for 5 git quests; fixed git-tag-release solution to write outputs/tags.txt."
+    "description": "EvalForge Training-Grade Snapshot V6",
+    "note": "Sprint 5 full learner path smoke test: 56/56 passing. Fixes: sql_preview.py INFO→stderr to unblock stdout_regex; sql-aggregates/sql-limit regex patterns use $ anchor (normalize_stdout strips trailing newlines); javascript_core.json rewritten from dead quest_path refs to inline objectives; Selenium unblocked (selenium>=4.18.0 added to requirements.txt); python-data-forge entrypoint main.py; python-file-io-safe test uses tmp_path; questpack_seed.py is canonical seeder for data/questpacks/* files."
   },
   "canonical_questpacks": [
     "data/questpacks/python_systems.json",
@@ -24,6 +24,19 @@
     "data/questpacks/javascript_core.json",
     "data/questpacks/git_core.json"
   ],
+  "smoke_test_results": {
+    "total_passed": 56,
+    "total_tested": 56,
+    "date": "2026-05-20",
+    "breakdown": {
+      "foundry_python.json": {"solution": 2, "starter_fails": 2},
+      "python_tier2.json": {"solution": 6, "starter_fails": 6},
+      "python_systems.json": {"solution": 7, "starter_fails": 7},
+      "python_selenium.json": {"solution": 5, "starter_fails": 0},
+      "sql_core.json": {"solution": 11, "starter_fails": 0},
+      "javascript_core.json": {"solution": 10, "starter_fails": 0}
+    }
+  },
   "legacy_mapping": {},
   "verification_summary": {
     "python_systems.json": {

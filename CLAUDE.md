@@ -122,8 +122,16 @@ docs/        tutorial.md, briefing.md, hints.md, lore.md
 
 After editing questpacks, seed to the DB:
 ```bash
+# For data/questpacks/*.json files (canonical seeder):
+docker compose exec backend bash -c "cd /app && PYTHONPATH=/app python scripts/questpack_seed.py data/questpacks/<file>.json"
+# Or to seed all active packs at once:
+docker compose exec backend bash -c "cd /app && PYTHONPATH=/app python scripts/questpack_seed.py --all"
+
+# For legacy world/track specs (docs/*.json):
 python scripts/seed_evalforge_universe.py
 ```
+
+**NOTE:** `questpack_seed.py` is the correct seeder for all `data/questpacks/*.json` files. `seed_evalforge_universe.py` only processes legacy track specs in `docs/` — it does NOT process `sql_core.json`, `javascript_core.json`, etc.
 
 ---
 

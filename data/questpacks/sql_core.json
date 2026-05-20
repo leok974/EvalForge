@@ -252,7 +252,7 @@
                     "kind": "stdout_regex",
                     "title": "Returns exactly 3 rows",
                     "rule": {
-                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+\\n.*\\|.*\\n.*\\|.*\\n.*\\|.*\\n(?!.*\\|)"
+                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+\\n[^\\n]+\\n[^\\n]+$"
                     }
                 }
             ],
@@ -303,7 +303,7 @@
                     "kind": "stdout_regex",
                     "title": "Returns exactly one row",
                     "rule": {
-                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+\\n(?!.*\\|)"
+                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+$"
                     }
                 }
             ],

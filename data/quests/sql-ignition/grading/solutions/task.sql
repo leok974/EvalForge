@@ -1,1 +1,1 @@
-SELECT id, name, email, age, city, is_active FROM users ORDER BY id ASC;
+SELECT * FROM users ORDER BY id ASC;
