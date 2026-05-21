@@ -136,6 +136,14 @@
                     "id": "tests_pass",
                     "title": "Tests pass",
                     "kind": "tests_pass"
+                },
+                {
+                    "id": "uses_argparse",
+                    "title": "Uses argparse module",
+                    "kind": "source_regex",
+                    "rule_json": {
+                        "pattern": "argparse\\.ArgumentParser"
+                    }
                 }
             ],
             "key_terms": [
