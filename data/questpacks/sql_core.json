@@ -29,6 +29,7 @@
                     "id": "obj_select_all",
                     "kind": "source_regex",
                     "title": "Select all columns (*)",
+                    "hint": "Use SELECT * FROM users — the asterisk (*) returns every column from the table.",
                     "rule": {
                         "pattern": "(?i)SELECT\\s+\\*\\s+FROM\\s+users"
                     }

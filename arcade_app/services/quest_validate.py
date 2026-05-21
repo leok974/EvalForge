@@ -14,6 +14,7 @@ class ObjResult:
     expected: Optional[str] = None
     actual: Optional[str] = None
     diff: Optional[str] = None
+    hint: Optional[str] = None  # Concrete next-step suggestion surfaced on failure
 
 # ============================================================================
 # VALIDATOR REGISTRY - Single Source of Truth
@@ -349,7 +350,16 @@ def validate_quest_attempt(
                             res.ok = True
                             res.detail = "Source code matches pattern"
                         else:
-                            res.detail = f"Source code missing required pattern: {failed_pattern}"
+                            # Use the human-readable objective title, not the raw regex
+                            human_title = title if (title and title != oid) else "Required pattern not found"
+                            res.kind = "objective"
+                            res.detail = human_title
+                            res.expected = rule.get("description") or human_title
+                            res.actual = "(pattern not found in your code)"
+                            res.diff = f"Expected:\n  {res.expected}\nActual:\n  (pattern not found)"
+                            obj_hint = obj.get("hint") or rule.get("hint", "")
+                            if obj_hint:
+                                res.hint = obj_hint
                     except re.error as e:
                         res.detail = f"Invalid regex pattern: {str(e)}"
 
@@ -500,9 +510,12 @@ def validate_quest_attempt(
                              res.kind = "objective"
                              res.expected = expected_desc
                              res.actual = txt[:200] if txt else "(empty)"
-                             res.detail = f"Output missing regex pattern: {failed_pattern}"
-                             # Simple diff
-                             res.diff = f"Expected (missing):\n  {failed_pattern}\nActual:\n  {res.actual}"
+                             # Use the human-readable description, not the raw regex
+                             res.detail = expected_desc
+                             res.diff = f"Expected:\n  {expected_desc}\nActual:\n  {res.actual}"
+                             obj_hint = obj.get("hint") or rule.get("hint", "")
+                             if obj_hint:
+                                 res.hint = obj_hint
                     except re.error as e:
                          res.detail = f"Invalid regex pattern: {e}"
             

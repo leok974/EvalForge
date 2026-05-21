@@ -1,6 +1,6 @@
 # Final Sweep Verification Report
 
-**Date:** 2026-05-20 20:26:11
+**Date:** 2026-05-21 10:01:24
 **Status:** FINAL_VERIFICATION
 
 ## Summary
@@ -9,8 +9,8 @@
 |---|---|---|---|---|
 | `agents_core.json` | `solution` | ✅ | N/A | |
 | `agents_core.json` | `student` | ✅ (Expected) | N/A | |
-| `cli_core.json` | `solution` | ❌ | N/A | |
-| `cli_core.json` | `student` | ✅ (Expected) | N/A | |
+| `cli_core.json` | `solution` | ✅ | 10/10 | |
+| `cli_core.json` | `student` | ✅ (Expected) | 5/10 | |
 | `docker_core.json` | `solution` | ✅ | 10/10 | |
 | `docker_core.json` | `student` | ✅ (Expected) | 0/10 | |
 | `foundry_python.json` | `solution` | ✅ | 2/2 | |
@@ -50,10 +50,6 @@
 
 ## Detailed Failures
 
-### ❌ cli_core.json (Solution Mode)
-```
-=== Running 10 CLI quests from data\questpacks\cli_core.json in solution mode ===
-```
 ### ❌ git_tier2.json (Solution Mode)
 ```
 === Running 3 Git quests from data\questpacks\_tier2\git_tier2.json in solution mode ===
@@ -88,5 +84,6 @@ EF_RUN_WORLD_SUMMARY: 0/12 public tests passed.
 ```
 ### ❌ sql_tier3.json (Solution Mode)
 ```
-No output captured.
+[FAIL] missing grading/public for postgres-schema-explorer
+[FAIL] postgres-schema-explorer
 ```

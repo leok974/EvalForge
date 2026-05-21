@@ -113,6 +113,30 @@
       "reason": "Placeholder",
       "added_at": "2026-03-17",
       "owner": "leo"
+    },
+    {
+      "slug": "sql-vector-q1-mental-model",
+      "reason": "Stub: no kind field on objectives, config_invalid_objective at runtime. Requires pgvector extension and dedicated test infra not yet implemented.",
+      "added_at": "2026-05-21",
+      "owner": "leo"
+    },
+    {
+      "slug": "sql-vector-q2-distance-metrics",
+      "reason": "Stub: no kind field on objectives, config_invalid_objective at runtime. Requires pgvector extension and dedicated test infra not yet implemented.",
+      "added_at": "2026-05-21",
+      "owner": "leo"
+    },
+    {
+      "slug": "sql-vector-q3-top-k-retrieval",
+      "reason": "Stub: no kind field on objectives, config_invalid_objective at runtime. Requires pgvector extension and dedicated test infra not yet implemented.",
+      "added_at": "2026-05-21",
+      "owner": "leo"
+    },
+    {
+      "slug": "sql-vector-q4-hybrid-search",
+      "reason": "Stub: no kind field on objectives, config_invalid_objective at runtime. Requires pgvector extension and dedicated test infra not yet implemented.",
+      "added_at": "2026-05-21",
+      "owner": "leo"
     }
   ]
 }

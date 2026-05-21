@@ -16,6 +16,7 @@
             {
                 "id": "stdout_launch_sequence",
                 "title": "Prints the launch sequence",
+                "hint": "Print each line separately in order: print('T-minus 3'), print('T-minus 2'), print('T-minus 1'), print('IGNITION').",
                 "kind": "stdout_regex",
                 "rule": {
                     "pattern": "^T-minus 3\\nT-minus 2\\nT-minus 1\\nIGNITION\\s*$",
@@ -65,6 +66,7 @@
             {
                 "id": "stdout_system_online",
                 "title": "Prints System Online",
+                "hint": "Assign the string 'System Online' to your message variable, then print it: print(message).",
                 "kind": "stdout_regex",
                 "rule": {
                     "pattern": "^System Online\\s*$",

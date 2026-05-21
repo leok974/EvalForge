@@ -1,11 +1,11 @@
 {
   "metadata": {
-    "generated_at": "2026-05-20T20:20:00Z",
-    "git_commit": "sprint6/typescript-git-activated",
+    "generated_at": "2026-05-21T00:00:00Z",
+    "git_commit": "sprint7/feedback-quality-infra-cli-activated",
     "python_version": "3.11.15",
     "runner_version": "v2-active-packs",
-    "description": "EvalForge Training-Grade Snapshot V7",
-    "note": "Sprint 6 full learner path smoke test: 76/76 passing. Fixes: typescript_core.json rewritten from dead quest_path refs to 10 inline quests; TypeScript entrypoint bug fixed (build_effective_workspace defaults to main.py, code_runner_docker now ignores non-.ts workspace entrypoints); git_core.json 10/10 activated; sanitize_logs strips evalforge-run-xxx/ temp dirs and /usr/local/lib/python container paths; SQL diagnostic severity changed from error to info; sql-aggregates/sql-groupby-having/sql-cte-subquery/sql-insert-update-delete solutions fixed to match test expectations."
+    "description": "EvalForge Training-Grade Snapshot V8",
+    "note": "Sprint 7: (1) Feedback quality — raw regex removed from objective failure messages, hint field added end-to-end (ObjResult→ObjectiveResult schema→API), hints added to 5 questpacks; (2) SQL tier-3 audit — 4 vector stubs excluded in quest_exclusions.json, postgres-schema-explorer task.sql alias created, 5 postgres quests classified ENVIRONMENT_BLOCKED; (3) Boss fight classified WORKING (requires seed + Vertex AI); (4) infra_core 10/10 activated; (5) cli_core 10/10 activated (path bug in run_cli_questpack.mjs fixed, stale .js test files deleted, in-place swap adopted); (6) foundry first-sparks and hello-variable confirmed passing."
   },
   "canonical_questpacks": [
     "data/questpacks/python_systems.json",
@@ -22,7 +22,9 @@
     "data/questpacks/agents_core.json",
     "data/questpacks/sql_core.json",
     "data/questpacks/javascript_core.json",
-    "data/questpacks/git_core.json"
+    "data/questpacks/git_core.json",
+    "data/questpacks/infra_core.json",
+    "data/questpacks/cli_core.json"
   ],
   "smoke_test_results": {
     "total_passed": 76,
@@ -100,10 +102,17 @@
     "git_core.json": {
       "solution_pass": true,
       "student_pass": false
+    },
+    "infra_core.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "cli_core.json": {
+      "solution_pass": true,
+      "student_pass": false
     }
   },
   "reference_files": [
-    "docs/audits/FINAL_SWEEP_VERIFICATION.json",
-    "docs/audits/FINAL_SWEEP_VERIFICATION.md"
+    "docs/audits/BOSS_SYSTEM_STATUS.md"
   ]
 }

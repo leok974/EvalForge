@@ -23,6 +23,9 @@ class ObjectiveResult(BaseModel):
     actual: Optional[str] = None
     diff: Optional[str] = None
 
+    # Sprint 7: Concrete next-step hint surfaced on objective failure
+    hint: Optional[str] = None
+
     # Phase 7.1.2: Success Debrief
     debrief: Optional[dict] = None
 

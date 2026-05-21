@@ -97,6 +97,7 @@
             {
                 "id": "tests_pass",
                 "title": "Unit tests pass",
+                "hint": "Implement handle_request to return _ok(...) for valid actions (open_ticket, close_ticket, get_status) and _bad(...) for unknown or missing actions. Replace the pass / EF_BOUNDARY_NOT_IMPLEMENTED stub.",
                 "kind": "tests_pass"
             }
         ],
