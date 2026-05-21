@@ -142,6 +142,9 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             # Gap #2 fix: ensures quests sort correctly within a track
             order_index = quest_data.get("order_index") or quest_data.get("order") or position
 
+            # tier: visual difficulty grouping (1=foundry, 2=advanced, 3=expert, 4=mastery)
+            tier = int(quest_data.get("tier") or 1)
+
             if not existing:
                 existing = QuestDefinition(
                     slug=slug,
@@ -151,6 +154,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                     short_description=quest_data.get("short_description", ""),
                     language=quest_data.get("language", "python"),
                     order_index=order_index,
+                    tier=tier,
                 )
                 session.add(existing)
             else:
@@ -158,6 +162,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                  existing.track_id = track_id
                  existing.title = title
                  existing.order_index = order_index
+                 existing.tier = tier
                  if "language" in quest_data:
                      existing.language = quest_data["language"]
                  if "key_terms" in quest_data:

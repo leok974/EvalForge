@@ -1,336 +1,453 @@
 {
-    "id": "sql_tier3",
-    "name": "SQL Tier 3: PostgreSQL Workbench",
-    "description": "Master PostgreSQL, schema exploration, and vector databases.",
-    "world_id": "world-sql",
-    "track_id": "core-sql",
-    "quests": [
+  "id": "sql_tier3",
+  "name": "SQL Tier 3: PostgreSQL Workbench",
+  "description": "Master PostgreSQL, schema exploration, and vector databases.",
+  "world_id": "world-sql",
+  "track_id": "core-sql",
+  "quests": [
+    {
+      "slug": "postgres-schema-explorer",
+      "title": "PostgreSQL: Schema Explorer",
+      "language": "sql",
+      "db_engine": "postgres",
+      "db_explorer_enabled": true,
+      "db_explorer_mode": "quest_scoped",
+      "featured_tables": [
+        "employees",
+        "departments"
+      ],
+      "order_index": 330,
+      "short_description": "Explore a real PostgreSQL schema using the new Database Explorer.",
+      "detailed_description": "Master the SQL Tier 3 workbench. Inspect tables, columns, and relationships in a PostgreSQL environment.",
+      "starting_code_path": "data/questpacks/sql_tier3/postgres-schema-explorer/workspace/task.sql",
+      "base_xp_reward": 75,
+      "mastery_xp_bonus": 25,
+      "key_terms": [
+        "database",
+        "table",
+        "column",
+        "sql"
+      ],
+      "concept_tags": [
+        "exploration",
+        "metadata",
+        "postgres"
+      ],
+      "objectives": [
         {
-            "slug": "postgres-schema-explorer",
-            "title": "PostgreSQL: Schema Explorer",
-            "language": "sql",
-            "db_engine": "postgres",
-            "db_explorer_enabled": true,
-            "db_explorer_mode": "quest_scoped",
-            "featured_tables": ["employees", "departments"],
-            "order_index": 330,
-            "short_description": "Explore a real PostgreSQL schema using the new Database Explorer.",
-            "detailed_description": "Master the SQL Tier 3 workbench. Inspect tables, columns, and relationships in a PostgreSQL environment.",
-            "starting_code_path": "data/questpacks/sql_tier3/postgres-schema-explorer/workspace/task.sql",
-            "base_xp_reward": 75,
-            "mastery_xp_bonus": 25,
-            "key_terms": [
-                "database",
-                "table",
-                "column",
-                "sql"
-            ],
-            "concept_tags": [
-                "exploration",
-                "metadata",
-                "postgres"
-            ],
-            "objectives": [
-                {
-                    "id": "list_engineering",
-                    "kind": "column_match",
-                    "text": "Correctly lists name and email for Engineering employees",
-                    "rule": {
-                        "expected_columns": ["name", "email"]
-                    }
-                },
-                {
-                    "id": "count_check",
-                    "kind": "row_count",
-                    "text": "Returns exactly 2 employees (Alice and Bob)",
-                    "rule": {
-                        "count": 2
-                    }
-                }
+          "id": "list_engineering",
+          "kind": "column_match",
+          "text": "Correctly lists name and email for Engineering employees",
+          "rule": {
+            "expected_columns": [
+              "name",
+              "email"
             ]
+          }
         },
         {
-            "slug": "sql-vector-q1-mental-model",
-            "quest_id": "sql-vector-q1-mental-model",
-            "order_index": 410,
-            "title": "Q1 – The Mental Model",
-            "short_description": "Understand embeddings as semantic positions.",
-            "long_description": "Learn that a 'vector' is a coordinate in meaning-space. 'Closer' coordinates mean 'more similar' meanings.",
-            "objectives": [
-                {
-                    "id": "q1_objective_1",
-                    "text": "Find the position of a celestial fragment."
-                },
-                {
-                    "id": "q1_objective_2",
-                    "text": "Observe vector correlations to topics."
-                }
-            ],
-            "world_slug": "world-sql",
-            "track_id": "archives-vector-vault",
-            "difficulty": "beginner",
-            "xp": 30,
-            "tags": [
-                "pgvector",
-                "embeddings"
-            ],
-            "starting_code_path": "data/quests/sql-vector-q1-mental-model/workspace/task.sql",
-            "db_engine": "postgres"
-        },
-        {
-            "slug": "sql-vector-q2-distance-metrics",
-            "quest_id": "sql-vector-q2-distance-metrics",
-            "order_index": 420,
-            "title": "Q2 – Distance Metrics",
-            "short_description": "Compare L2, Cosine, and Inner Product.",
-            "long_description": "Learn to choose the right ruler. Use <=> for semantic similarity.",
-            "objectives": [
-                {
-                    "id": "q2_objective_1",
-                    "text": "Calculate Cosine distance between fragments."
-                }
-            ],
-            "world_slug": "world-sql",
-            "track_id": "archives-vector-vault",
-            "difficulty": "beginner",
-            "xp": 40,
-            "tags": [
-                "pgvector",
-                "cosine"
-            ],
-            "starting_code_path": "data/quests/sql-vector-q2-distance-metrics/workspace/task.sql",
-            "db_engine": "postgres"
-        },
-        {
-            "slug": "sql-vector-q3-top-k-retrieval",
-            "quest_id": "sql-vector-q3-top-k-retrieval",
-            "order_index": 430,
-            "title": "Q3 – Top-K Retrieval",
-            "short_description": "Perform real nearest-neighbor search.",
-            "long_description": "Rank records by distance and cap results with LIMIT.",
-            "objectives": [
-                {
-                    "id": "q3_objective_1",
-                    "text": "Retrieve the Top 2 most similar fragments."
-                }
-            ],
-            "world_slug": "world-sql",
-            "track_id": "archives-vector-vault",
-            "difficulty": "intermediate",
-            "xp": 50,
-            "tags": [
-                "pgvector",
-                "top-k"
-            ],
-            "starting_code_path": "data/quests/sql-vector-q3-top-k-retrieval/workspace/task.sql",
-            "db_engine": "postgres"
-        },
-        {
-            "slug": "sql-vector-q4-hybrid-search",
-            "quest_id": "sql-vector-q4-hybrid-search",
-            "order_index": 440,
-            "title": "Q4 – Hybrid Search",
-            "short_description": "Combine relational filters with vector search.",
-            "long_description": "Narrow search space with WHERE before ranking by distance.",
-            "objectives": [
-                {
-                    "id": "q4_objective_1",
-                    "text": "Filter by category then rank by similarity."
-                }
-            ],
-            "world_slug": "world-sql",
-            "track_id": "archives-vector-vault",
-            "difficulty": "intermediate",
-            "xp": 60,
-            "tags": [
-                "pgvector",
-                "hybrid"
-            ],
-            "starting_code_path": "data/quests/sql-vector-q4-hybrid-search/workspace/task.sql",
-            "db_engine": "postgres"
-        },
-        {
-            "slug": "postgres-real-schema-joins",
-            "title": "PostgreSQL: Real Schema Joins",
-            "language": "sql",
-            "db_engine": "postgres",
-            "world_id": "world-sql",
-            "track_id": "core-sql",
-            "db_explorer_enabled": true,
-            "db_explorer_mode": "quest_scoped",
-            "featured_tables": ["employees", "departments", "projects", "employee_assignments", "milestones"],
-            "workspace_json": {
-                "files": [
-                    {"path": "task.sql", "editable": true},
-                    {"path": "example.sql", "editable": true},
-                    {"path": "fixtures/schema.sql", "editable": false},
-                    {"path": "fixtures/seed.sql", "editable": false}
-                ]
-            },
-            "objectives": [
-                {
-                    "id": "correct_columns",
-                    "kind": "column_match",
-                    "text": "Correctly returns name, department, project, and role",
-                    "rule": { "expected_columns": ["employee_name", "department_name", "project_name", "role"] }
-                },
-                {
-                    "id": "high_budget_filter",
-                    "kind": "row_count",
-                    "text": "Only includes projects with budget > 50000",
-                    "rule": { "count": 3 }
-                }
-            ],
-            "key_terms": [
-                "codex:glossary/sql/inner-join",
-                "codex:glossary/sql/on",
-                "codex:glossary/sql/alias",
-                "codex:glossary/sql/foreign-key"
-            ],
-            "codex_references": [
-                "codex:glossary/sql/inner-join",
-                "codex:glossary/sql/foreign-key",
-                "codex:glossary/sql/on"
-            ]
-        },
-        {
-            "slug": "postgres-safe-querying",
-            "title": "PostgreSQL: Safe Querying",
-            "language": "sql",
-            "db_engine": "postgres",
-            "world_id": "world-sql",
-            "track_id": "core-sql",
-            "db_explorer_enabled": true,
-            "db_explorer_mode": "quest_scoped",
-            "featured_tables": ["employees"],
-            "workspace_json": {
-                "files": [
-                    {"path": "task.sql", "editable": true},
-                    {"path": "example.sql", "editable": true},
-                    {"path": "fixtures/schema.sql", "editable": false},
-                    {"path": "fixtures/seed.sql", "editable": false}
-                ]
-            },
-            "objectives": [
-                {
-                    "id": "list_columns",
-                    "kind": "column_match",
-                    "text": "Correctly lists column metadata from information_schema",
-                    "rule": { "expected_columns": ["column_name", "data_type", "is_nullable"] }
-                },
-                {
-                    "id": "safe_preview",
-                    "kind": "row_count",
-                    "text": "Performs a safe preview limited to 5 rows",
-                    "rule": { "count": 5 }
-                }
-            ],
-            "key_terms": [
-                "codex:glossary/sql/limit",
-                "codex:glossary/sql/select"
-            ],
-            "codex_references": [
-                "codex:glossary/sql/limit",
-                "codex:glossary/sql/select"
-            ]
-        },
-        {
-            "slug": "postgres-date-trunc-time-buckets",
-            "title": "PostgreSQL: Date Trunc & Time Buckets",
-            "language": "sql",
-            "db_engine": "postgres",
-            "world_id": "world-sql",
-            "track_id": "core-sql",
-            "db_explorer_enabled": true,
-            "db_explorer_mode": "quest_scoped",
-            "featured_tables": ["sensor_readings"],
-            "workspace_json": {
-                "files": [
-                    {"path": "task.sql", "editable": true},
-                    {"path": "example.sql", "editable": true},
-                    {"path": "fixtures/schema.sql", "editable": false},
-                    {"path": "fixtures/seed.sql", "editable": false}
-                ]
-            },
-            "objectives": [
-                {
-                    "id": "uses_date_trunc",
-                    "kind": "source_regex",
-                    "text": "Uses DATE_TRUNC function",
-                    "rule": { "pattern": "(?i)date_trunc" }
-                },
-                {
-                    "id": "correct_grouping",
-                    "kind": "row_count",
-                    "text": "Correctly buckets by hour for the target day",
-                    "rule": { "count": 4 }
-                }
-            ]
-        },
-        {
-            "slug": "postgres-explain-basics",
-            "title": "PostgreSQL: Explain Basics",
-            "language": "sql",
-            "db_engine": "postgres",
-            "world_id": "world-sql",
-            "track_id": "core-sql",
-            "db_explorer_enabled": true,
-            "db_explorer_mode": "quest_scoped",
-            "featured_tables": ["audit_logs"],
-            "workspace_json": {
-                "files": [
-                    {"path": "task.sql", "editable": true},
-                    {"path": "example.sql", "editable": true},
-                    {"path": "fixtures/schema.sql", "editable": false},
-                    {"path": "fixtures/seed.sql", "editable": false}
-                ]
-            },
-            "objectives": [
-                {
-                    "id": "uses_explain",
-                    "kind": "source_regex",
-                    "text": "Uses EXPLAIN keyword",
-                    "rule": { "pattern": "(?i)EXPLAIN" }
-                },
-                {
-                    "id": "index_usage",
-                    "kind": "tests_pass",
-                    "text": "Query Plan shows Index usage for large table"
-                }
-            ]
-        },
-        {
-            "slug": "postgres-jsonb-basics",
-            "title": "PostgreSQL: JSONB Basics",
-            "language": "sql",
-            "db_engine": "postgres",
-            "world_id": "world-sql",
-            "track_id": "core-sql",
-            "db_explorer_enabled": true,
-            "db_explorer_mode": "quest_scoped",
-            "featured_tables": ["webhook_events"],
-            "workspace_json": {
-                "files": [
-                    {"path": "task.sql", "editable": true},
-                    {"path": "example.sql", "editable": true},
-                    {"path": "fixtures/schema.sql", "editable": false},
-                    {"path": "fixtures/seed.sql", "editable": false}
-                ]
-            },
-            "objectives": [
-                {
-                    "id": "uses_jsonb_operator",
-                    "kind": "source_regex",
-                    "text": "Uses JSONB extraction operator (-> or ->>)",
-                    "rule": { "pattern": "->|->>" }
-                },
-                {
-                    "id": "correct_json_filter",
-                    "kind": "row_count",
-                    "text": "Correctly filters by nested JSON key",
-                    "rule": { "count": 2 }
-                }
-            ]
+          "id": "count_check",
+          "kind": "row_count",
+          "text": "Returns exactly 2 employees (Alice and Bob)",
+          "rule": {
+            "count": 2
+          }
         }
-    ]
+      ],
+      "tier": 3
+    },
+    {
+      "slug": "sql-vector-q1-mental-model",
+      "quest_id": "sql-vector-q1-mental-model",
+      "order_index": 410,
+      "title": "Q1 â€“ The Mental Model",
+      "short_description": "Understand embeddings as semantic positions.",
+      "long_description": "Learn that a 'vector' is a coordinate in meaning-space. 'Closer' coordinates mean 'more similar' meanings.",
+      "objectives": [
+        {
+          "id": "q1_objective_1",
+          "text": "Find the position of a celestial fragment."
+        },
+        {
+          "id": "q1_objective_2",
+          "text": "Observe vector correlations to topics."
+        }
+      ],
+      "world_slug": "world-sql",
+      "track_id": "archives-vector-vault",
+      "difficulty": "beginner",
+      "xp": 30,
+      "tags": [
+        "pgvector",
+        "embeddings"
+      ],
+      "starting_code_path": "data/quests/sql-vector-q1-mental-model/workspace/task.sql",
+      "db_engine": "postgres",
+      "tier": 3
+    },
+    {
+      "slug": "sql-vector-q2-distance-metrics",
+      "quest_id": "sql-vector-q2-distance-metrics",
+      "order_index": 420,
+      "title": "Q2 â€“ Distance Metrics",
+      "short_description": "Compare L2, Cosine, and Inner Product.",
+      "long_description": "Learn to choose the right ruler. Use <=> for semantic similarity.",
+      "objectives": [
+        {
+          "id": "q2_objective_1",
+          "text": "Calculate Cosine distance between fragments."
+        }
+      ],
+      "world_slug": "world-sql",
+      "track_id": "archives-vector-vault",
+      "difficulty": "beginner",
+      "xp": 40,
+      "tags": [
+        "pgvector",
+        "cosine"
+      ],
+      "starting_code_path": "data/quests/sql-vector-q2-distance-metrics/workspace/task.sql",
+      "db_engine": "postgres",
+      "tier": 3
+    },
+    {
+      "slug": "sql-vector-q3-top-k-retrieval",
+      "quest_id": "sql-vector-q3-top-k-retrieval",
+      "order_index": 430,
+      "title": "Q3 â€“ Top-K Retrieval",
+      "short_description": "Perform real nearest-neighbor search.",
+      "long_description": "Rank records by distance and cap results with LIMIT.",
+      "objectives": [
+        {
+          "id": "q3_objective_1",
+          "text": "Retrieve the Top 2 most similar fragments."
+        }
+      ],
+      "world_slug": "world-sql",
+      "track_id": "archives-vector-vault",
+      "difficulty": "intermediate",
+      "xp": 50,
+      "tags": [
+        "pgvector",
+        "top-k"
+      ],
+      "starting_code_path": "data/quests/sql-vector-q3-top-k-retrieval/workspace/task.sql",
+      "db_engine": "postgres",
+      "tier": 3
+    },
+    {
+      "slug": "sql-vector-q4-hybrid-search",
+      "quest_id": "sql-vector-q4-hybrid-search",
+      "order_index": 440,
+      "title": "Q4 â€“ Hybrid Search",
+      "short_description": "Combine relational filters with vector search.",
+      "long_description": "Narrow search space with WHERE before ranking by distance.",
+      "objectives": [
+        {
+          "id": "q4_objective_1",
+          "text": "Filter by category then rank by similarity."
+        }
+      ],
+      "world_slug": "world-sql",
+      "track_id": "archives-vector-vault",
+      "difficulty": "intermediate",
+      "xp": 60,
+      "tags": [
+        "pgvector",
+        "hybrid"
+      ],
+      "starting_code_path": "data/quests/sql-vector-q4-hybrid-search/workspace/task.sql",
+      "db_engine": "postgres",
+      "tier": 3
+    },
+    {
+      "slug": "postgres-real-schema-joins",
+      "title": "PostgreSQL: Real Schema Joins",
+      "language": "sql",
+      "db_engine": "postgres",
+      "world_id": "world-sql",
+      "track_id": "core-sql",
+      "db_explorer_enabled": true,
+      "db_explorer_mode": "quest_scoped",
+      "featured_tables": [
+        "employees",
+        "departments",
+        "projects",
+        "employee_assignments",
+        "milestones"
+      ],
+      "workspace_json": {
+        "files": [
+          {
+            "path": "task.sql",
+            "editable": true
+          },
+          {
+            "path": "example.sql",
+            "editable": true
+          },
+          {
+            "path": "fixtures/schema.sql",
+            "editable": false
+          },
+          {
+            "path": "fixtures/seed.sql",
+            "editable": false
+          }
+        ]
+      },
+      "objectives": [
+        {
+          "id": "correct_columns",
+          "kind": "column_match",
+          "text": "Correctly returns name, department, project, and role",
+          "rule": {
+            "expected_columns": [
+              "employee_name",
+              "department_name",
+              "project_name",
+              "role"
+            ]
+          }
+        },
+        {
+          "id": "high_budget_filter",
+          "kind": "row_count",
+          "text": "Only includes projects with budget > 50000",
+          "rule": {
+            "count": 3
+          }
+        }
+      ],
+      "key_terms": [
+        "codex:glossary/sql/inner-join",
+        "codex:glossary/sql/on",
+        "codex:glossary/sql/alias",
+        "codex:glossary/sql/foreign-key"
+      ],
+      "codex_references": [
+        "codex:glossary/sql/inner-join",
+        "codex:glossary/sql/foreign-key",
+        "codex:glossary/sql/on"
+      ],
+      "tier": 3
+    },
+    {
+      "slug": "postgres-safe-querying",
+      "title": "PostgreSQL: Safe Querying",
+      "language": "sql",
+      "db_engine": "postgres",
+      "world_id": "world-sql",
+      "track_id": "core-sql",
+      "db_explorer_enabled": true,
+      "db_explorer_mode": "quest_scoped",
+      "featured_tables": [
+        "employees"
+      ],
+      "workspace_json": {
+        "files": [
+          {
+            "path": "task.sql",
+            "editable": true
+          },
+          {
+            "path": "example.sql",
+            "editable": true
+          },
+          {
+            "path": "fixtures/schema.sql",
+            "editable": false
+          },
+          {
+            "path": "fixtures/seed.sql",
+            "editable": false
+          }
+        ]
+      },
+      "objectives": [
+        {
+          "id": "list_columns",
+          "kind": "column_match",
+          "text": "Correctly lists column metadata from information_schema",
+          "rule": {
+            "expected_columns": [
+              "column_name",
+              "data_type",
+              "is_nullable"
+            ]
+          }
+        },
+        {
+          "id": "safe_preview",
+          "kind": "row_count",
+          "text": "Performs a safe preview limited to 5 rows",
+          "rule": {
+            "count": 5
+          }
+        }
+      ],
+      "key_terms": [
+        "codex:glossary/sql/limit",
+        "codex:glossary/sql/select"
+      ],
+      "codex_references": [
+        "codex:glossary/sql/limit",
+        "codex:glossary/sql/select"
+      ],
+      "tier": 3
+    },
+    {
+      "slug": "postgres-date-trunc-time-buckets",
+      "title": "PostgreSQL: Date Trunc & Time Buckets",
+      "language": "sql",
+      "db_engine": "postgres",
+      "world_id": "world-sql",
+      "track_id": "core-sql",
+      "db_explorer_enabled": true,
+      "db_explorer_mode": "quest_scoped",
+      "featured_tables": [
+        "sensor_readings"
+      ],
+      "workspace_json": {
+        "files": [
+          {
+            "path": "task.sql",
+            "editable": true
+          },
+          {
+            "path": "example.sql",
+            "editable": true
+          },
+          {
+            "path": "fixtures/schema.sql",
+            "editable": false
+          },
+          {
+            "path": "fixtures/seed.sql",
+            "editable": false
+          }
+        ]
+      },
+      "objectives": [
+        {
+          "id": "uses_date_trunc",
+          "kind": "source_regex",
+          "text": "Uses DATE_TRUNC function",
+          "rule": {
+            "pattern": "(?i)date_trunc"
+          }
+        },
+        {
+          "id": "correct_grouping",
+          "kind": "row_count",
+          "text": "Correctly buckets by hour for the target day",
+          "rule": {
+            "count": 4
+          }
+        }
+      ],
+      "tier": 3
+    },
+    {
+      "slug": "postgres-explain-basics",
+      "title": "PostgreSQL: Explain Basics",
+      "language": "sql",
+      "db_engine": "postgres",
+      "world_id": "world-sql",
+      "track_id": "core-sql",
+      "db_explorer_enabled": true,
+      "db_explorer_mode": "quest_scoped",
+      "featured_tables": [
+        "audit_logs"
+      ],
+      "workspace_json": {
+        "files": [
+          {
+            "path": "task.sql",
+            "editable": true
+          },
+          {
+            "path": "example.sql",
+            "editable": true
+          },
+          {
+            "path": "fixtures/schema.sql",
+            "editable": false
+          },
+          {
+            "path": "fixtures/seed.sql",
+            "editable": false
+          }
+        ]
+      },
+      "objectives": [
+        {
+          "id": "uses_explain",
+          "kind": "source_regex",
+          "text": "Uses EXPLAIN keyword",
+          "rule": {
+            "pattern": "(?i)EXPLAIN"
+          }
+        },
+        {
+          "id": "index_usage",
+          "kind": "tests_pass",
+          "text": "Query Plan shows Index usage for large table"
+        }
+      ],
+      "tier": 3
+    },
+    {
+      "slug": "postgres-jsonb-basics",
+      "title": "PostgreSQL: JSONB Basics",
+      "language": "sql",
+      "db_engine": "postgres",
+      "world_id": "world-sql",
+      "track_id": "core-sql",
+      "db_explorer_enabled": true,
+      "db_explorer_mode": "quest_scoped",
+      "featured_tables": [
+        "webhook_events"
+      ],
+      "workspace_json": {
+        "files": [
+          {
+            "path": "task.sql",
+            "editable": true
+          },
+          {
+            "path": "example.sql",
+            "editable": true
+          },
+          {
+            "path": "fixtures/schema.sql",
+            "editable": false
+          },
+          {
+            "path": "fixtures/seed.sql",
+            "editable": false
+          }
+        ]
+      },
+      "objectives": [
+        {
+          "id": "uses_jsonb_operator",
+          "kind": "source_regex",
+          "text": "Uses JSONB extraction operator (-> or ->>)",
+          "rule": {
+            "pattern": "->|->>"
+          }
+        },
+        {
+          "id": "correct_json_filter",
+          "kind": "row_count",
+          "text": "Correctly filters by nested JSON key",
+          "rule": {
+            "count": 2
+          }
+        }
+      ],
+      "tier": 3
+    }
+  ]
 }

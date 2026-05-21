@@ -394,6 +394,7 @@ class QuestDefinition(SQLModel, table=True):
     world_id: str = Field(index=True)
     track_id: str = Field(index=True)
     order_index: int = Field(default=0)
+    tier: int = Field(default=1)  # Difficulty tier: 1=foundry, 2=advanced, 3=expert, 4=mastery
 
     title: str
     short_description: str
