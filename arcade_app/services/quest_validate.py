@@ -197,7 +197,17 @@ def validate_quest_attempt(
 
     # 3. Process Objectives
     objectives = getattr(quest_def, "objectives_json", []) or []
-    
+
+    # HTML/CSS Web Quests: graded entirely by exit code (Node.js `node --test` runner).
+    # These quests use a placeholder "Complete the assignment" objective that would
+    # otherwise trigger the Tier-1 strictness gate. Short-circuit here and return a
+    # single exit_code_zero result so the frontend can enable Submit on pass.
+    quest_language = getattr(quest_def, "language", None) or ""
+    if quest_language in ("html", "css"):
+        ok = (not timed_out) and (exit_code == 0)
+        detail = "All grading tests passed." if ok else f"Grading tests failed (exit {exit_code})."
+        return [ObjResult(id="obj_grading", ok=ok, detail=detail).__dict__]
+
     # C1: Runtime Fallback Preflight
     # Validate objective schema BEFORE running any validators
     for obj in objectives:
@@ -222,16 +232,25 @@ def validate_quest_attempt(
              return [ObjResult(id="config_missing", ok=False, detail="EF_OBJ_MISSING: Tier-1 quest has no objectives.").__dict__]
         
         # Check for placeholders
+        _no_rule_kinds = {
+            "exit_code_zero", "tests_pass", "not_timed_out", "ast",
+            "process_exit_code", "process_not_timed_out",
+            "ast_python_function", "ast_python_code", "ast_python_class",
+            "fs_file_exists",
+        }
         for obj in objectives:
             t = (obj.get("title") or "").lower()
             k = (obj.get("kind") or "").lower()
             r = obj.get("rule", {})
-            
+
             is_placeholder = False
             if "complete the assignment" in t: is_placeholder = True
             if k in ["", "placeholder", "tbd", "todo"]: is_placeholder = True
-            if not r or r == "TODO": is_placeholder = True
-            
+            # Only flag empty rule as placeholder when the kind actually requires a rule.
+            # Kinds like exit_code_zero legitimately have an empty rule dict.
+            if k not in _no_rule_kinds and (not r or r == "TODO"):
+                is_placeholder = True
+
             if is_placeholder:
                 return [ObjResult(id="config_placeholder", ok=False, detail=f"EF_OBJ_PLACEHOLDER: Tier-1 quest has placeholder objective '{t}'.").__dict__]
 

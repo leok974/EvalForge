@@ -239,6 +239,35 @@ cd apps/web && npm run test
 cd apps/web && npx playwright test tests/e2e/
 ```
 
+### Monaco editor interactions in Playwright
+
+- **Never use `page.keyboard.type()` or `page.fill()`** to set editor content.
+  Monaco's synthetic event model causes auto-indent stacking (a `:` at line-end
+  triggers an extra indent level on top of the indentation you type) and some
+  characters are swallowed by Monaco's suggestion engine. The result is silently
+  garbled code.
+- **Use `executeEdits` via `page.evaluate()`** for all programmatic content replacement:
+  ```typescript
+  await page.evaluate((code: string) => {
+      const win = window as any;
+      if (win.monaco?.editor) {
+          const editors = win.monaco.editor.getEditors();
+          if (editors.length > 0) {
+              const model = editors[0].getModel();
+              if (model) {
+                  editors[0].executeEdits('e2e-replace', [{
+                      range: model.getFullModelRange(),
+                      text: code,
+                  }]);
+              }
+          }
+      }
+  }, newCode);
+  ```
+- `executeEdits` preserves undo history and reliably fires `onDidChangeModelContent`
+  → React `onChange`. `model.setValue()` also works but resets the undo stack and
+  should be avoided unless you specifically need a full model reset.
+
 ---
 
 ## Common Scripts

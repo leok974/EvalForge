@@ -529,12 +529,165 @@ def run_shell_local(code: str, stdin: str = "", timeout_ms: int = 30000,
             )
 
 
+def run_web_local(
+    language: str,
+    code: str,
+    workspace: Optional[Dict[str, Any]] = None,
+    quest_slug: Optional[str] = None,
+    entrypoint: Optional[str] = None,
+    timeout_ms: int = 10000,
+) -> ExecResult:
+    """
+    Run HTML/CSS grading tests locally using `node --test`.
+
+    The grading test files use:
+        import { ... } from "../../../_shared/web_test_helpers.mjs";
+        const WS = path.resolve(__dirname, "../../workspace");
+
+    So we mirror the repo structure inside the temp dir:
+        td/
+          quests/
+            <slug>/
+              workspace/    <- learner files land here
+              grading/
+                public/     <- test .mjs files run from here
+            _shared/        <- web_test_helpers.mjs (resolved as ../../../_shared from test)
+    """
+    t0 = time.time()
+    import glob as _glob
+
+    slug = quest_slug or "unknown"
+
+    with tempfile.TemporaryDirectory(prefix="evalforge-web-") as td:
+        quest_base = os.path.join(td, "quests", slug)
+        ws_dir = os.path.join(quest_base, "workspace")
+        grading_pub_dir = os.path.join(quest_base, "grading", "public")
+        shared_dir = os.path.join(td, "quests", "_shared")
+
+        os.makedirs(ws_dir, exist_ok=True)
+        os.makedirs(grading_pub_dir, exist_ok=True)
+        os.makedirs(shared_dir, exist_ok=True)
+
+        # 1. Write workspace files into workspace/ subdirectory
+        files = workspace.get("files", []) if workspace else []
+        for f in files:
+            rel = f.get("path", "")
+            if not rel or ".." in rel:
+                continue
+            dest = os.path.join(ws_dir, rel)
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            with open(dest, "w", encoding="utf-8") as fh:
+                fh.write(f.get("content", ""))
+
+        # 2. Overlay learner code onto the convention entrypoint (if non-empty)
+        if code:
+            ep = entrypoint or ("index.html" if language == "html" else "style.css")
+            dest = os.path.join(ws_dir, ep)
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            with open(dest, "w", encoding="utf-8") as fh:
+                fh.write(code)
+
+        # 3. Copy grading public test files
+        if quest_slug:
+            possible_roots = [
+                os.path.join("d:\\EvalForge\\data\\quests", quest_slug),
+                os.path.join("/app/data/quests", quest_slug),
+                os.path.join("./data/quests", quest_slug),
+            ]
+            quest_src = None
+            for r in possible_roots:
+                if os.path.exists(r):
+                    quest_src = r
+                    break
+
+            if quest_src:
+                src_grading_pub = os.path.join(quest_src, "grading", "public")
+                if os.path.exists(src_grading_pub):
+                    for src_file in _glob.glob(os.path.join(src_grading_pub, "*.mjs")):
+                        with open(src_file, "r", encoding="utf-8") as rf:
+                            with open(os.path.join(grading_pub_dir, os.path.basename(src_file)), "w", encoding="utf-8") as wf:
+                                wf.write(rf.read())
+
+        # 4. Resolve the _shared helper: the quests/_shared re-exports from data/_shared.
+        #    We inline the actual helpers to avoid chained relative imports going outside td.
+        data_shared_roots = [
+            "d:\\EvalForge\\data\\_shared",
+            "/app/data/_shared",
+            "./data/_shared",
+        ]
+        real_helpers_written = False
+        for r in data_shared_roots:
+            real_helpers = os.path.join(r, "web_test_helpers.mjs")
+            if os.path.exists(real_helpers):
+                with open(real_helpers, "r", encoding="utf-8") as rf:
+                    content = rf.read()
+                with open(os.path.join(shared_dir, "web_test_helpers.mjs"), "w", encoding="utf-8") as wf:
+                    wf.write(content)
+                real_helpers_written = True
+                break
+
+        if not real_helpers_written:
+            # Fall back to copying the re-export stub from quests/_shared
+            quests_shared_roots = [
+                "d:\\EvalForge\\data\\quests\\_shared",
+                "/app/data/quests/_shared",
+                "./data/quests/_shared",
+            ]
+            for r in quests_shared_roots:
+                src_file = os.path.join(r, "web_test_helpers.mjs")
+                if os.path.exists(src_file):
+                    with open(src_file, "r", encoding="utf-8") as rf:
+                        with open(os.path.join(shared_dir, "web_test_helpers.mjs"), "w", encoding="utf-8") as wf:
+                            wf.write(rf.read())
+                    break
+
+        # 5. Find test file and run
+        test_files = _glob.glob(os.path.join(grading_pub_dir, "*.mjs"))
+        if not test_files:
+            return ExecResult(
+                ok=False, exit_code=1, duration_ms=0,
+                stdout="", stderr=f"No grading test files found for quest '{slug}'.",
+                timed_out=False,
+            )
+
+        test_file = os.path.basename(test_files[0])
+        cmd = ["node", "--test", test_file]
+        env = os.environ.copy()
+
+        try:
+            p = subprocess.run(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                cwd=grading_pub_dir,
+                env=env,
+                timeout=max(1.0, timeout_ms / 1000.0),
+            )
+            dt = int((time.time() - t0) * 1000)
+            return ExecResult(
+                ok=(p.returncode == 0),
+                exit_code=p.returncode,
+                duration_ms=dt,
+                stdout=p.stdout.decode("utf-8", errors="replace"),
+                stderr=p.stderr.decode("utf-8", errors="replace"),
+                timed_out=False,
+            )
+        except subprocess.TimeoutExpired as e:
+            dt = int((time.time() - t0) * 1000)
+            return ExecResult(
+                ok=False, exit_code=None, duration_ms=dt,
+                stdout=(e.stdout or b"").decode("utf-8", errors="replace"),
+                stderr="[Timed out]", timed_out=True,
+            )
+
+
 def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, mode: str = "run", entrypoint: Optional[str] = None, quest_slug: Optional[str] = None) -> ExecResult:
     """
     Dispatcher for code execution.
     - Python: Supports 'local' (dev) or 'docker'.
     - JS: Supports 'local' (dev) or 'docker'.
     - Shell: Runs locally (requires git binary — world-git quests).
+    - HTML/CSS: Local Node.js grading tests.
     - Other: Requires 'docker'.
     """
     backend = os.getenv("EXECUTION_BACKEND", "local")
@@ -543,6 +696,11 @@ def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, 
     if language == "shell":
         return run_shell_local(code, stdin=stdin, timeout_ms=max(timeout_ms, 30000),
                                workspace=workspace, quest_slug=quest_slug, entrypoint=entrypoint)
+
+    # HTML/CSS: run grading tests via Node locally
+    if language in ("html", "css"):
+        return run_web_local(language, code, workspace=workspace, quest_slug=quest_slug,
+                             entrypoint=entrypoint, timeout_ms=max(timeout_ms, 10000))
 
     # Force docker for non-supported local languages or tests mode
     use_docker = (backend == "docker") or (language not in ["python", "javascript"]) or (mode == "tests")

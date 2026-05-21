@@ -197,12 +197,16 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
         }
     }, [isOrion]);
 
-    // Ensure Orion overlay opens when deep linking to a tool
+    // Ensure Orion overlay opens when deep linking to a tool via ?panel=...
+    // Use activePanelStr (the raw URL param) — NOT activePanel — so the overlay
+    // only opens when the user explicitly navigated with ?panel=<id>.
+    // activePanel defaults to 'judge' even when no param is present, which caused
+    // the overlay to open automatically on every quest load (Bug 1).
     useEffect(() => {
-        if (isOrion && activePanel && ['judge', 'explain', 'debug', 'codex'].includes(activePanel)) {
+        if (isOrion && activePanelStr && ['judge', 'explain', 'debug', 'codex'].includes(activePanelStr)) {
             setOrionToolsOpen(true);
         }
-    }, [isOrion, activePanel]);
+    }, [isOrion, activePanelStr]);
 
     // Derived overlay visibility
     const showOrionOverlay = isWorkbench && isOrion && orionToolsOpen;
