@@ -1,5 +1,5 @@
-SELECT category, AVG(price_cents) AS average_price
-FROM products
-GROUP BY category
-HAVING average_price > 1000
-ORDER BY average_price DESC;
+SELECT city, COUNT(*) AS user_count
+FROM users
+GROUP BY city
+HAVING user_count >= 2
+ORDER BY city ASC;

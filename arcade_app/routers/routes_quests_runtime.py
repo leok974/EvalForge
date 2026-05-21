@@ -201,7 +201,29 @@ async def run_quest(
         exec_mode = payload.mode if payload.mode == "tests" else "run"
         if lang == "sql":
             exec_mode = "run"
-            
+
+        # TESTS MODE: Inject grading/public test files + resolve code entrypoint
+        grading_entrypoint = None
+        if exec_mode == "tests" and quest:
+            from pathlib import Path as _Path
+            _quest_dir = _Path(__file__).parent.parent.parent / "data" / "quests" / quest_id
+            _grading_pub = _quest_dir / "grading" / "public"
+            if _grading_pub.exists():
+                if run_workspace is None:
+                    run_workspace = {"files": []}
+                existing_paths = {f["path"] for f in run_workspace.get("files", []) if isinstance(f, dict)}
+                for _tf in sorted(_grading_pub.rglob("*.py")):
+                    _rel = str(_tf.relative_to(_grading_pub)).replace("\\", "/")
+                    if _rel not in existing_paths:
+                        run_workspace.setdefault("files", []).append({
+                            "path": _rel,
+                            "content": _tf.read_text(encoding="utf-8"),
+                            "editable": False,
+                        })
+            # Use grading_json.entrypoint to determine which file gets the user's code
+            _gj = getattr(quest, "grading_json", {}) or {}
+            grading_entrypoint = _gj.get("entrypoint")  # e.g. "task.py"
+
         # Pass workspace to runner
 
         # CRITICAL: Inject db_engine into workspace so runner knows to use Postgres networking/image
@@ -210,8 +232,9 @@ async def run_quest(
                 run_workspace = {"files": []}
             run_workspace["db_engine"] = quest.db_engine
             run_workspace["is_postgres"] = (quest.db_engine == "postgres")
-            
-        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=exec_mode, entrypoint=payload.run_target_path or payload.entrypoint, quest_slug=quest_id)
+
+        _effective_entrypoint = grading_entrypoint or payload.run_target_path or payload.entrypoint
+        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=exec_mode, entrypoint=_effective_entrypoint, quest_slug=quest_id)
 
         
         # Sanitize logs
@@ -453,6 +476,7 @@ async def run_quest(
             "runner": runner_id,
             "path": "task.sql" if runner_id == "sql_preview" else "main.py",
             "line": 1,
+            "severity": "info",
             "message": f"Execution started with {runner_id} runner"
         })
         if runner_id == "sql_preview":
@@ -460,6 +484,7 @@ async def run_quest(
                 "kind": "sql_entrypoint",
                 "path": "task.sql",
                 "line": 1,
+                "severity": "info",
                 "message": "SQL execution anchored to task.sql"
             })
     

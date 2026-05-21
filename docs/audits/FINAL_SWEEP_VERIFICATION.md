@@ -1,6 +1,6 @@
 # Final Sweep Verification Report
 
-**Date:** 2026-05-16 21:22:33
+**Date:** 2026-05-20 20:26:11
 **Status:** FINAL_VERIFICATION
 
 ## Summary
@@ -15,8 +15,8 @@
 | `docker_core.json` | `student` | ✅ (Expected) | 0/10 | |
 | `foundry_python.json` | `solution` | ✅ | 2/2 | |
 | `foundry_python.json` | `student` | ✅ (Expected) | 0/2 | |
-| `git_core.json` | `solution` | ❌ | N/A | |
-| `git_core.json` | `student` | ✅ (Expected) | N/A | |
+| `git_core.json` | `solution` | ✅ | 10/10 | |
+| `git_core.json` | `student` | ✅ (Expected) | 0/10 | |
 | `git_tier2.json` | `solution` | ❌ | 0/3 | |
 | `git_tier2.json` | `student` | ✅ (Expected) | 0/3 | |
 | `infra_core.json` | `solution` | ✅ | 10/10 | |
@@ -53,10 +53,6 @@
 ### ❌ cli_core.json (Solution Mode)
 ```
 === Running 10 CLI quests from data\questpacks\cli_core.json in solution mode ===
-```
-### ❌ git_core.json (Solution Mode)
-```
-=== Running 10 Git quests from data\questpacks\git_core.json in solution mode ===
 ```
 ### ❌ git_tier2.json (Solution Mode)
 ```

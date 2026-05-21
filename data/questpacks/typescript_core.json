@@ -1,32 +1,142 @@
 [
     {
-        "quest_path": "docs/quests/ts-ignition"
+        "slug": "ts-ignition",
+        "title": "TypeScript Ignition",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Export a typed function that returns a greeting string.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_type_annotation", "kind": "source_regex", "title": "Uses a TypeScript type annotation", "rule": {"pattern": ":\\s*string"}},
+            {"id": "uses_function", "kind": "source_regex", "title": "Defines a function", "rule": {"pattern": "function\\s+\\w+"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-ignition/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-vars"
+        "slug": "ts-vars",
+        "title": "Typed Variables",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Declare typed variables using let with explicit type annotations.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_let", "kind": "source_regex", "title": "Uses let declaration", "rule": {"pattern": "\\blet\\b"}},
+            {"id": "uses_type_annotation", "kind": "source_regex", "title": "Uses a primitive type annotation", "rule": {"pattern": ":\\s*(number|string|boolean)"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-vars/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-types"
+        "slug": "ts-types",
+        "title": "Function Types",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Write a typed function with parameter and return type annotations.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_param_type", "kind": "source_regex", "title": "Annotates function parameter type", "rule": {"pattern": "\\w+\\s*:\\s*number"}},
+            {"id": "uses_return_type", "kind": "source_regex", "title": "Annotates function return type", "rule": {"pattern": "\\)\\s*:\\s*number"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-types/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-control"
+        "slug": "ts-control",
+        "title": "Control Flow",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Implement FizzBuzz with typed return value using if/else control flow.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_if", "kind": "source_regex", "title": "Uses if statement", "rule": {"pattern": "\\bif\\s*\\("}},
+            {"id": "uses_return", "kind": "source_regex", "title": "Uses return statement", "rule": {"pattern": "\\breturn\\b"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-control/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-arrays"
+        "slug": "ts-arrays",
+        "title": "Typed Arrays",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Write a function that operates on a typed number array.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_array_type", "kind": "source_regex", "title": "Uses typed array parameter", "rule": {"pattern": "number\\[\\]"}},
+            {"id": "uses_array_method", "kind": "source_regex", "title": "Uses array method", "rule": {"pattern": "\\.(reduce|map|filter|forEach|find)\\("}}
+        ],
+        "workspace": {"files_from": "../quests/ts-arrays/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-objects"
+        "slug": "ts-objects",
+        "title": "Object Types",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Define a custom object type alias and use it in a function.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_type_keyword", "kind": "source_regex", "title": "Defines a type alias", "rule": {"pattern": "\\btype\\s+\\w+\\s*="}},
+            {"id": "uses_object_literal", "kind": "source_regex", "title": "Returns an object literal", "rule": {"pattern": "return\\s*\\{"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-objects/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-functions"
+        "slug": "ts-functions",
+        "title": "Function Features",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Write a function with an optional parameter using TypeScript syntax.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_optional_param", "kind": "source_regex", "title": "Uses optional parameter", "rule": {"pattern": "\\w+\\?:"}},
+            {"id": "uses_template_literal", "kind": "source_regex", "title": "Uses template literal string", "rule": {"pattern": "`[^`]*\\$\\{[^}]+\\}[^`]*`"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-functions/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-interfaces"
+        "slug": "ts-interfaces",
+        "title": "Interfaces",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Define an interface and implement it in a class.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_interface", "kind": "source_regex", "title": "Defines an interface", "rule": {"pattern": "\\binterface\\s+\\w+"}},
+            {"id": "uses_implements", "kind": "source_regex", "title": "Class implements interface", "rule": {"pattern": "\\bimplements\\s+\\w+"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-interfaces/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-generics"
+        "slug": "ts-generics",
+        "title": "Generics",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Write a generic function that wraps a value in an object.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_generic_param", "kind": "source_regex", "title": "Declares a generic type parameter", "rule": {"pattern": "function\\s+\\w+<\\w+>"}},
+            {"id": "uses_generic_return", "kind": "source_regex", "title": "Returns the generic type", "rule": {"pattern": "\\{\\s*value"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-generics/workspace"}
     },
     {
-        "quest_path": "docs/quests/ts-modules"
+        "slug": "ts-modules",
+        "title": "Modules",
+        "language": "typescript",
+        "world_id": "world-ts",
+        "track_id": "ts-fundamentals",
+        "description": "Export a named constant and a default function from a module.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
+            {"id": "uses_named_export", "kind": "source_regex", "title": "Uses named export", "rule": {"pattern": "export\\s+const\\s+\\w+"}},
+            {"id": "uses_default_export", "kind": "source_regex", "title": "Uses default export", "rule": {"pattern": "export\\s+default\\s+"}}
+        ],
+        "workspace": {"files_from": "../quests/ts-modules/workspace"}
     }
 ]

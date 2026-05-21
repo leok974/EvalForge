@@ -454,15 +454,96 @@ def run_javascript_local(code: str, stdin: str = "", timeout_ms: int = 2000, wor
 
 from typing import Optional, Dict, Any
 
+def run_shell_local(code: str, stdin: str = "", timeout_ms: int = 30000,
+                    workspace: Optional[Dict[str, Any]] = None, quest_slug: Optional[str] = None,
+                    entrypoint: Optional[str] = None) -> ExecResult:
+    """
+    Run a shell script locally (in the backend process environment).
+    Used for world-git quests — requires git binary in the backend image.
+    Injects GIT_AUTHOR_NAME/EMAIL so commits work without global git config.
+    """
+    import tempfile, subprocess as sp
+    t0 = time.time()
+
+    with tempfile.TemporaryDirectory(prefix="evalforge-shell-") as td:
+        # 1. Write workspace files
+        files = workspace.get("files", []) if workspace else []
+        for wf in files:
+            rel = wf.get("path", "")
+            if not rel or ".." in rel:
+                continue
+            full = os.path.join(td, rel)
+            os.makedirs(os.path.dirname(full), exist_ok=True)
+            with open(full, "w", encoding="utf-8") as fh:
+                fh.write(wf.get("content", ""))
+
+        # 2. Write the learner script (overrides workspace copy if present)
+        ep = entrypoint or "task.sh"
+        script_path = os.path.join(td, ep)
+        os.makedirs(os.path.dirname(script_path), exist_ok=True)
+        with open(script_path, "w", encoding="utf-8") as fh:
+            fh.write(code)
+        try:
+            os.chmod(script_path, 0o755)
+        except Exception:
+            pass
+
+        # 3. Build environment — inject git identity so commits don't fail
+        env = os.environ.copy()
+        env.update({
+            "GIT_AUTHOR_NAME": env.get("GIT_AUTHOR_NAME", "EvalForge"),
+            "GIT_AUTHOR_EMAIL": env.get("GIT_AUTHOR_EMAIL", "evalforge@example.com"),
+            "GIT_COMMITTER_NAME": env.get("GIT_COMMITTER_NAME", "EvalForge"),
+            "GIT_COMMITTER_EMAIL": env.get("GIT_COMMITTER_EMAIL", "evalforge@example.com"),
+            "GIT_TERMINAL_PROMPT": "0",
+            "GIT_EDITOR": "true",
+            "HOME": td,  # isolate git global config
+        })
+
+        try:
+            p = sp.run(
+                ["sh", ep],
+                input=stdin.encode("utf-8") if stdin else None,
+                stdout=sp.PIPE,
+                stderr=sp.PIPE,
+                cwd=td,
+                env=env,
+                timeout=max(1.0, timeout_ms / 1000.0),
+            )
+            dt = int((time.time() - t0) * 1000)
+            return ExecResult(
+                ok=(p.returncode == 0),
+                exit_code=p.returncode,
+                duration_ms=dt,
+                stdout=p.stdout.decode("utf-8", errors="replace"),
+                stderr=p.stderr.decode("utf-8", errors="replace"),
+                timed_out=False,
+            )
+        except sp.TimeoutExpired as e:
+            dt = int((time.time() - t0) * 1000)
+            out = (e.stdout or b"").decode("utf-8", errors="replace")
+            err = (e.stderr or b"").decode("utf-8", errors="replace")
+            return ExecResult(
+                ok=False, exit_code=None, duration_ms=dt,
+                stdout=out, stderr=err + "\n[Timed out]", timed_out=True,
+            )
+
+
 def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, mode: str = "run", entrypoint: Optional[str] = None, quest_slug: Optional[str] = None) -> ExecResult:
     """
     Dispatcher for code execution.
     - Python: Supports 'local' (dev) or 'docker'.
     - JS: Supports 'local' (dev) or 'docker'.
+    - Shell: Runs locally (requires git binary — world-git quests).
     - Other: Requires 'docker'.
     """
     backend = os.getenv("EXECUTION_BACKEND", "local")
-    
+
+    # Shell runs locally always — docker runner can't write to /workspace as nobody user
+    if language == "shell":
+        return run_shell_local(code, stdin=stdin, timeout_ms=max(timeout_ms, 30000),
+                               workspace=workspace, quest_slug=quest_slug, entrypoint=entrypoint)
+
     # Force docker for non-supported local languages or tests mode
     use_docker = (backend == "docker") or (language not in ["python", "javascript"]) or (mode == "tests")
     debug_log(f"DEBUG[code_runner.run_code]: lang={language} backend={backend} use_docker={use_docker}")
@@ -470,10 +551,10 @@ def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, 
     if use_docker:
         from arcade_app.services.code_runner_docker import run_code_docker
         return run_code_docker(language, code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, mode=mode, entrypoint=entrypoint, quest_slug=quest_slug)
-    
+
     if language == "javascript":
         return run_javascript_local(code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, quest_slug=quest_slug, entrypoint=entrypoint)
-        
+
     return run_python_local(code, stdin=stdin, timeout_ms=timeout_ms, workspace=workspace, quest_slug=quest_slug, entrypoint=entrypoint)
 
 # Alias for backward compatibility if needed, but we should switch callers

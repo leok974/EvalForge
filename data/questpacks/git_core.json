@@ -1,32 +1,136 @@
 [
     {
-        "quest_path": "docs/quests/git-ignition"
+        "slug": "git-ignition",
+        "title": "Git Ignition",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Initialize a git repo, make a first commit, and emit state.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_init", "kind": "source_regex", "title": "Calls git init", "rule": {"pattern": "git.*init"}},
+            {"id": "uses_git_commit", "kind": "source_regex", "title": "Calls git commit", "rule": {"pattern": "git.*commit"}}
+        ],
+        "workspace": {"files_from": "../quests/git-ignition/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-init-clone"
+        "slug": "git-init-clone",
+        "title": "Init and Clone",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Initialize a bare remote, push, and clone it.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_clone", "kind": "source_regex", "title": "Calls git clone", "rule": {"pattern": "git.*clone"}}
+        ],
+        "workspace": {"files_from": "../quests/git-init-clone/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-add-commit"
+        "slug": "git-add-commit",
+        "title": "Add and Commit",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Stage specific files and commit with a meaningful message.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_add", "kind": "source_regex", "title": "Calls git add", "rule": {"pattern": "git.*add"}},
+            {"id": "uses_git_commit", "kind": "source_regex", "title": "Calls git commit", "rule": {"pattern": "git.*commit"}}
+        ],
+        "workspace": {"files_from": "../quests/git-add-commit/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-status-diff"
+        "slug": "git-status-diff",
+        "title": "Status and Diff",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Inspect staged vs unstaged changes and emit a diff report.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_status", "kind": "source_regex", "title": "Calls git status or diff", "rule": {"pattern": "git.*(status|diff)"}}
+        ],
+        "workspace": {"files_from": "../quests/git-status-diff/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-branch-merge"
+        "slug": "git-branch-merge",
+        "title": "Branch and Merge",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Create a feature branch, commit, then merge into main.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_branch", "kind": "source_regex", "title": "Creates a branch", "rule": {"pattern": "git.*(checkout -b|branch)"}},
+            {"id": "uses_git_merge", "kind": "source_regex", "title": "Calls git merge", "rule": {"pattern": "git.*merge"}}
+        ],
+        "workspace": {"files_from": "../quests/git-branch-merge/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-remote-push"
+        "slug": "git-remote-push",
+        "title": "Remote and Push",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Add a bare remote and push commits to it.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_remote", "kind": "source_regex", "title": "Adds a remote", "rule": {"pattern": "git.*remote"}},
+            {"id": "uses_git_push", "kind": "source_regex", "title": "Pushes to remote", "rule": {"pattern": "git.*push"}}
+        ],
+        "workspace": {"files_from": "../quests/git-remote-push/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-undo-revert"
+        "slug": "git-undo-revert",
+        "title": "Undo with Revert",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Use git revert to undo a bad commit without losing history.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_revert", "kind": "source_regex", "title": "Calls git revert", "rule": {"pattern": "git.*revert"}}
+        ],
+        "workspace": {"files_from": "../quests/git-undo-revert/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-stash"
+        "slug": "git-stash",
+        "title": "Stash Work in Progress",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Save WIP changes to the stash and restore them.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_stash", "kind": "source_regex", "title": "Uses git stash", "rule": {"pattern": "git.*stash"}}
+        ],
+        "workspace": {"files_from": "../quests/git-stash/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-tag-release"
+        "slug": "git-tag-release",
+        "title": "Tag a Release",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Tag a commit as a release version and list tags.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_tag", "kind": "source_regex", "title": "Creates a git tag", "rule": {"pattern": "git.*tag"}}
+        ],
+        "workspace": {"files_from": "../quests/git-tag-release/workspace"}
     },
     {
-        "quest_path": "docs/quests/git-rebase-linear"
+        "slug": "git-rebase-linear",
+        "title": "Rebase for Linear History",
+        "language": "shell",
+        "world_id": "world-git",
+        "track_id": "git-fundamentals",
+        "description": "Rebase a feature branch onto main for a clean linear history.",
+        "objectives": [
+            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Script runs without error", "rule": {}},
+            {"id": "uses_git_rebase", "kind": "source_regex", "title": "Calls git rebase", "rule": {"pattern": "git.*rebase"}}
+        ],
+        "workspace": {"files_from": "../quests/git-rebase-linear/workspace"}
     }
 ]

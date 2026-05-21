@@ -212,12 +212,15 @@ cd apps/web && npx playwright test tests/e2e/
 |--------|---------|
 | `scripts/dev-up.ps1` | Start full Docker stack |
 | `scripts/dev-api.ps1` | Start backend with hot-reload |
-| `scripts/seed_evalforge_universe.py` | Seed worlds/tracks/quests to DB |
+| `scripts/questpack_seed.py` | **Canonical seeder** for `data/questpacks/*.json` files |
+| `scripts/seed_evalforge_universe.py` | Seed legacy `docs/*.json` track specs only |
 | `scripts/seed_bosses.py` | Seed boss definitions |
 | `scripts/ingest_codex.py` | Index codex docs into pgvector |
 | `scripts/init_local_db.py` | Initialize local DB schema |
 | `scripts/audit_codex_refs.py` | Audit broken codex key-term references |
 | `scripts/debt_breakdown.py` | Report on curriculum tech debt |
+| `scripts/smoke_quest_api.py` | Full learner-path smoke test (all worlds) |
+| `scripts/ci_check_modern_worlds.py` | CI regression guard (must pass before commit) |
 
 ---
 

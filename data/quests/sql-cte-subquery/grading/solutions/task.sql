@@ -3,8 +3,9 @@ WITH active_users AS (
   FROM orders
   WHERE status = 'paid'
   GROUP BY user_id
+  HAVING total_spend >= 5000
 )
-SELECT users.name AS user_name, active_users.total_spend
+SELECT users.id, users.name AS user_name, active_users.total_spend
 FROM active_users
 JOIN users ON users.id = active_users.user_id
 ORDER BY active_users.total_spend DESC;

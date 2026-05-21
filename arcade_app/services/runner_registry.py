@@ -18,9 +18,9 @@ class RunnerRegistry:
         
         if language == "python":
             if mode == "tests":
-                # We expect the runner to inject run_unittest_json.py
+                # Use evalforge-backend image (has pytest pre-installed)
                 return RunnerSpec(
-                    docker_image="python:3.12-slim",
+                    docker_image="evalforge-backend:latest",
                     file_name=entrypoint,
                     command=["python", "-u", "-I", "-B", "/workspace/.evalforge/run_unittest_json.py"]
                 )

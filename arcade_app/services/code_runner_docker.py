@@ -45,8 +45,13 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
     elif language == "sql":
         resolved_entrypoint = "task.sql"
     elif language == "typescript":
-        resolved_entrypoint = workspace.get("entrypoint") if workspace else "main.ts"
-        if not resolved_entrypoint:
+        # Only trust a workspace entrypoint that is actually a .ts file.
+        # build_effective_workspace defaults entrypoint to "main.py" for all languages,
+        # so we must ignore that default for TypeScript.
+        ws_ep = workspace.get("entrypoint") if workspace else None
+        if ws_ep and ws_ep.endswith(".ts"):
+            resolved_entrypoint = ws_ep
+        else:
             resolved_entrypoint = "main.ts"
     elif workspace:
         resolved_entrypoint = workspace.get("entrypoint") or "main.py"
@@ -145,11 +150,15 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
         listing = [f["path"] for f in files]
         found_configured = bool(workspace.get("entrypoint")) if workspace else False
         
-        effective_entrypoint = entrypoint
+        effective_entrypoint = entrypoint or resolved_entrypoint
 
         if not effective_entrypoint:
             if language == "sql":
                 effective_entrypoint = "task.sql"
+            elif language == "typescript":
+                effective_entrypoint = "main.ts"
+            elif language == "javascript":
+                effective_entrypoint = "main.js"
             elif language == "python":
                 # Use workspace-configured entrypoint if set; otherwise auto-detect from files
                 ws_entrypoint = workspace.get("entrypoint") if workspace else None
