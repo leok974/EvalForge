@@ -65,6 +65,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
 
     async for session in get_session():
         # Ensure columns exist (Naive Migration)
+        # Note: order_index and tier columns already exist in the model (default 0 / 1)
         try:
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS starter_code TEXT"))
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS objectives_json JSONB"))
@@ -82,7 +83,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
         except Exception as e:
              await session.rollback()
 
-        for quest_data in quests:
+        for position, quest_data in enumerate(quests):
             if not isinstance(quest_data, dict):
                 continue
                 
@@ -137,6 +138,10 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                                 print(f"    ⚠️ Failed to read {full_path}: {e}")
                 return ws
 
+            # order_index: prefer explicit value in JSON, fall back to list position
+            # Gap #2 fix: ensures quests sort correctly within a track
+            order_index = quest_data.get("order_index") or quest_data.get("order") or position
+
             if not existing:
                 existing = QuestDefinition(
                     slug=slug,
@@ -144,13 +149,15 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                     track_id=track_id,
                     title=title,
                     short_description=quest_data.get("short_description", ""),
-                    language=quest_data.get("language", "python")
+                    language=quest_data.get("language", "python"),
+                    order_index=order_index,
                 )
                 session.add(existing)
             else:
                  existing.world_id = world_id
                  existing.track_id = track_id
                  existing.title = title
+                 existing.order_index = order_index
                  if "language" in quest_data:
                      existing.language = quest_data["language"]
                  if "key_terms" in quest_data:

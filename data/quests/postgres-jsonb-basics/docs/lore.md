@@ -1,0 +1,1 @@
+Before the Collapse, the coalition moved away from rigid table structures for their global ledgers. They wanted the flexibility of JSON, but the power of SQL. JSONB was the result—a bridge between two worlds of data.

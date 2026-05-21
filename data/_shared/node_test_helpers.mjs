@@ -66,6 +66,10 @@ export function listFiles(dir, suffix) {
     return fs.readdirSync(dir).filter((f) => f.endsWith(suffix)).map((f) => path.join(dir, f));
 }
 
+export function checkFileExists(wsDir, rel) {
+    return fs.existsSync(path.join(wsDir, rel));
+}
+
 export async function withRestoredFile(wsDir, relPath, fn) {
     const absPath = path.join(wsDir, relPath);
     let original = null;

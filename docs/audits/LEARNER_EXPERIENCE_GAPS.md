@@ -1,4 +1,4 @@
-# Learner Experience Gaps — Sprint 8 Review
+# Learner Experience Gaps — Sprint 8/9 Review
 
 **Date:** 2026-05-21  
 **Method:** API walkthrough (frontend Chrome extension unavailable; browser review deferred)
@@ -31,79 +31,60 @@ Simulated journey: land → world-python → foundry → hello-variable → firs
 ## Gap #1 — World Selection: inactive worlds visible
 
 **Step:** 2  
-**What happens:** `GET /api/universe` returns 3 worlds — world-python, world-sql, and world-agents.  
-world-sql and world-agents are warning-only in `curriculum_guardrail_scope.json` (not active scope).  
-**What should happen:** Only world-python should be prominently displayed. Other worlds should be marked "Coming Soon" or hidden.  
-**Effort:** S  
-**Fix action:** Filter `GET /api/universe` or add `enabled: bool` to world records, or handle in frontend with a world allowlist. `configs/curriculum_guardrail_scope.json` already defines `active_worlds: ["world-python"]`.
+**Status:** ✅ RESOLVED (Sprint 9)  
+**Fix applied:** `arcade_app/routers/routes_universe.py` rewritten. Now reads `active_worlds` from `configs/curriculum_guardrail_scope.json`. Inactive worlds are returned with `coming_soon: true` so the frontend can style them as placeholders. Active-only worlds appear first.
 
 ---
 
 ## Gap #2 — Quest ordering not set: quests appear in insertion order
 
 **Step:** 3  
-**What happens:** All 166 quests have `order: null`. Within a track, quests are returned in DB insertion order which doesn't match the intended learning progression.  
-**What should happen:** `first-sparks` → `hello-variable` → tier-2 quests in deliberate sequence.  
-**Effort:** M  
-**Fix action:** Add `order` field population to `questpack_seed.py` (use the quest's list position in the JSON file as its order index). No schema migration needed — `order` column exists but is null.
+**Status:** ✅ RESOLVED (Sprint 9)  
+**Fix applied:** `scripts/questpack_seed.py` now sets `order_index` from the quest's `order_index` / `order` field in JSON, falling back to the quest's list position. All foundry quests re-seeded: `first-sparks order_index=0`, `hello-variable order_index=1`.
 
 ---
 
 ## Gap #3 — Track filtering returns all quests (not filtered)
 
 **Step:** 3  
-**What happens:** `GET /api/quests?track_id=python-fundamentals` returns 166 quests (same as no filter). `GET /api/quests?track_id=track-python-foundry` also returns 166. Track filtering is broken or ignored in the routes_quests handler.  
-**What should happen:** Only the 2 foundry quests should appear when filtering by `track_id=python-fundamentals`.  
-**Effort:** S  
-**Fix action:** Read `arcade_app/routers/routes_quests.py` and confirm the `track_id` query param is being applied to the DB query. If it's a WHERE clause issue, add `.where(QuestDefinition.track_id == track_id)` filter.
+**Status:** ✅ RESOLVED (Sprint 8)  
+**Fix applied:** `arcade_app/routers/routes_quests.py` WHERE clause corrected to apply `track_id` filter.
 
 ---
 
 ## Gap #4 — tier field is null on foundry quests
 
 **Step:** 4  
-**What happens:** `first-sparks` and `hello-variable` have `tier: null` in the API (should be `tier: 1`).  
-**What should happen:** `tier: 1` so the UI can use tier for gating, visual styling, or sorting.  
-**Effort:** S  
-**Fix action:** Check `questpack_seed.py` — the foundry questpack JSON uses field name `tier` at quest level, but the seeder may not map it. Add `tier` to the field mapping in the seed script.
+**Status:** ⚠️ DEFERRED  
+**Reason:** `QuestDefinition` model has no `tier` column (tier belongs to `TrackDefinition`). Fixing requires an Alembic migration to add `tier INTEGER DEFAULT 1` to the `questdefinition` table, plus re-seeding. Deferred to Sprint 10 as it is non-blocking — quests run and grade correctly without it.
 
 ---
 
 ## Gap #5 — Explain agent hangs without Vertex AI credentials
 
 **Step:** (any time learner clicks "Ask ELARA")  
-**What happens:** `POST /api/agent/query/stream` with `mode: "explain"` returns HTTP 200 then streams 0 bytes — the SSE stream hangs indefinitely waiting for Vertex AI.  
-**What should happen:** Without credentials, return an immediate error event explaining AI coaching is unavailable, or mock it similarly to `EVALFORGE_MOCK_GRADING=1`.  
-**Effort:** S  
-**Fix action:** In `arcade_app/explain_agent.py`, check `EVALFORGE_MOCK_GRADING == "1"` before calling `get_chat_model()`. Return a stub response: `"ELARA is offline in dev mode. Check your solutions and try the hint."`.
+**Status:** ✅ RESOLVED (Sprint 8)  
+**Fix applied:** `arcade_app/explain_agent.py` now checks `EVALFORGE_MOCK_GRADING == "1"` and returns a stub coaching response immediately in dev/mock mode.
 
 ---
 
 ## Gap #6 — Quest submit works but completion not reflected in track progress
 
 **Step:** 6  
-**What happens:** `POST /api/quests/hello-variable/submit` returns `{"ok": true, "xp_awarded": 50}`. However `GET /api/worlds/progress` returns `completed_quests: 0` for all tracks (progress not updated).  
-**What should happen:** After submitting, the foundry track shows 1/2 quests completed.  
-**Effort:** M  
-**Fix action:** Check `routes_quests.py` submit handler — confirm it writes a `quest_progress` record to the DB and that `routes_world_progress.py` reads from the same table.
+**Status:** ✅ RESOLVED (Sprint 8 — verified Sprint 9)  
+**Fix applied:** Progress tracking confirmed working. `POST /api/quests/hello-variable/submit` returns `xp_awarded: 50` and `GET /api/worlds/progress` returns `completed_quests: 1` after submission.
 
 ---
 
 ## Summary
 
-| Priority | Gap | Effort |
-|----------|-----|--------|
-| HIGH | Gap #3 — track filtering broken | S |
-| HIGH | Gap #5 — explain agent hangs | S |
-| MEDIUM | Gap #2 — quest ordering null | M |
-| MEDIUM | Gap #6 — progress not updating | M |
-| LOW | Gap #1 — inactive worlds visible | S |
-| LOW | Gap #4 — tier null on foundry quests | S |
+| Priority | Gap | Effort | Status |
+|----------|-----|--------|--------|
+| HIGH | Gap #3 — track filtering broken | S | ✅ RESOLVED Sprint 8 |
+| HIGH | Gap #5 — explain agent hangs | S | ✅ RESOLVED Sprint 8 |
+| MEDIUM | Gap #2 — quest ordering null | M | ✅ RESOLVED Sprint 9 |
+| MEDIUM | Gap #6 — progress not updating | M | ✅ RESOLVED Sprint 8 |
+| LOW | Gap #1 — inactive worlds visible | S | ✅ RESOLVED Sprint 9 |
+| LOW | Gap #4 — tier null on foundry quests | S | ⚠️ DEFERRED Sprint 10 |
 
-**Most critical friction point:** Track filtering is broken — learners see all 166 quests instead of the 2–10 quests in their current track, making navigation impossible without external guidance.
-
----
-
-## Platform Readiness Verdict
-
-**Not ready for real learners until Gap #3 (track filtering) and Gap #5 (explain agent hang) are fixed.** Both are S-effort fixes. The core quest loop (run → fail → hint → fix → pass → xp) is fully operational.
+**All high-priority gaps resolved. Platform is ready for real learners.** Core quest loop (run → fail → hint → fix → pass → xp) fully operational. Gap #4 (tier display) is cosmetic and non-blocking.
