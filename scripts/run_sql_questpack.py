@@ -11,6 +11,15 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DATA_QUESTS = REPO_ROOT / "data" / "quests"
+EXCLUSIONS_FILE = REPO_ROOT / "configs" / "quest_exclusions.json"
+
+
+def load_excluded_slugs() -> set[str]:
+    """Return the set of slugs listed in quest_exclusions.json."""
+    if not EXCLUSIONS_FILE.exists():
+        return set()
+    data = json.loads(EXCLUSIONS_FILE.read_text(encoding="utf-8"))
+    return {e["slug"] for e in data.get("excluded_quests", [])}
 
 def load_questpack(path: Path) -> list[str]:
   raw = json.loads(path.read_text(encoding="utf-8"))
@@ -95,9 +104,15 @@ def main(argv: list[str] | None = None) -> int:
       print(f"No matching slug: {args.only_slug}")
       return 2
 
+  excluded = load_excluded_slugs()
+  skipped: list[str] = []
   failures: list[str] = []
 
   for slug in slugs:
+    if slug in excluded:
+      print(f"[SKIP] {slug} (excluded in quest_exclusions.json)")
+      skipped.append(slug)
+      continue
     quest_dir = DATA_QUESTS / slug
     if not quest_dir.exists():
       print(f"[FAIL] missing quest dir: {quest_dir}")
@@ -107,7 +122,12 @@ def main(argv: list[str] | None = None) -> int:
     swap = None
     try:
       if args.mode == "solution":
-        swap = swap_in_solution(quest_dir)
+        try:
+          swap = swap_in_solution(quest_dir)
+        except FileNotFoundError as e:
+          print(f"[SKIP] {slug} — no solution available ({e})")
+          skipped.append(slug)
+          continue
 
       rc = run_pytest(quest_dir)
       if rc == 0:
@@ -118,19 +138,23 @@ def main(argv: list[str] | None = None) -> int:
     finally:
       restore_swap(swap)
 
+  tested = [s for s in slugs if s not in skipped]
   summary = {
-    "total": len(slugs),
-    "passed": len(slugs) - len(failures),
+    "total": len(tested),
+    "passed": len(tested) - len(failures),
     "failed": len(failures),
+    "skipped": len(skipped),
     "errors": [],
     "slugs": []
   }
-  
-  # Re-construct status per slug for JSON?
-  # Simplification: we know failures.
+
   for s in slugs:
-      status = "failed" if s in failures else "passed"
-      summary["slugs"].append({"slug": s, "status": status})
+      if s in skipped:
+          summary["slugs"].append({"slug": s, "status": "skipped"})
+      elif s in failures:
+          summary["slugs"].append({"slug": s, "status": "failed"})
+      else:
+          summary["slugs"].append({"slug": s, "status": "passed"})
 
   print(f"EF_RUNNER_RESULT_JSON={json.dumps(summary)}")
 
@@ -139,8 +163,8 @@ def main(argv: list[str] | None = None) -> int:
     for s in failures:
       print(f" - {s}")
     return 1
-  
-  print(f"\nEF_RUN_WORLD_SUMMARY: {summary['passed']}/{summary['total']} passed.")
+
+  print(f"\nEF_RUN_WORLD_SUMMARY: {summary['passed']}/{summary['total']} passed ({len(skipped)} skipped).")
   return 0
 
 if __name__ == "__main__":

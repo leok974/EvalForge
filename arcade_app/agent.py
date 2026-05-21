@@ -389,6 +389,11 @@ class QueryRequest(BaseModel):
     message: str
     mode: str = "debug" # Default to debug agent
     session_id: str = "default" # For future use, if we want stateful agents
+    # Context fields for explain agent grounding
+    quest_slug: Optional[str] = None
+    world_id: Optional[str] = None
+    track_id: Optional[str] = None
+    codex_id: Optional[str] = None
 
 from fastapi.responses import StreamingResponse
 
@@ -413,15 +418,22 @@ async def stream_agent_query(
     if mode == "judge":
         agent = JudgeAgent(user_id=user_id, session_id="active", model=GENAI_MODEL)
     elif mode == "explain":
-        agent = ExplainAgent(user_id=user_id, session_id="active", model=GENAI_MODEL)
+        agent = ExplainAgent()
     elif mode == "quest":
         agent = QuestAgent(user_id=user_id, session_id="active", model=GENAI_MODEL)
     else:
         # Default/Debug
         agent = DebugAgent(user_id=user_id, session_id="active", model=GENAI_MODEL)
         
-    # Run
-    return StreamingResponse(agent.run(body.message, context={"user_id": user_id}), media_type="text/event-stream")
+    # Run — pass all available context fields to support explain agent grounding
+    context = {
+        "user_id": user_id,
+        "quest_slug": getattr(body, "quest_slug", None),
+        "track_id": getattr(body, "track_id", None),
+        "world_id": getattr(body, "world_id", None),
+        "codex_id": getattr(body, "codex_id", None),
+    }
+    return StreamingResponse(agent.run(body.message, context=context), media_type="text/event-stream")
 
 # --- 4.5 WebSocket Route ---
 from arcade_app.socket_manager import websocket_endpoint

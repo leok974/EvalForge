@@ -28,6 +28,7 @@ from arcade_app.services.quest_visibility import get_active_quest_config
 @router.get("", response_model=List[Dict])
 async def list_quests(
     world_id: Optional[str] = None,
+    track_id: Optional[str] = None,
     include_inactive: bool = False,
     session: Session = Depends(get_session),
     user_data: Dict = Depends(get_current_user),
@@ -51,6 +52,8 @@ async def list_quests(
     query = select(QuestDefinition)
     if world_id:
         query = query.where(QuestDefinition.world_id == world_id)
+    if track_id:
+        query = query.where(QuestDefinition.track_id == track_id)
     
     # Filter by output of config unless admin override
     # Also exclude explicitly "internal" visibility if we assume DB has that column? 

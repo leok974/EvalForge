@@ -111,26 +111,37 @@ class ExplainAgent:
         )
 
         # 4) Get LLM and stream output
-        try:
-            from arcade_app.llm import get_chat_model
-            
-            llm = get_chat_model("explain")
-            messages = [
-                SystemMessage(content=system_prompt),
-                HumanMessage(content=user_input),
-            ]
-
-            async for chunk in llm.astream(messages):
-                # LangChain chunk has .content
-                text = getattr(chunk, "content", None)
-                if text:
-                    yield {"event": "text_delta", "data": text}
-
-        except Exception as exc:
-            logger.exception("ExplainAgent LLM error for user=%s: %s", user_id, exc)
+        import os
+        if os.getenv("EVALFORGE_MOCK_GRADING") == "1":
             yield {
                 "event": "text_delta",
-                "data": "⚠️ ELARA encountered an error while processing your request.",
+                "data": (
+                    "**[Dev Mode]** ELARA is offline — Vertex AI credentials not configured. "
+                    "Check the hint on the failing objective, re-read the codex doc linked in the quest "
+                    "briefing, and try a small change to your code."
+                ),
             }
+        else:
+            try:
+                from arcade_app.llm import get_chat_model
+
+                llm = get_chat_model("explain")
+                messages = [
+                    SystemMessage(content=system_prompt),
+                    HumanMessage(content=user_input),
+                ]
+
+                async for chunk in llm.astream(messages):
+                    # LangChain chunk has .content
+                    text = getattr(chunk, "content", None)
+                    if text:
+                        yield {"event": "text_delta", "data": text}
+
+            except Exception as exc:
+                logger.exception("ExplainAgent LLM error for user=%s: %s", user_id, exc)
+                yield {
+                    "event": "text_delta",
+                    "data": "⚠️ ELARA encountered an error while processing your request.",
+                }
 
         yield {"event": "done", "data": "[DONE]"}

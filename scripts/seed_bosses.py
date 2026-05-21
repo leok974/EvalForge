@@ -21,7 +21,11 @@ BOSS_DATA = [
 ]
 
 async def seed():
-    print("💀 Summoning Bosses...")
+    # Force UTF-8 output for Windows terminals
+    import sys
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    print("[seed] Summoning Bosses...")
     
     # Ensure tables exist
     await init_db()
@@ -45,7 +49,7 @@ async def seed():
                 print(f"   * Updated Boss: {data['name']}")
                 
         await session.commit()
-        print("✅ Bosses synced to the grid.")
+        print("[seed] Bosses synced to the grid.")
 
 if __name__ == "__main__":
     # Windows-specific event loop policy fix

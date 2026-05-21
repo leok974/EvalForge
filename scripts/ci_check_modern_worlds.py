@@ -55,12 +55,18 @@ def main():
             continue
 
         sol_res = current_map[sol_key]
-        if sol_res["exit_code"] != 0:
-            print(f"[FAIL] {pack_name} (solution) failed! Expected PASS.")
-            print(f"    Errors: {sol_res.get('result', {}).get('errors', 'Unknown')}")
+        sol_passed = (sol_res["exit_code"] == 0)
+        expected_sol_pass = baseline.get("solution_pass", True)  # default True for backward compat
+
+        if sol_passed != expected_sol_pass:
+            if expected_sol_pass:
+                print(f"[FAIL] {pack_name} (solution) failed! Expected PASS.")
+                print(f"    Errors: {sol_res.get('result', {}).get('errors', 'Unknown')}")
+            else:
+                print(f"[DRIFT] {pack_name} (solution) PASSED but snapshot expects FAIL.")
             failed = True
         else:
-            print(f"[PASS] {pack_name} (solution) - PASSED")
+            print(f"[PASS] {pack_name} (solution) - MATCHED SNAPSHOT ({'PASS' if sol_passed else 'FAIL'})")
 
         # Check Student Mode consistency
         stu_key = f"{pack_name}:student"

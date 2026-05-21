@@ -146,6 +146,41 @@ CI enforces training-grade quality only for active scope. Other worlds produce w
 
 ---
 
+## Boss Fight System
+
+Status as of Sprint 8: **OPERATIONAL** (mock grading active in dev).
+
+**Flow:**
+1. `POST /api/boss/accept {"boss_id":"reactor-core"}` — creates a `BossEncounter`
+2. `POST /api/boss/submit {"encounter_id":N, "code":"..."}` — grades via `judge_boss_submission`
+3. Response: `{"status":"win"|"loss", "score":0-100, "xp_awarded":N, ...}`
+
+**Dev setup (required before first use):**
+```bash
+# 1. Seed boss definitions (one-time)
+docker compose exec backend bash -c "cd /app && PYTHONPATH=/app python scripts/seed_bosses.py"
+
+# 2. Enable mock grading in .env
+EVALFORGE_MOCK_GRADING=1
+```
+
+**Mock grader behavior** (`EVALFORGE_MOCK_GRADING=1`):
+- Any code → score 45 → `status: "loss"`
+- Code containing `MAGIC_BOSS_PASS` → score 100 → `status: "win"`
+
+**Key files:**
+| File | Purpose |
+|------|---------|
+| `arcade_app/routers/routes_boss.py` | Boss fight endpoints |
+| `arcade_app/boss_helper.py` | Encounter creation, HP resolution |
+| `arcade_app/grading_helper.py` | `judge_boss_submission` — real + mock paths |
+| `arcade_app/mock_grader.py` | Mock grader logic |
+| `scripts/seed_bosses.py` | Seeds `BossDefinition` records |
+| `rubrics/*.json` | Boss evaluation rubrics |
+| `docs/audits/BOSS_SYSTEM_STATUS.md` | Full audit with test results |
+
+---
+
 ## Selenium / Mock CMS
 
 The Selenium runner in `runtimes/python/selenium/` drives headless Chrome against the Mock CMS (a local Flask/FastAPI web app simulating real browser automation scenarios). Routes: `/login`, `/dashboard`, `/search`, `/latency`, `/modals`, `/tickets`, `/refresh`.
