@@ -270,6 +270,38 @@ cd apps/web && npx playwright test tests/e2e/
 
 ---
 
+## E2E Test Coverage
+
+One Playwright test per active world. Run with:
+```
+npx playwright test tests/e2e/test_foundry_quest.spec.ts tests/e2e/test_world_*.spec.ts --headed
+```
+
+| Test file | World | Quest | Runner |
+|---|---|---|---|
+| `test_foundry_quest.spec.ts` | world-python (foundry) | hello-variable | Python local |
+| `test_world_python_selenium.spec.ts` | world-python (selenium) | selenium-open-page | Chromium headless |
+| `test_world_web_html.spec.ts` | world-web (html) | html-ignition | Node.js --test |
+| `test_world_web_css.spec.ts` | world-web (css) | css-ignition | Node.js --test |
+| `test_world_sql.spec.ts` | world-sql | sql-ignition | Postgres |
+| `test_world_js.spec.ts` | world-js | js-ignition-q1-console-and-functions | Node local |
+| `test_world_ts.spec.ts` | world-ts | ts-ignition | Bun |
+| `test_world_git.spec.ts` | world-git | git-ignition | Shell local |
+
+All 8 run in parallel in ~20s with no cross-test interference.
+
+**Monaco editor rule:** Never use `page.keyboard.type()` or `page.fill()` for the code
+editor. Use `window.monaco.editor.getEditors()[0].executeEdits()` via `page.evaluate()`.
+See `test_foundry_quest.spec.ts` for the canonical reference pattern.
+
+**Bugs fixed during e2e authoring (do not revert):**
+- `QuestIDE.handleSubmit`: uses `conventionEntrypoint` for primary code resolution
+  (same lookup as `handleRun`) — prevents empty code payloads for multi-file quests (JS/TS/Git)
+- `quest_validate.py`: short-circuits placeholder guard for rule-free objective kinds (HTML/CSS)
+- `code_runner.py`: `run_web_local()` runner for Node.js grading tests
+
+---
+
 ## Common Scripts
 
 | Script | Purpose |
