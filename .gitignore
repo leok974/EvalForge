@@ -1,6 +1,7 @@
 .venv/
 .env
-.env.dev
+# .env.dev is intentionally committed — it contains no real secrets.
+# See the header comment inside .env.dev for details.
 __pycache__/
 *.pyc
 dist/
