@@ -396,3 +396,28 @@ Rules for keeping the repo clean. Apply these before adding or deleting anything
 - **`configs/questpacks_active.json` is the validity gate for questpack tooling.** The CI sweep script (`verify_all_modern_worlds.py`) reads this file directly. Do not add questpack verification logic that globs `data/questpacks/` — any new pack must be explicitly listed in `questpacks_active.json` before it is tested.
 - **Audit snapshots supersede old reports.** `docs/audits/TRAINING_GRADE_SNAPSHOT.json` is the canonical CI baseline. Phase/sweep markdown reports in `docs/audits/` are point-in-time artifacts. Delete them once the snapshot covers the same scope — do not let them accumulate.
 - **Routers must be registered to exist.** An APIRouter that is not mounted in `agent.py` is dead code. If a router file is intentionally kept for future work, annotate it with a `# STATUS: unregistered` comment at the top. If it has no annotation and is not mounted, it is a deletion candidate.
+
+---
+
+## Mechanical Safeguards (Sprint 15)
+
+These checks are automated — they block CI or are scripts that fail with a non-zero exit code.
+
+| Safeguard | Enforcement | How to run |
+|---|---|---|
+| Snapshot drift detection | CI gate (`ci_check_modern_worlds.py`) | `python scripts/ci_check_modern_worlds.py` |
+| Pre-existing test failure rule | CI gate (`audit_skipped_tests.py` via CI) | `python scripts/audit_skipped_tests.py` |
+| Cherry-pick deletion check | Manual run (script) | `python scripts/check_cherry_pick_diff.py <SHA>` |
+| Auth mode dev/prod separation | `.env.dev` safeguard + `dev-up.ps1` check | Automatic on `.\scripts\dev-up.ps1` |
+
+**Sprint number for audit:** Update `configs/current_sprint.txt` at the start of each sprint so the skip audit knows what "overdue" means.
+
+## What Still Requires Human Discipline (Sprint 15)
+
+These are safeguards that remain documentation-only — no script or CI gate enforces them yet.
+
+- **Cherry-pick check is manual.** `check_cherry_pick_diff.py` must be run explicitly before cherry-picking. It is not wired into a pre-commit hook or CI pipeline. A developer who skips the step will not be blocked.
+- **Quest exclusion freshness.** `configs/quest_exclusions.json` entries escalate to warnings, not CI failures. No script enforces that stale exclusions (no review in N sprints) are revisited.
+- **Seed script idempotency.** The rule "seed scripts must upsert" is not mechanically enforced — a new seed script that only inserts will not be caught until it causes a drift discrepancy.
+- **One-off script cleanup.** The rule "delete migration scripts after they run" is documentation-only. No script audits `scripts/` for stale one-offs.
+- **Router registration.** `agent.py` imports are not automatically audited against `routers/` directory contents.
