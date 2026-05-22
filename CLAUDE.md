@@ -275,13 +275,21 @@ cd apps/web && npx playwright test tests/e2e/
 
 **Any test that has been failing across more than 2 sprints must be classified as FIX, DELETE, or SKIP within the current sprint. "Pre-existing failing" is not a permanent state.**
 
+This rule is **mechanically enforced** by `scripts/audit_skipped_tests.py`, which runs as part of `scripts/ci_check_modern_worlds.py`. Adding a `test.skip()` without the required comment format will cause CI to fail once the revisit sprint passes.
+
 Classification rules:
 - **FIX** — the underlying feature exists and the test is repairable (wrong selector, URL change, etc.)
 - **DELETE** — the feature/route no longer exists and will not come back
-- **SKIP** — the test covers real functionality but is blocked by a known issue; add a `test.skip()` with a comment explaining the exact blocker and what must be done to re-enable it
+- **SKIP** — the test covers real functionality but is blocked by a known issue; add a `test.skip()` with a comment in this exact format:
+  ```typescript
+  test.skip('...', async ({ page }) => {
+      // SKIP: <one-line reason>
+      // Blocker: <specific implementation gap and the file(s) that would change>
+      // Revisit: Sprint N
+  ```
 - **PORT** — the test is correct but belongs in a different file or test framework
 
-A `test.skip()` without an explanation comment is equivalent to pre-existing failing — it defers the problem. Always include: (1) the sprint it was skipped, (2) the exact blocker, (3) the fix path.
+The audit script reads `configs/current_sprint.txt` for the current sprint number. Update that file at the start of each sprint. Any SKIP whose `Revisit: Sprint N` target is ≤ current sprint will fail CI until the skip is re-classified.
 
 ### Monaco editor interactions in Playwright
 

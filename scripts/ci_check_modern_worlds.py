@@ -90,9 +90,17 @@ def main():
     if failed:
         print("\n[CI] FAIL: Regressions or Drift detected.")
         sys.exit(1)
-    else:
-        print("\n[CI] PASS: System is Training-Grade Stable.")
-        sys.exit(0)
+
+    # 3. Audit skipped e2e tests for overdue Revisit targets
+    print("\n[CI] Auditing skipped tests...")
+    audit_script = ROOT_DIR / "scripts" / "audit_skipped_tests.py"
+    audit_result = subprocess.run([sys.executable, str(audit_script)])
+    if audit_result.returncode != 0:
+        print("[CI] FAIL: Overdue test.skip blocks detected.")
+        sys.exit(1)
+
+    print("\n[CI] PASS: System is Training-Grade Stable.")
+    sys.exit(0)
 
 if __name__ == "__main__":
     main()
