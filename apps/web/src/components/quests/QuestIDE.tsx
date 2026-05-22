@@ -265,12 +265,13 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             // filesToLoad[0] which is API-order / alphabetical — often example.py
             // instead of main.py (Bug 2).
             const conventionEntrypoint =
-                quest.language === 'sql'        ? 'task.sql'   :
-                quest.language === 'typescript' ? 'main.ts'    :
-                quest.language === 'javascript' ? 'main.js'    :
-                quest.language === 'css'        ? 'style.css'  :
-                quest.language === 'html'       ? 'index.html' :
-                quest.language === 'shell'      ? 'task.sh'    :
+                quest.language === 'sql'        ? 'task.sql'     :
+                quest.language === 'typescript' ? 'main.ts'      :
+                quest.language === 'javascript' ? 'main.js'      :
+                quest.language === 'css'        ? 'style.css'    :
+                quest.language === 'html'       ? 'index.html'   :
+                quest.language === 'shell'      ? 'task.sh'      :
+                quest.language === 'playwright' ? 'main.spec.ts' :
                 'main.py'; // python or unknown
 
             const conventionFile = filesToLoad.find(f => f.path === conventionEntrypoint);
@@ -285,6 +286,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             if (quest.language === 'javascript') name = 'main.js';
             if (quest.language === 'css') name = 'style.css';
             if (quest.language === 'html') name = 'index.html';
+            if (quest.language === 'playwright') name = 'main.spec.ts';
             // Fallback for python or unknown
 
             const content = quest.starter_code || "# Start coding here...\n";
@@ -640,12 +642,13 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
     const handleRun = async (isEntrypoint: boolean = true) => {
         setIsRunning(true);
         const entrypoint = quest.workspace?.entrypoint || (
-            quest.language === 'sql'        ? 'task.sql' :
-            quest.language === 'typescript' ? 'main.ts'  :
-            quest.language === 'javascript' ? 'main.js'  :
-            quest.language === 'css'        ? 'style.css':
-            quest.language === 'html'       ? 'index.html':
-            quest.language === 'shell'      ? 'task.sh'  :
+            quest.language === 'sql'        ? 'task.sql'     :
+            quest.language === 'typescript' ? 'main.ts'      :
+            quest.language === 'javascript' ? 'main.js'      :
+            quest.language === 'css'        ? 'style.css'    :
+            quest.language === 'html'       ? 'index.html'   :
+            quest.language === 'shell'      ? 'task.sh'      :
+            quest.language === 'playwright' ? 'main.spec.ts' :
             'main.py'
         );
         const targetPath = isEntrypoint ? entrypoint : activePath;
@@ -1387,7 +1390,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
                         <div className="flex-1 min-h-0 relative flex flex-col overflow-hidden">
                             {/* Entrypoint Chip & Run Active File */}
-                            {activePath !== (quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : 'main.py')) && (
+                            {activePath !== (quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : quest.language === 'playwright' ? 'main.spec.ts' : 'main.py')) && (
                                 <div className="absolute top-2 right-4 z-10 flex gap-2 animate-in fade-in zoom-in-95 duration-200">
                                     {((quest.language === 'sql' && activePath.endsWith('.sql')) || 
                                       (quest.language === 'python' && activePath.endsWith('.py'))) && (
@@ -1401,11 +1404,11 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                         </button>
                                     )}
                                     <button
-                                        onClick={() => setActivePath(quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : 'main.py'))}
+                                        onClick={() => setActivePath(quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : quest.language === 'playwright' ? 'main.spec.ts' : 'main.py'))}
                                         className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-500 rounded-full text-xs font-mono shadow-lg hover:bg-amber-500/20 transition-colors cursor-pointer"
                                     >
                                         <AlertTriangle className="w-3 h-3" />
-                                        Entrypoint: {quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : 'main.py')}
+                                        Entrypoint: {quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : quest.language === 'playwright' ? 'main.spec.ts' : 'main.py')}
                                     </button>
                                 </div>
                             )}
