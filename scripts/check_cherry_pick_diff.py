@@ -85,7 +85,9 @@ def resolve_sha(sha: str) -> str:
 # ---------------------------------------------------------------------------
 
 def _is_constant_name(name: str) -> bool:
-    """True if the name follows the ALL_CAPS constant convention."""
+    """True if the name is a public ALL_CAPS constant (no leading underscore)."""
+    if name.startswith("_"):
+        return False  # private — not a public API constant
     return name.isupper() or (name.replace("_", "").isupper() and "_" in name)
 
 
