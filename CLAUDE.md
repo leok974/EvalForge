@@ -261,6 +261,18 @@ Detects symbol deletions in a commit before it is cherry-picked to a protected b
 
 Non-Python files use regex matching for top-level definitions only.
 
+**Pre-push hook (automatic):** The same check runs automatically on every `git push` via `.git/hooks/pre-push`. New contributors must install it once after cloning:
+
+```powershell
+.\scripts\install-hooks.ps1
+```
+
+This copies `scripts/pre-push.hook.py` → `.git/hooks/pre-push`. The hook blocks pushes that contain undocumented symbol deletions. To bypass when the deletion is intentional and documented in the commit message:
+
+```bash
+git push --no-verify
+```
+
 ---
 
 ## Testing
@@ -407,7 +419,7 @@ These checks are automated — they block CI or are scripts that fail with a non
 |---|---|---|
 | Snapshot drift detection | CI gate (`ci_check_modern_worlds.py`) | `python scripts/ci_check_modern_worlds.py` |
 | Pre-existing test failure rule | CI gate (`audit_skipped_tests.py` via CI) | `python scripts/audit_skipped_tests.py` |
-| Cherry-pick deletion check | Manual run (script) | `python scripts/check_cherry_pick_diff.py <SHA>` |
+| Cherry-pick deletion check | Pre-push hook (auto) + manual run | `python scripts/check_cherry_pick_diff.py <SHA>` |
 | Auth mode dev/prod separation | `.env.dev` safeguard + `dev-up.ps1` check | Automatic on `.\scripts\dev-up.ps1` |
 
 **Sprint number for audit:** Update `configs/current_sprint.txt` at the start of each sprint so the skip audit knows what "overdue" means.
@@ -416,7 +428,7 @@ These checks are automated — they block CI or are scripts that fail with a non
 
 These are safeguards that remain documentation-only — no script or CI gate enforces them yet.
 
-- **Cherry-pick check is manual.** `check_cherry_pick_diff.py` must be run explicitly before cherry-picking. It is not wired into a pre-commit hook or CI pipeline. A developer who skips the step will not be blocked.
+- **Cherry-pick hook requires manual install.** `scripts/install-hooks.ps1` must be run after cloning. The hook is not auto-installed by git. A developer who skips `install-hooks.ps1` will not have the pre-push guard active.
 - **Quest exclusion freshness.** `configs/quest_exclusions.json` entries escalate to warnings, not CI failures. No script enforces that stale exclusions (no review in N sprints) are revisited.
 - **Seed script idempotency.** The rule "seed scripts must upsert" is not mechanically enforced — a new seed script that only inserts will not be caught until it causes a drift discrepancy.
 - **One-off script cleanup.** The rule "delete migration scripts after they run" is documentation-only. No script audits `scripts/` for stale one-offs.
