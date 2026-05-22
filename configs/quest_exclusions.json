@@ -2,116 +2,104 @@
   "excluded_quests": [
     {
       "slug": "quest-py-hidden",
-      "reason": "Internal test quest",
-      "added_at": "2026-03-17",
+      "reason": "Internal test quest — not part of any curriculum pack",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "quest-py-workspace",
-      "reason": "Internal test quest",
-      "added_at": "2026-03-17",
+      "reason": "Internal test quest — not part of any curriculum pack",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-dicts-and-json",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_detective.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-ignition",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_ignition.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-pytest-basics",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_verification.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-write-a-regression-test",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_verification.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-find-the-bug",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_detective.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-variables-and-conditions",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_ignition.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-explain-side-effects",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_detective.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-file-processing",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_detective.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-trace-data-flow",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_detective.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-errors-and-logging",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_ignition.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-functions-and-helpers",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_ignition.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-follow-imports",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_detective.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-config-and-env",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_ignition.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-loops-and-records",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_ignition.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {
       "slug": "python-read-a-script",
-      "reason": "Legacy Python",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
-      "slug": "legacy-quest-1",
-      "reason": "Placeholder",
-      "added_at": "2026-03-17",
-      "owner": "leo"
-    },
-    {
-      "slug": "deprecated-quest-2",
-      "reason": "Placeholder",
-      "added_at": "2026-03-17",
+      "reason": "Legacy Python questpack (python_detective.json) — outside active curriculum scope",
+      "added_at": "2026-05-22",
       "owner": "leo"
     },
     {

@@ -395,7 +395,7 @@ See `test_foundry_quest.spec.ts` for the canonical reference pattern.
 - **Seed scripts must upsert:** Seeding always updates existing rows. Never write seed scripts that only insert — this causes silent drift between source files and the DB.
 - **Editor failure targeting:** Runtime errors target exact lines from tracebacks. Objective failures use heuristic region targeting (anchors, TODO comments, function regions) — they must never overclaim precision.
 - **Mock CMS uses PRG:** Login route uses Post-Redirect-Get so Selenium URL-wait assertions work correctly. Do not change this to render-on-POST.
-- **Quest exclusions are structured:** `configs/quest_exclusions.json` requires `reason`, `added_at`, and `owner` fields. Older exclusions escalate from warning to failure automatically.
+- **Quest exclusions are structured:** `configs/quest_exclusions.json` requires `reason`, `added_at`, and `owner` fields. Entries older than 60 days fail CI (step 4 of `ci_check_modern_worlds.py`). Re-validate by updating `added_at` to today; remove the entry if the quest no longer needs exclusion.
 - **Example file run parity:** Running `example.py` must execute `example.py`, not `main.py`. The runner selects the file based on the active editor tab, not a hardcoded entrypoint.
 
 ---
@@ -419,17 +419,19 @@ These checks are automated — they block CI or are scripts that fail with a non
 |---|---|---|
 | Snapshot drift detection | CI gate (`ci_check_modern_worlds.py`) | `python scripts/ci_check_modern_worlds.py` |
 | Pre-existing test failure rule | CI gate (`audit_skipped_tests.py` via CI) | `python scripts/audit_skipped_tests.py` |
+| Quest exclusion freshness (60-day) | CI gate (step 4 of CI) | Automatic via `ci_check_modern_worlds.py` |
 | Cherry-pick deletion check | Pre-push hook (auto) + manual run | `python scripts/check_cherry_pick_diff.py <SHA>` |
 | Auth mode dev/prod separation | `.env.dev` safeguard + `dev-up.ps1` check | Automatic on `.\scripts\dev-up.ps1` |
 
 **Sprint number for audit:** Update `configs/current_sprint.txt` at the start of each sprint so the skip audit knows what "overdue" means.
 
-## What Still Requires Human Discipline (Sprint 15)
+**Quest exclusion policy:** Every entry in `configs/quest_exclusions.json` must have `added_at` within the last 60 days. When an exclusion is re-validated (still a legitimate exclusion), update `added_at` to today. CI fails if any entry exceeds 60 days.
+
+## What Still Requires Human Discipline (Sprint 15.5)
 
 These are safeguards that remain documentation-only — no script or CI gate enforces them yet.
 
 - **Cherry-pick hook requires manual install.** `scripts/install-hooks.ps1` must be run after cloning. The hook is not auto-installed by git. A developer who skips `install-hooks.ps1` will not have the pre-push guard active.
-- **Quest exclusion freshness.** `configs/quest_exclusions.json` entries escalate to warnings, not CI failures. No script enforces that stale exclusions (no review in N sprints) are revisited.
 - **Seed script idempotency.** The rule "seed scripts must upsert" is not mechanically enforced — a new seed script that only inserts will not be caught until it causes a drift discrepancy.
 - **One-off script cleanup.** The rule "delete migration scripts after they run" is documentation-only. No script audits `scripts/` for stale one-offs.
 - **Router registration.** `agent.py` imports are not automatically audited against `routers/` directory contents.

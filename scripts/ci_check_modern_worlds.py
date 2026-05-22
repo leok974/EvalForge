@@ -2,6 +2,7 @@
 import json
 import sys
 import subprocess
+from datetime import date, datetime
 from pathlib import Path
 
 # Paths
@@ -98,6 +99,46 @@ def main():
     if audit_result.returncode != 0:
         print("[CI] FAIL: Overdue test.skip blocks detected.")
         sys.exit(1)
+
+    # 4. Quest exclusion freshness check (60-day limit)
+    print("\n[CI] Checking quest exclusion freshness...")
+    exclusions_path = ROOT_DIR / "configs" / "quest_exclusions.json"
+    if not exclusions_path.exists():
+        print(f"[CI] WARN: {exclusions_path} not found — skipping freshness check.")
+    else:
+        exclusions_data = json.loads(exclusions_path.read_text(encoding="utf-8"))
+        entries = (
+            exclusions_data.get("excluded_quests", exclusions_data)
+            if isinstance(exclusions_data, dict)
+            else exclusions_data
+        )
+        today = date.today()
+        stale = []
+        for entry in entries:
+            added_at_str = entry.get("added_at")
+            if not added_at_str:
+                continue
+            try:
+                added_at = datetime.strptime(added_at_str, "%Y-%m-%d").date()
+            except ValueError:
+                print(f"[CI] WARN: {entry.get('slug')} has invalid added_at={added_at_str!r}")
+                continue
+            age_days = (today - added_at).days
+            if age_days > 60:
+                stale.append((entry.get("slug", "?"), added_at_str, age_days))
+
+        if stale:
+            print("[CI] FAIL: Quest exclusions older than 60 days need review:\n")
+            for slug, added_at, age_days in stale:
+                print(f"  slug={slug!r:45s}  added_at={added_at}  age={age_days} days")
+            print(
+                "\nAction: review each exclusion in configs/quest_exclusions.json.\n"
+                "  - If still valid: update added_at to today's date.\n"
+                "  - If no longer needed: remove the entry."
+            )
+            sys.exit(1)
+        else:
+            print(f"[CI] PASS: All {len(entries)} quest exclusions are within 60-day window.")
 
     print("\n[CI] PASS: System is Training-Grade Stable.")
     sys.exit(0)
