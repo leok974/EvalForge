@@ -59,15 +59,20 @@ Connects to Postgres on `127.0.0.1:5435` and Redis on `127.0.0.1:6380`.
 cd apps/web && npm run dev
 ```
 
-### Environment variables (copy `.env.example` → `.env`)
+### Environment variables
+
+`.env.dev` is committed to the repo with safe placeholder values. It is the canonical starting point for local development.
+
+```powershell
+# First-time setup (or after deleting .env):
+cp .env.dev .env
+# Then fill in the real secrets (GEMINI_API_KEY, GITHUB_CLIENT_*, GOOGLE_CLOUD_PROJECT, etc.)
 ```
-POSTGRES_PASSWORD=...
-GOOGLE_CLOUD_PROJECT=...
-GOOGLE_CLOUD_LOCATION=us-central1
-GITHUB_CLIENT_ID=...
-GITHUB_CLIENT_SECRET=...
-SECRET_KEY=...
-```
+
+`dev-up.ps1` copies `.env.dev` → `.env` automatically when `.env` is missing, so on a fresh clone just run `.\scripts\dev-up.ps1` and it will bootstrap itself.
+
+**Security rule:** `.env.dev` must NEVER contain real secrets. `GEMINI_API_KEY`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `VERTEX_PROJECT_NUMBER`, and `GOOGLE_CLOUD_PROJECT` must remain empty (placeholder) in `.env.dev`. Real values go in `.env` only — which is gitignored.
+
 Backend also uses `DATABASE_URL`, `REDIS_URL`, `EXECUTION_ENABLED`, `AUTO_INIT_DB` — set automatically by dev scripts.
 
 ---
@@ -243,6 +248,14 @@ python scripts/audit_all_worlds.py
 ```
 Compares source questpacks → seeded DB → API-visible quests → UI-visible quests.
 
+### Cherry-pick safety guard
+```bash
+python scripts/check_cherry_pick_diff.py <SHA>
+```
+Detects top-level function and class deletions in a commit before it is cherry-picked to a protected branch. Exit 0 = clean, exit 1 = deletions found.
+
+**Limitation:** `check_cherry_pick_diff.py` detects top-level function/class deletions only (lines starting at column 0 with `def `, `async def `, or `class `). Indented method removals inside a class body are not currently detected. If a commit removes a class method (e.g. `    def my_method(self):`), the guard will not flag it. Be aware of this gap when reviewing commits that modify class internals.
+
 ---
 
 ## Testing
@@ -257,6 +270,18 @@ cd apps/web && npm run test
 # E2E smoke
 cd apps/web && npx playwright test tests/e2e/
 ```
+
+### Pre-existing test failures
+
+**Any test that has been failing across more than 2 sprints must be classified as FIX, DELETE, or SKIP within the current sprint. "Pre-existing failing" is not a permanent state.**
+
+Classification rules:
+- **FIX** — the underlying feature exists and the test is repairable (wrong selector, URL change, etc.)
+- **DELETE** — the feature/route no longer exists and will not come back
+- **SKIP** — the test covers real functionality but is blocked by a known issue; add a `test.skip()` with a comment explaining the exact blocker and what must be done to re-enable it
+- **PORT** — the test is correct but belongs in a different file or test framework
+
+A `test.skip()` without an explanation comment is equivalent to pre-existing failing — it defers the problem. Always include: (1) the sprint it was skipped, (2) the exact blocker, (3) the fix path.
 
 ### Monaco editor interactions in Playwright
 
