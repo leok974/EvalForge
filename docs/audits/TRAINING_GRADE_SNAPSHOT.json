@@ -5,7 +5,7 @@
     "python_version": "3.11.15",
     "runner_version": "v2-active-packs",
     "description": "EvalForge Training-Grade Snapshot V11",
-    "note": "Sprint 10: (1) sql_tier2 12/12 — upsert-on-conflict and transactions-rollback converted to source-check tests (ON CONFLICT/DO UPDATE/excluded, BEGIN/ROLLBACK); (2) git_tier2 3/3 — tests rewritten to explicitly run task.sh via EF_WORKSPACE_OVERRIDE; stub task.sh starters added to all 3 workspace dirs; runCmd() helper added to node_test_helpers.mjs for inline git commands; (3) Gap#4 resolved — tier column added to QuestDefinition via migration 007; questpack_seed.py now sets tier from JSON; foundry quests tier=1, python_tier2 tier=2, sql_tier3 tier=3; ALL 20 canonical packs PASS in solution mode (first clean sweep)."
+    "note": "Sprint 10: (1) sql_tier2 12/12 \u00e2\u20ac\u201d upsert-on-conflict and transactions-rollback converted to source-check tests (ON CONFLICT/DO UPDATE/excluded, BEGIN/ROLLBACK); (2) git_tier2 3/3 \u00e2\u20ac\u201d tests rewritten to explicitly run task.sh via EF_WORKSPACE_OVERRIDE; stub task.sh starters added to all 3 workspace dirs; runCmd() helper added to node_test_helpers.mjs for inline git commands; (3) Gap#4 resolved \u00e2\u20ac\u201d tier column added to QuestDefinition via migration 007; questpack_seed.py now sets tier from JSON; foundry quests tier=1, python_tier2 tier=2, sql_tier3 tier=3; ALL 20 canonical packs PASS in solution mode (first clean sweep)."
   },
   "canonical_questpacks": [
     "data/questpacks/python_systems.json",
@@ -34,17 +34,50 @@
     "total_tested": 96,
     "date": "2026-05-21",
     "breakdown": {
-      "foundry_python.json": {"solution": 2, "starter_fails": 2},
-      "python_tier2.json": {"solution": 6, "starter_fails": 6},
-      "python_systems.json": {"solution": 7, "starter_fails": 7},
-      "python_selenium.json": {"solution": 5, "starter_fails": 0},
-      "sql_core.json": {"solution": 11, "starter_fails": 0},
-      "javascript_core.json": {"solution": 10, "starter_fails": 0},
-      "git_core.json": {"solution": 10, "starter_fails": 0},
-      "typescript_core.json": {"solution": 10, "starter_fails": 0},
-      "react_core.json": {"solution": 10, "starter_fails": 0},
-      "sql_tier3.json": {"solution": 6, "starter_fails": 6},
-      "sql_tier2.json": {"solution": 10, "starter_fails": 0}
+      "foundry_python.json": {
+        "solution": 2,
+        "starter_fails": 2
+      },
+      "python_tier2.json": {
+        "solution": 6,
+        "starter_fails": 6
+      },
+      "python_systems.json": {
+        "solution": 7,
+        "starter_fails": 7
+      },
+      "python_selenium.json": {
+        "solution": 5,
+        "starter_fails": 0
+      },
+      "sql_core.json": {
+        "solution": 11,
+        "starter_fails": 0
+      },
+      "javascript_core.json": {
+        "solution": 10,
+        "starter_fails": 0
+      },
+      "git_core.json": {
+        "solution": 10,
+        "starter_fails": 0
+      },
+      "typescript_core.json": {
+        "solution": 10,
+        "starter_fails": 0
+      },
+      "react_core.json": {
+        "solution": 10,
+        "starter_fails": 0
+      },
+      "sql_tier3.json": {
+        "solution": 6,
+        "starter_fails": 6
+      },
+      "sql_tier2.json": {
+        "solution": 10,
+        "starter_fails": 0
+      }
     }
   },
   "legacy_mapping": {},
@@ -70,10 +103,6 @@
       "student_pass": false
     },
     "docker_core.json": {
-      "solution_pass": true,
-      "student_pass": false
-    },
-    "python_selenium.json": {
       "solution_pass": true,
       "student_pass": false
     },
@@ -127,12 +156,20 @@
     "sql_tier2.json": {
       "solution_pass": true,
       "student_pass": false,
-      "note": "FIXED Sprint 10: 12/12 passing — upsert-on-conflict and transactions-rollback converted to source-check tests"
+      "note": "FIXED Sprint 10: 12/12 passing \u00e2\u20ac\u201d upsert-on-conflict and transactions-rollback converted to source-check tests"
     },
     "git_tier2.json": {
       "solution_pass": true,
       "student_pass": false,
-      "note": "FIXED Sprint 10: 3/3 passing — tests rewritten to run task.sh via EF_WORKSPACE_OVERRIDE; runCmd() added for inline git assertions"
+      "note": "FIXED Sprint 10: 3/3 passing \u00e2\u20ac\u201d tests rewritten to run task.sh via EF_WORKSPACE_OVERRIDE; runCmd() added for inline git assertions"
+    },
+    "playwright_ignition.json": {
+      "solution_pass": true,
+      "student_pass": false
+    },
+    "playwright_systems.json": {
+      "solution_pass": true,
+      "student_pass": false
     }
   },
   "reference_files": [
