@@ -4,16 +4,17 @@ test.describe("Legendary Boss Flow", () => {
     test.skip("clicking a Legendary Gauntlet card opens the Legendary boss HUD", async ({
         page
     }) => {
-        // SKIP — Sprint 15: multiple blockers need resolving together:
-        // 1. Base URL was hardcoded to legacy port 19010; fixed in test but…
-        // 2. PracticeGauntletCard renders each item with data-testid="gauntlet-item" (generic),
-        //    not the specific "gauntlet-card-legendary-{item.id}" testid this test expects.
-        //    Fixing requires adding data-testid={`gauntlet-card-${item.difficulty}-${item.id}`}
-        //    to the <li> in PracticeGauntletCard.tsx.
-        // 3. Boss navigation route: PracticeGauntletCard navigates to /worlds/{worldSlug}/bosses/{id}
-        //    but this route does not appear in App.tsx top-level routes; needs route audit.
-        // 4. The Practice Gauntlet landing is at /arcade/workshop, not /, so goto('/') misses it.
-        // Once all four issues are resolved, remove this skip and re-enable the test.
+        // SKIP — Sprint 15: two blockers remain:
+        // 1. PracticeGauntletCard (apps/web/src/components/practice/PracticeGauntletCard.tsx)
+        //    renders each item with data-testid="gauntlet-item" (generic). This test needs
+        //    data-testid={`gauntlet-card-${item.difficulty}-${item.id}`} on the <li> element.
+        //    One-line change in PracticeGauntletCard.tsx, then update the locator here.
+        // 2. The test must navigate to /arcade/workshop (or /workshop which redirects there)
+        //    before mocking the route, since the PracticeGauntlet only renders in that context.
+        // Route check: /arcade/worlds/{worldSlug}/bosses/{bossSlug} exists in DevUI.tsx — no
+        // route fix needed. BossHud.tsx renders the boss-hud testid.
+        // Revisit: Sprint 16
+        // Blocker: add typed data-testid to PracticeGauntletCard.tsx <li> element.
         const baseUrl = process.env.BASE_URL || "http://localhost:5173";
         await page.goto(baseUrl + "/");
 

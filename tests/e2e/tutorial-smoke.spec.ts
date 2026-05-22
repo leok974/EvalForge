@@ -1,40 +1,43 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Quest Tutorial System', () => {
-    // Test against the newly seeded Golden Git Quest
-    const QUEST_SLUG = 'git-commit-q1-init-and-first-commit';
+    // hello-variable is in foundry_python.json (active pack).
+    // data/quests/hello-variable/docs/tutorial.md exists and is seeded into tutorial_md
+    // by questpack_seed.py hydrate_tutorial(). QuestIDE auto-opens the Tutorial tab
+    // when tutorial_md is non-null.
+    const QUEST_SLUG = 'hello-variable';
     const BASE_URL = 'http://localhost:5173';
-    const QUEST_URL = `${BASE_URL}/arcade/worlds/world-git/quests/${QUEST_SLUG}`;
+    const QUEST_URL = `${BASE_URL}/arcade/worlds/world-python/quests/${QUEST_SLUG}`;
 
-    test.skip('Tutorial tab loads and renders markdown', async ({ page }) => {
-        // SKIP — Sprint 15: quest 'git-commit-q1-init-and-first-commit' has
-        // tutorial_md: null in the database. The QuestDrawer only renders the
-        // Tutorial tab when tutorial_md is non-null, so the tab never appears
-        // and the test times out looking for button[name=/tutorial/i].
-        // The tutorial system itself works (quests with tutorial_md render correctly).
-        // To fix: either seed tutorial content for this git quest, or update the
-        // test to use a quest that already has tutorial_md (e.g. any playwright quest).
+    test('Tutorial tab loads and renders markdown', async ({ page }) => {
         await page.goto(QUEST_URL);
+        await page.waitForLoadState('networkidle');
+        // QuestIDE auto-opens the Tutorial tab when tutorial_md is non-null.
+        // The tab button is visible in QuestDrawer's tab bar.
         const tutorialTab = page.getByRole('button', { name: /tutorial/i });
-        await expect(tutorialTab).toBeVisible();
-        await expect(page.getByRole('heading', { name: 'Mission Briefing' })).toBeVisible();
-        await expect(page.getByRole('heading', { name: 'Key Term: Repository' })).toBeVisible();
-        await expect(page.locator('pre').filter({ hasText: 'git init' })).toBeVisible();
+        await expect(tutorialTab).toBeVisible({ timeout: 15000 });
+        // Content from data/quests/hello-variable/docs/tutorial.md
+        await expect(page.getByRole('heading', { name: /Variables and Strings/i })).toBeVisible();
+        await expect(page.locator('pre').filter({ hasText: 'print(greeting)' })).toBeVisible();
     });
 
     test.skip('Codex Drawer opens when clicking a term', async ({ page }) => {
-        // SKIP — Sprint 15: depends on Tutorial tab being present (see above).
-        // Additionally, the key term button locator getByRole('button', {name: 'repository'})
-        // may not match the actual chip rendering — key terms may render as spans, not buttons.
-        // The Codex drawer itself works (confirmed by Inline Codex links test passing).
-        // To fix: resolve the Tutorial tab issue first, then audit the key term chip
-        // element type and update the locator accordingly.
+        // SKIP — Sprint 15: key term chips in the tutorial panel may render as spans
+        // rather than role="button" elements. The locator
+        //   getByRole('button', {name: 'variable'})
+        // may not match. Fixing requires auditing TutorialPanel.tsx (or equivalent
+        // component that renders tutorial_md key terms) to confirm element type,
+        // then updating the locator.
+        // Revisit: Sprint 16
+        // Blocker: audit apps/web/src/components/quests/QuestIDE.tsx line ~1286
+        //   (TutorialMdRenderer or similar) to confirm key term chip is <button> or <span>.
         await page.goto(QUEST_URL);
+        await page.waitForLoadState('networkidle');
         await page.getByRole('button', { name: /tutorial/i }).click();
-        const termChip = page.getByRole('button', { name: 'repository' });
+        const termChip = page.getByRole('button', { name: /variable/i });
         await expect(termChip).toBeVisible();
         await termChip.click();
-        await expect(page.getByRole('heading', { name: 'Repository', level: 1 })).toBeVisible();
+        await expect(page.getByRole('heading', { name: /Variable/i, level: 1 })).toBeVisible();
     });
 
     test('Inline Codex links work', async ({ page }) => {
