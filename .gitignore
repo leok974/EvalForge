@@ -1,5 +1,6 @@
 .venv/
 .env
+.env.dev
 __pycache__/
 *.pyc
 dist/
@@ -49,3 +50,6 @@ debug_failure.txt
 pytest_*.txt
 test_results.txt
 tests/data_temp/
+
+# Claude Code worktrees (nested inside repo — never stage)
+.claude/
