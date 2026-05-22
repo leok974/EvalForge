@@ -133,14 +133,31 @@ python scripts/seed_evalforge_universe.py
 
 **NOTE:** `questpack_seed.py` is the correct seeder for all `data/questpacks/*.json` files. `seed_evalforge_universe.py` only processes legacy track specs in `docs/` — it does NOT process `sql_core.json`, `javascript_core.json`, etc.
 
+### Quest Tier System
+Quest difficulty is stored in the `tier` column on `QuestDefinition` (added Sprint 10 via migration 007):
+- `tier=1` — Foundry (beginner)
+- `tier=2` — Advanced / Ignition
+- `tier=3` — Expert (postgres-specific, SQL tier 3)
+
+Tier 2+ quests are certified with stricter rules: min 2 objectives, min 3 key_terms with valid Codex refs. Boss quests in tier 2+ require min 4 objectives.
+
+### Boss Fights
+Boss definitions are in the `bossdefinition` table. Rubric JSON files live in `rubrics/`. To seed bosses:
+```bash
+docker compose exec backend bash -c "cd /app && PYTHONPATH=/app python scripts/seed_bosses.py"
+```
+The `rubrics/` directory is mounted into the backend container as `/app/rubrics/` (docker-compose volume). The `_load_rubric()` helper in `seed_bosses.py` reads rubric JSON at seed time.
+
+Active boss for world-python: `boss-foundry-systems-architect` (rubric: `rubrics/boss-foundry-systems-architect.json`).
+
 ---
 
 ## Active Curriculum Scope
 
 Defined in `configs/curriculum_guardrail_scope.json`:
-- **Active worlds:** `world-python`
-- **Active tracks:** `track-python-systems`, `track-python-ignition`, `track-python-foundry`, `track-python-selenium`
-- **Warning-only worlds:** `world-sql`, `world-js`, `world-ts`, `world-web`
+- **Active worlds:** `world-python`, `world-web`, `world-sql`, `world-js`, `world-ts`, `world-git`
+- **Active tracks:** `track-python-systems`, `track-python-ignition`, `track-python-foundry`, `track-python-selenium`, `track-html`, `track-css`
+- **Warning-only worlds:** _(none — all worlds are either active or excluded)_
 
 CI enforces training-grade quality only for active scope. Other worlds produce warnings but do not block.
 
@@ -216,7 +233,9 @@ Enforces against `docs/audits/TRAINING_GRADE_SNAPSHOT.json`:
 ```bash
 python scripts/certify_training_grade.py
 ```
-Checks schema compliance, placeholder text, broken Codex refs, missing docs, workspace completeness.
+Checks schema compliance, broken Codex refs, tier compliance, and golden artifact coverage.
+**Scope-aware:** only active questpacks (from `configs/curriculum_guardrail_scope.json`) produce hard failures. Non-active quests emit `[WARN]` but do not fail the run.
+Requires `libcst` (in `requirements.txt`) for the drift check sub-step.
 
 ### Population audit
 ```bash

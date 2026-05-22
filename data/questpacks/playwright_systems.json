@@ -1,0 +1,210 @@
+[
+  {
+    "slug": "pw-page-object",
+    "title": "Object Discipline",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-systems",
+    "language": "playwright",
+    "tier": 2,
+    "short_description": "Implement a LoginPage class and use the Page Object Model pattern in your tests.",
+    "learning_objective": "Apply the Page Object Model pattern to encapsulate page interactions.",
+    "key_terms": ["glossary/playwright/locators", "guides/playwright/debugging"],
+    "concept_tags": ["playwright", "page-object", "oop", "patterns"],
+    "base_xp_reward": 250,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "defines_page_class",
+        "title": "Defines a Page class",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "class\\s+\\w+Page",
+          "description": "Define a class with a name ending in 'Page'"
+        }
+      },
+      {
+        "id": "has_async_login",
+        "title": "Has an async login method",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "async\\s+login",
+          "description": "Define an async login() method in the page class"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-fixtures",
+    "title": "Supply Chain",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-systems",
+    "language": "playwright",
+    "tier": 2,
+    "short_description": "Create a custom loggedInPage fixture using test.extend to share auth state across tests.",
+    "learning_objective": "Build custom fixtures with test.extend for reusable authentication state.",
+    "key_terms": ["glossary/playwright/locators", "glossary/playwright/auto-waiting"],
+    "concept_tags": ["playwright", "fixtures", "test.extend", "dependency-injection"],
+    "base_xp_reward": 250,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_test_extend",
+        "title": "Uses test.extend()",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "test\\.extend|base\\.extend",
+          "description": "Use test.extend() or base.extend() to define custom fixtures"
+        }
+      },
+      {
+        "id": "uses_fixtures_param",
+        "title": "Uses fixture in test parameter",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "\\{\\s*loggedInPage",
+          "description": "Inject the loggedInPage fixture into a test"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-api-testing",
+    "title": "Protocol Bypass",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-systems",
+    "language": "playwright",
+    "tier": 2,
+    "short_description": "Use the request fixture to make direct HTTP calls and assert API responses.",
+    "learning_objective": "Use Playwright's request fixture for API testing alongside browser tests.",
+    "key_terms": ["glossary/playwright/locators", "glossary/playwright/auto-waiting"],
+    "concept_tags": ["playwright", "api-testing", "request", "http"],
+    "base_xp_reward": 250,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_request_get",
+        "title": "Uses request.get() for HTTP call",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "request\\.get\\(",
+          "description": "Use request.get() to make a GET API call"
+        }
+      },
+      {
+        "id": "asserts_json_body",
+        "title": "Asserts JSON response body",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "\\.json\\(\\)",
+          "description": "Call response.json() to parse and assert the response body"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-cross-browser",
+    "title": "Multi-Platform Strike",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-systems",
+    "language": "playwright",
+    "tier": 2,
+    "short_description": "Configure browser selection with test.use() and assert browser-specific behavior.",
+    "learning_objective": "Use test.use({ browserName }) to configure per-file or per-describe browser selection.",
+    "key_terms": ["glossary/playwright/locators", "guides/playwright/debugging"],
+    "concept_tags": ["playwright", "cross-browser", "chromium", "test.use"],
+    "base_xp_reward": 250,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_test_use",
+        "title": "Uses test.use() for browser config",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "test\\.use\\(",
+          "description": "Use test.use() to configure browserName or other settings"
+        }
+      },
+      {
+        "id": "targets_chromium",
+        "title": "Targets chromium browser",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "chromium",
+          "description": "Set browserName: 'chromium' or reference chromium"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-boss-ticket-flow",
+    "title": "BOSS: Dispute Resolution",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-systems",
+    "language": "playwright",
+    "tier": 2,
+    "short_description": "Boss fight: implement a complete automated test suite for the CMS dispute resolution workflow.",
+    "learning_objective": "Combine all Playwright patterns to build a production-quality test suite.",
+    "key_terms": ["glossary/playwright/locators", "glossary/playwright/auto-waiting", "guides/playwright/debugging"],
+    "concept_tags": ["playwright", "boss", "e2e", "describe", "beforeEach", "screenshot"],
+    "base_xp_reward": 500,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_describe",
+        "title": "Uses test.describe() for organization",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "test\\.describe\\(",
+          "description": "Organize tests in a test.describe() block"
+        }
+      },
+      {
+        "id": "uses_before_each",
+        "title": "Uses test.beforeEach() for login",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "test\\.beforeEach\\(",
+          "description": "Use beforeEach to handle login before each test"
+        }
+      },
+      {
+        "id": "uses_screenshot",
+        "title": "Captures screenshot as evidence",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "screenshot\\(",
+          "description": "Call page.screenshot() to capture visual evidence"
+        }
+      },
+      {
+        "id": "tests_resolve_flow",
+        "title": "Tests the resolve action",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "dispute-resolve-btn|resolve-status|resolve",
+          "description": "Test the dispute resolve button and success state"
+        }
+      }
+    ]
+  }
+]

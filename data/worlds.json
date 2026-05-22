@@ -355,5 +355,57 @@
             ],
             "analogy_prompt": "Use shipping and logistics metaphors."
         }
+    },
+    {
+        "id": "world-playwright",
+        "name": "Playwright World",
+        "icon": "test-tube",
+        "description": "Browser Automation. Theme: The Test Lab.",
+        "default_tracks": [
+            "track-playwright-ignition"
+        ],
+        "tags": [
+            "playwright",
+            "testing",
+            "automation"
+        ],
+        "narrative_config": {
+            "alias": "THE TEST LAB",
+            "theme": "Clean rooms, protocol scanners, automated test rigs, precision instruments.",
+            "role": "Test Engineer",
+            "vocabulary": [
+                "spec",
+                "assertion",
+                "fixture",
+                "trace",
+                "flakiness"
+            ],
+            "analogy_prompt": "Use laboratory and quality assurance metaphors."
+        }
+    },
+    {
+        "id": "world-selenium",
+        "name": "Selenium World",
+        "icon": "flask",
+        "description": "Browser Automation (Deprecated). Theme: The Old Lab.",
+        "status": "deprecated",
+        "deprecation_note": "Replaced by world-playwright. Quests remain accessible for historical reference.",
+        "default_tracks": [],
+        "tags": [
+            "selenium",
+            "testing",
+            "automation"
+        ],
+        "narrative_config": {
+            "alias": "THE OLD LAB",
+            "theme": "Legacy test rigs, old infrastructure.",
+            "role": "Legacy Engineer",
+            "vocabulary": [
+                "webdriver",
+                "selenium",
+                "xpath"
+            ],
+            "analogy_prompt": "Use legacy automation metaphors."
+        }
     }
 ]

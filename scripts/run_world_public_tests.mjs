@@ -215,6 +215,16 @@ async function main() {
         printSummaryAndExit(res);
     }
 
+    // 8. Playwright
+    const looksPlaywright = packBase.includes("playwright") || (slugs.length > 0 && slugs.every(s => s.startsWith("pw-")));
+    if (looksPlaywright) {
+        const args = ["scripts/run_playwright_questpack.mjs", "--questpack", questpackPath, "--mode", mode];
+        if (arg("--only-slug")) args.push("--only-slug", arg("--only-slug"));
+
+        const res = await runDelegate(process.execPath, args, root);
+        printSummaryAndExit(res);
+    }
+
     // --- Default Node Runner Loop -----------------------------------------
     // If no specialized runner, we run `node --test` for each slug.
     // Handles: Node, React, Infra (often), Labs

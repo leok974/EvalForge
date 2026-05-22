@@ -153,5 +153,7 @@
     {"id": "track-node-core", "world_id": "world-node", "name": "Node Core", "source": "fundamentals", "description": "Node.js core APIs and server-side JavaScript patterns.", "tags": ["node", "javascript"]},
     {"id": "react-fundamentals", "world_id": "world-react", "name": "React Fundamentals", "source": "fundamentals", "description": "React components, props, state, hooks, and context.", "tags": ["react", "javascript", "frontend"]},
     {"id": "track-html", "world_id": "world-web", "name": "HTML Core", "source": "fundamentals", "description": "Semantic HTML, forms, accessibility, and document structure.", "tags": ["html", "web"]},
-    {"id": "track-css", "world_id": "world-web", "name": "CSS Core", "source": "fundamentals", "description": "CSS selectors, box model, flexbox, grid, and responsive design.", "tags": ["css", "web"]}
+    {"id": "track-css", "world_id": "world-web", "name": "CSS Core", "source": "fundamentals", "description": "CSS selectors, box model, flexbox, grid, and responsive design.", "tags": ["css", "web"]},
+    {"id": "track-playwright-ignition", "world_id": "world-playwright", "name": "Playwright Ignition", "source": "fundamentals", "description": "Playwright basics: navigation, locators, assertions, and screenshots.", "tags": ["playwright", "testing", "automation"]},
+    {"id": "track-playwright-systems", "world_id": "world-playwright", "name": "Playwright Systems", "source": "advanced", "description": "Advanced Playwright: page objects, fixtures, API testing, and cross-browser.", "tags": ["playwright", "testing", "patterns"]}
 ]
