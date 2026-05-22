@@ -252,9 +252,14 @@ Compares source questpacks → seeded DB → API-visible quests → UI-visible q
 ```bash
 python scripts/check_cherry_pick_diff.py <SHA>
 ```
-Detects top-level function and class deletions in a commit before it is cherry-picked to a protected branch. Exit 0 = clean, exit 1 = deletions found.
+Detects symbol deletions in a commit before it is cherry-picked to a protected branch. Exit 0 = clean, exit 1 = deletions found.
 
-**Limitation:** `check_cherry_pick_diff.py` detects top-level function/class deletions only (lines starting at column 0 with `def `, `async def `, or `class `). Indented method removals inside a class body are not currently detected. If a commit removes a class method (e.g. `    def my_method(self):`), the guard will not flag it. Be aware of this gap when reviewing commits that modify class internals.
+`scripts/check_cherry_pick_diff.py` detects deletions of:
+- Top-level functions and classes (all file types)
+- Methods inside classes (`.py` files — via `ast.parse()` comparison of before/after)
+- Module-level and class-level constant assignments in `UPPER_SNAKE_CASE` (`.py` files)
+
+Non-Python files use regex matching for top-level definitions only.
 
 ---
 
