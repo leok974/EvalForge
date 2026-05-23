@@ -140,6 +140,19 @@ def main():
         else:
             print(f"[CI] PASS: All {len(entries)} quest exclusions are within 60-day window.")
 
+    # 5. Workspace hydration audit — entrypoints must survive every reseed
+    print("\n[CI] Auditing questpack workspace hydration...")
+    hydration_script = ROOT_DIR / "scripts" / "audit_questpack_hydration.py"
+    hydration_result = subprocess.run([sys.executable, "-X", "utf8", str(hydration_script)])
+    if hydration_result.returncode == 1:
+        print("[CI] FAIL: Workspace hydration audit detected missing entrypoints.")
+        sys.exit(1)
+    elif hydration_result.returncode == 2:
+        print("[CI] WARN: DB unavailable during hydration audit — source checks only.")
+        # exit 2 means DB unavailable; don't block CI if DB is simply not running locally
+    else:
+        print("[CI] PASS: Workspace hydration audit clean.")
+
     print("\n[CI] PASS: System is Training-Grade Stable.")
     sys.exit(0)
 
