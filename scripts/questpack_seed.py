@@ -279,8 +279,13 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                                 print(f"    ⚠️ Failed to read terms {terms_path}: {e}")
 
             # Hydrate Tutorial (Standard Logic)
-            if "tutorial_md" not in quest_data: 
-                 hydrate_tutorial(existing, json_dir, quest_data)
+            # Prefer inline content from JSON; fall back to disk file.
+            # Use truthiness check (not key-presence) so "tutorial_md": null still triggers hydration.
+            inline_md = quest_data.get("tutorial_md")
+            if inline_md:
+                existing.tutorial_md = inline_md
+            else:
+                hydrate_tutorial(existing, json_dir, quest_data)
 
             # Hydrate Briefing & Lore (Prefer Disk Overlay)
             # We use the same search logic as hydrate_tutorial but for other files
