@@ -86,10 +86,18 @@ def audit_file(path: Path, current_sprint: int) -> list[dict]:
                     "revisit_sprint": revisit_sprint,
                     "current_sprint": current_sprint,
                     "comment": comment_block.strip(),
+                    "kind": "overdue",
                 })
-        # SKIPs without a Revisit comment are not flagged — they may be
-        # intentionally open-ended. The CLAUDE.md rule requires the comment
-        # format; CI will flag them as overdue once the format is adopted.
+        else:
+            # Revisit comment is required — a skip without one is non-compliant.
+            overdue.append({
+                "file": str(path.relative_to(REPO_ROOT)),
+                "line": idx + 1,
+                "revisit_sprint": None,
+                "current_sprint": current_sprint,
+                "comment": comment_block.strip(),
+                "kind": "missing_revisit",
+            })
 
     return overdue
 
@@ -116,16 +124,27 @@ def main() -> int:
         print("[audit_skipped_tests] PASS — no overdue test.skip blocks.")
         return 0
 
-    print("\n[audit_skipped_tests] FAIL — overdue test.skip blocks detected:\n")
+    print("\n[audit_skipped_tests] FAIL — non-compliant test.skip blocks detected:\n")
     for item in all_overdue:
-        print(f"  File:            {item['file']}:{item['line']}")
-        print(f"  Revisit sprint:  {item['revisit_sprint']}  (current: {item['current_sprint']})")
-        print(f"  Comment excerpt:\n    " + "\n    ".join(item["comment"].splitlines()[:5]))
+        if item["kind"] == "missing_revisit":
+            label = "MISSING Revisit comment"
+        else:
+            label = f"OVERDUE (Revisit Sprint {item['revisit_sprint']}, current: {item['current_sprint']})"
+        print(f"  File:    {item['file']}:{item['line']}")
+        print(f"  Status:  {label}")
+        print(f"  Excerpt:\n    " + "\n    ".join(item["comment"].splitlines()[:5]))
         print()
 
+    missing = sum(1 for i in all_overdue if i["kind"] == "missing_revisit")
+    overdue_count = len(all_overdue) - missing
+    parts = []
+    if overdue_count:
+        parts.append(f"{overdue_count} overdue")
+    if missing:
+        parts.append(f"{missing} missing Revisit comment")
     print(
-        f"[audit_skipped_tests] {len(all_overdue)} overdue skip(s) found.\n"
-        "  Re-classify each as FIX, DELETE, or SKIP with an updated Revisit sprint."
+        f"[audit_skipped_tests] {', '.join(parts)}.\n"
+        "  Each skip must have: // SKIP: <reason>  // Blocker: <...>  // Revisit: Sprint N"
     )
     return 1
 
