@@ -1,0 +1,175 @@
+[
+  {
+    "id": "quest-python-read-a-script",
+    "world_id": "world-python",
+    "track_id": "python-detective",
+    "slug": "python-read-a-script",
+    "title": "The Script Detective",
+    "short_description": "Understand the intent of an automation script.",
+    "summary": "Read a script and identify its primary output based on logic.",
+    "description": "An internal script named `legacy_processor.py` is used to calculate bulk discounts. Read the code and determine what it outputs for a transaction of $500 with a 'premium' status. You must create a `check_result.txt` file in the workspace containing only the numeric discount value found by tracing the code.",
+    "lore": "The Old Architect left behind scrolls of logic. We need a Detective to decypher their meaning before we run them on the main core.",
+    "language": "python",
+    "xp_base": 100,
+    "objectives": [
+      {
+        "id": "file_check_result",
+        "title": "Logic Trace Verification",
+        "kind": "file_content_regex",
+        "rule": {
+          "file": "check_result.txt",
+          "pattern": "^75\\.0\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-read-a-script/workspace"
+    },
+    "tier": 2
+  },
+  {
+    "id": "quest-python-trace-data-flow",
+    "world_id": "world-python",
+    "track_id": "python-detective",
+    "slug": "python-trace-data-flow",
+    "title": "Data Flow Analysis",
+    "short_description": "Follow a variable through multiple transformations.",
+    "summary": "Trace how an initial value is modified by several helper functions.",
+    "description": "The `data_pipeline.py` script applies three transformations to an input string. Trace the flow and determine the final string value if the input is 'foundry-v1'. Save the resulting string in `final_identity.txt`.",
+    "lore": "Data flows through the Foundry like steam through pipes. One wrong valve and the whole system loses pressure. Map the flow.",
+    "language": "python",
+    "xp_base": 110,
+    "objectives": [
+      {
+        "id": "file_final_identity",
+        "title": "Identity Verification",
+        "kind": "file_content_regex",
+        "rule": {
+          "file": "final_identity.txt",
+          "pattern": "^IDENT:FOUNDRY-V1-PROCESSED-V2\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-trace-data-flow/workspace"
+    },
+    "tier": 2
+  },
+  {
+    "id": "quest-python-follow-imports",
+    "world_id": "world-python",
+    "track_id": "python-detective",
+    "slug": "python-follow-imports",
+    "title": "Dependency Tracker",
+    "short_description": "Trace logic across multiple imported modules.",
+    "summary": "Identify where a specific constant is defined in a multi-file script.",
+    "description": "The `main_runner.py` script imports from `utils/logic.py` and `config/settings.py`. One of these files defines the `CORE_PROTOCOL_VERSION`. Find the value of this constant and save it in `protocol_version.txt`.",
+    "lore": "The Foundry is built on layers. You can't just look at the top; you must follow the linkages down into the deep modules.",
+    "language": "python",
+    "xp_base": 105,
+    "objectives": [
+      {
+        "id": "file_protocol_version",
+        "title": "Version Identification",
+        "kind": "file_content_regex",
+        "rule": {
+          "file": "protocol_version.txt",
+          "pattern": "^v3\\.4\\.2\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-follow-imports/workspace"
+    },
+    "tier": 2
+  },
+  {
+    "id": "quest-python-explain-side-effects",
+    "world_id": "world-python",
+    "track_id": "python-detective",
+    "slug": "python-explain-side-effects",
+    "title": "Side Effect Auditor",
+    "short_description": "Identify which files a script modifies.",
+    "summary": "Identify the external impact of a script beyond its return value.",
+    "description": "Examine `sync_tool.py`. Determine which file it writes to when an error occurs. Save the filename in `side_effect.txt`.",
+    "lore": "Every action has a reaction. A script might return 'Success' but leave a trail of logs or temp files behind. Be the Auditor.",
+    "language": "python",
+    "xp_base": 115,
+    "objectives": [
+      {
+        "id": "file_side_effect",
+        "title": "Impact Audit",
+        "kind": "file_content_regex",
+        "rule": {
+          "file": "side_effect.txt",
+          "pattern": "^sync_error\\.log\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-explain-side-effects/workspace"
+    },
+    "tier": 2
+  },
+  {
+    "id": "quest-python-config-and-env",
+    "world_id": "world-python",
+    "track_id": "python-detective",
+    "slug": "python-config-and-env",
+    "title": "Environment Weaver",
+    "short_description": "Debug environment variable priority.",
+    "summary": "Determine if a script uses a hardcoded default or an environment variable.",
+    "description": "The `database_connector.py` looks for `DB_PORT`. Trace the logic to see what port it uses if `DB_PORT` is NOT set. Save the default port number in `default_port.txt`.",
+    "lore": "Scripts adapt to their surroundings. But sometimes they cling to old habits. Find their default nature.",
+    "language": "python",
+    "xp_base": 100,
+    "objectives": [
+      {
+        "id": "file_default_port",
+        "title": "Default Resolution",
+        "kind": "file_content_regex",
+        "rule": {
+          "file": "default_port.txt",
+          "pattern": "^5432\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-config-and-env/workspace"
+    },
+    "tier": 2
+  },
+  {
+    "id": "quest-python-find-the-bug",
+    "world_id": "world-python",
+    "track_id": "python-detective",
+    "slug": "python-find-the-bug",
+    "title": "The First Anomaly",
+    "short_description": "Find and fix a logical flaw in a data script.",
+    "summary": "Locate a bug where a list is being mutated while iterating.",
+    "description": "The `cleanup_tool.py` script is supposed to remove stale entries from a list, but it skips every other entry. Find the bug and fix it. The script must correctly print all remaining valid entries.",
+    "lore": "The cleanup droids are leaving half the scrap behind. Trace their logic and find why their sensors are failing to see the full list.",
+    "language": "python",
+    "xp_base": 120,
+    "starter_code": "def cleanup(items):\n    # BUG: Mutating list while iterating\n    for item in items:\n        if item.startswith('OLD-'):\n            items.remove(item)\n    return items\n\nif __name__ == '__main__':\n    data = ['OLD-1', 'OLD-2', 'KEEP-1', 'OLD-3', 'KEEP-2']\n    result = cleanup(data)\n    print(result)\n",
+    "objectives": [
+      {
+        "id": "stdout_cleanup_fixed",
+        "title": "Anomaly Resolved",
+        "kind": "stdout_json_eq",
+        "rule_json": {
+          "expected": ["KEEP-1", "KEEP-2"]
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-find-the-bug/workspace"
+    },
+    "tier": 2
+  }
+]

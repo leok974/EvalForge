@@ -1,0 +1,60 @@
+[
+  {
+    "id": "quest-python-pytest-basics",
+    "world_id": "world-python",
+    "track_id": "python-verification",
+    "slug": "python-pytest-basics",
+    "title": "Unit Test Foundations",
+    "short_description": "Write your first unit test with pytest.",
+    "summary": "Implement a test case to verify a simple math helper.",
+    "description": "The logic in `calculator.py` needs to be verified. Create a file named `test_calculator.py` and write a test function `test_add` that asserts the `add(2, 3)` function returns 5. Run the test using `pytest`.",
+    "lore": "Code without proof is just a whisper in the wind. In the Foundry, we deal in hard facts. Prove your logic holds true.",
+    "language": "python",
+    "xp_base": 120,
+    "starter_code": "# calculator.py\ndef add(a, b):\n    return a + b\n\n# test_calculator.py\n# TODO: Implement test_add\n",
+    "objectives": [
+      {
+        "id": "stdout_pytest_pass",
+        "title": "Proof of Correctness",
+        "kind": "stdout_regex",
+        "rule": {
+          "pattern": "1 passed",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-pytest-basics/workspace"
+    },
+    "tier": 3
+  },
+  {
+    "id": "quest-python-write-a-regression-test",
+    "world_id": "world-python",
+    "track_id": "python-verification",
+    "slug": "python-write-a-regression-test",
+    "title": "The Regression Barrier",
+    "short_description": "Prevent bugs from returning with regression tests.",
+    "summary": "Write a test that reproduces a known bug before fixing it.",
+    "description": "The `discount.py` script has a bug where it fails for negative amounts. Write a regression test in `test_discount.py` that asserts `apply_discount(-10, 0.1)` raises a `ValueError`. Then fix the code to make the test pass.",
+    "lore": "A bug fixed once is a victory. A bug that never returns is a legend. Build the barrier.",
+    "language": "python",
+    "xp_base": 130,
+    "starter_code": "def apply_discount(amount, rate):\n    # BUG: Doesn't check for negative\n    return amount * (1 - rate)\n",
+    "objectives": [
+      {
+        "id": "stdout_regression_pass",
+        "title": "Barrier Reinforced",
+        "kind": "stdout_regex",
+        "rule": {
+          "pattern": "1 passed",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-write-a-regression-test/workspace"
+    },
+    "tier": 3
+  }
+]

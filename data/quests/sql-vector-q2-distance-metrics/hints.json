@@ -1,0 +1,17 @@
+[
+  {
+    "id": "q2_hint_1",
+    "text": "The operator for Cosine distance is `<=>`.",
+    "level": "basic"
+  },
+  {
+    "id": "q2_hint_2",
+    "text": "The target vector literal is `'[0.5, 0.5, 0.5]'::vector`.",
+    "level": "helpful"
+  },
+  {
+    "id": "q2_hint_3",
+    "text": "Your query should look like: `SELECT fragment_id, embedding <=> '[0.5, 0.5, 0.5]'::vector as distance FROM historical_fragments;`",
+    "level": "critical"
+  }
+]

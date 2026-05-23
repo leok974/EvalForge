@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foundry Control Center</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; border: 1px solid #1e293b; padding: 2rem; border-radius: 8px; background: #1e293b; }
+        h1 { color: #38bdf8; }
+        a { color: #38bdf8; text-decoration: none; border: 1px solid #38bdf8; padding: 0.5rem 1rem; border-radius: 4px; display: inline-block; margin-top: 1rem; }
+        a:hover { background: #38bdf8; color: #0f172a; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Foundry Control Center</h1>
+        <p>Simulation Environment - Restricted Access</p>
+        {% if session.logged_in %}
+            <p>Welcome, <span data-testid="user-alias">{{ session.user }}</span></p>
+            <a href="/dashboard">Enter Dashboard</a>
+        {% else %}
+            <a href="/login" data-testid="nav-login">Login to System</a>
+        {% endif %}
+    </div>
+</body>
+</html>

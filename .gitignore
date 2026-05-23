@@ -51,6 +51,28 @@ debug_failure.txt
 pytest_*.txt
 test_results.txt
 tests/data_temp/
+backend.log
+apps/web/*.log
+apps/web/ts_errors*.log
+
+# Generated audit artifacts (root-level one-offs)
+audit_results.txt
+final_audit.txt
+source_audit_raw.txt
+curriculum_integrity_report.json
+data/python_world_roadmap.json
+
+# Generated SQL / runner traces
+sql_explain.json
+sql_student_result.json
+sql_trace.json
+
+# Root-level temporary/one-shot scripts (delete after running)
+tmp_*.py
+verify_*.py
+
+# Garbage npm artifacts
+=*
 
 # Claude Code worktrees (nested inside repo — never stage)
 .claude/

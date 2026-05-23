@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modal Interface</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 2rem; }
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e293b; padding: 2rem; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); display: none; z-index: 1000; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 999; }
+        button { padding: 0.5rem 1rem; background: #38bdf8; border: none; cursor: pointer; margin-right: 0.5rem; }
+    </style>
+</head>
+<body>
+    <h1>System Overrides</h1>
+    <button onclick="showModal()" data-testid="trigger-override">Trigger System Override</button>
+
+    <div id="overlay" class="overlay"></div>
+    <div id="modal" class="modal" data-testid="override-modal">
+        <h2>CAUTION: Manual Override</h2>
+        <p>Are you sure you want to bypass safety protocols?</p>
+        <button onclick="hideModal()" data-testid="modal-cancel">Cancel</button>
+        <button onclick="confirmOverride()" data-testid="modal-confirm" style="background: #ef4444; color: white;">Bypass</button>
+    </div>
+
+    <div id="toast" style="position: fixed; bottom: 20px; right: 20px; background: #38bdf8; color: #0f172a; padding: 1rem; border-radius: 4px; display: none;" data-testid="toast-notification">
+        Override Confirmed. Integrity compromised.
+    </div>
+
+    <script>
+        function showModal() {
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        function hideModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+        function confirmOverride() {
+            hideModal();
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+        
+        // Conditional UI Logic for Selenium Quests
+        const showModalParam = "{{ show_modal }}";
+        if (showModalParam === "true") {
+            setTimeout(showModal, 500); // 500ms delay to force wait checks
+        } else if (showModalParam === "random" && Math.random() > 0.5) {
+            setTimeout(showModal, 500);
+        }
+    </script>
+</body>
+</html>

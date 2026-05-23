@@ -1,0 +1,235 @@
+[
+  {
+    "id": "quest-python-ignition",
+    "world_id": "world-python",
+    "track_id": "python-ignition",
+    "slug": "python-ignition",
+    "title": "System Ignition",
+    "short_description": "Initialize the Foundry automation core.",
+    "summary": "Execute your first automation script to verify system readiness.",
+    "description": "The Foundry's automation core is dormant. You must initialize the system by executing a Python script that outputs the canonical ignition sequence. This verifies your runtime environment is correctly configured.",
+    "lore": "Welcome, Architect. The Foundry has been offline for generations. To begin the restoration, we need a clean handshake with the script execution engine. Print the ignition sequence exactly as specified to bridge the physical and logic layers.",
+    "language": "python",
+    "xp_base": 50,
+    "starter_code": "def ignite():\n    # TODO: Print 'FOUNDRY_CORE_IGNITED'\n    pass\n\nif __name__ == '__main__':\n    ignite()\n",
+    "objectives": [
+      {
+        "id": "stdout_ignition",
+        "title": "System Handshake",
+        "kind": "stdout_regex",
+        "rule": {
+          "pattern": "^FOUNDRY_CORE_IGNITED\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-ignition/workspace"
+    },
+    "key_terms": [
+      "glossary/python/print",
+      "glossary/python/python-function"
+    ],
+    "tier": 1
+  },
+  {
+    "id": "quest-python-variables-and-conditions",
+    "world_id": "world-python",
+    "track_id": "python-ignition",
+    "slug": "python-variables-and-conditions",
+    "title": "Configurable Logic",
+    "short_description": "Implement a conditional status reporter.",
+    "summary": "Use variables and conditions to report system pressure states.",
+    "description": "A script must read a simulated pressure value from a variable and output a status report. If the pressure is above 80, output 'WARNING: HIGH PRESSURE'. Otherwise, output 'STATUS: STABLE'.",
+    "lore": "The steam pipes are vibrating. We need a script that can make localized decisions based on intake sensor data. Don't let the pressure build too high.",
+    "language": "python",
+    "xp_base": 60,
+    "starter_code": "def check_system(pressure):\n    # TODO: Implement logic\n    pass\n\nif __name__ == '__main__':\n    # Simulated sensor input\n    current_pressure = 85\n    check_system(current_pressure)\n",
+    "objectives": [
+      {
+        "id": "stdout_pressure_warning",
+        "title": "Pressure Validation",
+        "kind": "stdout_regex",
+        "rule": {
+          "pattern": "^WARNING: HIGH PRESSURE\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-variables-and-conditions/workspace"
+    },
+    "key_terms": [
+      "glossary/python/variable",
+      "glossary/python/if-statement"
+    ],
+    "tier": 1
+  },
+  {
+    "id": "quest-python-loops-and-records",
+    "world_id": "world-python",
+    "track_id": "python-ignition",
+    "slug": "python-loops-and-records",
+    "title": "Batch Record Processing",
+    "short_description": "Process a list of assembly line records.",
+    "summary": "Iterate over a list of part IDs and filter the defective ones.",
+    "description": "A batch of parts is coming down the line. Each part has a serial number. Defective parts have serial numbers starting with 'DEF-'. Write a script that loops through the list and prints only the valid serial numbers.",
+    "lore": "The assembly line is producing anomalies. We can't let defective units reach the shipping crates. Automate the filter protocol.",
+    "language": "python",
+    "xp_base": 75,
+    "starter_code": "def filter_parts(parts):\n    # TODO: Print only non-defective parts\n    pass\n\nif __name__ == '__main__':\n    batch = ['UNIT-101', 'DEF-001', 'UNIT-102', 'DEF-002', 'UNIT-103']\n    filter_parts(batch)\n",
+    "objectives": [
+      {
+        "id": "stdout_filter_check",
+        "title": "Quality Sweep",
+        "kind": "stdout_regex",
+        "rule": {
+          "pattern": "^UNIT-101\\nUNIT-102\\nUNIT-103\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-loops-and-records/workspace"
+    },
+    "key_terms": [
+      "glossary/python/for-loop",
+      "glossary/python/list"
+    ],
+    "tier": 1
+  },
+  {
+    "id": "quest-python-functions-and-helpers",
+    "world_id": "world-python",
+    "track_id": "python-ignition",
+    "slug": "python-functions-and-helpers",
+    "title": "Modular Helpers",
+    "short_description": "Break down logic into reusable functions.",
+    "summary": "Implement a helper to calculate tax and a main function to format results.",
+    "description": "The accounting system is monolithic. Extract the tax calculation into a separate helper function to improve maintainability. Use a fixed tax rate of 0.08.",
+    "lore": "The Ledger Bot is overheating. Its logic is one giant tangle of gears. Help us modularize the calc-flow so we can swap parts without breaking the whole Foundry.",
+    "language": "python",
+    "xp_base": 70,
+    "starter_code": "def calculate_tax(amount):\n    # TODO: Return amount * 0.08\n    pass\n\ndef format_currency(amount):\n    return f\"${amount:.2f}\"\n\nif __name__ == '__main__':\n    price = 100.0\n    tax = calculate_tax(price)\n    print(f\"Total: {format_currency(price + tax)}\")\n",
+    "objectives": [
+      {
+        "id": "stdout_tax_total",
+        "title": "Tax Integration",
+        "kind": "stdout_regex",
+        "rule": {
+          "pattern": "^Total: \\$108\\.00\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-functions-and-helpers/workspace"
+    },
+    "key_terms": [
+      "glossary/python/python-function",
+      "glossary/python/return-statement"
+    ],
+    "tier": 1
+  },
+  {
+    "id": "quest-python-dicts-and-json",
+    "world_id": "world-python",
+    "track_id": "python-ignition",
+    "slug": "python-dicts-and-json",
+    "title": "Record Mapping",
+    "short_description": "Map and transform data using dictionaries.",
+    "summary": "Convert a list of raw records into a dictionary keyed by ID.",
+    "description": "We have a list of system events. To make them searchable, we need to convert them into a dictionary where the key is the event 'id' and the value is the entire event object.",
+    "lore": "Searching the linear log files is too slow. The Archivist needs a faster bridge between IDs and event data. Construct the map.",
+    "language": "python",
+    "xp_base": 80,
+    "starter_code": "def index_records(records):\n    # TODO: Return a dict {id: record}\n    pass\n\nif __name__ == '__main__':\n    data = [\n        {'id': 'EVT-1', 'type': 'auth', 'val': 1},\n        {'id': 'EVT-2', 'type': 'io', 'val': 2}\n    ]\n    indexed = index_records(data)\n    import json\n    print(json.dumps(indexed, sort_keys=True))\n",
+    "objectives": [
+      {
+        "id": "stdout_indexed_json",
+        "title": "Index Resolution",
+        "kind": "stdout_json_eq",
+        "rule_json": {
+          "expected": {
+            "EVT-1": {"id": "EVT-1", "type": "auth", "val": 1},
+            "EVT-2": {"id": "EVT-2", "type": "io", "val": 2}
+          }
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-dicts-and-json/workspace"
+    },
+    "key_terms": [
+      "glossary/python/dictionary",
+      "glossary/python/json-module"
+    ],
+    "tier": 1
+  },
+  {
+    "id": "quest-python-file-processing",
+    "world_id": "world-python",
+    "track_id": "python-ignition",
+    "slug": "python-file-processing",
+    "title": "File Collector",
+    "short_description": "Read and summarize manifest files.",
+    "summary": "Read a text file containing part counts and calculate the total sum.",
+    "description": "A manifest file contains one number per line. Read the file and output the total sum of all parts in the manifest.",
+    "lore": "The clipboard bot lost its tally. We need you to read the raw manifest from the workspace and find the sum total. Accuracy is critical for the Foundry's quota.",
+    "language": "python",
+    "xp_base": 90,
+    "starter_code": "def sum_manifest(filename):\n    # TODO: Read file and return sum of numbers\n    pass\n\nif __name__ == '__main__':\n    result = sum_manifest('manifest.txt')\n    print(f\"TOTAL_PARTS={result}\")\n",
+    "objectives": [
+      {
+        "id": "stdout_manifest_sum",
+        "title": "Quota Verification",
+        "kind": "stdout_regex",
+        "rule": {
+          "pattern": "^TOTAL_PARTS=150\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-file-processing/workspace"
+    },
+    "key_terms": [
+      "glossary/python/file-io",
+      "glossary/python/context-manager"
+    ],
+    "tier": 1
+  },
+  {
+    "id": "quest-python-errors-and-logging",
+    "world_id": "world-python",
+    "track_id": "python-ignition",
+    "slug": "python-errors-and-logging",
+    "title": "Graceful Failure",
+    "short_description": "Implement exception handling for robust scripts.",
+    "summary": "Catch a division by zero error and log a custom message.",
+    "description": "The workload balancer sometimes receives a zero divisor. Implement a try/except block to catch `ZeroDivisionError` and print 'ERROR: DIVISOR_ZERO'. Otherwise, print the result.",
+    "lore": "The balancer crashed and took out Sector 7. We can't let a single zero divisor shut down the Foundry. Build the safety cage.",
+    "language": "python",
+    "xp_base": 85,
+    "starter_code": "def safe_divide(a, b):\n    # TODO: Handle ZeroDivisionError\n    pass\n\nif __name__ == '__main__':\n    safe_divide(10, 0)\n    safe_divide(10, 2)\n",
+    "objectives": [
+      {
+        "id": "stdout_error_log",
+        "title": "Safety Trigger",
+        "kind": "stdout_regex",
+        "rule": {
+          "pattern": "^ERROR: DIVISOR_ZERO\\n5\\.0\\s*$",
+          "flags": "im"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/python-errors-and-logging/workspace"
+    },
+    "key_terms": [
+      "glossary/python/exception-handling",
+      "glossary/python/try-except"
+    ],
+    "tier": 1
+  }
+]

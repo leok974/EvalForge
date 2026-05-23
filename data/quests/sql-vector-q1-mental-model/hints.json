@@ -1,0 +1,17 @@
+[
+  {
+    "id": "q1_hint_1",
+    "text": "The table name is `historical_fragments`.",
+    "level": "basic"
+  },
+  {
+    "id": "q1_hint_2",
+    "text": "You need to add `1` after the `=` in the WHERE clause.",
+    "level": "helpful"
+  },
+  {
+    "id": "q1_hint_3",
+    "text": "Make sure you include the `embedding` column in your SELECT list.",
+    "level": "critical"
+  }
+]

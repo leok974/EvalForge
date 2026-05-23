@@ -1,0 +1,17 @@
+[
+  {
+    "id": "q4_hint_1",
+    "text": "The WHERE clause should be `WHERE category = 'Astronomy'`.",
+    "level": "basic"
+  },
+  {
+    "id": "q4_hint_2",
+    "text": "The target vector literal is `'[0.9, 0.1, 0.1]'::vector`.",
+    "level": "helpful"
+  },
+  {
+    "id": "q4_hint_3",
+    "text": "Make sure you include `LIMIT 1` to find just the 'most' similar fragment.",
+    "level": "critical"
+  }
+]
