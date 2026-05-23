@@ -356,8 +356,9 @@ npx playwright test tests/e2e/test_foundry_quest.spec.ts tests/e2e/test_world_*.
 | `test_world_js.spec.ts` | world-js | js-ignition-q1-console-and-functions | Node local |
 | `test_world_ts.spec.ts` | world-ts | ts-ignition | Bun |
 | `test_world_git.spec.ts` | world-git | git-ignition | Shell local |
+| `test_world_docker.spec.ts` | world-docker | dk-hello-container | Grade-by-inspection |
 
-All 8 run in parallel in ~20s with no cross-test interference.
+All 9 run in parallel in ~20s with no cross-test interference.
 
 **Monaco editor rule:** Never use `page.keyboard.type()` or `page.fill()` for the code
 editor. Use `window.monaco.editor.getEditors()[0].executeEdits()` via `page.evaluate()`.

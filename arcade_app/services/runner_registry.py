@@ -68,4 +68,13 @@ class RunnerRegistry:
                 file_name="main.js",
             )
 
+        elif language == "docker":
+            # Grade-by-inspection: no subprocess execution. RunnerSpec is a
+            # no-op entry used by CI sweep scripts that enumerate languages.
+            return RunnerSpec(
+                docker_image="",           # no container needed
+                command=[],                # no command — runner is run_docker_local()
+                file_name="Dockerfile",
+            )
+
         raise ValueError(f"Unsupported language: {language}")

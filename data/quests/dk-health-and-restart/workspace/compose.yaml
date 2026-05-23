@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  api:
+    image: my-api:latest
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_PASSWORD: password
+
+# TODO:
+# 1. Add a healthcheck to the 'db' service (use pg_isready)
+# 2. Add 'restart: unless-stopped' to both services
+# 3. Change depends_on so api waits for db to be *healthy*:
+#      depends_on:
+#        db:
+#          condition: service_healthy

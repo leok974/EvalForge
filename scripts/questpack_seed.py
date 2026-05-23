@@ -118,8 +118,13 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             title = quest_data.get("title") or slug
             
             # Phase Q Fix: Secure workspace hydration from data/quests/<slug>/workspace
-            def hydrate_workspace(q_slug):
+            def hydrate_workspace(q_slug, q_data=None):
                 ws = {"files": []}
+                # Preserve entrypoint from questpack definition so frontend can resolve it
+                if q_data and isinstance(q_data.get("workspace"), dict):
+                    ep = q_data["workspace"].get("entrypoint")
+                    if ep:
+                        ws["entrypoint"] = ep
                 root_d = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
                 w_dir = os.path.join(root_d, "data", "quests", q_slug, "workspace")
                 if os.path.exists(w_dir):
@@ -366,7 +371,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             if "codex_references" in quest_data:
                 existing.codex_references = quest_data["codex_references"]
 
-            existing.workspace_json = hydrate_workspace(slug)
+            existing.workspace_json = hydrate_workspace(slug, quest_data)
             
             session.add(existing)
         

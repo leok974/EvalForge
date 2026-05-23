@@ -225,6 +225,19 @@ async function main() {
         printSummaryAndExit(res);
     }
 
+    // 9. Docker (grade-by-inspection — no subprocess, regex/yaml grading only)
+    // Only match EvalForge dk-* quest packs (docker_ignition, docker_systems, etc.)
+    // NOT docker_core.json whose slugs use legacy naming and need actual Docker execution.
+    const looksDocker = slugs.length > 0 && slugs.every(s => s.startsWith("dk-"));
+    if (looksDocker) {
+        let pythonBin = process.env.PYTHON || process.env.PYTHON_BIN || "python";
+        const args = ["scripts/run_docker_questpack.py", "--questpack", questpackPath, "--mode", mode];
+        if (arg("--only-slug")) args.push("--only-slug", arg("--only-slug"));
+
+        const res = await runDelegate(pythonBin, args, root);
+        printSummaryAndExit(res);
+    }
+
     // --- Default Node Runner Loop -----------------------------------------
     // If no specialized runner, we run `node --test` for each slug.
     // Handles: Node, React, Infra (often), Labs

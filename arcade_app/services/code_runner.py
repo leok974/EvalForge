@@ -812,6 +812,30 @@ export default defineConfig({{
             )
 
 
+def run_docker_local(code: str) -> ExecResult:
+    """
+    Grade-by-inspection runner for world-docker quests.
+
+    Docker quests (Dockerfile / compose.yaml) have no subprocess to run.
+    The submitted source IS the artifact.  All grading is done by static
+    objective validators (source_regex, yaml_structure) which operate on
+    the raw code string.  This runner simply returns a synthetic success
+    ExecResult so the route-handler's validate_quest_attempt call can
+    evaluate the objectives normally.
+    """
+    import time
+    t0 = time.time()
+    dt = int((time.time() - t0) * 1000)
+    return ExecResult(
+        ok=True,
+        exit_code=0,
+        duration_ms=dt,
+        stdout="",
+        stderr="",
+        timed_out=False,
+    )
+
+
 def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, workspace: Optional[Dict[str, Any]] = None, mode: str = "run", entrypoint: Optional[str] = None, quest_slug: Optional[str] = None) -> ExecResult:
     """
     Dispatcher for code execution.
@@ -823,6 +847,10 @@ def run_code(language: str, code: str, stdin: str = "", timeout_ms: int = 2000, 
     - Other: Requires 'docker'.
     """
     backend = os.getenv("EXECUTION_BACKEND", "local")
+
+    # Docker quests: grade-by-inspection, no subprocess needed
+    if language == "docker":
+        return run_docker_local(code)
 
     # Shell runs locally always — docker runner can't write to /workspace as nobody user
     if language == "shell":

@@ -1,0 +1,8 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: secret
+    # TODO: Mount a named volume at /var/lib/postgresql/data
+
+# TODO: Declare the named volume here

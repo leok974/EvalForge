@@ -50,6 +50,22 @@ BOSS_DATA = [
         "hint_codex_id": "boss-reactor-core",
         "enabled": False,  # Superseded by boss-foundry-systems-architect
     },
+    # --- World-Docker: Microservice Stack (LLM-judged, rubric-based) ---
+    {
+        "id": "boss-docker-microservice-stack",
+        "name": "Docker Microservice Stack",
+        "description": (
+            "Design a production-ready three-tier stack: nginx reverse proxy, Python API, and Postgres "
+            "database — wired with named networks, named volumes, healthchecks, and restart policies."
+        ),
+        "world_id": "world-docker",
+        "track_id": "track-docker-systems",
+        "rubric": _load_rubric("rubrics/boss-docker-microservice-stack.json"),
+        "base_xp_reward": 1200,
+        "difficulty": "hard",
+        "hint_codex_id": "boss-docker-microservice-stack",
+        "enabled": True,
+    },
 ]
 
 

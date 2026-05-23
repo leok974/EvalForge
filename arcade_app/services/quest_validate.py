@@ -39,6 +39,7 @@ VALIDATORS = {
     "file_hash_eq": "validate_file_hash_eq",
     "column_match": "validate_sql_column_match",
     "row_count": "validate_sql_row_count",
+    "yaml_structure": "validate_yaml_structure",
     # Kind aliases for extended questpack formats
     "ast_python_function": "validate_ast",
     "ast_python_code": "validate_ast",
@@ -69,6 +70,7 @@ RULE_REQUIREMENTS = {
     "tests_pass": [],  # Handled via pytest/node test output
     "column_match": ["expected_columns"],
     "row_count": ["count"],
+    "yaml_structure": ["assertions"],
 }
 
 
@@ -667,13 +669,13 @@ def validate_quest_attempt(
                 else:
                     path = rule.get("path")
                     expected_hash = rule.get("sha256")
-                    
+
                     if not path or not expected_hash:
                         res.detail = "Invalid rule (missing path or sha256)"
                     else:
                         hashes = state.get("hashes", {})
                         actual_hash = hashes.get(path)
-                        
+
                         if actual_hash == expected_hash:
                             res.ok = True
                             res.detail = f"File {path} matches golden hash"
@@ -681,7 +683,106 @@ def validate_quest_attempt(
                             res.ok = False
                             res.detail = f"File {path} hash mismatch"
                             res.diff = f"Expected Hash ({path}):\n  {expected_hash}\nActual Hash:\n  {actual_hash or '(not found)'}"
-            
+
+            elif kind == "yaml_structure":
+                import yaml as _yaml
+                assertions = rule.get("assertions", [])
+                if not assertions:
+                    res.detail = "Invalid yaml_structure rule (empty assertions)"
+                else:
+                    try:
+                        doc = _yaml.safe_load(code or "")
+                        if doc is None:
+                            doc = {}
+
+                        def _get_path(obj, dotted):
+                            """Walk a dotted key path through nested dicts/lists."""
+                            parts = dotted.split(".")
+                            cur = obj
+                            for p in parts:
+                                if isinstance(cur, dict):
+                                    if p not in cur:
+                                        return None, False
+                                    cur = cur[p]
+                                else:
+                                    return None, False
+                            return cur, True
+
+                        passed_all = True
+                        fail_msg = ""
+                        for assertion in assertions:
+                            atype = assertion.get("type")
+                            apath = assertion.get("path", "")
+                            aval = assertion.get("value")
+
+                            val, exists = _get_path(doc, apath) if apath else (doc, True)
+
+                            if atype == "exists":
+                                if not exists:
+                                    passed_all = False
+                                    fail_msg = f"Path '{apath}' does not exist"
+                                    break
+                            elif atype == "equals":
+                                if not exists or val != aval:
+                                    passed_all = False
+                                    fail_msg = f"Path '{apath}': expected {aval!r}, got {val!r}"
+                                    break
+                            elif atype == "contains":
+                                if not exists or aval not in str(val):
+                                    passed_all = False
+                                    fail_msg = f"Path '{apath}': value does not contain {aval!r}"
+                                    break
+                            elif atype == "matches_regex":
+                                if not exists or not re.search(str(aval), str(val)):
+                                    passed_all = False
+                                    fail_msg = f"Path '{apath}': value {val!r} does not match regex {aval!r}"
+                                    break
+                            elif atype == "is_list":
+                                if not exists or not isinstance(val, list):
+                                    passed_all = False
+                                    fail_msg = f"Path '{apath}': expected a list, got {type(val).__name__}"
+                                    break
+                            elif atype == "list_contains":
+                                if not exists or not isinstance(val, list) or aval not in val:
+                                    passed_all = False
+                                    fail_msg = f"Path '{apath}': list does not contain {aval!r}"
+                                    break
+                            elif atype == "list_excludes":
+                                if exists and isinstance(val, list) and aval in val:
+                                    passed_all = False
+                                    fail_msg = f"Path '{apath}': list must not contain {aval!r}"
+                                    break
+                            elif atype == "is_named_volume":
+                                # Check that apath key exists in the 'volumes' top-level dict
+                                vols = doc.get("volumes", {}) or {}
+                                if apath not in vols:
+                                    passed_all = False
+                                    fail_msg = f"Named volume '{apath}' not found in volumes:"
+                                    break
+                            else:
+                                passed_all = False
+                                fail_msg = f"Unknown assertion type '{atype}'"
+                                break
+
+                        if passed_all:
+                            res.ok = True
+                            res.detail = "YAML structure matches all assertions"
+                        else:
+                            res.ok = False
+                            res.kind = "objective"
+                            res.detail = fail_msg
+                            res.expected = title
+                            res.actual = fail_msg
+                            obj_hint = obj.get("hint") or rule.get("hint", "")
+                            if obj_hint:
+                                res.hint = obj_hint
+
+                    except _yaml.YAMLError as e:
+                        res.ok = False
+                        res.detail = f"YAML parse error: {e}"
+                    except Exception as e:
+                        res.detail = f"yaml_structure validation error: {str(e)}"
+
             elif kind == "tests_pass":
                 import json
                 

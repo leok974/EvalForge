@@ -272,7 +272,7 @@ async def run_quest(
                 entry_file = quest.workspace.get("entrypoint")
             if not entry_file:
                 entry_file = "main.py" # Default
-            
+
             # Find content
             for f in target_files:
                 # Handle both dict and Pydantic object
@@ -280,6 +280,7 @@ async def run_quest(
                 if f_path == entry_file:
                     validation_code = f.get("content") if isinstance(f, dict) else getattr(f, "content", "")
                     break
+
 
     # Validate with timeout protection
     import signal

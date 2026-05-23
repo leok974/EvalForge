@@ -1,6 +1,6 @@
 # Final Sweep Verification Report
 
-**Date:** 2026-05-22 19:35:42
+**Date:** 2026-05-23 17:09:47
 **Status:** FINAL_VERIFICATION
 
 ## Summary
@@ -13,6 +13,10 @@
 | `cli_core.json` | `student` | ✅ (Expected) | 5/10 | |
 | `docker_core.json` | `solution` | ✅ | 10/10 | |
 | `docker_core.json` | `student` | ✅ (Expected) | 0/10 | |
+| `docker_ignition.json` | `solution` | ✅ | 7/7 | |
+| `docker_ignition.json` | `student` | ✅ (Expected) | 0/7 | |
+| `docker_systems.json` | `solution` | ✅ | 5/5 | |
+| `docker_systems.json` | `student` | ✅ (Expected) | 0/5 | |
 | `foundry_python.json` | `solution` | ✅ | 2/2 | |
 | `foundry_python.json` | `student` | ✅ (Expected) | 0/2 | |
 | `git_core.json` | `solution` | ✅ | 10/10 | |
@@ -40,7 +44,7 @@
 | `sql_core.json` | `solution` | ✅ | 11/11 | |
 | `sql_core.json` | `student` | ✅ (Expected) | 0/11 | |
 | `sql_tier2.json` | `solution` | ✅ | 12/12 | |
-| `sql_tier2.json` | `student` | ✅ (Expected) | 0/12 | |
+| `sql_tier2.json` | `student` | ✅ (Expected) | 1/12 | |
 | `sql_tier3.json` | `solution` | ✅ | 6/6 | |
 | `sql_tier3.json` | `student` | ✅ (Expected) | 0/6 | |
 | `typescript_core.json` | `solution` | ✅ | 10/10 | |

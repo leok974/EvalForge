@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_PASSWORD: password
+
+# TODO: Add an 'api' service that:
+#   - Uses image: my-api:latest
+#   - Exposes port 8080 on the host (maps to 8080 in the container)
+#   - Declares that it depends_on the 'db' service

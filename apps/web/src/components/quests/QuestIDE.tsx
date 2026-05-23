@@ -272,6 +272,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 quest.language === 'html'       ? 'index.html'   :
                 quest.language === 'shell'      ? 'task.sh'      :
                 quest.language === 'playwright' ? 'main.spec.ts' :
+                quest.language === 'docker'     ? 'Dockerfile'   :
                 'main.py'; // python or unknown
 
             const conventionFile = filesToLoad.find(f => f.path === conventionEntrypoint);
@@ -287,6 +288,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             if (quest.language === 'css') name = 'style.css';
             if (quest.language === 'html') name = 'index.html';
             if (quest.language === 'playwright') name = 'main.spec.ts';
+            if (quest.language === 'docker') name = 'Dockerfile';
             // Fallback for python or unknown
 
             const content = quest.starter_code || "# Start coding here...\n";
@@ -1440,12 +1442,17 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                     }}
                                     language={
                                         // Naive lang detection
-                                        activePath.endsWith('.ts') ? 'typescript' :
-                                            activePath.endsWith('.js') ? 'javascript' :
-                                                activePath.endsWith('.css') ? 'css' :
-                                                    activePath.endsWith('.html') ? 'html' :
-                                                        activePath.endsWith('.json') ? 'json' :
-                                                            quest.language || "python"
+                                        activePath === 'Dockerfile' ? 'dockerfile' :
+                                            activePath.endsWith('.dockerfile') ? 'dockerfile' :
+                                                activePath.endsWith('.yaml') ? 'yaml' :
+                                                    activePath.endsWith('.yml') ? 'yaml' :
+                                                        activePath.endsWith('.ts') ? 'typescript' :
+                                                            activePath.endsWith('.js') ? 'javascript' :
+                                                                activePath.endsWith('.css') ? 'css' :
+                                                                    activePath.endsWith('.html') ? 'html' :
+                                                                        activePath.endsWith('.json') ? 'json' :
+                                                                            quest.language === 'docker' ? 'dockerfile' :
+                                                                                quest.language || "python"
                                     }
                                     isSaving={autosaveStatus === 'saving'}
                                     readOnly={!files[activePath]?.editable || isReadOnlyPath(activePath)}

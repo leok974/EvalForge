@@ -1,0 +1,12 @@
+services:
+  api:
+    image: python:3.11-slim
+    # TODO: Connect this service to the "backend" network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: secret
+    # TODO: Connect this service to the "backend" network
+
+# TODO: Declare the "backend" network here

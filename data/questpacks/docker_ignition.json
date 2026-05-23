@@ -1,0 +1,309 @@
+{
+    "world_id": "world-docker",
+    "track_id": "track-docker-ignition",
+    "pack_slug": "docker_ignition",
+    "title": "Docker Ignition",
+    "tier": 1,
+    "quests": [
+        {
+            "slug": "dk-hello-container",
+            "title": "Hello Container",
+            "language": "docker",
+            "tier": 1,
+            "description": "Write a minimal two-line Dockerfile that prints a greeting.",
+            "short_description": "Write a minimal two-line Dockerfile that prints a greeting.",
+            "objectives": [
+                {
+                    "id": "obj-from",
+                    "kind": "source_regex",
+                    "title": "Specifies a base image with FROM",
+                    "rule": {
+                        "pattern": "^FROM\\s+\\S+",
+                        "description": "Dockerfile must start with a FROM instruction"
+                    }
+                },
+                {
+                    "id": "obj-cmd-exec",
+                    "kind": "source_regex",
+                    "title": "CMD uses exec form (JSON array)",
+                    "rule": {
+                        "pattern": "CMD\\s+\\[",
+                        "description": "CMD must use exec form: CMD [\"...\"]"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "Dockerfile",
+                "files_from": "../quests/dk-hello-container/workspace"
+            }
+        },
+        {
+            "slug": "dk-dockerfile-basics",
+            "title": "Dockerfile Basics",
+            "language": "docker",
+            "tier": 1,
+            "description": "Build a runnable Python image using FROM, WORKDIR, COPY, and CMD.",
+            "short_description": "Build a runnable Python image using FROM, WORKDIR, COPY, and CMD.",
+            "objectives": [
+                {
+                    "id": "obj-from-python",
+                    "kind": "source_regex",
+                    "title": "Uses python:3.11 base image",
+                    "rule": {
+                        "pattern": "^FROM\\s+python:3\\.11",
+                        "description": "Must use python:3.11 as the base image"
+                    }
+                },
+                {
+                    "id": "obj-workdir",
+                    "kind": "source_regex",
+                    "title": "Sets working directory to /app",
+                    "rule": {
+                        "pattern": "WORKDIR\\s+/app",
+                        "description": "Must set WORKDIR to /app"
+                    }
+                },
+                {
+                    "id": "obj-copy",
+                    "kind": "source_regex",
+                    "title": "Copies app.py into image",
+                    "rule": {
+                        "pattern": "COPY\\s+app\\.py",
+                        "description": "Must copy app.py into the image"
+                    }
+                },
+                {
+                    "id": "obj-cmd-python",
+                    "kind": "source_regex",
+                    "title": "CMD runs python in exec form",
+                    "rule": {
+                        "pattern": "CMD\\s+\\[\"python\"",
+                        "description": "CMD must run python in exec form"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "Dockerfile",
+                "files_from": "../quests/dk-dockerfile-basics/workspace"
+            }
+        },
+        {
+            "slug": "dk-layers-and-cache",
+            "title": "Layers and Cache",
+            "language": "docker",
+            "tier": 1,
+            "description": "Fix a Dockerfile so package.json is copied before the source to enable layer caching.",
+            "short_description": "Fix layer order to enable build cache for npm install.",
+            "objectives": [
+                {
+                    "id": "obj-npm-install",
+                    "kind": "source_regex",
+                    "title": "Runs npm install",
+                    "rule": {
+                        "pattern": "RUN\\s+npm\\s+install",
+                        "description": "Must run npm install"
+                    }
+                },
+                {
+                    "id": "obj-correct-order",
+                    "kind": "source_regex",
+                    "title": "package.json is copied before the full source COPY",
+                    "rule": {
+                        "pattern": "COPY\\s+package\\.json[\\s\\S]*?COPY\\s+\\.\\s+\\.",
+                        "description": "package.json must be copied and npm installed BEFORE copying all source files"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "Dockerfile",
+                "files_from": "../quests/dk-layers-and-cache/workspace"
+            }
+        },
+        {
+            "slug": "dk-env-and-args",
+            "title": "ENV and ARG",
+            "language": "docker",
+            "tier": 1,
+            "description": "Use ARG for build-time variables and ENV for runtime environment variables.",
+            "short_description": "Learn the difference between ARG (build-time) and ENV (runtime).",
+            "objectives": [
+                {
+                    "id": "obj-arg",
+                    "kind": "source_regex",
+                    "title": "Declares a build argument with ARG",
+                    "rule": {
+                        "pattern": "^ARG\\s+\\w+",
+                        "description": "Must declare a build argument using ARG"
+                    }
+                },
+                {
+                    "id": "obj-env-app-env",
+                    "kind": "source_regex",
+                    "title": "Sets APP_ENV environment variable",
+                    "rule": {
+                        "pattern": "^ENV\\s+APP_ENV=production",
+                        "description": "Must set ENV APP_ENV=production"
+                    }
+                },
+                {
+                    "id": "obj-env-version",
+                    "kind": "source_regex",
+                    "title": "Derives VERSION from ARG",
+                    "rule": {
+                        "pattern": "^ENV\\s+VERSION=\\$APP_VERSION",
+                        "description": "Must set ENV VERSION=$APP_VERSION"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "Dockerfile",
+                "files_from": "../quests/dk-env-and-args/workspace"
+            }
+        },
+        {
+            "slug": "dk-volumes",
+            "title": "Volumes",
+            "language": "docker",
+            "tier": 1,
+            "description": "Add a named volume to a Compose service so Postgres data persists across restarts.",
+            "short_description": "Mount a named volume to persist database data.",
+            "objectives": [
+                {
+                    "id": "obj-volumes-key",
+                    "kind": "yaml_structure",
+                    "title": "db service has volumes defined",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.db.volumes"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-named-volume",
+                    "kind": "yaml_structure",
+                    "title": "Named volume db_data declared",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "is_named_volume",
+                                "path": "db_data"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-mount-path",
+                    "kind": "source_regex",
+                    "title": "Volume mounted at correct path",
+                    "rule": {
+                        "pattern": "db_data:/var/lib/postgresql/data",
+                        "description": "Must mount db_data at /var/lib/postgresql/data"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "compose.yaml",
+                "files_from": "../quests/dk-volumes/workspace"
+            }
+        },
+        {
+            "slug": "dk-networks",
+            "title": "Networks",
+            "language": "docker",
+            "tier": 1,
+            "description": "Add a named network and attach both services to it.",
+            "short_description": "Connect services via a named Docker network.",
+            "objectives": [
+                {
+                    "id": "obj-network-declared",
+                    "kind": "yaml_structure",
+                    "title": "backend network declared",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "networks.backend"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-api-network",
+                    "kind": "yaml_structure",
+                    "title": "api service on backend network",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "list_contains",
+                                "path": "services.api.networks",
+                                "value": "backend"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-db-network",
+                    "kind": "yaml_structure",
+                    "title": "db service on backend network",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "list_contains",
+                                "path": "services.db.networks",
+                                "value": "backend"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "compose.yaml",
+                "files_from": "../quests/dk-networks/workspace"
+            }
+        },
+        {
+            "slug": "dk-fix-the-dockerfile",
+            "title": "Fix the Dockerfile",
+            "language": "docker",
+            "tier": 1,
+            "description": "Find and fix three bugs in a broken Dockerfile.",
+            "short_description": "Read carefully — there are exactly three bugs to fix.",
+            "objectives": [
+                {
+                    "id": "obj-from-python",
+                    "kind": "source_regex",
+                    "title": "Correct base image (python not pyhon)",
+                    "rule": {
+                        "pattern": "^FROM\\s+python:3\\.11-slim",
+                        "description": "Must use python:3.11-slim (not pyhon)"
+                    }
+                },
+                {
+                    "id": "obj-workdir",
+                    "kind": "source_regex",
+                    "title": "WORKDIR instruction correct",
+                    "rule": {
+                        "pattern": "^WORKDIR\\s+/app",
+                        "description": "Must have WORKDIR /app (not WORKIR)"
+                    }
+                },
+                {
+                    "id": "obj-cmd-exec",
+                    "kind": "source_regex",
+                    "title": "CMD uses exec form",
+                    "rule": {
+                        "pattern": "CMD\\s+\\[\"python\"",
+                        "description": "CMD must use exec form: CMD [\"python\", \"app.py\"]"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "Dockerfile",
+                "files_from": "../quests/dk-fix-the-dockerfile/workspace"
+            }
+        }
+    ]
+}

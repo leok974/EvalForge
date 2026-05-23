@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_PASSWORD: password
+
+# BOSS CHALLENGE — build a production-ready three-tier stack.
+#
+# Requirements:
+#   1. Add an 'nginx' service (image: nginx:alpine) as the public-facing reverse proxy
+#   2. Declare a named network (e.g. 'app_net') and attach all three services to it
+#   3. Mount a named volume 'db_data' on the db service at /var/lib/postgresql/data
+#   4. Add a HEALTHCHECK to the db service (pg_isready)
+#   5. Add a HEALTHCHECK to the api service (curl /health)
+#   6. Set restart: unless-stopped on all services
+#   7. Wire depends_on with condition: service_healthy throughout

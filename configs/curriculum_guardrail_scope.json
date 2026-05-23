@@ -5,7 +5,8 @@
     "world-sql",
     "world-js",
     "world-ts",
-    "world-git"
+    "world-git",
+    "world-docker"
   ],
   "active_tracks": [
     "track-python-systems",
@@ -13,7 +14,9 @@
     "track-python-foundry",
     "track-python-selenium",
     "track-html",
-    "track-css"
+    "track-css",
+    "track-docker-ignition",
+    "track-docker-systems"
   ],
   "active_questpacks": [
     "data/questpacks/python_systems.json",
@@ -25,7 +28,9 @@
     "data/questpacks/sql_core.json",
     "data/questpacks/javascript_core.json",
     "data/questpacks/typescript_core.json",
-    "data/questpacks/git_core.json"
+    "data/questpacks/git_core.json",
+    "data/questpacks/docker_ignition.json",
+    "data/questpacks/docker_systems.json"
   ],
   "warning_only_worlds": [],
   "excluded_worlds": []
