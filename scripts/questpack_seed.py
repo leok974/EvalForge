@@ -120,11 +120,22 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             # Phase Q Fix: Secure workspace hydration from data/quests/<slug>/workspace
             def hydrate_workspace(q_slug, q_data=None):
                 ws = {"files": []}
-                # Preserve entrypoint from questpack definition so frontend can resolve it
-                if q_data and isinstance(q_data.get("workspace"), dict):
-                    ep = q_data["workspace"].get("entrypoint")
+                ws_block = q_data.get("workspace") if q_data else None
+                if isinstance(ws_block, dict):
+                    # Preserve entrypoint so the frontend can resolve the active file
+                    ep = ws_block.get("entrypoint")
                     if ep:
                         ws["entrypoint"] = ep
+                    # Sprint 19: readonly_files — paths listed here get editable=false.
+                    # Usage in questpack JSON:
+                    #   "workspace": {
+                    #     "entrypoint": "tests/test_math.py",
+                    #     "readonly_files": ["code/math_utils.py", "code/db.py"],
+                    #     "files_from": "..."
+                    #   }
+                    readonly_set = set(ws_block.get("readonly_files") or [])
+                else:
+                    readonly_set = set()
                 root_d = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
                 w_dir = os.path.join(root_d, "data", "quests", q_slug, "workspace")
                 if os.path.exists(w_dir):
@@ -132,15 +143,16 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                         for fname in files:
                             full_path = os.path.join(root, fname)
                             inner_path = os.path.relpath(full_path, w_dir)
+                            path_normalized = inner_path.replace("\\", "/")
                             try:
                                 with open(full_path, "r", encoding="utf-8") as f:
                                     ws["files"].append({
-                                        "path": inner_path.replace("\\", "/"),
+                                        "path": path_normalized,
                                         "content": f.read(),
-                                        "editable": True
+                                        "editable": path_normalized not in readonly_set,
                                     })
                             except Exception as e:
-                                print(f"    ⚠️ Failed to read {full_path}: {e}")
+                                print(f"    Warning: Failed to read {full_path}: {e}")
                 return ws
 
             # order_index: prefer explicit value in JSON, fall back to list position

@@ -1,9 +1,14 @@
 """
 EvalForge test runner — runs pytest against /workspace test files and emits
-a JSON summary to stdout so the tests_pass validator can process it.
+pytest output followed by a JSON summary on the last line of stdout.
 
-Expected output format:
+Output format (two sections on stdout):
+  <raw pytest text, up to 3000 chars>
   {"passed": N, "failed": N, "total": N, "failures": [{"name": "...", "message": "..."}]}
+
+The tests_pass validator parses the *last* line as JSON; everything before it
+appears verbatim in the learner's terminal so they can see assertion failures,
+tracebacks, and the pytest summary line.
 
 Works with pytest-style tests (pytest.raises, fixtures, etc.) as long as pytest
 is available in the image (evalforge-backend:latest has pytest 9+).
@@ -61,9 +66,13 @@ if __name__ == "__main__":
         if m:
             failed += int(m.group(1))
 
-    # Print raw pytest output to stderr so it's visible for debugging
-    if proc.returncode != 0:
-        print(f"[pytest output]\n{output[:1000]}", file=sys.stderr)
+    # Print raw pytest output to stdout BEFORE the JSON summary.
+    # The tests_pass validator falls back to parsing the *last* line as JSON,
+    # so everything printed here is safe and will appear in the learner's
+    # terminal (QuestIDE.tsx line 730: addLog(result.stdout, 'output')).
+    # Truncate at 3000 chars so runaway output doesn't flood the terminal.
+    if output.strip():
+        print(output[:3000])
 
     # Collect individual failure names
     for line in output.splitlines():
