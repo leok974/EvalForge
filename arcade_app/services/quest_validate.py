@@ -856,6 +856,15 @@ def validate_quest_attempt(
 
         results.append(res)
 
+    # Fail-closed: if no results were produced (e.g. sandbox quest with no objectives),
+    # synthesize a config_missing entry so callers never receive an empty list.
+    if not results:
+        results.append(ObjResult(
+            id="config_missing",
+            ok=False,
+            detail="No objectives produced results. Quest may have no objectives configured."
+        ))
+
     return [r.__dict__ for r in results]
 
 def validate_sql_column_match(obj, stdout, state):

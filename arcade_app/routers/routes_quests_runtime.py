@@ -314,31 +314,35 @@ async def run_quest(
     if not evaluate_objectives:
         # Preview run: no grading, no mismatch, just show artifacts
         objective_results = []
-        passed = True  # neutral — not a failure
-        
-        # Inject a preview diagnostic so the UI knows to suppress mismatch panels
-        target_path = getattr(payload, "run_target_path", None) or "task.sql"
-        diagnostics_data = [
-            {
-                "kind": "preview",
-                "path": target_path,
-                "line": 1,
-                "column": 1,
-                "severity": "info",
-                "message": f"Reference run (not graded) — running {target_path}",
-                "runner": "sql_preview",
-                "evaluated_objectives": False
-            },
-            {
-                "kind": "sql_run_target",
-                "path": target_path,
-                "line": 1,
-                "column": 1,
-                "severity": "info",
-                "message": f"SQL execution target: {target_path}",
-                "evaluated_objectives": False
-            }
-        ]
+        passed = False  # preview run — never claim success; passed=True requires evidence
+
+        # Inject a preview diagnostic so the UI knows to suppress mismatch panels.
+        # Guard on SQL language: non-SQL quests don't use the sql_preview runner.
+        if payload.language == "sql":
+            target_path = getattr(payload, "run_target_path", None) or "task.sql"
+            diagnostics_data = [
+                {
+                    "kind": "preview",
+                    "path": target_path,
+                    "line": 1,
+                    "column": 1,
+                    "severity": "info",
+                    "message": f"Reference run (not graded) — running {target_path}",
+                    "runner": "sql_preview",
+                    "evaluated_objectives": False
+                },
+                {
+                    "kind": "sql_run_target",
+                    "path": target_path,
+                    "line": 1,
+                    "column": 1,
+                    "severity": "info",
+                    "message": f"SQL execution target: {target_path}",
+                    "evaluated_objectives": False
+                }
+            ]
+        else:
+            diagnostics_data = []
     else:
         try:
             with validation_timeout(20):
@@ -364,11 +368,17 @@ async def run_quest(
         if objective_results:
             passed = all(o.get("ok") for o in objective_results)
         else:
-            # No objectives? Passed if run ok
-            if payload.mode == "execute":
-                passed = not timed_out
-            else:
-                passed = True  # Optimistic for playground
+            # Grading attempted but produced no results — synthesize a fail-closed entry.
+            # passed=True requires evidence; no default-to-true branches allowed (truth table).
+            objective_results = [{
+                "id": "config_missing",
+                "ok": False,
+                "detail": (
+                    "No objectives produced results. The grader may have crashed, "
+                    "the quest may have no objectives defined, or the runner may "
+                    "not support this language. Check the console output."
+                )
+            }]
         
         diagnostics_data = []
             

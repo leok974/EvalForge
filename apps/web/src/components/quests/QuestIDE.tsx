@@ -807,7 +807,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             }
 
             if (!isPreviewRun) {
-                if (result.passed) {
+                if (result.passed && (result.objective_results?.length ?? 0) > 0) {
                     addLog('SUCCESS All objectives verified.', 'success');
                     addLog('Ready for submission.', 'info');
                 } else {
