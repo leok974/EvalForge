@@ -1,4 +1,5 @@
 // Sprint 22: CyberdeckLayout and OrionLayout deleted. Tests updated for unified Workshop.
+// Sprint 22.6: worldViewMode/Map toggle rolled back — Board is the only view.
 // @vitest-environment jsdom
 import React from "react";
 import { render, screen } from "@testing-library/react";
@@ -56,9 +57,9 @@ describe("WorkshopLayout", () => {
             const state = { activeTrack: { label: 'Test Project' } };
             return selector(state);
         });
-        // Default: grid view
+        // Sprint 22.6: worldViewMode removed — Board is the only view.
         mockUseSettingsStore.mockImplementation((selector: any) => {
-            const state = { worldViewMode: 'grid', setWorldViewMode: vi.fn() };
+            const state = { screenShake: true, particles: true };
             return selector ? selector(state) : state;
         });
     });
@@ -105,9 +106,10 @@ describe("WorkshopLayout", () => {
         expect(main.className).not.toContain("font-mono");
     });
 
-    it("shows Board/Map toggle in list view header", () => {
+    it("shows no Map toggle (Board is the only world-selection view)", () => {
+        // Sprint 22.6: Map toggle removed. No 'Star Map' or 'Quest Board' title buttons.
         renderLayout('/workshop');
-        expect(screen.getByTitle("Quest Board")).toBeTruthy();
-        expect(screen.getByTitle("Star Map")).toBeTruthy();
+        expect(screen.queryByTitle("Quest Board")).toBeNull();
+        expect(screen.queryByTitle("Star Map")).toBeNull();
     });
 });

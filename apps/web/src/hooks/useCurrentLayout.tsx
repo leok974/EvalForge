@@ -3,8 +3,8 @@
  *
  * CyberdeckLayout and OrionLayout have been deleted. Workshop is the only layout.
  * This hook is retained as a stub so that existing test mocks that reference it
- * continue to compile without changes. New code should read world-view preference
- * from useSettingsStore().worldViewMode instead.
+ * continue to compile without changes.
+ * Sprint 22.6: worldViewMode removed from settingsStore — Map toggle rolled back.
  *
  * LayoutProvider is a pass-through wrapper — it provides a context that always
  * returns { layout: 'workshop' } and a no-op setLayout.

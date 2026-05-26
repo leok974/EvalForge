@@ -1,6 +1,7 @@
 // Sprint 22: useCurrentLayout replaced with useSettingsStore.worldViewMode.
 // isCyberdeck / isOrion removed — Workshop is the only layout.
-// Orion overlay mechanism removed; OrionMap renders inline when worldViewMode === 'map'.
+// Sprint 22.6: worldViewMode/Map toggle rolled back — OrionMap data flow was unwired.
+// Board view is the only world-selection view.
 import React, { useEffect } from "react";
 import { openWorkshopGuide } from "../features/workshop/useWorkshopTips";
 import { PracticeGauntletCard } from "../components/practice/PracticeGauntletCard";
@@ -9,11 +10,11 @@ import { useQuestStore, QuestState } from "../store/questStore";
 import { useGameStore } from "../store/gameStore";
 import { useSettingsStore } from "../store/settingsStore";
 import { cn } from "../lib/utils";
-import { EyeIcon, LayoutGrid, Map, BookOpen, BarChart2 } from "lucide-react";
+import { EyeIcon, BookOpen, BarChart2 } from "lucide-react";
 import { WorkshopToolsPanel } from "../components/workshop/WorkshopToolsPanel";
 import { PanelId } from "../features/workshop/workshopPanels";
-import { OrionMap } from "./OrionMap";
 import { CodexDrawer } from "../components/codex/CodexDrawer";
+// Sprint 22.6: OrionMap import removed — Map toggle rolled back. OrionMap.tsx deleted.
 
 // Re-export type for compatibility, though we use PanelId internally now
 export type WorkshopMode = PanelId | 'quest'; // 'quest' is legacy default, mapped to a panel or ignored
@@ -71,14 +72,11 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
     hasSkill = () => false,
 }) => {
     // 1. Route Context
-    const worldViewMode = useSettingsStore(s => s.worldViewMode);
-    const setWorldViewMode = useSettingsStore(s => s.setWorldViewMode);
     const params = useParams<{ worldSlug?: string; questId?: string; bossSlug?: string }>();
     const [searchParams, setSearchParams] = useSearchParams();
 
     // "Workbench" state = inside a quest. "List" state = board/index.
     const isWorkbench = Boolean(params.questId);
-    const isMapView = worldViewMode === 'map';
 
     // Panel State (URL Driven)
     const activePanelStr = searchParams.get('panel');
@@ -237,35 +235,7 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                                 </Link>
                             </div>
 
-                            {/* Grid / Map view toggle (list view only) */}
-                            <div className="flex items-center rounded-full border border-white/10 bg-workshop-panel overflow-hidden">
-                                <button
-                                    onClick={() => setWorldViewMode('grid')}
-                                    title="Quest Board"
-                                    className={cn(
-                                        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-colors",
-                                        worldViewMode === 'grid'
-                                            ? "bg-workshop-violet/20 text-workshop-violet"
-                                            : "text-workshop-subtle hover:text-workshop-text"
-                                    )}
-                                >
-                                    <LayoutGrid className="w-3.5 h-3.5" />
-                                    <span className="hidden sm:inline">Board</span>
-                                </button>
-                                <button
-                                    onClick={() => setWorldViewMode('map')}
-                                    title="Star Map"
-                                    className={cn(
-                                        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-colors",
-                                        worldViewMode === 'map'
-                                            ? "bg-cyan-500/20 text-cyan-400"
-                                            : "text-workshop-subtle hover:text-workshop-text"
-                                    )}
-                                >
-                                    <Map className="w-3.5 h-3.5" />
-                                    <span className="hidden sm:inline">Map</span>
-                                </button>
-                            </div>
+                            {/* Sprint 22.6: Map toggle removed — Board is the only world-selection view. */}
                         </div>
                     </div>
                 </header>
@@ -287,14 +257,8 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
 
                         {/* scroll container */}
                         <div className="mt-3 flex-1 overflow-y-auto pr-1 pb-6 relative">
-                            {/* LIST VIEW: Show Map or Quest Panel depending on worldViewMode */}
-                            {!isWorkbench && isMapView ? (
-                                <div className="h-full w-full rounded-2xl overflow-hidden border border-cyan-500/20 shadow-2xl relative">
-                                    <OrionMap />
-                                </div>
-                            ) : (
-                                questPanel
-                            )}
+                            {/* Sprint 22.6: Always Board view — Map toggle removed. */}
+                            {questPanel}
                         </div>
                     </section>
 

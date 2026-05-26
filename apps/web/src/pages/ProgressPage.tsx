@@ -1,11 +1,13 @@
 /**
  * Sprint 22.5: Progress page — /arcade/progress
- * Per-world / per-track quest completion view.
+ * Sprint 22.6: scroll fix (h-full overflow-y-auto), Go button nav to specific quest,
+ *   per-track quest expansion (lazy-loaded), inactive worlds collapsed by default.
  * Data source: GET /api/worlds/progress → { tracks: TrackProgress[] }
+ * Quest data: GET /api/quests?track_id=<slug> → QuestSummary[]
  */
-import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { ChevronLeft, BarChart2, CheckCircle2, Circle, Clock } from 'lucide-react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChevronLeft, BarChart2, CheckCircle2, Circle, Clock, ChevronDown, ChevronRight, ExternalLink } from 'lucide-react';
 
 interface TrackProgress {
     world_slug: string;
@@ -14,6 +16,13 @@ interface TrackProgress {
     progress: number;       // 0.0 – 1.0
     total_quests: number;
     completed_quests: number;
+}
+
+interface QuestSummary {
+    slug: string;
+    title: string;
+    state: 'available' | 'in_progress' | 'completed' | 'locked' | 'mastered';
+    order_index: number;
 }
 
 interface WorldGroup {
@@ -40,6 +49,8 @@ const WORLD_LABELS: Record<string, string> = {
 const ACTIVE_WORLDS = new Set([
     'world-python', 'world-sql', 'world-web', 'world-js', 'world-typescript', 'world-git',
 ]);
+
+const ACTIVE_ORDER = ['world-python', 'world-sql', 'world-web', 'world-js', 'world-typescript', 'world-git'];
 
 function worldLabel(slug: string): string {
     return WORLD_LABELS[slug] || slug.replace('world-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
@@ -81,7 +92,7 @@ export function ProgressPage() {
     const [tracks, setTracks] = useState<TrackProgress[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [showAll, setShowAll] = useState(false);
+    const [showInactive, setShowInactive] = useState(false);
 
     useEffect(() => {
         fetch('/api/worlds/progress')
@@ -109,25 +120,25 @@ export function ProgressPage() {
         }));
     }, [tracks]);
 
-    // Sort: active worlds first (in order), then others
-    const activeOrder = ['world-python', 'world-sql', 'world-web', 'world-js', 'world-typescript', 'world-git'];
     const sortedGroups = useMemo(() => {
-        const active = activeOrder.flatMap(w => worldGroups.filter(g => g.world_slug === w));
+        const active = ACTIVE_ORDER.flatMap(w => worldGroups.filter(g => g.world_slug === w));
         const others = worldGroups.filter(g => !ACTIVE_WORLDS.has(g.world_slug));
-        return [...active, ...others];
+        return { active, others };
     }, [worldGroups]);
 
-    const visibleGroups = showAll ? sortedGroups : sortedGroups.filter(g => ACTIVE_WORLDS.has(g.world_slug));
-    const hiddenCount = sortedGroups.length - visibleGroups.length;
+    const visibleGroups = showInactive
+        ? [...sortedGroups.active, ...sortedGroups.others]
+        : sortedGroups.active;
 
-    // Summary band
+    // Summary stats
     const totalQuests = worldGroups.reduce((n, g) => n + g.total_quests, 0);
     const totalCompleted = worldGroups.reduce((n, g) => n + g.completed_quests, 0);
-    const activeCompleted = sortedGroups.filter(g => ACTIVE_WORLDS.has(g.world_slug)).reduce((n, g) => n + g.completed_quests, 0);
-    const activeTotal = sortedGroups.filter(g => ACTIVE_WORLDS.has(g.world_slug)).reduce((n, g) => n + g.total_quests, 0);
+    const activeCompleted = sortedGroups.active.reduce((n, g) => n + g.completed_quests, 0);
+    const activeTotal = sortedGroups.active.reduce((n, g) => n + g.total_quests, 0);
 
     return (
-        <main className="min-h-screen bg-workshop-bg text-workshop-text font-sans selection:bg-workshop-violet/20 relative">
+        // Sprint 22.6: h-full overflow-y-auto instead of min-h-screen — fixes scroll inside FXLayer.
+        <main className="h-full overflow-y-auto bg-workshop-bg text-workshop-text font-sans selection:bg-workshop-violet/20 relative">
             {/* Ambient gradient */}
             <div className="fixed inset-0 pointer-events-none">
                 <div className="absolute top-0 left-0 w-full h-[400px] bg-workshop-violet/5 blur-[120px]" />
@@ -135,7 +146,7 @@ export function ProgressPage() {
             </div>
 
             {/* Page header */}
-            <header className="relative z-10 border-b border-white/5 bg-workshop-bg/60 backdrop-blur-sm px-6 py-4">
+            <header className="sticky top-0 z-20 border-b border-white/5 bg-workshop-bg/80 backdrop-blur-sm px-6 py-4">
                 <div className="max-w-4xl mx-auto flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <Link
@@ -158,7 +169,7 @@ export function ProgressPage() {
             </header>
 
             {/* Content */}
-            <div className="relative z-10 max-w-4xl mx-auto px-6 py-8 space-y-6">
+            <div className="relative z-10 max-w-4xl mx-auto px-6 py-8 space-y-6 pb-16">
 
                 {/* Summary band */}
                 {!loading && !error && tracks.length > 0 && (
@@ -166,7 +177,7 @@ export function ProgressPage() {
                         <StatCard label="Completed" value={totalCompleted.toString()} sub="all worlds" />
                         <StatCard label="Total Quests" value={totalQuests.toString()} sub="all worlds" />
                         <StatCard label="Active Score" value={`${activeTotal > 0 ? Math.round((activeCompleted / activeTotal) * 100) : 0}%`} sub="active worlds" accent="violet" />
-                        <StatCard label="Worlds Active" value={visibleGroups.length.toString()} sub={`of ${sortedGroups.length}`} />
+                        <StatCard label="Worlds" value={sortedGroups.active.length.toString()} sub={`of ${worldGroups.length}`} />
                     </div>
                 )}
 
@@ -196,19 +207,22 @@ export function ProgressPage() {
                     </div>
                 )}
 
-                {/* World groups */}
+                {/* Active world groups */}
                 {!loading && !error && visibleGroups.length > 0 && (
                     <div className="space-y-4">
                         {visibleGroups.map(group => (
                             <WorldCard key={group.world_slug} group={group} />
                         ))}
 
-                        {hiddenCount > 0 && !showAll && (
+                        {/* Show/hide inactive worlds */}
+                        {sortedGroups.others.length > 0 && (
                             <button
-                                onClick={() => setShowAll(true)}
+                                onClick={() => setShowInactive(v => !v)}
                                 className="w-full py-3 rounded-xl border border-white/8 bg-workshop-panel text-xs text-workshop-subtle hover:text-workshop-text hover:border-white/20 transition-colors"
                             >
-                                Show {hiddenCount} more world{hiddenCount === 1 ? '' : 's'} (inactive / experimental)
+                                {showInactive
+                                    ? `Hide inactive worlds`
+                                    : `Show ${sortedGroups.others.length} inactive world${sortedGroups.others.length === 1 ? '' : 's'}`}
                             </button>
                         )}
                     </div>
@@ -261,8 +275,8 @@ function WorldCard({ group }: { group: WorldGroup }) {
                     <div className="w-24 hidden sm:block">
                         <ProgressBar value={pct} color={pct === 1 ? 'emerald' : 'cyan'} />
                     </div>
-                    <ChevronLeft
-                        className={`w-4 h-4 text-workshop-subtle transition-transform duration-200 ${expanded ? '-rotate-90' : 'rotate-180'}`}
+                    <ChevronDown
+                        className={`w-4 h-4 text-workshop-subtle transition-transform duration-200 ${expanded ? '' : '-rotate-90'}`}
                     />
                 </div>
             </button>
@@ -280,46 +294,157 @@ function WorldCard({ group }: { group: WorldGroup }) {
 }
 
 function TrackRow({ track, worldSlug }: { track: TrackProgress; worldSlug: string }) {
+    const navigate = useNavigate();
     const pct = track.total_quests > 0 ? track.completed_quests / track.total_quests : 0;
     const done = pct === 1;
     const started = track.completed_quests > 0;
+    const [questsOpen, setQuestsOpen] = useState(false);
+    const [quests, setQuests] = useState<QuestSummary[] | null>(null);
+    const [questsLoading, setQuestsLoading] = useState(false);
+    const [goLoading, setGoLoading] = useState(false);
+
+    const loadQuests = useCallback(async () => {
+        if (quests !== null) return; // already loaded
+        setQuestsLoading(true);
+        try {
+            const r = await fetch(`/api/quests?track_id=${encodeURIComponent(track.track_slug)}`);
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            const data: QuestSummary[] = await r.json();
+            setQuests(data.sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0)));
+        } catch {
+            setQuests([]);
+        } finally {
+            setQuestsLoading(false);
+        }
+    }, [track.track_slug, quests]);
+
+    const handleToggle = () => {
+        if (!questsOpen) loadQuests();
+        setQuestsOpen(v => !v);
+    };
+
+    const handleGo = async () => {
+        setGoLoading(true);
+        try {
+            const r = await fetch(`/api/quests?track_id=${encodeURIComponent(track.track_slug)}&limit=1`);
+            if (!r.ok) throw new Error();
+            const data: QuestSummary[] = await r.json();
+            if (data.length > 0) {
+                navigate(`/arcade/workshop/quests/${data[0].slug}`);
+            } else {
+                // Fallback: no quests found, go to workshop board
+                navigate(`/arcade/workshop`);
+            }
+        } catch {
+            navigate(`/arcade/workshop`);
+        } finally {
+            setGoLoading(false);
+        }
+    };
 
     return (
-        <div className="flex items-center gap-4 px-5 py-3">
-            {/* Status icon */}
+        <div>
+            {/* Track header row */}
+            <div className="flex items-center gap-4 px-5 py-3">
+                {/* Status icon */}
+                <div className="shrink-0">
+                    {done ? (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    ) : started ? (
+                        <Clock className="w-4 h-4 text-workshop-cyan" />
+                    ) : (
+                        <Circle className="w-4 h-4 text-workshop-subtle/40" />
+                    )}
+                </div>
+
+                {/* Expand toggle */}
+                <button
+                    onClick={handleToggle}
+                    className="shrink-0 text-workshop-subtle hover:text-workshop-text transition-colors"
+                    title={questsOpen ? 'Hide quests' : 'Show quests'}
+                >
+                    {questsOpen
+                        ? <ChevronDown className="w-3.5 h-3.5" />
+                        : <ChevronRight className="w-3.5 h-3.5" />}
+                </button>
+
+                {/* Track info */}
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-3">
+                        <span className={`text-xs font-medium truncate ${done ? 'text-emerald-400' : started ? 'text-workshop-text' : 'text-workshop-subtle'}`}>
+                            {track.label}
+                        </span>
+                        <span className="text-[10px] font-mono text-workshop-subtle shrink-0">
+                            {track.completed_quests}/{track.total_quests}
+                        </span>
+                    </div>
+                    <div className="mt-1.5">
+                        <ProgressBar value={pct} color={done ? 'emerald' : 'cyan'} />
+                    </div>
+                </div>
+
+                {/* Go button — navigates to first quest in track */}
+                <button
+                    onClick={handleGo}
+                    disabled={goLoading}
+                    className="shrink-0 text-[10px] text-workshop-subtle hover:text-workshop-cyan transition-colors px-2 py-1 rounded border border-white/8 hover:border-workshop-cyan/30 disabled:opacity-50"
+                    title="Open first quest"
+                >
+                    {goLoading ? '…' : 'Go →'}
+                </button>
+            </div>
+
+            {/* Quest expansion panel */}
+            {questsOpen && (
+                <div className="mx-5 mb-3 rounded-lg border border-white/5 bg-black/20 overflow-hidden">
+                    {questsLoading && (
+                        <div className="px-4 py-3 text-xs text-workshop-subtle animate-pulse">
+                            Loading quests…
+                        </div>
+                    )}
+                    {!questsLoading && quests !== null && quests.length === 0 && (
+                        <div className="px-4 py-3 text-xs text-workshop-subtle">
+                            No quests found for this track.
+                        </div>
+                    )}
+                    {!questsLoading && quests !== null && quests.length > 0 && (
+                        <div className="divide-y divide-white/5">
+                            {quests.map(q => (
+                                <QuestRow key={q.slug} quest={q} />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+}
+
+function QuestRow({ quest }: { quest: QuestSummary }) {
+    const done = quest.state === 'completed' || quest.state === 'mastered';
+    const inProgress = quest.state === 'in_progress';
+    const locked = quest.state === 'locked';
+
+    return (
+        <Link
+            to={`/arcade/workshop/quests/${quest.slug}`}
+            className={`flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 transition-colors group ${locked ? 'pointer-events-none opacity-40' : ''}`}
+        >
             <div className="shrink-0">
                 {done ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                ) : started ? (
-                    <Clock className="w-4 h-4 text-workshop-cyan" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                ) : inProgress ? (
+                    <Clock className="w-3.5 h-3.5 text-workshop-cyan" />
+                ) : locked ? (
+                    <Circle className="w-3.5 h-3.5 text-workshop-subtle/30" />
                 ) : (
-                    <Circle className="w-4 h-4 text-workshop-subtle/40" />
+                    <Circle className="w-3.5 h-3.5 text-workshop-subtle/50" />
                 )}
             </div>
-
-            {/* Track info */}
-            <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-3">
-                    <span className={`text-xs font-medium truncate ${done ? 'text-emerald-400' : started ? 'text-workshop-text' : 'text-workshop-subtle'}`}>
-                        {track.label}
-                    </span>
-                    <span className="text-[10px] font-mono text-workshop-subtle shrink-0">
-                        {track.completed_quests}/{track.total_quests}
-                    </span>
-                </div>
-                <div className="mt-1.5">
-                    <ProgressBar value={pct} color={done ? 'emerald' : 'cyan'} />
-                </div>
-            </div>
-
-            {/* Link to workshop (world context) */}
-            <Link
-                to={`/arcade/workshop?world=${worldSlug}&track=${track.track_slug}`}
-                className="shrink-0 text-[10px] text-workshop-subtle hover:text-workshop-cyan transition-colors px-2 py-1 rounded border border-white/8 hover:border-workshop-cyan/30"
-                title="Open in Workshop"
-            >
-                Go →
-            </Link>
-        </div>
+            <span className={`text-xs flex-1 truncate ${done ? 'text-emerald-400' : inProgress ? 'text-workshop-cyan' : 'text-workshop-subtle'} group-hover:text-workshop-text transition-colors`}>
+                {quest.title}
+            </span>
+            <ExternalLink className="w-3 h-3 text-workshop-subtle/40 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </Link>
     );
 }

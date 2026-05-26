@@ -111,8 +111,9 @@ export function CodexPage() {
         setDrawerOpen(true);
     }, []);
 
+    // Sprint 22.6: h-full overflow-y-auto instead of min-h-screen — fixes scroll inside FXLayer.
     return (
-        <main className="min-h-screen bg-workshop-bg text-workshop-text font-sans selection:bg-workshop-violet/20 relative">
+        <main className="h-full overflow-y-auto bg-workshop-bg text-workshop-text font-sans selection:bg-workshop-violet/20 relative">
             {/* Ambient gradient */}
             <div className="fixed inset-0 pointer-events-none">
                 <div className="absolute top-0 left-0 w-full h-[400px] bg-workshop-cyan/5 blur-[120px]" />

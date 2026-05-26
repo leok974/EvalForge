@@ -10,17 +10,14 @@ interface SettingsState {
 
     // Visuals
     // Sprint 22: crtMode removed — Cyberdeck layout (the only user of CRT effects) was deleted.
+    // Sprint 22.6: worldViewMode removed — OrionMap toggle rolled back; Board is the only view.
     screenShake: boolean;
     particles: boolean;
-
-    // World view mode: 'grid' (default QuestBoard) or 'map' (OrionMap star-chart)
-    worldViewMode: 'grid' | 'map';
 
     // Actions
     setVolume: (type: 'master' | 'sfx' | 'ui', val: number) => void;
     toggleMute: () => void;
     toggleVisual: (key: 'screenShake' | 'particles') => void;
-    setWorldViewMode: (mode: 'grid' | 'map') => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -33,7 +30,6 @@ export const useSettingsStore = create<SettingsState>()(
 
             screenShake: true,
             particles: true,
-            worldViewMode: 'grid',
 
             setVolume: (type, val) => set((state) => {
                 const key = type === 'master' ? 'masterVolume' : type === 'sfx' ? 'sfxVolume' : 'uiVolume';
@@ -43,8 +39,6 @@ export const useSettingsStore = create<SettingsState>()(
             toggleMute: () => set((state) => ({ muted: !state.muted })),
 
             toggleVisual: (key) => set((state) => ({ [key]: !state[key] })),
-
-            setWorldViewMode: (mode) => set({ worldViewMode: mode }),
         }),
         { name: 'evalforge-settings' }
     )

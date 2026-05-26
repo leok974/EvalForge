@@ -1,4 +1,5 @@
 // Sprint 22: crtMode removed from settingsStore — Cyberdeck layout deleted.
+// Sprint 22.6: worldViewMode removed — OrionMap Map toggle rolled back.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useSettingsStore } from '../settingsStore';
 
@@ -11,7 +12,6 @@ describe('Settings Store', () => {
             muted: false,
             screenShake: true,
             particles: true,
-            worldViewMode: 'grid',
         });
     });
 
@@ -40,14 +40,5 @@ describe('Settings Store', () => {
 
         store.toggleVisual('particles');
         expect(useSettingsStore.getState().particles).toBe(false); // Toggled Off
-    });
-
-    it('sets worldViewMode', () => {
-        const store = useSettingsStore.getState();
-        store.setWorldViewMode('map');
-        expect(useSettingsStore.getState().worldViewMode).toBe('map');
-
-        store.setWorldViewMode('grid');
-        expect(useSettingsStore.getState().worldViewMode).toBe('grid');
     });
 });

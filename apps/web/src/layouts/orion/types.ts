@@ -1,3 +1,6 @@
+// Sprint 22.6: OrionMap.tsx deleted — Map toggle rolled back. OrionWorldId kept
+// because config/curriculumConfig.ts and store/curriculumStore.ts use it as
+// the canonical world ID type for curriculum data structures.
 export type OrionWorldId =
     | "world-python"
     | "world-typescript"
