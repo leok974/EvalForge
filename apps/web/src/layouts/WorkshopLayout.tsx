@@ -4,12 +4,12 @@
 import React, { useEffect } from "react";
 import { openWorkshopGuide } from "../features/workshop/useWorkshopTips";
 import { PracticeGauntletCard } from "../components/practice/PracticeGauntletCard";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, Link } from "react-router-dom";
 import { useQuestStore, QuestState } from "../store/questStore";
 import { useGameStore } from "../store/gameStore";
 import { useSettingsStore } from "../store/settingsStore";
 import { cn } from "../lib/utils";
-import { EyeIcon, LayoutGrid, Map } from "lucide-react";
+import { EyeIcon, LayoutGrid, Map, BookOpen, BarChart2 } from "lucide-react";
 import { WorkshopToolsPanel } from "../components/workshop/WorkshopToolsPanel";
 import { PanelId } from "../features/workshop/workshopPanels";
 import { OrionMap } from "./OrionMap";
@@ -216,6 +216,26 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                                 ) : null}
                             </div>
                             {extraTopRight}
+
+                            {/* Sprint 22.5: Supplementary page links */}
+                            <div className="flex items-center gap-1">
+                                <Link
+                                    to="/arcade/codex"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-workshop-subtle hover:text-workshop-cyan border border-transparent hover:border-workshop-cyan/20 hover:bg-workshop-cyan/5 transition-all"
+                                    title="Codex — Knowledge Base"
+                                >
+                                    <BookOpen className="w-3.5 h-3.5" />
+                                    <span className="hidden sm:inline">Codex</span>
+                                </Link>
+                                <Link
+                                    to="/arcade/progress"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-workshop-subtle hover:text-workshop-violet border border-transparent hover:border-workshop-violet/20 hover:bg-workshop-violet/5 transition-all"
+                                    title="Progress — Quest Completion"
+                                >
+                                    <BarChart2 className="w-3.5 h-3.5" />
+                                    <span className="hidden sm:inline">Progress</span>
+                                </Link>
+                            </div>
 
                             {/* Grid / Map view toggle (list view only) */}
                             <div className="flex items-center rounded-full border border-white/10 bg-workshop-panel overflow-hidden">

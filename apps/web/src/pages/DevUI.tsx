@@ -28,6 +28,9 @@ import { Terminal, ShieldAlert, BookOpen, Radio, HelpCircle } from 'lucide-react
 import { useUniverse } from '../hooks/useUniverse';
 import { resolveSelectedProject } from '../lib/projectValidation';
 import { PanelId } from '../features/workshop/workshopPanels';
+// Sprint 22.5: Codex and Progress pages
+import { CodexPage } from './CodexPage';
+import { ProgressPage } from './ProgressPage';
 
 // Map backend color names to Tailwind classes
 const COLOR_MAP: Record<string, string> = {
@@ -384,6 +387,10 @@ function DevUIContent() {
 
       {/* Projects Routing */}
       <Route path="projects/:projectSlug/*" element={<WorkshopLayout {...commonProps} />} />
+
+      {/* Sprint 22.5: Supplementary pages (standalone — no WorkshopLayout shell) */}
+      <Route path="codex" element={<CodexPage />} />
+      <Route path="progress" element={<ProgressPage />} />
 
     </Routes>
   );
