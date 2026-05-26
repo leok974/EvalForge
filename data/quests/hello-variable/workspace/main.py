@@ -1,6 +1,2 @@
-def main():
-    # Create your variable here
-    pass
-
-if __name__ == '__main__':
-    main()
+# TODO: assign the string "System Online" to a variable named `message`
+# TODO: print the variable
