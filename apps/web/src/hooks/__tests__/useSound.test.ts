@@ -1,8 +1,8 @@
+// Sprint 22: layout removed from gameStore. useSound no longer reads layout.
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useSound } from '../useSound';
 import { useSettingsStore } from '../../store/settingsStore';
-import { useGameStore } from '../../store/gameStore';
 
 // Mock Howler class
 const mockPlay = vi.fn();
@@ -15,9 +15,7 @@ vi.mock('howler', () => {
             play = mockPlay;
             volume = mockVolume;
             unload = mockUnload;
-            constructor() {
-                // Constructor logic if needed
-            }
+            constructor() {}
         }
     };
 });
@@ -30,9 +28,6 @@ describe('useSound Hook', () => {
             uiVolume: 0.5,
             sfxVolume: 1.0,
             muted: false
-        });
-        useGameStore.setState({
-            layout: 'cyberdeck'
         });
     });
 

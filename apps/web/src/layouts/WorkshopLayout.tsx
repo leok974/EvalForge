@@ -1,12 +1,15 @@
+// Sprint 22: useCurrentLayout replaced with useSettingsStore.worldViewMode.
+// isCyberdeck / isOrion removed — Workshop is the only layout.
+// Orion overlay mechanism removed; OrionMap renders inline when worldViewMode === 'map'.
 import React, { useEffect } from "react";
 import { openWorkshopGuide } from "../features/workshop/useWorkshopTips";
 import { PracticeGauntletCard } from "../components/practice/PracticeGauntletCard";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuestStore, QuestState } from "../store/questStore";
 import { useGameStore } from "../store/gameStore";
-import { useCurrentLayout } from "../hooks/useCurrentLayout"; // Added import
+import { useSettingsStore } from "../store/settingsStore";
 import { cn } from "../lib/utils";
-import { EyeIcon } from "lucide-react";
+import { EyeIcon, LayoutGrid, Map } from "lucide-react";
 import { WorkshopToolsPanel } from "../components/workshop/WorkshopToolsPanel";
 import { PanelId } from "../features/workshop/workshopPanels";
 import { OrionMap } from "./OrionMap";
@@ -67,15 +70,15 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
     onModeChange,
     hasSkill = () => false,
 }) => {
-    // 1. Layout & Route Context
-    const { layout } = useCurrentLayout();
+    // 1. Route Context
+    const worldViewMode = useSettingsStore(s => s.worldViewMode);
+    const setWorldViewMode = useSettingsStore(s => s.setWorldViewMode);
     const params = useParams<{ worldSlug?: string; questId?: string; bossSlug?: string }>();
     const [searchParams, setSearchParams] = useSearchParams();
 
     // "Workbench" state = inside a quest. "List" state = board/index.
     const isWorkbench = Boolean(params.questId);
-    const isCyberdeck = layout === 'cyberdeck';
-    const isOrion = layout === 'orion';
+    const isMapView = worldViewMode === 'map';
 
     // Panel State (URL Driven)
     const activePanelStr = searchParams.get('panel');
@@ -174,66 +177,15 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
     // - NEVER visible in Quest View (isWorkbench) -> features moved to terminal tabs
     const showDockedRail = !isWorkbench;
 
-    // 2. Orion Overlay Logic
-    const [orionToolsOpen, setOrionToolsOpen] = React.useState(false);
-
-    // DEBUG LOGGING (Moved to be valid)
-    useEffect(() => {
-        console.log('[WorkshopLayout Debug]', {
-            layout,
-            isWorkbench,
-            isCyberdeck,
-            isOrion,
-            questId: params.questId,
-            showDockedRail,
-            orionToolsOpen
-        });
-    }, [layout, isWorkbench, params.questId, showDockedRail, orionToolsOpen]);
-
-    // Close overlay when leaving Orion (prevents state leakage)
-    useEffect(() => {
-        if (!isOrion) {
-            setOrionToolsOpen(false);
-        }
-    }, [isOrion]);
-
-    // Ensure Orion overlay opens when deep linking to a tool via ?panel=...
-    // Use activePanelStr (the raw URL param) — NOT activePanel — so the overlay
-    // only opens when the user explicitly navigated with ?panel=<id>.
-    // activePanel defaults to 'judge' even when no param is present, which caused
-    // the overlay to open automatically on every quest load (Bug 1).
-    useEffect(() => {
-        if (isOrion && activePanelStr && ['judge', 'explain', 'debug', 'codex'].includes(activePanelStr)) {
-            setOrionToolsOpen(true);
-        }
-    }, [isOrion, activePanelStr]);
-
-    // Derived overlay visibility
-    const showOrionOverlay = isWorkbench && isOrion && orionToolsOpen;
-
     return (
         <main
-            className={cn(
-                "h-screen overflow-hidden flex flex-col text-workshop-text transition-colors duration-500",
-                isCyberdeck ? "bg-black font-mono selection:bg-cyan-900/50" : "bg-workshop-bg font-sans selection:bg-workshop-violet/20"
-            )}
+            className="h-screen overflow-hidden flex flex-col text-workshop-text transition-colors duration-500 bg-workshop-bg font-sans selection:bg-workshop-violet/20"
             data-testid="layout-workshop"
-            data-layout={layout}
         >
             {/* Ambient Background */}
             <div className="fixed inset-0 pointer-events-none transition-opacity duration-700">
-                {isOrion ? (
-                    <>
-                        <div className="absolute top-0 left-0 w-full h-[500px] bg-workshop-cyan/5 blur-[120px]" />
-                        <div className="absolute bottom-0 right-0 w-full h-[500px] bg-workshop-violet/5 blur-[120px]" />
-                        <div className="orion-starfield-layer opacity-40 mix-blend-screen" />
-                    </>
-                ) : (
-                    /* Cyberdeck Background: Technical Grid */
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_2px,transparent_2px),linear-gradient(90deg,rgba(18,18,18,0)_2px,transparent_2px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_40%,transparent_100%)] opacity-20" style={{ backgroundColor: '#050505' }}>
-                        <div className="absolute inset-0 bg-cyan-950/5" />
-                    </div>
-                )}
+                <div className="absolute top-0 left-0 w-full h-[500px] bg-workshop-cyan/5 blur-[120px]" />
+                <div className="absolute bottom-0 right-0 w-full h-[500px] bg-workshop-violet/5 blur-[120px]" />
             </div>
 
             {/* Top HUD (Hidden in Quests) */}
@@ -265,16 +217,35 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                             </div>
                             {extraTopRight}
 
-                            {/* Layout-Specific Header Controls (Orion Tools Toggle) */}
-                            {isWorkbench && isOrion && (
+                            {/* Grid / Map view toggle (list view only) */}
+                            <div className="flex items-center rounded-full border border-white/10 bg-workshop-panel overflow-hidden">
                                 <button
-                                    onClick={() => setOrionToolsOpen(true)}
-                                    data-testid="orion-tools-toggle"
-                                    className="px-3 py-1.5 rounded border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider hover:bg-cyan-500/20"
+                                    onClick={() => setWorldViewMode('grid')}
+                                    title="Quest Board"
+                                    className={cn(
+                                        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-colors",
+                                        worldViewMode === 'grid'
+                                            ? "bg-workshop-violet/20 text-workshop-violet"
+                                            : "text-workshop-subtle hover:text-workshop-text"
+                                    )}
                                 >
-                                    Tools
+                                    <LayoutGrid className="w-3.5 h-3.5" />
+                                    <span className="hidden sm:inline">Board</span>
                                 </button>
-                            )}
+                                <button
+                                    onClick={() => setWorldViewMode('map')}
+                                    title="Star Map"
+                                    className={cn(
+                                        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-colors",
+                                        worldViewMode === 'map'
+                                            ? "bg-cyan-500/20 text-cyan-400"
+                                            : "text-workshop-subtle hover:text-workshop-text"
+                                    )}
+                                >
+                                    <Map className="w-3.5 h-3.5" />
+                                    <span className="hidden sm:inline">Map</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </header>
@@ -283,10 +254,8 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
             {/* Main Grid */}
             <section className="relative z-10 flex-1 px-6 pb-6 pt-2 overflow-hidden">
                 <div
-                    key={layout} // Force remount on layout switch to re-calculate classes
                     className={cn("grid h-full gap-6 grid-cols-1", showDockedRail ? "md:grid-cols-[2fr_1fr]" : "")}
                     data-rail-visible={showDockedRail}
-                    data-layout-state={layout}
                 >
 
                     {/* LEFT COLUMN: Workbench */}
@@ -298,8 +267,8 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
 
                         {/* scroll container */}
                         <div className="mt-3 flex-1 overflow-y-auto pr-1 pb-6 relative">
-                            {/* LIST VIEW: Show Map (Orion) or Quest Panel (Standard) */}
-                            {!isWorkbench && isOrion ? (
+                            {/* LIST VIEW: Show Map or Quest Panel depending on worldViewMode */}
+                            {!isWorkbench && isMapView ? (
                                 <div className="h-full w-full rounded-2xl overflow-hidden border border-cyan-500/20 shadow-2xl relative">
                                     <OrionMap />
                                 </div>
@@ -312,7 +281,6 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                     {/* RIGHT COLUMN: Docked Rail */}
                     {showDockedRail && (
                         <aside
-                            key={layout} // Force remount on layout switch to prevent stale state
                             className="hidden md:flex flex-col gap-3 h-full min-w-[320px] overflow-hidden"
                             data-testid="workshop-tools-panel"
                         >
@@ -355,32 +323,6 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                         </aside>
                     )}
 
-                    {/* ORION TOOLS OVERLAY */}
-                    {showOrionOverlay && (
-                        <div
-                            className="absolute inset-y-0 right-0 w-[400px] z-50 bg-slate-950/95 border-l border-cyan-500/30 shadow-2xl backdrop-blur-xl flex flex-col p-4 animate-in slide-in-from-right duration-200"
-                            data-testid="tools-overlay"
-                        >
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-cyan-400">Workshop Tools</h3>
-                                <button onClick={() => setOrionToolsOpen(false)} className="text-slate-400 hover:text-white">✕</button>
-                            </div>
-                            <div className="flex-1 overflow-hidden rounded-xl border border-white/10">
-                                <WorkshopToolsPanel
-                                    activePanel={activePanel}
-                                    onPanelChange={handlePanelChange}
-                                    resultsContent={
-                                        <div className="space-y-4">
-                                            {projectPanel}
-                                        </div>
-                                    }
-                                    questSlug={params.questId}
-                                    hasSkill={hasSkill}
-                                    initialCodexTerm={activeCodexTerm}
-                                />
-                            </div>
-                        </div>
-                    )}
                 </div>
             </section>
 

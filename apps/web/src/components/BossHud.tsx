@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, Skull, ShieldCheck, BookOpen } from 'lucide-react';
 import { useBossStore } from '../store/bossStore';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameStore'; // used for bossesUnlocked
 import { useAgentStore } from '../store/agentStore';
 import { FX } from '../lib/fx';
 
@@ -23,7 +23,6 @@ export function BossHud() {
         markHintRead,
     } = useBossStore();
 
-    const layout = useGameStore((s) => s.layout);
     const [now, setNow] = useState(() => Date.now());
 
     // 🔹 Combat State Tracking

@@ -1,6 +1,8 @@
+// Sprint 22: crtMode and layout mock removed — Cyberdeck deleted, Workshop is the only layout.
+// CRT aberration test removed — CRT overlay is gone.
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { FXLayer } from '../FXLayer';
 import { FX } from '../../lib/fx';
 
@@ -11,34 +13,25 @@ const { confettiMock } = vi.hoisted(() => ({
     confettiMock: vi.fn(),
 }));
 
-// 1) Mock settings store (crtMode + screenShake etc.)
+// 1) Mock settings store (screenShake only — crtMode removed Sprint 22)
 vi.mock('../../store/settingsStore', () => ({
     useSettingsStore: () => ({
-        crtMode: true,
         screenShake: false,
         particles: true,
     }),
 }));
 
-// 2) Mock game store (layout theme)
-vi.mock('../../store/gameStore', () => ({
-    useGameStore: (selector: any) =>
-        selector({
-            layout: 'cyberdeck', // default for our tests
-        }),
-}));
-
-// 3) Mock game socket so FXLayer sees a sync_complete event
+// 2) Mock game socket so FXLayer sees a sync_complete event via lastEvent
 vi.mock('../../hooks/useGameSocket', () => ({
-    useGameSocket: () => ({ type: 'sync_complete' }),
+    useGameSocket: () => ({ lastEvent: { type: 'sync_complete' } }),
 }));
 
-// 4) Mock sound hook to avoid loading audio
+// 3) Mock sound hook to avoid loading audio
 vi.mock('../../hooks/useSound', () => ({
     useSound: () => ({ play: vi.fn() }),
 }));
 
-// 5) Mock canvas-confetti
+// 4) Mock canvas-confetti
 vi.mock('canvas-confetti', () => ({
     __esModule: true,
     default: confettiMock,
@@ -69,14 +62,12 @@ describe('FXLayer', () => {
         emitSpy.mockRestore();
     });
 
-    it('applies CRT aberration class in cyberdeck layout when crtMode is enabled', () => {
-        const { container } = render(
+    it('renders children inside the Workshop layout container', () => {
+        const { getByTestId } = render(
             <FXLayer>
                 <div data-testid="content">Hello</div>
             </FXLayer>
         );
-
-        // The root element should have the class
-        expect((container.firstChild as HTMLElement).className).toContain('crt-aberration');
+        expect(getByTestId('content')).toBeDefined();
     });
 });

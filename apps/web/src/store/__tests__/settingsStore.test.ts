@@ -1,3 +1,4 @@
+// Sprint 22: crtMode removed from settingsStore — Cyberdeck layout deleted.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useSettingsStore } from '../settingsStore';
 
@@ -8,9 +9,9 @@ describe('Settings Store', () => {
             sfxVolume: 0.8,
             uiVolume: 0.3,
             muted: false,
-            crtMode: false,
             screenShake: true,
-            particles: true
+            particles: true,
+            worldViewMode: 'grid',
         });
     });
 
@@ -34,10 +35,19 @@ describe('Settings Store', () => {
     it('toggles visual effects', () => {
         const store = useSettingsStore.getState();
 
-        store.toggleVisual('crtMode');
-        expect(useSettingsStore.getState().crtMode).toBe(true); // Toggled On
-
         store.toggleVisual('screenShake');
         expect(useSettingsStore.getState().screenShake).toBe(false); // Toggled Off
+
+        store.toggleVisual('particles');
+        expect(useSettingsStore.getState().particles).toBe(false); // Toggled Off
+    });
+
+    it('sets worldViewMode', () => {
+        const store = useSettingsStore.getState();
+        store.setWorldViewMode('map');
+        expect(useSettingsStore.getState().worldViewMode).toBe('map');
+
+        store.setWorldViewMode('grid');
+        expect(useSettingsStore.getState().worldViewMode).toBe('grid');
     });
 });

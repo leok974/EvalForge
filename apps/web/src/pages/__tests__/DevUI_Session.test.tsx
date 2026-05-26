@@ -63,8 +63,6 @@ vi.mock('../../store/bossStore', () => ({
 vi.mock('../../store/gameStore', () => ({
     useGameStore: vi.fn((selector) => {
         const state = {
-            layout: 'workshop',
-            setLayout: vi.fn(),
             addXp: vi.fn(),
             activeTrack: null
         };

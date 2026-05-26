@@ -1,6 +1,7 @@
+// Sprint 22: crtMode toggle removed — Cyberdeck layout (the only user of CRT) was deleted.
+// useGameStore removed — layout field no longer exists.
 import React from 'react';
 import { useSettingsStore } from '../store/settingsStore';
-import { useGameStore } from '../store/gameStore';
 import { Volume2, Monitor, Zap, Activity } from 'lucide-react';
 
 interface Props {
@@ -10,7 +11,6 @@ interface Props {
 
 export function SettingsModal({ isOpen, onClose }: Props) {
     const settings = useSettingsStore();
-    const { layout } = useGameStore();
 
     if (!isOpen) return null;
 
@@ -55,16 +55,6 @@ export function SettingsModal({ isOpen, onClose }: Props) {
                         </h3>
 
                         <div className="grid grid-cols-1 gap-2">
-                            {layout === 'cyberdeck' && (
-                                <Toggle
-                                    label="CRT Simulation"
-                                    desc="Scanlines and chromatic aberration."
-                                    active={settings.crtMode}
-                                    onClick={() => settings.toggleVisual('crtMode')}
-                                    icon={Monitor}
-                                />
-                            )}
-
                             <Toggle
                                 label="Haptic Shake"
                                 desc="Screen vibration on critical events."

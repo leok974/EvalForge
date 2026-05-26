@@ -5,7 +5,7 @@ import { vi, describe, it, expect, Mock } from "vitest";
 
 // Mock the store
 vi.mock("../../store/bossStore");
-vi.mock("../../store/gameStore", () => ({ useGameStore: (selector: any) => selector({ layout: "workshop", bossesUnlocked: ["b1"] }) }));
+vi.mock("../../store/gameStore", () => ({ useGameStore: (selector: any) => selector({ bossesUnlocked: ["b1"] }) }));
 vi.mock("../../store/agentStore", () => ({ useAgentStore: () => ({ openAgent: vi.fn() }) }));
 
 describe("BossHud Legendary Visuals", () => {

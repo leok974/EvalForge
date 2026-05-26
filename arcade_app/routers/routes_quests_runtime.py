@@ -316,6 +316,10 @@ async def run_quest(
         objective_results = []
         passed = False  # preview run — never claim success; passed=True requires evidence
 
+        # Hoist target_path with a safe default so it's accessible anywhere below,
+        # regardless of language branch (avoids NameError on non-SQL quests).
+        target_path = None
+
         # Inject a preview diagnostic so the UI knows to suppress mismatch panels.
         # Guard on SQL language: non-SQL quests don't use the sql_preview runner.
         if payload.language == "sql":

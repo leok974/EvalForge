@@ -1,3 +1,4 @@
+// Sprint 22: layout field and setLayout removed from gameStore — Workshop is the only layout.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useGameStore } from '../gameStore';
 
@@ -7,8 +8,7 @@ describe('Game Store', () => {
     useGameStore.setState({
       xp: 0,
       level: 1,
-      layout: 'cyberdeck',
-      activeQuestId: null
+      activeQuestId: null,
     });
   });
 
@@ -16,12 +16,6 @@ describe('Game Store', () => {
     const state = useGameStore.getState();
     expect(state.xp).toBe(0);
     expect(state.level).toBe(1);
-    expect(state.layout).toBe('cyberdeck');
-  });
-
-  it('switches layouts', () => {
-    useGameStore.getState().setLayout('navigator');
-    expect(useGameStore.getState().layout).toBe('navigator');
   });
 
   it('calculates levels correctly', () => {
@@ -34,5 +28,14 @@ describe('Game Store', () => {
     useGameStore.getState().addXp(600); // Total 1100
     expect(useGameStore.getState().xp).toBe(1100);
     expect(useGameStore.getState().level).toBe(2); // floor(1100/1000) + 1
+  });
+
+  it('tracks active track', () => {
+    const track = { worldSlug: 'world-python', trackSlug: 'track-foundry', label: 'Foundry' };
+    useGameStore.getState().setActiveTrack(track);
+    expect(useGameStore.getState().activeTrack).toEqual(track);
+
+    useGameStore.getState().setActiveTrack(null);
+    expect(useGameStore.getState().activeTrack).toBeNull();
   });
 });

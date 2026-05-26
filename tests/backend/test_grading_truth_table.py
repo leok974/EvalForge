@@ -334,6 +334,80 @@ class TestValidateQuestAttempt:
         assert len(results) == 1
         assert results[0]["ok"] is False
 
+    def test_walkthrough_first_sparks_now_evaluates(self):
+        """
+        Walkthrough finding 3 regression guard.
+
+        The first-sparks quest (foundry_python.json) has a stdout_regex objective
+        that checks for the exact launch sequence. This test verifies that:
+          - Objectives are evaluated (evaluated_objectives=True)
+          - At least one objective result is produced
+          - Correct solution code passes (passed=True, ready_to_submit=True)
+          - Wrong code fails (passed=False)
+
+        If this test fails, first-sparks has a content or grading regression.
+        """
+        # Build a quest matching the real first-sparks objective from the questpack
+        quest = _quest(
+            objectives=[{
+                "id": "stdout_launch_sequence",
+                "kind": "stdout_regex",
+                "title": "Prints the launch sequence",
+                "rule": {
+                    "pattern": r"^T-minus 3\nT-minus 2\nT-minus 1\nIGNITION\s*$",
+                    "flags": "im",
+                },
+            }],
+            language="python",
+            tier=1,
+        )
+
+        solution_code = (
+            "print('T-minus 3')\n"
+            "print('T-minus 2')\n"
+            "print('T-minus 1')\n"
+            "print('IGNITION')\n"
+        )
+        solution_stdout = "T-minus 3\nT-minus 2\nT-minus 1\nIGNITION\n"
+
+        # 1. Run validate_quest_attempt (the grading engine)
+        objective_results = validate_quest_attempt(
+            code=solution_code,
+            stdout=solution_stdout,
+            stderr="",
+            exit_code=0,
+            timed_out=False,
+            quest_def=quest,
+        )
+
+        # 2. Run through the flag computation (simulates routes_quests_runtime.py)
+        result = _flag_pass_all(
+            evaluate_objectives=True,
+            objective_results=objective_results,
+        )
+
+        # 3. Assert truth table expectations
+        assert result["evaluated_objectives"] is True, "evaluate_objectives must be True for grading runs"
+        assert len(result["objective_results"]) > 0, "At least one objective must produce a result"
+        assert result["passed"] is True, "Correct solution must pass"
+        assert result["ready_to_submit"] is True, "Correct solution must enable submission"
+
+        # 4. Wrong code must fail
+        wrong_results = validate_quest_attempt(
+            code='print("hello world")',
+            stdout="hello world\n",
+            stderr="",
+            exit_code=0,
+            timed_out=False,
+            quest_def=quest,
+        )
+        wrong_flags = _flag_pass_all(
+            evaluate_objectives=True,
+            objective_results=wrong_results,
+        )
+        assert wrong_flags["passed"] is False, "Wrong output must not pass"
+        assert wrong_flags["ready_to_submit"] is False, "Wrong output must not enable submission"
+
 
 # ---------------------------------------------------------------------------
 # sql_preview language guard tests

@@ -1,9 +1,18 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { LayoutId } from "../features/layouts/layoutConfig";
-import { useLayoutUnlocks, enforceLayoutUnlocked } from "../features/layouts/useLayoutUnlocks";
-import { useGameStore } from "../store/gameStore";
+/**
+ * Sprint 22: Layout system simplified.
+ *
+ * CyberdeckLayout and OrionLayout have been deleted. Workshop is the only layout.
+ * This hook is retained as a stub so that existing test mocks that reference it
+ * continue to compile without changes. New code should read world-view preference
+ * from useSettingsStore().worldViewMode instead.
+ *
+ * LayoutProvider is a pass-through wrapper — it provides a context that always
+ * returns { layout: 'workshop' } and a no-op setLayout.
+ */
 
-const LAYOUT_STORAGE_KEY = "ef:layout";
+import React, { createContext, useContext, useMemo } from "react";
+
+export type LayoutId = 'workshop';
 
 interface LayoutContextValue {
     layout: LayoutId;
@@ -13,54 +22,12 @@ interface LayoutContextValue {
 const LayoutContext = createContext<LayoutContextValue | undefined>(undefined);
 
 export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // Initial state from URL > LocalStorage > Default (orion)
-    const [layout, setInternalLayout] = useState<LayoutId>(() => {
-        // 1. URL override
-        const params = new URLSearchParams(window.location.search);
-        const urlLayout = params.get('layout');
-        if (urlLayout === 'orion' || urlLayout === 'cyberdeck') {
-            return urlLayout;
-        }
-
-        // 2. LocalStorage
-        try {
-            const saved = localStorage.getItem(LAYOUT_STORAGE_KEY);
-            if (saved === 'orion' || saved === 'cyberdeck') {
-                return saved;
-            }
-        } catch (e) {
-            console.warn("Layout storage read error", e);
-        }
-
-        // 3. Default
-        return 'orion';
-    });
-
-    const setLayout = (id: LayoutId) => {
-        if (id === 'workshop') return; // Deprecated
-        setInternalLayout(id);
-        localStorage.setItem(LAYOUT_STORAGE_KEY, id);
-
-        // Sync to URL if present (optional, generally refrain from dirtying URL unless needed)
-        // For deep linking support, we just respect it on load.
-    };
-
-    // removed legacy gameStore sync for now to avoid loops, 
-    // unless gameStore is the source of truth for other things? 
-    // The instructions say "Update useCurrentLayout to persist ef:layout".
-    // We can sync TO gameStore if needed, but let's make this the authority for UI.
-    const { setLayout: setStoreLayout } = useGameStore();
-    useEffect(() => {
-        setStoreLayout(layout);
-    }, [layout, setStoreLayout]);
-
-
-    const value = useMemo(
+    const value = useMemo<LayoutContextValue>(
         () => ({
-            layout,
-            setLayout,
+            layout: 'workshop',
+            setLayout: () => {}, // no-op: Workshop is the only layout
         }),
-        [layout, setLayout],
+        [],
     );
 
     return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;

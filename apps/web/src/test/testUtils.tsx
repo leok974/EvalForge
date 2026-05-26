@@ -50,14 +50,13 @@ export function mockGameStoreState(partial: Record<string, any>) {
         // For now, we return a factory that produces a state with overrides.
         return {
             useGameStore: (selector: any) => {
+                // Sprint 22: layout / setLayout removed from gameStore.
                 const defaultState = {
-                    layout: 'workshop',
                     activeTrack: null,
                     bossesUnlocked: [],
                     xp: 0,
                     level: 1,
                     integrity: 100,
-                    setLayout: vi.fn(),
                     addXp: vi.fn(),
                 };
                 const state = { ...defaultState, ...partial };
