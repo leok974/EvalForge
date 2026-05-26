@@ -1,5 +1,7 @@
 // Sprint 22: CyberdeckLayout and OrionLayout deleted. Tests updated for unified Workshop.
 // Sprint 22.6: worldViewMode/Map toggle rolled back — Board is the only view.
+// Sprint 23: Intent Oracle and Practice Gauntlet stub panels removed.
+//            Right rail (aside) deleted — quest list is now full-width in all views.
 // @vitest-environment jsdom
 import React from "react";
 import { render, screen } from "@testing-library/react";
@@ -20,9 +22,7 @@ vi.mock('../../components/workshop/WorkshopToolsPanel', () => ({
     WorkshopToolsPanel: () => <div data-testid="mock-tools-panel">ToolsPanel</div>
 }));
 
-vi.mock('../../components/practice/PracticeGauntletCard', () => ({
-    PracticeGauntletCard: () => <div data-testid="mock-gauntlet">Gauntlet</div>
-}));
+// Sprint 23: PracticeGauntletCard deleted — mock no longer needed.
 
 // Mock Stores
 const mockUseQuestStore = vi.fn();
@@ -83,20 +83,23 @@ describe("WorkshopLayout", () => {
         </MemoryRouter>
     );
 
-    it("List View: renders Gauntlet and sidebar", () => {
+    it("List View: renders quest board full-width (no stub panels)", () => {
+        // Sprint 23: No right-rail aside. Quest list is the primary content.
         renderLayout('/workshop');
-        expect(screen.getByTestId("workshop-tools-panel")).toBeTruthy();
-        expect(screen.getByTestId("mock-gauntlet")).toBeTruthy();
+        expect(screen.getByTestId("workshop-workbench")).toBeTruthy();
+        expect(screen.getByText("QuestPanelContent")).toBeTruthy();
+        // Stub panels removed
+        expect(screen.queryByText("Intent Oracle")).toBeNull();
+        expect(screen.queryByTestId("mock-gauntlet")).toBeNull();
+        // WorkshopToolsPanel is not rendered in list view (it's inside QuestIDE)
         expect(screen.queryByTestId("mock-tools-panel")).toBeNull();
     });
 
-    it("Workbench: hides Gauntlet sidebar, shows workbench content", () => {
-        // In workbench mode, showDockedRail = !isWorkbench = false.
-        // The aside is not rendered; tools are embedded in the QuestIDE (via Outlet).
+    it("Workbench: shows workbench content (quest IDE), no stub panels", () => {
         renderLayout('/workshop/quests/test-quest');
         expect(screen.getByTestId("workshop-workbench")).toBeTruthy();
-        expect(screen.queryByTestId("workshop-tools-panel")).toBeNull(); // aside hidden in workbench mode
-        expect(screen.queryByTestId("mock-gauntlet")).toBeNull(); // gauntlet only in list mode
+        expect(screen.queryByText("Intent Oracle")).toBeNull();
+        expect(screen.queryByTestId("mock-gauntlet")).toBeNull();
     });
 
     it("is always font-sans (Workshop is the only layout)", () => {

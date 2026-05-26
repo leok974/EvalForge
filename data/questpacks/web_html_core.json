@@ -2,7 +2,7 @@
     "questpack_id": "web_html_core",
     "title": "Web Foundations: HTML Core",
     "world_id": "world-web",
-    "track_id": "track-html",
+    "track_id": "web-html",
     "quests": [
         {
             "slug": "html-ignition",
@@ -27,7 +27,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "HTML Ignition: Page Skeleton."
         },
         {
             "slug": "html-tags-attributes",
@@ -52,7 +53,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Tags & Attributes."
         },
         {
             "slug": "html-links-images",
@@ -77,7 +79,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Links & Images."
         },
         {
             "slug": "html-lists-tables",
@@ -102,7 +105,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Lists & Tables."
         },
         {
             "slug": "html-forms-inputs",
@@ -127,7 +131,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Forms & Inputs."
         },
         {
             "slug": "html-semantic-layout",
@@ -152,7 +157,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Semantic Layout."
         },
         {
             "slug": "html-accessibility-basics",
@@ -177,7 +183,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Accessibility Basics."
         },
         {
             "slug": "html-media-embed",
@@ -202,7 +209,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Media & Embeds."
         },
         {
             "slug": "html-meta-seo",
@@ -227,7 +235,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Requirements in :"
         },
         {
             "slug": "html-debug-validate",
@@ -252,7 +261,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Fix these common issues:"
         }
     ]
 }

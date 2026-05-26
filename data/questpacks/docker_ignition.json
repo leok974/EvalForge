@@ -1,6 +1,6 @@
 {
     "world_id": "world-docker",
-    "track_id": "track-docker-ignition",
+    "track_id": "docker-ignition",
     "pack_slug": "docker_ignition",
     "title": "Docker Ignition",
     "tier": 1,

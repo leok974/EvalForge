@@ -9,14 +9,20 @@
     "world-docker"
   ],
   "active_tracks": [
-    "track-python-systems",
-    "track-python-ignition",
-    "track-python-foundry",
-    "track-python-selenium",
-    "track-html",
-    "track-css",
-    "track-docker-ignition",
-    "track-docker-systems"
+    "python-foundry",
+    "python-ignition",
+    "python-systems",
+    "python-boss",
+    "python-selenium",
+    "js-foundry",
+    "ts-foundry",
+    "git-foundry",
+    "git-systems",
+    "sql-foundry",
+    "web-html",
+    "web-css",
+    "docker-ignition",
+    "docker-systems"
   ],
   "active_questpacks": [
     "data/questpacks/python_systems.json",

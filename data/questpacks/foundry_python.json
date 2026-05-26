@@ -2,7 +2,7 @@
     {
         "id": "quest-first-sparks",
         "world_id": "world-python",
-        "track_id": "python-fundamentals",
+        "track_id": "python-foundry",
         "slug": "first-sparks",
         "title": "First Sparks",
         "short_description": "Ignite the Foundry core.",
@@ -52,7 +52,7 @@
     {
         "id": "quest-hello-variable",
         "world_id": "world-python",
-        "track_id": "python-fundamentals",
+        "track_id": "python-foundry",
         "slug": "hello-variable",
         "title": "Hello Variable",
         "short_description": "Store data in memory.",

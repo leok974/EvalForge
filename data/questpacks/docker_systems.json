@@ -1,6 +1,6 @@
 {
     "world_id": "world-docker",
-    "track_id": "track-docker-systems",
+    "track_id": "docker-systems",
     "pack_slug": "docker_systems",
     "title": "Docker Systems",
     "tier": 1,

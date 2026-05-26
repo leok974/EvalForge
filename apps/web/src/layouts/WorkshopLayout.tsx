@@ -4,17 +4,18 @@
 // Board view is the only world-selection view.
 import React, { useEffect } from "react";
 import { openWorkshopGuide } from "../features/workshop/useWorkshopTips";
-import { PracticeGauntletCard } from "../components/practice/PracticeGauntletCard";
+// Sprint 23: PracticeGauntletCard import removed — component deleted.
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { useQuestStore, QuestState } from "../store/questStore";
 import { useGameStore } from "../store/gameStore";
 import { useSettingsStore } from "../store/settingsStore";
 import { cn } from "../lib/utils";
-import { EyeIcon, BookOpen, BarChart2 } from "lucide-react";
+import { BookOpen, BarChart2 } from "lucide-react";
 import { WorkshopToolsPanel } from "../components/workshop/WorkshopToolsPanel";
 import { PanelId } from "../features/workshop/workshopPanels";
 import { CodexDrawer } from "../components/codex/CodexDrawer";
 // Sprint 22.6: OrionMap import removed — Map toggle rolled back. OrionMap.tsx deleted.
+// Sprint 23: PracticeGauntletCard and EyeIcon removed — stub panels deleted.
 
 // Re-export type for compatibility, though we use PanelId internally now
 export type WorkshopMode = PanelId | 'quest'; // 'quest' is legacy default, mapped to a panel or ignored
@@ -169,11 +170,8 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                     : "";
 
     // --- SHELL LOGIC ---
-
-    // 1. Docked Rail Visibility
-    // - Always visible in List View (!isWorkbench)
-    // - NEVER visible in Quest View (isWorkbench) -> features moved to terminal tabs
-    const showDockedRail = !isWorkbench;
+    // Sprint 23: showDockedRail removed — right rail (Intent Oracle + Gauntlet) deleted.
+    // Workshop is now a single full-width column in both list and workbench views.
 
     return (
         <main
@@ -241,71 +239,23 @@ export const WorkshopLayout: React.FC<WorkshopLayoutProps> = ({
                 </header>
             )}
 
-            {/* Main Grid */}
+            {/* Main Grid — Sprint 23: Intent Oracle and Practice Gauntlet stub panels removed.
+                Quest list now uses full width in list view; workbench is always full width. */}
             <section className="relative z-10 flex-1 px-6 pb-6 pt-2 overflow-hidden">
-                <div
-                    className={cn("grid h-full gap-6 grid-cols-1", showDockedRail ? "md:grid-cols-[2fr_1fr]" : "")}
-                    data-rail-visible={showDockedRail}
-                >
+                <div className="h-full" data-testid="workshop-main-grid">
 
-                    {/* LEFT COLUMN: Workbench */}
+                    {/* Workbench — full-width in both list and quest views */}
                     <section
-                        className={cn("flex min-h-0 flex-1 flex-col", benchHitClass)}
+                        className={cn("flex h-full min-h-0 flex-col", benchHitClass)}
                         data-testid="workshop-workbench"
                     >
                         <WorkbenchHeader onGuide={openWorkshopGuide} />
 
                         {/* scroll container */}
                         <div className="mt-3 flex-1 overflow-y-auto pr-1 pb-6 relative">
-                            {/* Sprint 22.6: Always Board view — Map toggle removed. */}
                             {questPanel}
                         </div>
                     </section>
-
-                    {/* RIGHT COLUMN: Docked Rail */}
-                    {showDockedRail && (
-                        <aside
-                            className="hidden md:flex flex-col gap-3 h-full min-w-[320px] overflow-hidden"
-                            data-testid="workshop-tools-panel"
-                        >
-                            {/* 1. Status Panel (Intent Oracle) */}
-                            <section className="rounded-2xl border border-slate-800/70 bg-slate-950/70 p-3 shrink-0">
-                                <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
-                                    <div className="flex items-center gap-2">
-                                        <EyeIcon className="w-4 h-4 text-workshop-violet" />
-                                        <span className="text-xs font-bold text-slate-200">Intent Oracle</span>
-                                    </div>
-                                    <span className="text-[10px] text-emerald-400 font-mono">ONLINE</span>
-                                </div>
-                                {bossHud}
-                            </section>
-
-                            {/* 2. Content */}
-                            {isWorkbench ? (
-                                /* WORKBENCH MODE -> TOOLS PANEL */
-                                <section className="flex-1 min-h-0 rounded-xl overflow-hidden shadow-workshop-panel">
-                                    <WorkshopToolsPanel
-                                        activePanel={activePanel}
-                                        onPanelChange={handlePanelChange}
-                                        resultsContent={
-                                            <div className="space-y-4">
-                                                {projectPanel}
-                                            </div>
-                                        }
-                                        hasSkill={hasSkill}
-                                        questSlug={params.questId}
-                                        initialCodexTerm={activeCodexTerm}
-                                    />
-                                </section>
-                            ) : (
-                                /* LIST MODE -> GAUNTLET + INFO */
-                                <div className="space-y-4 overflow-y-auto">
-                                    {projectPanel}
-                                    <PracticeGauntletCard />
-                                </div>
-                            )}
-                        </aside>
-                    )}
 
                 </div>
             </section>

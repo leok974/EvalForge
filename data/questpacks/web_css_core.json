@@ -2,7 +2,7 @@
     "questpack_id": "web_css_core",
     "title": "Web Foundations: CSS Core",
     "world_id": "world-web",
-    "track_id": "track-css",
+    "track_id": "web-css",
     "quests": [
         {
             "slug": "css-ignition",
@@ -27,7 +27,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "CSS Ignition: Your First Styles."
         },
         {
             "slug": "css-selectors-specificity",
@@ -52,7 +53,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Selectors & Specificity."
         },
         {
             "slug": "css-cascade-inheritance",
@@ -77,7 +79,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Cascade & Inheritance."
         },
         {
             "slug": "css-box-model",
@@ -102,7 +105,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Requirements for .box:"
         },
         {
             "slug": "css-units-typography",
@@ -127,7 +131,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Units & Typography."
         },
         {
             "slug": "css-colors-backgrounds",
@@ -152,7 +157,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Colors & Backgrounds."
         },
         {
             "slug": "css-flexbox",
@@ -177,7 +183,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Flexbox Layout."
         },
         {
             "slug": "css-grid",
@@ -202,7 +209,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Grid Layout."
         },
         {
             "slug": "css-responsive-media",
@@ -227,7 +235,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Responsive Design & Media Queries."
         },
         {
             "slug": "css-position-zindex",
@@ -252,7 +261,8 @@
                 "full_solution": "No full solution provided. Check your syntax and ensure all tests pass."
             },
             "content_source": "generated_v1",
-            "content_version": "9.9.0"
+            "content_version": "9.9.0",
+            "short_description": "Positioning & Z-Index."
         }
     ]
 }

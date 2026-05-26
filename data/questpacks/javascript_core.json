@@ -4,129 +4,279 @@
         "title": "Console and Functions",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-ignition",
+        "track_id": "js-foundry",
         "description": "Write your first JavaScript functions.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "has_function", "kind": "source_regex", "title": "Defines a function", "rule": {"pattern": "function"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "has_function",
+                "kind": "source_regex",
+                "title": "Defines a function",
+                "rule": {
+                    "pattern": "function"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-ignition-q1-console-and-functions/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-ignition-q1-console-and-functions/workspace"
+        },
+        "short_description": "Write your first JavaScript functions."
     },
     {
         "slug": "js-vars-q1-let-const-var",
         "title": "Let, Const, Var",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-ignition",
+        "track_id": "js-foundry",
         "description": "Understand variable declarations in JavaScript.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "uses_const", "kind": "source_regex", "title": "Uses const", "rule": {"pattern": "\\bconst\\b"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "uses_const",
+                "kind": "source_regex",
+                "title": "Uses const",
+                "rule": {
+                    "pattern": "\\bconst\\b"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-vars-q1-let-const-var/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-vars-q1-let-const-var/workspace"
+        },
+        "short_description": "Understand variable declarations in JavaScript."
     },
     {
         "slug": "js-control-q1-if-else-loops",
         "title": "If/Else and Loops",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-ignition",
+        "track_id": "js-foundry",
         "description": "Write conditional logic and loops.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "uses_if", "kind": "source_regex", "title": "Uses if/else", "rule": {"pattern": "\\bif\\b"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "uses_if",
+                "kind": "source_regex",
+                "title": "Uses if/else",
+                "rule": {
+                    "pattern": "\\bif\\b"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-control-q1-if-else-loops/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-control-q1-if-else-loops/workspace"
+        },
+        "short_description": "Write conditional logic and loops."
     },
     {
         "slug": "js-arrays-q1-basics",
         "title": "Array Basics",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-arrays",
+        "track_id": "js-foundry",
         "description": "Work with JavaScript arrays.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "uses_arr", "kind": "source_regex", "title": "Uses array methods", "rule": {"pattern": "function"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "uses_arr",
+                "kind": "source_regex",
+                "title": "Uses array methods",
+                "rule": {
+                    "pattern": "function"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-arrays-q1-basics/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-arrays-q1-basics/workspace"
+        },
+        "short_description": "Work with JavaScript arrays."
     },
     {
         "slug": "js-arrays-q2-map-filter-reduce",
         "title": "Map, Filter, Reduce",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-arrays",
+        "track_id": "js-foundry",
         "description": "Transform arrays with higher-order functions.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "uses_map", "kind": "source_regex", "title": "Uses map/filter/reduce", "rule": {"pattern": "\\.map\\b|\\.filter\\b|\\.reduce\\b"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "uses_map",
+                "kind": "source_regex",
+                "title": "Uses map/filter/reduce",
+                "rule": {
+                    "pattern": "\\.map\\b|\\.filter\\b|\\.reduce\\b"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-arrays-q2-map-filter-reduce/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-arrays-q2-map-filter-reduce/workspace"
+        },
+        "short_description": "Transform arrays with higher-order functions."
     },
     {
         "slug": "js-objects-q1-properties-methods",
         "title": "Object Properties and Methods",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-objects",
+        "track_id": "js-foundry",
         "description": "Define objects with properties and methods.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "has_object", "kind": "source_regex", "title": "Defines an object", "rule": {"pattern": "\\{[^}]"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "has_object",
+                "kind": "source_regex",
+                "title": "Defines an object",
+                "rule": {
+                    "pattern": "\\{[^}]"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-objects-q1-properties-methods/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-objects-q1-properties-methods/workspace"
+        },
+        "short_description": "Define objects with properties and methods."
     },
     {
         "slug": "js-functions-q1-arrow-vs-regular",
         "title": "Arrow vs Regular Functions",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-functions",
+        "track_id": "js-foundry",
         "description": "Understand arrow functions vs regular functions.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "uses_arrow", "kind": "source_regex", "title": "Uses arrow function", "rule": {"pattern": "=>"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "uses_arrow",
+                "kind": "source_regex",
+                "title": "Uses arrow function",
+                "rule": {
+                    "pattern": "=>"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-functions-q1-arrow-vs-regular/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-functions-q1-arrow-vs-regular/workspace"
+        },
+        "short_description": "Understand arrow functions vs regular functions."
     },
     {
         "slug": "js-async-q1-promises-basics",
         "title": "Promises Basics",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-async",
+        "track_id": "js-foundry",
         "description": "Create and consume Promises.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "uses_promise", "kind": "source_regex", "title": "Uses Promise", "rule": {"pattern": "Promise|async"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "uses_promise",
+                "kind": "source_regex",
+                "title": "Uses Promise",
+                "rule": {
+                    "pattern": "Promise|async"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-async-q1-promises-basics/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-async-q1-promises-basics/workspace"
+        },
+        "short_description": "Create and consume Promises."
     },
     {
         "slug": "js-errors-q1-try-catch",
         "title": "Try/Catch Error Handling",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-errors",
+        "track_id": "js-foundry",
         "description": "Handle errors with try/catch.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "uses_try", "kind": "source_regex", "title": "Uses try/catch", "rule": {"pattern": "\\btry\\b"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "uses_try",
+                "kind": "source_regex",
+                "title": "Uses try/catch",
+                "rule": {
+                    "pattern": "\\btry\\b"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-errors-q1-try-catch/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-errors-q1-try-catch/workspace"
+        },
+        "short_description": "Handle errors with try/catch."
     },
     {
         "slug": "js-modules-q1-import-export",
         "title": "Import and Export",
         "language": "javascript",
         "world_id": "world-js",
-        "track_id": "js-modules",
+        "track_id": "js-foundry",
         "description": "Use ES module import and export syntax.",
         "objectives": [
-            {"id": "exit_code_zero", "kind": "exit_code_zero", "title": "Code runs without error", "rule": {}},
-            {"id": "uses_export", "kind": "source_regex", "title": "Uses export", "rule": {"pattern": "\\bexport\\b"}}
+            {
+                "id": "exit_code_zero",
+                "kind": "exit_code_zero",
+                "title": "Code runs without error",
+                "rule": {}
+            },
+            {
+                "id": "uses_export",
+                "kind": "source_regex",
+                "title": "Uses export",
+                "rule": {
+                    "pattern": "\\bexport\\b"
+                }
+            }
         ],
-        "workspace": {"files_from": "../quests/js-modules-q1-import-export/workspace"}
+        "workspace": {
+            "files_from": "../quests/js-modules-q1-import-export/workspace"
+        },
+        "short_description": "Use ES module import and export syntax."
     }
 ]
