@@ -88,3 +88,20 @@ Simulated journey: land → world-python → foundry → hello-variable → firs
 | LOW | Gap #4 — tier null on foundry quests | S | ⚠️ DEFERRED Sprint 10 |
 
 **All high-priority gaps resolved. Platform is ready for real learners.** Core quest loop (run → fail → hint → fix → pass → xp) fully operational. Gap #4 (tier display) is cosmetic and non-blocking.
+
+---
+
+## Sprint 22 Layout Consolidation — Post-Deploy Friction Audit
+
+**Date:** 2026-05-26
+**Method:** Code review + static analysis (frontend at localhost:5173; visual inspection deferred)
+
+After removing CyberdeckLayout and OrionLayout, the learner flow simplifies to a single Workshop surface. Observed friction points:
+
+**Gap #7 — Board/Map toggle hidden in workbench mode.** The world-view toggle (Board vs. Star Map) only appears in the list-view header (`!isWorkbench`). A learner who enters a quest from the Map view cannot toggle back to Map without first returning to the list. Low priority — the toggle state persists via localStorage so re-entering the list restores their preference.
+
+**Gap #8 — Boss spawn sound uses work_whistle.mp3.** The useSound hook now serves a single Workshop sound set. Boss spawn previously played `boss_alarm.mp3` (Cyberdeck theme); it now plays `work_whistle.mp3`. If that asset is missing, the boss spawn plays silently. Does not block gameplay but reduces impact of the boss encounter moment.
+
+**Gap #9 — WorkshopGuide always mounts.** Previously gated by `layout === 'workshop'`, WorkshopGuide now mounts unconditionally on DevUI content. This is correct behavior (Workshop is always the layout) but users who had it dismissed may see a brief flash before the dismissed state loads from localStorage.
+
+No high-priority gaps introduced by Sprint 22. Core quest loop unchanged.
