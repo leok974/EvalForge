@@ -511,10 +511,27 @@ ERROR [FAIL] tests_pass: No test output received
   `tests_pass` objectives, sets `exec_mode = "tests"`, and injects grading test files
   from `grading/public/` — identical to the RUN endpoint's logic.
 
+**Why the Sprint 24 diagnosis was wrong:** The error message said `.evalforge/run_unittest_json.py`
+(relative path). The Sprint 24 investigator saw a relative path, noted that the registry spec uses
+an absolute path (`/workspace/.evalforge/...`), and concluded that docker cp must be failing to
+deliver the file — so the container was searching relative to its working directory. This pointed
+at DinD path translation as the cause. What was missed: `sanitize_logs()` at `security.py:86`
+strips `/(?:tmp|workspace)/+` from all learner-facing output. The path WAS absolute in the
+container; the relative appearance was an artifact of log sanitization. The docker cp approach
+works correctly on this platform.
+
 **Environmental assumptions:** Requires Docker socket mounted into the backend container
 (`//var/run/docker.sock:/var/run/docker.sock` in `docker-compose.yml`). The fix works
 because `docker cp` runs inside the backend container (Linux), so temp-dir paths are
 Linux paths resolvable by the Docker CLI. No Windows path translation needed.
+
+**Process lesson — re-investigating "known issues":** This bug was labeled "known" and
+"PENDING" for 4 sprints without re-investigation. The original hypothesis (DinD path
+translation) was plausible but never verified by checking whether `docker cp` actually
+failed. A 10-minute repro — `curl` to the RUN endpoint with empty code, then with the
+reference solution — would have distinguished "file not delivered" from "endpoint logic
+wrong" in Sprint 25. Long-standing "known issues" with confident-sounding root causes
+deserve fresh eyes before each sprint that claims to address them. Hypothesis ≠ diagnosis.
 
 **Verified (Sprint 28):**
 - `python-file-io-safe` RUN (stub): `passed: false`, real test failures in `objective_results`
