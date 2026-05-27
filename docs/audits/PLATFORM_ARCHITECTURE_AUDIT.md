@@ -526,7 +526,7 @@ path through a Docker volume rather than `docker cp`, or (b) adding a
 
 ---
 
-## Backlog: Quest Drift Detection — Pairwise Audit Method (Sprint 26)
+## Backlog: Quest Drift Detection ï¿½ Pairwise Audit Method (Sprint 26)
 
 **Finding:** The three-way content mismatch in `python-systems-platform-tooling`
 (docs described `slugify`/`unique_sorted`/`run_tool_request`; `task.py` described a
@@ -540,11 +540,11 @@ docs-vs-test comparison.
 
 **Recommended future audit method:** For each quest, run a three-way pairwise check:
 
-1. `docs/briefing.md` vs. `grading/public/test_*.py` — does the briefing describe
+1. `docs/briefing.md` vs. `grading/public/test_*.py` ï¿½ does the briefing describe
    what the test checks?
-2. `workspace/main.py` (or `task.py`) vs. `grading/public/test_*.py` — do the stubs
+2. `workspace/main.py` (or `task.py`) vs. `grading/public/test_*.py` ï¿½ do the stubs
    expose the same names the test imports?
-3. `workspace/task.py` vs. `workspace/main.py` — do both workspace files describe
+3. `workspace/task.py` vs. `workspace/main.py` ï¿½ do both workspace files describe
    the same task?
 
 Any mismatch in (2) is an immediate red flag: if the test contains
@@ -555,3 +555,17 @@ the stub cannot pass the test regardless of how good the docs are.
 stub-vs-test import cross-check (low complexity: parse the `from main import ...`
 line in each test, confirm each imported name appears as a `def` or `class` in
 `workspace/main.py`).
+
+---
+
+## Backlog: Audit Miss Rate at CRITICAL Tier â€” Assertion-Level Comparison Required (Sprint 27)
+
+Sprint 27 pre-flight surfaced 2 CRITICAL-class requirements missed by the Sprint 25 audit (`oop-mini` `@property`, `functions-contracts` `name.strip()`). ~28% miss rate at the CRITICAL tier.
+
+Before applying the audit methodology to `world-sql`, `world-js`, or other worlds, the audit script needs assertion-by-assertion comparison logic against grading tests, not just doc-level concept matching.
+
+---
+
+## Backlog: Seeder Propagation â€” Manual Re-seed Gap (Sprint 27)
+
+Manual re-seed required after every questpack JSON change. Backlog: backend startup check that warns if questpack file mtime > DB row `updated_at`.
