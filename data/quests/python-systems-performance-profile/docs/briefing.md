@@ -1,19 +1,26 @@
 # Briefing: Performance & Profiling
 
 ## The Mission
-The Reactor Core's query engine is stalling. As our datasets grow, the time spent searching for matching records is increasing exponentially. We suspect that our current "naive" membership checks are the bottleneck.
 
-Your mission is to analyze the performance of two different search strategies:
-1.  **Naive Comparisons**: A simple list-based search.
-2.  **Set Operations**: Using hash-based sets for near O(1) membership checks.
+Production systems handle massive text streams — log lines, telemetry, user input.
+When the volume is high, understanding *which words dominate* becomes a profiling
+question as much as a correctness one.
 
-You must implement a deterministic cost model for both strategies and a logic to choose the most efficient one based on the calculated costs.
+In this mission you will implement `most_common_tokens(text, k)`. It receives a raw
+text string and an integer `k`. Your function must:
 
-## Objectives
-- Implement `naive_comparisons`: Count every single comparison (item == query) performed in a nested loop.
-- Implement `set_ops`: Count the "ops" for building the set (len(items)) plus the number of membership lookups (len(queries)).
-- Implement `choose_strategy`: Select the cheaper cost. If they are equal, prefer the `"set"` strategy.
-- Return a report containing the total "hits", the chosen strategy, and the cost breakdown.
+1. Extract every contiguous alphabetic sequence (A–Z / a–z) using the
+   pre-built `_TOKEN_RE` regex.
+2. Lowercase all tokens.
+3. Count occurrences of each token.
+4. Return the top-`k` tokens as a list of `(token, count)` tuples, sorted by
+   count descending, then alphabetically ascending on tie.
 
-## Constraints
-- Do not use `time.time()` (we need deterministic results). Use the cost model described.
+**Objective:** Implement `most_common_tokens(text: str, k: int) -> list[tuple[str, int]]`.
+
+## Example
+
+```
+most_common_tokens("ok ok ERROR error warn error", 3)
+# → [("error", 3), ("ok", 2), ("warn", 1)]
+```

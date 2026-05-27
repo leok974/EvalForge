@@ -180,6 +180,8 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                  existing.title = title
                  existing.order_index = order_index
                  existing.tier = tier
+                 if "short_description" in quest_data:
+                     existing.short_description = quest_data["short_description"]
                  if "language" in quest_data:
                      existing.language = quest_data["language"]
                  if "key_terms" in quest_data:

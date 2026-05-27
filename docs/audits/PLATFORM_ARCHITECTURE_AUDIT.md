@@ -478,3 +478,46 @@ Confidently dead, safe to delete in a cleanup sprint:
 ---
 
 **End of audit. No code changes were made in this sprint. The next sprint (Sprint 21) uses this document as input to scope grading-pipeline fixes.**
+
+---
+
+## Sprint 25 Backlog Note (added Sprint 24)
+
+### Known Infrastructure Gap: DinD Path Resolution for `mode='tests'` Quests
+
+**Symptom:** SUBMIT verification fails locally for any quest that uses `mode='tests'`
+grading (all `python-systems` and `python-tier2` quests). The Docker runner container
+receives an empty `/workspace/` because `docker cp {td}/.` can't resolve the backend
+container's temp-dir path — the Docker daemon runs on the Windows host and cannot
+dereference in-container paths.
+
+**Error observed:**
+```
+ERROR python: can't open file '.evalforge/run_unittest_json.py': [Errno 2] No such file or directory
+ERROR [FAIL] tests_pass: No test output received
+```
+
+**Root cause:** `code_runner_docker.py` runs `docker cp {td}/.` where `{td}` is a temp
+directory inside the backend container. The daemon (on the Windows host) cannot resolve
+this path. The runner container's `/workspace/` is therefore empty at execution time.
+
+**Affected quests:** All quests using `kind: tests_pass` objectives — specifically
+`python-systems` (5 quests) and `python-tier2` / `python-ignition` quests with
+pytest-based grading.
+
+**Workaround (Sprint 24):** Content correctness verified via `pytest` on the host
+against `grading/solutions/main.py`. Stubs fail, solutions pass — this confirms
+grading test quality without going through the IDE submission path.
+
+```bash
+# Verify grading tests pass against solution (run from repo root):
+cd data/quests/<slug>/grading && \
+  cp solutions/main.py public/main.py && \
+  python -m pytest public/ -v && \
+  rm public/main.py
+```
+
+**Worth addressing when:** Local SUBMIT verification becomes blocking for content
+development or CI. A focused sprint should investigate either (a) mapping the temp-dir
+path through a Docker volume rather than `docker cp`, or (b) adding a
+`EVALFORGE_RUNNER_MODE=local` that skips Docker for `tests` mode in dev environments.
