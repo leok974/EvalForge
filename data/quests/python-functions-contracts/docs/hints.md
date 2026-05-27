@@ -1,23 +1,25 @@
 ## Concept
-Use `isinstance(user.get('name'), str)` and `isinstance(user.get('age'), int)` to validate the inputs.
+Use `isinstance(user.get('name'), str)` and `isinstance(user.get('age'), int)` to validate the inputs. Also check that `age >= 0`.
 
 ## Guided
-Start by extracting the fields with `.get()`. If either is `None` or of the wrong type, raise `ValueError`. Then, return a new dictionary: `{"name": name.capitalize(), "age": age}`.
+Extract each field with `.get()`. If either is `None`, the wrong type, or `age` is negative, raise `ValueError`. Then strip the name and build the return dict.
 
 ## Full Solution
 ```python
 def process_user_data(user: dict) -> dict:
     name = user.get("name")
     age = user.get("age")
-    
-    if not isinstance(name, str):
-        raise ValueError("name must be a string")
-    if not isinstance(age, int):
-        raise ValueError("age must be an integer")
-        
+
+    if not isinstance(name, str) or not name:
+        raise ValueError("Missing or invalid 'name'")
+    if not isinstance(age, int) or age < 0:
+        raise ValueError("Missing or invalid 'age'")
+
     return {
-        "name": name.capitalize(),
-        "age": age
+        "name": name.strip(),
+        "age": age,
+        "active": True,
     }
 ```
-Observe how we validate both presence and type before doing any work.
+
+Note: `name.strip()` removes whitespace — `" Alice "` becomes `"Alice"`. The `"active": True` field is always included in the returned dict.

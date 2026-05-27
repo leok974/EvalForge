@@ -7,5 +7,5 @@ Once the page is loaded, you can access the title of the document using `driver.
 ## Hint 3
 If the title assertion is failing, verify you navigated to `app_url` (passed into
 your function) rather than a hardcoded string. The mock CMS page title is exactly
-`"Mock CMS"`. Add `print(driver.title)` before your assertion to debug what the
+`"CMS Login"`. Add `print(driver.title)` before your assertion to debug what the
 browser sees.
