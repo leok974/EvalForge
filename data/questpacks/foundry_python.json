@@ -11,7 +11,7 @@
         "lore": "The core is cold. We need a spark to get the systems online.",
         "language": "python",
         "xp_base": 50,
-        "starter_code": "def main():\n    # TODO: Print T-minus 3, 2, 1...\n    pass\n\nif __name__ == '__main__':\n    main()\n",
+        "starter_code": "# TODO: print \"T-minus 3\", \"T-minus 2\", \"T-minus 1\", then \"IGNITION\"\n# Each on its own line, in that order\n",
         "objectives": [
             {
                 "id": "stdout_launch_sequence",
@@ -61,7 +61,7 @@
         "lore": "Memory banks are ready. Initialize the status protocol.",
         "language": "python",
         "xp_base": 50,
-        "starter_code": "def main():\n    # Create your variable here\n    pass\n\nif __name__ == '__main__':\n    main()\n",
+        "starter_code": "# TODO: assign the string \"System Online\" to a variable named `message`\n# TODO: print the variable\n",
         "objectives": [
             {
                 "id": "stdout_system_online",

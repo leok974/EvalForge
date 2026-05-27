@@ -1,27 +1,26 @@
-def count_hits(items: list[str], queries: list[str]) -> int:
-    item_set = set(items)
-    return sum(1 for q in queries if q in item_set)
+from __future__ import annotations
+
+import re
+from collections import Counter
+
+# Example: count word frequencies in a string (same idea, simpler approach).
+# Your task requires alphabetic-only tokenisation and a specific sort order.
+
+_WORD_RE = re.compile(r"\b\w+\b")
 
 
-def naive_comparisons(items: list[str], queries: list[str]) -> int:
-    return len(items) * len(queries)
+def word_frequencies(text: str) -> dict[str, int]:
+    """Return a {word: count} mapping for all words in text (lowercased)."""
+    words = _WORD_RE.findall(text.lower())
+    return dict(Counter(words))
 
 
-def set_ops(items: list[str], queries: list[str]) -> int:
-    return len(items) + len(queries)
+def top_n(freq: dict[str, int], n: int) -> list[tuple[str, int]]:
+    """Return the n most-frequent entries, sorted by count desc then key asc."""
+    return sorted(freq.items(), key=lambda kv: (-kv[1], kv[0]))[:n]
 
 
-def choose_strategy(naive_cost: int, set_cost: int) -> str:
-    return "naive" if naive_cost < set_cost else "set"
-
-
-def profile_membership_case(case: dict) -> dict:
-    items = [x for x in case.get("items", []) if isinstance(x, str)]
-    queries = [x for x in case.get("queries", []) if isinstance(x, str)]
-    ncost = naive_comparisons(items, queries)
-    scost = set_ops(items, queries)
-    return {
-        "hits": count_hits(items, queries),
-        "strategy": choose_strategy(ncost, scost),
-        "cost": {"naive_comparisons": ncost, "set_ops": scost},
-    }
+# Usage:
+# text = "the quick brown fox jumps over the lazy dog the fox"
+# freq = word_frequencies(text)
+# print(top_n(freq, 3))  # [('the', 3), ('fox', 2), ('brown', 1)]

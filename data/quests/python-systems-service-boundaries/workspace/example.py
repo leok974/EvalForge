@@ -1,31 +1,34 @@
-def coerce_id(value) -> int:
-    try:
-        return int(str(value).strip())
-    except Exception:
-        return 0
+from __future__ import annotations
+
+from dataclasses import dataclass, replace
+from typing import Dict, Optional
+
+# Example: a simple in-memory user store using the same repo pattern.
+# Your task uses a Ticket repo; the pattern is identical.
 
 
-def _bad(action, req_id, code):
-    return {"id": coerce_id(req_id), "action": action, "ok": False, "value": None, "error": code}
+@dataclass(frozen=True)
+class User:
+    id: int
+    active: bool
 
 
-def _ok(action, req_id, value):
-    return {"id": coerce_id(req_id), "action": action, "ok": True, "value": value, "error": None}
+class InMemoryUserRepo:
+    def __init__(self):
+        self._db: Dict[int, User] = {}
+
+    def get(self, user_id: int) -> Optional[User]:
+        return self._db.get(user_id)
+
+    def save(self, user: User) -> None:
+        self._db[user.id] = user
 
 
-def handle_request(req: dict) -> dict:
-    req_id = req.get("id")
-    action = req.get("action")
-    args = req.get("args", [])
-
-    if action == "divide":
-        if len(args) < 2 or args[1] == 0:
-            return _bad(action, req_id, "EF_BOUNDARY_DIVIDE_BY_ZERO")
-        return _ok(action, req_id, args[0] // args[1])
-    if action == "sum":
-        if not all(isinstance(a, (int, float)) for a in args):
-            return _bad(action, req_id, "EF_BOUNDARY_BAD_INPUT")
-        return _ok(action, req_id, sum(args))
-    if action == "concat":
-        return _ok(action, req_id, "".join(str(a) for a in args))
-    return _bad(action, req_id, "EF_BOUNDARY_UNKNOWN_ACTION")
+def deactivate_user(repo: InMemoryUserRepo, user_id: int) -> User:
+    """Load user, set active=False, save, return. Raises KeyError if missing."""
+    user = repo.get(user_id)
+    if user is None:
+        raise KeyError(f"user {user_id} not found")
+    updated = replace(user, active=False)
+    repo.save(updated)
+    return updated
