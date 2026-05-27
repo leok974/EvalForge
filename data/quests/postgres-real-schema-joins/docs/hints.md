@@ -1,10 +1,8 @@
-# Hints: PostgreSQL Joins
+## Hint 1
+Start from the junction table: `FROM employee_assignments ea`. It connects employees to projects via `employee_id` and `project_id` foreign keys.
 
-## Hint 1 — Joining the Junction
-You need to link `employees` to `employee_assignments` using `e.id = ea.employee_id`. Then, link `employee_assignments` to `projects` using `ea.project_id = p.id`.
+## Hint 2
+Chain three JOINs: one to `employees` (for name and department_id), one to `departments` (for department name), one to `projects` (for project name and budget).
 
-## Hint 2 — The Department Link
-Don't forget to join `departments` using `e.department_id = d.id` to get the department name.
-
-## Hint 3 — Filtering
-The `WHERE` clause should target `p.budget`. Remember to use a numeric comparison without commas or dollar signs.
+## Hint 3
+Filter with `WHERE p.budget > 50000` after all JOIN clauses. Use `ORDER BY employee_name` to sort alphabetically.

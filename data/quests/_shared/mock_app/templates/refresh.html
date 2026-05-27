@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Sensor Data</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 2rem; }
+        .sensor-card { background: #1e293b; padding: 1.5rem; border-radius: 8px; width: 300px; border: 1px solid #334155; }
+        .value { font-size: 2rem; color: #38bdf8; margin: 1rem 0; font-weight: bold; }
+        button { padding: 0.5rem 1rem; background: #facc15; border: none; cursor: pointer; color: black; font-weight: bold; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Atmospheric Sensor Node</h1>
+    <p>Live data feed from Station Alpha.</p>
+
+    <div id="sensor-container" class="sensor-card">
+        <!-- The element that gets destroyed and recreated -->
+        <div id="dynamic-value-wrapper">
+            <span>Current Reading:</span>
+            <div data-testid="sensor-reading" class="value">42.0°C</div>
+        </div>
+    </div>
+
+    <br>
+    <button id="refresh-btn" data-testid="refresh-button">Refresh Sensor Query</button>
+
+    <script>
+        document.getElementById('refresh-btn').addEventListener('click', () => {
+            const btn = document.getElementById('refresh-btn');
+            btn.disabled = true;
+            btn.innerText = "Querying Hardware...";
+
+            // Simulate 500ms network delay, then nuke the entire element and recreate it
+            setTimeout(() => {
+                const newReading = (Math.random() * (45.0 - 40.0) + 40.0).toFixed(1);
+                
+                // Destroy the old reference!
+                const container = document.getElementById('sensor-container');
+                container.innerHTML = ''; 
+
+                // Inject a totally new DOM node, rendering old Python references "Stale"
+                container.innerHTML = `
+                    <div id="dynamic-value-wrapper">
+                        <span>Current Reading:</span>
+                        <div data-testid="sensor-reading" class="value">${newReading}°C</div>
+                    </div>
+                `;
+
+                btn.innerText = "Refresh Sensor Query";
+                btn.disabled = false;
+            }, 500);
+        });
+    </script>
+</body>
+</html>

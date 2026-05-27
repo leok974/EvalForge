@@ -1,0 +1,157 @@
+[
+  {
+    "slug": "selenium-login-flow-assertions",
+    "title": "Multi-Step Flow",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Automate a complete login flow and use assertions to verify final state.",
+    "app_fixture": "login-basic",
+    "app_entry_path": "/login",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 300,
+    "tier": 3,
+    "learning_objective": "Combine actions and assertions to verify state after navigation redirects.",
+    "key_terms": ["glossary/python/selenium-webdriver", "guides/selenium/debugging"],
+    "concept_tags": ["selenium", "assertions", "state", "flows"],
+    "objectives": [
+      {
+        "id": "assertions_passed",
+        "title": "Verify Dashboard Elements",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "ASSERTIONS_PASSED",
+            "flags": "i"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/selenium-login-flow-assertions/workspace"
+    }
+  },
+  {
+    "slug": "selenium-handle-latency-and-loading",
+    "title": "Latency & Loading",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Eliminate flaky tests by explicitly waiting for a dynamic element to finish loading.",
+    "app_fixture": "latency",
+    "app_entry_path": "/latency?delay=0.5",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 400,
+    "tier": 3,
+    "learning_objective": "Master the WebDriverWait explicit load conditions and eliminate sleep().",
+    "key_terms": ["glossary/python/selenium-explicit-waits", "guides/selenium/debugging"],
+    "concept_tags": ["selenium", "waits", "latency", "flaky-tests"],
+    "objectives": [
+      {
+        "id": "sync_confirmed",
+        "title": "Confirm Protocol Sync",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "SYNC_CONFIRMED",
+            "flags": "i"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/selenium-handle-latency-and-loading/workspace"
+    }
+  },
+  {
+    "slug": "selenium-conditional-ui-logic",
+    "title": "Conditional UI",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Write defensive code to handle popup modals that appear unpredictably.",
+    "app_fixture": "modals",
+    "app_entry_path": "/modals?show_modal=true",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 500,
+    "tier": 3,
+    "learning_objective": "Use try/except blocks to conditionally interact with unpredictable DOM structures.",
+    "key_terms": ["glossary/python/selenium-explicit-waits", "guides/selenium/debugging"],
+    "concept_tags": ["selenium", "branching", "modals", "exceptions", "robustness"],
+    "objectives": [
+      {
+        "id": "defense_active",
+        "title": "Bypass Random Blockers",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "DEFENSE_ACTIVE",
+            "flags": "i"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/selenium-conditional-ui-logic/workspace"
+    }
+  },
+  {
+    "slug": "selenium-iterate-and-validate-list",
+    "title": "Iterating Lists",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Extract and validate the contents of a heavily populated HTML table.",
+    "app_fixture": "tickets",
+    "app_entry_path": "/tickets",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 450,
+    "tier": 3,
+    "learning_objective": "Scrape DOM collections using find_elements and iterate dynamically over list nodes.",
+    "key_terms": ["glossary/python/selenium-by", "guides/selenium/debugging"],
+    "concept_tags": ["selenium", "lists", "iteration", "tables", "collections"],
+    "objectives": [
+      {
+        "id": "tickets_validated",
+        "title": "Validate Status of All Tickets",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "ALL_TICKETS_VALIDATED",
+            "flags": "i"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/selenium-iterate-and-validate-list/workspace"
+    }
+  },
+  {
+    "slug": "selenium-stale-element-retry",
+    "title": "Stale Element Retries",
+    "world_id": "world-python",
+    "track_id": "python-selenium",
+    "runtime": "python-selenium",
+    "short_description": "Trap and recover from a stale element exception on a highly dynamic SPA page.",
+    "app_fixture": "refresh",
+    "app_entry_path": "/refresh",
+    "requires_app_preview": true,
+    "language": "python",
+    "base_xp_reward": 600,
+    "tier": 3,
+    "learning_objective": "Handle advanced framework re-rendering by trapping StaleElementReferenceException.",
+    "key_terms": ["glossary/python/selenium-webdriver", "guides/selenium/debugging"],
+    "concept_tags": ["selenium", "stale-elements", "dom-mutations", "retries"],
+    "objectives": [
+      {
+        "id": "sensor_updated",
+        "title": "Trap Stale Read and Update",
+        "kind": "stdout_regex",
+        "rule": {
+            "pattern": "SENSOR_UPDATED",
+            "flags": "i"
+        }
+      }
+    ],
+    "workspace": {
+      "files_from": "../quests/selenium-stale-element-retry/workspace"
+    }
+  }
+]

@@ -29,6 +29,13 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Node.js packages for quest execution
+# react + react-dom: react_core quest tests import from workspace/task.mjs
+# react-test-renderer: react_core public tests use react_test_helpers.mjs which imports it
+# tsx: TypeScript runner uses `node --import tsx` to execute .ts test files
+# Installing at /app/node_modules so Node ESM resolution walks up and finds them
+RUN npm install --prefix /app react react-dom react-test-renderer tsx
+
 # Install python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -45,9 +52,11 @@ COPY docs /app/docs
 # Copy built frontend assets from Stage 1
 COPY --from=frontend-build /app/web/dist /app/static
 
-# Env vars for production
+# Baked-in env defaults (non-secret, non-environment-specific values only)
+# EVALFORGE_MOCK_GRADING and EVALFORGE_AUTH_MODE must NOT be set here —
+# they must be injected at runtime via docker-compose / deployment config
+# so that production vs dev behaviour is controlled without rebuilding the image.
 ENV PORT=8092
-ENV EVALFORGE_MOCK_GRADING=1
 ENV WEB_DIST=/app/static
 ENV EVALFORGE_ENV=prod
 

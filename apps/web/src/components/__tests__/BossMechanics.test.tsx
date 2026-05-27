@@ -27,13 +27,11 @@ vi.mock("../../lib/fx", () => ({
 describe("FXLayer Boss Mechanics", () => {
     it("triggers shake and red tint on boss_spawn", () => {
         // Mock settings
-        (useSettingsStore as any).mockReturnValue({ screenShake: true, crtMode: false });
+        (useSettingsStore as any).mockReturnValue({ screenShake: true });
 
-        // Mock socket event
+        // Mock socket event — useGameSocket returns { lastEvent: ... }
         (useGameSocket as any).mockReturnValue({
-            type: "boss_spawn",
-            boss_id: "test-boss",
-            severity: "high"
+            lastEvent: { type: "boss_spawn", boss_id: "test-boss", severity: "high" }
         });
 
         const { container } = render(
@@ -65,8 +63,7 @@ describe("FXLayer Boss Mechanics", () => {
     it("triggers green tint on boss success", () => {
         (useSettingsStore as any).mockReturnValue({ screenShake: true });
         (useGameSocket as any).mockReturnValue({
-            type: "boss_result",
-            outcome: "success"
+            lastEvent: { type: "boss_result", outcome: "success" }
         });
 
         const { container } = render(
@@ -82,8 +79,7 @@ describe("FXLayer Boss Mechanics", () => {
     it("triggers glitch and red tint on boss failure", () => {
         (useSettingsStore as any).mockReturnValue({ screenShake: true });
         (useGameSocket as any).mockReturnValue({
-            type: "boss_result",
-            outcome: "failure"
+            lastEvent: { type: "boss_result", outcome: "failure" }
         });
 
         const { container } = render(

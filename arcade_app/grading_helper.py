@@ -83,6 +83,50 @@ def _calculate_final_grade(raw_grade: Dict, track: str) -> Dict:
     
     return {**raw_grade, "weighted_score": round(score, 1), "rubric_used": track}
 
+def evaluate_boss_objectives(boss, code: str) -> list:
+    """
+    Run the deterministic objectives stored on *boss* against the raw submitted
+    *code* string.  Returns a list of failed objective result dicts (empty = all
+    pass).
+
+    Uses the same validate_quest_attempt engine as regular quest grading.
+    Designed for static objective kinds that read from `code` directly:
+    yaml_structure, source_regex, etc.
+
+    For the gates approach used in /api/boss/submit: if this list is non-empty,
+    the LLM rubric is not consulted and the boss submission fails with score=0.
+    """
+    from arcade_app.services.quest_validate import validate_quest_attempt
+    from types import SimpleNamespace
+
+    objectives = getattr(boss, "objectives_json", None) or []
+    if not objectives:
+        return []  # no deterministic checks defined — proceed to rubric
+
+    # Build a minimal quest_def stand-in.  tier=0 bypasses the Tier-1 gate
+    # (which would reject an empty objectives list).  runtime_rules_json with
+    # enabled=False suppresses the spurious "runtime" objective row.
+    quest_def = SimpleNamespace(
+        objectives_json=objectives,
+        runtime_rules_json={"enabled": False},
+        tier=0,
+        language="docker",     # avoids the html/css short-circuit
+        grading_json={},
+        slug=boss.id,
+    )
+
+    results = validate_quest_attempt(
+        code=code,
+        stdout="",   # yaml_structure reads from code, not stdout
+        stderr="",
+        exit_code=0,
+        timed_out=False,
+        quest_def=quest_def,
+    )
+
+    return [r for r in results if not r.get("ok")]
+
+
 async def judge_boss_submission(user_id: str, encounter_id: int, code: str) -> int:
     """
     Evaluates a Boss Fight submission using the specific boss rubric.

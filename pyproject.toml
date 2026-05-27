@@ -1,0 +1,14 @@
+[tool.pytest.ini_options]
+# Only discover Python tests under arcade_app/ and tests/.
+# Excludes: .claude/ worktrees, node_modules, scripts, data/
+testpaths = ["arcade_app", "tests"]
+norecursedirs = [
+    ".claude",
+    "node_modules",
+    "worktrees",
+    ".git",
+    "data",
+    "scripts",
+    "apps",
+    "runtimes",
+]

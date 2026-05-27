@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Latency Handshake</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 2rem; }
+        #delayed-content { border: 1px dashed #38bdf8; padding: 1rem; margin-top: 2rem; display: none; }
+        .spinner { border: 4px solid rgba(255,255,255,0.1); border-left-color: #38bdf8; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Protocol Loading</h1>
+    <p>Simulating deep system check ({{ delay }}s delay)...</p>
+    <div id="loading-indicator" class="spinner"></div>
+    
+    <div id="delayed-content" data-testid="delayed-protocol-box">
+        <h3 style="color: #4ade80;">PROTOCOL_READY</h3>
+        <p>All subsystems synchronized.</p>
+        <button data-testid="confirm-sync">Confirm Synchronization</button>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.getElementById('loading-indicator').style.display = 'none';
+            document.getElementById('delayed-content').style.display = 'block';
+        }, parseFloat("{{ delay }}") * 1000);
+    </script>
+</body>
+</html>

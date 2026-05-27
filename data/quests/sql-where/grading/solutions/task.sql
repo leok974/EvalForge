@@ -1,1 +1,1 @@
-SELECT id, name, age FROM users WHERE is_active = 1 AND city = 'Detroit' AND age >= 25 ORDER BY id ASC;
+SELECT id, name, age FROM users WHERE is_active = 1 AND city = 'Detroit' ORDER BY name ASC;

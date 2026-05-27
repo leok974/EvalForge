@@ -1,0 +1,268 @@
+[
+  {
+    "slug": "pw-open-and-assert",
+    "title": "First Contact",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-ignition",
+    "language": "playwright",
+    "tier": 1,
+    "short_description": "Navigate to the CMS and assert the page title using page.goto() and toHaveTitle().",
+    "learning_objective": "Use page.goto() and expect(page).toHaveTitle() to verify page navigation.",
+    "key_terms": ["glossary/playwright/locators", "glossary/playwright/auto-waiting"],
+    "concept_tags": ["playwright", "navigation", "assertions", "goto"],
+    "base_xp_reward": 100,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_goto",
+        "title": "Uses page.goto()",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "page\\.goto\\(",
+          "description": "Call page.goto() to navigate to the page"
+        }
+      },
+      {
+        "id": "uses_expect",
+        "title": "Uses expect() assertion",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "expect\\(",
+          "description": "Use expect() to assert the page title"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-locators-and-assertions",
+    "title": "Element Recon",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-ignition",
+    "language": "playwright",
+    "tier": 1,
+    "short_description": "Use getByRole, getByTestId, and toBeVisible() to locate and assert CMS elements.",
+    "learning_objective": "Master semantic locators: getByRole, getByTestId, getByText, getByPlaceholder.",
+    "key_terms": ["glossary/playwright/locators", "glossary/playwright/auto-waiting"],
+    "concept_tags": ["playwright", "locators", "assertions", "getByRole"],
+    "base_xp_reward": 150,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_get_by_role",
+        "title": "Uses getByRole()",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "getByRole\\(",
+          "description": "Use getByRole() to locate an element by its ARIA role"
+        }
+      },
+      {
+        "id": "uses_to_be_visible",
+        "title": "Asserts elements are visible",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "toBeVisible\\(",
+          "description": "Use toBeVisible() to assert element visibility"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-fill-and-click",
+    "title": "Form Assault",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-ignition",
+    "language": "playwright",
+    "tier": 1,
+    "short_description": "Fill the CMS login form and click submit, then assert the redirect to /dashboard.",
+    "learning_objective": "Use fill() and click() for form interaction, then assert navigation with toHaveURL().",
+    "key_terms": ["glossary/playwright/locators", "glossary/playwright/auto-waiting"],
+    "concept_tags": ["playwright", "forms", "fill", "click", "navigation"],
+    "base_xp_reward": 150,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_fill",
+        "title": "Uses fill() to enter credentials",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "\\.fill\\(",
+          "description": "Use .fill() to enter text into input fields"
+        }
+      },
+      {
+        "id": "uses_click",
+        "title": "Uses click() to submit the form",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "\\.click\\(",
+          "description": "Use .click() to click the submit button"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-auto-waiting",
+    "title": "Patience Protocol",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-ignition",
+    "language": "playwright",
+    "tier": 1,
+    "short_description": "Wait for a delayed element on the latency page using Playwright auto-waiting.",
+    "learning_objective": "Understand Playwright's auto-waiting mechanism and avoid explicit sleep calls.",
+    "key_terms": ["glossary/playwright/auto-waiting", "glossary/playwright/locators"],
+    "concept_tags": ["playwright", "auto-waiting", "toBeVisible", "async"],
+    "base_xp_reward": 150,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_to_be_visible",
+        "title": "Asserts delayed element is visible",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "toBeVisible\\(",
+          "description": "Use toBeVisible() to assert the delayed element appears"
+        }
+      },
+      {
+        "id": "uses_get_by_test_id",
+        "title": "Uses getByTestId() locator",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "getByTestId\\(",
+          "description": "Use getByTestId() to locate the delayed element"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-screenshot-and-trace",
+    "title": "Evidence Capture",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-ignition",
+    "language": "playwright",
+    "tier": 1,
+    "short_description": "Take a screenshot of the CMS login page and verify the file was written to disk.",
+    "learning_objective": "Use page.screenshot() to capture visual evidence and verify artifacts on disk.",
+    "key_terms": ["glossary/playwright/locators", "guides/playwright/debugging"],
+    "concept_tags": ["playwright", "screenshot", "artifacts", "fs"],
+    "base_xp_reward": 150,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_screenshot",
+        "title": "Calls page.screenshot()",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "screenshot\\(",
+          "description": "Use page.screenshot() to capture a PNG file"
+        }
+      },
+      {
+        "id": "uses_fs",
+        "title": "Verifies file exists with fs module",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "existsSync|readFileSync|statSync",
+          "description": "Use fs module to verify the screenshot file was created"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-network-intercept",
+    "title": "Signal Hijack",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-ignition",
+    "language": "playwright",
+    "tier": 1,
+    "short_description": "Intercept a network request using page.route() and return a custom response.",
+    "learning_objective": "Use page.route() and route.fulfill() to intercept and mock HTTP requests.",
+    "key_terms": ["glossary/playwright/locators", "glossary/playwright/auto-waiting"],
+    "concept_tags": ["playwright", "network", "route", "intercept", "mock"],
+    "base_xp_reward": 200,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_page_route",
+        "title": "Uses page.route() to intercept",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "page\\.route\\(",
+          "description": "Use page.route() to register a network interceptor"
+        }
+      },
+      {
+        "id": "uses_route_fulfill",
+        "title": "Uses route.fulfill() to return custom response",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "route\\.fulfill\\(",
+          "description": "Use route.fulfill() to return a custom HTTP response"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pw-grouping",
+    "title": "Tactical Formation",
+    "world_id": "world-playwright",
+    "track_id": "track-playwright-ignition",
+    "language": "playwright",
+    "tier": 1,
+    "short_description": "Organize tests with test.describe and share login state using test.beforeEach.",
+    "learning_objective": "Use test.describe and test.beforeEach to organize tests and share setup logic.",
+    "key_terms": ["glossary/playwright/locators", "glossary/playwright/auto-waiting"],
+    "concept_tags": ["playwright", "describe", "beforeEach", "organization"],
+    "base_xp_reward": 200,
+    "objectives": [
+      {
+        "id": "exit_code_zero",
+        "title": "All tests pass",
+        "kind": "exit_code_zero"
+      },
+      {
+        "id": "uses_describe",
+        "title": "Uses test.describe() to group tests",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "test\\.describe\\(",
+          "description": "Use test.describe() to create a named test group"
+        }
+      },
+      {
+        "id": "uses_before_each",
+        "title": "Uses test.beforeEach() for setup",
+        "kind": "source_regex",
+        "rule": {
+          "pattern": "test\\.beforeEach\\(",
+          "description": "Use test.beforeEach() to run shared setup before each test"
+        }
+      }
+    ]
+  }
+]

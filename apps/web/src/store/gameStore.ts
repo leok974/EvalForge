@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type LayoutId = 'cyberdeck' | 'orion' | 'workshop';
+// Sprint 22: LayoutId and layout field removed — Workshop is the only layout.
+// useSettingsStore.worldViewMode ('grid' | 'map') controls the world-selection view.
 
 export type ActiveTrack = {
     worldSlug: string;
@@ -18,11 +19,6 @@ interface GameState {
     integrity: number;
     bossesUnlocked: string[];
 
-    // --- Interface ---
-    layout: LayoutId;
-    setLayout: (layout: LayoutId) => void;
-    setHighlightedQuestId: (id: string | null) => void;
-
     // --- Active State ---
     activeTrack: ActiveTrack | null;
     setActiveTrack: (track: ActiveTrack | null) => void;
@@ -32,6 +28,7 @@ interface GameState {
     damageIntegrity: (amount: number) => void;
     restoreIntegrity: () => void;
     setBossesUnlocked: (bosses: string[]) => void;
+    setHighlightedQuestId: (id: string | null) => void;
 }
 
 export const useGameStore = create<GameState>()(
@@ -42,13 +39,11 @@ export const useGameStore = create<GameState>()(
             level: 1,
             activeQuestId: null,
             highlightedQuestId: null,
-            layout: 'cyberdeck',
             integrity: 100,
             bossesUnlocked: [],
             activeTrack: null,
 
             // Actions
-            setLayout: (layout) => set({ layout }),
             setActiveTrack: (track) => set({ activeTrack: track }),
 
             addXp: (amount) => set((state) => {
@@ -62,13 +57,12 @@ export const useGameStore = create<GameState>()(
                 integrity: Math.max(0, state.integrity - amount)
             })),
 
-            // Interface
             setHighlightedQuestId: (id) => set({ highlightedQuestId: id }),
 
             restoreIntegrity: () => set({ integrity: 100 }),
 
             setBossesUnlocked: (bosses) => set({ bossesUnlocked: bosses }),
         }),
-        { name: 'evalforge-save-data' } // LocalStorage key
+        { name: 'evalforge-save-data' }
     )
 );

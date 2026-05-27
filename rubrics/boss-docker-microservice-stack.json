@@ -1,0 +1,137 @@
+{
+    "schema_version": "1.0",
+    "id": "boss-docker-microservice-stack",
+    "boss_slug": "boss-docker-microservice-stack",
+    "title": "Docker Microservice Stack",
+    "max_score": 8,
+    "dimensions": [
+        {
+            "key": "architecture.service_separation",
+            "label": "Service Separation",
+            "weight": 0.25,
+            "description": "Clear separation of concerns across nginx, api, and db tiers.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "Monolithic",
+                    "score": 0,
+                    "criteria": "Only one or two services defined. Responsibilities collapsed into a single container."
+                },
+                {
+                    "level": 1,
+                    "label": "Partial",
+                    "score": 1,
+                    "criteria": "Two services present but missing the reverse proxy tier or lacking clear role separation."
+                },
+                {
+                    "level": 2,
+                    "label": "Three-Tier",
+                    "score": 2,
+                    "criteria": "All three tiers defined (nginx, api, db) with clear responsibilities. nginx handles ingress, api handles logic, db handles persistence."
+                }
+            ]
+        },
+        {
+            "key": "networking.isolation",
+            "label": "Network Isolation",
+            "weight": 0.25,
+            "description": "Services communicate via a named network; no unnecessary port exposure.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "No Network",
+                    "score": 0,
+                    "criteria": "No named network declared. Services rely on default bridge networking."
+                },
+                {
+                    "level": 1,
+                    "label": "Named Network",
+                    "score": 1,
+                    "criteria": "Named network declared but not all services are attached, or db port is exposed unnecessarily to the host."
+                },
+                {
+                    "level": 2,
+                    "label": "Fully Isolated",
+                    "score": 2,
+                    "criteria": "Named network declared and all services attached. Only nginx exposes a host port. DB is internal-only."
+                }
+            ]
+        },
+        {
+            "key": "resilience.health_restart",
+            "label": "Resilience",
+            "weight": 0.25,
+            "description": "Healthchecks and restart policies present and correctly wired.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "None",
+                    "score": 0,
+                    "criteria": "No healthchecks or restart policies. Stack is fragile on startup race conditions."
+                },
+                {
+                    "level": 1,
+                    "label": "Partial",
+                    "score": 1,
+                    "criteria": "Healthchecks or restart policies present on some services but not wired end-to-end (e.g. depends_on still uses list form)."
+                },
+                {
+                    "level": 2,
+                    "label": "Full Chain",
+                    "score": 2,
+                    "criteria": "All services have restart policies. db has healthcheck. depends_on chain uses condition: service_healthy throughout."
+                }
+            ]
+        },
+        {
+            "key": "storage.volumes",
+            "label": "Data Persistence",
+            "weight": 0.25,
+            "description": "Named volume used for database storage; not anonymous or bind-mounted.",
+            "bands": [
+                {
+                    "level": 0,
+                    "label": "No Persistence",
+                    "score": 0,
+                    "criteria": "No volume defined for db. Data is lost when the container restarts."
+                },
+                {
+                    "level": 1,
+                    "label": "Anonymous Volume",
+                    "score": 1,
+                    "criteria": "Volume defined but as an anonymous volume or bind mount — hard to manage and back up."
+                },
+                {
+                    "level": 2,
+                    "label": "Named Volume",
+                    "score": 2,
+                    "criteria": "Named volume declared in the top-level volumes key and mounted at the correct Postgres data path."
+                }
+            ]
+        }
+    ],
+    "grade_bands": [
+        {
+            "min_score": 8,
+            "label": "S",
+            "description": "Production-grade microservice stack."
+        },
+        {
+            "min_score": 6,
+            "label": "A",
+            "description": "Solid stack with minor gaps."
+        },
+        {
+            "min_score": 4,
+            "label": "B",
+            "description": "Functional but missing resilience or isolation."
+        },
+        {
+            "min_score": 0,
+            "label": "C",
+            "description": "Incomplete or unsafe stack design."
+        }
+    ],
+    "autofail_conditions": [],
+    "llm_judge_instructions": "Evaluate the Docker Compose YAML submitted. Look for correct three-tier separation (nginx/api/db), named network with proper isolation, named volume for persistence, and full healthcheck+restart chain. Reward explicit condition: service_healthy in depends_on. Penalise exposed db ports, anonymous volumes, and absent restart policies."
+}

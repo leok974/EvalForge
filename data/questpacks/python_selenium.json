@@ -19,6 +19,7 @@
       {
         "id": "navigate_to_login",
         "title": "Navigate to the Login Page",
+        "hint": "Your script must emit a step log line. Call step_log('navigate_to_login', 'PASS', 'Navigated to login') after driver.get(), or ensure the TITLE_MATCH sentinel is printed to stdout.",
         "kind": "stdout_regex",
         "rule": {
             "pattern": "TITLE_MATCH: CMS Login",

@@ -18,9 +18,9 @@ class RunnerRegistry:
         
         if language == "python":
             if mode == "tests":
-                # We expect the runner to inject run_unittest_json.py
+                # Use evalforge-backend image (has pytest pre-installed)
                 return RunnerSpec(
-                    docker_image="python:3.12-slim",
+                    docker_image="evalforge-backend:latest",
                     file_name=entrypoint,
                     command=["python", "-u", "-I", "-B", "/workspace/.evalforge/run_unittest_json.py"]
                 )
@@ -66,6 +66,15 @@ class RunnerRegistry:
                 docker_image="node:20-slim",
                 command=["node", entry_path],
                 file_name="main.js",
+            )
+
+        elif language == "docker":
+            # Grade-by-inspection: no subprocess execution. RunnerSpec is a
+            # no-op entry used by CI sweep scripts that enumerate languages.
+            return RunnerSpec(
+                docker_image="",           # no container needed
+                command=[],                # no command — runner is run_docker_local()
+                file_name="Dockerfile",
             )
 
         raise ValueError(f"Unsupported language: {language}")

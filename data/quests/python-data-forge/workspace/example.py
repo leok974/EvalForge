@@ -1,33 +1,36 @@
-import json
+# Example: load attendance data and compute hours per employee.
+# Same three-stage pipeline as the quest (load → accumulate → top-k),
+# applied to a different domain so you can see the pattern without
+# seeing the solution.
+#
+# Fixture columns: date (str), employee (str), hours (float)
+
+from __future__ import annotations
+
+import csv
 from pathlib import Path
 
 
-def normalize_record(record: dict) -> dict:
-    """Normalize a raw contact record to the canonical schema."""
-    return {
-        "id": int(record.get("id", 0)),
-        "name": str(record.get("name") or "Unknown").strip() or "Unknown",
-        "email": record.get("email") or None,
-        "phone": record.get("phone") or None,
-        "is_active": bool(record.get("is_active", False)),
-        "tags": sorted(record.get("tags") or []),
-    }
+def load_attendance(path: str | Path) -> list[dict]:
+    rows = []
+    with open(path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            rows.append({
+                "employee": row["employee"],
+                "hours": float(row["hours"]),
+            })
+    return rows
 
 
-def main() -> None:
-    fixture_path = Path("fixtures/raw_contacts.json")
-    if not fixture_path.exists():
-        fixture_path = Path("workspace/fixtures/raw_contacts.json")
-
-    with open(fixture_path) as f:
-        raw_data = json.load(f)
-
-    normalized = sorted(
-        [normalize_record(r) for r in raw_data],
-        key=lambda r: r["id"]
-    )
-    print(json.dumps(normalized, sort_keys=True, separators=(",", ":")))
+def hours_by_employee(rows: list[dict]) -> dict[str, float]:
+    totals: dict[str, float] = {}
+    for row in rows:
+        emp = row["employee"]
+        totals[emp] = totals.get(emp, 0.0) + row["hours"]
+    return totals
 
 
-if __name__ == "__main__":
-    main()
+def top_workers(totals: dict[str, float], k: int) -> list[tuple[str, float]]:
+    ranked = sorted(totals.items(), key=lambda x: x[1], reverse=True)
+    return ranked[:k]

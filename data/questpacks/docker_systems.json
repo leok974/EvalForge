@@ -1,0 +1,302 @@
+{
+    "world_id": "world-docker",
+    "track_id": "docker-systems",
+    "pack_slug": "docker_systems",
+    "title": "Docker Systems",
+    "tier": 1,
+    "quests": [
+        {
+            "slug": "dk-compose-basics",
+            "title": "Compose Basics",
+            "language": "docker",
+            "tier": 1,
+            "description": "Add a second service to a Compose file and wire it up with depends_on.",
+            "short_description": "Build a two-service Compose stack: api depends on db.",
+            "objectives": [
+                {
+                    "id": "obj-api-service",
+                    "kind": "yaml_structure",
+                    "title": "api service defined",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.api"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-db-service",
+                    "kind": "yaml_structure",
+                    "title": "db service defined",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.db"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-depends-on",
+                    "kind": "yaml_structure",
+                    "title": "api depends_on db",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.api.depends_on"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "compose.yaml",
+                "files_from": "../quests/dk-compose-basics/workspace"
+            }
+        },
+        {
+            "slug": "dk-multi-stage",
+            "title": "Multi-Stage Builds",
+            "language": "docker",
+            "tier": 1,
+            "description": "Refactor a single-stage Dockerfile into a builder + runtime multi-stage build.",
+            "short_description": "Use COPY --from=builder to produce a lean runtime image.",
+            "objectives": [
+                {
+                    "id": "obj-builder-stage",
+                    "kind": "source_regex",
+                    "title": "Named builder stage declared",
+                    "rule": {
+                        "pattern": "FROM\\s+\\S+\\s+[Aa][Ss]\\s+builder",
+                        "description": "Must have a stage named 'builder': FROM <image> AS builder"
+                    }
+                },
+                {
+                    "id": "obj-second-from",
+                    "kind": "source_regex",
+                    "title": "Second FROM for runtime stage",
+                    "rule": {
+                        "pattern": "FROM\\s+\\S+-slim",
+                        "description": "Runtime stage must use a slim base image (e.g. node:18-slim)"
+                    }
+                },
+                {
+                    "id": "obj-copy-from-builder",
+                    "kind": "source_regex",
+                    "title": "Copies artefacts from builder",
+                    "rule": {
+                        "pattern": "COPY\\s+--from=builder",
+                        "description": "Must copy built artefacts from the builder stage"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "Dockerfile",
+                "files_from": "../quests/dk-multi-stage/workspace"
+            }
+        },
+        {
+            "slug": "dk-health-and-restart",
+            "title": "Health Checks and Restart Policies",
+            "language": "docker",
+            "tier": 1,
+            "description": "Add a HEALTHCHECK to the db service and set restart policies so the stack self-heals.",
+            "short_description": "Make your stack observable and resilient with healthchecks and restart policies.",
+            "objectives": [
+                {
+                    "id": "obj-healthcheck",
+                    "kind": "yaml_structure",
+                    "title": "db service has a healthcheck",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.db.healthcheck"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-restart",
+                    "kind": "source_regex",
+                    "title": "restart: unless-stopped set",
+                    "rule": {
+                        "pattern": "restart:\\s*unless-stopped",
+                        "description": "At least one service must have restart: unless-stopped"
+                    }
+                },
+                {
+                    "id": "obj-condition",
+                    "kind": "source_regex",
+                    "title": "depends_on uses service_healthy condition",
+                    "rule": {
+                        "pattern": "condition:\\s*service_healthy",
+                        "description": "api must depend on db with condition: service_healthy"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "compose.yaml",
+                "files_from": "../quests/dk-health-and-restart/workspace"
+            }
+        },
+        {
+            "slug": "dk-secrets-and-config",
+            "title": "Secrets and Config",
+            "language": "docker",
+            "tier": 1,
+            "description": "Replace hardcoded credentials in a Compose file with env_file references.",
+            "short_description": "Never hardcode secrets — use env_file to inject them at runtime.",
+            "objectives": [
+                {
+                    "id": "obj-db-env-file",
+                    "kind": "yaml_structure",
+                    "title": "db service uses env_file",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.db.env_file"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-api-env-file",
+                    "kind": "yaml_structure",
+                    "title": "api service uses env_file",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.api.env_file"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-env-file-ref",
+                    "kind": "source_regex",
+                    "title": ".env file referenced",
+                    "rule": {
+                        "pattern": "env_file",
+                        "description": "Must use env_file to load secrets from an external file"
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "compose.yaml",
+                "files_from": "../quests/dk-secrets-and-config/workspace"
+            }
+        },
+        {
+            "slug": "dk-boss-microservice-stack",
+            "title": "Boss: Microservice Stack",
+            "language": "docker",
+            "tier": 1,
+            "description": "Design a production-ready three-tier stack: nginx reverse proxy, Python API, and Postgres database — all wired with networks, volumes, healthchecks, and restart policies.",
+            "short_description": "Final boss: build a full nginx + api + db stack from scratch.",
+            "objectives": [
+                {
+                    "id": "obj-api",
+                    "kind": "yaml_structure",
+                    "title": "api service defined",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.api"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-db",
+                    "kind": "yaml_structure",
+                    "title": "db service defined",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.db"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-nginx",
+                    "kind": "yaml_structure",
+                    "title": "nginx service defined",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.nginx"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-db-healthcheck",
+                    "kind": "yaml_structure",
+                    "title": "db service has healthcheck",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.db.healthcheck"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-named-volume",
+                    "kind": "yaml_structure",
+                    "title": "Named volume db_data declared",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "is_named_volume",
+                                "path": "db_data"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-network",
+                    "kind": "yaml_structure",
+                    "title": "Named network declared",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "networks"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "obj-api-depends",
+                    "kind": "yaml_structure",
+                    "title": "api depends on db",
+                    "rule": {
+                        "assertions": [
+                            {
+                                "type": "exists",
+                                "path": "services.api.depends_on"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "workspace": {
+                "entrypoint": "compose.yaml",
+                "files_from": "../quests/dk-boss-microservice-stack/workspace"
+            }
+        }
+    ]
+}

@@ -1,1 +1,1 @@
-/mnt/d/EvalForge/data/quests/cli-navigation/workspace/fixtures/site/pages
+/d/EvalForge/data/quests/cli-navigation/workspace/fixtures/site/pages

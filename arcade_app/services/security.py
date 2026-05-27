@@ -73,23 +73,33 @@ def validate_workspace_limits(files: list[dict]):
 def sanitize_logs(logs: str) -> str:
     """
     Sanitizes logs by removing absolute paths and other sensitive info.
+    Ensures learner-facing output doesn't leak container/server internals.
     """
     if not logs:
         return ""
-        
+
     # 1. Normalize line endings
     logs = logs.replace('\r\n', '\n')
-    
+
     # 2. Strip standard absolute paths (e.g. /workspace/, /tmp/, D:\...)
-    # We want to keep the relative part usually, or just hide the prefix.
-    # Simple regex for /workspace/ substitute to nothing or <workspace>
-    # Note: Docker runner uses /workspace.
-    
+    # Docker runner uses /workspace; local runner uses /tmp.
     logs = re.sub(r'/(?:tmp|workspace)/+', '', logs)
-    
-    # Also strip common windows paths if visible (D:\EvalForge...)
-    # This is harder to genericize, but capturing drive letters matches
+
+    # 3. Strip evalforge temp dir name that remains after /tmp/ is stripped.
+    # Python tracebacks show e.g. 'File "evalforge-run-abc123/main.py"' after
+    # /tmp/ is removed. Strip the prefix so only the filename remains.
+    logs = re.sub(r'evalforge-[a-zA-Z0-9_-]+/', '', logs)
+
+    # 4. Strip Docker container internal library paths.
+    # These appear in pytest tracebacks and stdlib tracebacks, e.g.:
+    #   /usr/local/lib/python3.11/importlib/__init__.py
+    #   ../usr/local/lib/python3.11/site-packages/_pytest/...
+    # Keep only the leaf filename so tracebacks remain readable.
+    logs = re.sub(r'\.\./usr/local/(?:lib|share)/[^\s"\']+', '<stdlib>', logs)
+    logs = re.sub(r'/usr/local/(?:lib|share)/[^\s"\']+', '<stdlib>', logs)
+
+    # 5. Strip common Windows paths if visible (D:\EvalForge...)
     logs = re.sub(r'[a-zA-Z]:\\[^ \n"]*\\', '', logs)
-    
+
     return logs
 

@@ -12,7 +12,7 @@ INSERT INTO employees (name, email, department_id) VALUES
 INSERT INTO projects (name, budget) VALUES
 ('Project Phoenix', 120000.00),
 ('Project Icarus', 45000.00),
-('Project Chronos', 85000.00);
+('Project Chronos', 30000.00);   -- below threshold, should be excluded
 
 INSERT INTO employee_assignments (employee_id, project_id, role) VALUES
 (1, 1, 'Lead Engineer'),

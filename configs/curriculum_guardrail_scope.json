@@ -3,15 +3,26 @@
     "world-python",
     "world-web",
     "world-sql",
-    "world-js"
+    "world-js",
+    "world-ts",
+    "world-git",
+    "world-docker"
   ],
   "active_tracks": [
-    "track-python-systems",
-    "track-python-ignition",
-    "track-python-foundry",
-    "track-python-selenium",
-    "track-html",
-    "track-css"
+    "python-foundry",
+    "python-ignition",
+    "python-systems",
+    "python-boss",
+    "python-selenium",
+    "js-foundry",
+    "ts-foundry",
+    "git-foundry",
+    "git-systems",
+    "sql-foundry",
+    "web-html",
+    "web-css",
+    "docker-ignition",
+    "docker-systems"
   ],
   "active_questpacks": [
     "data/questpacks/python_systems.json",
@@ -21,10 +32,12 @@
     "data/questpacks/web_html_core.json",
     "data/questpacks/web_css_core.json",
     "data/questpacks/sql_core.json",
-    "data/questpacks/javascript_core.json"
+    "data/questpacks/javascript_core.json",
+    "data/questpacks/typescript_core.json",
+    "data/questpacks/git_core.json",
+    "data/questpacks/docker_ignition.json",
+    "data/questpacks/docker_systems.json"
   ],
-  "warning_only_worlds": [
-    "world-ts"
-  ],
+  "warning_only_worlds": [],
   "excluded_worlds": []
 }

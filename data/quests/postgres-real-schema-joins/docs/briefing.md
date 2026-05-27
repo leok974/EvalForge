@@ -1,13 +1,5 @@
-# Briefing: Crossing the Streams
+# PostgreSQL: Real Schema Joins
 
-Our project management data is spread across multiple tables. To get a complete picture of who is working on our high-stakes projects, you'll need to perform a multi-way join.
+You are a backend engineer at a consulting firm. HR needs a report showing which employees are assigned to high-budget projects, their department, and their role. The data is spread across four tables: employees, departments, projects, and employee_assignments.
 
-### The Objective
-Identify all staff members assigned to "Tier 1" projects (budget > $50,000). 
-
-### Your Mission
-1.  Navigate the relationship between `employees`, `departments`, `projects`, and `employee_assignments`.
-2.  Filter for projects where the budget exceeds **50,000**.
-3.  Ensure your column names match the requested aliases exactly.
-
-Use the **Database Explorer** to verify the foreign key relationships before you start coding.
+Your task: write a multi-table JOIN query that returns employee name, department name, project name, and role — but only for projects with a budget over 50,000. Sort results alphabetically by employee name.

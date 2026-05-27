@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Active Tickets</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #334155; }
+        th { background: #1e293b; color: #94a3b8; text-transform: uppercase; font-size: 0.85rem;}
+        .status-open { color: #facc15; }
+        .status-closed { color: #4ade80; }
+        .status-pending { color: #38bdf8; }
+    </style>
+</head>
+<body>
+    <h1>Support Tickets</h1>
+    <p>Current active workload queue.</p>
+    
+    <table data-testid="tickets-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-testid="ticket-row">
+                <td>#1041</td>
+                <td>Login credentials invalid after password reset</td>
+                <td data-testid="ticket-status" class="status-open">Open</td>
+            </tr>
+            <tr data-testid="ticket-row">
+                <td>#1042</td>
+                <td>Billing page throws 500 error on checkout</td>
+                <td data-testid="ticket-status" class="status-closed">Closed</td>
+            </tr>
+            <tr data-testid="ticket-row">
+                <td>#1043</td>
+                <td>Change account email address</td>
+                <td data-testid="ticket-status" class="status-pending">Pending</td>
+            </tr>
+            <tr data-testid="ticket-row">
+                <td>#1044</td>
+                <td>Two-factor authentication not sending SMS</td>
+                <td data-testid="ticket-status" class="status-open">Open</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -66,6 +66,27 @@ export function listFiles(dir, suffix) {
     return fs.readdirSync(dir).filter((f) => f.endsWith(suffix)).map((f) => path.join(dir, f));
 }
 
+export function checkFileExists(wsDir, rel) {
+    return fs.existsSync(path.join(wsDir, rel));
+}
+
+/**
+ * Run an arbitrary shell command string in the given directory.
+ * Unlike runSh (which runs a named script file), runCmd runs via `sh -c <command>`.
+ * Useful for running git or other CLI commands inline in tests.
+ *
+ * @example
+ *   const { stdout } = await runCmd(WS, "git log --oneline -n 5");
+ */
+export async function runCmd(wsDir, command, timeoutMs = DEFAULT_TIMEOUT_MS) {
+    const shell = process.platform === "win32" ? "bash" : "sh";
+    return execFileAsync(shell, ["-c", command], {
+        cwd: wsDir,
+        timeout: timeoutMs,
+        env: process.env,
+    });
+}
+
 export async function withRestoredFile(wsDir, relPath, fn) {
     const absPath = path.join(wsDir, relPath);
     let original = null;

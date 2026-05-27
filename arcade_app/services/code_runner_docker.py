@@ -38,8 +38,25 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
     t0 = time.time()
 
     # 1. Determine Internal Entrypoint (for registry lookups)
-    resolved_entrypoint = entrypoint or "task.sql" if language == "sql" else (workspace.get("entrypoint") if workspace else "main.py")
-    if language == "typescript" and not entrypoint: resolved_entrypoint = "main.ts"
+    # NOTE: Must explicitly prioritize the `entrypoint` parameter — a bare ternary like
+    # `entrypoint or "task.sql" if language == "sql" else ...` has wrong precedence in Python.
+    if entrypoint:
+        resolved_entrypoint = entrypoint
+    elif language == "sql":
+        resolved_entrypoint = "task.sql"
+    elif language == "typescript":
+        # Only trust a workspace entrypoint that is actually a .ts file.
+        # build_effective_workspace defaults entrypoint to "main.py" for all languages,
+        # so we must ignore that default for TypeScript.
+        ws_ep = workspace.get("entrypoint") if workspace else None
+        if ws_ep and ws_ep.endswith(".ts"):
+            resolved_entrypoint = ws_ep
+        else:
+            resolved_entrypoint = "main.ts"
+    elif workspace:
+        resolved_entrypoint = workspace.get("entrypoint") or "main.py"
+    else:
+        resolved_entrypoint = "main.py"
     
     spec = RunnerRegistry.get_runner(language, mode=mode, entrypoint=resolved_entrypoint)
     image = os.getenv(f"EXECUTION_DOCKER_IMAGE_{language.upper()}", spec.docker_image)
@@ -133,13 +150,21 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
         listing = [f["path"] for f in files]
         found_configured = bool(workspace.get("entrypoint")) if workspace else False
         
-        effective_entrypoint = entrypoint
-        
+        effective_entrypoint = entrypoint or resolved_entrypoint
+
         if not effective_entrypoint:
             if language == "sql":
                 effective_entrypoint = "task.sql"
-            elif not found_configured and language == "python":
-                if "task.py" in listing:
+            elif language == "typescript":
+                effective_entrypoint = "main.ts"
+            elif language == "javascript":
+                effective_entrypoint = "main.js"
+            elif language == "python":
+                # Use workspace-configured entrypoint if set; otherwise auto-detect from files
+                ws_entrypoint = workspace.get("entrypoint") if workspace else None
+                if ws_entrypoint:
+                    effective_entrypoint = ws_entrypoint
+                elif "task.py" in listing:
                     effective_entrypoint = "task.py"
                 elif "main.py" in listing:
                     effective_entrypoint = "main.py"
@@ -218,12 +243,13 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
         
         if not final_command:
             final_command = list(spec.command)
-        # If the last argument looks like a filename, replace it? 
+        # If the last argument looks like a filename, replace it?
         # Or just specific knowledge of python runner?
-        if language == "python":
+        if language == "python" and mode != "tests":
              # Registry for python: ["python", "-I", "-B", "main.py"] or similar.
              # We just need to ensure we run python <entrypoint>
              # Let's rebuild it to be safe.
+             # NOTE: Do NOT override for mode="tests" — the registry command runs run_unittest_json.py
              final_command = ["python", "-I", "-B", effective_entrypoint]
         elif language == "javascript" or language == "typescript":
              # node main.js / ts-node main.ts

@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { useGameStore } from '@/store/gameStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import { useAuth } from '@/hooks/useAuth';
 import { SettingsModal } from '@/components/SettingsModal';
 import { AvatarSelector } from '@/components/AvatarSelector';
 import { ProjectsPanel } from '@/components/ProjectsPanel';
 import { BossHud } from '@/components/BossHud';
 import {
-    Layout,
     Settings,
     Shield,
     Cpu,
@@ -17,73 +14,27 @@ import {
 } from 'lucide-react';
 import { useSeniorProgress } from '@/hooks/useSeniorProgress';
 
-import { useNavigate } from 'react-router-dom';
+// Sprint 22: Layout switcher removed — Workshop is the only layout.
+// crtMode removed — Cyberdeck (its only consumer) was deleted.
 
 export function GameShellHeader() {
-    const { layout, setLayout } = useGameStore();
-    const { crtMode } = useSettingsStore();
     const { user } = useAuth();
     const { data: senior } = useSeniorProgress();
-
-    const navigate = useNavigate();
 
     // Local state for modals
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isAvatarOpen, setIsAvatarOpen] = useState(false);
-    const [isLayoutOpen, setIsLayoutOpen] = useState(false);
     const [isProjectsOpen, setIsProjectsOpen] = useState(false);
 
     return (
         <>
             <header className="h-14 border-b border-zinc-800 bg-zinc-900/50 flex items-center justify-between px-4 sticky top-0 z-50 backdrop-blur-md w-full">
 
-                {/* Left: Brand & Mode Switcher */}
+                {/* Left: Brand */}
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-3 text-cyan-400">
                         <img src="/branding/logo.png" alt="EvalForge" className="h-9 w-auto rounded-full object-contain" />
-                        <span className={`text-sm font-semibold tracking-[0.25em] ${crtMode ? 'crt-aberration' : ''}`}>EVALFORGE</span>
-                    </div>
-
-                    <div className="h-6 w-px bg-zinc-800" />
-
-                    {/* Layout Switcher */}
-                    <div
-                        className="relative h-full flex items-center"
-                        onMouseEnter={() => setIsLayoutOpen(true)}
-                        onMouseLeave={() => setIsLayoutOpen(false)}
-                    >
-                        <button
-                            className={`flex items-center gap-2 text-xs font-bold transition-colors uppercase tracking-wider ${isLayoutOpen ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
-                        >
-                            <Layout className="w-4 h-4" />
-                            {layout}
-                        </button>
-
-                        {/* Dropdown with safe hover gap (pt-2) */}
-                        <div
-                            className={`absolute top-full left-0 w-48 pt-2 transition-all duration-200 origin-top-left ${isLayoutOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-2 invisible pointer-events-none'}`}
-                        >
-                            <div className="bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl overflow-hidden p-1 flex flex-col gap-1">
-                                <button
-                                    onClick={() => { navigate('/arcade/deck'); setIsLayoutOpen(false); }}
-                                    className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'cyberdeck' ? 'bg-zinc-800 text-cyan-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-cyan-400'}`}
-                                >
-                                    CYBERDECK
-                                </button>
-                                <button
-                                    onClick={() => { navigate('/arcade/orion'); setIsLayoutOpen(false); }}
-                                    className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'orion' ? 'bg-zinc-800 text-purple-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-purple-400'}`}
-                                >
-                                    ORION
-                                </button>
-                                <button
-                                    onClick={() => { navigate('/arcade/workshop'); setIsLayoutOpen(false); }}
-                                    className={`w-full text-left px-3 py-2 text-xs rounded transition-colors ${layout === 'workshop' ? 'bg-zinc-800 text-orange-400' : 'text-zinc-400 hover:bg-zinc-800 hover:text-orange-400'}`}
-                                >
-                                    WORKSHOP
-                                </button>
-                            </div>
-                        </div>
+                        <span className="text-sm font-semibold tracking-[0.25em]">EVALFORGE</span>
                     </div>
 
                     <div className="h-6 w-px bg-zinc-800" />

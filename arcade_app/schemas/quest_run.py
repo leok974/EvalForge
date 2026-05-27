@@ -1,15 +1,47 @@
-from pydantic import BaseModel
-from typing import Any, Optional, List
+from pydantic import BaseModel, model_validator
+from typing import Any, Optional, List, Union
 
 class RunRequest(BaseModel):
     code: str
     language: str = "python"
     mode: str = "validate"  # validate|execute (execute later)
     entrypoint: Optional[str] = None
-    workspace: Optional[List[Any]] = None # List of {path, content}
+    # Accept either a list of file dicts OR a workspace object {entrypoint, files}.
+    # The frontend sends an object from submitQuestSolution; the run endpoint
+    # sends a list from runQuest. Support both to avoid 422 errors.
+    workspace: Optional[Any] = None
     idempotency_key: Optional[str] = None  # Phase 8.x PR 3: Idempotency
     run_target_path: Optional[str] = None  # Optional target file to run (e.g. example.sql)
     evaluate_objectives: bool = True  # False = preview run (no grading)
+
+    @model_validator(mode="after")
+    def normalise_workspace(self) -> "RunRequest":
+        """
+        Normalise workspace to a list of file dicts.
+
+        The frontend's submitQuestSolution sends:
+            workspace: { entrypoint: "main.py", files: [{path, content}, ...] }
+
+        The run endpoint's workspaceConfig is sent as:
+            workspace: [{path, content}, ...]   (already a list)
+
+        In both cases we want payload.workspace to be List[Dict] so the
+        submit/run handlers don't need separate code paths.
+        """
+        ws = self.workspace
+        if ws is None:
+            return self
+        if isinstance(ws, dict):
+            # Workspace object form: extract the files list.
+            # Also promote the entrypoint if the payload entrypoint is not set.
+            files = ws.get("files") or []
+            if not self.entrypoint:
+                ep = ws.get("entrypoint")
+                if ep:
+                    self.entrypoint = ep
+            self.workspace = files
+        # If it's already a list, leave as-is.
+        return self
 
 class ObjectiveResult(BaseModel):
     id: str
@@ -22,6 +54,9 @@ class ObjectiveResult(BaseModel):
     expected: Optional[str] = None
     actual: Optional[str] = None
     diff: Optional[str] = None
+
+    # Sprint 7: Concrete next-step hint surfaced on objective failure
+    hint: Optional[str] = None
 
     # Phase 7.1.2: Success Debrief
     debrief: Optional[dict] = None

@@ -1,25 +1,44 @@
-# Tutorial: Navigating Complex Schemas
+# Multi-Table JOINs
 
-In Tier 2, you learned basic joins. In Tier 3, we deal with "Real Schemas" where data is normalized across many tables.
+A JOIN combines rows from two tables based on a matching key.
 
-### 1. Inspect First, Query Second
-Open the **Database Explorer** tab. Look at the `employee_assignments` table. Notice it doesn't have names; it only has `employee_id` and `project_id`. This is a **junction table** used to create a many-to-many relationship.
+## Basic syntax
 
-### 2. The Chain of Joins
-To get from an Employee to a Project, you must go through the assignment table:
-`employees` -> `employee_assignments` -> `projects`
-
-Each JOIN needs an ON clause that matches the keys:
 ```sql
-FROM employees e
-JOIN employee_assignments ea ON e.id = ea.employee_id
-JOIN projects p ON ea.project_id = p.id
+SELECT a.col, b.col
+FROM table_a a
+JOIN table_b b ON a.foreign_key = b.id;
 ```
 
-### 3. Column Aliasing
-When joining tables, column names like `name` often appear in multiple places (e.g., `employees.name` and `projects.name`). Use `AS` to give them unique names in your result set:
+## Chaining multiple JOINs
+
+You can chain JOINs to traverse a relationship graph:
+
 ```sql
-SELECT e.name AS employee_name, p.name AS project_name ...
+SELECT e.name, d.name, p.name
+FROM employee_assignments ea
+JOIN employees e    ON ea.employee_id   = e.id
+JOIN departments d  ON e.department_id  = d.id
+JOIN projects p     ON ea.project_id    = p.id;
 ```
 
-In this mission, you will chain four tables together to generate a high-priority staffing report.
+Each JOIN adds one more table to the result. Work left-to-right: start with the junction table (employee_assignments), then join outward to the entities it references.
+
+## Filtering after JOINs
+
+Add a WHERE clause after all JOIN clauses to filter rows:
+
+```sql
+WHERE p.budget > 50000
+```
+
+## Column aliases
+
+Use AS to rename columns in the output:
+
+```sql
+e.name AS employee_name,
+d.name AS department_name
+```
+
+This makes the result readable even when multiple tables have columns with the same name.

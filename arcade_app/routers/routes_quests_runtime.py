@@ -201,7 +201,29 @@ async def run_quest(
         exec_mode = payload.mode if payload.mode == "tests" else "run"
         if lang == "sql":
             exec_mode = "run"
-            
+
+        # TESTS MODE: Inject grading/public test files + resolve code entrypoint
+        grading_entrypoint = None
+        if exec_mode == "tests" and quest:
+            from pathlib import Path as _Path
+            _quest_dir = _Path(__file__).parent.parent.parent / "data" / "quests" / quest_id
+            _grading_pub = _quest_dir / "grading" / "public"
+            if _grading_pub.exists():
+                if run_workspace is None:
+                    run_workspace = {"files": []}
+                existing_paths = {f["path"] for f in run_workspace.get("files", []) if isinstance(f, dict)}
+                for _tf in sorted(_grading_pub.rglob("*.py")):
+                    _rel = str(_tf.relative_to(_grading_pub)).replace("\\", "/")
+                    if _rel not in existing_paths:
+                        run_workspace.setdefault("files", []).append({
+                            "path": _rel,
+                            "content": _tf.read_text(encoding="utf-8"),
+                            "editable": False,
+                        })
+            # Use grading_json.entrypoint to determine which file gets the user's code
+            _gj = getattr(quest, "grading_json", {}) or {}
+            grading_entrypoint = _gj.get("entrypoint")  # e.g. "task.py"
+
         # Pass workspace to runner
 
         # CRITICAL: Inject db_engine into workspace so runner knows to use Postgres networking/image
@@ -210,8 +232,9 @@ async def run_quest(
                 run_workspace = {"files": []}
             run_workspace["db_engine"] = quest.db_engine
             run_workspace["is_postgres"] = (quest.db_engine == "postgres")
-            
-        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=exec_mode, entrypoint=payload.run_target_path or payload.entrypoint, quest_slug=quest_id)
+
+        _effective_entrypoint = grading_entrypoint or payload.run_target_path or payload.entrypoint
+        r = run_code(lang, payload.code, stdin=getattr(payload, "stdin", "") or "", timeout_ms=EXECUTION_TIMEOUT_MS, workspace=run_workspace, mode=exec_mode, entrypoint=_effective_entrypoint, quest_slug=quest_id)
 
         
         # Sanitize logs
@@ -249,7 +272,7 @@ async def run_quest(
                 entry_file = quest.workspace.get("entrypoint")
             if not entry_file:
                 entry_file = "main.py" # Default
-            
+
             # Find content
             for f in target_files:
                 # Handle both dict and Pydantic object
@@ -257,6 +280,7 @@ async def run_quest(
                 if f_path == entry_file:
                     validation_code = f.get("content") if isinstance(f, dict) else getattr(f, "content", "")
                     break
+
 
     # Validate with timeout protection
     import signal
@@ -290,31 +314,39 @@ async def run_quest(
     if not evaluate_objectives:
         # Preview run: no grading, no mismatch, just show artifacts
         objective_results = []
-        passed = True  # neutral — not a failure
-        
-        # Inject a preview diagnostic so the UI knows to suppress mismatch panels
-        target_path = getattr(payload, "run_target_path", None) or "task.sql"
-        diagnostics_data = [
-            {
-                "kind": "preview",
-                "path": target_path,
-                "line": 1,
-                "column": 1,
-                "severity": "info",
-                "message": f"Reference run (not graded) — running {target_path}",
-                "runner": "sql_preview",
-                "evaluated_objectives": False
-            },
-            {
-                "kind": "sql_run_target",
-                "path": target_path,
-                "line": 1,
-                "column": 1,
-                "severity": "info",
-                "message": f"SQL execution target: {target_path}",
-                "evaluated_objectives": False
-            }
-        ]
+        passed = False  # preview run — never claim success; passed=True requires evidence
+
+        # Hoist target_path with a safe default so it's accessible anywhere below,
+        # regardless of language branch (avoids NameError on non-SQL quests).
+        target_path = None
+
+        # Inject a preview diagnostic so the UI knows to suppress mismatch panels.
+        # Guard on SQL language: non-SQL quests don't use the sql_preview runner.
+        if payload.language == "sql":
+            target_path = getattr(payload, "run_target_path", None) or "task.sql"
+            diagnostics_data = [
+                {
+                    "kind": "preview",
+                    "path": target_path,
+                    "line": 1,
+                    "column": 1,
+                    "severity": "info",
+                    "message": f"Reference run (not graded) — running {target_path}",
+                    "runner": "sql_preview",
+                    "evaluated_objectives": False
+                },
+                {
+                    "kind": "sql_run_target",
+                    "path": target_path,
+                    "line": 1,
+                    "column": 1,
+                    "severity": "info",
+                    "message": f"SQL execution target: {target_path}",
+                    "evaluated_objectives": False
+                }
+            ]
+        else:
+            diagnostics_data = []
     else:
         try:
             with validation_timeout(20):
@@ -340,11 +372,17 @@ async def run_quest(
         if objective_results:
             passed = all(o.get("ok") for o in objective_results)
         else:
-            # No objectives? Passed if run ok
-            if payload.mode == "execute":
-                passed = not timed_out
-            else:
-                passed = True  # Optimistic for playground
+            # Grading attempted but produced no results — synthesize a fail-closed entry.
+            # passed=True requires evidence; no default-to-true branches allowed (truth table).
+            objective_results = [{
+                "id": "config_missing",
+                "ok": False,
+                "detail": (
+                    "No objectives produced results. The grader may have crashed, "
+                    "the quest may have no objectives defined, or the runner may "
+                    "not support this language. Check the console output."
+                )
+            }]
         
         diagnostics_data = []
             
@@ -453,6 +491,7 @@ async def run_quest(
             "runner": runner_id,
             "path": "task.sql" if runner_id == "sql_preview" else "main.py",
             "line": 1,
+            "severity": "info",
             "message": f"Execution started with {runner_id} runner"
         })
         if runner_id == "sql_preview":
@@ -460,6 +499,7 @@ async def run_quest(
                 "kind": "sql_entrypoint",
                 "path": "task.sql",
                 "line": 1,
+                "severity": "info",
                 "message": "SQL execution anchored to task.sql"
             })
     

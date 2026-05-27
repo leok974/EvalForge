@@ -1,6 +1,6 @@
 {
     "world_id": "world-sql",
-    "track_id": "track-sql",
+    "track_id": "sql-foundry",
     "title": "SQL Foundations",
     "quests": [
         {
@@ -29,6 +29,7 @@
                     "id": "obj_select_all",
                     "kind": "source_regex",
                     "title": "Select all columns (*)",
+                    "hint": "Use SELECT * FROM users — the asterisk (*) returns every column from the table.",
                     "rule": {
                         "pattern": "(?i)SELECT\\s+\\*\\s+FROM\\s+users"
                     }
@@ -252,7 +253,7 @@
                     "kind": "stdout_regex",
                     "title": "Returns exactly 3 rows",
                     "rule": {
-                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+\\n.*\\|.*\\n.*\\|.*\\n.*\\|.*\\n(?!.*\\|)"
+                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+\\n[^\\n]+\\n[^\\n]+$"
                     }
                 }
             ],
@@ -303,7 +304,7 @@
                     "kind": "stdout_regex",
                     "title": "Returns exactly one row",
                     "rule": {
-                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+\\n(?!.*\\|)"
+                        "pattern": "(?s)^[^\\n]+\\n[^\\n]+$"
                     }
                 }
             ],

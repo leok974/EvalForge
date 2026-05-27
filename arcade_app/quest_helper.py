@@ -316,15 +316,16 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
             s = state.state
             ps_val = s.value if hasattr(s, "value") else str(s)
             
-    # Phase C: Fix "No Starter Code" symptom by hydrating workspace 
+    # Phase C: Fix "No Starter Code" symptom by hydrating workspace
+    workspace_json = getattr(q, "workspace_json", None) or {}
     workspace_files = []
-    if getattr(q, "workspace_json", None) and isinstance(q.workspace_json, dict):
-        if "files" in q.workspace_json:
-            workspace_files = q.workspace_json["files"]
+    workspace_entrypoint = workspace_json.get("entrypoint") if isinstance(workspace_json, dict) else None
+    if isinstance(workspace_json, dict):
+        if "files" in workspace_json:
+            workspace_files = workspace_json["files"]
         else:
-            # Maybe it needs build_effective_workspace, but usually DB has literal files
             workspace_files = []
-            
+
     # Fallback to starter_code string mapped to typical entrypoint if completely empty
     if not workspace_files and q.starter_code:
         # Guessed based on lang
@@ -336,6 +337,9 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         elif q.language == "css": ext = "css"
         fname = "task.sql" if q.language == "sql" else f"main.{ext}"
         workspace_files = [{"path": fname, "content": q.starter_code, "editable": True}]
+
+    # Build workspace object (entrypoint + files) for frontend resolution
+    workspace_obj = {"entrypoint": workspace_entrypoint, "files": workspace_files} if workspace_entrypoint else None
 
     return {
         "id": q.id,
@@ -357,6 +361,7 @@ def quest_to_dict(q: QuestDefinition, state: Optional[QuestProgress]) -> Dict[st
         # Config-Driven Fields
         "starter_code": q.starter_code,
         "workspace_files": workspace_files, # Phase C hydration
+        "workspace": workspace_obj,         # entrypoint + files for multi-file quests
         "objectives": _normalize_objectives(q.objectives_json or []),
 
         "tiered_hints": q.tiered_hints_json or {},

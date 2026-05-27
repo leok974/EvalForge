@@ -2,20 +2,21 @@
     {
         "id": "quest-first-sparks",
         "world_id": "world-python",
-        "track_id": "python-fundamentals",
+        "track_id": "python-foundry",
         "slug": "first-sparks",
         "title": "First Sparks",
         "short_description": "Ignite the Foundry core.",
         "summary": "Ignite the Foundry core.",
         "description": "Initialize the Python runtime by printing the launch sequence.",
         "lore": "The core is cold. We need a spark to get the systems online.",
-        "language": "txt",
+        "language": "python",
         "xp_base": 50,
-        "starter_code": "def main():\n    # TODO: Print T-minus 3, 2, 1...\n    pass\n\nif __name__ == '__main__':\n    main()\n",
+        "starter_code": "# TODO: print \"T-minus 3\", \"T-minus 2\", \"T-minus 1\", then \"IGNITION\"\n# Each on its own line, in that order\n",
         "objectives": [
             {
                 "id": "stdout_launch_sequence",
                 "title": "Prints the launch sequence",
+                "hint": "Print each line separately in order: print('T-minus 3'), print('T-minus 2'), print('T-minus 1'), print('IGNITION').",
                 "kind": "stdout_regex",
                 "rule": {
                     "pattern": "^T-minus 3\\nT-minus 2\\nT-minus 1\\nIGNITION\\s*$",
@@ -51,7 +52,7 @@
     {
         "id": "quest-hello-variable",
         "world_id": "world-python",
-        "track_id": "python-fundamentals",
+        "track_id": "python-foundry",
         "slug": "hello-variable",
         "title": "Hello Variable",
         "short_description": "Store data in memory.",
@@ -60,11 +61,12 @@
         "lore": "Memory banks are ready. Initialize the status protocol.",
         "language": "python",
         "xp_base": 50,
-        "starter_code": "def main():\n    # Create your variable here\n    pass\n\nif __name__ == '__main__':\n    main()\n",
+        "starter_code": "# TODO: assign the string \"System Online\" to a variable named `message`\n# TODO: print the variable\n",
         "objectives": [
             {
                 "id": "stdout_system_online",
                 "title": "Prints System Online",
+                "hint": "Assign the string 'System Online' to your message variable, then print it: print(message).",
                 "kind": "stdout_regex",
                 "rule": {
                     "pattern": "^System Online\\s*$",

@@ -1,3 +1,1 @@
-/api/ -> http://backend:8000/
-/static/ -> http://cdn:9000/
-/ -> http://frontend:5173/
+TODO

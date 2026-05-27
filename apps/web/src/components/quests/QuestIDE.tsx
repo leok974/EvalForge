@@ -258,11 +258,26 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             });
             setFiles(initial);
             setBaseFiles(initialBase);
-            let defaultPath = filesToLoad[0].path;
-            if (quest.language === 'sql') {
-                const sqlFile = filesToLoad.find(f => f.path === 'task.sql');
-                if (sqlFile) defaultPath = sqlFile.path;
-            }
+
+            // Prefer the explicit entrypoint from the quest definition.
+            // When that isn't set, fall back to the conventional entrypoint name
+            // for the language (main.py, main.js, task.sql …) rather than taking
+            // filesToLoad[0] which is API-order / alphabetical — often example.py
+            // instead of main.py (Bug 2).
+            const conventionEntrypoint =
+                quest.language === 'sql'        ? 'task.sql'     :
+                quest.language === 'typescript' ? 'main.ts'      :
+                quest.language === 'javascript' ? 'main.js'      :
+                quest.language === 'css'        ? 'style.css'    :
+                quest.language === 'html'       ? 'index.html'   :
+                quest.language === 'shell'      ? 'task.sh'      :
+                quest.language === 'playwright' ? 'main.spec.ts' :
+                quest.language === 'docker'     ? 'Dockerfile'   :
+                'main.py'; // python or unknown
+
+            const conventionFile = filesToLoad.find(f => f.path === conventionEntrypoint);
+            const defaultPath = conventionFile ? conventionEntrypoint : filesToLoad[0].path;
+
             setActivePath(quest.workspace?.entrypoint || defaultPath);
         } else {
             // Single File Mode
@@ -272,6 +287,8 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             if (quest.language === 'javascript') name = 'main.js';
             if (quest.language === 'css') name = 'style.css';
             if (quest.language === 'html') name = 'index.html';
+            if (quest.language === 'playwright') name = 'main.spec.ts';
+            if (quest.language === 'docker') name = 'Dockerfile';
             // Fallback for python or unknown
 
             const content = quest.starter_code || "# Start coding here...\n";
@@ -626,7 +643,16 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
     const handleRun = async (isEntrypoint: boolean = true) => {
         setIsRunning(true);
-        const entrypoint = quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py');
+        const entrypoint = quest.workspace?.entrypoint || (
+            quest.language === 'sql'        ? 'task.sql'     :
+            quest.language === 'typescript' ? 'main.ts'      :
+            quest.language === 'javascript' ? 'main.js'      :
+            quest.language === 'css'        ? 'style.css'    :
+            quest.language === 'html'       ? 'index.html'   :
+            quest.language === 'shell'      ? 'task.sh'      :
+            quest.language === 'playwright' ? 'main.spec.ts' :
+            'main.py'
+        );
         const targetPath = isEntrypoint ? entrypoint : activePath;
         const isActuallyEntrypoint = targetPath === entrypoint;
 
@@ -781,7 +807,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
             }
 
             if (!isPreviewRun) {
-                if (result.passed) {
+                if (result.passed && (result.objective_results?.length ?? 0) > 0) {
                     addLog('SUCCESS All objectives verified.', 'success');
                     addLog('Ready for submission.', 'info');
                 } else {
@@ -850,12 +876,11 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                 }))
             };
 
-            // Phase 9.9 Fast Fix: Explicitly send SQL code string for runner
-            let primaryCode = "";
-            if (quest.language === 'sql') {
-                const sqlFile = workspacePayload.files.find(f => f.path === 'task.sql');
-                primaryCode = sqlFile ? sqlFile.content : "";
-            } else if (workspacePayload.files.length === 1) {
+            // Resolve primary code: always send the entrypoint file's content
+            // so the backend can re-validate without an empty payload.code.
+            const _entrypoint = workspacePayload.entrypoint;
+            let primaryCode = workspacePayload.files.find(f => f.path === _entrypoint)?.content ?? "";
+            if (!primaryCode && workspacePayload.files.length === 1) {
                 primaryCode = workspacePayload.files[0].content;
             }
 
@@ -1367,7 +1392,7 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
 
                         <div className="flex-1 min-h-0 relative flex flex-col overflow-hidden">
                             {/* Entrypoint Chip & Run Active File */}
-                            {activePath !== (quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py')) && (
+                            {activePath !== (quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : quest.language === 'playwright' ? 'main.spec.ts' : 'main.py')) && (
                                 <div className="absolute top-2 right-4 z-10 flex gap-2 animate-in fade-in zoom-in-95 duration-200">
                                     {((quest.language === 'sql' && activePath.endsWith('.sql')) || 
                                       (quest.language === 'python' && activePath.endsWith('.py'))) && (
@@ -1381,11 +1406,11 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                         </button>
                                     )}
                                     <button
-                                        onClick={() => setActivePath(quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py'))}
+                                        onClick={() => setActivePath(quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : quest.language === 'playwright' ? 'main.spec.ts' : 'main.py'))}
                                         className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-500 rounded-full text-xs font-mono shadow-lg hover:bg-amber-500/20 transition-colors cursor-pointer"
                                     >
                                         <AlertTriangle className="w-3 h-3" />
-                                        Entrypoint: {quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : 'main.py')}
+                                        Entrypoint: {quest.workspace?.entrypoint || (quest.language === 'sql' ? 'task.sql' : quest.language === 'typescript' ? 'main.ts' : quest.language === 'javascript' ? 'main.js' : quest.language === 'css' ? 'style.css' : quest.language === 'html' ? 'index.html' : quest.language === 'shell' ? 'task.sh' : quest.language === 'playwright' ? 'main.spec.ts' : 'main.py')}
                                     </button>
                                 </div>
                             )}
@@ -1417,12 +1442,17 @@ export function QuestIDE({ quest: initialQuest, onBack }: QuestIDEProps) {
                                     }}
                                     language={
                                         // Naive lang detection
-                                        activePath.endsWith('.ts') ? 'typescript' :
-                                            activePath.endsWith('.js') ? 'javascript' :
-                                                activePath.endsWith('.css') ? 'css' :
-                                                    activePath.endsWith('.html') ? 'html' :
-                                                        activePath.endsWith('.json') ? 'json' :
-                                                            quest.language || "python"
+                                        activePath === 'Dockerfile' ? 'dockerfile' :
+                                            activePath.endsWith('.dockerfile') ? 'dockerfile' :
+                                                activePath.endsWith('.yaml') ? 'yaml' :
+                                                    activePath.endsWith('.yml') ? 'yaml' :
+                                                        activePath.endsWith('.ts') ? 'typescript' :
+                                                            activePath.endsWith('.js') ? 'javascript' :
+                                                                activePath.endsWith('.css') ? 'css' :
+                                                                    activePath.endsWith('.html') ? 'html' :
+                                                                        activePath.endsWith('.json') ? 'json' :
+                                                                            quest.language === 'docker' ? 'dockerfile' :
+                                                                                quest.language || "python"
                                     }
                                     isSaving={autosaveStatus === 'saving'}
                                     readOnly={!files[activePath]?.editable || isReadOnlyPath(activePath)}

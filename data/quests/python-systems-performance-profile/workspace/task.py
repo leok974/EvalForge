@@ -9,7 +9,7 @@ Rules:
 - most_common_tokens(text, k) -> list[(token, count)] sorted:
     1) count desc
     2) token asc
-- main() prints the top 3 tokens for the provided sample text:
+- main() prints the top 3 tokens for the sample "ok ok ERROR error warn error":
     error=3
     ok=2
     warn=1
@@ -28,7 +28,7 @@ def most_common_tokens(text: str, k: int) -> list[tuple[str, int]]:
 
 
 def main() -> None:
-  sample = "OK ok ERROR error warn ERROR ok error"
+  sample = "ok ok ERROR error warn error"
   top = most_common_tokens(sample, 3)
   for token, count in top:
     print(f"{token}={count}")

@@ -59,15 +59,20 @@ Connects to Postgres on `127.0.0.1:5435` and Redis on `127.0.0.1:6380`.
 cd apps/web && npm run dev
 ```
 
-### Environment variables (copy `.env.example` → `.env`)
+### Environment variables
+
+`.env.dev` is committed to the repo with safe placeholder values. It is the canonical starting point for local development.
+
+```powershell
+# First-time setup (or after deleting .env):
+cp .env.dev .env
+# Then fill in the real secrets (GEMINI_API_KEY, GITHUB_CLIENT_*, GOOGLE_CLOUD_PROJECT, etc.)
 ```
-POSTGRES_PASSWORD=...
-GOOGLE_CLOUD_PROJECT=...
-GOOGLE_CLOUD_LOCATION=us-central1
-GITHUB_CLIENT_ID=...
-GITHUB_CLIENT_SECRET=...
-SECRET_KEY=...
-```
+
+`dev-up.ps1` copies `.env.dev` → `.env` automatically when `.env` is missing, so on a fresh clone just run `.\scripts\dev-up.ps1` and it will bootstrap itself.
+
+**Security rule:** `.env.dev` must NEVER contain real secrets. `GEMINI_API_KEY`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `VERTEX_PROJECT_NUMBER`, and `GOOGLE_CLOUD_PROJECT` must remain empty (placeholder) in `.env.dev`. Real values go in `.env` only — which is gitignored.
+
 Backend also uses `DATABASE_URL`, `REDIS_URL`, `EXECUTION_ENABLED`, `AUTO_INIT_DB` — set automatically by dev scripts.
 
 ---
@@ -122,19 +127,79 @@ docs/        tutorial.md, briefing.md, hints.md, lore.md
 
 After editing questpacks, seed to the DB:
 ```bash
+# For data/questpacks/*.json files (canonical seeder):
+docker compose exec backend bash -c "cd /app && PYTHONPATH=/app python scripts/questpack_seed.py data/questpacks/<file>.json"
+# Or to seed all active packs at once:
+docker compose exec backend bash -c "cd /app && PYTHONPATH=/app python scripts/questpack_seed.py --all"
+
+# For legacy world/track specs (docs/*.json):
 python scripts/seed_evalforge_universe.py
 ```
+
+**NOTE:** `questpack_seed.py` is the correct seeder for all `data/questpacks/*.json` files. `seed_evalforge_universe.py` only processes legacy track specs in `docs/` — it does NOT process `sql_core.json`, `javascript_core.json`, etc.
+
+### Quest Tier System
+Quest difficulty is stored in the `tier` column on `QuestDefinition` (added Sprint 10 via migration 007):
+- `tier=1` — Foundry (beginner)
+- `tier=2` — Advanced / Ignition
+- `tier=3` — Expert (postgres-specific, SQL tier 3)
+
+Tier 2+ quests are certified with stricter rules: min 2 objectives, min 3 key_terms with valid Codex refs. Boss quests in tier 2+ require min 4 objectives.
+
+### Boss Fights
+Boss definitions are in the `bossdefinition` table. Rubric JSON files live in `rubrics/`. To seed bosses:
+```bash
+docker compose exec backend bash -c "cd /app && PYTHONPATH=/app python scripts/seed_bosses.py"
+```
+The `rubrics/` directory is mounted into the backend container as `/app/rubrics/` (docker-compose volume). The `_load_rubric()` helper in `seed_bosses.py` reads rubric JSON at seed time.
+
+Active boss for world-python: `boss-foundry-systems-architect` (rubric: `rubrics/boss-foundry-systems-architect.json`).
 
 ---
 
 ## Active Curriculum Scope
 
 Defined in `configs/curriculum_guardrail_scope.json`:
-- **Active worlds:** `world-python`
-- **Active tracks:** `track-python-systems`, `track-python-ignition`, `track-python-foundry`, `track-python-selenium`
-- **Warning-only worlds:** `world-sql`, `world-js`, `world-ts`, `world-web`
+- **Active worlds:** `world-python`, `world-web`, `world-sql`, `world-js`, `world-ts`, `world-git`
+- **Active tracks:** `track-python-systems`, `track-python-ignition`, `track-python-foundry`, `track-python-selenium`, `track-html`, `track-css`
+- **Warning-only worlds:** _(none — all worlds are either active or excluded)_
 
 CI enforces training-grade quality only for active scope. Other worlds produce warnings but do not block.
+
+---
+
+## Boss Fight System
+
+Status as of Sprint 8: **OPERATIONAL** (mock grading active in dev).
+
+**Flow:**
+1. `POST /api/boss/accept {"boss_id":"reactor-core"}` — creates a `BossEncounter`
+2. `POST /api/boss/submit {"encounter_id":N, "code":"..."}` — grades via `judge_boss_submission`
+3. Response: `{"status":"win"|"loss", "score":0-100, "xp_awarded":N, ...}`
+
+**Dev setup (required before first use):**
+```bash
+# 1. Seed boss definitions (one-time)
+docker compose exec backend bash -c "cd /app && PYTHONPATH=/app python scripts/seed_bosses.py"
+
+# 2. Enable mock grading in .env
+EVALFORGE_MOCK_GRADING=1
+```
+
+**Mock grader behavior** (`EVALFORGE_MOCK_GRADING=1`):
+- Any code → score 45 → `status: "loss"`
+- Code containing `MAGIC_BOSS_PASS` → score 100 → `status: "win"`
+
+**Key files:**
+| File | Purpose |
+|------|---------|
+| `arcade_app/routers/routes_boss.py` | Boss fight endpoints |
+| `arcade_app/boss_helper.py` | Encounter creation, HP resolution |
+| `arcade_app/grading_helper.py` | `judge_boss_submission` — real + mock paths |
+| `arcade_app/mock_grader.py` | Mock grader logic |
+| `scripts/seed_bosses.py` | Seeds `BossDefinition` records |
+| `rubrics/*.json` | Boss evaluation rubrics |
+| `docs/audits/BOSS_SYSTEM_STATUS.md` | Full audit with test results |
 
 ---
 
@@ -173,13 +238,40 @@ Enforces against `docs/audits/TRAINING_GRADE_SNAPSHOT.json`:
 ```bash
 python scripts/certify_training_grade.py
 ```
-Checks schema compliance, placeholder text, broken Codex refs, missing docs, workspace completeness.
+Checks schema compliance, broken Codex refs, tier compliance, and golden artifact coverage.
+**Scope-aware:** only active questpacks (from `configs/curriculum_guardrail_scope.json`) produce hard failures. Non-active quests emit `[WARN]` but do not fail the run.
+Requires `libcst` (in `requirements.txt`) for the drift check sub-step.
 
 ### Population audit
 ```bash
 python scripts/audit_all_worlds.py
 ```
 Compares source questpacks → seeded DB → API-visible quests → UI-visible quests.
+
+### Cherry-pick safety guard
+```bash
+python scripts/check_cherry_pick_diff.py <SHA>
+```
+Detects symbol deletions in a commit before it is cherry-picked to a protected branch. Exit 0 = clean, exit 1 = deletions found.
+
+`scripts/check_cherry_pick_diff.py` detects deletions of:
+- Top-level functions and classes (all file types)
+- Methods inside classes (`.py` files — via `ast.parse()` comparison of before/after)
+- Module-level and class-level constant assignments in `UPPER_SNAKE_CASE` (`.py` files)
+
+Non-Python files use regex matching for top-level definitions only.
+
+**Pre-push hook (automatic):** The same check runs automatically on every `git push` via `.git/hooks/pre-push`. New contributors must install it once after cloning:
+
+```powershell
+.\scripts\install-hooks.ps1
+```
+
+This copies `scripts/pre-push.hook.py` → `.git/hooks/pre-push`. The hook blocks pushes that contain undocumented symbol deletions. To bypass when the deletion is intentional and documented in the commit message:
+
+```bash
+git push --no-verify
+```
 
 ---
 
@@ -196,6 +288,88 @@ cd apps/web && npm run test
 cd apps/web && npx playwright test tests/e2e/
 ```
 
+### Pre-existing test failures
+
+**Any test that has been failing across more than 2 sprints must be classified as FIX, DELETE, or SKIP within the current sprint. "Pre-existing failing" is not a permanent state.**
+
+This rule is **mechanically enforced** by `scripts/audit_skipped_tests.py`, which runs as part of `scripts/ci_check_modern_worlds.py`. Adding a `test.skip()` without the required comment format will cause CI to fail once the revisit sprint passes.
+
+Classification rules:
+- **FIX** — the underlying feature exists and the test is repairable (wrong selector, URL change, etc.)
+- **DELETE** — the feature/route no longer exists and will not come back
+- **SKIP** — the test covers real functionality but is blocked by a known issue; add a `test.skip()` with a comment in this exact format:
+  ```typescript
+  test.skip('...', async ({ page }) => {
+      // SKIP: <one-line reason>
+      // Blocker: <specific implementation gap and the file(s) that would change>
+      // Revisit: Sprint N
+  ```
+- **PORT** — the test is correct but belongs in a different file or test framework
+
+The audit script reads `configs/current_sprint.txt` for the current sprint number. Update that file at the start of each sprint. Any SKIP whose `Revisit: Sprint N` target is ≤ current sprint will fail CI until the skip is re-classified.
+
+### Monaco editor interactions in Playwright
+
+- **Never use `page.keyboard.type()` or `page.fill()`** to set editor content.
+  Monaco's synthetic event model causes auto-indent stacking (a `:` at line-end
+  triggers an extra indent level on top of the indentation you type) and some
+  characters are swallowed by Monaco's suggestion engine. The result is silently
+  garbled code.
+- **Use `executeEdits` via `page.evaluate()`** for all programmatic content replacement:
+  ```typescript
+  await page.evaluate((code: string) => {
+      const win = window as any;
+      if (win.monaco?.editor) {
+          const editors = win.monaco.editor.getEditors();
+          if (editors.length > 0) {
+              const model = editors[0].getModel();
+              if (model) {
+                  editors[0].executeEdits('e2e-replace', [{
+                      range: model.getFullModelRange(),
+                      text: code,
+                  }]);
+              }
+          }
+      }
+  }, newCode);
+  ```
+- `executeEdits` preserves undo history and reliably fires `onDidChangeModelContent`
+  → React `onChange`. `model.setValue()` also works but resets the undo stack and
+  should be avoided unless you specifically need a full model reset.
+
+---
+
+## E2E Test Coverage
+
+One Playwright test per active world. Run with:
+```
+npx playwright test tests/e2e/test_foundry_quest.spec.ts tests/e2e/test_world_*.spec.ts --headed
+```
+
+| Test file | World | Quest | Runner |
+|---|---|---|---|
+| `test_foundry_quest.spec.ts` | world-python (foundry) | hello-variable | Python local |
+| `test_world_python_selenium.spec.ts` | world-python (selenium) | selenium-open-page | Chromium headless |
+| `test_world_web_html.spec.ts` | world-web (html) | html-ignition | Node.js --test |
+| `test_world_web_css.spec.ts` | world-web (css) | css-ignition | Node.js --test |
+| `test_world_sql.spec.ts` | world-sql | sql-ignition | Postgres |
+| `test_world_js.spec.ts` | world-js | js-ignition-q1-console-and-functions | Node local |
+| `test_world_ts.spec.ts` | world-ts | ts-ignition | Bun |
+| `test_world_git.spec.ts` | world-git | git-ignition | Shell local |
+| `test_world_docker.spec.ts` | world-docker | dk-hello-container | Grade-by-inspection |
+
+All 9 run in parallel in ~20s with no cross-test interference.
+
+**Monaco editor rule:** Never use `page.keyboard.type()` or `page.fill()` for the code
+editor. Use `window.monaco.editor.getEditors()[0].executeEdits()` via `page.evaluate()`.
+See `test_foundry_quest.spec.ts` for the canonical reference pattern.
+
+**Bugs fixed during e2e authoring (do not revert):**
+- `QuestIDE.handleSubmit`: uses `conventionEntrypoint` for primary code resolution
+  (same lookup as `handleRun`) — prevents empty code payloads for multi-file quests (JS/TS/Git)
+- `quest_validate.py`: short-circuits placeholder guard for rule-free objective kinds (HTML/CSS)
+- `code_runner.py`: `run_web_local()` runner for Node.js grading tests
+
 ---
 
 ## Common Scripts
@@ -204,12 +378,15 @@ cd apps/web && npx playwright test tests/e2e/
 |--------|---------|
 | `scripts/dev-up.ps1` | Start full Docker stack |
 | `scripts/dev-api.ps1` | Start backend with hot-reload |
-| `scripts/seed_evalforge_universe.py` | Seed worlds/tracks/quests to DB |
+| `scripts/questpack_seed.py` | **Canonical seeder** for `data/questpacks/*.json` files |
+| `scripts/seed_evalforge_universe.py` | Seed legacy `docs/*.json` track specs only |
 | `scripts/seed_bosses.py` | Seed boss definitions |
 | `scripts/ingest_codex.py` | Index codex docs into pgvector |
 | `scripts/init_local_db.py` | Initialize local DB schema |
 | `scripts/audit_codex_refs.py` | Audit broken codex key-term references |
 | `scripts/debt_breakdown.py` | Report on curriculum tech debt |
+| `scripts/smoke_quest_api.py` | Full learner-path smoke test (all worlds) |
+| `scripts/ci_check_modern_worlds.py` | CI regression guard (must pass before commit) |
 
 ---
 
@@ -219,7 +396,7 @@ cd apps/web && npx playwright test tests/e2e/
 - **Seed scripts must upsert:** Seeding always updates existing rows. Never write seed scripts that only insert — this causes silent drift between source files and the DB.
 - **Editor failure targeting:** Runtime errors target exact lines from tracebacks. Objective failures use heuristic region targeting (anchors, TODO comments, function regions) — they must never overclaim precision.
 - **Mock CMS uses PRG:** Login route uses Post-Redirect-Get so Selenium URL-wait assertions work correctly. Do not change this to render-on-POST.
-- **Quest exclusions are structured:** `configs/quest_exclusions.json` requires `reason`, `added_at`, and `owner` fields. Older exclusions escalate from warning to failure automatically.
+- **Quest exclusions are structured:** `configs/quest_exclusions.json` requires `reason`, `added_at`, and `owner` fields. Entries older than 60 days fail CI (step 4 of `ci_check_modern_worlds.py`). Re-validate by updating `added_at` to today; remove the entry if the quest no longer needs exclusion.
 - **Example file run parity:** Running `example.py` must execute `example.py`, not `main.py`. The runner selects the file based on the active editor tab, not a hardcoded entrypoint.
 
 ---
@@ -232,3 +409,30 @@ Rules for keeping the repo clean. Apply these before adding or deleting anything
 - **`configs/questpacks_active.json` is the validity gate for questpack tooling.** The CI sweep script (`verify_all_modern_worlds.py`) reads this file directly. Do not add questpack verification logic that globs `data/questpacks/` — any new pack must be explicitly listed in `questpacks_active.json` before it is tested.
 - **Audit snapshots supersede old reports.** `docs/audits/TRAINING_GRADE_SNAPSHOT.json` is the canonical CI baseline. Phase/sweep markdown reports in `docs/audits/` are point-in-time artifacts. Delete them once the snapshot covers the same scope — do not let them accumulate.
 - **Routers must be registered to exist.** An APIRouter that is not mounted in `agent.py` is dead code. If a router file is intentionally kept for future work, annotate it with a `# STATUS: unregistered` comment at the top. If it has no annotation and is not mounted, it is a deletion candidate.
+
+---
+
+## Mechanical Safeguards (Sprint 15)
+
+These checks are automated — they block CI or are scripts that fail with a non-zero exit code.
+
+| Safeguard | Enforcement | How to run |
+|---|---|---|
+| Snapshot drift detection | CI gate (`ci_check_modern_worlds.py`) | `python scripts/ci_check_modern_worlds.py` |
+| Pre-existing test failure rule | CI gate (`audit_skipped_tests.py` via CI) | `python scripts/audit_skipped_tests.py` |
+| Quest exclusion freshness (60-day) | CI gate (step 4 of CI) | Automatic via `ci_check_modern_worlds.py` |
+| Cherry-pick deletion check | Pre-push hook (auto) + manual run | `python scripts/check_cherry_pick_diff.py <SHA>` |
+| Auth mode dev/prod separation | `.env.dev` safeguard + `dev-up.ps1` check | Automatic on `.\scripts\dev-up.ps1` |
+
+**Sprint number for audit:** Update `configs/current_sprint.txt` at the start of each sprint so the skip audit knows what "overdue" means.
+
+**Quest exclusion policy:** Every entry in `configs/quest_exclusions.json` must have `added_at` within the last 60 days. When an exclusion is re-validated (still a legitimate exclusion), update `added_at` to today. CI fails if any entry exceeds 60 days.
+
+## What Still Requires Human Discipline (Sprint 15.5)
+
+These are safeguards that remain documentation-only — no script or CI gate enforces them yet.
+
+- **Cherry-pick hook requires manual install.** `scripts/install-hooks.ps1` must be run after cloning. The hook is not auto-installed by git. A developer who skips `install-hooks.ps1` will not have the pre-push guard active.
+- **Seed script idempotency.** The rule "seed scripts must upsert" is not mechanically enforced — a new seed script that only inserts will not be caught until it causes a drift discrepancy.
+- **One-off script cleanup.** The rule "delete migration scripts after they run" is documentation-only. No script audits `scripts/` for stale one-offs.
+- **Router registration.** `agent.py` imports are not automatically audited against `routers/` directory contents.

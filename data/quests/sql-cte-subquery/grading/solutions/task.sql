@@ -1,1 +1,11 @@
-WITH paid_totals AS ( SELECT user_id, SUM(total_cents) AS paid_total_cents FROM orders WHERE status = 'paid' GROUP BY user_id ) SELECT u.id, u.name, p.paid_total_cents FROM paid_totals p JOIN users u ON u.id = p.user_id WHERE p.paid_total_cents >= 5000 ORDER BY p.paid_total_cents DESC, u.id ASC;
+WITH active_users AS (
+  SELECT user_id, SUM(total_cents) AS total_spend
+  FROM orders
+  WHERE status = 'paid'
+  GROUP BY user_id
+  HAVING total_spend >= 5000
+)
+SELECT users.id, users.name AS user_name, active_users.total_spend
+FROM active_users
+JOIN users ON users.id = active_users.user_id
+ORDER BY active_users.total_spend DESC;

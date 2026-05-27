@@ -1,43 +1,27 @@
-class TransientError(Exception):
+from __future__ import annotations
+
+# Example: a simple "try-once-with-fallback" pattern.
+# Your task implements a more powerful version: exponential backoff with chained errors.
+
+
+class ServiceUnavailable(Exception):
     pass
 
 
-class FatalError(Exception):
-    pass
+def with_fallback(primary_fn: callable, fallback_fn: callable):
+    """Try primary; if it raises, use the fallback result instead of retrying."""
+    try:
+        return primary_fn()
+    except Exception:
+        return fallback_fn()
 
 
-def execute_job(job: dict, attempt: int) -> int:
-    kind = job.get("kind")
-    args = job.get("args", [])
-    fail_times = job.get("fail_times", 0)
-
-    if kind == "fatal":
-        raise FatalError("job is always fatal")
-    if kind == "flaky_add" and attempt <= fail_times:
-        raise TransientError(f"flaky failure on attempt {attempt}")
-    return sum(args)
-
-
-def run_jobs(jobs: list[dict]) -> list[dict]:
-    results = []
-    max_attempts = 3
-    for job in jobs:
-        job_id = job.get("id", 0)
-        result = None
-        error = None
-        attempts = 0
-        for attempt in range(1, max_attempts + 1):
-            attempts = attempt
-            try:
-                result = execute_job(job, attempt)
-                error = None
-                break
-            except FatalError:
-                error = "EF_RUNNER_FATAL"
-                break
-            except TransientError:
-                if attempt == max_attempts:
-                    error = "EF_RUNNER_RETRY_EXHAUSTED"
-        results.append({"id": job_id, "ok": error is None, "attempts": attempts,
-                         "value": result if error is None else None, "error": error})
-    return results
+# For comparison: a naive fixed-count retry (no backoff, no chaining)
+def retry_naive(job: callable, max_attempts: int = 3):
+    last_exc = None
+    for _ in range(max_attempts):
+        try:
+            return job()
+        except Exception as exc:
+            last_exc = exc
+    raise RuntimeError("all attempts failed") from last_exc

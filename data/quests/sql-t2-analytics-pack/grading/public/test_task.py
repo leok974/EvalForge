@@ -9,10 +9,10 @@ if (BASE_DIR / "fixtures").exists():
     SEED_SQL = BASE_DIR / "fixtures" / "seed.sql"
     TASK_SQL = BASE_DIR / "task.sql"
 else:
-    QUEST_DIR = BASE_DIR.parents[2]
+    QUEST_DIR = BASE_DIR.parents[1]
     TASK_SQL = QUEST_DIR / "workspace" / "task.sql"
-    SCHEMA_SQL = QUEST_DIR / "fixtures" / "schema.sql"
-    SEED_SQL = QUEST_DIR / "fixtures" / "seed.sql" 
+    SCHEMA_SQL = QUEST_DIR / "workspace" / "fixtures" / "schema.sql"
+    SEED_SQL = QUEST_DIR / "workspace" / "fixtures" / "seed.sql" 
 def run_sql():
     return base_run_sql(TASK_SQL, SCHEMA_SQL, SEED_SQL)
 

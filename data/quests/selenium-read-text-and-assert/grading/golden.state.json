@@ -1,0 +1,11 @@
+{
+    "type": "state",
+    "files": [
+        "example.py",
+        "main.py"
+    ],
+    "git": {
+        "has_dot_git": false
+    },
+    "results": []
+}

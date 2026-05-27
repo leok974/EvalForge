@@ -211,7 +211,11 @@ class BossDefinition(SQLModel, table=True):
     id: str = Field(primary_key=True)  # e.g. "boss-reactor-core"
     name: str
     description: str = Field(default="")
-    # technical_objective: str = Field(default="")  # TODO: Add via migration
+    # Sprint 19: restored via migration 008_boss_objectives.sql
+    technical_objective: str = Field(default="")
+    # Sprint 19: deterministic objectives (yaml_structure, source_regex, etc.)
+    # evaluated as gates before the LLM rubric.  See grading_helper.evaluate_boss_objectives.
+    objectives_json: List[Dict] = Field(default_factory=list, sa_type=JSON)
     rubric: str = Field(default="")
     starting_code: str = Field(default="")
 
@@ -394,6 +398,7 @@ class QuestDefinition(SQLModel, table=True):
     world_id: str = Field(index=True)
     track_id: str = Field(index=True)
     order_index: int = Field(default=0)
+    tier: int = Field(default=1)  # Difficulty tier: 1=foundry, 2=advanced, 3=expert, 4=mastery
 
     title: str
     short_description: str

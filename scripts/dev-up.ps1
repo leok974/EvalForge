@@ -34,6 +34,29 @@ function Wait-For-Health {
 
 Write-Host "🚀 Starting EvalForge Dev Environment..." -ForegroundColor Cyan
 
+# 0. .env bootstrap: copy .env.dev → .env if .env is missing
+$repoRoot = Split-Path $PSScriptRoot -Parent
+$envFile   = Join-Path $repoRoot ".env"
+$envDev    = Join-Path $repoRoot ".env.dev"
+$envExample = Join-Path $repoRoot ".env.example"
+
+if (-not (Test-Path $envFile)) {
+    if (Test-Path $envDev) {
+        Write-Host "📋 .env not found — copying .env.dev → .env" -ForegroundColor Yellow
+        Copy-Item $envDev $envFile
+        Write-Host "   ✅ .env created from .env.dev" -ForegroundColor Green
+    } elseif (Test-Path $envExample) {
+        Write-Host "❌ .env and .env.dev both missing." -ForegroundColor Red
+        Write-Host "   Copy .env.example → .env.dev and fill in your local values:" -ForegroundColor Yellow
+        Write-Host "   cp .env.example .env.dev" -ForegroundColor DarkGray
+        exit 1
+    } else {
+        Write-Host "❌ .env missing and no .env.dev or .env.example found." -ForegroundColor Red
+        Write-Host "   Create a .env file before starting the stack." -ForegroundColor Yellow
+        exit 1
+    }
+}
+
 # 1. Docker Check
 if (!(docker info 2>$null)) {
     Write-Host "❌ Docker is NOT running. Please start Docker Desktop." -ForegroundColor Red

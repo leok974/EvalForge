@@ -65,6 +65,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
 
     async for session in get_session():
         # Ensure columns exist (Naive Migration)
+        # Note: order_index and tier columns already exist in the model (default 0 / 1)
         try:
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS starter_code TEXT"))
             await session.exec(text("ALTER TABLE questdefinition ADD COLUMN IF NOT EXISTS objectives_json JSONB"))
@@ -82,7 +83,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
         except Exception as e:
              await session.rollback()
 
-        for quest_data in quests:
+        for position, quest_data in enumerate(quests):
             if not isinstance(quest_data, dict):
                 continue
                 
@@ -117,8 +118,24 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             title = quest_data.get("title") or slug
             
             # Phase Q Fix: Secure workspace hydration from data/quests/<slug>/workspace
-            def hydrate_workspace(q_slug):
+            def hydrate_workspace(q_slug, q_data=None):
                 ws = {"files": []}
+                ws_block = q_data.get("workspace") if q_data else None
+                if isinstance(ws_block, dict):
+                    # Preserve entrypoint so the frontend can resolve the active file
+                    ep = ws_block.get("entrypoint")
+                    if ep:
+                        ws["entrypoint"] = ep
+                    # Sprint 19: readonly_files — paths listed here get editable=false.
+                    # Usage in questpack JSON:
+                    #   "workspace": {
+                    #     "entrypoint": "tests/test_math.py",
+                    #     "readonly_files": ["code/math_utils.py", "code/db.py"],
+                    #     "files_from": "..."
+                    #   }
+                    readonly_set = set(ws_block.get("readonly_files") or [])
+                else:
+                    readonly_set = set()
                 root_d = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
                 w_dir = os.path.join(root_d, "data", "quests", q_slug, "workspace")
                 if os.path.exists(w_dir):
@@ -126,16 +143,24 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                         for fname in files:
                             full_path = os.path.join(root, fname)
                             inner_path = os.path.relpath(full_path, w_dir)
+                            path_normalized = inner_path.replace("\\", "/")
                             try:
                                 with open(full_path, "r", encoding="utf-8") as f:
                                     ws["files"].append({
-                                        "path": inner_path.replace("\\", "/"),
+                                        "path": path_normalized,
                                         "content": f.read(),
-                                        "editable": True
+                                        "editable": path_normalized not in readonly_set,
                                     })
                             except Exception as e:
-                                print(f"    ⚠️ Failed to read {full_path}: {e}")
+                                print(f"    Warning: Failed to read {full_path}: {e}")
                 return ws
+
+            # order_index: prefer explicit value in JSON, fall back to list position
+            # Gap #2 fix: ensures quests sort correctly within a track
+            order_index = quest_data.get("order_index") or quest_data.get("order") or position
+
+            # tier: visual difficulty grouping (1=foundry, 2=advanced, 3=expert, 4=mastery)
+            tier = int(quest_data.get("tier") or 1)
 
             if not existing:
                 existing = QuestDefinition(
@@ -144,13 +169,19 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                     track_id=track_id,
                     title=title,
                     short_description=quest_data.get("short_description", ""),
-                    language=quest_data.get("language", "python")
+                    language=quest_data.get("language", "python"),
+                    order_index=order_index,
+                    tier=tier,
                 )
                 session.add(existing)
             else:
                  existing.world_id = world_id
                  existing.track_id = track_id
                  existing.title = title
+                 existing.order_index = order_index
+                 existing.tier = tier
+                 if "short_description" in quest_data:
+                     existing.short_description = quest_data["short_description"]
                  if "language" in quest_data:
                      existing.language = quest_data["language"]
                  if "key_terms" in quest_data:
@@ -267,8 +298,13 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
                                 print(f"    ⚠️ Failed to read terms {terms_path}: {e}")
 
             # Hydrate Tutorial (Standard Logic)
-            if "tutorial_md" not in quest_data: 
-                 hydrate_tutorial(existing, json_dir, quest_data)
+            # Prefer inline content from JSON; fall back to disk file.
+            # Use truthiness check (not key-presence) so "tutorial_md": null still triggers hydration.
+            inline_md = quest_data.get("tutorial_md")
+            if inline_md:
+                existing.tutorial_md = inline_md
+            else:
+                hydrate_tutorial(existing, json_dir, quest_data)
 
             # Hydrate Briefing & Lore (Prefer Disk Overlay)
             # We use the same search logic as hydrate_tutorial but for other files
@@ -349,7 +385,7 @@ async def seed_quest_pack(file_path, seeded_slugs=None):
             if "codex_references" in quest_data:
                 existing.codex_references = quest_data["codex_references"]
 
-            existing.workspace_json = hydrate_workspace(slug)
+            existing.workspace_json = hydrate_workspace(slug, quest_data)
             
             session.add(existing)
         

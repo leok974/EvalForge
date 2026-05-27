@@ -26,8 +26,6 @@ vi.mock('../../store/agentStore', () => ({
 vi.mock('../../store/gameStore', () => ({
     useGameStore: vi.fn((selector) => {
         const state = {
-            layout: 'workshop',
-            setLayout: vi.fn(),
             addXp: vi.fn(),
             activeTrack: null
         };
@@ -40,9 +38,7 @@ vi.mock('../../components/Scoreboard', () => ({ Scoreboard: () => <div>Scoreboar
 vi.mock('../../components/ContextSelector', () => ({ ContextSelector: () => <div>Selector</div> }));
 vi.mock('../../components/BossPanel', () => ({ BossPanel: () => <div>BossPanel</div> }));
 vi.mock('../../components/BossHud', () => ({ BossHud: () => <div data-testid="boss-hud">BossHud</div> }));
-vi.mock('../../components/practice/PracticeGauntletCard', () => ({
-    PracticeGauntletCard: () => <div data-testid="mock-practice-gauntlet">Mock Gauntlet</div>
-}));
+// Sprint 23: PracticeGauntletCard deleted — mock removed.
 
 describe('DevUI Skill Gating', () => {
     beforeEach(() => {

@@ -13,10 +13,9 @@ import { OracleTrackCard } from '../components/tracks/OracleTrackCard';
 import { IntentOracleEvalButton } from '../components/devtools/IntentOracleEvalButton';
 import { useGameStore } from '../store/gameStore';
 import { WorkshopLayout, WorkshopMode } from '../layouts/WorkshopLayout';
-import { CyberdeckLayout } from '../layouts/CyberdeckLayout';
-import { OrionLayout } from '../layouts/OrionLayout';
 import { BossHud } from '../components/BossHud';
-import { LayoutProvider, useCurrentLayout } from '../hooks/useCurrentLayout';
+// Sprint 22: LayoutProvider kept for test-mock compat; CyberdeckLayout/OrionLayout deleted.
+import { LayoutProvider } from '../hooks/useCurrentLayout';
 import { WorkshopGuide } from '../features/workshop/WorkshopGuide';
 import { QuestBoard } from '../components/QuestBoard';
 import { QuestIDE, QuestIDEPage } from '../components/quests/QuestIDE'; // New IDE Import
@@ -29,6 +28,9 @@ import { Terminal, ShieldAlert, BookOpen, Radio, HelpCircle } from 'lucide-react
 import { useUniverse } from '../hooks/useUniverse';
 import { resolveSelectedProject } from '../lib/projectValidation';
 import { PanelId } from '../features/workshop/workshopPanels';
+// Sprint 22.5: Codex and Progress pages
+import { CodexPage } from './CodexPage';
+import { ProgressPage } from './ProgressPage';
 
 // Map backend color names to Tailwind classes
 const COLOR_MAP: Record<string, string> = {
@@ -50,7 +52,6 @@ const ICON_MAP: Record<string, any> = {
 function DevUIContent() {
   const { user, login, loading } = useAuth();
   const { status: bossStatus } = useBossStore();
-  const { layout } = useCurrentLayout();
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams(); // ADDED
@@ -325,7 +326,7 @@ function DevUIContent() {
       <div className="flex flex-col items-end gap-2">
 
         {/* Workshop Guide (only shows if not dismissed) */}
-        {layout === 'workshop' && <WorkshopGuide />}
+        <WorkshopGuide />
 
         {/* Tutorial Help Button */}
         <button
@@ -370,37 +371,14 @@ function DevUIContent() {
         <Route path="quests/:questId" element={<QuestIDEPage />} />
       </Route>
 
-      <Route path="orion" element={<OrionLayout />} />
-
-      {/* Cyberdeck fallback or explicit route */}
-      <Route path="deck" element={
-        <CyberdeckLayout>
-          <div className="h-full flex flex-col">
-            {/* 1. Context Navigation */}
-            <div className="flex-none z-20 mb-4">
-              {worldSelector}
-            </div>
-
-            {/* 2. Main Workspace */}
-            <div className="flex-1 p-4 grid grid-cols-1 lg:grid-cols-4 gap-6 overflow-hidden">
-              {/* Left Column: Info/Score */}
-              <div className="hidden lg:block lg:col-span-1 space-y-4 overflow-y-auto">
-                {projectPanel}
-              </div>
-
-              {/* Center/Right: Chat Terminal OR Boss Panel */}
-              <div className="lg:col-span-3 flex flex-col bg-black/40 rounded-xl border border-zinc-800 overflow-hidden shadow-inner h-full">
-                {questPanel}
-              </div>
-            </div>
-          </div>
-        </CyberdeckLayout>
-      } />
+      {/* Sprint 22: CyberdeckLayout and OrionLayout deleted. Redirect legacy URLs. */}
+      <Route path="orion" element={<Navigate to="/arcade/workshop" replace />} />
+      <Route path="deck" element={<Navigate to="/arcade/workshop" replace />} />
 
       {/* Worlds Routing */}
       <Route path="worlds/:worldSlug">
-        {/* Index: /worlds/foo -> Orion Map */}
-        <Route index element={<OrionLayout />} />
+        {/* Index: /worlds/foo -> Workshop (OrionLayout deleted Sprint 22) */}
+        <Route index element={<Navigate to="/arcade/workshop" replace />} />
 
         {/* Sub-routes: /worlds/foo/quests/bar -> Workshop */}
         <Route path="quests/:questId" element={<WorkshopLayout {...commonProps} questPanel={<QuestIDEPage />} />} />
@@ -409,6 +387,10 @@ function DevUIContent() {
 
       {/* Projects Routing */}
       <Route path="projects/:projectSlug/*" element={<WorkshopLayout {...commonProps} />} />
+
+      {/* Sprint 22.5: Supplementary pages (standalone — no WorkshopLayout shell) */}
+      <Route path="codex" element={<CodexPage />} />
+      <Route path="progress" element={<ProgressPage />} />
 
     </Routes>
   );

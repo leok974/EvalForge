@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  api:
+    image: my-api:latest
+    environment:
+      DB_HOST: db
+      DB_PASSWORD: secret123
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: secret123
+      POSTGRES_DB: app
+
+# TODO: Replace the hardcoded secrets with env_file references.
+# Create a .env file (not committed to source control!) and load it via:
+#   env_file:
+#     - .env
+# Remove the hardcoded DB_PASSWORD and POSTGRES_PASSWORD values.

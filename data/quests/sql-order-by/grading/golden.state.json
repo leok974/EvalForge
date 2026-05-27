@@ -1,0 +1,13 @@
+{
+    "type": "state",
+    "files": [
+        "example.sql",
+        "fixtures/schema.sql",
+        "fixtures/seed.sql",
+        "task.sql"
+    ],
+    "git": {
+        "has_dot_git": false
+    },
+    "results": []
+}

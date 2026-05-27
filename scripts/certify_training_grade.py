@@ -13,6 +13,27 @@ from scripts.utils_questpacks import get_all_quest_slugs
 from scripts.audit_objectives_schema import audit_all_quests
 
 
+def load_active_slugs() -> set:
+    """Load the set of quest slugs from active questpacks in curriculum_guardrail_scope.json."""
+    scope_path = Path("configs/curriculum_guardrail_scope.json")
+    if not scope_path.exists():
+        return set()
+    scope = json.loads(scope_path.read_text(encoding="utf-8"))
+    active_packs = scope.get("active_questpacks", [])
+    active_slugs = set()
+    for pack_path in active_packs:
+        try:
+            data = json.loads(Path(pack_path).read_text(encoding="utf-8"))
+            quests = data.get("quests", data) if isinstance(data, dict) else data
+            if isinstance(quests, list):
+                for q in quests:
+                    if isinstance(q, dict) and "slug" in q:
+                        active_slugs.add(q["slug"])
+        except Exception:
+            pass
+    return active_slugs
+
+
 def get_tier(slug: str) -> int:
     """Determine tier from slug or external metadata (simple heuristic for now)."""
     # In a real impl, we'd load the questpack for this slug.
@@ -83,21 +104,44 @@ def load_budget():
 
 def certify_training_grade():
     print("(*) Starting Training-Grade Certification...")
-    
+
     failures = []
-    
+    warnings = []
+    active_slugs = load_active_slugs()
+
+    def record(msg: str, slug: str | None = None):
+        """Route to failures (active scope) or warnings (non-active scope)."""
+        if slug and active_slugs and slug not in active_slugs:
+            warnings.append(f"[WARN] {msg}")
+        else:
+            failures.append(msg)
+
     # 1. Objectives Schema
     print("\n[?] Checking Objectives Schema...")
     schema_report = audit_all_quests()
-    if schema_report['invalid_quests']:
-        print(f"[FAIL] {len(schema_report['invalid_quests'])} quests have invalid objectives.")
-        for f in schema_report['invalid_quests']:
+    active_invalid = [f for f in schema_report['invalid_quests'] if f['slug'] in active_slugs]
+    inactive_invalid = [f for f in schema_report['invalid_quests'] if f['slug'] not in active_slugs]
+
+    if active_invalid:
+        print(f"[FAIL] {len(active_invalid)} active-scope quests have invalid objectives.")
+        for f in active_invalid:
             failures.append(f"Schema Invalid: {f['slug']}")
-    
-    if schema_report['quests_with_no_objectives']:
-        print(f"[FAIL] {len(schema_report['quests_with_no_objectives'])} quests have NO objectives.")
-        for q in schema_report['quests_with_no_objectives']:
-             failures.append(f"No Objectives: {q}")
+    if inactive_invalid:
+        print(f"[WARN] {len(inactive_invalid)} non-active quests have invalid objectives (not blocking).")
+        for f in inactive_invalid:
+            warnings.append(f"Schema Invalid (non-active): {f['slug']}")
+
+    active_no_obj = [q for q in schema_report['quests_with_no_objectives'] if q in active_slugs]
+    inactive_no_obj = [q for q in schema_report['quests_with_no_objectives'] if q not in active_slugs]
+
+    if active_no_obj:
+        print(f"[FAIL] {len(active_no_obj)} active-scope quests have NO objectives.")
+        for q in active_no_obj:
+            failures.append(f"No Objectives: {q}")
+    if inactive_no_obj:
+        print(f"[WARN] {len(inactive_no_obj)} non-active quests have NO objectives (not blocking).")
+        for q in inactive_no_obj:
+            warnings.append(f"No Objectives (non-active): {q}")
              
     # 1.5 Tier Compliance (New)
     print("\n[?] Checking Tier Compliance...")
@@ -158,12 +202,15 @@ def certify_training_grade():
     missing_list = []
     spec_list = []
     
+    active_missing = []
+    inactive_missing = []
+
     for slug in all_slugs:
         grading_dir = Path(f"data/quests/{slug}/grading")
         has_run = (grading_dir / "golden.run.json").exists() or (grading_dir / "golden.json").exists()
         has_state = (grading_dir / "golden.state.json").exists()
         has_spec = (grading_dir / "golden.spec.json").exists()
-        
+
         # Priority: Run > State > Spec
         if has_run:
             stats["run"] += 1
@@ -172,14 +219,21 @@ def certify_training_grade():
         elif has_spec:
             # Spec is now ILLEGAL in Training-Grade V2
             stats["spec"] += 1
-            failures.append(f"Illegal Spec Artifact: {slug} (Must convert to Run/State)")
+            record(f"Illegal Spec Artifact: {slug} (Must convert to Run/State)", slug)
         else:
             stats["missing"] += 1
             missing_list.append(slug)
-            
-    if stats["missing"] > 0:
-        print(f"[FAIL] {stats['missing']} quests missing golden artifacts completely.")
-        failures.append(f"Missing Golden Artifacts: {stats['missing']} quests (e.g. {missing_list[0] if missing_list else ''})")
+            if slug in active_slugs:
+                active_missing.append(slug)
+            else:
+                inactive_missing.append(slug)
+
+    if active_missing:
+        print(f"[FAIL] {len(active_missing)} active-scope quests missing golden artifacts.")
+        failures.append(f"Missing Golden Artifacts (active): {active_missing}")
+    if inactive_missing:
+        print(f"[WARN] {len(inactive_missing)} non-active quests missing golden artifacts (not blocking).")
+        warnings.append(f"Missing Golden Artifacts (non-active): {len(inactive_missing)} quests")
 
     # 3. Ratchet Check
     budget = load_budget()
@@ -217,6 +271,11 @@ def certify_training_grade():
          print(f"  Budget: max_spec={budget.get('max_spec')}, min_run={budget.get('min_run')}")
     else:
          print("\nRatchet Status: N/A (No budget file)")
+
+    if warnings:
+        print(f"\n[WARN] {len(warnings)} non-blocking issues in non-active scope:")
+        for w in warnings:
+            print(f"  {w}")
 
     if failures:
         print("\n[STOP] CERTIFICATION FAILED")

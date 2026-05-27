@@ -340,59 +340,90 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                             data-testid={`quest-card-${q.slug}`}
                         >
                             <div className="flex items-start justify-between gap-4">
-                                <div className="flex flex-col gap-1 flex-1">
+                                <div className="flex flex-col gap-1.5 flex-1">
+                                    {/* Title row */}
                                     <div className="flex flex-wrap items-center gap-2">
                                         <h3 className="text-sm font-semibold text-slate-50">
                                             {q.title}
                                         </h3>
 
-                                        {/* METADATA BADGES */}
-                                        <div className="flex gap-1 items-center opacity-70 hover:opacity-100 transition-opacity">
-                                            {/* World Badge */}
-                                            <span
-                                                className="text-[9px] text-zinc-500 font-mono border border-zinc-800 rounded px-1"
-                                                title={`World: ${q.world_id}`}
-                                            >
-                                                {getWorldObj(q.world_id)
-                                                    ? resolveWorldName(getWorldObj(q.world_id)!)
-                                                    : q.world_id}
-                                            </span>
-                                            {/* Track Badge */}
-                                            <span
-                                                className="text-[9px] text-workshop-cyan font-mono border border-zinc-800 rounded px-1"
-                                                title={`Track: ${q.track_id}`}
-                                            >
-                                                {getTrackObj(q.track_id)
-                                                    ? resolveTrackName(getTrackObj(q.track_id)!)
-                                                    : q.track_id}
-                                            </span>
-                                            {/* Pack Badge */}
-                                            {q.questpack && (
-                                                <span className="text-[9px] text-zinc-600 font-mono border border-zinc-800 rounded px-1" title="Source Questpack">
-                                                    📦 {q.questpack.replace('.json', '')}
-                                                </span>
-                                            )}
-                                        </div>
-
-                                        {/* Boss Badge */}
+                                        {/* Boss badge (prominent — unlocks a boss fight) */}
                                         {q.unlocks_boss_id && (
-                                            <span className="rounded-full border border-emerald-400/70 px-2 text-[10px] font-semibold uppercase tracking-wide text-emerald-300">
+                                            <span className="rounded-full border border-red-400/70 bg-red-950/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-red-300">
                                                 Boss
                                             </span>
                                         )}
+                                    </div>
 
-                                        {/* Codex Coverage Badge */}
+                                    {/* Description */}
+                                    {q.short_description && (
+                                        <p className="text-xs text-slate-400 leading-snug">
+                                            {q.short_description}
+                                        </p>
+                                    )}
+
+                                    {/* Badge hierarchy: track pill > tier badge > content tags */}
+                                    <div className="flex flex-wrap items-center gap-1.5">
+                                        {/* PRIMARY: Track pill */}
+                                        <span
+                                            className="rounded-full border border-workshop-cyan/40 bg-cyan-950/30 px-2.5 py-0.5 text-[10px] font-medium text-workshop-cyan"
+                                            title={`Track: ${q.track_id}`}
+                                        >
+                                            {getTrackObj(q.track_id)
+                                                ? resolveTrackName(getTrackObj(q.track_id)!)
+                                                : q.track_id}
+                                        </span>
+
+                                        {/* SECONDARY: Tier badge (derived from track suffix) */}
+                                        {(() => {
+                                            const tid = q.track_id || '';
+                                            if (tid.endsWith('-systems')) return (
+                                                <span className="rounded-full border border-violet-400/40 bg-violet-950/30 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-violet-400">
+                                                    Systems
+                                                </span>
+                                            );
+                                            if (tid.endsWith('-ignition') || tid.endsWith('-selenium')) return (
+                                                <span className="rounded-full border border-blue-400/40 bg-blue-950/30 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-blue-400">
+                                                    Ignition
+                                                </span>
+                                            );
+                                            if (tid.endsWith('-boss')) return (
+                                                <span className="rounded-full border border-red-400/40 bg-red-950/30 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-red-400">
+                                                    Boss
+                                                </span>
+                                            );
+                                            if (tid.endsWith('-foundry')) return (
+                                                <span className="rounded-full border border-slate-500/40 bg-slate-900/30 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-slate-500">
+                                                    Foundry
+                                                </span>
+                                            );
+                                            return null;
+                                        })()}
+
+                                        {/* TERTIARY: Content tags (subordinate) */}
+                                        {q.concept_tags && q.concept_tags.length > 0 && (
+                                            q.concept_tags.slice(0, 3).map(tag => (
+                                                <span
+                                                    key={tag}
+                                                    className="rounded border border-zinc-700/50 px-1.5 py-0 text-[9px] text-zinc-600"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))
+                                        )}
+
+                                        {/* Dev-only: Codex Coverage */}
                                         {q.codex_coverage_score !== undefined && (
                                             <span
                                                 className={`
-                                                    rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide
+                                                    rounded border px-1.5 py-0 text-[9px]
                                                     ${q.codex_coverage_score >= 90
-                                                        ? 'border-emerald-400/70 bg-emerald-950/40 text-emerald-300'
+                                                        ? 'border-emerald-600/50 text-emerald-600'
                                                         : q.codex_coverage_score >= 70
-                                                            ? 'border-blue-400/70 bg-blue-950/40 text-blue-300'
+                                                            ? 'border-blue-600/50 text-blue-600'
                                                             : q.codex_coverage_score > 0
-                                                                ? 'border-amber-400/70 bg-amber-950/40 text-amber-300'
-                                                                : 'border-slate-500/70 bg-slate-900/40 text-slate-400'
+                                                                ? 'border-amber-600/50 text-amber-600'
+                                                                : 'border-slate-600/50 text-slate-600'
                                                     }
                                                 `}
                                                 title={`Codex coverage: ${q.codex_coverage_score}/100`}
@@ -400,21 +431,15 @@ export const QuestBoard: React.FC<QuestBoardProps> = ({
                                                 📚 {q.codex_coverage_score}
                                             </span>
                                         )}
-
-                                        {/* Invalid Refs Warning */}
                                         {q.codex_invalid_refs && q.codex_invalid_refs > 0 && (
                                             <span
-                                                className="rounded-full border border-red-400/70 bg-red-950/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-300"
+                                                className="rounded border border-red-600/50 px-1.5 py-0 text-[9px] text-red-500"
                                                 title={`${q.codex_invalid_refs} invalid Codex reference(s)`}
                                             >
-                                                ⚠️ {q.codex_invalid_refs} Invalid
+                                                ⚠️ {q.codex_invalid_refs}
                                             </span>
                                         )}
                                     </div>
-
-                                    <p className="text-xs text-slate-400">
-                                        {q.short_description}
-                                    </p>
 
                                     <div className="mt-1 flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
                                         <span>XP: {q.base_xp_reward}–{q.base_xp_reward + (q.mastery_xp_bonus || 0)}</span>

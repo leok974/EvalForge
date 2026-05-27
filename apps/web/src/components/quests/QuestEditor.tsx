@@ -197,7 +197,14 @@ export const QuestEditor = forwardRef<QuestEditorRef, QuestEditorProps>(({
                         readOnly: readOnly,
                         domReadOnly: readOnly,
                         cursorStyle: readOnly ? "line-thin" : "line",
-                        renderValidationDecorations: "on"
+                        renderValidationDecorations: "on",
+                        // Disable auto-close to prevent Monaco from inserting a matching
+                        // closing character after an opening quote/bracket, which silently
+                        // corrupts learner input (e.g. `= "System Online"` becomes
+                        // `= "ysem Online"` because the cursor ends up inside the
+                        // auto-inserted closing quote) — Bug 3.
+                        autoClosingQuotes: 'never',
+                        autoClosingBrackets: 'never',
                     }}
                 />
             </div>

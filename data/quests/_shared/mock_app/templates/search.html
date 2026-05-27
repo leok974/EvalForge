@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Record Search</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #334155; }
+        th { background: #1e293b; }
+        input { padding: 0.5rem; background: #334155; border: 1px solid #475569; color: white; width: 300px; }
+        button { padding: 0.5rem 1rem; background: #38bdf8; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Historical Records</h1>
+    <form action="/search" method="get">
+        <input type="text" name="q" placeholder="Search by ID or description..." data-testid="search-input" value="{{ query or '' }}">
+        <button type="submit" data-testid="search-submit">Search</button>
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in results %}
+            <tr data-testid="search-results-row">
+                <td data-testid="record-id">{{ r.id }}</td>
+                <td>{{ r.status }}</td>
+                <td>{{ r.desc }}</td>
+                <td><a href="#" style="color: #38bdf8;">Detail</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

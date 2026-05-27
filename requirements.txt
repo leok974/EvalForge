@@ -38,3 +38,9 @@ pydantic-settings                # For config management
 # --- ML World ---
 numpy
 pandas
+
+# --- Selenium Runner ---
+selenium>=4.18.0
+
+# --- Curriculum Tooling ---
+libcst                           # Required by scripts/upgrade_objectives_state.py (drift check)

@@ -1,7 +1,8 @@
+// Sprint 22: crtMode removed (Cyberdeck deleted). layout/isCyberdeck removed.
+// Workshop is the only layout — background grid is unconditional.
 import React, { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useSettingsStore } from '../store/settingsStore';
-import { useGameStore } from '../store/gameStore';
 import { useGameSocket } from '../hooks/useGameSocket';
 import { useSound } from '../hooks/useSound';
 import { useBossStore } from '../store/bossStore';
@@ -14,8 +15,7 @@ interface Props {
 }
 
 export function FXLayer({ children }: Props) {
-    const { crtMode, screenShake } = useSettingsStore();
-    const layout = useGameStore((s) => s.layout);
+    const { screenShake } = useSettingsStore();
 
     const controls = useAnimation();
     const { lastEvent } = useGameSocket();
@@ -38,7 +38,7 @@ export function FXLayer({ children }: Props) {
 
             play('boss');
             if (screenShake) {
-                const intensity = layout === 'workshop' ? 20 : 10;
+                const intensity = 20;
                 controls.start({
                     x: [0, -intensity, intensity, -intensity, intensity, 0],
                     transition: { duration: 0.5 }
@@ -73,7 +73,7 @@ export function FXLayer({ children }: Props) {
         } else if (lastEvent.type === 'quest_complete') {
             FX.emit('confetti', { count: 200, y: 0.3 });
         }
-    }, [lastEvent, screenShake, controls, play, layout, startBoss]);
+    }, [lastEvent, screenShake, controls, play, startBoss]);
 
     // Helper to determine active FX classes based on lastEvent (transient)
     // In a real app we'd use a timeout to clear these, but for MVP we rely on the event being "fresh"
@@ -104,10 +104,8 @@ export function FXLayer({ children }: Props) {
         }
     }, [lastEvent]);
 
-    const isCyberdeck = layout === 'cyberdeck';
-
     return (
-        <div className={`relative w-full h-full overflow-hidden bg-black ${isCyberdeck && crtMode ? 'crt-aberration' : ''}`}>
+        <div className="relative w-full h-full overflow-hidden bg-black">
 
             {/* 1. Main Content (Z-10) */}
             <motion.div animate={controls} className="w-full h-full relative z-10">
@@ -116,33 +114,13 @@ export function FXLayer({ children }: Props) {
 
             {/* --- THEME OVERLAYS (Z-0 to Z-20) --- */}
 
-            {/* CYBERDECK (CRT) - z-20 */}
-            {layout === 'cyberdeck' && crtMode && (
-                <div className="absolute inset-0 pointer-events-none z-20 opacity-30 mix-blend-overlay"
-                    style={{
-                        backgroundImage: "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))",
-                        backgroundSize: "100% 2px, 3px 100%"
-                    }}
-                />
-            )}
-
-            {/* ORION (Stars) - z-0 (Background) */}
-            {layout === 'orion' && (
-                <div className="absolute inset-0 pointer-events-none z-0">
-                    <div className="absolute inset-0 bg-[radial-gradient(white_1px,transparent_1px)] [background-size:50px_50px] opacity-20" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 to-transparent" />
-                </div>
-            )}
-
-            {/* WORKSHOP (Grid) - z-0 (Background) */}
-            {layout === 'workshop' && (
-                <div className="absolute inset-0 pointer-events-none z-0 opacity-10"
-                    style={{
-                        backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`,
-                        backgroundSize: '40px 40px'
-                    }}
-                />
-            )}
+            {/* WORKSHOP (Grid) - z-0 (Background). Workshop is the only layout. */}
+            <div className="absolute inset-0 pointer-events-none z-0 opacity-10"
+                style={{
+                    backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`,
+                    backgroundSize: '40px 40px'
+                }}
+            />
 
             {/* BOSS EVENT TINT (Z-30) */}
             <div

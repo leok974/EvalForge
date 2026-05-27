@@ -1,7 +1,5 @@
-import fs from "node:fs/promises";
-import fssync from "node:fs";
+import fs from "node:fs";
 import path from "node:path";
-import os from "node:os";
 import { spawnSync } from "node:child_process";
 
 function parseArgs(argv) {
@@ -26,8 +24,8 @@ function parseArgs(argv) {
     return out;
 }
 
-async function readJson(p) {
-    const raw = await fs.readFile(p, "utf8");
+function readJson(p) {
+    const raw = fs.readFileSync(p, "utf8");
     return JSON.parse(raw);
 }
 
@@ -60,105 +58,108 @@ function extractSlugs(questpackJson) {
     return slugs;
 }
 
-async function listPublicTests(questDir) {
+function listPublicTests(questDir) {
     const pubDir = path.join(questDir, "grading", "public");
-    if (!fssync.existsSync(pubDir)) {
+    if (!fs.existsSync(pubDir)) {
         throw new Error(`Missing grading/public: ${pubDir}`);
     }
-    const files = await fs.readdir(pubDir);
-    const tests = files
+    const files = fs.readdirSync(pubDir)
         .filter((f) => f.endsWith(".mjs") || f.endsWith(".js"))
         .filter((f) => f.includes(".test.") || f.includes(".public.test."))
         .map((f) => path.join(pubDir, f))
         .sort((a, b) => a.localeCompare(b));
-    if (tests.length === 0) {
+    if (files.length === 0) {
         throw new Error(`No public test files found in ${pubDir}`);
     }
-    return tests;
+    return files;
 }
 
-function findWorkspaceFolder(questDir) {
-    const ws = path.join(questDir, "workspace");
-    if (fssync.existsSync(ws)) return { dir: ws, name: "workspace" };
-    const starter = path.join(questDir, "starter");
-    if (fssync.existsSync(starter)) return { dir: starter, name: "starter" };
-    throw new Error(`No workspace/ or starter/ found in ${questDir}`);
+/**
+ * Swap solutions in-place: copy files from grading/solutions/ into workspace/,
+ * saving backups so they can be restored after the test run.
+ */
+function swapInSolution(questDir) {
+    const solDir = path.join(questDir, "grading", "solutions");
+    const wsDir = path.join(questDir, "workspace");
+    const backups = [];
+
+    if (!fs.existsSync(solDir)) return backups; // No solution dir — skip
+
+    const solFiles = fs.readdirSync(solDir);
+    for (const f of solFiles) {
+        const src = path.join(solDir, f);
+        const dst = path.join(wsDir, f);
+        if (fs.statSync(src).isDirectory()) continue; // Skip subdirs for now
+
+        if (fs.existsSync(dst)) {
+            const bak = dst + ".bak";
+            fs.copyFileSync(dst, bak);
+            backups.push({ dst, bak });
+        } else {
+            backups.push({ dst, bak: null }); // New file — restore by deleting
+        }
+        fs.copyFileSync(src, dst);
+    }
+    return backups;
 }
 
-async function copyDir(src, dst) {
-    await fs.mkdir(dst, { recursive: true });
-    const entries = await fs.readdir(src, { withFileTypes: true });
-    for (const e of entries) {
-        const s = path.join(src, e.name);
-        const d = path.join(dst, e.name);
-        if (e.isDirectory()) await copyDir(s, d);
-        else if (e.isFile()) await fs.copyFile(s, d);
+function restoreBackups(backups) {
+    for (const b of backups) {
+        try {
+            if (b.bak && fs.existsSync(b.bak)) {
+                fs.copyFileSync(b.bak, b.dst);
+                fs.unlinkSync(b.bak);
+            } else if (b.bak === null && fs.existsSync(b.dst)) {
+                fs.unlinkSync(b.dst);
+            }
+        } catch { }
     }
 }
 
-async function runQuest({ slug, mode, debug }) {
+function runQuest({ slug, mode, debug }) {
     const repoRoot = process.cwd();
-    const questDir = path.join(repoRoot, "docs", "quests", slug);
-    if (!fssync.existsSync(questDir)) {
+    const questDir = path.join(repoRoot, "data", "quests", slug);
+    if (!fs.existsSync(questDir)) {
         throw new Error(`Quest dir missing: ${questDir}`);
     }
 
-    const tests = await listPublicTests(questDir);
-    const wsInfo = findWorkspaceFolder(questDir);
+    const tests = listPublicTests(questDir);
 
-    // Temp isolated workspace (preserve basename: starter vs workspace)
-    const tmpBase = await fs.mkdtemp(path.join(os.tmpdir(), `ef-cli-${slug}-`));
-    const tmpWs = path.join(tmpBase, wsInfo.name);
-    await copyDir(wsInfo.dir, tmpWs);
-
-    // Overlay solutions (if present)
+    // In-place solution swap (same approach as run_world_public_tests.mjs generic runner)
+    let backups = [];
     if (mode === "solution") {
-        const solDir = path.join(repoRoot, "solutions", slug);
-        if (!fssync.existsSync(solDir)) {
-            throw new Error(`Missing solutions/${slug} (mode=solution)`);
-        }
-        await copyDir(solDir, tmpWs);
+        backups = swapInSolution(questDir);
     }
 
-    const env = {
-        ...process.env,
-        EF_WORKSPACE_OVERRIDE: tmpWs,
-        EF_QUEST_SLUG: slug,
-    };
+    let ok = true;
+    for (const tf of tests) {
+        const res = spawnSync(process.execPath, ["--test", tf], {
+            stdio: "inherit",
+            cwd: questDir, // Run from quest root so relative paths in test helpers resolve correctly
+        });
 
-    const args = ["--test", ...tests];
+        if (res.status !== 0) {
+            ok = false;
+        }
+    }
 
-    const res = spawnSync(process.execPath, args, {
-        cwd: repoRoot,
-        env,
-        encoding: "utf8",
-        shell: false,
-    });
+    // Restore workspace to original state
+    if (backups.length > 0) {
+        restoreBackups(backups);
+    }
 
-    const ok = res.status === 0;
     if (!ok) {
         console.error(`\n❌ FAIL: ${slug}`);
-        if (res.stdout) console.error(res.stdout);
-        if (res.stderr) console.error(res.stderr);
     } else if (debug) {
         console.log(`✅ PASS: ${slug}`);
-    }
-
-    if (!debug) {
-        // cleanup temp dir
-        try {
-            await fs.rm(tmpBase, { recursive: true, force: true });
-        } catch { }
-    } else {
-        console.log(`(debug) kept temp workspace at: ${tmpWs}`);
     }
 
     return ok;
 }
 
-async function main() {
+function main() {
     const opts = parseArgs(process.argv);
-    const pack = await readJson(opts.questpack);
+    const pack = readJson(opts.questpack);
     let slugs = extractSlugs(pack);
 
     if (opts.onlySlug) slugs = slugs.filter((s) => s === opts.onlySlug);
@@ -167,20 +168,28 @@ async function main() {
 
     let pass = 0;
     for (const slug of slugs) {
-        const ok = await runQuest({ slug, mode: opts.mode, debug: opts.debug });
+        let ok;
+        try {
+            ok = runQuest({ slug, mode: opts.mode, debug: opts.debug });
+        } catch (err) {
+            console.error(`\nRunner error: ${err?.stack || err}`);
+            ok = false;
+        }
         if (!ok) process.exitCode = 1;
         else pass++;
     }
 
+    const total = slugs.length;
     if (process.exitCode === 1) {
-        console.log(`\n❌ CLI questpack FAILED (${pass}/${slugs.length} passed)`);
-        process.exit(process.exitCode);
+        console.log(`\n❌ CLI questpack FAILED (${pass}/${total} passed)`);
+        const resultJson = { total, passed: pass, failed: total - pass, errors: [], slugs: [] };
+        console.log(`EF_RUNNER_RESULT_JSON=${JSON.stringify(resultJson)}`);
+        process.exit(1);
     } else {
-        console.log(`\n✅ CLI questpack OK (${pass}/${slugs.length} passed)`);
+        console.log(`\n✅ CLI questpack OK (${pass}/${total} passed)`);
+        const resultJson = { total, passed: pass, failed: 0, errors: [], slugs: [] };
+        console.log(`EF_RUNNER_RESULT_JSON=${JSON.stringify(resultJson)}`);
     }
 }
 
-main().catch((err) => {
-    console.error("Runner error:", err?.stack || err);
-    process.exit(1);
-});
+main();

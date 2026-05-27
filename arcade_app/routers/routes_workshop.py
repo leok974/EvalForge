@@ -47,28 +47,83 @@ async def get_workshop_catalog(
     worlds_meta = load_worlds()  # Dict[world_id, WorldDict]
 
     # --- DEFINITIONS & ALIASES ---
-    # TODO: Move to DB or JSON
+    # Sprint 23: Standardised to <world>-<tier> convention.
+    # Migration map (old ID -> new canonical ID):
+    #   python-fundamentals        -> python-foundry
+    #   foundry-senior-systems     -> python-systems
+    #   fundamentals               -> python-foundry
+    #   boss-prep                  -> python-boss
+    #   core-python                -> python-ignition
+    #   js-ignition/arrays/etc.    -> js-foundry
+    #   ts-fundamentals            -> ts-foundry
+    #   git-fundamentals           -> git-foundry
+    #   track-sql                  -> sql-foundry
+    #   track-html                 -> web-html  (content-based, not tier)
+    #   track-css                  -> web-css   (content-based, not tier)
+    #   track-docker-ignition      -> docker-ignition
+    #   track-docker-systems       -> docker-systems
     TRACK_ALIASES = {
-        "fundamentals": "python-fundamentals"
+        # Legacy python aliases
+        "fundamentals": "python-foundry",
+        "python-fundamentals": "python-foundry",
+        "foundry-senior-systems": "python-systems",
+        "core-python": "python-ignition",
+        "boss-prep": "python-boss",
+        # Legacy JS module tracks (consolidated to one foundry track)
+        "js-ignition": "js-foundry",
+        "js-arrays": "js-foundry",
+        "js-objects": "js-foundry",
+        "js-functions": "js-foundry",
+        "js-async": "js-foundry",
+        "js-errors": "js-foundry",
+        "js-modules": "js-foundry",
+        # Legacy TS / Git
+        "ts-fundamentals": "ts-foundry",
+        "git-fundamentals": "git-foundry",
+        "core-git": "git-systems",
+        # Legacy web / sql / docker
+        "track-sql": "sql-foundry",
+        "track-html": "web-html",
+        "track-css": "web-css",
+        "track-docker-ignition": "docker-ignition",
+        "track-docker-systems": "docker-systems",
+        # Old curriculum-scope prefix style
+        "track-python-foundry": "python-foundry",
+        "track-python-ignition": "python-ignition",
+        "track-python-systems": "python-systems",
+        "track-python-selenium": "python-selenium",
     }
-    
-    # Hardcoded definitions for tracks missing in DB
+
+    # Hardcoded display names for tracks missing from the DB TrackDefinition table.
+    # Keys are canonical IDs. Legacy aliases are resolved via TRACK_ALIASES above.
     HARDCODED_TRACKS = {
-        "boss-prep": {"name": "Boss Preparation", "order_index": 900},
-        "python-fundamentals": {"name": "The Basics", "order_index": 1},
-        "python-core": {"name": "Core Concepts", "order_index": 2},
-        "js-fundamentals": {"name": "JS Basics", "order_index": 1},
-        "misc": {"name": "Miscellaneous", "order_index": 999},
-        "core": {"name": "Core Concepts", "order_index": 5},
-        "track-cli-core": {"name": "CLI Core", "order_index": 2},
-        "cli-fundamentals": {"name": "CLI Fundamentals", "order_index": 1},
-        "track-node-core": {"name": "Node Core", "order_index": 2},
-        "node-fundamentals": {"name": "Node Fundamentals", "order_index": 1},
-        "track-react": {"name": "React Core", "order_index": 2},
-        "react-fundamentals": {"name": "React Fundamentals", "order_index": 1},
-        "web-ignition": {"name": "Web Ignition", "order_index": 1},
-        "track-css": {"name": "CSS Mastery", "order_index": 2},
-        "track-html": {"name": "HTML Mastery", "order_index": 3}
+        # Canonical Python tracks
+        "python-foundry":   {"name": "Python Foundry",   "order_index": 1},
+        "python-ignition":  {"name": "Python Ignition",  "order_index": 2},
+        "python-systems":   {"name": "Python Systems",   "order_index": 3},
+        "python-boss":      {"name": "Python Boss",      "order_index": 4},
+        "python-selenium":  {"name": "Python Selenium",  "order_index": 5},
+        # Canonical JS / TS / Git tracks
+        "js-foundry":       {"name": "JS Foundry",       "order_index": 1},
+        "ts-foundry":       {"name": "TS Foundry",       "order_index": 1},
+        "git-foundry":      {"name": "Git Foundry",      "order_index": 1},
+        "git-systems":      {"name": "Git Systems",      "order_index": 2},
+        # Canonical SQL / Web / Docker tracks
+        "sql-foundry":      {"name": "SQL Foundry",      "order_index": 1},
+        "web-html":         {"name": "HTML",              "order_index": 1},
+        "web-css":          {"name": "CSS",               "order_index": 2},
+        "docker-ignition":  {"name": "Docker Ignition",  "order_index": 1},
+        "docker-systems":   {"name": "Docker Systems",   "order_index": 2},
+        # Misc
+        "misc":             {"name": "Miscellaneous",    "order_index": 999},
+        "core":             {"name": "Core Concepts",    "order_index": 5},
+        # CLI / Node / React (inactive but keep for catalog completeness)
+        "track-cli-core":        {"name": "CLI Core",          "order_index": 2},
+        "cli-fundamentals":      {"name": "CLI Fundamentals",  "order_index": 1},
+        "track-node-core":       {"name": "Node Core",         "order_index": 2},
+        "node-fundamentals":     {"name": "Node Fundamentals", "order_index": 1},
+        "track-react":           {"name": "React Core",        "order_index": 2},
+        "react-fundamentals":    {"name": "React Fundamentals","order_index": 1},
     }
 
     # 4. Aggregate Tracks and Worlds present in Active Quests
