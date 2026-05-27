@@ -521,3 +521,37 @@ cd data/quests/<slug>/grading && \
 development or CI. A focused sprint should investigate either (a) mapping the temp-dir
 path through a Docker volume rather than `docker cp`, or (b) adding a
 `EVALFORGE_RUNNER_MODE=local` that skips Docker for `tests` mode in dev environments.
+
+
+
+---
+
+## Backlog: Quest Drift Detection — Pairwise Audit Method (Sprint 26)
+
+**Finding:** The three-way content mismatch in `python-systems-platform-tooling`
+(docs described `slugify`/`unique_sorted`/`run_tool_request`; `task.py` described a
+CLI greet/sum interface; `test_*.py` and `workspace/main.py` tested `parse_semver`)
+escaped two separate content audits (Sprints 24 and 25).
+
+**Root cause of audit gap:** Both audits compared docs against the grading test only.
+Neither checked workspace files against each other. The CLI greet/sum description in
+`task.py` and the `parse_semver` stub in `workspace/main.py` were invisible to a
+docs-vs-test comparison.
+
+**Recommended future audit method:** For each quest, run a three-way pairwise check:
+
+1. `docs/briefing.md` vs. `grading/public/test_*.py` — does the briefing describe
+   what the test checks?
+2. `workspace/main.py` (or `task.py`) vs. `grading/public/test_*.py` — do the stubs
+   expose the same names the test imports?
+3. `workspace/task.py` vs. `workspace/main.py` — do both workspace files describe
+   the same task?
+
+Any mismatch in (2) is an immediate red flag: if the test contains
+`from main import foo` but `workspace/main.py` defines `bar`, a learner filling in
+the stub cannot pass the test regardless of how good the docs are.
+
+**Worth adding to:** `scripts/certify_training_grade.py` as an automated
+stub-vs-test import cross-check (low complexity: parse the `from main import ...`
+line in each test, confirm each imported name appears as a `def` or `class` in
+`workspace/main.py`).
