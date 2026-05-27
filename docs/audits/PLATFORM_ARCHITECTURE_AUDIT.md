@@ -542,6 +542,13 @@ deserve fresh eyes before each sprint that claims to address them. Hypothesis �
 - `hello-variable` RUN (solution): `passed: true` — no regression in run-mode quests
 - `selenium-open-page` RUN (stub): proper error response — no regression in Selenium quests
 
+**Regression armor (Sprint 29):** `TestSubmitEndToEnd` class added to
+`tests/backend/test_grading_truth_table.py` (4 tests, no Docker required):
+- `test_submit_calls_run_code_with_mode_tests_for_tests_pass_quest` — bites when Bug 2 reintroduced
+- `test_submit_stdout_regex_quest_uses_mode_run` — control: verifies non-tests_pass quests unaffected
+- `test_submit_tests_pass_quest_returns_ok_false_on_failure` — verifies failure path shape
+- `test_code_runner_docker_stages_runner_for_empty_code_in_tests_mode` — bites when Bug 1 reintroduced
+
 
 
 ---

@@ -130,6 +130,7 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
                 with open(src_path, "r", encoding="utf-8") as rf:
                     with open(runner_target, "w", encoding="utf-8") as wf:
                         wf.write(rf.read())
+
         # Determine Runner Script
         db_engine = workspace.get("db_engine", "sqlite") if workspace else "sqlite"
         

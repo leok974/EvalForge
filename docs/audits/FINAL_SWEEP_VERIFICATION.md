@@ -1,6 +1,6 @@
 # Final Sweep Verification Report
 
-**Date:** 2026-05-23 17:09:47
+**Date:** 2026-05-27 19:56:05
 **Status:** FINAL_VERIFICATION
 
 ## Summary
@@ -28,7 +28,7 @@
 | `javascript_core.json` | `solution` | ✅ | 10/10 | |
 | `javascript_core.json` | `student` | ✅ (Expected) | 0/10 | |
 | `ml_core.json` | `solution` | ✅ | 10/10 | |
-| `ml_core.json` | `student` | ✅ (Expected) | 0/10 | |
+| `ml_core.json` | `student` | ✅ (Expected) | 1/10 | |
 | `node_core.json` | `solution` | ✅ | 10/10 | |
 | `node_core.json` | `student` | ✅ (Expected) | 0/10 | |
 | `playwright_ignition.json` | `solution` | ✅ | 7/7 | |
