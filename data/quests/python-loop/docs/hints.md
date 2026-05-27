@@ -1,20 +1,30 @@
-## Concept
-Use `range(1, 11)` to include both 1 and 10 in your loop.
+## Hint 1 — Concept
 
-## Guided
-Inside the loop, check `if i % 2 == 0:`. If it is, print the number and increment your counter. Don't forget to print the `EVEN_COUNT=` prefix at the very end.
+`n % 2 == 0` is `True` when `n` is even. Use this condition inside your loop to decide which integers to keep. The modulo operator `%` gives the remainder: `4 % 2 == 0` (even), `3 % 2 == 1` (odd).
 
-## Full Solution
+## Hint 2 — Guided
+
+Use the list-accumulation pattern:
+
 ```python
-def main():
-    count = 0
-    for i in range(1, 11):
-        if i % 2 == 0:
-            print(i)
-            count += 1
-    print(f"EVEN_COUNT={count}")
-
-if __name__ == "__main__":
-    main()
+result = []
+for n in range(1, limit + 1):
+    if n % 2 == 0:
+        result.append(n)
+return result
 ```
-*Note: The loop must be inside the `main()` function as provided in the starter code.*
+
+Initialize the list before the loop, append inside the `if` block, and return after the loop ends.
+
+## Hint 3 — The Solution
+
+```python
+def generate_evens(limit: int) -> list[int]:
+    result = []
+    for n in range(1, limit + 1):
+        if n % 2 == 0:
+            result.append(n)
+    return result
+```
+
+Note: the function **returns** the list — it does not print anything. The `main()` function (already in the starter) handles printing.

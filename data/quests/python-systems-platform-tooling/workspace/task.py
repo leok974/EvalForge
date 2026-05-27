@@ -1,27 +1,28 @@
 """
 Quest: python-systems-platform-tooling
 
-Build a tiny deterministic CLI (no sys.exit).
+Implement three pure utility functions that form the backbone of an internal
+developer toolbox. No I/O: inputs come in, results come out.
 
-Implement:
-- main(argv=None) -> int
-Commands:
-1) greet --name <NAME>
-   prints: Hello, <NAME>!
-2) sum <A> <B>
-   prints: a+b=<SUM>   (A and B are integers)
-Errors:
-- return 2 on invalid args
-- print a one-line usage string on errors or --help:
-    usage: tool greet --name NAME | tool sum A B
+Functions to implement (in main.py):
+
+  slugify(text: str) -> str
+    Convert text to a URL-safe slug:
+      1. Lowercase and strip.
+      2. Replace spaces with dashes.
+      3. Remove non-alphanumeric characters (except dashes).
+      4. Collapse consecutive dashes.
+      5. Strip leading/trailing dashes.
+
+  unique_sorted(items: list[str]) -> list[str]
+    Return a deduplicated, alphabetically sorted list of stripped,
+    lowercased, non-empty strings.
+
+  run_tool_request(req: dict) -> dict
+    Dispatch {"tool": "<name>", "payload": {...}} to the matching function.
+    Supported tools: "slugify", "sum", "unique_sorted".
+    Return {"tool": ..., "ok": True/False, "result": ..., "error": ...}.
+    Error codes: "EF_TOOL_UNKNOWN", "EF_TOOL_BAD_INPUT".
+
+Edit main.py — the grader imports from there.
 """
-
-from __future__ import annotations
-
-
-def main(argv: list[str] | None = None) -> int:
-  raise NotImplementedError("TODO: implement main(argv)")
-
-
-if __name__ == "__main__":
-  raise SystemExit(main())

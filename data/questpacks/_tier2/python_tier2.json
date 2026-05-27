@@ -204,12 +204,12 @@
         {
             "slug": "python-boss-csv-report",
             "title": "BOSS: CSV Reporter",
-            "short_description": "Read a CSV, compute summary statistics, and write a formatted report file.",
+            "short_description": "Read a sales CSV (id, sales columns), compute TOTAL_SALES/AVG_SALES/COUNT, write a plain-text report.",
             "tier": 2,
             "world_id": "world-python",
             "track_id": "python-ignition",
             "language": "python",
-            "description": "Full end-to-end task: Read CSV, process data, generate report.",
+            "description": "Read a CSV with id/sales columns, aggregate TOTAL_SALES, AVG_SALES, COUNT, write a plain-text report, and print stdout sentinels.",
             "starter_code": "import csv\nfrom pathlib import Path\n\ndef generate_report(input_csv: str, output_report: str):\n    \"\"\"\n    1. Read input_csv\n    2. Calculate summary stats\n    3. Write report to output_report\n    \"\"\"\n    # TODO\n    pass\n",
             "objectives": [
                 {

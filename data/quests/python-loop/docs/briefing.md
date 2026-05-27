@@ -1,12 +1,24 @@
 # Mission: The Control Loop
 
-Automation is the art of performing repetitive tasks with perfect consistency. In Python, the `for` loop is your primary tool for iterating over sequences of data—whether they are simple lists of numbers or complex logs from a server.
-
-### Numerical Sequences
-The `range()` function is often used with loops to generate a sequence of numbers on the fly. This is useful for "counter-based" logic where you need to perform an action a specific number of times.
+Automation is the art of performing repetitive tasks with perfect consistency. In Python, the `for` loop lets you iterate through a range of numbers and collect results into a list.
 
 ### Your Objective
-Implement the logic in `task.py` to:
-1. Iterate through numbers from 1 to 10 inclusive.
-2. Print only the **even** numbers (each on a new line).
-3. At the end, print a summary line: `EVEN_COUNT=<total>` where `<total>` is the number of even integers found.
+
+Implement `generate_evens(limit: int) -> list[int]` in `main.py`:
+
+- Accept an integer `limit`.
+- Return a **list** of all even integers from `2` to `limit` inclusive, in ascending order.
+- If there are no even integers in that range, return an empty list.
+
+### Expected Input / Output
+
+```python
+generate_evens(10)  # → [2, 4, 6, 8, 10]
+generate_evens(5)   # → [2, 4]
+generate_evens(2)   # → [2]
+generate_evens(1)   # → []
+```
+
+The function must **return** the list — the grader checks the return value, not printed output.
+
+> **Tip:** See `example.py` for a worked example of the same pattern applied to odd numbers.

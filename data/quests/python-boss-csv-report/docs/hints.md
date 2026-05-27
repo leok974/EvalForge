@@ -1,10 +1,30 @@
 # Hints: BOSS: CSV Reporter
 
 ## Hint 1 — Concept
-Start by checking if the input file exists using `Path(input_csv).exists()`. If it doesn't, your code should handle it gracefully or raise a helpful error.
+
+Check whether the input file exists before opening it. Use `Path(input_csv).exists()` from `pathlib`. If it doesn't exist, print `INPUT_MISSING` and `return` immediately — no exception needed.
 
 ## Hint 2 — Guided
-In the `csv.DictReader` loop, remember that values from CSVs are always **strings**. You must convert numbers to `int` or `float` before performing calculations.
+
+CSV values are always strings. Cast the `sales` column to `float` before adding it to your running total:
+
+```python
+total += float(row["sales"])
+count += 1
+```
+
+Then compute the average: `avg = total / count`.
 
 ## Hint 3 — The Solution
-When writing the report with `csv.DictWriter`, make sure your `fieldnames` list exactly matches the headers expected by the grader.
+
+The output file is **plain text** — use f-strings, not `csv.DictWriter`:
+
+```python
+with open(output_report, "w", encoding="utf-8") as f:
+    f.write(f"TOTAL_SALES={total:.2f}\n")
+    f.write(f"AVG_SALES={avg:.2f}\n")
+    f.write(f"COUNT={count}\n")
+print("REPORT_GENERATED")
+```
+
+`:.2f` formats a float to exactly 2 decimal places. The `REPORT_GENERATED` sentinel goes to **stdout** — not into the report file.

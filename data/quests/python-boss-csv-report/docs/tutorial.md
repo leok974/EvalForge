@@ -1,41 +1,81 @@
-# Tutorial: Working with CSV Files
+# Tutorial: CSV Reading and Plain-Text Reporting
 
-CSV (Comma Separated Values) is the universal format for data exchange. Python's `csv` module provides classes to read and write tabular data.
+This quest combines four skills: CSV parsing, type casting, arithmetic, and plain-text file writing.
 
-## Reading with DictReader
-Using `csv.DictReader` is often better than a standard reader because it maps each row to a dictionary, using the headers as keys.
+## Reading CSV with DictReader
+
+`csv.DictReader` parses each row as a dictionary keyed by the column headers.
 
 ```python
 import csv
 
-with open('data.csv', mode='r') as f:
+with open("data.csv", newline="", encoding="utf-8") as f:
     reader = csv.DictReader(f)
     for row in reader:
-        print(row['sector'], row['value'])
+        print(row["id"], row["sales"])  # both are strings
 ```
 
-## Writing with DictWriter
-Similarly, `csv.DictWriter` allows you to write dictionaries directly to a file.
+**Important:** every CSV value arrives as a string — cast before arithmetic:
 
 ```python
-with open('report.csv', mode='w', newline='') as f:
-    fieldnames = ['sector', 'total']
-    writer = csv.DictWriter(f, fieldnames=fieldnames)
-    
-    writer.writeheader()
-    writer.writerow({'sector': 'Alpha', 'total': 100})
+sales = float(row["sales"])
 ```
 
-## Path Management
-Use the `pathlib` module to handle file paths robustly across different operating systems.
+## Aggregating Values
+
+Accumulate a running total and a count in a loop:
+
+```python
+total = 0.0
+count = 0
+
+with open(input_csv, newline="", encoding="utf-8") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        total += float(row["sales"])
+        count += 1
+
+avg = total / count if count > 0 else 0.0
+```
+
+## Writing a Plain-Text Report
+
+Write each metric as a `KEY=VALUE` line using an f-string. Use `:.2f` for two decimal places:
+
+```python
+with open(output_report, "w", encoding="utf-8") as f:
+    f.write(f"TOTAL_SALES={total:.2f}\n")
+    f.write(f"AVG_SALES={avg:.2f}\n")
+    f.write(f"COUNT={count}\n")
+```
+
+This is a **plain text file**, not a CSV — do not use `csv.DictWriter` here.
+
+## Printing Sentinels to Stdout
+
+After writing the report, signal success by printing a sentinel to stdout:
+
+```python
+print("REPORT_GENERATED")
+```
+
+The grader checks `stdout` for this line. It is separate from the report file.
+
+## Handling a Missing Input File
+
+Check whether the input exists before opening it. If it's missing, print the error sentinel and return immediately:
 
 ```python
 from pathlib import Path
-input_path = Path("workspace/fixtures/input.csv")
+
+def generate_report(input_csv: str, output_report: str) -> None:
+    if not Path(input_csv).exists():
+        print("INPUT_MISSING")
+        return
+
+    # ... read, aggregate, write ...
+
+    print("REPORT_GENERATED")
 ```
 
-## Aggregation Strategy
-1. Initialize a summary dictionary (e.g., `totals = {}`).
-2. Loop through the raw rows.
-3. Update the summary (e.g., `totals[sector] = totals.get(sector, 0) + value`).
-4. Format the final results for the writer.
+Do not raise an exception for the missing-file case — print `INPUT_MISSING` and return.

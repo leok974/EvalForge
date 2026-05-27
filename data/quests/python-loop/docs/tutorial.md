@@ -1,25 +1,51 @@
-# Loops and Conditionals
+# Loops and List Accumulation
 
-Combining iteration with logic allows you to filter and count data streams.
+This quest introduces the pattern of using a `for` loop to **collect** values into a list and **return** that list from a function.
 
-### The Modulo Operator (%)
-To check if a number is even, we use the modulo operator. `n % 2 == 0` is true if `n` is divisible by 2 with no remainder.
+## Writing a Function That Returns a List
 
-```python
-if 4 % 2 == 0:
-    print("Even!")
-```
-
-### Counting with Loops
-Initialize a counter variable outside your loop and increment it inside your conditional block.
+A function can build up a collection and hand it back to the caller.
 
 ```python
-count = 0
-for i in range(5):
-    if i > 2:
-        count += 1
-print(f"Greater than 2: {count}")
+def double_range(limit: int) -> list[int]:
+    result = []
+    for n in range(1, limit + 1):
+        result.append(n * 2)
+    return result
+
+double_range(3)  # → [2, 4, 6]
 ```
 
-### Your Task
-In `task.py`, use a `for` loop and `range(1, 11)` to find and count the even numbers. Make sure your final output matches the required format exactly!
+Key steps:
+1. Initialize an empty list **before** the loop: `result = []`
+2. Append items that meet your condition **inside** the loop: `result.append(n)`
+3. Return the list **after** the loop exits: `return result`
+
+## Checking for Even Numbers
+
+The modulo operator `%` returns the remainder of division. `n % 2 == 0` is `True` when `n` is evenly divisible by 2.
+
+```python
+for n in range(1, 6):
+    if n % 2 == 0:
+        print(n)  # prints 2, then 4
+```
+
+## Inclusive Range
+
+`range(start, stop)` goes up to but **not** including `stop`. To include `limit` itself:
+
+```python
+range(1, limit + 1)  # iterates 1, 2, 3, … limit
+```
+
+## Your Task
+
+In `main.py`, implement `generate_evens(limit)`:
+
+1. Start with an empty list.
+2. Loop through integers from `1` to `limit` inclusive.
+3. If the integer is even, append it to the list.
+4. After the loop, return the list.
+
+No printing required — `main()` is already provided and handles output. Your job is to make `generate_evens` return the correct list.
