@@ -25,9 +25,32 @@ my_dog = Dog("Rex")
 The `self` parameter is a reference to the current instance of the class. It is used to access variables that belong to the class. It must be the first argument of any method in the class.
 
 ## State Management
-In this quest, the "state" of your `Account` is the `balance`. Methods like `deposit` and `withdraw` should modify this state.
+In this quest, the "state" of your `Account` is the balance, stored in `self._balance`. Expose it with a `@property` so callers can read `account.balance`:
+
+```python
+@property
+def balance(self):
+    return self._balance
+
+def deposit(self, amount):
+    self._balance += amount
+```
+
+## Validation
+Methods should raise `ValueError` before modifying state if the input is invalid:
 
 ```python
 def deposit(self, amount):
-    self.balance += amount
+    if amount <= 0:
+        raise ValueError("Deposit amount must be positive")
+    self._balance += amount
+
+def withdraw(self, amount):
+    if amount <= 0:
+        raise ValueError("Withdraw amount must be positive")
+    if amount > self._balance:
+        raise ValueError("Insufficient funds")
+    self._balance -= amount
 ```
+
+The overdraft check (`amount > self._balance`) prevents the balance from going negative.

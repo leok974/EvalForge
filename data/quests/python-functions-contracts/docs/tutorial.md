@@ -23,5 +23,19 @@ if "status" not in data:
 ### The "Fail Fast" Pattern
 Don't wait until the end of the function to validate. Check each requirement at the top and raise exceptions immediately. This keeps your core logic clean and focused on valid data.
 
+### Building the Return Dict
+
+After validation, strip the name and include the required `"active"` field:
+
+```python
+return {
+    "name": name.strip(),
+    "age": age,
+    "active": True,
+}
+```
+
+`name.strip()` removes leading and trailing whitespace — `" Alice "` becomes `"Alice"`.
+
 ### Your Task
-Implement the validation logic in `task.py`. Ensure you check both the **existence** and the **type** of each required field.
+Implement the validation logic in `task.py`. Ensure you check the **existence**, **type**, and **value** (non-negative age) of each required field, then return all three keys.

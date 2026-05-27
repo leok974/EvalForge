@@ -25,13 +25,24 @@ In this quest, your **Service** logic (`close_ticket`) must interact with the **
 3.  **Update**: Apply the business logic (set status to `"closed"`).
 4.  **Persist**: Save the updated object back to the boundary.
 
-## Mutability & Objects
-When working with objects like `Ticket`, you can often mutate them directly before saving:
+## Frozen Dataclasses & `dataclasses.replace()`
+
+`Ticket` is defined with `@dataclass(frozen=True)`. Frozen dataclasses are **immutable** — direct attribute assignment raises a `FrozenInstanceError`:
 
 ```python
-ticket = repo.get(101)
-ticket.status = "closed"
-repo.save(ticket)
+ticket.status = "closed"  # FrozenInstanceError: cannot assign to field 'status'
 ```
+
+Use `dataclasses.replace()` to create a new instance with the updated field:
+
+```python
+from dataclasses import replace
+
+ticket = repo.get(101)
+closed = replace(ticket, status="closed")
+repo.save(closed)
+```
+
+`replace()` copies all fields from `ticket` and overrides only the ones you specify. The original `ticket` object is unchanged; `closed` is the new immutable instance you save.
 
 By separating storage (Repository) from logic (Service), your code remains testable and scalable.
