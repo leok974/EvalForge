@@ -1,32 +1,33 @@
-## Concept
-First, filter the incoming list into success vs error counts. Use a dictionary to track aggregates per unique `route`.
+# Hints: Observability & SLI
 
-## Guided
-For the P95, don't forget to sort the latencies list before picking the rank. Use `math.ceil` for the rank calculation as specified in the briefing.
+## Hint 1 — Concept
 
-## Full Solution
+Iterate over `events` and check each `status_code`. A request is a **success** when `200 <= status_code <= 399`. Accumulate a count:
+
 ```python
-import math
-
-def compute_sli_report(events: list[dict]) -> dict:
-    if not events:
-        return {}
-    
-    total = len(events)
-    errors = [e for e in events if 500 <= e.get('status', 0) <= 599]
-    latencies = sorted([e.get('latency_ms', 0) for e in events])
-    
-    # P95 nearest rank
-    k = math.ceil(0.95 * total)
-    p95 = latencies[k-1]
-    
-    success_rate = round((total - len(errors)) / total, 3)
-    
-    return {
-        "total_requests": total,
-        "success_rate": success_rate,
-        "p95_latency_ms": p95,
-        "slo_ok": success_rate >= 0.95
-    }
+successes = sum(1 for e in events if 200 <= e["status_code"] <= 399)
 ```
-*Note: Ensure the output matches the exact schema requested in the docstrings.*
+
+`399` is a success; `400` is not. This boundary is tested explicitly.
+
+## Hint 2 — Guided
+
+Divide successes by total and round to 4 decimal places:
+
+```python
+total = len(events)
+return round(successes / total, 4)
+```
+
+`round(3 / 13, 4)` → `0.2308`. No need to handle the empty-list case unless the tests require it — check the briefing.
+
+## Hint 3 — The Solution
+
+```python
+def calculate_availability(events: list[dict]) -> float:
+    total = len(events)
+    successes = sum(1 for e in events if 200 <= e["status_code"] <= 399)
+    return round(successes / total, 4)
+```
+
+Full example with the exact field name the grader uses: `status_code` (not `status`).

@@ -1,54 +1,29 @@
-import math
+from __future__ import annotations
 
 
-def _is_success(status) -> bool:
-    return isinstance(status, int) and 200 <= status <= 399
+def compute_error_rate(events: list[dict]) -> float:
+    """
+    Given a list of HTTP event dicts (each with a 'status_code' key),
+    return the fraction of requests that resulted in a 5xx error,
+    rounded to 4 decimal places.
 
-
-def _is_5xx(status) -> bool:
-    return isinstance(status, int) and 500 <= status <= 599
-
-
-def _p95(latencies: list[int]) -> int:
-    if not latencies:
-        return 0
-    xs = sorted(latencies)
-    k = math.ceil(0.95 * len(xs))
-    return xs[k - 1]
-
-
-def compute_sli_report(events: list[dict]) -> dict:
+    compute_error_rate([{"status_code": 200}, {"status_code": 500}]) -> 0.5
+    compute_error_rate([]) -> 0.0
+    """
+    if not events:
+        return 0.0
     total = len(events)
-    if total == 0:
-        return {}
-    successes = sum(1 for e in events if _is_success(e.get("status")))
-    errors_5xx = sum(1 for e in events if _is_5xx(e.get("status")))
-    latencies = [e["latency_ms"] for e in events if "latency_ms" in e]
+    errors = sum(1 for e in events if e.get("status_code", 0) >= 500)
+    return round(errors / total, 4)
 
-    route_data: dict[str, dict] = {}
-    for e in events:
-        r = e.get("route", "unknown")
-        d = route_data.setdefault(r, {"requests": 0, "errors_5xx": 0, "latencies": []})
-        d["requests"] += 1
-        if _is_5xx(e.get("status")):
-            d["errors_5xx"] += 1
-        if "latency_ms" in e:
-            d["latencies"].append(e["latency_ms"])
 
-    routes = sorted([
-        {"route": r, "requests": d["requests"], "errors_5xx": d["errors_5xx"],
-         "avg_latency_ms": round(sum(d["latencies"]) / len(d["latencies"])) if d["latencies"] else 0}
-        for r, d in route_data.items()
-    ], key=lambda x: x["route"])
-
-    success_rate = round(successes / total, 3)
-    error_rate = round(errors_5xx / total, 3)
-    p95 = _p95(latencies)
-    return {
-        "total_requests": total,
-        "success_rate": success_rate,
-        "error_rate": error_rate,
-        "p95_latency_ms": p95,
-        "slo_ok": success_rate >= 0.99 and p95 <= 200,
-        "routes": routes,
-    }
+if __name__ == "__main__":
+    sample = [
+        {"status_code": 200},
+        {"status_code": 201},
+        {"status_code": 500},
+        {"status_code": 503},
+        {"status_code": 200},
+    ]
+    rate = compute_error_rate(sample)
+    print(f"error_rate={rate:.4f}")

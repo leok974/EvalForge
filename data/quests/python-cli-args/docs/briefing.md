@@ -14,6 +14,18 @@ Your mission is to implement a command-line interface using the `argparse` modul
 - Help:
   - Ensure that running the script with `--help` prints the standard auto-generated usage message.
 
+## Output Contract
+
+| Scenario | Output |
+|---|---|
+| No arguments | prints `Hello World` once to stdout |
+| `--count 3` | prints `Hello World` three times to stdout |
+| `--verbose --count 2` | prints `Processing 1/2...` then `Hello World`, then `Processing 2/2...` then `Hello World` |
+| `--count -1` | prints `Count cannot be negative` to **stderr**, exits with code `1` |
+| `--help` | prints auto-generated usage to stdout, exits with code `0` |
+
+The error message must go to **stderr** (use `print(..., file=sys.stderr)`).
+
 ## Constraints
 - Do not manually parse `sys.argv`. Use the `argparse` library.
 - The entrypoint must be structured correctly with an `if __name__ == "__main__":` block.
