@@ -481,46 +481,49 @@ Confidently dead, safe to delete in a cleanup sprint:
 
 ---
 
-## Sprint 25 Backlog Note (added Sprint 24)
+## Sprint 25 Backlog Note (added Sprint 24) — RESOLVED Sprint 28
 
-### Known Infrastructure Gap: DinD Path Resolution for `mode='tests'` Quests
+### ~~Known Infrastructure Gap: DinD Path Resolution for `mode='tests'` Quests~~ RESOLVED
 
-**Symptom:** SUBMIT verification fails locally for any quest that uses `mode='tests'`
-grading (all `python-systems` and `python-tier2` quests). The Docker runner container
-receives an empty `/workspace/` because `docker cp {td}/.` can't resolve the backend
-container's temp-dir path — the Docker daemon runs on the Windows host and cannot
-dereference in-container paths.
-
-**Error observed:**
+**Original symptom (now fixed):**
 ```
 ERROR python: can't open file '.evalforge/run_unittest_json.py': [Errno 2] No such file or directory
 ERROR [FAIL] tests_pass: No test output received
 ```
 
-**Root cause:** `code_runner_docker.py` runs `docker cp {td}/.` where `{td}` is a temp
-directory inside the backend container. The daemon (on the Windows host) cannot resolve
-this path. The runner container's `/workspace/` is therefore empty at execution time.
+**Actual root cause (Sprint 28 diagnosis):** Two separate bugs, not a DinD path issue:
 
-**Affected quests:** All quests using `kind: tests_pass` objectives — specifically
-`python-systems` (5 quests) and `python-tier2` / `python-ignition` quests with
-pytest-based grading.
+1. **`code_runner_docker.py` — conditional runner injection:** `run_unittest_json.py` was
+   only copied into `.evalforge/` when `if code:` was True. Empty or missing `code`
+   caused the runner container to start without the script → Python error. `sanitize_logs`
+   then stripped `/workspace/` from the path, making it appear as `.evalforge/...` instead
+   of `/workspace/.evalforge/...`.
 
-**Workaround (Sprint 24):** Content correctness verified via `pytest` on the host
-against `grading/solutions/main.py`. Stubs fail, solutions pass — this confirms
-grading test quality without going through the IDE submission path.
+2. **`routes_quests_runtime.py` — SUBMIT hardcoded `mode="run"`:** The `submit_quest`
+   handler forced `mode="run"` regardless of quest type and never injected grading test
+   files. All `tests_pass` objectives therefore received empty stdout and reported
+   `"No test output received"` — even for the reference solution.
 
-```bash
-# Verify grading tests pass against solution (run from repo root):
-cd data/quests/<slug>/grading && \
-  cp solutions/main.py public/main.py && \
-  python -m pytest public/ -v && \
-  rm public/main.py
-```
+**Fix (Sprint 28):**
+- `arcade_app/services/code_runner_docker.py`: Moved `run_unittest_json.py` injection
+  outside of the `if code:` block. It now runs unconditionally for `mode="tests"`.
+- `arcade_app/routers/routes_quests_runtime.py`: `submit_quest` now detects
+  `tests_pass` objectives, sets `exec_mode = "tests"`, and injects grading test files
+  from `grading/public/` — identical to the RUN endpoint's logic.
 
-**Worth addressing when:** Local SUBMIT verification becomes blocking for content
-development or CI. A focused sprint should investigate either (a) mapping the temp-dir
-path through a Docker volume rather than `docker cp`, or (b) adding a
-`EVALFORGE_RUNNER_MODE=local` that skips Docker for `tests` mode in dev environments.
+**Environmental assumptions:** Requires Docker socket mounted into the backend container
+(`//var/run/docker.sock:/var/run/docker.sock` in `docker-compose.yml`). The fix works
+because `docker cp` runs inside the backend container (Linux), so temp-dir paths are
+Linux paths resolvable by the Docker CLI. No Windows path translation needed.
+
+**Verified (Sprint 28):**
+- `python-file-io-safe` RUN (stub): `passed: false`, real test failures in `objective_results`
+- `python-file-io-safe` SUBMIT (solution): `ok: true`, `status: completed`
+- `python-file-io-safe` SUBMIT (stub): `ok: false`, real test failure names in `detail`
+- `python-systems-resilient-job-runner` RUN (solution): `passed: true`, 6/6 tests
+- `python-systems-resilient-job-runner` SUBMIT (solution): `ok: true`, `status: completed`
+- `hello-variable` RUN (solution): `passed: true` — no regression in run-mode quests
+- `selenium-open-page` RUN (stub): proper error response — no regression in Selenium quests
 
 
 

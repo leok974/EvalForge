@@ -118,18 +118,18 @@ def run_code_docker(language: str, code: str, stdin: str = "", timeout_ms: int =
             with open(main_file, "w", encoding="utf-8") as f:
                 f.write(code)
 
-            # Inject Python Test Runner
-            if mode == "tests" and (language == "python" or language == "sql"):
-                runner_dir = os.path.join(td, ".evalforge")
-                os.makedirs(runner_dir, exist_ok=True)
-                runner_target = os.path.join(runner_dir, "run_unittest_json.py")
-                
-                # Source path assumption: same specific directory
-                src_path = os.path.join(os.path.dirname(__file__), "run_unittest_json.py")
-                if os.path.exists(src_path):
-                    with open(src_path, "r", encoding="utf-8") as rf:
-                        with open(runner_target, "w", encoding="utf-8") as wf:
-                            wf.write(rf.read())
+        # Inject Python Test Runner — must happen regardless of whether `code` is
+        # non-empty, otherwise the runner container starts without the script and
+        # Python raises "can't open file '/workspace/.evalforge/run_unittest_json.py'".
+        if mode == "tests" and (language == "python" or language == "sql"):
+            runner_dir = os.path.join(td, ".evalforge")
+            os.makedirs(runner_dir, exist_ok=True)
+            runner_target = os.path.join(runner_dir, "run_unittest_json.py")
+            src_path = os.path.join(os.path.dirname(__file__), "run_unittest_json.py")
+            if os.path.exists(src_path):
+                with open(src_path, "r", encoding="utf-8") as rf:
+                    with open(runner_target, "w", encoding="utf-8") as wf:
+                        wf.write(rf.read())
         # Determine Runner Script
         db_engine = workspace.get("db_engine", "sqlite") if workspace else "sqlite"
         

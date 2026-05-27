@@ -799,21 +799,54 @@ async def submit_quest(
     EXECUTION_ENABLED = os.getenv("EXECUTION_ENABLED", "0") == "1"
     if EXECUTION_ENABLED:
         from arcade_app.services.code_runner import run_code
-        
+
         # Build workspace
         run_workspace = None
         if getattr(quest, "workspace_json", None):
-             run_workspace = build_effective_workspace(quest.workspace_json, payload.workspace or [])
+            run_workspace = build_effective_workspace(quest.workspace_json, payload.workspace or [])
         elif payload.workspace:
-             run_workspace = {"files": payload.workspace}
-             
+            run_workspace = {"files": payload.workspace}
+
+        # Determine execution mode: test-mode quests need mode="tests" + grading files
+        exec_mode = "run"
+        submit_entrypoint = None
+        if quest:
+            objectives = getattr(quest, "objectives_json", None) or []
+            has_tests_pass = any(
+                o.get("kind") == "tests_pass"
+                for o in objectives
+                if isinstance(o, dict)
+            )
+            if has_tests_pass:
+                exec_mode = "tests"
+                from pathlib import Path as _Path
+                _quest_dir = _Path(__file__).parent.parent.parent / "data" / "quests" / quest_id
+                _grading_pub = _quest_dir / "grading" / "public"
+                if _grading_pub.exists():
+                    if run_workspace is None:
+                        run_workspace = {"files": []}
+                    existing_paths = {
+                        f["path"] for f in run_workspace.get("files", []) if isinstance(f, dict)
+                    }
+                    for _tf in sorted(_grading_pub.rglob("*.py")):
+                        _rel = str(_tf.relative_to(_grading_pub)).replace("\\", "/")
+                        if _rel not in existing_paths:
+                            run_workspace.setdefault("files", []).append({
+                                "path": _rel,
+                                "content": _tf.read_text(encoding="utf-8"),
+                                "editable": False,
+                            })
+                _gj = getattr(quest, "grading_json", {}) or {}
+                submit_entrypoint = _gj.get("entrypoint")
+
         r = run_code(
-            payload.language or "python", 
-            payload.code, 
-            stdin=getattr(payload, "stdin", "") or "", 
+            payload.language or "python",
+            payload.code,
+            stdin=getattr(payload, "stdin", "") or "",
             workspace=run_workspace,
-            mode="run", # Force run mode for submit check
-            quest_slug=quest_id
+            mode=exec_mode,
+            quest_slug=quest_id,
+            entrypoint=submit_entrypoint,
         )
         stdout = sanitize_logs(r.stdout)
         stderr = sanitize_logs(r.stderr)
