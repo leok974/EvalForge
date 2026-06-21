@@ -1,0 +1,19 @@
+[
+    {
+        "id": "quest-test-invalid-ref",
+        "world_id": "world-python",
+        "track_id": "python-fundamentals",
+        "slug": "test-invalid-ref",
+        "title": "Test Quest - Invalid Ref",
+        "short_description": "Test quest for CI enforcement",
+        "language": "python",
+        "xp_base": 10,
+        "key_terms": [
+            {
+                "id": "test-term",
+                "term": "Test Term",
+                "codex_ref": "glossary/python/does-not-exist"
+            }
+        ]
+    }
+]
